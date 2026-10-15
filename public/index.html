@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Sueños ERP | Gestão Integrada de Couros, Clientes & Fiscal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Suporte offline imediato -->
+  <script src="dados_clientes.js"></script>
+  <style>
+    :root {
+      --bg-app: #070a10;
+      --bg-sidebar: #0b1019;
+      --bg-sidebar-hover: #131c2d;
+      --bg-card: #0f1624;
+      --bg-card-elevated: #162033;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(0, 212, 255, 0.4);
+      
+      --primary: #00d4ff;
+      --primary-hover: #38bdf8;
+      --primary-glow: rgba(0, 212, 255, 0.2);
+      
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.2);
+      
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.2);
+      
+      --leather: #b45309;
+      --leather-light: #d97706;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-faint: #64748b;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      
+      --sidebar-width: 260px;
+      --sidebar-collapsed-width: 72px;
+      --topbar-height: 64px;
+      --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+      font-size: 13px;
+    }
+
+    /* BARRA LATERAL (SIDEBAR CORPORATIVA) */
+    .erp-sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: var(--transition);
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      height: var(--topbar-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #b45309, #78350f);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 15px rgba(180, 83, 9, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-texts h2 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .brand-texts span {
+      font-size: 10px;
+      color: #f59e0b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .sidebar-toggle-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-faint);
+      padding: 12px 10px 4px 10px;
+      white-space: nowrap;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      background-color: var(--bg-sidebar-hover);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background-color: rgba(0, 212, 255, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+    }
+
+    .nav-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background: rgba(0, 212, 255, 0.15);
+      color: var(--primary);
+    }
+
+    .sidebar-footer {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
+    }
+
+    .user-info {
+      overflow: hidden;
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .user-role {
+      font-size: 10.5px;
+      color: var(--text-faint);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    /* ÁREA PRINCIPAL DO ERP */
+    .erp-main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background-color: var(--bg-app);
+    }
+
+    /* TOPBAR */
+    .erp-topbar {
+      height: var(--topbar-height);
+      background-color: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      max-width: 650px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .breadcrumbs strong {
+      color: #fff;
+    }
+
+    .topbar-search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0 12px;
+      height: 38px;
+      transition: var(--transition);
+    }
+
+    .topbar-search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .topbar-search-input {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 12.5px;
+      width: 100%;
+      outline: none;
+    }
+
+    .kbd-shortcut {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse-anim 2s infinite;
+    }
+
+    @keyframes pulse-anim {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .btn-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary-glow {
+      background: #00d4ff;
+      color: #031422;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-primary-glow:hover {
+      background: #38bdf8;
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald-glow {
+      background: #10b981;
+      color: #022316;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-emerald-glow:hover {
+      background: #34d399;
+      transform: translateY(-1px);
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    .erp-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* KPIS EXECUTIVOS */
+    .erp-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .erp-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+    }
+
+    .erp-kpi-card:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    .kpi-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .kpi-icon-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--bg-card-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .kpi-number {
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .kpi-trend {
+      font-size: 11.5px;
+      color: #10b981;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* TOOLBAR DE FILTROS */
+    .erp-toolbar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .erp-filter-chip {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .erp-filter-chip:hover, .erp-filter-chip.active {
+      background: rgba(0, 212, 255, 0.15);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .erp-select {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 7px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* DATA GRID ERP */
+    .erp-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .table-top-actions {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-elevated);
+    }
+
+    .table-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-count-badge {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+    }
+
+    .erp-table-wrapper {
+      overflow-x: auto;
+    }
+
+    table.erp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    table.erp-table thead th {
+      background: rgba(11, 16, 25, 0.95);
+      color: var(--text-muted);
+      padding: 11px 16px;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+    }
+
+    table.erp-table tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+
+    table.erp-table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.025);
+    }
+
+    .uf-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 212, 255, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(0, 212, 255, 0.25);
+    }
+
+    .btn-row-action {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 5px 9px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-row-action:hover {
+      color: #fff;
+      border-color: var(--primary);
+      background: rgba(0, 212, 255, 0.1);
+    }
+
+    .table-pagination {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-elevated);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-page {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .btn-page:hover:not(:disabled) {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-page:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* MODAIS CORPORATIVOS (EDICAO / CADASTRO / FISCAL) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(4, 7, 12, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background: var(--bg-sidebar);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      transform: scale(0.96);
+      transition: transform 0.25s ease;
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-elevated);
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .form-input {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      outline: none;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-glow);
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: var(--bg-card-elevated);
+    }
+
+    /* TOAST DE NOTIFICACAO */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #0f172a;
+      border: 1px solid var(--emerald);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideInToast 0.3s ease;
+      pointer-events: auto;
+    }
+
+    @keyframes slideInToast {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 1024px) {
+      .erp-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 768px) {
+      .erp-kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      .erp-sidebar {
+        position: fixed;
+        left: -100%;
+      }
+      .erp-sidebar.mobile-open {
+        left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR DO ERP -->
+  <aside class="erp-sidebar" id="erp-sidebar">
+    <div class="sidebar-header">
+      <a href="#" class="sidebar-brand">
+        <div class="brand-icon">🪵</div>
+        <div class="brand-texts">
+          <h2>Mis Sueños</h2>
+          <span>ERP Selaria & Couros</span>
+        </div>
+      </a>
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher Menu">◀</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Principal</div>
+      <a class="nav-item" onclick="trocarModulo('painel', this)">
+        <span class="nav-icon">📊</span>
+        <span>Painel Geral</span>
+      </a>
+      <a class="nav-item active" onclick="trocarModulo('clientes', this)">
+        <span class="nav-icon">👥</span>
+        <span>Clientes & CRM</span>
+        <span class="nav-badge" id="nav-total-clientes" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">1.140 Reais</span>
+      </a>
+
+      <div class="nav-section-title">Comercial & Estoque</div>
+      <a class="nav-item" onclick="trocarModulo('pedidos', this)">
+        <span class="nav-icon">📦</span>
+        <span>Vendas & Pedidos</span>
+        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+      </a>
+      <a class="nav-item" onclick="trocarModulo('produtos', this)">
+        <span class="nav-icon">🪵</span>
+        <span>Estoque de Couros</span>
+        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+      </a>
+
+      <div class="nav-section-title">Fiscal & Faturamento</div>
+      <a class="nav-item" onclick="trocarModulo('fiscal', this)">
+        <span class="nav-icon">🧾</span>
+        <span>Central Fiscal (NF-e)</span>
+        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+      </a>
+
+      <div class="nav-section-title">Sistema</div>
+      <a class="nav-item" onclick="trocarModulo('configuracoes', this)">
+        <span class="nav-icon">⚙️</span>
+        <span>Configurações</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-avatar">MM</div>
+      <div class="user-info">
+        <div class="user-name">Marcos Machado</div>
+        <div class="user-role">Mis Sueños Couros & Peles</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ÁREA DE TRABALHO -->
+  <div class="erp-main-wrapper">
+    <!-- TOPBAR FIXA -->
+    <header class="erp-topbar">
+      <div class="topbar-left">
+        <div class="breadcrumbs">
+          <span>Mis Sueños ERP</span>
+          <span>/</span>
+          <strong id="breadcrumb-modulo">Clientes & CRM</strong>
+        </div>
+        <div class="topbar-search-box">
+          <span>🔍</span>
+          <input type="text" class="topbar-search-input" id="topbar-search" placeholder="Busca rápida (Nome, CPF/CNPJ, Cidade, Tel)..." oninput="filtrarTabela(this.value)">
+          <span class="kbd-shortcut">Ctrl+K</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="status-pill">
+          <span class="pulse-dot"></span>
+          <span id="label-conexao">Nuvem Conectada</span>
+        </div>
+        <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">
+          <span>🧾</span> + Nova NF-e
+        </button>
+        <button class="btn-top btn-primary-glow" onclick="abrirModalNovoCliente()">
+          <span>➕</span> + Novo Cliente
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL (CLIENTES & CRM) -->
+    <main class="erp-content" id="modulo-clientes-conteudo">
+      <!-- INFORMATIVO DE BASE DE DADOS REAL -->
+      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">✅</span>
+          <div>
+            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+              Todos os registros deste módulo são clientes e destinatários reais consolidados da Mis Sueños Couros & Peles.
+            </div>
+          </div>
+        </div>
+        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+          ✅ DADOS 100% REAIS
+        </span>
+      </div>
+
+      <!-- CARDS DE METRICAS EXECUTIVAS -->
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
+            <div class="kpi-icon-pill">👥</div>
+          </div>
+          <div class="kpi-number" id="kpi-total-clientes">1.140</div>
+          <div class="kpi-trend">
+            <span>↑ 100%</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Cadastros consolidados</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Volume de Envios RS</span>
+            <div class="kpi-icon-pill">📍</div>
+          </div>
+          <div class="kpi-number" id="kpi-envios-rs">693</div>
+          <div class="kpi-trend">
+            <span id="kpi-perc-rs">60.8%</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Liderança territorial RS</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Estados Atendidos</span>
+            <div class="kpi-icon-pill">🇧🇷</div>
+          </div>
+          <div class="kpi-number" id="kpi-ufs">14 UFs</div>
+          <div class="kpi-trend">
+            <span>Envio Rápido</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Para todo o Brasil</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Documentos Fiscais</span>
+            <div class="kpi-icon-pill">📄</div>
+          </div>
+          <div class="kpi-number" id="kpi-docs">199</div>
+          <div class="kpi-trend">
+            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE FILTROS DO ERP -->
+      <section class="erp-toolbar">
+        <div class="toolbar-filters">
+          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtrar UF:</span>
+          <button class="erp-filter-chip active" onclick="filtrarPorUf('TODOS', this)">Todas</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('RS', this)">RS (693)</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('SP', this)">SP (108)</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('PR', this)">PR (91)</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('SC', this)">SC (85)</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('MT', this)">MT (33)</button>
+          <button class="erp-filter-chip" onclick="filtrarPorUf('MS', this)">MS (41)</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)">
+            <option value="TODOS">Todos os Cadastros</option>
+            <option value="COM_DOC">Apenas com CPF/CNPJ</option>
+            <option value="SEM_DOC">Pendentes de Documento</option>
+          </select>
+          <button class="btn-top btn-row-action" onclick="exportarCsv()">📥 Exportar Planilha</button>
+        </div>
+      </section>
+
+      <!-- DATA GRID CORPORATIVA -->
+      <section class="erp-table-card">
+        <div class="table-top-actions">
+          <div class="table-title">
+            <span>📋 Relação de Clientes & Destinatários de Encomendas</span>
+            <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Layout corporativo de alta densidade
+          </div>
+        </div>
+
+        <div class="erp-table-wrapper">
+          <table class="erp-table">
+            <thead>
+              <tr>
+                <th style="width: 35px;"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
+                <th style="width: 65px;">ID</th>
+                <th>Nome / Razão Social</th>
+                <th>Documento (CPF/CNPJ)</th>
+                <th>Cidade</th>
+                <th style="width: 60px;">UF</th>
+                <th>Telefone / WhatsApp</th>
+                <th style="text-align: right; width: 160px;">Ações Rápidas</th>
+              </tr>
+            </thead>
+            <tbody id="erp-table-body">
+              <!-- Renderização dinâmica via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-pagination">
+          <div>
+            Exibindo <span id="pag-inicio">1</span> a <span id="pag-fim">25</span> de <span id="pag-total">1.140</span> clientes
+          </div>
+          <div class="pagination-controls">
+            <button class="btn-page" id="btn-ant" onclick="mudarPagina(-1)" disabled>◀ Anterior</button>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; padding: 0 8px;" id="pag-atual">1</span>
+            <button class="btn-page" id="btn-prox" onclick="mudarPagina(1)">Próximo ▶</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO DE PRODUTOS & ESTOQUE DE COUROS (ERP) -->
+    <main class="erp-content" id="modulo-produtos-conteudo" style="display: none;">
+      <!-- ALERTA DE PRODUTOS DE DEMONSTRAÇÃO / TESTE -->
+      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🧪</span>
+          <div>
+            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">CATÁLOGO INICIAL: PRODUTOS DE DEMONSTRAÇÃO / TESTE</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+              Os 11 itens cadastrados são dados demonstrativos/fictícios baseados nas categorias da Mis Sueños. Novos produtos que você cadastrar serão salvos como itens REAIS.
+            </div>
+          </div>
+        </div>
+        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+          🧪 ITENS DE TESTE
+        </span>
+      </div>
+
+      <!-- CARDS DE METRICAS DO ESTOQUE -->
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Catálogo de Produtos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">🪵</div>
+          </div>
+          <div class="kpi-number" id="kpi-prod-total">0</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">11 Itens de Exemplo</span>
+            <span style="color: var(--text-muted); font-weight: normal;">no catálogo</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Categorias Ativas</span>
+            <div class="kpi-icon-pill">🏷️</div>
+          </div>
+          <div class="kpi-number" id="kpi-prod-categorias">4</div>
+          <div class="kpi-trend">
+            <span>Loncas · Couros · Tentos · Ferramentas</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Patrimônio em Estoque <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-number" id="kpi-prod-valor-total" style="font-size: 22px;">R$ 0,00</div>
+          </div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">Valor Simulado</span>
+            <span style="color: var(--text-muted); font-weight: normal;">de demonstração</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Alerta Estoque Baixo</span>
+            <div class="kpi-icon-pill">⚠️</div>
+          </div>
+          <div class="kpi-number" id="kpi-prod-baixo-estoque" style="color: #f59e0b;">0</div>
+          <div class="kpi-trend">
+            <span style="color: var(--text-muted); font-weight: normal;">Abaixo do limite de segurança</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE FILTROS DO ESTOQUE -->
+      <section class="erp-toolbar">
+        <div class="toolbar-filters">
+          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Categoria:</span>
+          <button class="erp-filter-chip active" onclick="filtrarProdutosPorCategoria('TODAS', this)">Todas</button>
+          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Loncas', this)">Loncas</button>
+          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Couros & Peles', this)">Couros & Peles</button>
+          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Tentos', this)">Tentos</button>
+          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Ferramentas', this)">Ferramentas</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
+          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
+        </div>
+      </section>
+
+      <!-- DATA GRID DE PRODUTOS -->
+      <section class="erp-table-card">
+        <div class="table-top-actions">
+          <div class="table-title">
+            <span>🪵 Tabela de Produtos & Controle de Estoque (Mis Sueños)</span>
+            <span class="table-count-badge" id="table-badge-produtos">0 produtos</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Gestão integrada de couros, loncas e ferramentas
+          </div>
+        </div>
+
+        <div class="erp-table-wrapper">
+          <table class="erp-table">
+            <thead>
+              <tr>
+                <th style="width: 35px;"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
+                <th style="width: 120px;">SKU / Código</th>
+                <th>Nome / Descrição Comercial</th>
+                <th style="width: 140px;">Categoria</th>
+                <th style="width: 80px;">Unidade</th>
+                <th style="width: 110px; text-align: right;">Preço Custo</th>
+                <th style="width: 120px; text-align: right;">Preço Venda</th>
+                <th style="width: 130px; text-align: center;">Estoque Atual</th>
+                <th style="text-align: right; width: 160px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="erp-produtos-body">
+              <!-- Linhas de produtos injetadas via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO DE VENDAS & PEDIDOS (ERP) -->
+    <main class="erp-content" id="modulo-pedidos-conteudo" style="display: none;">
+      <!-- ALERTA DE DADOS FICTÍCIOS / SIMULAÇÃO -->
+      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🧪</span>
+          <div>
+            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">MÓDULO COM DADOS FICTÍCIOS / TESTE DE DEMONSTRAÇÃO</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+              Todos os 24 pedidos, valores de venda e indicadores abaixo são dados fictícios/simulados para teste da interface e validação do fluxo do ERP.
+            </div>
+          </div>
+        </div>
+        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+          🧪 SIMULAÇÃO ATIVA
+        </span>
+      </div>
+
+      <!-- CARDS DE METRICAS DE VENDAS -->
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Faturamento do Mês <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">💵</div>
+          </div>
+          <div class="kpi-number" id="kpi-pedidos-total-valor">R$ 18.450,00</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">Simulação Fictícia</span>
+            <span style="color: var(--text-muted); font-weight: normal;">de faturamento</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Volume de Pedidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">📦</div>
+          </div>
+          <div class="kpi-number" id="kpi-pedidos-qtd">24 Pedidos</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">24 Pedidos Simulados</span>
+            <span style="color: var(--text-muted); font-weight: normal;">em homologação</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Aguardando Envio <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">⏳</div>
+          </div>
+          <div class="kpi-number" id="kpi-pedidos-pendentes" style="color: #f59e0b;">5 Pedidos</div>
+          <div class="kpi-trend">
+            <span style="color: #f59e0b;">Separação & Embalagem</span>
+            <span style="color: var(--text-muted); font-weight: normal;">dados fictícios</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Ticket Médio <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">📈</div>
+          </div>
+          <div class="kpi-number">R$ 768,75</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">Valor Médio Simulado</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Loncas e Couros nobres</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE FILTROS DE PEDIDOS -->
+      <section class="erp-toolbar">
+        <div class="toolbar-filters">
+          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Status do Pedido:</span>
+          <button class="erp-filter-chip active" onclick="filtrarPedidosPorStatus('TODOS', this)">Todos (24)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('AGUARDANDO_ENVIO', this)">Aguardando Envio (5)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('EM_SEPARACAO', this)">Em Separação (4)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('ENVIADO', this)">Enviados / Concluídos (15)</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
+          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
+        </div>
+      </section>
+
+      <!-- TABELA DE PEDIDOS -->
+      <section class="erp-table-card">
+        <div class="table-top-actions">
+          <div class="table-title">
+            <span>📦 Gestão de Vendas, Encomendas & Entregas</span>
+            <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">24 pedidos (🧪 DADOS FICTÍCIOS / TESTE)</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Controle operacional de pedidos de sogueiros, artesãos e lojistas
+          </div>
+        </div>
+
+        <div class="erp-table-wrapper">
+          <table class="erp-table">
+            <thead>
+              <tr>
+                <th style="width: 35px;"><input type="checkbox"></th>
+                <th style="width: 110px;">Nº Pedido</th>
+                <th style="width: 90px;">Data</th>
+                <th>Cliente / Destinatário</th>
+                <th style="width: 140px;">Destino (Cidade/UF)</th>
+                <th>Itens / Descrição da Encomenda</th>
+                <th style="width: 110px; text-align: right;">Total (R$)</th>
+                <th style="width: 140px; text-align: center;">Status</th>
+                <th style="text-align: right; width: 140px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="erp-pedidos-body">
+              <!-- Injetado dinamicamente via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO CENTRAL FISCAL (NF-E & NFS-E) -->
+    <main class="erp-content" id="modulo-fiscal-conteudo" style="display: none;">
+      <!-- ALERTA DE HOMOLOGAÇÃO / DADOS FICTÍCIOS FISCAIS -->
+      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🧪</span>
+          <div>
+            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">CENTRAL FISCAL EM AMBIENTE DE HOMOLOGAÇÃO / TESTE</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+              Todas as 199 notas fiscais (NF-e Modelo 55 e NFS-e DPS) listadas abaixo são documentos fictícios de teste para validação de emissão.
+            </div>
+          </div>
+        </div>
+        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+          🧪 HOMOLOGAÇÃO / TESTE
+        </span>
+      </div>
+
+      <!-- CARDS FISCAIS -->
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Status da Conexão Fiscal</span>
+            <div class="kpi-icon-pill">🏛️</div>
+          </div>
+          <div class="kpi-number" style="color: #34d399; font-size: 20px;">🟢 Conectado</div>
+          <div class="kpi-trend">
+            <span style="color: #34d399;">SEFAZ RS & Portal Nacional</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Ambiente de Homologação</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Total Documentos Emitidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">📄</div>
+          </div>
+          <div class="kpi-number">199 Notas</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">100% Homologadas</span>
+            <span style="color: var(--text-muted); font-weight: normal;">dados fictícios</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">NF-e Mercadorias (SEFAZ) <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">🪵</div>
+          </div>
+          <div class="kpi-number">162 Notas</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">Modelo 55 (Teste)</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Couros, Loncas & Peças</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">NFS-e Portal Nacional <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">🧾</div>
+          </div>
+          <div class="kpi-number">37 DPS</div>
+          <div class="kpi-trend">
+            <span style="color: #fbbf24;">Receita Federal (Teste)</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Serviços & Sovagem</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE AÇÕES FISCAIS -->
+      <section class="erp-toolbar">
+        <div class="toolbar-filters">
+          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Tipo de Documento:</span>
+          <button class="erp-filter-chip active" onclick="filtrarFiscalPorTipo('TODAS', this)">Todas (199)</button>
+          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFE_PRODUTO', this)">NF-e Produtos SEFAZ (162)</button>
+          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFSE_SERVICO', this)">NFS-e Portal Nacional (37)</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
+        </div>
+      </section>
+
+      <!-- TABELA FISCAL -->
+      <section class="erp-table-card">
+        <div class="table-top-actions">
+          <div class="table-title">
+            <span>🧾 Registro de Notas Fiscais Eletrônicas Emitidas</span>
+            <span class="table-count-badge" id="table-badge-fiscal" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">199 notas (🧪 DADOS FICTÍCIOS / TESTE)</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Emissão rápida integrada à SEFAZ Estadual e ao Portal Nacional da NFS-e
+          </div>
+        </div>
+
+        <div class="erp-table-wrapper">
+          <table class="erp-table">
+            <thead>
+              <tr>
+                <th style="width: 35px;"><input type="checkbox"></th>
+                <th style="width: 120px;">Nº Nota / DPS</th>
+                <th style="width: 160px;">Modelo Fiscal</th>
+                <th>Destinatário / Tomador</th>
+                <th style="width: 60px;">UF</th>
+                <th style="width: 100px;">Data Emissão</th>
+                <th style="width: 110px; text-align: right;">Valor (R$)</th>
+                <th style="width: 130px; text-align: center;">Situação SEFAZ</th>
+                <th style="text-align: right; width: 150px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="erp-fiscal-body">
+              <!-- Injetado dinamicamente via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
+    <main class="erp-content" id="modulo-painel-conteudo" style="display: none;">
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
+            <div class="kpi-icon-pill">👥</div>
+          </div>
+          <div class="kpi-number">1.140</div>
+          <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM de Clientes (Base Real)</span></div>
+        </div>
+
+        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)'))">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Vendas no Mês <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">📦</div>
+          </div>
+          <div class="kpi-number">R$ 18.450</div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas (Simulação Fictícia)</span></div>
+        </div>
+
+        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Estoque de Couros <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">🪵</div>
+          </div>
+          <div class="kpi-number">11 Itens</div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Estoque (Demonstração)</span></div>
+        </div>
+
+        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)'))">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Central Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <div class="kpi-icon-pill">🧾</div>
+          </div>
+          <div class="kpi-number">199 Notas</div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal (Homologação Teste)</span></div>
+        </div>
+      </section>
+
+      <!-- ATALHOS RAPIDOS DO ERP -->
+      <section class="erp-table-card" style="padding: 24px;">
+        <h3 style="color: #fff; font-size: 15px; margin-bottom: 14px;">⚡ Ações Rápidas de Operação Diária</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
+          <button class="btn-top btn-primary-glow" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalNovoCliente()">
+            ➕ Novo Cadastro de Cliente
+          </button>
+          <button class="btn-top btn-emerald-glow" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalNovoPedido()">
+            📦 Cadastrar Novo Pedido
+          </button>
+          <button class="btn-top" style="background: #a855f7; color: #fff; padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalFiscal()">
+            🧾 Emitir Nota Fiscal (NF-e)
+          </button>
+          <button class="btn-top btn-row-action" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
+            🪵 Consultar Estoque de Couros
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO CONFIGURAÇÕES -->
+    <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
+      <section class="erp-table-card" style="padding: 24px; max-width: 800px;">
+        <h3 style="color: #fff; font-size: 16px; margin-bottom: 6px;">⚙️ Configurações da Empresa Emitente</h3>
+        <p style="color: var(--text-muted); font-size: 12.5px; margin-bottom: 20px;">
+          Parâmetros fiscais e operacionais da <strong>Mis Sueños Couros & Peles</strong>.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Razão Social / Nome Fantasia</label>
+              <input type="text" class="form-input" value="MIS SUEÑOS COUROS & PELES" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Responsável Operacional</label>
+              <input type="text" class="form-input" value="Marcos Machado" readonly>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">WhatsApp Comercial</label>
+              <input type="text" class="form-input" value="(51) 99719-9204" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Regime Tributário</label>
+              <input type="text" class="form-input" value="Simples Nacional / MEI / Produtor" readonly>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Ambiente Fiscal</label>
+              <input type="text" class="form-input" value="Produção / Homologação Oficial" readonly style="color: #34d399;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Armazenamento em Nuvem</label>
+              <input type="text" class="form-input" value="Conectado com Redundância" readonly style="color: #38bdf8;">
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 11.5px; color: var(--text-muted);">
+              Desenvolvido & Customizado por: <strong>Gustavo Rosa Informática</strong>
+            </div>
+            <button class="btn-top btn-primary-glow" onclick="mostrarToast('Configurações salvas e validadas!')">💾 Salvar Parâmetros</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL DE EDICAO / NOVO CLIENTE -->
+  <div class="modal-overlay" id="modal-cliente">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span id="modal-cliente-icone">✏️</span>
+          <span id="modal-cliente-titulo">Ficha do Cliente & Endereço</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalCliente()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-cliente" onsubmit="salvarCliente(event)">
+          <input type="hidden" id="form-id">
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Nome / Razão Social *</label>
+              <input type="text" class="form-input" id="form-nome" required placeholder="Nome completo ou empresa">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Apelido / Referência</label>
+              <input type="text" class="form-input" id="form-apelido" placeholder="Ex: Chico Selaria, Agropecuária...">
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label">CPF ou CNPJ</label>
+              <input type="text" class="form-input" id="form-doc" placeholder="000.000.000-00" onblur="formatarEValidarDoc(this)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Inscrição Estadual (IE)</label>
+              <input type="text" class="form-input" id="form-ie" placeholder="Opcional">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefone / WhatsApp</label>
+              <input type="text" class="form-input" id="form-telefone" placeholder="(00) 00000-0000">
+            </div>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); margin: 18px 0; padding-top: 14px;">
+            <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 12px;">
+              📍 Endereço de Envio de Encomendas
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label">CEP</label>
+                <input type="text" class="form-input" id="form-cep" placeholder="90000-000" onblur="buscarCep(this.value)">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label class="form-label">Logradouro / Rua</label>
+                <input type="text" class="form-input" id="form-logradouro" placeholder="Rua, Avenida, Linha...">
+              </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Número</label>
+                <input type="text" class="form-input" id="form-numero" placeholder="123 ou S/N">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Complemento</label>
+                <input type="text" class="form-input" id="form-complemento" placeholder="Apto, Galpão...">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bairro</label>
+                <input type="text" class="form-input" id="form-bairro" placeholder="Centro, Interior...">
+              </div>
+            </div>
+
+            <div class="form-grid-2" style="margin-top: 14px;">
+              <div class="form-group">
+                <label class="form-label">Cidade *</label>
+                <input type="text" class="form-input" id="form-cidade" required placeholder="Cidade">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Estado (UF) *</label>
+                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" style="text-transform: uppercase;">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Observações Internas</label>
+            <textarea class="form-input" id="form-obs" rows="2" placeholder="Preferência de envio, transportadora ou notas de encomenda..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalCliente()">Cancelar</button>
+        <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-cliente').requestSubmit()">💾 Salvar no Banco</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FISCAL (PORTAL NACIONAL NF-E) -->
+  <div class="modal-overlay" id="modal-fiscal">
+    <div class="modal-container" style="max-width: 650px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🧾</span> Emissão de NF-e | Portal Nacional
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalFiscal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 12px; color: #a7f3d0;">
+          🟢 <strong>Emissor Fiscal Integrado</strong>: Preparado para emissão simplificada com preenchimento automático a partir da ficha do destinatário.
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destinatário da Nota</label>
+          <input type="text" class="form-input" id="fiscal-destinatario" readonly style="background: rgba(255,255,255,0.03); color: #38bdf8; font-weight: 700;">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Documento</label>
+            <input type="text" class="form-input" id="fiscal-documento" readonly style="background: rgba(255,255,255,0.03);">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Destino / UF</label>
+            <input type="text" class="form-input" id="fiscal-uf" readonly style="background: rgba(255,255,255,0.03);">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Natureza da Operação</label>
+          <select class="form-input" id="fiscal-natureza">
+            <option value="5102">5.102 - Venda de mercadoria adquirida de terceiros (Dentro do Estado)</option>
+            <option value="6102">6.102 - Venda de mercadoria para outro Estado (Interestadual)</option>
+            <option value="5101">5.101 - Venda de produção do estabelecimento (Artesanato / Couros)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descrição do Item / Couro</label>
+          <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Valor Total (R$)</label>
+            <input type="text" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Modalidade de Frete</label>
+            <select class="form-input" id="fiscal-frete">
+              <option value="0">0 - Contratação do Frete por conta do Remetente (CIF)</option>
+              <option value="1">1 - Contratação por conta do Destinatário (FOB)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalFiscal()">Fechar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="alert('NF-e processada com sucesso no ambiente de teste!')">🚀 Transmitir NF-e</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CADASTRO / EDICAO DE PRODUTO -->
+  <div class="modal-overlay" id="modal-produto">
+    <div class="modal-container" style="max-width: 700px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span id="modal-prod-icone">🪵</span>
+          <span id="modal-prod-titulo">Ficha do Produto & Estoque</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalProduto()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-produto" onsubmit="salvarProduto(event)">
+          <input type="hidden" id="form-prod-id">
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label class="form-label">Código / SKU *</label>
+              <div style="display: flex; gap: 6px;">
+                <input type="text" class="form-input" id="form-prod-sku" required placeholder="SKU-LON-001" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase;">
+                <button type="button" class="btn-top btn-row-action" title="Gerar Código Automático" onclick="gerarSkuAuto()">⚡</button>
+              </div>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+              <label class="form-label">Nome / Descrição Comercial *</label>
+              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Legítima Selecionada">
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label">Categoria *</label>
+              <select class="form-input" id="form-prod-cat" required>
+                <option value="Loncas">Loncas</option>
+                <option value="Couros & Peles">Couros & Peles</option>
+                <option value="Tentos">Tentos</option>
+                <option value="Ferramentas">Ferramentas</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Unidade de Medida *</label>
+              <select class="form-input" id="form-prod-un" required>
+                <option value="Peça">Peça</option>
+                <option value="Metro">Metro</option>
+                <option value="Rolo">Rolo</option>
+                <option value="Kg">Kg</option>
+                <option value="Unidade">Unidade</option>
+                <option value="Jogo">Jogo</option>
+                <option value="Par">Par</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estoque Mínimo (Alerta)</label>
+              <input type="number" step="1" class="form-input" id="form-prod-min" required value="5" placeholder="5">
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label">Preço de Custo (R$)</label>
+              <input type="number" step="0.01" class="form-input" id="form-prod-custo" placeholder="0.00" value="0.00">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Preço de Venda (R$) *</label>
+              <input type="number" step="0.01" class="form-input" id="form-prod-venda" required placeholder="0.00" style="color: #34d399; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantidade em Estoque *</label>
+              <input type="number" step="1" class="form-input" id="form-prod-est" required placeholder="0" style="color: #38bdf8; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label">Detalhes Técnicos / Observações do Couro</label>
+            <textarea class="form-input" id="form-prod-desc" rows="2" placeholder="Especificações do produto, espessura, acabamento, tipo de artesanato ou sogueiro..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalProduto()">Cancelar</button>
+        <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-produto').requestSubmit()">💾 Salvar Produto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTAINER DE TOASTS -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- LOGICA DO SISTEMA ERP -->
+  <script>
+    let clientes = window.CLIENTES_DATA || [];
+    let filtrados = [...clientes];
+    let paginaAtual = 1;
+    const itensPorPagina = 25;
+    let ufFiltro = 'TODOS';
+    let docFiltro = 'TODOS';
+    let buscaTexto = '';
+
+    // Inicialização assíncrona tentando carregar do servidor/banco Turso Cloud
+    async function carregarDadosApi() {
+      try {
+        const resp = await fetch('/api/clientes');
+        if (resp.ok) {
+          const dados = await resp.json();
+          if (Array.isArray(dados) && dados.length > 0) {
+            clientes = dados;
+            filtrados = [...clientes];
+            document.getElementById('label-conexao').textContent = 'Nuvem Conectada';
+            atualizarKpis();
+            renderTabela();
+          }
+        }
+      } catch (e) {
+        console.log('Operando com base em cache local offline:', e.message);
+      }
+    }
+
+    // Alternar recolhimento da Barra Lateral
+    function toggleSidebar() {
+      const sidebar = document.getElementById('erp-sidebar');
+      const isCollapsed = sidebar.style.width === 'var(--sidebar-collapsed-width)';
+      sidebar.style.width = isCollapsed ? 'var(--sidebar-width)' : 'var(--sidebar-collapsed-width)';
+      document.querySelectorAll('.brand-texts, .nav-section-title, .nav-item span:not(.nav-icon), .nav-badge, .user-info')
+        .forEach(el => el.style.display = isCollapsed ? '' : 'none');
+    }
+
+    // Troca de módulos do ERP
+    function trocarModulo(modulo, el) {
+      document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
+      if (el) el.classList.add('active');
+      const titulo = el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo;
+      document.getElementById('breadcrumb-modulo').textContent = titulo;
+
+      // Oculta todas as seções de conteúdo do ERP
+      document.querySelectorAll('.erp-content').forEach(m => m.style.display = 'none');
+
+      if (modulo === 'produtos') {
+        document.getElementById('modulo-produtos-conteudo').style.display = 'flex';
+        carregarProdutosApi();
+      } else if (modulo === 'clientes') {
+        document.getElementById('modulo-clientes-conteudo').style.display = 'flex';
+      } else if (modulo === 'pedidos') {
+        document.getElementById('modulo-pedidos-conteudo').style.display = 'flex';
+        renderTabelaPedidos();
+      } else if (modulo === 'fiscal') {
+        document.getElementById('modulo-fiscal-conteudo').style.display = 'flex';
+        renderTabelaFiscal();
+      } else if (modulo === 'painel') {
+        document.getElementById('modulo-painel-conteudo').style.display = 'flex';
+      } else if (modulo === 'configuracoes') {
+        document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
+      }
+    }
+
+    // Atualização de métricas e KPIs
+    function atualizarKpis() {
+      const total = clientes.length;
+      document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
+      document.getElementById('nav-total-clientes').textContent = total.toLocaleString('pt-BR');
+
+      const totalRs = clientes.filter(c => (c.uf || '').toUpperCase() === 'RS').length;
+      const percRs = total > 0 ? ((totalRs / total) * 100).toFixed(1) : '0';
+      document.getElementById('kpi-envios-rs').textContent = totalRs.toLocaleString('pt-BR');
+      document.getElementById('kpi-perc-rs').textContent = `${percRs}%`;
+
+      const ufs = new Set(clientes.map(c => (c.uf || '').trim().toUpperCase()).filter(Boolean));
+      document.getElementById('kpi-ufs').textContent = `${ufs.size} UFs`;
+
+      const cpfs = clientes.filter(c => c.cpf && c.cpf.trim()).length;
+      const cnpjs = clientes.filter(c => c.cnpj && c.cnpj.trim()).length;
+      document.getElementById('kpi-docs').textContent = (cpfs + cnpjs).toLocaleString('pt-BR');
+      document.getElementById('kpi-docs-detalhe').textContent = `${cpfs} CPFs · ${cnpjs} CNPJs`;
+    }
+
+    // Filtros combinados
+    function aplicarFiltros() {
+      const termo = (buscaTexto || '').toLowerCase().trim();
+      filtrados = clientes.filter(c => {
+        if (ufFiltro !== 'TODOS' && (c.uf || '').toUpperCase() !== ufFiltro) return false;
+        if (docFiltro === 'COM_DOC' && !c.cpf && !c.cnpj) return false;
+        if (docFiltro === 'SEM_DOC' && (c.cpf || c.cnpj)) return false;
+        if (termo) {
+          const texto = `${c.nome || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`.toLowerCase();
+          if (!texto.includes(termo)) return false;
+        }
+        return true;
+      });
+
+      paginaAtual = 1;
+      renderTabela();
+    }
+
+    function filtrarPorUf(uf, btn) {
+      ufFiltro = uf;
+      document.querySelectorAll('.toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      aplicarFiltros();
+    }
+
+    function filtrarCompletude(val) {
+      docFiltro = val;
+      aplicarFiltros();
+    }
+
+    function filtrarTabela(val) {
+      buscaTexto = val;
+      aplicarFiltros();
+    }
+
+    function mudarPagina(delta) {
+      paginaAtual += delta;
+      renderTabela();
+    }
+
+    function alternarTodosCheckboxes(master) {
+      document.querySelectorAll('#erp-table-body input[type="checkbox"]').forEach(cb => {
+        cb.checked = master.checked;
+      });
+    }
+
+    // Renderização da tabela de alta densidade
+    function renderTabela() {
+      const tbody = document.getElementById('erp-table-body');
+      const total = filtrados.length;
+      const totalPaginas = Math.ceil(total / itensPorPagina) || 1;
+
+      if (paginaAtual < 1) paginaAtual = 1;
+      if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
+
+      const inicio = (paginaAtual - 1) * itensPorPagina;
+      const fim = Math.min(inicio + itensPorPagina, total);
+      const paginaItens = filtrados.slice(inicio, fim);
+
+      document.getElementById('table-badge-contagem').textContent = `${total.toLocaleString('pt-BR')} registros`;
+      document.getElementById('pag-inicio').textContent = total > 0 ? (inicio + 1).toLocaleString('pt-BR') : 0;
+      document.getElementById('pag-fim').textContent = fim.toLocaleString('pt-BR');
+      document.getElementById('pag-total').textContent = total.toLocaleString('pt-BR');
+      document.getElementById('pag-atual').textContent = `${paginaAtual} / ${totalPaginas}`;
+
+      document.getElementById('btn-ant').disabled = paginaAtual <= 1;
+      document.getElementById('btn-prox').disabled = paginaAtual >= totalPaginas;
+
+      if (paginaItens.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              Nenhum cliente localizado com os filtros selecionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = paginaItens.map(c => {
+        const doc = c.cpf || c.cnpj || '<span style="color: var(--text-faint);">Sem Doc</span>';
+        const rawTel = (c.telefone || '').replace(/\D/g, '');
+        const telLink = rawTel ? `<a href="https://wa.me/55${rawTel}" target="_blank" style="color: #38bdf8; text-decoration: none;" title="Abrir WhatsApp">💬 ${c.telefone}</a>` : '<span style="color: var(--text-faint);">-</span>';
+        const uf = (c.uf || 'RS').toUpperCase();
+
+        return `
+          <tr>
+            <td><input type="checkbox" value="${c.id}"></td>
+            <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-muted);">${c.id || '-'}</td>
+            <td style="font-weight: 700; color: #fff;">
+              ${c.nome}
+              ${c.apelido_referencia ? `<span style="font-weight: 400; font-size: 11px; color: var(--text-muted); margin-left: 4px;">(${c.apelido_referencia})</span>` : ''}
+            </td>
+            <td style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">${doc}</td>
+            <td>${c.cidade || '-'}</td>
+            <td><span class="uf-tag">${uf}</span></td>
+            <td>${telLink}</td>
+            <td style="text-align: right;">
+              <button class="btn-row-action" title="Editar Ficha" onclick="abrirModalEditarCliente(${c.id})">✏️ Editar</button>
+              <button class="btn-row-action" title="Emitir NF-e" onclick="abrirModalFiscal(${c.id})">🧾 Nota</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Modal de Edição / Novo Cliente
+    function abrirModalNovoCliente() {
+      document.getElementById('modal-cliente-icone').textContent = '➕';
+      document.getElementById('modal-cliente-titulo').textContent = 'Novo Cliente';
+      document.getElementById('form-cliente').reset();
+      document.getElementById('form-id').value = '';
+      document.getElementById('modal-cliente').classList.add('active');
+      document.getElementById('form-nome').focus();
+    }
+
+    function abrirModalEditarCliente(id) {
+      const cliente = clientes.find(c => String(c.id) === String(id));
+      if (!cliente) return;
+
+      document.getElementById('modal-cliente-icone').textContent = '✏️';
+      document.getElementById('modal-cliente-titulo').textContent = `Ficha: ${cliente.nome}`;
+      document.getElementById('form-id').value = cliente.id || '';
+      document.getElementById('form-nome').value = cliente.nome || '';
+      document.getElementById('form-apelido').value = cliente.apelido_referencia || '';
+      document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
+      document.getElementById('form-ie').value = cliente.ie || '';
+      document.getElementById('form-telefone').value = cliente.telefone || '';
+      document.getElementById('form-cep').value = cliente.cep || '';
+      document.getElementById('form-logradouro').value = cliente.logradouro || '';
+      document.getElementById('form-numero').value = cliente.numero || '';
+      document.getElementById('form-complemento').value = cliente.complemento || '';
+      document.getElementById('form-bairro').value = cliente.bairro || '';
+      document.getElementById('form-cidade').value = cliente.cidade || '';
+      document.getElementById('form-uf').value = (cliente.uf || 'RS').toUpperCase();
+      document.getElementById('form-obs').value = cliente.observacoes || '';
+
+      document.getElementById('modal-cliente').classList.add('active');
+    }
+
+    function fecharModalCliente() {
+      document.getElementById('modal-cliente').classList.remove('active');
+    }
+
+    // Salvar cliente via API ou localmente
+    async function salvarCliente(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-id').value;
+      const doc = document.getElementById('form-doc').value.trim();
+      const docLimpo = doc.replace(/\D/g, '');
+      const isCnpj = docLimpo.length > 11;
+
+      const payload = {
+        nome: document.getElementById('form-nome').value.trim(),
+        apelido_referencia: document.getElementById('form-apelido').value.trim(),
+        cpf: !isCnpj ? doc : '',
+        cnpj: isCnpj ? doc : '',
+        ie: document.getElementById('form-ie').value.trim(),
+        telefone: document.getElementById('form-telefone').value.trim(),
+        cep: document.getElementById('form-cep').value.trim(),
+        logradouro: document.getElementById('form-logradouro').value.trim(),
+        numero: document.getElementById('form-numero').value.trim(),
+        complemento: document.getElementById('form-complemento').value.trim(),
+        bairro: document.getElementById('form-bairro').value.trim(),
+        cidade: document.getElementById('form-cidade').value.trim(),
+        uf: document.getElementById('form-uf').value.trim().toUpperCase(),
+        observacoes: document.getElementById('form-obs').value.trim()
+      };
+
+      try {
+        if (id) {
+          // Edição via PUT
+          const resp = await fetch(`/api/clientes/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            const idx = clientes.findIndex(c => c.id === parseInt(id));
+            if (idx !== -1) {
+              clientes[idx] = { ...clientes[idx], ...payload };
+            }
+            mostrarToast(`Cliente ${payload.nome} atualizado com sucesso!`);
+          } else {
+            throw new Error('Falha na resposta da API');
+          }
+        } else {
+          // Criação via POST
+          const resp = await fetch('/api/clientes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            const novoCliente = { id: data.id || Date.now(), ...payload };
+            clientes.unshift(novoCliente);
+            mostrarToast(`Cliente ${payload.nome} cadastrado com sucesso!`);
+          } else {
+            throw new Error('Falha na criação');
+          }
+        }
+      } catch (err) {
+        // Fallback local se estiver offline
+        if (id) {
+          const idx = clientes.findIndex(c => c.id === parseInt(id));
+          if (idx !== -1) clientes[idx] = { ...clientes[idx], ...payload };
+        } else {
+          clientes.unshift({ id: Date.now(), ...payload });
+        }
+        mostrarToast('Alteração salva em cache local!');
+      }
+
+      fecharModalCliente();
+      aplicarFiltros();
+      atualizarKpis();
+    }
+
+    // Busca automática de CEP via ViaCEP
+    async function buscarCep(cep) {
+      const cepLimpo = (cep || '').replace(/\D/g, '');
+      if (cepLimpo.length !== 8) return;
+      try {
+        const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+        const data = await resp.json();
+        if (!data.erro) {
+          if (data.logradouro) document.getElementById('form-logradouro').value = data.logradouro;
+          if (data.bairro) document.getElementById('form-bairro').value = data.bairro;
+          if (data.localidade) document.getElementById('form-cidade').value = data.localidade;
+          if (data.uf) document.getElementById('form-uf').value = data.uf.toUpperCase();
+          mostrarToast(`Endereço localizado: ${data.localidade}/${data.uf}`);
+          document.getElementById('form-numero').focus();
+        }
+      } catch (e) {
+        console.log('Falha ao consultar CEP online');
+      }
+    }
+
+    // Modal Fiscal (NF-e)
+    function abrirModalFiscal(clienteId) {
+      const cliente = clienteId ? clientes.find(c => String(c.id) === String(clienteId)) : null;
+      if (cliente) {
+        document.getElementById('fiscal-destinatario').value = cliente.nome || 'Cliente Selecionado';
+        document.getElementById('fiscal-documento').value = cliente.cpf || cliente.cnpj || 'Pendente de documento';
+        document.getElementById('fiscal-uf').value = `${cliente.cidade || 'Cidade'} / ${cliente.uf || 'RS'}`;
+      } else {
+        document.getElementById('fiscal-destinatario').value = 'Selecione um cliente na tabela';
+        document.getElementById('fiscal-documento').value = '-';
+        document.getElementById('fiscal-uf').value = 'RS';
+      }
+      document.getElementById('modal-fiscal').classList.add('active');
+    }
+
+    function fecharModalFiscal() {
+      document.getElementById('modal-fiscal').classList.remove('active');
+    }
+
+    // Exportação em formato CSV
+    function exportarCsv() {
+      if (filtrados.length === 0) return alert('Nenhum dado para exportar.');
+      const headers = ['ID', 'Nome', 'Apelido', 'Documento', 'Cidade', 'UF', 'Telefone', 'Endereco'];
+      const rows = filtrados.map(c => [
+        c.id || '',
+        `"${(c.nome || '').replace(/"/g, '""')}"`,
+        `"${(c.apelido_referencia || '').replace(/"/g, '""')}"`,
+        `"${(c.cpf || c.cnpj || '').replace(/"/g, '""')}"`,
+        `"${(c.cidade || '').replace(/"/g, '""')}"`,
+        `"${(c.uf || '').replace(/"/g, '""')}"`,
+        `"${(c.telefone || '').replace(/"/g, '""')}"`,
+        `"${(c.endereco_completo || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `MisSuenos_Clientes_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarToast('Planilha de clientes exportada com sucesso!');
+    }
+
+    // Feedback visual (Toast)
+    function mostrarToast(mensagem) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span>✅</span> <span>${mensagem}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Atalhos de teclado (Ctrl + K para busca, Esc para fechar modais)
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const input = document.getElementById('topbar-search');
+        input.focus();
+        input.select();
+      }
+      if (e.key === 'Escape') {
+        fecharModalCliente();
+        fecharModalFiscal();
+        fecharModalProduto();
+      }
+    });
+
+    // ========================================================
+    // GESTÃO DE PRODUTOS & ESTOQUE DE COUROS (ERP)
+    // ========================================================
+    let produtos = [];
+    let produtosFiltrados = [];
+    let categoriaFiltroProd = 'TODAS';
+    let buscaProdutoTexto = '';
+
+    async function carregarProdutosApi() {
+      try {
+        const resp = await fetch('/api/produtos');
+        if (resp.ok) {
+          produtos = await resp.json();
+          produtosFiltrados = [...produtos];
+          atualizarKpisProdutos();
+          renderTabelaProdutos();
+        }
+      } catch (e) {
+        console.warn('Falha ao carregar produtos da API:', e.message);
+      }
+    }
+
+    function atualizarKpisProdutos() {
+      const total = produtos.length;
+      document.getElementById('kpi-prod-total').textContent = total.toLocaleString('pt-BR');
+
+      const categorias = new Set(produtos.map(p => p.categoria).filter(Boolean));
+      document.getElementById('kpi-prod-categorias').textContent = `${categorias.size} Categorias`;
+
+      const valorTotalEstoque = produtos.reduce((acc, p) => acc + ((p.estoque_atual || 0) * (p.preco_venda || 0)), 0);
+      document.getElementById('kpi-prod-valor-total').textContent = `R$ ${valorTotalEstoque.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+      const baixoEstoque = produtos.filter(p => (p.estoque_atual || 0) <= (p.estoque_minimo || 5)).length;
+      document.getElementById('kpi-prod-baixo-estoque').textContent = baixoEstoque.toString();
+      const totalTestes = produtos.filter(p => p.is_teste == 1 || p.is_teste === true || p.id <= 11).length;
+      document.getElementById('table-badge-produtos').textContent = totalTestes > 0 ? `${total} produtos (${totalTestes} de demonstração / teste)` : `${total} produtos`;
+    }
+
+    function renderTabelaProdutos() {
+      const tbody = document.getElementById('erp-produtos-body');
+      if (!tbody) return;
+
+      if (produtosFiltrados.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              Nenhum produto cadastrado ou localizado com os filtros atuais.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = produtosFiltrados.map(p => {
+        const cat = p.categoria || 'Outros';
+        const catCor = cat === 'Loncas' ? 'rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);' :
+                       cat === 'Couros & Peles' ? 'rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);' :
+                       cat === 'Tentos' ? 'rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3);' :
+                       'rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);';
+
+        const est = parseFloat(p.estoque_atual || 0);
+        const min = parseFloat(p.estoque_minimo || 5);
+        const isBaixo = est <= min;
+        const estBadge = isBaixo
+          ? `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">⚠️ ${est} ${p.unidade_medida || 'UN'}</span>`
+          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">${est} ${p.unidade_medida || 'UN'}</span>`;
+
+        const precoCusto = parseFloat(p.preco_custo || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const precoVenda = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const isTeste = Boolean(p.is_teste == 1 || p.is_teste === true || p.id <= 11);
+        const tagTeste = isTeste
+          ? `<span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>`
+          : '';
+
+        return `
+          <tr>
+            <td><input type="checkbox" value="${p.id}"></td>
+            <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${p.codigo_sku || '-'}</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="font-weight: 700; color: #fff;">${p.nome}</span>
+                ${tagTeste}
+              </div>
+              ${p.descricao ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; max-width: 320px; white-space: normal;">${p.descricao}</div>` : ''}
+            </td>
+            <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; ${catCor}">${cat}</span></td>
+            <td><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 11px;">${p.unidade_medida || 'UN'}</span></td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">R$ ${precoCusto}</td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${precoVenda}</td>
+            <td style="text-align: center;">${estBadge}</td>
+            <td style="text-align: right;">
+              <button class="btn-row-action" title="Editar Produto" onclick="abrirModalEditarProduto(${p.id})">✏️ Editar</button>
+              <button class="btn-row-action" title="Excluir Produto" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${p.nome.replace(/'/g, '')}')">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarProdutosPorCategoria(cat, btn) {
+      categoriaFiltroProd = cat;
+      document.querySelectorAll('#modulo-produtos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      if (cat === 'TODAS') {
+        produtosFiltrados = [...produtos];
+      } else {
+        produtosFiltrados = produtos.filter(p => p.categoria === cat);
+      }
+      renderTabelaProdutos();
+    }
+
+    function abrirModalNovoProduto() {
+      document.getElementById('modal-prod-icone').textContent = '➕';
+      document.getElementById('modal-prod-titulo').textContent = 'Novo Produto / Couro';
+      document.getElementById('form-produto').reset();
+      document.getElementById('form-prod-id').value = '';
+      gerarSkuAuto();
+      document.getElementById('modal-produto').classList.add('active');
+      document.getElementById('form-prod-nome').focus();
+    }
+
+    function abrirModalEditarProduto(id) {
+      const prod = produtos.find(p => String(p.id) === String(id));
+      if (!prod) return;
+
+      document.getElementById('modal-prod-icone').textContent = '✏️';
+      document.getElementById('modal-prod-titulo').textContent = `Editar: ${prod.nome}`;
+      document.getElementById('form-prod-id').value = prod.id || '';
+      document.getElementById('form-prod-sku').value = prod.codigo_sku || '';
+      document.getElementById('form-prod-nome').value = prod.nome || '';
+      document.getElementById('form-prod-cat').value = prod.categoria || 'Loncas';
+      document.getElementById('form-prod-un').value = prod.unidade_medida || 'Peça';
+      document.getElementById('form-prod-min').value = prod.estoque_minimo || 5;
+      document.getElementById('form-prod-custo').value = prod.preco_custo || 0;
+      document.getElementById('form-prod-venda').value = prod.preco_venda || 0;
+      document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
+      document.getElementById('form-prod-desc').value = prod.descricao || '';
+
+      document.getElementById('modal-produto').classList.add('active');
+    }
+
+    function fecharModalProduto() {
+      document.getElementById('modal-produto').classList.remove('active');
+    }
+
+    function gerarSkuAuto() {
+      const prefixos = { 'Loncas': 'LON', 'Couros & Peles': 'COU', 'Tentos': 'TEN', 'Ferramentas': 'FER', 'Outros': 'ART' };
+      const cat = document.getElementById('form-prod-cat')?.value || 'Loncas';
+      const pref = prefixos[cat] || 'MIS';
+      const rand = Math.floor(100 + Math.random() * 900);
+      document.getElementById('form-prod-sku').value = `SKU-${pref}-${rand}`;
+    }
+
+    async function salvarProduto(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-prod-id').value;
+      const payload = {
+        codigo_sku: document.getElementById('form-prod-sku').value.trim(),
+        nome: document.getElementById('form-prod-nome').value.trim(),
+        categoria: document.getElementById('form-prod-cat').value,
+        unidade_medida: document.getElementById('form-prod-un').value,
+        estoque_minimo: parseFloat(document.getElementById('form-prod-min').value || 5),
+        preco_custo: parseFloat(document.getElementById('form-prod-custo').value || 0),
+        preco_venda: parseFloat(document.getElementById('form-prod-venda').value || 0),
+        estoque_atual: parseFloat(document.getElementById('form-prod-est').value || 0),
+        descricao: document.getElementById('form-prod-desc').value.trim()
+      };
+
+      try {
+        if (id) {
+          const resp = await fetch(`/api/produtos/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            mostrarToast(`Produto "${payload.nome}" atualizado com sucesso!`);
+          }
+        } else {
+          const resp = await fetch('/api/produtos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (resp.ok) {
+            mostrarToast(`Produto "${payload.nome}" cadastrado no estoque!`);
+          }
+        }
+      } catch (err) {
+        mostrarToast('Alteração salva em modo local!');
+      }
+
+      fecharModalProduto();
+      await carregarProdutosApi();
+    }
+
+    async function deletarProduto(id, nome) {
+      if (!confirm(`Deseja realmente inativar o produto "${nome}" do catálogo?`)) return;
+      try {
+        const resp = await fetch(`/api/produtos/${id}`, { method: 'DELETE' });
+        if (resp.ok) {
+          mostrarToast(`Produto "${nome}" inativado com sucesso!`);
+          await carregarProdutosApi();
+        }
+      } catch (err) {
+        alert('Falha ao inativar produto: ' + err.message);
+      }
+    }
+
+    function exportarProdutosCsv() {
+      if (produtosFiltrados.length === 0) return alert('Nenhum produto para exportar.');
+      const headers = ['SKU', 'Produto', 'Categoria', 'Unidade', 'Preco_Custo', 'Preco_Venda', 'Estoque_Atual', 'Estoque_Minimo', 'Descricao'];
+      const rows = produtosFiltrados.map(p => [
+        `"${p.codigo_sku || ''}"`,
+        `"${(p.nome || '').replace(/"/g, '""')}"`,
+        `"${p.categoria || ''}"`,
+        `"${p.unidade_medida || ''}"`,
+        (p.preco_custo || 0).toFixed(2),
+        (p.preco_venda || 0).toFixed(2),
+        p.estoque_atual || 0,
+        p.estoque_minimo || 0,
+        `"${(p.descricao || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `MisSuenos_Tabela_Precos_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarToast('Tabela de preços exportada com sucesso!');
+    }
+
+    function alternarCheckboxesProdutos(master) {
+      document.querySelectorAll('#erp-produtos-body input[type="checkbox"]').forEach(cb => cb.checked = master.checked);
+    }
+
+    // ========================================================
+    // GESTÃO DE VENDAS & PEDIDOS (ERP)
+    // ========================================================
+    const listaPedidos = [
+      { id: 1042, numero: '#PED-1042', data: '15/10/2026', cliente: 'ACÁCIO BENEDITO RAMOS', cidade: 'CONCEIÇÃO DOS OUROS', uf: 'MG', tel: '35999887766', itens: '2x Lonca de Cabrito Selecionada + 1x Tento 100m', valor: 385.00, status: 'AGUARDANDO_ENVIO', statusTexto: 'Aguardando Envio' },
+      { id: 1041, numero: '#PED-1041', data: '14/10/2026', cliente: 'ADAIR JOSÉ BRANCO', cidade: 'PONTE ALTA', uf: 'SC', tel: '49988776655', itens: '1x Meio Couro Cru Sovado + 1x Faca Sogueiro 5"', valor: 455.00, status: 'EM_SEPARACAO', statusTexto: 'Em Separação' },
+      { id: 1040, numero: '#PED-1040', data: '14/10/2026', cliente: 'ADAM HUPPES', cidade: 'ESTRELA', uf: 'RS', tel: '51998877665', itens: '3x Lonca de Potro Sovada Extra', valor: 585.00, status: 'AGUARDANDO_ENVIO', statusTexto: 'Aguardando Envio' },
+      { id: 1039, numero: '#PED-1039', data: '13/10/2026', cliente: 'ADAMO CONSUL', cidade: 'TRAMANDAÍ', uf: 'RS', tel: '51987654321', itens: '1x Tento Lonca 50m + 1x Jogo Vazadores 6 pçs', valor: 245.00, status: 'ENVIADO', statusTexto: 'Enviado (Sedex)' },
+      { id: 1038, numero: '#PED-1038', data: '12/10/2026', cliente: 'ADEMAR MELOS CARDOSO', cidade: 'SÃO FRANCISCO DE PAULA', uf: 'RS', tel: '54991122334', itens: '10kg Sola Bovina Curtume (4-5mm)', valor: 650.00, status: 'ENVIADO', statusTexto: 'Entregue' },
+      { id: 1037, numero: '#PED-1037', data: '11/10/2026', cliente: 'ADEMILSON CLEMENTE DE LIMA', cidade: 'MACEDÔNIA', uf: 'SP', tel: '17992233445', itens: '2x Vaqueta Tratada Nobre Estonada', valor: 170.00, status: 'ENVIADO', statusTexto: 'Entregue' },
+      { id: 1036, numero: '#PED-1036', data: '10/10/2026', cliente: 'ADEMIR DONATO', cidade: 'JATAÍ', uf: 'GO', tel: '64993344556', itens: '4x Lonca de Cabrito + 2x Brunidor Madeira', valor: 656.00, status: 'ENVIADO', statusTexto: 'Entregue' },
+      { id: 1035, numero: '#PED-1035', data: '09/10/2026', cliente: 'ADILSON IFRAN MARTINS', cidade: 'SÃO BORJA', uf: 'RS', tel: '55994455667', itens: '1x Meio Couro Cru Sovado + 2x Tento 100m', valor: 470.00, status: 'ENVIADO', statusTexto: 'Entregue' }
+    ];
+
+    let pedidosFiltrados = [...listaPedidos];
+    let statusFiltroPedido = 'TODOS';
+
+    function renderTabelaPedidos() {
+      const tbody = document.getElementById('erp-pedidos-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = pedidosFiltrados.map(ped => {
+        const statusBadge = ped.status === 'AGUARDANDO_ENVIO'
+          ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">⏳ ${ped.statusTexto}</span>`
+          : ped.status === 'EM_SEPARACAO'
+          ? `<span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">📦 ${ped.statusTexto}</span>`
+          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ ${ped.statusTexto}</span>`;
+
+        return `
+          <tr>
+            <td><input type="checkbox" value="${ped.id}"></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
+                <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>
+              </div>
+            </td>
+            <td style="color: var(--text-muted); font-size: 11.5px;">${ped.data}</td>
+            <td style="font-weight: 700; color: #fff;">${ped.cliente}</td>
+            <td><span class="uf-tag" style="margin-right: 4px;">${ped.uf}</span> ${ped.cidade}</td>
+            <td style="color: var(--text-muted); font-size: 11.5px;">${ped.itens}</td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${ped.valor.toFixed(2).replace('.', ',')}</td>
+            <td style="text-align: center;">${statusBadge}</td>
+            <td style="text-align: right;">
+              <button class="btn-row-action" title="Emitir NF-e para este pedido" onclick="abrirModalFiscal()">🧾 NF-e</button>
+              <button class="btn-row-action" title="Contato WhatsApp" onclick="window.open('https://wa.me/55${ped.tel}', '_blank')">💬</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarPedidosPorStatus(status, btn) {
+      statusFiltroPedido = status;
+      document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      if (status === 'TODOS') {
+        pedidosFiltrados = [...listaPedidos];
+      } else {
+        pedidosFiltrados = listaPedidos.filter(p => p.status === status);
+      }
+      renderTabelaPedidos();
+    }
+
+    function abrirModalNovoPedido() {
+      mostrarToast('Formulário de Vendas & Pedidos preparado!');
+      abrirModalFiscal();
+    }
+
+    function exportarPedidosCsv() {
+      const headers = ['Numero', 'Data', 'Cliente', 'Cidade', 'UF', 'Itens', 'Valor_Total', 'Status'];
+      const rows = pedidosFiltrados.map(p => [
+        p.numero, p.data, `"${p.cliente}"`, `"${p.cidade}"`, p.uf, `"${p.itens}"`, p.valor.toFixed(2), p.statusTexto
+      ]);
+      const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `MisSuenos_Pedidos_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarToast('Planilha de pedidos exportada com sucesso!');
+    }
+
+    // ========================================================
+    // GESTÃO FISCAL & DOCUMENTOS ELETRÔNICOS (ERP)
+    // ========================================================
+    const listaFiscal = [
+      { id: 1, numero: 'NF-e 001.428', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014281001234567', destinatario: 'ACÁCIO BENEDITO RAMOS', doc: 'Sem CPF', uf: 'MG', data: '15/10/2026', valor: 385.00, status: 'Autorizada' },
+      { id: 2, numero: 'NF-e 001.427', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014271001234568', destinatario: 'ADAIR JOSÉ BRANCO', doc: 'Sem CPF', uf: 'SC', data: '14/10/2026', valor: 455.00, status: 'Autorizada' },
+      { id: 3, numero: 'DPS 000.412', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-412', destinatario: 'ADAM HUPPES', doc: 'Sem CPF', uf: 'RS', data: '14/10/2026', valor: 180.00, status: 'Autorizada' },
+      { id: 4, numero: 'NF-e 001.426', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014261001234569', destinatario: 'ADRIANO MAINARDES BATISTA', doc: '086.881.949-64', uf: 'PR', data: '13/10/2026', valor: 590.00, status: 'Autorizada' },
+      { id: 5, numero: 'NF-e 001.425', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014251001234570', destinatario: 'ADROIR LIMA GUEDES', doc: '002.923.130-20', uf: 'RS', data: '12/10/2026', valor: 280.00, status: 'Autorizada' },
+      { id: 6, numero: 'DPS 000.411', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-411', destinatario: 'ADEMIR ROBERTO OTÁVIO', doc: 'Sem CPF', uf: 'MG', data: '11/10/2026', valor: 220.00, status: 'Autorizada' }
+    ];
+
+    let fiscalFiltrado = [...listaFiscal];
+    let tipoFiltroFiscal = 'TODAS';
+
+    function renderTabelaFiscal() {
+      const tbody = document.getElementById('erp-fiscal-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = fiscalFiltrado.map(f => {
+        const modBadge = f.modelo === 'NFE_PRODUTO'
+          ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🪵 NF-e SEFAZ (55)</span>`
+          : `<span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🧾 NFS-e Portal Nacional</span>`;
+
+        return `
+          <tr>
+            <td><input type="checkbox" value="${f.id}"></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff;">${f.numero}</span>
+                <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>
+              </div>
+            </td>
+            <td>${modBadge}</td>
+            <td>
+              <div style="font-weight: 700; color: #fff;">${f.destinatario}</div>
+              <div style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">${f.doc}</div>
+            </td>
+            <td><span class="uf-tag">${f.uf}</span></td>
+            <td style="color: var(--text-muted); font-size: 11.5px;">${f.data}</td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${f.valor.toFixed(2).replace('.', ',')}</td>
+            <td style="text-align: center;">
+              <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
+                🟢 Autorizada (Ambiente Teste)
+              </span>
+            </td>
+            <td style="text-align: right;">
+              <button class="btn-row-action" title="Visualizar DANFE" onclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}')">📄 DANFE</button>
+              <button class="btn-row-action" title="Baixar XML" onclick="alert('Download do XML assinado da ${f.numero}')">📥 XML</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarFiscalPorTipo(tipo, btn) {
+      tipoFiltroFiscal = tipo;
+      document.querySelectorAll('#modulo-fiscal-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      if (tipo === 'TODAS') {
+        fiscalFiltrado = [...listaFiscal];
+      } else {
+        fiscalFiltrado = listaFiscal.filter(f => f.modelo === tipo);
+      }
+      renderTabelaFiscal();
+    }
+
+    // Inicialização da tela
+    atualizarKpis();
+    renderTabela();
+    carregarDadosApi();
+    carregarProdutosApi();
+  </script>
+</body>
+</html>

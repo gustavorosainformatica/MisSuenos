@@ -1,0 +1,28 @@
+{
+  "name": "missuenos-clientes",
+  "version": "1.0.0",
+  "description": "Banco de dados e extrator de endereços de clientes Mis Sueños",
+  "main": "scripts/consultar.js",
+  "type": "module",
+  "scripts": {
+    "converter": "python scripts/converter_enderecos.py",
+    "consultar": "node scripts/consultar.js",
+    "web": "node scripts/servidor_web.js",
+    "migrar:turso": "node scripts/migrar_turso.js"
+  },
+  "keywords": [
+    "clientes",
+    "sqlite",
+    "enderecos",
+    "extrator",
+    "mis-suenos"
+  ],
+  "author": "Gustavo Rosa Informática",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1152.0",
+    "@aws-sdk/s3-request-presigner": "^3.1152.0",
+    "@libsql/client": "^0.18.0",
+    "dotenv": "^18.0.8"
+  }
+}
