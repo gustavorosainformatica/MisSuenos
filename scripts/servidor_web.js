@@ -11,6 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
+import { execSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -989,6 +990,28 @@ process.on('unhandledRejection', (motivo) => {
 // garantindo que os registros tenham o campo "id" usado pelos botões Editar / Nota.
 sincronizarArquivosSecundarios();
 
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n❌ [PORTA OCUPADA] A porta ${PORT} já está sendo utilizada por outra instância do sistema.`);
+    console.log(`💡 O ERP já está acessível no navegador em: http://localhost:${PORT}\n`);
+  } else {
+    console.error('\n❌ [ERRO NO SERVIDOR]', err);
+  }
+});
+// Libera a porta caso um processo antigo do Node tenha ficado travado em segundo plano
+try {
+  const netstatOut = execSync('netstat -aon', { encoding: 'utf-8' });
+  for (const line of netstatOut.split('\n')) {
+    if (line.includes(`:${PORT} `) && line.includes('LISTENING')) {
+      const parts = line.trim().split(/\s+/);
+      const pid = parts[parts.length - 1];
+      if (pid && pid !== String(process.pid)) {
+        try { execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' }); } catch {}
+      }
+    }
+  }
+} catch {}
+
 server.listen(PORT, () => {
   console.log(`\n======================================================================`);
   console.log(`  PAINEL WEB & API REST DE CLIENTES MIS SUEÑOS`);
@@ -1003,3 +1026,4 @@ server.listen(PORT, () => {
   console.log(`    GET    /api/clientes/:id/logs -> Histórico de um cliente`);
   console.log(`======================================================================\n`);
 });
+
