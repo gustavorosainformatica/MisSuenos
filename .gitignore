@@ -1,4 +1,4 @@
-# Arquivo de variáveis de ambiente e credenciais secretas
+# Variáveis de ambiente e credenciais
 .env
 .env.local
 .env.*.local
@@ -7,7 +7,8 @@
 node_modules/
 
 # Uploads locais de mídia
-public/uploads/
+public/uploads/*
+!public/uploads/.gitkeep
 
 # Arquivos de banco local SQLite temporários e logs
 *.sqlite
