@@ -2,6 +2,7 @@
   "name": "missuenos-clientes",
   "version": "1.0.0",
   "description": "Banco de dados e extrator de endereços de clientes Mis Sueños",
+  "port": 3000,
   "main": "scripts/consultar.js",
   "type": "module",
   "scripts": {
