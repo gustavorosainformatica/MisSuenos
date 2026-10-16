@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mis Sueños ERP | Gestão Integrada de Couros, Clientes & Fiscal</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -99,16 +102,32 @@
     }
 
     .brand-icon {
-      width: 38px;
-      height: 38px;
-      background: linear-gradient(135deg, #b45309, #78350f);
-      border-radius: var(--radius-sm);
+      width: 42px;
+      height: 42px;
+      background: transparent;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
-      box-shadow: 0 0 15px rgba(180, 83, 9, 0.35);
+      box-shadow: 0 0 15px rgba(180, 83, 9, 0.45);
       flex-shrink: 0;
+      overflow: hidden;
+      border: 1.5px solid rgba(217, 119, 6, 0.5);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .brand-icon:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+    }
+
+    .brand-icon img.brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
 
     .brand-texts h2 {
@@ -873,7 +892,9 @@
   <aside class="erp-sidebar" id="erp-sidebar">
     <div class="sidebar-header">
       <a href="#" class="sidebar-brand">
-        <div class="brand-icon" id="app-brand-icon">🪵</div>
+        <div class="brand-icon" id="app-brand-icon">
+          <img src="logo.png" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
+        </div>
         <div class="brand-texts">
           <h2 id="app-short-name">Mis Sueños</h2>
           <span id="app-tagline">ERP Selaria & Couros</span>
@@ -2726,7 +2747,13 @@
 
       if (document.title && cfg.appName) document.title = cfg.appName;
       const brandIcon = document.getElementById('app-brand-icon');
-      if (brandIcon && cfg.logoEmoji) brandIcon.textContent = cfg.logoEmoji;
+      if (brandIcon) {
+        if (cfg.logoImage) {
+          brandIcon.innerHTML = `<img src="${cfg.logoImage}" alt="${cfg.shortName || 'Logo'}" class="brand-logo-img" id="app-brand-img">`;
+        } else if (cfg.logoEmoji) {
+          brandIcon.textContent = cfg.logoEmoji;
+        }
+      }
       const shortName = document.getElementById('app-short-name');
       if (shortName && cfg.shortName) shortName.textContent = cfg.shortName;
       const tagline = document.getElementById('app-tagline');

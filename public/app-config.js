@@ -13,6 +13,7 @@ window.APP_CONFIG = {
   userRole: "Mis Sueños Couros & Peles",
   userInitials: "MM",
   logoEmoji: "🪵",
+  logoImage: "logo.png",
   stockModuleName: "Estoque de Couros",
   breadcrumbName: "Mis Sueños ERP",
   dataNoticeTitle: "BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES",
