@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Suporte offline imediato -->
+  <!-- Suporte offline imediato e White-Label -->
+  <script src="app-config.js"></script>
   <script src="dados_clientes.js"></script>
   <style>
     :root {
@@ -872,10 +873,10 @@
   <aside class="erp-sidebar" id="erp-sidebar">
     <div class="sidebar-header">
       <a href="#" class="sidebar-brand">
-        <div class="brand-icon">🪵</div>
+        <div class="brand-icon" id="app-brand-icon">🪵</div>
         <div class="brand-texts">
-          <h2>Mis Sueños</h2>
-          <span>ERP Selaria & Couros</span>
+          <h2 id="app-short-name">Mis Sueños</h2>
+          <span id="app-tagline">ERP Selaria & Couros</span>
         </div>
       </a>
       <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher Menu">◀</button>
@@ -901,7 +902,7 @@
       </a>
       <a class="nav-item" onclick="trocarModulo('produtos', this)">
         <span class="nav-icon">🪵</span>
-        <span>Estoque de Couros</span>
+        <span id="app-stock-menu">Estoque de Couros</span>
         <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
       </a>
 
@@ -920,10 +921,10 @@
     </nav>
 
     <div class="sidebar-footer">
-      <div class="user-avatar">MM</div>
+      <div class="user-avatar" id="app-user-initials">MM</div>
       <div class="user-info">
-        <div class="user-name">Marcos Machado</div>
-        <div class="user-role">Mis Sueños Couros & Peles</div>
+        <div class="user-name" id="app-user-name">Marcos Machado</div>
+        <div class="user-role" id="app-user-role">Mis Sueños Couros & Peles</div>
       </div>
     </div>
   </aside>
@@ -934,7 +935,7 @@
     <header class="erp-topbar">
       <div class="topbar-left">
         <div class="breadcrumbs">
-          <span>Mis Sueños ERP</span>
+          <span id="app-breadcrumb-name">Mis Sueños ERP</span>
           <span>/</span>
           <strong id="breadcrumb-modulo">Clientes & CRM</strong>
         </div>
@@ -966,13 +967,13 @@
         <div style="display: flex; align-items: center; gap: 10px;">
           <span style="font-size: 20px;">✅</span>
           <div>
-            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;" id="app-notice-title">BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;" id="app-notice-text">
               Todos os registros deste módulo são clientes e destinatários reais consolidados da Mis Sueños Couros & Peles.
             </div>
           </div>
         </div>
-        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;" id="app-notice-badge">
           ✅ DADOS 100% REAIS
         </span>
       </div>
@@ -1515,7 +1516,7 @@
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
       <section class="erp-table-card" style="padding: 24px; max-width: 800px;">
         <h3 style="color: #fff; font-size: 16px; margin-bottom: 6px;">⚙️ Configurações da Empresa Emitente</h3>
-        <p style="color: var(--text-muted); font-size: 12.5px; margin-bottom: 20px;">
+        <p style="color: var(--text-muted); font-size: 12.5px; margin-bottom: 20px;" id="app-config-company-name">
           Parâmetros fiscais e operacionais da <strong>Mis Sueños Couros & Peles</strong>.
         </p>
 
@@ -1523,11 +1524,11 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">Razão Social / Nome Fantasia</label>
-              <input type="text" class="form-input" value="MIS SUEÑOS COUROS & PELES" readonly>
+              <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" readonly>
             </div>
             <div class="form-group">
               <label class="form-label">Responsável Operacional</label>
-              <input type="text" class="form-input" value="Marcos Machado" readonly>
+              <input type="text" class="form-input" id="app-config-user-name" value="Marcos Machado" readonly>
             </div>
           </div>
 
@@ -1717,7 +1718,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalFiscal()">Fechar</button>
-        <button type="button" class="btn-top btn-emerald-glow" onclick="alert('NF-e processada com sucesso no ambiente de teste!')">🚀 Transmitir NF-e</button>
+        <button type="button" class="btn-top btn-emerald-glow" id="btn-transmitir-nfe" onclick="transmitirNfeModal()">🚀 Emitir & Transmitir NF-e</button>
       </div>
     </div>
   </div>
@@ -1930,6 +1931,11 @@
 
     function filtrarTabela(val) {
       buscaTexto = val;
+      const modCli = document.getElementById('modulo-clientes-conteudo');
+      if (modCli && modCli.style.display === 'none' && val.trim().length > 0) {
+        const navCli = document.querySelector('.sidebar-nav a:nth-child(3)');
+        trocarModulo('clientes', navCli);
+      }
       aplicarFiltros();
     }
 
@@ -2004,12 +2010,34 @@
       }).join('');
     }
 
+    let clienteAtualEditando = null;
+    let clienteFiscalSelecionado = null;
+
+    // Formatação e Validação amigável de Documento (CPF / CNPJ)
+    function formatarEValidarDoc(el) {
+      if (!el) return;
+      let v = el.value.replace(/\D/g, '');
+      if (v.length === 11) {
+        el.value = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        el.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+      } else if (v.length === 14) {
+        el.value = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+        el.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+      } else if (v.length > 0) {
+        el.style.borderColor = 'rgba(239, 68, 68, 0.6)';
+      } else {
+        el.style.borderColor = '';
+      }
+    }
+
     // Modal de Edição / Novo Cliente
     function abrirModalNovoCliente() {
+      clienteAtualEditando = null;
       document.getElementById('modal-cliente-icone').textContent = '➕';
       document.getElementById('modal-cliente-titulo').textContent = 'Novo Cliente';
       document.getElementById('form-cliente').reset();
       document.getElementById('form-id').value = '';
+      document.getElementById('form-doc').style.borderColor = '';
       document.getElementById('modal-cliente').classList.add('active');
       document.getElementById('form-nome').focus();
     }
@@ -2018,12 +2046,14 @@
       const cliente = clientes.find(c => String(c.id) === String(id));
       if (!cliente) return;
 
+      clienteAtualEditando = cliente;
       document.getElementById('modal-cliente-icone').textContent = '✏️';
       document.getElementById('modal-cliente-titulo').textContent = `Ficha: ${cliente.nome}`;
       document.getElementById('form-id').value = cliente.id || '';
       document.getElementById('form-nome').value = cliente.nome || '';
       document.getElementById('form-apelido').value = cliente.apelido_referencia || '';
       document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
+      formatarEValidarDoc(document.getElementById('form-doc'));
       document.getElementById('form-ie').value = cliente.ie || '';
       document.getElementById('form-telefone').value = cliente.telefone || '';
       document.getElementById('form-cep').value = cliente.cep || '';
@@ -2040,6 +2070,7 @@
 
     function fecharModalCliente() {
       document.getElementById('modal-cliente').classList.remove('active');
+      clienteAtualEditando = null;
     }
 
     // Salvar cliente via API ou localmente
@@ -2050,11 +2081,24 @@
       const docLimpo = doc.replace(/\D/g, '');
       const isCnpj = docLimpo.length > 11;
 
+      // Preserva razão social e outros documentos se estiver editando
+      let cpfFinal = !isCnpj ? doc : '';
+      let cnpjFinal = isCnpj ? doc : '';
+      let razaoSocialFinal = '';
+
+      if (id && clienteAtualEditando) {
+        razaoSocialFinal = clienteAtualEditando.razao_social || '';
+        // Se o cliente já tinha CNPJ e o usuário informou um CPF (ou vice-versa), preserva o complementar
+        if (!isCnpj && clienteAtualEditando.cnpj) cnpjFinal = clienteAtualEditando.cnpj;
+        if (isCnpj && clienteAtualEditando.cpf) cpfFinal = clienteAtualEditando.cpf;
+      }
+
       const payload = {
         nome: document.getElementById('form-nome').value.trim(),
         apelido_referencia: document.getElementById('form-apelido').value.trim(),
-        cpf: !isCnpj ? doc : '',
-        cnpj: isCnpj ? doc : '',
+        razao_social: razaoSocialFinal,
+        cpf: cpfFinal,
+        cnpj: cnpjFinal,
         ie: document.getElementById('form-ie').value.trim(),
         telefone: document.getElementById('form-telefone').value.trim(),
         cep: document.getElementById('form-cep').value.trim(),
@@ -2075,14 +2119,15 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (resp.ok) {
+          const resJson = await resp.json().catch(() => ({}));
+          if (resp.ok && resJson.success) {
             const idx = clientes.findIndex(c => c.id === parseInt(id));
             if (idx !== -1) {
-              clientes[idx] = { ...clientes[idx], ...payload };
+              clientes[idx] = { ...clientes[idx], ...payload, ...(resJson.cliente || {}) };
             }
             mostrarToast(`Cliente ${payload.nome} atualizado com sucesso!`);
           } else {
-            throw new Error('Falha na resposta da API');
+            throw new Error(resJson.error || 'Falha ao atualizar cliente no servidor');
           }
         } else {
           // Criação via POST
@@ -2091,16 +2136,17 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (resp.ok) {
-            const data = await resp.json();
-            const novoCliente = { id: data.id || Date.now(), ...payload };
+          const resJson = await resp.json().catch(() => ({}));
+          if (resp.ok && resJson.success) {
+            const novoCliente = { ...(resJson.cliente || payload), id: resJson.id || Date.now() };
             clientes.unshift(novoCliente);
             mostrarToast(`Cliente ${payload.nome} cadastrado com sucesso!`);
           } else {
-            throw new Error('Falha na criação');
+            throw new Error(resJson.error || 'Falha ao cadastrar cliente no servidor');
           }
         }
       } catch (err) {
+        console.warn('Aviso de persistência:', err.message);
         // Fallback local se estiver offline
         if (id) {
           const idx = clientes.findIndex(c => c.id === parseInt(id));
@@ -2108,7 +2154,7 @@
         } else {
           clientes.unshift({ id: Date.now(), ...payload });
         }
-        mostrarToast('Alteração salva em cache local!');
+        mostrarToast('Alteração salva localmente!');
       }
 
       fecharModalCliente();
@@ -2139,6 +2185,7 @@
     // Modal Fiscal (NF-e)
     function abrirModalFiscal(clienteId) {
       const cliente = clienteId ? clientes.find(c => String(c.id) === String(clienteId)) : null;
+      clienteFiscalSelecionado = cliente;
       if (cliente) {
         document.getElementById('fiscal-destinatario').value = cliente.nome || 'Cliente Selecionado';
         document.getElementById('fiscal-documento').value = cliente.cpf || cliente.cnpj || 'Pendente de documento';
@@ -2153,6 +2200,57 @@
 
     function fecharModalFiscal() {
       document.getElementById('modal-fiscal').classList.remove('active');
+      clienteFiscalSelecionado = null;
+    }
+
+    // Transmissão real do documento fiscal via API REST
+    async function transmitirNfeModal() {
+      if (!clienteFiscalSelecionado) {
+        alert('Selecione um cliente na tabela antes de transmitir a nota fiscal.');
+        return;
+      }
+      const valorStr = document.getElementById('fiscal-valor').value.replace(/\./g, '').replace(',', '.');
+      const valorNum = parseFloat(valorStr) || 0;
+      const itemDesc = document.getElementById('fiscal-item').value || 'PRODUTOS ARTESANAIS EM COURO';
+      const btn = document.getElementById('btn-transmitir-nfe');
+
+      try {
+        if (btn) btn.disabled = true;
+        mostrarToast('Processando documento fiscal no Portal Nacional...');
+
+        const resp = await fetch('/api/nfe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tipoNota: 'NFE_PRODUTO',
+            cliente: clienteFiscalSelecionado,
+            valores: { valorTotal: valorNum },
+            produtos: [{ descricao: itemDesc, valor: valorNum }]
+          })
+        });
+
+        const dados = await resp.json();
+        if (resp.ok && dados.success) {
+          mostrarToast(`NF-e #${dados.numeroNfe} gerada com sucesso!`);
+          if (dados.txtSefaz) {
+            const blob = new Blob([dados.txtSefaz], { type: 'text/plain;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `NFe_${dados.numeroNfe}_${clienteFiscalSelecionado.nome.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }
+          fecharModalFiscal();
+        } else {
+          alert('Erro ao emitir nota: ' + (dados.error || 'Falha no processamento fiscal'));
+        }
+      } catch (err) {
+        alert('Falha na comunicação fiscal: ' + err.message);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
     }
 
     // Exportação em formato CSV
@@ -2381,31 +2479,32 @@
       };
 
       try {
+        let resp;
         if (id) {
-          const resp = await fetch(`/api/produtos/${id}`, {
+          resp = await fetch(`/api/produtos/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (resp.ok) {
-            mostrarToast(`Produto "${payload.nome}" atualizado com sucesso!`);
-          }
         } else {
-          const resp = await fetch('/api/produtos', {
+          resp = await fetch('/api/produtos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (resp.ok) {
-            mostrarToast(`Produto "${payload.nome}" cadastrado no estoque!`);
-          }
+        }
+
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok && (data.success || data.id)) {
+          mostrarToast(`Produto "${payload.nome}" salvo com sucesso!`);
+          fecharModalProduto();
+          await carregarProdutosApi();
+        } else {
+          alert('Erro ao salvar produto: ' + (data.error || 'Falha ao salvar produto'));
         }
       } catch (err) {
-        mostrarToast('Alteração salva em modo local!');
+        alert('Falha de conexão ao salvar produto: ' + err.message);
       }
-
-      fecharModalProduto();
-      await carregarProdutosApi();
     }
 
     async function deletarProduto(id, nome) {
@@ -2607,7 +2706,59 @@
       renderTabelaFiscal();
     }
 
+    function aplicarConfiguracaoApp() {
+      const cfg = window.APP_CONFIG || {
+        appName: "ERP Gestor Pro | Gestão Integrada de Clientes & Fiscal",
+        shortName: "ERP Gestor",
+        tagline: "Gestão Integrada de Clientes & Fiscal",
+        companyName: "Empresa Gestora LTDA",
+        companyRazaoSocial: "EMPRESA GESTORA LTDA",
+        userName: "Administrador",
+        userRole: "Gestão & Administração",
+        userInitials: "ADM",
+        logoEmoji: "💼",
+        stockModuleName: "Estoque & Produtos",
+        breadcrumbName: "ERP Gestor",
+        dataNoticeTitle: "BASE DE CLIENTES & CRM",
+        dataNoticeText: "Cadastre clientes e destinatários para emitir pedidos e notas fiscais.",
+        dataNoticeBadge: "🟢 SISTEMA ATIVO"
+      };
+
+      if (document.title && cfg.appName) document.title = cfg.appName;
+      const brandIcon = document.getElementById('app-brand-icon');
+      if (brandIcon && cfg.logoEmoji) brandIcon.textContent = cfg.logoEmoji;
+      const shortName = document.getElementById('app-short-name');
+      if (shortName && cfg.shortName) shortName.textContent = cfg.shortName;
+      const tagline = document.getElementById('app-tagline');
+      if (tagline && cfg.tagline) tagline.textContent = cfg.tagline;
+      const stockMenu = document.getElementById('app-stock-menu');
+      if (stockMenu && cfg.stockModuleName) stockMenu.textContent = cfg.stockModuleName;
+      const userInitials = document.getElementById('app-user-initials');
+      if (userInitials && cfg.userInitials) userInitials.textContent = cfg.userInitials;
+      const userName = document.getElementById('app-user-name');
+      if (userName && cfg.userName) userName.textContent = cfg.userName;
+      const userRole = document.getElementById('app-user-role');
+      if (userRole && cfg.userRole) userRole.textContent = cfg.userRole;
+      const breadcrumb = document.getElementById('app-breadcrumb-name');
+      if (breadcrumb && cfg.breadcrumbName) breadcrumb.textContent = cfg.breadcrumbName;
+
+      const noticeTitle = document.getElementById('app-notice-title');
+      if (noticeTitle && cfg.dataNoticeTitle) noticeTitle.textContent = cfg.dataNoticeTitle;
+      const noticeText = document.getElementById('app-notice-text');
+      if (noticeText && cfg.dataNoticeText) noticeText.textContent = cfg.dataNoticeText;
+      const noticeBadge = document.getElementById('app-notice-badge');
+      if (noticeBadge && cfg.dataNoticeBadge) noticeBadge.textContent = cfg.dataNoticeBadge;
+
+      const configComp = document.getElementById('app-config-company-name');
+      if (configComp && cfg.companyName) configComp.innerHTML = `Parâmetros fiscais e operacionais da <strong>${cfg.companyName}</strong>.`;
+      const configRazao = document.getElementById('app-config-razao-social');
+      if (configRazao && cfg.companyRazaoSocial) configRazao.value = cfg.companyRazaoSocial;
+      const configUser = document.getElementById('app-config-user-name');
+      if (configUser && cfg.userName) configUser.value = cfg.userName;
+    }
+
     // Inicialização da tela
+    aplicarConfiguracaoApp();
     atualizarKpis();
     renderTabela();
     carregarDadosApi();

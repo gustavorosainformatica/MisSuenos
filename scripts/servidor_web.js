@@ -11,7 +11,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
-import handlerAnexos from '../api/anexos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,6 +20,45 @@ const BASE_DIR = path.join(__dirname, '..');
 const PUBLIC_DIR = path.join(BASE_DIR, 'public');
 const DB_DIR = path.join(BASE_DIR, 'database');
 const DB_PATH = path.join(DB_DIR, 'clientes.db');
+
+// Força a camada lib/db.js (usada por /api/anexos) a usar o MESMO SQLite local deste servidor,
+// evitando que anexos sejam gravados no Turso enquanto o restante fica no banco local.
+// Import dinâmico: a variável precisa existir ANTES de lib/db.js ser carregado.
+process.env.FORCAR_SQLITE_LOCAL = process.env.FORCAR_SQLITE_LOCAL || '1';
+const { default: handlerAnexos } = await import('../api/anexos.js');
+
+// Campos editáveis do cadastro de clientes
+const CAMPOS_CLIENTE = [
+  'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
+  'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes'
+];
+
+/** Escapa caracteres especiais para inserir texto com segurança em XML */
+function escXml(valor) {
+  return String(valor ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/** Remove o delimitador "|" e quebras de linha de campos do TXT da SEFAZ */
+function escTxt(valor) {
+  return String(valor ?? '').replace(/[|\r\n]/g, ' ').trim();
+}
+
+/** Monta o endereço completo formatado a partir dos campos do cliente */
+function montarEndereco(d) {
+  return [
+    d.logradouro,
+    d.numero ? `nº ${d.numero}` : '',
+    d.complemento ? `(${d.complemento})` : '',
+    d.bairro ? `- ${d.bairro}` : '',
+    d.cidade ? `- ${d.cidade}/${d.uf || ''}` : '',
+    d.cep ? `- CEP ${d.cep}` : ''
+  ].filter(Boolean).join(' ');
+}
 
 // Inicializa conexão SQLite e garante tabela de logs
 let db = null;
@@ -191,6 +229,20 @@ function responderJson(res, statusCode, data) {
 }
 
 const server = http.createServer(async (req, res) => {
+  try {
+    await tratarRequisicao(req, res);
+  } catch (err) {
+    // Rede de segurança: nenhuma requisição pode derrubar o servidor
+    console.error('[ERRO NÃO TRATADO NA REQUISIÇÃO]', req.method, req.url, err);
+    if (!res.headersSent) {
+      responderJson(res, 500, { error: 'Erro interno do servidor' });
+    } else {
+      res.end();
+    }
+  }
+});
+
+async function tratarRequisicao(req, res) {
   const url = new URL(req.url, `http://localhost:${PORT}`);
   const pathname = url.pathname;
   const method = req.method;
@@ -332,57 +384,64 @@ const server = http.createServer(async (req, res) => {
         const payload = await lerCorpoJson(req);
         const agora = new Date().toISOString();
 
-        if (db) {
-          const stmt = db.prepare(`
-            UPDATE produtos SET
-              codigo_sku = ?,
-              nome = ?,
-              categoria = ?,
-              unidade_medida = ?,
-              preco_custo = ?,
-              preco_venda = ?,
-              estoque_atual = ?,
-              estoque_minimo = ?,
-              descricao = ?,
-              data_atualizacao = ?
-            WHERE id = ?
-          `);
+        if (!db) return responderJson(res, 500, { error: 'Banco SQLite indisponível' });
 
-          stmt.run(
-            payload.codigo_sku,
-            payload.nome,
-            payload.categoria,
-            payload.unidade_medida || 'UN',
-            parseFloat(payload.preco_custo || 0),
-            parseFloat(payload.preco_venda || 0),
-            parseFloat(payload.estoque_atual || 0),
-            parseFloat(payload.estoque_minimo || 5),
-            payload.descricao || '',
-            agora,
-            idProd
-          );
+        // Valida existência e mescla com os valores atuais (campos não enviados são preservados)
+        const atual = db.prepare('SELECT * FROM produtos WHERE id = ?').get(idProd);
+        if (!atual) return responderJson(res, 404, { error: 'Produto não encontrado' });
 
-          registrarLog({
-            clienteId: null,
-            clienteNome: 'Estoque / Produtos',
-            tipoAcao: 'EDICAO_PRODUTO',
-            camposAlterados: ['produto_atualizado'],
-            detalhes: `Produto #${idProd} (${payload.nome}) atualizado`,
-            req
-          });
+        const valor = (campo, padrao) => (payload[campo] !== undefined && payload[campo] !== null && payload[campo] !== '') ? payload[campo] : (atual[campo] ?? padrao);
+        const num = (campo, padrao) => {
+          const n = parseFloat(valor(campo, padrao));
+          return Number.isFinite(n) ? n : padrao;
+        };
 
-          return responderJson(res, 200, { success: true, id: idProd });
-        }
+        const nome = String(valor('nome', '')).trim();
+        if (!nome) return responderJson(res, 400, { error: 'O nome do produto é obrigatório.' });
+
+        db.prepare(`
+          UPDATE produtos SET
+            codigo_sku = ?, nome = ?, categoria = ?, unidade_medida = ?,
+            preco_custo = ?, preco_venda = ?, estoque_atual = ?, estoque_minimo = ?,
+            descricao = ?, data_atualizacao = ?
+          WHERE id = ?
+        `).run(
+          String(valor('codigo_sku', atual.codigo_sku || `SKU-${idProd}`)).trim(),
+          nome,
+          String(valor('categoria', 'Outros')),
+          String(valor('unidade_medida', 'UN')),
+          num('preco_custo', 0),
+          num('preco_venda', 0),
+          num('estoque_atual', 0),
+          num('estoque_minimo', 5),
+          payload.descricao !== undefined ? String(payload.descricao ?? '') : (atual.descricao || ''),
+          agora,
+          idProd
+        );
+
+        registrarLog({
+          clienteId: null,
+          clienteNome: 'Estoque / Produtos',
+          tipoAcao: 'EDICAO_PRODUTO',
+          camposAlterados: ['produto_atualizado'],
+          detalhes: `Produto #${idProd} (${nome}) atualizado`,
+          req
+        });
+
+        return responderJson(res, 200, { success: true, id: idProd });
       } catch (e) {
         console.error('[ERRO PRODUTOS PUT]', e);
-        return responderJson(res, 500, { error: 'Falha ao atualizar produto: ' + e.message });
+        const status = /UNIQUE/i.test(e.message) ? 409 : 500;
+        const msg = status === 409 ? 'Já existe outro produto com este SKU.' : 'Falha ao atualizar produto: ' + e.message;
+        return responderJson(res, status, { error: msg });
       }
     }
 
     if (method === 'DELETE') {
       try {
         if (db) {
-          db.prepare('UPDATE produtos SET ativo = 0 WHERE id = ?').run(idProd);
+          const info = db.prepare('UPDATE produtos SET ativo = 0 WHERE id = ?').run(idProd);
+          if (!info.changes) return responderJson(res, 404, { error: 'Produto não encontrado' });
 
           registrarLog({
             clienteId: null,
@@ -453,36 +512,26 @@ const server = http.createServer(async (req, res) => {
         return responderJson(res, 404, { error: 'Cliente não encontrado' });
       }
 
-      // Identifica quais campos mudaram
-      const camposAlterados = [];
-      const camposMonitorados = [
-        'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
-        'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes'
-      ];
-      camposMonitorados.forEach(c => {
-        const valAntigo = (clienteAntigo[c] || '').toString().trim();
-        const valNovo = (payload[c] || '').toString().trim();
-        if (valAntigo !== valNovo) {
-          camposAlterados.push(c);
-        }
+      // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
+      // Isso evita apagar dados (ex.: CNPJ / razão social) quando o formulário não envia o campo.
+      const dados = {};
+      CAMPOS_CLIENTE.forEach(c => {
+        dados[c] = Object.prototype.hasOwnProperty.call(payload, c)
+          ? String(payload[c] ?? '').trim()
+          : String(clienteAntigo[c] ?? '').trim();
       });
+      dados.uf = dados.uf.toUpperCase();
 
-      // Limpeza de campos
-      const cpfLimpo = (payload.cpf || '').replace(/\D/g, '');
-      const cnpjLimpo = (payload.cnpj || '').replace(/\D/g, '');
-      const telefoneLimpo = (payload.telefone || '').replace(/\D/g, '');
-      const cepLimpo = (payload.cep || '').replace(/\D/g, '');
+      if (!dados.nome) {
+        return responderJson(res, 400, { error: 'O nome do cliente é obrigatório.' });
+      }
 
-      // Constrói endereço completo formatado
-      const partesEnd = [
-        payload.logradouro,
-        payload.numero ? `nº ${payload.numero}` : '',
-        payload.complemento ? `(${payload.complemento})` : '',
-        payload.bairro ? `- ${payload.bairro}` : '',
-        payload.cidade ? `- ${payload.cidade}/${payload.uf || ''}` : '',
-        payload.cep ? `- CEP ${payload.cep}` : ''
-      ].filter(Boolean);
-      const enderecoFormatado = partesEnd.join(' ') || payload.endereco_completo || '';
+      // Identifica quais campos mudaram
+      const camposAlterados = CAMPOS_CLIENTE.filter(c =>
+        String(clienteAntigo[c] ?? '').trim() !== dados[c]
+      );
+
+      const enderecoFormatado = montarEndereco(dados) || clienteAntigo.endereco_completo || '';
 
       const stmt = db.prepare(`
         UPDATE clientes SET
@@ -510,26 +559,26 @@ const server = http.createServer(async (req, res) => {
       `);
 
       stmt.run(
-        payload.nome || '',
-        payload.apelido_referencia || '',
-        payload.razao_social || '',
-        payload.cpf || '',
-        cpfLimpo,
-        payload.cnpj || '',
-        cnpjLimpo,
-        payload.ie || '',
-        payload.telefone || '',
-        telefoneLimpo,
-        payload.logradouro || '',
-        payload.numero || '',
-        payload.complemento || '',
-        payload.bairro || '',
-        payload.cidade || '',
-        (payload.uf || '').toUpperCase(),
-        payload.cep || '',
-        cepLimpo,
+        dados.nome,
+        dados.apelido_referencia,
+        dados.razao_social,
+        dados.cpf,
+        dados.cpf.replace(/\D/g, ''),
+        dados.cnpj,
+        dados.cnpj.replace(/\D/g, ''),
+        dados.ie,
+        dados.telefone,
+        dados.telefone.replace(/\D/g, ''),
+        dados.logradouro,
+        dados.numero,
+        dados.complemento,
+        dados.bairro,
+        dados.cidade,
+        dados.uf,
+        dados.cep,
+        dados.cep.replace(/\D/g, ''),
         enderecoFormatado,
-        payload.observacoes || '',
+        dados.observacoes,
         id
       );
 
@@ -705,35 +754,35 @@ const server = http.createServer(async (req, res) => {
     <tpEmit>1</tpEmit>
     <prest>
       <CNPJ>${(emitente?.cnpj || '00000000000191').replace(/\D/g, '')}</CNPJ>
-      <xNome>${emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES'}</xNome>
+      <xNome>${escXml(emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES')}</xNome>
       <end>
-        <xLgr>${emitente?.logradouro || 'Rua das Indústrias'}</xLgr>
-        <nro>${emitente?.numero || '100'}</nro>
-        <xBairro>${emitente?.bairro || 'Centro'}</xBairro>
+        <xLgr>${escXml(emitente?.logradouro || 'Rua das Indústrias')}</xLgr>
+        <nro>${escXml(emitente?.numero || '100')}</nro>
+        <xBairro>${escXml(emitente?.bairro || 'Centro')}</xBairro>
         <cMun>4314902</cMun>
-        <UF>${emitente?.uf || 'RS'}</UF>
+        <UF>${escXml(emitente?.uf || 'RS')}</UF>
         <CEP>${(emitente?.cep || '90000000').replace(/\D/g, '')}</CEP>
       </end>
     </prest>
     <toma>
       <${tipoDocTomador}>${docTomador}</${tipoDocTomador}>
-      <xNome>${cliente.nome}</xNome>
+      <xNome>${escXml(cliente.nome)}</xNome>
       <end>
-        <xLgr>${cliente.logradouro || ''}</xLgr>
-        <nro>${cliente.numero || 'S/N'}</nro>
-        <xBairro>${cliente.bairro || ''}</xBairro>
-        <cMun>${cliente.codigoIbge || '4314902'}</cMun>
-        <xMun>${cliente.cidade || ''}</xMun>
-        <UF>${cliente.uf || 'RS'}</UF>
+        <xLgr>${escXml(cliente.logradouro || '')}</xLgr>
+        <nro>${escXml(cliente.numero || 'S/N')}</nro>
+        <xBairro>${escXml(cliente.bairro || '')}</xBairro>
+        <cMun>${escXml(cliente.codigoIbge || '4314902')}</cMun>
+        <xMun>${escXml(cliente.cidade || '')}</xMun>
+        <UF>${escXml(cliente.uf || 'RS')}</UF>
         <CEP>${(cliente.cep || '').replace(/\D/g, '')}</CEP>
       </end>
       <fone>${(cliente.telefone || '').replace(/\D/g, '')}</fone>
     </toma>
     <serv>
       <cLocPrestacao>4314902</cLocPrestacao>
-      <cTribNac>${codigoTributacao}</cTribNac>
+      <cTribNac>${escXml(codigoTributacao)}</cTribNac>
       <CNAE>${cnae.replace(/\D/g, '')}</CNAE>
-      <xDescServ>${discriminacao}</xDescServ>
+      <xDescServ>${escXml(discriminacao)}</xDescServ>
     </serv>
     <valores>
       <vServPrest>${valorServico.toFixed(2)}</vServPrest>
@@ -783,7 +832,7 @@ const server = http.createServer(async (req, res) => {
         const valorProdutos = parseFloat(valores?.valorTotal || 0);
         const numeroNfe = Math.floor(1000 + Math.random() * 9000);
         const serieNfe = '1';
-        const emitNome = emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES';
+        const emitNome = escTxt(emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES');
         const emitCnpj = (emitente?.cnpj || '00000000000191').replace(/\D/g, '');
 
         const txtSefaz = [
@@ -792,9 +841,9 @@ const server = http.createServer(async (req, res) => {
           `B|43|${numeroNfe}|Venda de Mercadorias (Couros e Loncas)|0|55|${serieNfe}|${numeroNfe}|${agora.toISOString().slice(0, 10)}||1|1|4314902|1|1||1|1|3|1|0|0|||`,
           `C|${emitNome}|${emitNome}|||||3|`,
           `C02|${emitCnpj}|`,
-          `E|${cliente.nome}|9|||||`,
+          `E|${escTxt(cliente.nome)}|9|||||`,
           `E02|${(cliente.cpf || cliente.cnpj || '').replace(/\D/g, '')}|`,
-          `E05|${cliente.logradouro || ''}|${cliente.numero || 'S/N'}|${cliente.complemento || ''}|${cliente.bairro || ''}|4314902|${cliente.cidade || ''}|${cliente.uf || 'RS'}|${(cliente.cep || '').replace(/\D/g, '')}|1058|BRASIL||`,
+          `E05|${escTxt(cliente.logradouro)}|${escTxt(cliente.numero || 'S/N')}|${escTxt(cliente.complemento)}|${escTxt(cliente.bairro)}|4314902|${escTxt(cliente.cidade)}|${escTxt(cliente.uf || 'RS')}|${(cliente.cep || '').replace(/\D/g, '')}|1058|BRASIL||`,
           `W|`,
           `W02|0.00|0.00|0.00|0.00|${valorProdutos.toFixed(2)}|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|${valorProdutos.toFixed(2)}|`
         ].join('\r\n');
@@ -864,11 +913,41 @@ const server = http.createServer(async (req, res) => {
 
 
   // ====================================================================
-  // SERVIR ARQUIVOS ESTÁTICOS DA PASTA PUBLIC
+  // SERVIR ARQUIVOS ESTÁTICOS DA PASTA PUBLIC (com proteção a diretórios)
   // ====================================================================
-  let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
+  if (pathname.startsWith('/api/')) {
+    return responderJson(res, 404, { error: 'Rota da API não encontrada' });
+  }
 
-  if (!fs.existsSync(filePath)) {
+  let relativo;
+  try {
+    relativo = decodeURIComponent(pathname);
+  } catch {
+    res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Requisição inválida');
+  }
+
+  let filePath = path.normalize(path.join(PUBLIC_DIR, relativo));
+
+  // Bloqueia qualquer tentativa de sair da pasta public (path traversal)
+  if (filePath !== PUBLIC_DIR && !filePath.startsWith(PUBLIC_DIR + path.sep)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end('Acesso negado');
+  }
+
+  let stat = null;
+  try {
+    stat = fs.statSync(filePath);
+    // Diretório: tenta servir o index.html dele (ex.: "/"), senão 404 — antes derrubava o servidor (EISDIR)
+    if (stat.isDirectory()) {
+      filePath = path.join(filePath, 'index.html');
+      stat = fs.statSync(filePath);
+    }
+  } catch {
+    stat = null;
+  }
+
+  if (!stat || !stat.isFile()) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     return res.end('Página não encontrada');
   }
@@ -889,9 +968,26 @@ const server = http.createServer(async (req, res) => {
   };
 
   const contentType = mimeTypes[ext] || 'application/octet-stream';
+  const stream = fs.createReadStream(filePath);
+  stream.on('error', (err) => {
+    console.error('[ERRO ARQUIVO ESTÁTICO]', filePath, err.message);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+    }
+    res.end('Erro ao ler arquivo');
+  });
   res.writeHead(200, { 'Content-Type': contentType });
-  fs.createReadStream(filePath).pipe(res);
+  stream.pipe(res);
+}
+
+// Loga erros inesperados sem encerrar o processo silenciosamente
+process.on('unhandledRejection', (motivo) => {
+  console.error('[PROMISE REJEITADA SEM TRATAMENTO]', motivo);
 });
+
+// Regenera o cache offline (dados_clientes.js, JSON e CSV) a partir do banco na inicialização,
+// garantindo que os registros tenham o campo "id" usado pelos botões Editar / Nota.
+sincronizarArquivosSecundarios();
 
 server.listen(PORT, () => {
   console.log(`\n======================================================================`);

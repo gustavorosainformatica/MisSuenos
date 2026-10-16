@@ -111,32 +111,37 @@ export default async function handler(req, res) {
         return responder(res, 404, { error: 'Cliente não encontrado' });
       }
 
-      // Campos alterados
-      const camposAlterados = [];
+      // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
       const monitorados = [
         'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
         'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes'
       ];
+      const dados = {};
       monitorados.forEach(c => {
-        const vAntigo = (clienteAntigo[c] || '').toString().trim();
-        const vNovo = (payload[c] || '').toString().trim();
-        if (vAntigo !== vNovo) camposAlterados.push(c);
+        dados[c] = Object.prototype.hasOwnProperty.call(payload, c)
+          ? String(payload[c] ?? '').trim()
+          : String(clienteAntigo[c] ?? '').trim();
       });
+      dados.uf = dados.uf.toUpperCase();
 
-      const cpfLimpo = (payload.cpf || '').replace(/\D/g, '');
-      const cnpjLimpo = (payload.cnpj || '').replace(/\D/g, '');
-      const telefoneLimpo = (payload.telefone || '').replace(/\D/g, '');
-      const cepLimpo = (payload.cep || '').replace(/\D/g, '');
+      if (!dados.nome) {
+        return responder(res, 400, { error: 'O nome do cliente é obrigatório.' });
+      }
+
+      // Identifica quais campos mudaram
+      const camposAlterados = monitorados.filter(c =>
+        String(clienteAntigo[c] ?? '').trim() !== dados[c]
+      );
 
       const partesEnd = [
-        payload.logradouro,
-        payload.numero ? `nº ${payload.numero}` : '',
-        payload.complemento ? `(${payload.complemento})` : '',
-        payload.bairro ? `- ${payload.bairro}` : '',
-        payload.cidade ? `- ${payload.cidade}/${payload.uf || ''}` : '',
-        payload.cep ? `- CEP ${payload.cep}` : ''
+        dados.logradouro,
+        dados.numero ? `nº ${dados.numero}` : '',
+        dados.complemento ? `(${dados.complemento})` : '',
+        dados.bairro ? `- ${dados.bairro}` : '',
+        dados.cidade ? `- ${dados.cidade}/${dados.uf || ''}` : '',
+        dados.cep ? `- CEP ${dados.cep}` : ''
       ].filter(Boolean);
-      const enderecoFormatado = partesEnd.join(' ') || payload.endereco_completo || '';
+      const enderecoFormatado = partesEnd.join(' ') || clienteAntigo.endereco_completo || '';
 
       const sqlUpdate = `
         UPDATE clientes SET
@@ -164,26 +169,26 @@ export default async function handler(req, res) {
       `;
 
       await run(sqlUpdate, [
-        payload.nome || '',
-        payload.apelido_referencia || '',
-        payload.razao_social || '',
-        payload.cpf || '',
-        cpfLimpo,
-        payload.cnpj || '',
-        cnpjLimpo,
-        payload.ie || '',
-        payload.telefone || '',
-        telefoneLimpo,
-        payload.logradouro || '',
-        payload.numero || '',
-        payload.complemento || '',
-        payload.bairro || '',
-        payload.cidade || '',
-        (payload.uf || '').toUpperCase(),
-        payload.cep || '',
-        cepLimpo,
+        dados.nome,
+        dados.apelido_referencia,
+        dados.razao_social,
+        dados.cpf,
+        dados.cpf.replace(/\D/g, ''),
+        dados.cnpj,
+        dados.cnpj.replace(/\D/g, ''),
+        dados.ie,
+        dados.telefone,
+        dados.telefone.replace(/\D/g, ''),
+        dados.logradouro,
+        dados.numero,
+        dados.complemento,
+        dados.bairro,
+        dados.cidade,
+        dados.uf,
+        dados.cep,
+        dados.cep.replace(/\D/g, ''),
         enderecoFormatado,
-        payload.observacoes || '',
+        dados.observacoes,
         id
       ]);
 
