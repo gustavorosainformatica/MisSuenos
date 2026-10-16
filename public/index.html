@@ -13,6 +13,7 @@
   <!-- Suporte offline imediato e White-Label -->
   <script src="app-config.js"></script>
   <script src="dados_clientes.js"></script>
+  <script src="mapa_interativo.js"></script>
   <style>
     :root {
       --bg-app: #070a10;
@@ -866,6 +867,425 @@
       to { transform: translateX(0); opacity: 1; }
     }
 
+    /* ESTILOS DO MAPA DE CALOR INTERATIVO DO BRASIL */
+    .mapa-section {
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .mapa-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .mapa-header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mapa-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .mapa-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #38bdf8;
+      background: rgba(14, 165, 233, 0.12);
+      border: 1px solid rgba(14, 165, 233, 0.25);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #00d4ff;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #00d4ff;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .mapa-grid {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .mapa-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mapa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mapa-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .mapa-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-main);
+    }
+
+    .mapa-instrucao {
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    .mapa-svg-wrapper {
+      width: 100%;
+      height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(18, 24, 38, 0.8) 0%, rgba(11, 15, 23, 0.95) 100%);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 10px;
+    }
+
+    .mapa-svg-wrapper svg {
+      width: 100%;
+      height: 100%;
+      max-height: 460px;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+    }
+
+    .estado-path {
+      cursor: pointer;
+      transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease, stroke-width 0.25s ease;
+    }
+
+    .mapa-legenda {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .legenda-titulo {
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .legenda-itens {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .legenda-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+    }
+
+    .legenda-cor {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .cor-zero { background: rgba(255, 255, 255, 0.05); }
+    .cor-nivel1 { background: #0891b2; box-shadow: 0 0 6px rgba(8, 145, 178, 0.6); }
+    .cor-nivel2 { background: #0284c7; box-shadow: 0 0 6px rgba(2, 132, 199, 0.6); }
+    .cor-nivel3 { background: #059669; box-shadow: 0 0 6px rgba(5, 150, 105, 0.6); }
+    .cor-nivel4 { background: #d97706; box-shadow: 0 0 6px rgba(217, 119, 6, 0.6); }
+    .cor-nivel5 { background: #e11d48; box-shadow: 0 0 8px rgba(225, 29, 72, 0.8); }
+
+    .mapa-lateral {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lateral-card {
+      padding: 16px 18px;
+    }
+
+    .lateral-badge {
+      font-size: 10px;
+      color: var(--text-faint);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .ranking-scroll {
+      max-height: 290px;
+      overflow-y: auto;
+      padding-right: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ranking-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .ranking-scroll::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+    }
+    .ranking-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+
+    .ranking-item {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ranking-item:hover {
+      background: rgba(0, 212, 255, 0.08);
+      border-color: rgba(0, 212, 255, 0.4);
+      transform: translateX(3px);
+    }
+
+    .ranking-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .ranking-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ranking-pos {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-faint);
+      width: 20px;
+    }
+
+    .ranking-uf {
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(0, 212, 255, 0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    .ranking-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ranking-count {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .ranking-pct {
+      font-size: 10px;
+      color: var(--text-faint);
+    }
+
+    .ranking-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .ranking-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .regioes-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .regiao-pill {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 120px;
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    .regiao-pill:hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .regiao-nome {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .regiao-count {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Tooltip Flutuante do Mapa */
+    .mapa-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      border-radius: 10px;
+      padding: 12px 14px;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 212, 255, 0.25);
+      z-index: 10000;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      transform: translateY(4px);
+      min-width: 190px;
+      max-width: 270px;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .mapa-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tooltip-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tooltip-uf-badge {
+      background: #00d4ff;
+      color: #04101f;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tooltip-nome {
+      font-weight: 700;
+      font-size: 13px;
+      color: #ffffff;
+    }
+
+    .tooltip-metric {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .tooltip-count {
+      font-size: 20px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .tooltip-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .tooltip-cidades {
+      font-size: 11px;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 6px;
+      padding: 6px 8px;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .tooltip-cidades strong {
+      color: #f8fafc;
+    }
+
+    .tooltip-action {
+      font-size: 10px;
+      color: #38bdf8;
+      margin-top: 8px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
     /* RESPONSIVIDADE */
     @media (max-width: 1024px) {
       .erp-kpi-grid {
@@ -909,10 +1329,15 @@
         <span class="nav-icon">📊</span>
         <span>Painel Geral</span>
       </a>
-      <a class="nav-item active" onclick="trocarModulo('clientes', this)">
+      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)">
         <span class="nav-icon">👥</span>
         <span>Clientes & CRM</span>
         <span class="nav-badge" id="nav-total-clientes" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">1.140 Reais</span>
+      </a>
+      <a class="nav-item" id="nav-item-mapa" onclick="trocarModulo('mapa', this)">
+        <span class="nav-icon">🗺️</span>
+        <span>Mapa de Clientes</span>
+        <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35);">27 UFs</span>
       </a>
 
       <div class="nav-section-title">Comercial & Estoque</div>
@@ -1025,15 +1450,15 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir o Mapa de Calor do Brasil">
           <div class="kpi-top-row">
             <span class="kpi-label">Estados Atendidos</span>
             <div class="kpi-icon-pill">🇧🇷</div>
           </div>
           <div class="kpi-number" id="kpi-ufs">14 UFs</div>
           <div class="kpi-trend">
-            <span>Envio Rápido</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Para todo o Brasil</span>
+            <span style="color: var(--primary);">→ Ver Mapa de Calor</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Brasil Interativo)</span>
           </div>
         </div>
 
@@ -1060,6 +1485,7 @@
           <button class="erp-filter-chip" onclick="filtrarPorUf('SC', this)">SC (85)</button>
           <button class="erp-filter-chip" onclick="filtrarPorUf('MT', this)">MT (33)</button>
           <button class="erp-filter-chip" onclick="filtrarPorUf('MS', this)">MS (41)</button>
+          <button class="erp-filter-chip" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);">🗺️ Ver no Mapa</button>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -1112,6 +1538,75 @@
             <button class="btn-page" id="btn-ant" onclick="mudarPagina(-1)" disabled>◀ Anterior</button>
             <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; padding: 0 8px;" id="pag-atual">1</span>
             <button class="btn-page" id="btn-prox" onclick="mudarPagina(1)">Próximo ▶</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- MÓDULO MAPA DE CALOR INTERATIVO DO BRASIL -->
+    <main class="erp-content" id="modulo-mapa-conteudo" style="display: none; flex-direction: column; gap: 20px;">
+      <section class="mapa-section" id="mapa-calor-section">
+        <div class="mapa-header">
+          <div class="mapa-header-title">
+            <div class="mapa-icon">🗺️</div>
+            <div>
+              <h2 style="font-size: 18px; font-weight: 700; color: #fff;">Distribuição Geográfica & Mapa de Calor por Estado</h2>
+              <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+                Densidade territorial de clientes cadastrados em todo o Brasil (clique em qualquer estado no mapa ou no ranking para filtrar a carteira)
+              </p>
+            </div>
+          </div>
+          <div class="mapa-header-badge">
+            <span class="live-dot"></span> 27 Unidades Federativas Mapeadas
+          </div>
+        </div>
+
+        <div class="mapa-grid">
+          <!-- Coluna da Esquerda: Mapa Interativo do Brasil -->
+          <div class="mapa-card">
+            <div class="mapa-card-header">
+              <span class="mapa-card-title">Mapa de Densidade Territorial</span>
+              <span class="mapa-instrucao">💡 Passe o mouse para detalhes ou clique no estado para filtrar</span>
+            </div>
+            <div class="mapa-svg-wrapper" id="mapa-svg-wrapper">
+              <!-- SVG do Brasil injetado via mapa_interativo.js -->
+            </div>
+            <!-- Legenda de Calor -->
+            <div class="mapa-legenda">
+              <span class="legenda-titulo">Intensidade:</span>
+              <div class="legenda-itens">
+                <div class="legenda-item"><span class="legenda-cor cor-zero"></span> 0</div>
+                <div class="legenda-item"><span class="legenda-cor cor-nivel1"></span> 1 - 5</div>
+                <div class="legenda-item"><span class="legenda-cor cor-nivel2"></span> 6 - 20</div>
+                <div class="legenda-item"><span class="legenda-cor cor-nivel3"></span> 21 - 60</div>
+                <div class="legenda-item"><span class="legenda-cor cor-nivel4"></span> 61 - 150</div>
+                <div class="legenda-item"><span class="legenda-cor cor-nivel5"></span> 150+ (RS: 693)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna da Direita: Ranking de Estados & Resumo de Regiões -->
+          <div class="mapa-lateral">
+            <!-- Card de Ranking -->
+            <div class="mapa-card lateral-card">
+              <div class="mapa-card-header">
+                <span class="mapa-card-title">🏆 Ranking dos Estados</span>
+                <span class="lateral-badge">Por volume de clientes</span>
+              </div>
+              <div class="ranking-scroll" id="ranking-estados-lista">
+                <!-- Injetado dinamicamente via mapa_interativo.js -->
+              </div>
+            </div>
+
+            <!-- Card de Regiões do Brasil -->
+            <div class="mapa-card lateral-card regiao-card">
+              <div class="mapa-card-header">
+                <span class="mapa-card-title">🇧🇷 Clientes por Macrorregião</span>
+              </div>
+              <div class="regioes-grid" id="regioes-resumo">
+                <!-- Injetado dinamicamente via mapa_interativo.js -->
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1529,6 +2024,9 @@
           <button class="btn-top btn-row-action" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
             🪵 Consultar Estoque de Couros
           </button>
+          <button class="btn-top btn-row-action" style="padding: 14px; justify-content: center; font-size: 13px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+            🗺️ Visualizar Mapa de Clientes (Calor)
+          </button>
         </div>
       </section>
     </main>
@@ -1897,8 +2395,32 @@
         document.getElementById('modulo-painel-conteudo').style.display = 'flex';
       } else if (modulo === 'configuracoes') {
         document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
+      } else if (modulo === 'mapa') {
+        document.getElementById('modulo-mapa-conteudo').style.display = 'flex';
+        if (typeof renderizarMapaCalor === 'function') {
+          renderizarMapaCalor(clientes);
+        }
       }
     }
+
+    // Filtrar estado a partir do clique no Mapa de Calor ou Ranking
+    function setUfFilter(uf) {
+      const navCli = document.getElementById('nav-item-clientes');
+      trocarModulo('clientes', navCli);
+      const chips = document.querySelectorAll('.toolbar-filters .erp-filter-chip');
+      let achou = false;
+      chips.forEach(b => {
+        if (b.textContent.trim().startsWith(uf)) {
+          filtrarPorUf(uf, b);
+          achou = true;
+        }
+      });
+      if (!achou) {
+        filtrarPorUf(uf);
+      }
+      toast(`📍 Filtrando clientes de ${uf}`);
+    }
+    window.setUfFilter = setUfFilter;
 
     // Atualização de métricas e KPIs
     function atualizarKpis() {
@@ -1918,6 +2440,11 @@
       const cnpjs = clientes.filter(c => c.cnpj && c.cnpj.trim()).length;
       document.getElementById('kpi-docs').textContent = (cpfs + cnpjs).toLocaleString('pt-BR');
       document.getElementById('kpi-docs-detalhe').textContent = `${cpfs} CPFs · ${cnpjs} CNPJs`;
+
+      // Atualiza o mapa de calor se disponível
+      if (typeof renderizarMapaCalor === 'function') {
+        renderizarMapaCalor(clientes);
+      }
     }
 
     // Filtros combinados
