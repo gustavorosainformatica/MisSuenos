@@ -1304,6 +1304,270 @@
         left: 0;
       }
     }
+
+    /* MODAL E VISUALIZADOR DE ETIQUETAS DE ENVIO */
+    .etiqueta-modal-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 860px) {
+      .etiqueta-modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .etiqueta-config-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .etiqueta-preview-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #06090e;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      overflow-y: auto;
+      max-height: 72vh;
+    }
+
+    /* ETIQUETA FÍSICA (LAYOUT REALISTA DE PAPEL / POSTAL) */
+    .etiqueta-fisica {
+      background: #ffffff !important;
+      color: #000000 !important;
+      font-family: 'Plus Jakarta Sans', Arial, Helvetica, sans-serif;
+      border: 2px solid #000;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      box-sizing: border-box;
+      position: relative;
+      text-align: left;
+    }
+    .etiqueta-fisica.formato-termica {
+      width: 100mm;
+      min-height: 150mm;
+      padding: 8mm;
+      margin: 0 auto;
+    }
+    .etiqueta-fisica.formato-a4 {
+      width: 130mm;
+      min-height: 180mm;
+      padding: 10mm;
+      margin: 0 auto;
+    }
+    .etq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+    .etq-brand-title {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+      color: #000;
+    }
+    .etq-brand-sub {
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #333;
+      letter-spacing: 0.8px;
+    }
+    .etq-service-badge {
+      font-size: 10px;
+      font-weight: 900;
+      border: 2px solid #000;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-align: center;
+      text-transform: uppercase;
+      background: #f8fafc;
+      color: #000;
+      max-width: 160px;
+      line-height: 1.2;
+    }
+    .etq-block {
+      margin-bottom: 8px;
+    }
+    .etq-block-label {
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #555;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 2px;
+      margin-bottom: 4px;
+    }
+    .etq-destinatario {
+      border: 2px solid #000;
+      padding: 8px 10px;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .etq-dest-nome {
+      font-size: 13.5px;
+      font-weight: 900;
+      color: #000;
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+    .etq-dest-loja {
+      font-size: 11px;
+      font-weight: 700;
+      color: #444;
+      margin-bottom: 3px;
+    }
+    .etq-dest-endereco, .etq-dest-compl, .etq-dest-bairro {
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #111;
+    }
+    .etq-dest-cidade-uf {
+      font-size: 13px;
+      font-weight: 800;
+      color: #000;
+      margin-top: 4px;
+    }
+    .etq-cep-section {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #666;
+      text-align: center;
+    }
+    .etq-cep-number {
+      font-family: 'JetBrains Mono', Courier, monospace;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: #000;
+      margin-bottom: 3px;
+    }
+    .etq-barcode-wrapper {
+      width: 100%;
+      max-width: 290px;
+      margin: 0 auto;
+    }
+    .etq-doc-tel-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #333;
+      margin-top: 6px;
+      border-top: 1px solid #eee;
+      padding-top: 4px;
+    }
+    .etq-divider {
+      border-top: 1px dashed #888;
+      text-align: center;
+      margin: 8px 0;
+      position: relative;
+    }
+    .etq-divider span {
+      font-size: 8px;
+      font-weight: 700;
+      color: #777;
+      background: #fff;
+      padding: 0 6px;
+      position: relative;
+      top: -6px;
+    }
+    .etq-remetente {
+      font-size: 10.5px;
+      line-height: 1.3;
+      color: #222;
+      border: 1px solid #999;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: #fcfcfc;
+    }
+    .etq-rem-nome {
+      font-weight: 800;
+      color: #000;
+    }
+    .etq-rem-cep-tel {
+      margin-top: 2px;
+      font-size: 10px;
+    }
+    .etq-declaracao-conteudo {
+      margin-top: 8px;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 10px;
+      background: #fdfdfd;
+      color: #111;
+    }
+    .etq-decl-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+
+    /* ESTILOS DE IMPRESSÃO LIMPOS (@MEDIA PRINT) */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .erp-sidebar, .erp-topbar, .erp-content, .toast-container,
+      .modal-overlay:not(#modal-etiqueta),
+      #modal-etiqueta .modal-header,
+      #modal-etiqueta .modal-footer,
+      #modal-etiqueta .etiqueta-config-panel,
+      #modal-etiqueta .etiqueta-preview-wrapper > div:first-child {
+        display: none !important;
+      }
+      #modal-etiqueta {
+        position: static !important;
+        display: block !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      #modal-etiqueta .modal-container {
+        max-width: 100% !important;
+        width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      #modal-etiqueta .modal-body {
+        padding: 0 !important;
+      }
+      .etiqueta-modal-grid {
+        display: block !important;
+      }
+      .etiqueta-preview-wrapper {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        max-height: none !important;
+      }
+      .etiqueta-fisica {
+        box-shadow: none !important;
+        border: 2px solid #000 !important;
+        page-break-inside: avoid !important;
+      }
+      .etiqueta-fisica.formato-termica {
+        width: 100mm !important;
+        min-height: 145mm !important;
+        margin: 0 !important;
+        padding: 6mm !important;
+      }
+      .etiqueta-fisica.formato-a4 {
+        width: 130mm !important;
+        min-height: 180mm !important;
+        margin: 10mm auto !important;
+        padding: 8mm !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1521,7 +1785,7 @@
                 <th>Cidade</th>
                 <th style="width: 60px;">UF</th>
                 <th>Telefone / WhatsApp</th>
-                <th style="text-align: right; width: 160px;">Ações Rápidas</th>
+                <th style="text-align: right; width: 235px;">Ações Rápidas</th>
               </tr>
             </thead>
             <tbody id="erp-table-body">
@@ -1733,18 +1997,19 @@
     <!-- MÓDULO DE VENDAS & PEDIDOS (ERP) -->
     <main class="erp-content" id="modulo-pedidos-conteudo" style="display: none;">
       <!-- ALERTA DE DADOS FICTÍCIOS / SIMULAÇÃO -->
-      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <!-- INFORMATIVO DE BASE DE PEDIDOS REAL -->
+      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">🧪</span>
+          <span style="font-size: 20px;">📦</span>
           <div>
-            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">MÓDULO COM DADOS FICTÍCIOS / TESTE DE DEMONSTRAÇÃO</div>
+            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">MÓDULO DE VENDAS & EXPEDIÇÃO (BANCO DE DADOS ATIVO)</div>
             <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
-              Todos os 24 pedidos, valores de venda e indicadores abaixo são dados fictícios/simulados para teste da interface e validação do fluxo do ERP.
+              Gestão de pedidos reais com gravação no banco de dados (SQLite / Turso Cloud), rastreio e emissão direta de etiquetas de envio.
             </div>
           </div>
         </div>
-        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
-          🧪 SIMULAÇÃO ATIVA
+        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
+          ✅ BANCO CONECTADO
         </span>
       </div>
 
@@ -1752,49 +2017,49 @@
       <section class="erp-kpi-grid">
         <div class="erp-kpi-card">
           <div class="kpi-top-row">
-            <span class="kpi-label">Faturamento do Mês <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Faturamento Total <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
             <div class="kpi-icon-pill">💵</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-total-valor">R$ 18.450,00</div>
+          <div class="kpi-number" id="kpi-pedidos-total-valor">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">Simulação Fictícia</span>
-            <span style="color: var(--text-muted); font-weight: normal;">de faturamento</span>
+            <span style="color: #34d399;">Base Real</span>
+            <span style="color: var(--text-muted); font-weight: normal;">pedidos no banco</span>
           </div>
         </div>
 
         <div class="erp-kpi-card">
           <div class="kpi-top-row">
-            <span class="kpi-label">Volume de Pedidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Volume de Pedidos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
             <div class="kpi-icon-pill">📦</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-qtd">24 Pedidos</div>
+          <div class="kpi-number" id="kpi-pedidos-qtd">0 Pedidos</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">24 Pedidos Simulados</span>
-            <span style="color: var(--text-muted); font-weight: normal;">em homologação</span>
+            <span style="color: #38bdf8;">Histórico Completo</span>
+            <span style="color: var(--text-muted); font-weight: normal;">em carteira</span>
           </div>
         </div>
 
         <div class="erp-kpi-card">
           <div class="kpi-top-row">
-            <span class="kpi-label">Aguardando Envio <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Aguardando Envio</span>
             <div class="kpi-icon-pill">⏳</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-pendentes" style="color: #f59e0b;">5 Pedidos</div>
+          <div class="kpi-number" id="kpi-pedidos-pendentes" style="color: #f59e0b;">0 Pedidos</div>
           <div class="kpi-trend">
             <span style="color: #f59e0b;">Separação & Embalagem</span>
-            <span style="color: var(--text-muted); font-weight: normal;">dados fictícios</span>
+            <span style="color: var(--text-muted); font-weight: normal;">expedição pendente</span>
           </div>
         </div>
 
         <div class="erp-kpi-card">
           <div class="kpi-top-row">
-            <span class="kpi-label">Ticket Médio <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Ticket Médio</span>
             <div class="kpi-icon-pill">📈</div>
           </div>
-          <div class="kpi-number">R$ 768,75</div>
+          <div class="kpi-number" id="kpi-pedidos-ticket-medio">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">Valor Médio Simulado</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Loncas e Couros nobres</span>
+            <span style="color: #34d399;">Média por Pedido</span>
+            <span style="color: var(--text-muted); font-weight: normal;">couros e insumos</span>
           </div>
         </div>
       </section>
@@ -1803,10 +2068,10 @@
       <section class="erp-toolbar">
         <div class="toolbar-filters">
           <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Status do Pedido:</span>
-          <button class="erp-filter-chip active" onclick="filtrarPedidosPorStatus('TODOS', this)">Todos (24)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('AGUARDANDO_ENVIO', this)">Aguardando Envio (5)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('EM_SEPARACAO', this)">Em Separação (4)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('ENVIADO', this)">Enviados / Concluídos (15)</button>
+          <button class="erp-filter-chip active" onclick="filtrarPedidosPorStatus('TODOS', this)">Todos (<span id="count-ped-todos">0</span>)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('AGUARDANDO_ENVIO', this)">Aguardando Envio (<span id="count-ped-aguardando">0</span>)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('EM_SEPARACAO', this)">Em Separação (<span id="count-ped-separacao">0</span>)</button>
+          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('ENVIADO', this)">Enviados (<span id="count-ped-enviados">0</span>)</button>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
@@ -1820,7 +2085,7 @@
         <div class="table-top-actions">
           <div class="table-title">
             <span>📦 Gestão de Vendas, Encomendas & Entregas</span>
-            <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">24 pedidos (🧪 DADOS FICTÍCIOS / TESTE)</span>
+            <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">0 pedidos no banco</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
             💡 Controle operacional de pedidos de sogueiros, artesãos e lojistas
@@ -1839,7 +2104,7 @@
                 <th>Itens / Descrição da Encomenda</th>
                 <th style="width: 110px; text-align: right;">Total (R$)</th>
                 <th style="width: 140px; text-align: center;">Status</th>
-                <th style="text-align: right; width: 140px;">Ações</th>
+                <th style="text-align: right; width: 220px;">Ações</th>
               </tr>
             </thead>
             <tbody id="erp-pedidos-body">
@@ -2175,9 +2440,16 @@
         </form>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalCliente()">Cancelar</button>
-        <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-cliente').requestSubmit()">💾 Salvar no Banco</button>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+        <div>
+          <button type="button" class="btn-top btn-row-action" onclick="abrirEtiquetaDoClienteModal()" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary);">
+            🏷️ Ver Etiqueta de Envio
+          </button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalCliente()">Cancelar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-cliente').requestSubmit()">💾 Salvar no Banco</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2325,6 +2597,298 @@
       <div class="modal-footer">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalProduto()">Cancelar</button>
         <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-produto').requestSubmit()">💾 Salvar Produto</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ETIQUETA DE ENVIO & LOGÍSTICA (SUPERFRETE / CORREIOS / JADLOG) -->
+  <div class="modal-overlay" id="modal-etiqueta">
+    <div class="modal-container" style="max-width: 960px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🏷️</span>
+          <span>Etiqueta de Envio & Logística de Encomenda</span>
+          <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: var(--primary); border: 1px solid rgba(0, 212, 255, 0.3); margin-left: 8px;">Superfrete · Correios · Jadlog · Melhor Envio</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalEtiqueta()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px;">
+        <!-- GRID EM DUAS COLUNAS: OPÇÕES À ESQUERDA, PRÉ-VISUALIZAÇÃO À DIREITA -->
+        <div class="etiqueta-modal-grid">
+          <!-- COLUNA DE CONTROLES E CONFIGURAÇÕES -->
+          <div class="etiqueta-config-panel">
+            <div style="background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;">
+                ⚡ Integração Logística Rápida
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted); line-height: 1.4;">
+                Visualize a etiqueta para impressão térmica ou A4, ou copie os dados formatados diretamente para o <strong>Superfrete</strong> e <strong>Correios</strong>.
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label">Serviço de Frete / Transportadora</label>
+              <select class="form-input erp-select" id="etiqueta-servico" onchange="atualizarPreviewEtiqueta()" style="width: 100%;">
+                <option value="SUPERFRETE / CORREIOS">🚚 Superfrete / Correios (PAC / Sedex com Desconto)</option>
+                <option value="CORREIOS PAC">📦 Correios PAC (Econômico)</option>
+                <option value="CORREIOS SEDEX">⚡ Correios SEDEX (Expresso)</option>
+                <option value="JADLOG / TRANSPORTADORA">🚛 Jadlog / Transportadora (.Package)</option>
+                <option value="MELHOR ENVIO">🏷️ Melhor Envio (Multi-transportadoras)</option>
+              </select>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom: 10px;">
+              <div class="form-group">
+                <label class="form-label">Formato da Etiqueta</label>
+                <select class="form-input erp-select" id="etiqueta-formato" onchange="atualizarFormatoImpressao(this.value)" style="width: 100%;">
+                  <option value="termica">🏷️ Térmica (100x150 mm)</option>
+                  <option value="a4">📄 Folha A4 (Com guia de corte)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nº Pedido / Ref.</label>
+                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="#PED-1038 ou Avulso" oninput="atualizarPreviewEtiqueta()">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px;">
+              <label class="form-label">Declaração de Conteúdo / Mercadoria</label>
+              <input type="text" class="form-input" id="etiqueta-conteudo" placeholder="Ex: Artigos em Couro Legítimo / Insumos" oninput="atualizarPreviewEtiqueta()">
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom: 14px;">
+              <div class="form-group">
+                <label class="form-label">Peso Estimado</label>
+                <input type="text" class="form-input" id="etiqueta-peso" placeholder="Ex: 2.0 kg" oninput="atualizarPreviewEtiqueta()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Valor Declarado (R$)</label>
+                <input type="text" class="form-input" id="etiqueta-valor" placeholder="Ex: R$ 350,00" oninput="atualizarPreviewEtiqueta()">
+              </div>
+            </div>
+
+            <!-- BOTÕES DE AÇÃO RÁPIDA -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <button type="button" class="btn-top btn-emerald-glow" style="width: 100%; justify-content: center; padding: 12px; font-size: 13px; font-weight: 700;" onclick="imprimirEtiquetaModal()">
+                🖨️ Imprimir Etiqueta Agora
+              </button>
+
+              <button type="button" class="btn-top" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px; background: #0284c7; color: #fff; border: 1px solid #38bdf8;" onclick="copiarDadosSuperfrete()">
+                ⚡ Copiar Dados p/ Superfrete
+              </button>
+
+              <button type="button" class="btn-top btn-row-action" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px;" onclick="copiarEtiquetaTextoCompleto()">
+                📋 Copiar Etiqueta Completa (Texto)
+              </button>
+
+              <button type="button" class="btn-top btn-row-action" style="width: 100%; justify-content: center; padding: 10px; font-size: 12px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" onclick="abrirSuperfreteWeb()">
+                🚀 Abrir Superfrete Web (superfrete.com/app) ↗
+              </button>
+            </div>
+          </div>
+
+          <!-- COLUNA DIREITA: PRÉ-VISUALIZAÇÃO DA ETIQUETA FÍSICA -->
+          <div class="etiqueta-preview-wrapper">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
+              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">
+                👁️ Pré-visualização de Impressão:
+              </span>
+              <span id="etiqueta-dimensao-badge" style="font-size: 10.5px; font-weight: 700; color: #38bdf8; background: rgba(0, 212, 255, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(0, 212, 255, 0.2);">
+                100 x 150 mm (Térmica)
+              </span>
+            </div>
+
+            <!-- ÁREA QUE SERÁ IMPRESSA PELO BROWSER -->
+            <div id="etiqueta-printable-area" class="etiqueta-fisica formato-termica">
+              <!-- CABEÇALHO DA ETIQUETA -->
+              <div class="etq-header">
+                <div class="etq-brand">
+                  <div class="etq-brand-title">MIS SUEÑOS</div>
+                  <div class="etq-brand-sub">COUROS & PELES</div>
+                </div>
+                <div class="etq-service-badge" id="etq-service-label">
+                  SUPERFRETE / CORREIOS
+                </div>
+                <div class="etq-qrcode-box">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="#000">
+                    <rect x="0" y="0" width="40" height="4" />
+                    <rect x="0" y="0" width="4" height="40" />
+                    <rect x="36" y="0" width="4" height="40" />
+                    <rect x="0" y="36" width="4" height="40" />
+                    <rect x="8" y="8" width="8" height="8" />
+                    <rect x="24" y="8" width="8" height="8" />
+                    <rect x="8" y="24" width="8" height="8" />
+                    <rect x="20" y="16" width="4" height="6" />
+                    <rect x="22" y="24" width="4" height="8" />
+                    <rect x="28" y="22" width="4" height="10" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- BLOCO DESTINATÁRIO -->
+              <div class="etq-block etq-destinatario">
+                <div class="etq-block-label">DESTINATÁRIO</div>
+                <div class="etq-dest-nome" id="etq-dest-nome">DESTINATÁRIO</div>
+                <div class="etq-dest-loja" id="etq-dest-loja" style="display: none;"></div>
+                
+                <div class="etq-dest-endereco" id="etq-dest-endereco">Rua Exemplo, 123</div>
+                <div class="etq-dest-compl" id="etq-dest-compl" style="display: none;"></div>
+                <div class="etq-dest-bairro" id="etq-dest-bairro">Bairro: Centro</div>
+                
+                <div class="etq-dest-cidade-uf">
+                  <span id="etq-dest-cidade">CIDADE</span> - <strong id="etq-dest-uf">RS</strong>
+                </div>
+
+                <!-- CEP E CÓDIGO DE BARRAS EM GRANDE DESTAQUE -->
+                <div class="etq-cep-section">
+                  <div class="etq-cep-number">
+                    CEP: <span id="etq-dest-cep">00000-000</span>
+                  </div>
+                  <div class="etq-barcode-wrapper" id="etq-barcode-svg">
+                    <!-- Gerado via JS -->
+                  </div>
+                </div>
+
+                <div class="etq-doc-tel-row">
+                  <div>Doc: <span id="etq-dest-doc">-</span></div>
+                  <div>Tel: <span id="etq-dest-tel">-</span></div>
+                </div>
+              </div>
+
+              <!-- LINHA DIVISÓRIA COM PICOTE -->
+              <div class="etq-divider">
+                <span>✂ DOBRAR OU RECORTAR AQUI ✂</span>
+              </div>
+
+              <!-- BLOCO REMETENTE -->
+              <div class="etq-block etq-remetente">
+                <div class="etq-block-label">REMETENTE</div>
+                <div class="etq-rem-nome">MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)</div>
+                <div class="etq-rem-endereco">Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras</div>
+                <div class="etq-rem-cidade">SANTO ANTÔNIO DA PATRULHA - RS</div>
+                <div class="etq-rem-cep-tel">
+                  <strong>CEP: 95500-000</strong> · WhatsApp: (51) 99719-9204
+                </div>
+              </div>
+
+              <!-- DECLARAÇÃO SIMPLIFICADA DE CONTEÚDO -->
+              <div class="etq-declaracao-conteudo">
+                <div class="etq-decl-row">
+                  <span><strong>Ref / Pedido:</strong> <span id="etq-info-pedido">Avulso</span></span>
+                  <span><strong>Peso:</strong> <span id="etq-info-peso">2.0 kg</span></span>
+                </div>
+                <div class="etq-decl-conteudo">
+                  <strong>Conteúdo:</strong> <span id="etq-info-conteudo">Artigos em Couro / Insumos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 11px; color: var(--text-muted);">
+          💡 Dica: Na janela de impressão do navegador, defina as margens como "Nenhuma" ou "Padrão" para melhor encaixe térmico.
+        </div>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalEtiqueta()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CADASTRO / EDIÇÃO DE PEDIDO -->
+  <div class="modal-overlay" id="modal-pedido">
+    <div class="modal-container" style="max-width: 720px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span id="modal-ped-icone">📦</span>
+          <span id="modal-ped-titulo">Novo Pedido de Venda & Logística</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalPedido()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="form-pedido" onsubmit="salvarPedido(event)">
+          <input type="hidden" id="form-ped-id">
+          <input type="hidden" id="form-ped-cliente-id">
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Nº do Pedido / Identificador *</label>
+              <input type="text" class="form-input" id="form-ped-numero" required placeholder="#PED-1043" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Data do Pedido</label>
+              <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA">
+            </div>
+          </div>
+
+          <!-- SELEÇÃO RÁPIDA DE CLIENTE COM AUTOCOMPLETE / DATALIST -->
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label">Cliente / Destinatário * <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(Selecione da base de 1.140 clientes ou digite)</span></label>
+            <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)">
+            <datalist id="lista-clientes-datalist">
+              <!-- Populado via JS com os clientes cadastrados -->
+            </datalist>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label">Cidade</label>
+              <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estado (UF)</label>
+              <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefone / WhatsApp</label>
+              <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" style="margin: 0;">Itens do Pedido / Mercadorias *</label>
+              <div style="font-size: 11px; color: #38bdf8; cursor: pointer;" onclick="abrirSeletorRapidoProdutos()">
+                + Inserir do Estoque de Couros
+              </div>
+            </div>
+            <textarea class="form-input" id="form-ped-itens" rows="3" required placeholder="Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..."></textarea>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label">Valor Total (R$) *</label>
+              <input type="number" step="0.01" class="form-input" id="form-ped-valor" required placeholder="0.00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status do Pedido</label>
+              <select class="form-input erp-select" id="form-ped-status" style="width: 100%;">
+                <option value="AGUARDANDO_ENVIO">⏳ Aguardando Envio</option>
+                <option value="EM_SEPARACAO">📦 Em Separação</option>
+                <option value="ENVIADO">✅ Enviado / Concluído</option>
+                <option value="CANCELADO">❌ Cancelado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Código de Rastreio (Opcional)</label>
+              <input type="text" class="form-input" id="form-ped-rastreio" placeholder="QC123456789BR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label">Observações Internas / Frete</label>
+            <input type="text" class="form-input" id="form-ped-obs" placeholder="Preferência de transportadora, Superfrete ou embalagem especial...">
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalPedido()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-pedido').requestSubmit()">
+          💾 Salvar Pedido no Banco
+        </button>
       </div>
     </div>
   </div>
@@ -2549,7 +3113,8 @@
             <td>${c.cidade || '-'}</td>
             <td><span class="uf-tag">${uf}</span></td>
             <td>${telLink}</td>
-            <td style="text-align: right;">
+            <td style="text-align: right; white-space: nowrap;">
+              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorClienteId(${c.id})">🏷️ Etiqueta</button>
               <button class="btn-row-action" title="Editar Ficha" onclick="abrirModalEditarCliente(${c.id})">✏️ Editar</button>
               <button class="btn-row-action" title="Emitir NF-e" onclick="abrirModalFiscal(${c.id})">🧾 Nota</button>
             </td>
@@ -3100,51 +3665,122 @@
     }
 
     // ========================================================
-    // GESTÃO DE VENDAS & PEDIDOS (ERP)
+    // GESTÃO DE VENDAS & PEDIDOS (BANCO DE DADOS ATIVO)
     // ========================================================
-    const listaPedidos = [
-      { id: 1042, numero: '#PED-1042', data: '15/10/2026', cliente: 'ACÁCIO BENEDITO RAMOS', cidade: 'CONCEIÇÃO DOS OUROS', uf: 'MG', tel: '35999887766', itens: '2x Lonca de Cabrito Selecionada + 1x Tento 100m', valor: 385.00, status: 'AGUARDANDO_ENVIO', statusTexto: 'Aguardando Envio' },
-      { id: 1041, numero: '#PED-1041', data: '14/10/2026', cliente: 'ADAIR JOSÉ BRANCO', cidade: 'PONTE ALTA', uf: 'SC', tel: '49988776655', itens: '1x Meio Couro Cru Sovado + 1x Faca Sogueiro 5"', valor: 455.00, status: 'EM_SEPARACAO', statusTexto: 'Em Separação' },
-      { id: 1040, numero: '#PED-1040', data: '14/10/2026', cliente: 'ADAM HUPPES', cidade: 'ESTRELA', uf: 'RS', tel: '51998877665', itens: '3x Lonca de Potro Sovada Extra', valor: 585.00, status: 'AGUARDANDO_ENVIO', statusTexto: 'Aguardando Envio' },
-      { id: 1039, numero: '#PED-1039', data: '13/10/2026', cliente: 'ADAMO CONSUL', cidade: 'TRAMANDAÍ', uf: 'RS', tel: '51987654321', itens: '1x Tento Lonca 50m + 1x Jogo Vazadores 6 pçs', valor: 245.00, status: 'ENVIADO', statusTexto: 'Enviado (Sedex)' },
-      { id: 1038, numero: '#PED-1038', data: '12/10/2026', cliente: 'ADEMAR MELOS CARDOSO', cidade: 'SÃO FRANCISCO DE PAULA', uf: 'RS', tel: '54991122334', itens: '10kg Sola Bovina Curtume (4-5mm)', valor: 650.00, status: 'ENVIADO', statusTexto: 'Entregue' },
-      { id: 1037, numero: '#PED-1037', data: '11/10/2026', cliente: 'ADEMILSON CLEMENTE DE LIMA', cidade: 'MACEDÔNIA', uf: 'SP', tel: '17992233445', itens: '2x Vaqueta Tratada Nobre Estonada', valor: 170.00, status: 'ENVIADO', statusTexto: 'Entregue' },
-      { id: 1036, numero: '#PED-1036', data: '10/10/2026', cliente: 'ADEMIR DONATO', cidade: 'JATAÍ', uf: 'GO', tel: '64993344556', itens: '4x Lonca de Cabrito + 2x Brunidor Madeira', valor: 656.00, status: 'ENVIADO', statusTexto: 'Entregue' },
-      { id: 1035, numero: '#PED-1035', data: '09/10/2026', cliente: 'ADILSON IFRAN MARTINS', cidade: 'SÃO BORJA', uf: 'RS', tel: '55994455667', itens: '1x Meio Couro Cru Sovado + 2x Tento 100m', valor: 470.00, status: 'ENVIADO', statusTexto: 'Entregue' }
-    ];
-
-    let pedidosFiltrados = [...listaPedidos];
+    let listaPedidos = [];
+    let pedidosFiltrados = [];
     let statusFiltroPedido = 'TODOS';
+
+    async function carregarPedidosApi() {
+      try {
+        const resp = await fetch('/api/pedidos');
+        if (resp.ok) {
+          const dados = await resp.json();
+          if (Array.isArray(dados)) {
+            listaPedidos = dados;
+            aplicarFiltrosPedidos();
+            atualizarKpisPedidos();
+          }
+        }
+      } catch (err) {
+        console.error('[ERRO PEDIDOS]', err);
+      }
+    }
+
+    function atualizarKpisPedidos() {
+      const totalPedidos = listaPedidos.length;
+      const totalValor = listaPedidos.reduce((acc, p) => acc + (parseFloat(p.valor_total || p.valor) || 0), 0);
+      const pendentes = listaPedidos.filter(p => p.status === 'AGUARDANDO_ENVIO').length;
+      const separacao = listaPedidos.filter(p => p.status === 'EM_SEPARACAO').length;
+      const enviados = listaPedidos.filter(p => p.status === 'ENVIADO').length;
+      const ticketMedio = totalPedidos > 0 ? (totalValor / totalPedidos) : 0;
+
+      // KPIs
+      const elTotal = document.getElementById('kpi-pedidos-total-valor');
+      if (elTotal) elTotal.textContent = `R$ ${totalValor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+      const elQtd = document.getElementById('kpi-pedidos-qtd');
+      if (elQtd) elQtd.textContent = `${totalPedidos} Pedido${totalPedidos === 1 ? '' : 's'}`;
+
+      const elPendentes = document.getElementById('kpi-pedidos-pendentes');
+      if (elPendentes) elPendentes.textContent = `${pendentes} Pedido${pendentes === 1 ? '' : 's'}`;
+
+      const elTicket = document.getElementById('kpi-pedidos-ticket-medio');
+      if (elTicket) elTicket.textContent = `R$ ${ticketMedio.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+      // Contadores nas abas de filtros
+      const cTodos = document.getElementById('count-ped-todos');
+      if (cTodos) cTodos.textContent = totalPedidos;
+      const cAguardando = document.getElementById('count-ped-aguardando');
+      if (cAguardando) cAguardando.textContent = pendentes;
+      const cSeparacao = document.getElementById('count-ped-separacao');
+      if (cSeparacao) cSeparacao.textContent = separacao;
+      const cEnviados = document.getElementById('count-ped-enviados');
+      if (cEnviados) cEnviados.textContent = enviados;
+
+      // Badge da tabela
+      const elBadge = document.getElementById('table-badge-pedidos');
+      if (elBadge) elBadge.textContent = `${totalPedidos} pedidos no banco`;
+    }
+
+    function aplicarFiltrosPedidos() {
+      if (statusFiltroPedido === 'TODOS') {
+        pedidosFiltrados = [...listaPedidos];
+      } else {
+        pedidosFiltrados = listaPedidos.filter(p => p.status === statusFiltroPedido);
+      }
+      renderTabelaPedidos();
+    }
 
     function renderTabelaPedidos() {
       const tbody = document.getElementById('erp-pedidos-body');
       if (!tbody) return;
 
+      if (pedidosFiltrados.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              Nenhum pedido encontrado para o status selecionado. Clique em <strong>"+ Novo Pedido"</strong> para cadastrar.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = pedidosFiltrados.map(ped => {
+        const statusTexto = ped.status_texto || ped.statusTexto || 'Pendente';
         const statusBadge = ped.status === 'AGUARDANDO_ENVIO'
-          ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">⏳ ${ped.statusTexto}</span>`
+          ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">⏳ ${statusTexto}</span>`
           : ped.status === 'EM_SEPARACAO'
-          ? `<span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">📦 ${ped.statusTexto}</span>`
-          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ ${ped.statusTexto}</span>`;
+          ? `<span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">📦 ${statusTexto}</span>`
+          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ ${statusTexto}</span>`;
+
+        const valorNum = parseFloat(ped.valor_total || ped.valor || 0);
+        const dataPed = ped.data_pedido || ped.data || '-';
+        const clienteNome = ped.cliente_nome || ped.cliente || 'Cliente sem nome';
+        const rawTel = (ped.telefone || ped.tel || '').replace(/\D/g, '');
+        const rastreioInfo = ped.codigo_rastreio ? `<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #38bdf8; margin-top: 3px;">🚚 ${ped.codigo_rastreio}</div>` : '';
 
         return `
           <tr>
             <td><input type="checkbox" value="${ped.id}"></td>
             <td>
-              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
-                <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>
-              </div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
+              ${rastreioInfo}
             </td>
-            <td style="color: var(--text-muted); font-size: 11.5px;">${ped.data}</td>
-            <td style="font-weight: 700; color: #fff;">${ped.cliente}</td>
-            <td><span class="uf-tag" style="margin-right: 4px;">${ped.uf}</span> ${ped.cidade}</td>
-            <td style="color: var(--text-muted); font-size: 11.5px;">${ped.itens}</td>
-            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${ped.valor.toFixed(2).replace('.', ',')}</td>
+            <td style="color: var(--text-muted); font-size: 11.5px;">${dataPed}</td>
+            <td style="font-weight: 700; color: #fff;">
+              ${clienteNome}
+            </td>
+            <td><span class="uf-tag" style="margin-right: 4px;">${ped.uf || 'RS'}</span> ${ped.cidade || '-'}</td>
+            <td style="color: var(--text-muted); font-size: 11.5px; max-width: 250px;">${ped.itens || '-'}</td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${valorNum.toFixed(2).replace('.', ',')}</td>
             <td style="text-align: center;">${statusBadge}</td>
-            <td style="text-align: right;">
+            <td style="text-align: right; white-space: nowrap;">
+              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorPedidoId(${ped.id})">🏷️ Etiqueta</button>
+              <button class="btn-row-action" title="Editar Pedido" onclick="abrirModalEditarPedido(${ped.id})">✏️ Editar</button>
               <button class="btn-row-action" title="Emitir NF-e para este pedido" onclick="abrirModalFiscal()">🧾 NF-e</button>
-              <button class="btn-row-action" title="Contato WhatsApp" onclick="window.open('https://wa.me/55${ped.tel}', '_blank')">💬</button>
+              ${rawTel ? `<button class="btn-row-action" title="Contato WhatsApp" onclick="window.open('https://wa.me/55${rawTel}', '_blank')">💬</button>` : ''}
             </td>
           </tr>
         `;
@@ -3155,24 +3791,150 @@
       statusFiltroPedido = status;
       document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
+      aplicarFiltrosPedidos();
+    }
 
-      if (status === 'TODOS') {
-        pedidosFiltrados = [...listaPedidos];
-      } else {
-        pedidosFiltrados = listaPedidos.filter(p => p.status === status);
+    function popularDatalistClientes() {
+      const dl = document.getElementById('lista-clientes-datalist');
+      if (!dl) return;
+      dl.innerHTML = clientes.slice(0, 300).map(c => {
+        return `<option value="${c.nome}">${c.cidade || ''} - ${c.uf || ''} ${c.cpf ? '· ' + c.cpf : ''}</option>`;
+      }).join('');
+    }
+
+    function aoSelecionarClientePedido(nomeDigitado) {
+      if (!nomeDigitado) return;
+      const cli = clientes.find(c => c.nome.trim().toUpperCase() === nomeDigitado.trim().toUpperCase());
+      if (cli) {
+        document.getElementById('form-ped-cliente-id').value = cli.id || '';
+        document.getElementById('form-ped-cidade').value = cli.cidade || '';
+        document.getElementById('form-ped-uf').value = (cli.uf || 'RS').toUpperCase();
+        document.getElementById('form-ped-telefone').value = cli.telefone || '';
       }
-      renderTabelaPedidos();
     }
 
     function abrirModalNovoPedido() {
-      mostrarToast('Formulário de Vendas & Pedidos preparado!');
-      abrirModalFiscal();
+      popularDatalistClientes();
+      const form = document.getElementById('form-pedido');
+      if (form) form.reset();
+      document.getElementById('form-ped-id').value = '';
+      document.getElementById('form-ped-cliente-id').value = '';
+      document.getElementById('modal-ped-icone').textContent = '➕';
+      document.getElementById('modal-ped-titulo').textContent = 'Novo Pedido de Venda & Encomenda';
+
+      // Próximo número sugerido
+      const maxId = listaPedidos.reduce((max, p) => Math.max(max, Number(p.id || 0)), 1042);
+      document.getElementById('form-ped-numero').value = `#PED-${maxId + 1}`;
+
+      const hoje = new Date();
+      document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
+      document.getElementById('form-ped-status').value = 'AGUARDANDO_ENVIO';
+
+      document.getElementById('modal-pedido').classList.add('active');
+      document.getElementById('form-ped-cliente-nome').focus();
+    }
+
+    function abrirModalEditarPedido(id) {
+      popularDatalistClientes();
+      const ped = listaPedidos.find(p => String(p.id) === String(id));
+      if (!ped) return;
+
+      document.getElementById('modal-ped-icone').textContent = '✏️';
+      document.getElementById('modal-ped-titulo').textContent = `Editar Pedido: ${ped.numero}`;
+
+      document.getElementById('form-ped-id').value = ped.id || '';
+      document.getElementById('form-ped-cliente-id').value = ped.cliente_id || '';
+      document.getElementById('form-ped-numero').value = ped.numero || '';
+      document.getElementById('form-ped-data').value = ped.data_pedido || ped.data || '';
+      document.getElementById('form-ped-cliente-nome').value = ped.cliente_nome || ped.cliente || '';
+      document.getElementById('form-ped-cidade').value = ped.cidade || '';
+      document.getElementById('form-ped-uf').value = (ped.uf || 'RS').toUpperCase();
+      document.getElementById('form-ped-telefone').value = ped.telefone || ped.tel || '';
+      document.getElementById('form-ped-itens').value = ped.itens || '';
+      document.getElementById('form-ped-valor').value = parseFloat(ped.valor_total || ped.valor || 0).toFixed(2);
+      document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_ENVIO';
+      document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
+      document.getElementById('form-ped-obs').value = ped.observacoes || '';
+
+      document.getElementById('modal-pedido').classList.add('active');
+    }
+
+    function fecharModalPedido() {
+      document.getElementById('modal-pedido').classList.remove('active');
+    }
+
+    async function salvarPedido(e) {
+      e.preventDefault();
+      const id = document.getElementById('form-ped-id').value;
+      const status = document.getElementById('form-ped-status').value;
+      const statusMap = {
+        'AGUARDANDO_ENVIO': 'Aguardando Envio',
+        'EM_SEPARACAO': 'Em Separação',
+        'ENVIADO': 'Enviado',
+        'CANCELADO': 'Cancelado'
+      };
+
+      const payload = {
+        numero: document.getElementById('form-ped-numero').value.trim(),
+        cliente_id: document.getElementById('form-ped-cliente-id').value || null,
+        cliente_nome: document.getElementById('form-ped-cliente-nome').value.trim(),
+        cidade: document.getElementById('form-ped-cidade').value.trim(),
+        uf: document.getElementById('form-ped-uf').value.trim().toUpperCase(),
+        telefone: document.getElementById('form-ped-telefone').value.trim(),
+        itens: document.getElementById('form-ped-itens').value.trim(),
+        valor_total: parseFloat(document.getElementById('form-ped-valor').value || 0),
+        status: status,
+        status_texto: statusMap[status] || 'Pendente',
+        codigo_rastreio: document.getElementById('form-ped-rastreio').value.trim(),
+        observacoes: document.getElementById('form-ped-obs').value.trim(),
+        data_pedido: document.getElementById('form-ped-data').value.trim()
+      };
+
+      try {
+        const url = id ? `/api/pedidos?id=${id}` : '/api/pedidos';
+        const method = id ? 'PUT' : 'POST';
+
+        const resp = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+          mostrarToast(`✅ Pedido ${payload.numero} gravado com sucesso no banco de dados!`);
+          fecharModalPedido();
+          await carregarPedidosApi();
+        } else {
+          const err = await resp.json();
+          mostrarToast(`Erro ao salvar pedido: ${err.error || 'Falha na requisição'}`);
+        }
+      } catch (err) {
+        console.error('[ERRO SALVAR PEDIDO]', err);
+        mostrarToast('Erro de conexão ao salvar pedido.');
+      }
+    }
+
+    function abrirSeletorRapidoProdutos() {
+      const campo = document.getElementById('form-ped-itens');
+      const produtosSugeridos = [
+        '1x Meio Couro Cru Sovado',
+        '2x Lonca de Cabrito Selecionada',
+        '10kg Sola Bovina Curtume (4-5mm)',
+        '2x Vaqueta Tratada Nobre Estonada',
+        '1x Tento Lonca 50m'
+      ];
+      const escolha = prompt('Selecione ou digite o item para adicionar ao pedido:\n\n1. Meio Couro Cru Sovado\n2. Lonca de Cabrito Selecionada\n3. Sola Bovina Curtume (4-5mm)\n4. Vaqueta Tratada Nobre\n5. Tento Lonca 50m\n\nDigite o número (1-5) ou o nome:', '1');
+      if (escolha) {
+        const idx = parseInt(escolha, 10);
+        const item = (idx >= 1 && idx <= 5) ? produtosSugeridos[idx - 1] : escolha;
+        campo.value = campo.value ? `${campo.value} + ${item}` : item;
+      }
     }
 
     function exportarPedidosCsv() {
-      const headers = ['Numero', 'Data', 'Cliente', 'Cidade', 'UF', 'Itens', 'Valor_Total', 'Status'];
+      const headers = ['Numero', 'Data', 'Cliente', 'Cidade', 'UF', 'Itens', 'Valor_Total', 'Status', 'Rastreio'];
       const rows = pedidosFiltrados.map(p => [
-        p.numero, p.data, `"${p.cliente}"`, `"${p.cidade}"`, p.uf, `"${p.itens}"`, p.valor.toFixed(2), p.statusTexto
+        p.numero, p.data_pedido || p.data, `"${p.cliente_nome || p.cliente}"`, `"${p.cidade}"`, p.uf, `"${p.itens}"`, (parseFloat(p.valor_total || p.valor) || 0).toFixed(2), p.status_texto || p.statusTexto, p.codigo_rastreio || ''
       ]);
       const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -3311,12 +4073,275 @@
       if (configUser && cfg.userName) configUser.value = cfg.userName;
     }
 
+    // ========================================================
+    // GESTÃO DE ETIQUETAS DE ENVIO (SUPERFRETE / CORREIOS / LOGÍSTICA)
+    // ========================================================
+    const CODE39_MAP = {
+      '0': '000110100', '1': '100100001', '2': '001100001', '3': '101100000',
+      '4': '000110001', '5': '100110000', '6': '001110000', '7': '000100101',
+      '8': '100100100', '9': '001100100', '-': '010000101', ' ': '011000000',
+      '*': '010010100'
+    };
+
+    function gerarSvgBarcode(texto, altura = 40) {
+      const limpo = '*' + String(texto || '00000-000').toUpperCase().replace(/[^0-9A-Z\-\s]/g, '') + '*';
+      let x = 0;
+      const rects = [];
+      for (let i = 0; i < limpo.length; i++) {
+        const char = limpo[i];
+        const pattern = CODE39_MAP[char] || CODE39_MAP['0'];
+        for (let j = 0; j < 9; j++) {
+          const isBar = (j % 2 === 0);
+          const isWide = pattern[j] === '1';
+          const w = isWide ? 3 : 1;
+          if (isBar) {
+            rects.push(`<rect x="${x}" y="0" width="${w}" height="${altura}" fill="#000" />`);
+          }
+          x += w;
+        }
+        x += 1;
+      }
+      return `<svg viewBox="0 0 ${x} ${altura}" preserveAspectRatio="none" style="width:100%;height:${altura}px;display:block;">${rects.join('')}</svg>`;
+    }
+
+    let clienteEtiquetaAtual = null;
+
+    function abrirModalEtiquetaPorClienteId(id) {
+      const cliente = clientes.find(c => String(c.id) === String(id));
+      if (!cliente) {
+        mostrarToast('Cliente não localizado.');
+        return;
+      }
+      clienteEtiquetaAtual = cliente;
+      preencherEExibirEtiqueta({
+        cliente: cliente,
+        pedidoRef: 'Avulso',
+        itens: 'Artigos em Couro / Sola / Insumos de Selaria',
+        peso: '2.0 kg',
+        valor: ''
+      });
+    }
+
+    function abrirModalEtiquetaPorPedidoId(pedId) {
+      const ped = listaPedidos.find(p => String(p.id) === String(pedId));
+      if (!ped) {
+        mostrarToast('Pedido não localizado.');
+        return;
+      }
+      let cliente = clientes.find(c => (c.nome || '').trim().toUpperCase() === (ped.cliente || '').trim().toUpperCase());
+      if (!cliente) {
+        cliente = {
+          id: null,
+          nome: ped.cliente,
+          cidade: ped.cidade,
+          uf: ped.uf,
+          telefone: ped.tel,
+          logradouro: 'Endereço para conferência',
+          numero: 'S/N',
+          bairro: 'Centro',
+          cep: '90000-000'
+        };
+      }
+      clienteEtiquetaAtual = cliente;
+      preencherEExibirEtiqueta({
+        cliente: cliente,
+        pedidoRef: ped.numero,
+        itens: ped.itens || 'Produtos de Couro',
+        peso: '2.5 kg',
+        valor: `R$ ${ped.valor.toFixed(2).replace('.', ',')}`
+      });
+    }
+
+    function abrirEtiquetaDoClienteModal() {
+      const cli = {
+        id: document.getElementById('form-id')?.value || null,
+        nome: document.getElementById('form-nome')?.value.trim() || 'Cliente sem nome',
+        apelido_referencia: document.getElementById('form-apelido')?.value.trim() || '',
+        cpf: document.getElementById('form-doc')?.value.trim() || '',
+        telefone: document.getElementById('form-telefone')?.value.trim() || '',
+        cep: document.getElementById('form-cep')?.value.trim() || '',
+        logradouro: document.getElementById('form-logradouro')?.value.trim() || '',
+        numero: document.getElementById('form-numero')?.value.trim() || '',
+        complemento: document.getElementById('form-complemento')?.value.trim() || '',
+        bairro: document.getElementById('form-bairro')?.value.trim() || '',
+        cidade: document.getElementById('form-cidade')?.value.trim() || '',
+        uf: (document.getElementById('form-uf')?.value.trim() || 'RS').toUpperCase()
+      };
+      clienteEtiquetaAtual = cli;
+      preencherEExibirEtiqueta({
+        cliente: cli,
+        pedidoRef: 'Avulso',
+        itens: 'Artigos em Couro / Insumos',
+        peso: '1.5 kg',
+        valor: ''
+      });
+    }
+
+    function preencherEExibirEtiqueta(dados) {
+      const cli = dados.cliente;
+      document.getElementById('etiqueta-num-pedido').value = dados.pedidoRef || '';
+      document.getElementById('etiqueta-conteudo').value = dados.itens || 'Artigos em Couro / Sola / Insumos';
+      document.getElementById('etiqueta-peso').value = dados.peso || '2.0 kg';
+      document.getElementById('etiqueta-valor').value = dados.valor || '';
+      
+      atualizarPreviewEtiqueta();
+      document.getElementById('modal-etiqueta').classList.add('active');
+    }
+
+    function fecharModalEtiqueta() {
+      document.getElementById('modal-etiqueta').classList.remove('active');
+    }
+
+    function atualizarFormatoImpressao(formato) {
+      const el = document.getElementById('etiqueta-printable-area');
+      const badge = document.getElementById('etiqueta-dimensao-badge');
+      if (formato === 'termica') {
+        el.classList.remove('formato-a4');
+        el.classList.add('formato-termica');
+        if (badge) badge.textContent = '100 x 150 mm (Térmica)';
+      } else {
+        el.classList.remove('formato-termica');
+        el.classList.add('formato-a4');
+        if (badge) badge.textContent = 'Folha A4 (Com guia de corte)';
+      }
+    }
+
+    function atualizarPreviewEtiqueta() {
+      if (!clienteEtiquetaAtual) return;
+      const cli = clienteEtiquetaAtual;
+      const servico = document.getElementById('etiqueta-servico')?.value || 'SUPERFRETE / CORREIOS';
+      const pedido = document.getElementById('etiqueta-num-pedido')?.value.trim() || 'Avulso';
+      const conteudo = document.getElementById('etiqueta-conteudo')?.value.trim() || 'Artigos em Couro / Insumos';
+      const peso = document.getElementById('etiqueta-peso')?.value.trim() || '2.0 kg';
+
+      document.getElementById('etq-service-label').textContent = servico;
+      document.getElementById('etq-dest-nome').textContent = cli.nome || 'DESTINATÁRIO NÃO IDENTIFICADO';
+      
+      const elLoja = document.getElementById('etq-dest-loja');
+      if (cli.apelido_referencia) {
+        elLoja.textContent = `Apelido / Loja: ${cli.apelido_referencia}`;
+        elLoja.style.display = 'block';
+      } else {
+        elLoja.style.display = 'none';
+      }
+
+      const endLinha = [
+        cli.logradouro || 'Endereço não cadastrado',
+        cli.numero ? `nº ${cli.numero}` : 'S/N'
+      ].join(', ');
+      document.getElementById('etq-dest-endereco').textContent = endLinha;
+
+      const elCompl = document.getElementById('etq-dest-compl');
+      if (cli.complemento) {
+        elCompl.textContent = cli.complemento;
+        elCompl.style.display = 'block';
+      } else {
+        elCompl.style.display = 'none';
+      }
+
+      document.getElementById('etq-dest-bairro').textContent = cli.bairro ? `Bairro: ${cli.bairro}` : 'Bairro: Centro';
+      document.getElementById('etq-dest-cidade').textContent = (cli.cidade || 'MUNICÍPIO').toUpperCase();
+      document.getElementById('etq-dest-uf').textContent = (cli.uf || 'RS').toUpperCase();
+      
+      const cepFormatado = cli.cep || '00000-000';
+      document.getElementById('etq-dest-cep').textContent = cepFormatado;
+      document.getElementById('etq-barcode-svg').innerHTML = gerarSvgBarcode(cepFormatado, 38);
+
+      document.getElementById('etq-dest-doc').textContent = cli.cpf || cli.cnpj || 'Não informado';
+      document.getElementById('etq-dest-tel').textContent = cli.telefone || 'Não informado';
+
+      document.getElementById('etq-info-pedido').textContent = pedido;
+      document.getElementById('etq-info-conteudo').textContent = conteudo;
+      document.getElementById('etq-info-peso').textContent = peso;
+    }
+
+    function imprimirEtiquetaModal() {
+      window.print();
+    }
+
+    function copiarDadosSuperfrete() {
+      if (!clienteEtiquetaAtual) {
+        mostrarToast('Nenhum cliente selecionado para etiqueta.');
+        return;
+      }
+      const cli = clienteEtiquetaAtual;
+      const servico = document.getElementById('etiqueta-servico')?.value || 'Superfrete / Correios';
+      const pedido = document.getElementById('etiqueta-num-pedido')?.value || '';
+      const conteudo = document.getElementById('etiqueta-conteudo')?.value || 'Artigos em Couro / Selaria';
+      const peso = document.getElementById('etiqueta-peso')?.value || '2.0 kg';
+
+      const texto = [
+        '=== DADOS PARA COTAÇÃO / ENVIO SUPERFRETE ===',
+        'Origem: CEP 95500-000 (Santo Antônio da Patrulha - RS) · Mis Sueños Couros',
+        `Destino: CEP ${cli.cep || ''} (${cli.cidade || ''} - ${cli.uf || ''})`,
+        '',
+        '--- DADOS DO DESTINATÁRIO ---',
+        `Nome: ${cli.nome || ''}`,
+        cli.apelido_referencia ? `Loja / Apelido: ${cli.apelido_referencia}` : '',
+        cli.cpf ? `CPF: ${cli.cpf}` : (cli.cnpj ? `CNPJ: ${cli.cnpj}` : ''),
+        cli.telefone ? `Telefone / WhatsApp: ${cli.telefone}` : '',
+        `Endereço: ${cli.logradouro || ''}${cli.numero ? ', nº ' + cli.numero : ''}${cli.complemento ? ' (' + cli.complemento + ')' : ''}`,
+        cli.bairro ? `Bairro: ${cli.bairro}` : '',
+        `Cidade: ${cli.cidade || ''} - ${cli.uf || ''}`,
+        `CEP: ${cli.cep || ''}`,
+        '',
+        '--- DADOS DO PACOTE ---',
+        pedido ? `Pedido / Ref: ${pedido}` : '',
+        `Conteúdo Declarado: ${conteudo}`,
+        `Peso Estimado: ${peso}`,
+        `Serviço Solicitado: ${servico}`
+      ].filter(Boolean).join('\n');
+
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast('✅ Dados copiados no formato Superfrete! Cole na cotação/envio.');
+      }).catch(() => {
+        mostrarToast('Erro ao copiar para a área de transferência.');
+      });
+    }
+
+    function copiarEtiquetaTextoCompleto() {
+      if (!clienteEtiquetaAtual) return;
+      const cli = clienteEtiquetaAtual;
+      const pedido = document.getElementById('etiqueta-num-pedido')?.value || '';
+      const conteudo = document.getElementById('etiqueta-conteudo')?.value || '';
+
+      const texto = [
+        'DESTINATÁRIO:',
+        `${cli.nome || ''}${cli.apelido_referencia ? ' (' + cli.apelido_referencia + ')' : ''}`,
+        [cli.logradouro, cli.numero ? `nº ${cli.numero}` : '', cli.complemento ? `(${cli.complemento})` : ''].filter(Boolean).join(' '),
+        cli.bairro ? `Bairro: ${cli.bairro}` : '',
+        `${cli.cidade || ''} - ${cli.uf || ''}`,
+        cli.cep ? `CEP: ${cli.cep}` : '',
+        cli.cpf ? `CPF: ${cli.cpf}` : (cli.cnpj ? `CNPJ: ${cli.cnpj}` : ''),
+        cli.telefone ? `Tel: ${cli.telefone}` : '',
+        '',
+        'REMETENTE:',
+        'MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)',
+        'Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras',
+        'Santo Antônio da Patrulha - RS',
+        'CEP: 95500-000',
+        'Telefone / WhatsApp: (51) 99719-9204',
+        '',
+        pedido ? `Ref Pedido: ${pedido}` : '',
+        conteudo ? `Conteúdo: ${conteudo}` : ''
+      ].filter(Boolean).join('\n');
+
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast('📋 Etiqueta completa copiada com sucesso!');
+      });
+    }
+
+    function abrirSuperfreteWeb() {
+      window.open('https://superfrete.com/app', '_blank');
+    }
+
     // Inicialização da tela
     aplicarConfiguracaoApp();
     atualizarKpis();
     renderTabela();
     carregarDadosApi();
     carregarProdutosApi();
+    carregarPedidosApi();
   </script>
 </body>
 </html>

@@ -118,10 +118,14 @@ npm run web
 Depois acesse no navegador: **[http://localhost:3000](http://localhost:3000)**
 
 **Recursos do Painel Web:**
-- 🔍 Busca instantânea em tempo real com debounce
-- 🏷️ Filtro por Estado (chips com contagem por UF)
-- 📋 Botão com 1 clique para copiar a etiqueta formatada de envio dos Correios / transportadora
-- 🔀 Alternância entre visão em Cartões e Tabela detalhada
+- 🔍 Busca instantânea em tempo real com debounce e filtros de completude
+- 🏷️ Filtro por Estado (chips com contagem por UF) e Mapa de Calor do Brasil
+- 📦 **Visualizador e Impressão de Etiquetas de Envio:**
+  - Layout físico pré-impressão em formato **Térmica (100x150 mm)** ou **Folha A4** com guia de corte
+  - Código de barras do CEP em vetor SVG Code 39 nítido para leitores óticos
+  - Botão de **Impressão Limpa** (`@media print`) sem poluição de menus
+  - **Integração Superfrete:** Botão com 1 clique para copiar os dados formatados para o [Superfrete](https://superfrete.com/app) e atalho direto para a plataforma web
+  - Copiador de etiqueta completa para Correios, Jadlog e Melhor Envio
 - 📥 Botões de exportação direta em CSV e JSON
 
 ### 3. Central Fiscal & Emissão de Notas Fiscais

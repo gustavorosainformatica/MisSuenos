@@ -27,6 +27,7 @@ const DB_PATH = path.join(DB_DIR, 'clientes.db');
 // Import dinâmico: a variável precisa existir ANTES de lib/db.js ser carregado.
 process.env.FORCAR_SQLITE_LOCAL = process.env.FORCAR_SQLITE_LOCAL || '1';
 const { default: handlerAnexos } = await import('../api/anexos.js');
+const { default: handlerPedidos } = await import('../api/pedidos.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -121,6 +122,27 @@ try {
       CREATE INDEX IF NOT EXISTS idx_produtos_categoria ON produtos (categoria);
       CREATE INDEX IF NOT EXISTS idx_produtos_sku ON produtos (codigo_sku);
       CREATE INDEX IF NOT EXISTS idx_produtos_nome ON produtos (nome);
+
+      CREATE TABLE IF NOT EXISTS pedidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        numero TEXT NOT NULL UNIQUE,
+        cliente_id INTEGER,
+        cliente_nome TEXT NOT NULL,
+        cidade TEXT,
+        uf TEXT,
+        telefone TEXT,
+        itens TEXT NOT NULL,
+        valor_total REAL NOT NULL DEFAULT 0,
+        status TEXT NOT NULL DEFAULT 'AGUARDANDO_ENVIO',
+        status_texto TEXT NOT NULL DEFAULT 'Aguardando Envio',
+        codigo_rastreio TEXT,
+        observacoes TEXT,
+        data_pedido TEXT NOT NULL,
+        data_atualizacao TEXT
+      );
+      CREATE INDEX IF NOT EXISTS idx_pedidos_cliente_id ON pedidos (cliente_id);
+      CREATE INDEX IF NOT EXISTS idx_pedidos_status ON pedidos (status);
+      CREATE INDEX IF NOT EXISTS idx_pedidos_numero ON pedidos (numero);
     `);
   }
 } catch (err) {
@@ -886,6 +908,15 @@ async function tratarRequisicao(req, res) {
   // ROTA 8.5: Anexos e Mídia (Cloudflare R2 / Fallback Local)
   if (pathname === '/api/anexos') {
     return handlerAnexos(req, res);
+  }
+
+  // ROTA 8.6: Pedidos de Venda & Logística (/api/pedidos e /api/pedidos/:id)
+  if (pathname === '/api/pedidos' || pathname.startsWith('/api/pedidos/')) {
+    const matchId = pathname.match(/^\/api\/pedidos\/(\d+)$/);
+    if (matchId) {
+      url.searchParams.set('id', matchId[1]);
+    }
+    return handlerPedidos(req, res);
   }
 
   // ROTA 9: Download de Exportações (CSV e JSON)

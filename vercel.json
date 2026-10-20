@@ -21,6 +21,22 @@
       "dest": "/api/clientes.js"
     },
     {
+      "src": "/api/pedidos/(.*)",
+      "dest": "/api/pedidos.js"
+    },
+    {
+      "src": "/api/pedidos",
+      "dest": "/api/pedidos.js"
+    },
+    {
+      "src": "/api/produtos/(.*)",
+      "dest": "/api/produtos.js"
+    },
+    {
+      "src": "/api/produtos",
+      "dest": "/api/produtos.js"
+    },
+    {
       "src": "/api/logs",
       "dest": "/api/logs.js"
     },
