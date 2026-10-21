@@ -2,8 +2,8 @@
 
 **Sistema de Gestão de Clientes, Pedidos, Logística e Central Fiscal**  
 **Desenvolvedor:** Gustavo Rosa Informática  
-**Status Atual:** 88% Concluído (Pronto para Deploy na Nuvem)  
-**Última Atualização:** 20/10/2026 - 22:01 (Horário de Brasília)
+**Status Atual:** 92% Concluído (Pronto para Deploy na Nuvem)  
+**Última Atualização:** 20/10/2026 - 22:50 (Horário de Brasília)
 
 ---
 
@@ -25,7 +25,9 @@ gantt
     Módulo Pedidos, CRUD, APIs e Sincronização     :done, 2026-10-20, 2026-10-20
     section Fase 6: Versionamento & Otimização
     Commit Git, Push no GitHub e Limpeza .docx     :done, 2026-10-20, 2026-10-20
-    section Fase 7: Nuvem (Pendente)
+    section Fase 7: Apresentação Interativa
+    Vídeo Guiado com Áudio e Seletor de Módulos    :done, 2026-10-20, 2026-10-20
+    section Fase 8: Nuvem (Pendente)
     Importação Vercel e Variáveis de Ambiente      :active, 2026-10-20, 2026-10-21
     Homologação Produção e Testes Finais           :2026-10-21, 2026-10-21
 ```
@@ -42,6 +44,7 @@ gantt
 | **04** | **Emissão e Pré-visualização de Etiquetas** | • Modal de impressão com pré-visualização real<br>• Suporte nativo para impressora térmica (100x150 mm)<br>• Suporte para folhas A4 (2 ou 4 etiquetas por folha)<br>• Gerador dinâmico de Código de Barras SVG (Code 39)<br>• Remetente Mis Sueños oficial pré-configurado<br>• Botões de cópia rápida para Superfrete, Correios e Jadlog | [`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html) | ✅ **100% Concluído** |
 | **05** | **Gestão de Pedidos & Turso Cloud** | • Tabela relacional `pedidos` criada com integridade<br>• API Serverless REST (`GET`, `POST`, `PUT`, `DELETE`)<br>• Modal de cadastro com autocomplete nos 1.140 clientes<br>• Indicadores de status (`EM_SEPARACAO`, `AGUARDANDO_ENVIO`, etc.)<br>• Banco na nuvem configurado no Turso (`aws-sa-east-1`) | [`api/pedidos.js`](file:///d:/projetos-agy/MisSuenos/api/pedidos.js)<br>[`scripts/init_pedidos.js`](file:///d:/projetos-agy/MisSuenos/scripts/init_pedidos.js)<br>[`lib/db.js`](file:///d:/projetos-agy/MisSuenos/lib/db.js)<br>[`scripts/migrar_turso.js`](file:///d:/projetos-agy/MisSuenos/scripts/migrar_turso.js) | ✅ **100% Concluído** |
 | **06** | **Versionamento & Otimização do Repositório** | • Código commitado e sincronizado no GitHub<br>• Remoção da pasta pesada `ENDEREÇOS DE ENVIO`<br>• Otimização do `.gitignore` para repositório enxuto | [GitHub MisSuenos](https://github.com/gustavorosainformatica/MisSuenos)<br>[.gitignore](file:///d:/projetos-agy/MisSuenos/.gitignore) | ✅ **100% Concluído** |
+| **07** | **Apresentação Executiva Interativa (Vídeo Guiado)** | • Arquivo autônomo multimídia para envio ao cliente<br>• Seletor de módulos (Clientes, Pedidos, Etiquetas, Estoque, Fiscal)<br>• Narração de voz em áudio sincronizada (PT-BR)<br>• Simulação com mouse animado e visualização completa de etiquetas térmicas e A4 | [`DEMONSTRACAO_MISSUENOS.html`](file:///d:/projetos-agy/MisSuenos/DEMONSTRACAO_MISSUENOS.html)<br>[`public/demonstracao_missuenos.html`](file:///d:/projetos-agy/MisSuenos/public/demonstracao_missuenos.html) | ✅ **100% Concluído** |
 
 ---
 
