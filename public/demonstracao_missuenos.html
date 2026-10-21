@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vídeo Demonstração Interativa | Mis Sueños ERP</title>
+  <link rel="icon" type="image/png" href="public/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070a10;
+      --bg-card: #0f1624;
+      --bg-card-elevated: #162033;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --primary: #00d4ff;
+      --primary-hover: #38bdf8;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-size: 13px;
+    }
+
+    /* BARRA SUPERIOR DO PLAYER DE VÍDEO / APRESENTAÇÃO */
+    .player-header {
+      background: rgba(11, 16, 25, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10000;
+      backdrop-filter: blur(16px);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .player-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .player-badge-live {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .player-badge-live span {
+      width: 6px;
+      height: 6px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulseLive 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .player-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .player-dev {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* SELETOR DE MÓDULOS / CAPÍTULOS */
+    .module-nav {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .module-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .module-btn:hover, .module-btn.active {
+      background: rgba(0, 212, 255, 0.15);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .module-btn.active {
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.3);
+    }
+
+    /* CONTROLES DE REPRODUÇÃO */
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ctrl {
+      background: var(--bg-card-elevated);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-ctrl:hover {
+      background: rgba(0, 212, 255, 0.2);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-ctrl.btn-primary-play {
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      border: none;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+    }
+
+    .btn-ctrl.btn-primary-play:hover {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      color: #fff;
+    }
+
+    /* BARRA DE PROGRESSO */
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00d4ff, #10b981);
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px #00d4ff;
+    }
+
+    /* ÁREA DO SISTEMA EMULADO */
+    .screen-stage {
+      flex: 1;
+      position: relative;
+      background: #070a10;
+      display: flex;
+      overflow: hidden;
+      min-height: calc(100vh - 120px);
+    }
+
+    /* MOUSE CURSOR SIMULADO */
+    #demo-cursor {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      top: 0;
+      left: 0;
+      z-index: 99999;
+      pointer-events: none;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8));
+    }
+
+    .demo-ripple {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3px solid #00d4ff;
+      background: rgba(0, 212, 255, 0.4);
+      z-index: 99998;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0.2);
+      animation: rippleEffect 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes rippleEffect {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.2); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
+    }
+
+    .demo-highlight {
+      outline: 3px solid #00d4ff !important;
+      outline-offset: 4px !important;
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.8) !important;
+      transition: all 0.3s ease !important;
+      position: relative;
+      z-index: 50;
+    }
+
+    /* LEGENDA E HUD NARRATIVO */
+    .hud-subtitles {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(11, 16, 25, 0.95);
+      border: 1px solid rgba(0, 212, 255, 0.5);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85), 0 0 25px rgba(0, 212, 255, 0.25);
+      border-radius: 14px;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 780px;
+      width: 90%;
+      z-index: 10000;
+      backdrop-filter: blur(16px);
+    }
+
+    .hud-wave {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      animation: wavePulse 1.4s infinite ease-in-out;
+    }
+
+    @keyframes wavePulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+      50% { transform: scale(1.08); box-shadow: 0 0 16px 4px rgba(0, 212, 255, 0.4); }
+    }
+
+    .hud-info {
+      flex: 1;
+    }
+
+    .hud-module-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .hud-caption {
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 1.45;
+      font-weight: 500;
+    }
+
+    /* ESTRUTURA DO ERP EMULADO */
+    .erp-mock-sidebar {
+      width: 250px;
+      background: #0b1019;
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 16px 10px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-brand-box img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .sidebar-brand-box div h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .sidebar-brand-box div span {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .mock-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: all 0.2s;
+    }
+
+    .mock-nav-item:hover, .mock-nav-item.active {
+      background: rgba(0, 212, 255, 0.12);
+      color: #fff;
+      border-left: 3px solid var(--primary);
+    }
+
+    .mock-nav-item .badge {
+      margin-left: auto;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-weight: 800;
+    }
+
+    .erp-mock-main {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 120px);
+    }
+
+    .mock-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .mock-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .mock-kpi-top {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .mock-kpi-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .mock-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .mock-table-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .mock-table th {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 12px 16px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .mock-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 12.5px;
+    }
+
+    .btn-action {
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.35);
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-action:hover {
+      background: rgba(0, 212, 255, 0.3);
+      color: #fff;
+    }
+
+    /* MODAL DE ETIQUETA EMULADO */
+    .mock-modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.82);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .mock-modal-overlay.active {
+      display: flex;
+    }
+
+    .mock-modal {
+      background: #0f1624;
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+      border-radius: var(--radius-lg);
+      width: 900px;
+      max-width: 95%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .mock-modal-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mock-modal-body {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+    }
+
+    /* ETIQUETA REALISTA */
+    .etiqueta-box {
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #000;
+      padding: 18px;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: all 0.3s;
+    }
+
+    .etiqueta-box.formato-a4 {
+      border: 2px dashed #666;
+      padding: 24px;
+    }
+
+    .etq-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .etq-logo {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    .etq-badge-service {
+      font-size: 10px;
+      font-weight: 900;
+      border: 2px solid #000;
+      padding: 3px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .etq-sec-title {
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    .etq-dest-name {
+      font-size: 14px;
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .etq-dest-addr {
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .etq-barcode-wrap {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: center;
+      margin: 12px 0;
+      background: #fafafa;
+    }
+
+    .etq-remetente-box {
+      border-top: 2px solid #000;
+      padding-top: 8px;
+      font-size: 10px;
+      line-height: 1.35;
+      color: #222;
+    }
+
+    /* MODAL DE INICIALIZAÇÃO / PLAY COM SOM */
+    .start-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(7, 10, 16, 0.95);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(12px);
+    }
+
+    .start-card {
+      background: #0f1624;
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 212, 255, 0.3);
+      border-radius: 20px;
+      padding: 36px;
+      text-align: center;
+      max-width: 540px;
+      width: 90%;
+    }
+
+    .start-icon {
+      font-size: 50px;
+      margin-bottom: 16px;
+      display: inline-block;
+      animation: pulsePlay 1.5s infinite;
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .start-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .start-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .btn-big-play {
+      background: linear-gradient(135deg, #00d4ff, #0284c7);
+      color: #ffffff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .btn-big-play:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 212, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MODAL INICIAL PARA LIBERAR O ÁUDIO DO NAVEGADOR -->
+  <div class="start-modal" id="modal-inicio">
+    <div class="start-card">
+      <div class="start-icon">🎬</div>
+      <h1 class="start-title">Mis Sueños ERP | Apresentação</h1>
+      <p class="start-desc">
+        Apresentação completa com <strong>cursor guiado e narração em áudio</strong> cobrindo todos os módulos: Clientes, Pedidos, <strong>Impressão de Etiquetas com Código de Barras</strong>, Estoque e Central Fiscal.
+      </p>
+      <button class="btn-big-play" onclick="comecarApresentacaoComSom()">
+        <span>▶️ Iniciar Demonstração com Áudio</span>
+      </button>
+      <div style="margin-top: 18px; font-size: 11.5px; color: var(--text-muted);">
+        💡 Desenvolvido por <strong>Gustavo Rosa Informática</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA DE CONTROLE DO VÍDEO / APRESENTAÇÃO -->
+  <header class="player-header">
+    <div class="player-brand">
+      <div class="player-badge-live">
+        <span></span> VÍDEO GUIADO
+      </div>
+      <div>
+        <div class="player-title">Mis Sueños ERP · Demonstração Executiva</div>
+        <div class="player-dev">Desenvolvido por Gustavo Rosa Informática</div>
+      </div>
+    </div>
+
+    <!-- SELETOR DE MÓDULOS -->
+    <div class="module-nav">
+      <button class="module-btn active" id="btn-mod-todos" onclick="selecionarModulo('todos')">
+        <span>▶</span> Assistir Tudo
+      </button>
+      <button class="module-btn" id="btn-mod-clientes" onclick="selecionarModulo('clientes')">
+        <span>👥</span> 1. Clientes & CRM
+      </button>
+      <button class="module-btn" id="btn-mod-pedidos" onclick="selecionarModulo('pedidos')">
+        <span>📦</span> 2. Vendas & Pedidos
+      </button>
+      <button class="module-btn" id="btn-mod-etiquetas" onclick="selecionarModulo('etiquetas')">
+        <span>🏷️</span> 3. Impressão de Etiquetas
+      </button>
+      <button class="module-btn" id="btn-mod-estoque" onclick="selecionarModulo('estoque')">
+        <span>🪵</span> 4. Estoque de Couros
+      </button>
+      <button class="module-btn" id="btn-mod-fiscal" onclick="selecionarModulo('fiscal')">
+        <span>🧾</span> 5. Central Fiscal
+      </button>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="player-controls">
+      <button class="btn-ctrl" id="btn-play-pause" onclick="alternarPlayPause()">
+        <span id="icon-play-pause">⏸️</span> <span id="label-play-pause">Pausar</span>
+      </button>
+      <button class="btn-ctrl" onclick="reiniciarModuloAtual()">
+        🔄 Reiniciar
+      </button>
+      <button class="btn-ctrl" id="btn-som" onclick="alternarMudo()">
+        🔊 Som Ligado
+      </button>
+    </div>
+  </header>
+
+  <!-- BARRA DE PROGRESSO -->
+  <div class="progress-bar-container" onclick="clicarProgresso(event)">
+    <div class="progress-bar-fill" id="progress-bar"></div>
+  </div>
+
+  <!-- PALCO DO SISTEMA EMULADO -->
+  <div class="screen-stage">
+    <!-- MOUSE CURSOR VISUAL -->
+    <div id="demo-cursor">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <path d="M4 2L20 10L12 13L9 21L4 2Z" fill="#00d4ff" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="5" cy="3" r="2.5" fill="#ffffff"/>
+      </svg>
+    </div>
+
+    <!-- SIDEBAR DO SISTEMA -->
+    <aside class="erp-mock-sidebar">
+      <div class="sidebar-brand-box">
+        <div style="background: linear-gradient(135deg, #0284c7, #00d4ff); width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px;">
+          🤠
+        </div>
+        <div>
+          <h3>Mis Sueños</h3>
+          <span>Selaria & Couros ERP</span>
+        </div>
+      </div>
+
+      <div class="mock-nav-item active" id="nav-mock-clientes" onclick="selecionarModulo('clientes')">
+        <span>👥</span> Clientes & CRM
+        <span class="badge">1.140 Reais</span>
+      </div>
+      <div class="mock-nav-item" id="nav-mock-pedidos" onclick="selecionarModulo('pedidos')">
+        <span>📦</span> Vendas & Pedidos
+        <span class="badge" style="background: rgba(0, 212, 255, 0.2); color: #38bdf8;">Ativo</span>
+      </div>
+      <div class="mock-nav-item" id="nav-mock-estoque" onclick="selecionarModulo('estoque')">
+        <span>🪵</span> Estoque de Couros
+        <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">Catálogo</span>
+      </div>
+      <div class="mock-nav-item" id="nav-mock-fiscal" onclick="selecionarModulo('fiscal')">
+        <span>🧾</span> Central Fiscal (NF-e)
+        <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">SEFAZ/RFB</span>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL DINÂMICO -->
+    <main class="erp-mock-main" id="mock-main-content">
+      <!-- MÓDULO 1: CLIENTES -->
+      <section id="view-clientes">
+        <div class="mock-kpi-grid">
+          <div class="mock-kpi-card" id="card-cli-total">
+            <div class="mock-kpi-top"><span>Base de Clientes</span> <span>👥</span></div>
+            <div class="mock-kpi-value" style="color: #34d399;">1.140</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Clientes reais consolidados</div>
+          </div>
+          <div class="mock-kpi-card" id="card-cli-rs">
+            <div class="mock-kpi-top"><span>Liderança no RS</span> <span>📍</span></div>
+            <div class="mock-kpi-value" style="color: #38bdf8;">693</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">60.8% do volume estadual</div>
+          </div>
+          <div class="mock-kpi-card" id="card-cli-mapa">
+            <div class="mock-kpi-top"><span>Cobertura Nacional</span> <span>🇧🇷</span></div>
+            <div class="mock-kpi-value" style="color: #f59e0b;">27 UFs</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Mapa de calor do Brasil</div>
+          </div>
+        </div>
+
+        <div class="mock-table-card">
+          <div class="mock-table-header">
+            <div>
+              <strong style="font-size: 14px; color: #fff;">👥 Cadastro Oficial de Clientes & Destinatários</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Busca instantânea por nome, CPF/CNPJ, CEP ou cidade</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="demo-search-input" placeholder="🔍 Pesquisar cliente..." style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; width: 220px;">
+              <button class="btn-action" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); color: #34d399;">➕ Novo Cliente</button>
+            </div>
+          </div>
+
+          <table class="mock-table">
+            <thead>
+              <tr>
+                <th>Nome / Razão Social</th>
+                <th>Documento</th>
+                <th>Cidade / UF</th>
+                <th>Telefone / WhatsApp</th>
+                <th style="text-align: right;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="demo-cli-body">
+              <tr>
+                <td><strong>ADILSON IFRAN MARTINS</strong></td>
+                <td><span style="font-family: 'JetBrains Mono'; color: #94a3b8;">014.***.***-89</span></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">RS</span> SÃO BORJA</td>
+                <td>(55) 99445-5667</td>
+                <td style="text-align: right;"><button class="btn-action">Ficha Completa</button></td>
+              </tr>
+              <tr>
+                <td><strong>ADEMIR DONATO</strong></td>
+                <td><span style="font-family: 'JetBrains Mono'; color: #94a3b8;">452.***.***-34</span></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">GO</span> JATAÍ</td>
+                <td>(64) 99334-4556</td>
+                <td style="text-align: right;"><button class="btn-action">Ficha Completa</button></td>
+              </tr>
+              <tr>
+                <td><strong>ACÁCIO BENEDITO RAMOS</strong></td>
+                <td><span style="font-family: 'JetBrains Mono'; color: #94a3b8;">189.***.***-01</span></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-weight: 700;">MG</span> CONCEIÇÃO DOS OUROS</td>
+                <td>(35) 99988-7766</td>
+                <td style="text-align: right;"><button class="btn-action">Ficha Completa</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MÓDULO 2 & 3: PEDIDOS E ETIQUETAS -->
+      <section id="view-pedidos" style="display: none;">
+        <div class="mock-kpi-grid">
+          <div class="mock-kpi-card" id="card-ped-faturamento">
+            <div class="mock-kpi-top"><span>Faturamento Total</span> <span>💵</span></div>
+            <div class="mock-kpi-value" style="color: #34d399;">R$ 3.840,00</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Pedidos no banco</div>
+          </div>
+          <div class="mock-kpi-card" id="card-ped-volume">
+            <div class="mock-kpi-top"><span>Volume de Pedidos</span> <span>📦</span></div>
+            <div class="mock-kpi-value" style="color: #38bdf8;">8 Pedidos</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Histórico ativo</div>
+          </div>
+          <div class="mock-kpi-card" id="card-ped-pendente">
+            <div class="mock-kpi-top"><span>Aguardando Envio</span> <span>⏳</span></div>
+            <div class="mock-kpi-value" style="color: #f59e0b;">2 Pedidos</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Expedição pendente</div>
+          </div>
+        </div>
+
+        <div class="mock-table-card">
+          <div class="mock-table-header">
+            <div>
+              <strong style="font-size: 14px; color: #fff;">📦 Gestão de Vendas, Encomendas & Entregas</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Controle de pedidos de artesãos, sogueiros e lojistas</div>
+            </div>
+            <button class="btn-action" id="btn-novo-pedido-demo" style="background: linear-gradient(135deg, #0284c7, #00d4ff); color: #fff; border: none; padding: 6px 14px;">
+              ➕ + Novo Pedido
+            </button>
+          </div>
+
+          <table class="mock-table">
+            <thead>
+              <tr>
+                <th>Nº Pedido</th>
+                <th>Destinatário</th>
+                <th>Destino</th>
+                <th>Itens Encomendados</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th style="text-align: right;">Ações de Expedição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="linha-pedido-1">
+                <td><strong style="color: #38bdf8; font-family: 'JetBrains Mono';">#PED-1035</strong></td>
+                <td><strong>ADILSON IFRAN MARTINS</strong></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 1px 5px; border-radius: 4px;">RS</span> SÃO BORJA</td>
+                <td style="color: var(--text-muted);">1x Meio Couro Cru Sovado + 2x Tento 100m</td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 470,00</td>
+                <td><span style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ Enviado</span></td>
+                <td style="text-align: right;">
+                  <button class="btn-action" id="btn-demo-etiqueta" onclick="abrirModalEtiquetaDemo()" style="background: #0284c7; color: #fff; font-weight: 800; box-shadow: 0 0 10px rgba(0,212,255,0.4);">
+                    🏷️ Ver Etiqueta
+                  </button>
+                  <button class="btn-action" style="margin-left: 4px;">✏️ Editar</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong style="color: #38bdf8; font-family: 'JetBrains Mono';">#PED-1036</strong></td>
+                <td><strong>ADEMIR DONATO</strong></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 1px 5px; border-radius: 4px;">GO</span> JATAÍ</td>
+                <td style="color: var(--text-muted);">4x Lonca de Cabrito + 2x Brunidor</td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 656,00</td>
+                <td><span style="background: rgba(16, 185, 129, 0.2); color: #34d399; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ Enviado</span></td>
+                <td style="text-align: right;">
+                  <button class="btn-action">🏷️ Ver Etiqueta</button>
+                  <button class="btn-action" style="margin-left: 4px;">✏️ Editar</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong style="color: #38bdf8; font-family: 'JetBrains Mono';">#PED-1042</strong></td>
+                <td><strong>ACÁCIO BENEDITO RAMOS</strong></td>
+                <td><span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; padding: 1px 5px; border-radius: 4px;">MG</span> CONCEIÇÃO DOS OUROS</td>
+                <td style="color: var(--text-muted);">2x Lonca de Cabrito + 1x Tento 100m</td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 385,00</td>
+                <td><span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">⏳ Aguardando Envio</span></td>
+                <td style="text-align: right;">
+                  <button class="btn-action">🏷️ Ver Etiqueta</button>
+                  <button class="btn-action" style="margin-left: 4px;">✏️ Editar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MÓDULO 4: ESTOQUE DE COUROS -->
+      <section id="view-estoque" style="display: none;">
+        <div class="mock-kpi-grid">
+          <div class="mock-kpi-card">
+            <div class="mock-kpi-top"><span>Itens no Catálogo</span> <span>🪵</span></div>
+            <div class="mock-kpi-value" style="color: #f59e0b;">5 Produtos</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Couros, Loncas & Tentos</div>
+          </div>
+          <div class="mock-kpi-card">
+            <div class="mock-kpi-top"><span>Valor em Estoque</span> <span>💰</span></div>
+            <div class="mock-kpi-value" style="color: #34d399;">R$ 14.850,00</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Avaliação a preço de venda</div>
+          </div>
+        </div>
+
+        <div class="mock-table-card">
+          <div class="mock-table-header">
+            <div>
+              <strong style="font-size: 14px; color: #fff;">🪵 Catálogo de Couros, Solas & Tentos</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Gestão de estoque físico para pronta-entrega</div>
+            </div>
+            <button class="btn-action" style="background: #10b981; color: #fff; border: none;">➕ Novo Produto</button>
+          </div>
+          <table class="mock-table">
+            <thead>
+              <tr>
+                <th>Código / SKU</th>
+                <th>Descrição do Produto</th>
+                <th>Categoria</th>
+                <th>Estoque Atual</th>
+                <th>Preço Venda</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span style="font-family: 'JetBrains Mono'; color: #38bdf8;">SKU-LON-001</span></td>
+                <td><strong>Lonca de Cabrito Selecionada</strong></td>
+                <td>Loncas</td>
+                <td><span style="color: #34d399; font-weight: 700;">28 Peças</span></td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 140,00</td>
+              </tr>
+              <tr>
+                <td><span style="font-family: 'JetBrains Mono'; color: #38bdf8;">SKU-COU-002</span></td>
+                <td><strong>Meio Couro Cru Sovado Legítimo</strong></td>
+                <td>Couros & Peles</td>
+                <td><span style="color: #34d399; font-weight: 700;">14 Peças</span></td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 380,00</td>
+              </tr>
+              <tr>
+                <td><span style="font-family: 'JetBrains Mono'; color: #38bdf8;">SKU-SOL-003</span></td>
+                <td><strong>Sola Bovina Curtume (4-5mm)</strong></td>
+                <td>Couros & Peles</td>
+                <td><span style="color: #34d399; font-weight: 700;">45 Kg</span></td>
+                <td style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono';">R$ 65,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- MÓDULO 5: CENTRAL FISCAL -->
+      <section id="view-fiscal" style="display: none;">
+        <div class="mock-kpi-grid">
+          <div class="mock-kpi-card">
+            <div class="mock-kpi-top"><span>Status de Conexão</span> <span>🟢</span></div>
+            <div class="mock-kpi-value" style="color: #34d399; font-size: 20px;">Conectado</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">SEFAZ RS & Receita Federal</div>
+          </div>
+          <div class="mock-kpi-card">
+            <div class="mock-kpi-top"><span>NFS-e de Serviços</span> <span>🛠️</span></div>
+            <div class="mock-kpi-value" style="color: #38bdf8;">Portal Nacional</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Padrão unificado de serviços</div>
+          </div>
+          <div class="mock-kpi-card">
+            <div class="mock-kpi-top"><span>NF-e de Produtos</span> <span>📦</span></div>
+            <div class="mock-kpi-value" style="color: #f59e0b;">Modelo 55</div>
+            <div style="color: var(--text-muted); font-size: 11px; margin-top: 4px;">Exportação TXT para SEFAZ/Sebrae</div>
+          </div>
+        </div>
+
+        <div class="mock-table-card">
+          <div class="mock-table-header">
+            <div>
+              <strong style="font-size: 14px; color: #fff;">🧾 Histórico de Documentos Fiscais Emitidos</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Logs com chave de acesso e comprovante</div>
+            </div>
+            <button class="btn-action" style="background: #10b981; color: #fff; border: none;">+ Emitir Nova Nota</button>
+          </div>
+          <table class="mock-table">
+            <thead>
+              <tr>
+                <th>Documento</th>
+                <th>Destinatário</th>
+                <th>UF</th>
+                <th>Valor Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color: #38bdf8;">NF-e 001.428</strong></td>
+                <td>ACÁCIO BENEDITO RAMOS</td>
+                <td>MG</td>
+                <td style="color: #34d399; font-weight: 700;">R$ 385,00</td>
+                <td><span style="color: #34d399; font-weight: 700;">🟢 Autorizada</span></td>
+              </tr>
+              <tr>
+                <td><strong style="color: #38bdf8;">DPS 000.412</strong></td>
+                <td>ADAM HUPPES</td>
+                <td>RS</td>
+                <td style="color: #34d399; font-weight: 700;">R$ 180,00</td>
+                <td><span style="color: #34d399; font-weight: 700;">🟢 Autorizada</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- MODAL DE ETIQUETA REALISTA (O DESTAQUE DO SISTEMA) -->
+    <div class="mock-modal-overlay" id="modal-etiqueta-demo">
+      <div class="mock-modal">
+        <div class="mock-modal-head">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 20px;">🏷️</span>
+            <div>
+              <strong style="color: #fff; font-size: 14px;">Emissão de Etiqueta de Envio & Logística Postal</strong>
+              <div style="font-size: 11px; color: #38bdf8;">Superfrete · Correios · Jadlog · Envio Oficial</div>
+            </div>
+          </div>
+          <button style="background: none; border: none; color: #fff; font-size: 18px; cursor: pointer;" onclick="fecharModalEtiquetaDemo()">✕</button>
+        </div>
+
+        <div class="mock-modal-body">
+          <!-- PAINEL DE CONTROLE DA ETIQUETA -->
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 8px; padding: 12px;">
+              <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase;">
+                ⚡ Envio Rápido
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
+                Etiqueta oficial padronizada para transporte de encomendas com leitor óptico.
+              </div>
+            </div>
+
+            <div>
+              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px;">Formato de Impressão</label>
+              <select id="select-formato-etq" onchange="alternarFormatoVisualEtq(this.value)" style="width: 100%; background: #162033; border: 1px solid var(--border-color); color: #fff; padding: 8px 12px; border-radius: 6px; font-weight: 700;">
+                <option value="termica">🏷️ Térmica (100x150 mm) - Padrão Zebra/Elgin</option>
+                <option value="a4">📄 Folha A4 (Com guias de corte e dobra)</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 5px;">Serviço de Frete</label>
+              <select style="width: 100%; background: #162033; border: 1px solid var(--border-color); color: #fff; padding: 8px 12px; border-radius: 6px;">
+                <option>🚚 Superfrete / Correios (PAC Econômico)</option>
+                <option>⚡ Correios SEDEX (Expresso)</option>
+                <option>🚛 Jadlog (.Package)</option>
+              </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+              <button class="btn-action" id="btn-demo-copiar-superfrete" style="width: 100%; padding: 10px; background: rgba(0, 212, 255, 0.15); font-size: 12px;">
+                📋 Copiar Texto para Superfrete
+              </button>
+              <button class="btn-action" id="btn-demo-imprimir-etq" style="width: 100%; padding: 10px; background: #10b981; color: #fff; font-size: 12px; border: none;">
+                🖨️ Imprimir Etiqueta Agora
+              </button>
+            </div>
+          </div>
+
+          <!-- PRÉ-VISUALIZAÇÃO DA ETIQUETA REAL -->
+          <div style="display: flex; justify-content: center; align-items: flex-start; background: #070a10; border: 1px solid var(--border-color); border-radius: 8px; padding: 16px;">
+            <div class="etiqueta-box" id="etiqueta-preview-box" style="width: 100%; max-width: 380px;">
+              <div class="etq-head-row">
+                <div>
+                  <div class="etq-logo">MIS SUEÑOS</div>
+                  <div style="font-size: 8px; font-weight: 700; color: #333; letter-spacing: 0.5px;">SELARIA, COUROS & ARTESANATO</div>
+                </div>
+                <div class="etq-badge-service">CORREIOS PAC</div>
+              </div>
+
+              <div style="margin-bottom: 12px;">
+                <div class="etq-sec-title">DESTINATÁRIO:</div>
+                <div class="etq-dest-name" id="etq-dest-nome">ADILSON IFRAN MARTINS</div>
+                <div class="etq-dest-addr" id="etq-dest-endereco">
+                  Rua Coronel Aparício Mariense, nº 1420<br>
+                  Bairro Centro · São Borja - RS<br>
+                  <strong>CEP: 97670-000</strong> · Tel: (55) 99445-5667
+                </div>
+              </div>
+
+              <div class="etq-barcode-wrap" id="etq-barcode-area">
+                <svg viewBox="0 0 240 45" style="width: 100%; height: 45px;">
+                  <!-- BARRAS DO CODE 39 -->
+                  <rect x="5" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="12" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="16" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="23" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="28" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="35" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="40" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="48" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="54" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="62" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="68" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="76" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="84" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="92" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="98" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="106" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="114" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="122" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="128" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="136" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="144" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="152" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="158" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="166" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="174" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="182" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="188" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="196" y="0" width="2" height="45" fill="#000"/>
+                  <rect x="204" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="212" y="0" width="1" height="45" fill="#000"/>
+                  <rect x="218" y="0" width="3" height="45" fill="#000"/>
+                  <rect x="228" y="0" width="2" height="45" fill="#000"/>
+                </svg>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; margin-top: 4px; letter-spacing: 2px;">
+                  97670-000-PED1035
+                </div>
+              </div>
+
+              <div style="font-size: 10px; margin-bottom: 8px; color: #444;">
+                <strong>Conteúdo:</strong> 1x Meio Couro Cru Sovado + 2x Tento 100m · <strong>Peso:</strong> 2.5 kg
+              </div>
+
+              <div class="etq-remetente-box">
+                <div class="etq-sec-title" style="font-size: 8px;">REMETENTE:</div>
+                <strong>MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)</strong><br>
+                Rua Major João Villa Verde, nº 46 · Pitangueiras<br>
+                Santo Antônio da Patrulha - RS · CEP: 95500-000<br>
+                Tel / WhatsApp: (51) 99719-9204
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD DE LEGENDAS E ONDA DE VOZ -->
+    <div class="hud-subtitles" id="hud-subtitles">
+      <div class="hud-wave" id="hud-audio-icon">🔊</div>
+      <div class="hud-info">
+        <div class="hud-module-tag" id="hud-module-tag">MÓDULO 1 DE 5 · CLIENTES & CRM</div>
+        <div class="hud-caption" id="hud-caption">Apresentação pronta. Clique em Iniciar para assistir com áudio.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========================================================
+    // SCRIPT DE CONTROLE DO VÍDEO / TOUR GUIADO
+    // ========================================================
+    let emExecucao = false;
+    let moduloSelecionado = 'todos';
+    let indicePasso = 0;
+    let mudo = false;
+    let timeoutId = null;
+
+    // ROTEIRO COMPLETO DE CADA MÓDULO COM ÁUDIO E COORDENADAS
+    const ROTEIRO = [
+      // MÓDULO 1: CLIENTES
+      {
+        modulo: 'clientes',
+        tag: 'MÓDULO 1 DE 5 · CLIENTES & CRM',
+        legenda: 'Olá, Marcos! Este é o módulo de Clientes e CRM do seu novo sistema Mis Sueños.',
+        audio: 'Olá, Marcos! Este é o módulo de Clientes e CRM do seu novo sistema Mis Sueños.',
+        acao: () => {
+          mostrarAba('clientes');
+          moverCursorPara('#nav-mock-clientes');
+          destacarElemento('#nav-mock-clientes');
+        }
+      },
+      {
+        modulo: 'clientes',
+        tag: 'MÓDULO 1 DE 5 · DADOS REAIS CONSOLIDADOS',
+        legenda: 'Aqui estão consolidados todos os 1.140 clientes reais da sua empresa com 100% dos dados.',
+        audio: 'Aqui estão consolidados todos os 1.140 clientes reais da sua empresa com 100% dos dados.',
+        acao: () => {
+          moverCursorPara('#card-cli-total');
+          destacarElemento('#card-cli-total');
+        }
+      },
+      {
+        modulo: 'clientes',
+        tag: 'MÓDULO 1 DE 5 · BUSCA INTELIGENTE',
+        legenda: 'Você pode pesquisar qualquer cliente instantaneamente por nome, cidade ou CPF.',
+        audio: 'Você pode pesquisar qualquer cliente instantaneamente por nome, cidade ou CPF.',
+        acao: () => {
+          moverCursorPara('#demo-search-input');
+          destacarElemento('#demo-search-input');
+          const input = document.getElementById('demo-search-input');
+          input.value = 'Adilson';
+        }
+      },
+
+      // MÓDULO 2: VENDAS & PEDIDOS
+      {
+        modulo: 'pedidos',
+        tag: 'MÓDULO 2 DE 5 · VENDAS & PEDIDOS',
+        legenda: 'Agora, acessamos o módulo de Vendas e Pedidos no menu lateral.',
+        audio: 'Agora, acessamos o módulo de Vendas e Pedidos no menu lateral.',
+        acao: () => {
+          mostrarAba('pedidos');
+          moverCursorPara('#nav-mock-pedidos');
+          destacarElemento('#nav-mock-pedidos');
+        }
+      },
+      {
+        modulo: 'pedidos',
+        tag: 'MÓDULO 2 DE 5 · INDICADORES EM TEMPO REAL',
+        legenda: 'No topo, o sistema calcula faturamento, total de encomendas e o volume aguardando envio.',
+        audio: 'No topo, o sistema calcula faturamento, total de encomendas e o volume aguardando envio.',
+        acao: () => {
+          moverCursorPara('#card-ped-faturamento');
+          destacarElemento('#card-ped-faturamento');
+        }
+      },
+      {
+        modulo: 'pedidos',
+        tag: 'MÓDULO 2 DE 5 · NOVO PEDIDO COM AUTOCOMPLETE',
+        legenda: 'Ao cadastrar uma nova venda, o sistema busca o cliente e preenche o endereço sozinho.',
+        audio: 'Ao cadastrar uma nova venda, o sistema busca o cliente e preenche o endereço sozinho.',
+        acao: () => {
+          moverCursorPara('#btn-novo-pedido-demo');
+          destacarElemento('#btn-novo-pedido-demo');
+        }
+      },
+
+      // MÓDULO 3: ETIQUETAS DE ENVIO (DESTAQUE MÁXIMO)
+      {
+        modulo: 'etiquetas',
+        tag: 'MÓDULO 3 DE 5 · IMPRESSÃO DE ETIQUETAS',
+        legenda: 'Para emitir a etiqueta de despacho, basta clicar no botão azul "Ver Etiqueta" da encomenda.',
+        audio: 'Para emitir a etiqueta de despacho, basta clicar no botão azul Ver Etiqueta da encomenda.',
+        acao: () => {
+          mostrarAba('pedidos');
+          moverCursorPara('#btn-demo-etiqueta');
+          destacarElemento('#btn-demo-etiqueta');
+        }
+      },
+      {
+        modulo: 'etiquetas',
+        tag: 'MÓDULO 3 DE 5 · PRÉ-VISUALIZAÇÃO DA ETIQUETA',
+        legenda: 'Veja a etiqueta pronta! Ela já inclui o remetente oficial da Mis Sueños em Santo Antônio da Patrulha.',
+        audio: 'Veja a etiqueta pronta! Ela já inclui o remetente oficial da Mis Sueños em Santo Antônio da Patrulha.',
+        acao: () => {
+          abrirModalEtiquetaDemo();
+          moverCursorPara('.etq-remetente-box');
+          destacarElemento('.etq-remetente-box');
+        }
+      },
+      {
+        modulo: 'etiquetas',
+        tag: 'MÓDULO 3 DE 5 · CÓDIGO DE BARRAS DOS CORREIOS',
+        legenda: 'O código de barras Code 39 é gerado automaticamente para leitura óptica no momento da postagem.',
+        audio: 'O código de barras Code 39 é gerado automaticamente para leitura óptica no momento da postagem.',
+        acao: () => {
+          moverCursorPara('#etq-barcode-area');
+          destacarElemento('#etq-barcode-area');
+        }
+      },
+      {
+        modulo: 'etiquetas',
+        tag: 'MÓDULO 3 DE 5 · ALTERNÂNCIA PARA FOLHA A4',
+        legenda: 'Você pode alternar entre impressora térmica de 100 por 150 milímetros ou folha A4 comum.',
+        audio: 'Você pode alternar entre impressora térmica de 100 por 150 milímetros ou folha A4 comum.',
+        acao: () => {
+          moverCursorPara('#select-formato-etq');
+          destacarElemento('#select-formato-etq');
+          document.getElementById('select-formato-etq').value = 'a4';
+          alternarFormatoVisualEtq('a4');
+        }
+      },
+      {
+        modulo: 'etiquetas',
+        tag: 'MÓDULO 3 DE 5 · INTEGRAÇÃO SUPERFRETE E IMPRESSÃO',
+        legenda: 'Basta um clique para copiar os dados para o Superfrete ou imprimir diretamente na sua impressora.',
+        audio: 'Basta um clique para copiar os dados para o Superfrete ou imprimir diretamente na sua impressora.',
+        acao: () => {
+          moverCursorPara('#btn-demo-imprimir-etq');
+          destacarElemento('#btn-demo-imprimir-etq');
+        }
+      },
+
+      // MÓDULO 4: ESTOQUE
+      {
+        modulo: 'estoque',
+        tag: 'MÓDULO 4 DE 5 · ESTOQUE DE COUROS',
+        legenda: 'No módulo de Estoque, você acompanha a quantidade de loncas, couros sovados, solas e tentos.',
+        audio: 'No módulo de Estoque, você acompanha a quantidade de loncas, couros sovados, solas e tentos.',
+        acao: () => {
+          fecharModalEtiquetaDemo();
+          mostrarAba('estoque');
+          moverCursorPara('#nav-mock-estoque');
+          destacarElemento('#nav-mock-estoque');
+        }
+      },
+
+      // MÓDULO 5: CENTRAL FISCAL
+      {
+        modulo: 'fiscal',
+        tag: 'MÓDULO 5 DE 5 · CENTRAL FISCAL (NF-E & NFS-E)',
+        legenda: 'A Central Fiscal permite emitir notas de serviço no Portal Nacional e notas de produto para a SEFAZ.',
+        audio: 'A Central Fiscal permite emitir notas de serviço no Portal Nacional e notas de produto para a SEFAZ.',
+        acao: () => {
+          mostrarAba('fiscal');
+          moverCursorPara('#nav-mock-fiscal');
+          destacarElemento('#nav-mock-fiscal');
+        }
+      },
+      {
+        modulo: 'todos',
+        tag: 'APRESENTAÇÃO CONCLUÍDA COM SUCESSO',
+        legenda: 'Pronto! O sistema Mis Sueños foi desenvolvido sob medida para trazer agilidade total ao seu dia a dia.',
+        audio: 'Pronto! O sistema Mis Sueños foi desenvolvido sob medida para trazer agilidade total ao seu dia a dia.',
+        acao: () => {
+          removerDestaques();
+          moverCursorPara('.player-brand');
+        }
+      }
+    ];
+
+    function comecarApresentacaoComSom() {
+      document.getElementById('modal-inicio').style.display = 'none';
+      emExecucao = true;
+      executarPasso(0);
+    }
+
+    function mostrarAba(nomeAba) {
+      document.querySelectorAll('#mock-main-content section').forEach(sec => sec.style.display = 'none');
+      document.querySelectorAll('.mock-nav-item').forEach(item => item.classList.remove('active'));
+
+      const secAlvo = document.getElementById(`view-${nomeAba}`);
+      if (secAlvo) secAlvo.style.display = 'block';
+
+      const navAlvo = document.getElementById(`nav-mock-${nomeAba}`);
+      if (navAlvo) navAlvo.classList.add('active');
+    }
+
+    function moverCursorPara(seletor) {
+      const el = document.querySelector(seletor);
+      const cursor = document.getElementById('demo-cursor');
+      if (!el || !cursor) return;
+
+      const rect = el.getBoundingClientRect();
+      const stageRect = document.querySelector('.screen-stage').getBoundingClientRect();
+
+      const x = rect.left - stageRect.left + (rect.width / 2);
+      const y = rect.top - stageRect.top + (rect.height / 2);
+
+      cursor.style.transform = `translate(${x}px, ${y}px)`;
+
+      setTimeout(() => {
+        criarEfeitoClique(x, y);
+      }, 700);
+    }
+
+    function criarEfeitoClique(x, y) {
+      const ripple = document.createElement('div');
+      ripple.className = 'demo-ripple';
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      document.querySelector('.screen-stage').appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    }
+
+    function destacarElemento(seletor) {
+      removerDestaques();
+      const el = document.querySelector(seletor);
+      if (el) el.classList.add('demo-highlight');
+    }
+
+    function removerDestaques() {
+      document.querySelectorAll('.demo-highlight').forEach(el => el.classList.remove('demo-highlight'));
+    }
+
+    function abrirModalEtiquetaDemo() {
+      document.getElementById('modal-etiqueta-demo').classList.add('active');
+    }
+
+    function fecharModalEtiquetaDemo() {
+      document.getElementById('modal-etiqueta-demo').classList.remove('active');
+    }
+
+    function alternarFormatoVisualEtq(formato) {
+      const box = document.getElementById('etiqueta-preview-box');
+      if (formato === 'a4') {
+        box.classList.add('formato-a4');
+      } else {
+        box.classList.remove('formato-a4');
+      }
+    }
+
+    function falarAudio(texto) {
+      return new Promise(resolve => {
+        if (mudo || !('speechSynthesis' in window)) {
+          setTimeout(resolve, 4000);
+          return;
+        }
+
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(texto);
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.05;
+
+        const vozes = window.speechSynthesis.getVoices();
+        const vozPt = vozes.find(v => v.lang === 'pt-BR' || v.lang.startsWith('pt'));
+        if (vozPt) utterance.voice = vozPt;
+
+        utterance.onend = () => setTimeout(resolve, 600);
+        utterance.onerror = () => setTimeout(resolve, 600);
+
+        window.speechSynthesis.speak(utterance);
+      });
+    }
+
+    async function executarPasso(idx) {
+      if (!emExecucao) return;
+      if (idx >= ROTEIRO.length) {
+        document.getElementById('progress-bar').style.width = '100%';
+        atualizarBotoesPlay(false);
+        return;
+      }
+
+      const passo = ROTEIRO[idx];
+
+      // Se um módulo específico foi escolhido e não é 'todos', filtra
+      if (moduloSelecionado !== 'todos' && passo.modulo !== moduloSelecionado && passo.modulo !== 'todos') {
+        executarPasso(idx + 1);
+        return;
+      }
+
+      indicePasso = idx;
+
+      // Atualiza barra de progresso
+      const pct = Math.round(((idx + 1) / ROTEIRO.length) * 100);
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+
+      // Atualiza legendas no HUD
+      document.getElementById('hud-module-tag').textContent = passo.tag;
+      document.getElementById('hud-caption').textContent = passo.legenda;
+
+      // Executa a animação visual do mouse
+      if (passo.acao) passo.acao();
+
+      // Fala o áudio
+      await falarAudio(passo.audio);
+
+      if (emExecucao) {
+        timeoutId = setTimeout(() => {
+          executarPasso(idx + 1);
+        }, 800);
+      }
+    }
+
+    function alternarPlayPause() {
+      emExecucao = !emExecucao;
+      atualizarBotoesPlay(emExecucao);
+      if (emExecucao) {
+        executarPasso(indicePasso);
+      } else {
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        clearTimeout(timeoutId);
+      }
+    }
+
+    function atualizarBotoesPlay(tocando) {
+      document.getElementById('icon-play-pause').textContent = tocando ? '⏸️' : '▶️';
+      document.getElementById('label-play-pause').textContent = tocando ? 'Pausar' : 'Continuar';
+      const wave = document.getElementById('hud-audio-icon');
+      if (wave) wave.style.animationPlayState = tocando ? 'running' : 'paused';
+    }
+
+    function alternarMudo() {
+      mudo = !mudo;
+      const btn = document.getElementById('btn-som');
+      if (mudo) {
+        btn.textContent = '🔇 Mudo';
+        btn.style.color = '#ef4444';
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      } else {
+        btn.textContent = '🔊 Som Ligado';
+        btn.style.color = '#fff';
+      }
+    }
+
+    function reiniciarModuloAtual() {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      clearTimeout(timeoutId);
+      emExecucao = true;
+      atualizarBotoesPlay(true);
+
+      if (moduloSelecionado === 'todos') {
+        executarPasso(0);
+      } else {
+        const primeiroIdx = ROTEIRO.findIndex(p => p.modulo === moduloSelecionado);
+        executarPasso(primeiroIdx !== -1 ? primeiroIdx : 0);
+      }
+    }
+
+    function selecionarModulo(nomeModulo) {
+      moduloSelecionado = nomeModulo;
+
+      document.querySelectorAll('.module-btn').forEach(btn => btn.classList.remove('active'));
+      const btnAtivo = document.getElementById(`btn-mod-${nomeModulo}`);
+      if (btnAtivo) btnAtivo.classList.add('active');
+
+      fecharModalEtiquetaDemo();
+      reiniciarModuloAtual();
+    }
+
+    function clicarProgresso(e) {
+      const container = e.currentTarget;
+      const rect = container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+      const novoIdx = Math.floor(ratio * ROTEIRO.length);
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      clearTimeout(timeoutId);
+      emExecucao = true;
+      atualizarBotoesPlay(true);
+      executarPasso(novoIdx);
+    }
+  </script>
+</body>
+</html>
