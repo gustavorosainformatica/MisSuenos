@@ -1787,12 +1787,17 @@
       </a>
     </nav>
 
-    <div class="sidebar-footer">
-      <div class="user-avatar" id="app-user-initials">MM</div>
-      <div class="user-info">
-        <div class="user-name" id="app-user-name">Marcos Machado</div>
-        <div class="user-role" id="app-user-role">Mis Sueños Couros & Peles</div>
+    <div class="sidebar-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;">
+      <div style="display: flex; align-items: center; gap: 10px; overflow: hidden; min-width: 0;">
+        <div class="user-avatar" id="app-user-initials">MM</div>
+        <div class="user-info" style="min-width: 0;">
+          <div class="user-name" id="app-user-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Marcos Machado</div>
+          <div class="user-role" id="app-user-role" style="font-weight: 600;">Administrador</div>
+        </div>
       </div>
+      <button onclick="efetuarLogout()" title="Sair do Sistema / Trocar Usuário" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.35); color: #f87171; border-radius: 6px; width: 32px; height: 32px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.3)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.15)'">
+        🚪
+      </button>
     </div>
   </aside>
 
@@ -4754,6 +4759,221 @@
       if (btn) btn.style.display = 'none';
     });
   </script>
+
+  <!-- OVERLAY / TELA DE LOGIN OBRIGATÓRIA -->
+  <div id="modal-auth-login" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 999999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0b1120; border: 1px solid rgba(0, 212, 255, 0.35); box-shadow: 0 0 50px rgba(0, 212, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.6); border-radius: 16px; width: 100%; max-width: 420px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
+      
+      <!-- Cabeçalho do Login -->
+      <div style="padding: 32px 28px 24px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: radial-gradient(circle at top, rgba(0, 212, 255, 0.12) 0%, transparent 70%);">
+        <div style="width: 72px; height: 72px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(217, 119, 6, 0.6); box-shadow: 0 0 25px rgba(217, 119, 6, 0.35);">
+          <img src="logo.png" alt="Mis Sueños" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h2 style="color: #fff; font-size: 20px; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.3px;">Mis Sueños ERP</h2>
+        <p style="color: #94a3b8; font-size: 13px; margin: 0;">Autenticação Operacional Segura</p>
+      </div>
+
+      <!-- Formulário -->
+      <form id="form-login-auth" onsubmit="submeterLogin(event)" style="padding: 28px;">
+        <div id="auth-erro-msg" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; font-size: 12.5px; padding: 10px 14px; border-radius: 8px; margin-bottom: 18px; text-align: center;"></div>
+
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Usuário / Login</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.7;">👤</span>
+            <input type="text" id="auth-login-input" required autocomplete="username" placeholder="Seu usuário (ex: marcos, gustavo, vendas)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 12px 14px 12px 42px; font-size: 14px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 22px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Senha Personalizada</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.7;">🔒</span>
+            <input type="password" id="auth-senha-input" required autocomplete="current-password" placeholder="Sua senha de acesso" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 12px 14px 12px 42px; font-size: 14px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-login" style="width: 100%; background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; border: 1px solid rgba(0, 212, 255, 0.5); padding: 14px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 0 20px rgba(0, 212, 255, 0.35);">
+          Entrar no Sistema
+        </button>
+
+        <!-- Dica de Contas Homologadas -->
+        <div style="margin-top: 20px; padding: 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;">
+          <strong style="color: #cbd5e1; display: block; margin-bottom: 4px;">👥 Acessos Homologados:</strong>
+          • <strong>marcos</strong> / <code>admin123</code> (Admin Geral)<br>
+          • <strong>gustavo</strong> / <code>admin123</code> (Admin / Suporte)<br>
+          • <strong>vendas</strong> / <code>vendas123</code> (Vendas)<br>
+          • <strong>expedicao</strong> / <code>expedicao123</code> (Expedição)
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT DE AUTENTICAÇÃO E PERMISSÕES (RBAC) -->
+  <script>
+    let usuarioLogado = null;
+
+    async function checarAutenticacao() {
+      const token = localStorage.getItem('missuenos_token');
+      const userCache = localStorage.getItem('missuenos_user');
+
+      if (userCache) {
+        try {
+          usuarioLogado = JSON.parse(userCache);
+          aplicarPerfilUsuario(usuarioLogado);
+        } catch {}
+      }
+
+      if (!token) {
+        exibirTelaLogin();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (data.autenticado && data.usuario) {
+          usuarioLogado = data.usuario;
+          localStorage.setItem('missuenos_user', JSON.stringify(usuarioLogado));
+          aplicarPerfilUsuario(usuarioLogado);
+          ocultarTelaLogin();
+        } else {
+          exibirTelaLogin();
+        }
+      } catch (e) {
+        if (usuarioLogado) {
+          ocultarTelaLogin();
+        } else {
+          exibirTelaLogin();
+        }
+      }
+    }
+
+    function exibirTelaLogin() {
+      const modal = document.getElementById('modal-auth-login');
+      if (modal) {
+        modal.style.display = 'flex';
+        const loginInp = document.getElementById('auth-login-input');
+        if (loginInp) setTimeout(() => loginInp.focus(), 100);
+      }
+    }
+
+    function ocultarTelaLogin() {
+      const modal = document.getElementById('modal-auth-login');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function submeterLogin(e) {
+      e.preventDefault();
+      const loginInput = document.getElementById('auth-login-input');
+      const senhaInput = document.getElementById('auth-senha-input');
+      const erroBox = document.getElementById('auth-erro-msg');
+      const btn = document.getElementById('btn-submit-login');
+
+      const login = loginInput.value.trim();
+      const senha = senhaInput.value;
+
+      erroBox.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Autenticando...';
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ login, senha })
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          erroBox.textContent = data.error || 'Usuário ou senha incorretos.';
+          erroBox.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          return;
+        }
+
+        localStorage.setItem('missuenos_token', data.token);
+        localStorage.setItem('missuenos_user', JSON.stringify(data.usuario));
+        usuarioLogado = data.usuario;
+
+        aplicarPerfilUsuario(usuarioLogado);
+        ocultarTelaLogin();
+        btn.disabled = false;
+        btn.textContent = 'Entrar no Sistema';
+      } catch (err) {
+        erroBox.textContent = 'Falha ao conectar ao servidor de autenticação.';
+        erroBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Entrar no Sistema';
+      }
+    }
+
+    function efetuarLogout() {
+      if (confirm('Deseja realmente sair da sua sessão atual?')) {
+        localStorage.removeItem('missuenos_token');
+        localStorage.removeItem('missuenos_user');
+        usuarioLogado = null;
+        exibirTelaLogin();
+        const loginInput = document.getElementById('auth-login-input');
+        const senhaInput = document.getElementById('auth-senha-input');
+        if (loginInput) loginInput.value = '';
+        if (senhaInput) senhaInput.value = '';
+      }
+    }
+
+    function aplicarPerfilUsuario(user) {
+      if (!user) return;
+      const nameEl = document.getElementById('app-user-name');
+      const roleEl = document.getElementById('app-user-role');
+      const initialsEl = document.getElementById('app-user-initials');
+
+      if (nameEl) nameEl.textContent = user.nome;
+      if (roleEl) {
+        roleEl.textContent = user.papelNome || user.papel;
+        roleEl.style.color = user.papelCor || '#f59e0b';
+      }
+      if (initialsEl) {
+        const parts = (user.nome || '').trim().split(' ');
+        const inits = parts.length > 1 ? (parts[0][0] + parts[parts.length - 1][0]) : (parts[0] ? parts[0].slice(0, 2) : 'US');
+        initialsEl.textContent = inits.toUpperCase();
+        if (user.papelCor) {
+          initialsEl.style.borderColor = user.papelCor;
+        }
+      }
+
+      // Aplicar Permissões (RBAC)
+      const perms = user.permissoes || {};
+      
+      // 1. Fiscal: Botão Emitir NF-e e Menu Fiscal
+      const btnFiscal = document.querySelector('button[onclick="abrirModalFiscal()"]');
+      if (btnFiscal) {
+        btnFiscal.style.display = perms.fiscal_emitir === false ? 'none' : 'inline-flex';
+      }
+      const menuFiscal = document.querySelector('.sidebar-nav a[onclick*="fiscal"]');
+      if (menuFiscal) {
+        menuFiscal.style.display = perms.fiscal_emitir === false ? 'none' : 'flex';
+      }
+
+      // 2. Cadastrar Cliente
+      const btnCadastrarCli = document.querySelector('button[onclick="abrirModalNovoCliente()"]');
+      if (btnCadastrarCli) {
+        btnCadastrarCli.style.display = perms.clientes_criar === false ? 'none' : 'inline-flex';
+      }
+
+      // 3. Configurações
+      const menuConfig = document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
+      if (menuConfig) {
+        menuConfig.style.display = perms.configuracoes === false ? 'none' : 'flex';
+      }
+    }
+
+    // Dispara checagem de autenticação imediatamente
+    checarAutenticacao();
+  </script>
+
 </body>
 </html>
 

@@ -28,6 +28,8 @@ const DB_PATH = path.join(DB_DIR, 'clientes.db');
 process.env.FORCAR_SQLITE_LOCAL = process.env.FORCAR_SQLITE_LOCAL || '1';
 const { default: handlerAnexos } = await import('../api/anexos.js');
 const { default: handlerPedidos } = await import('../api/pedidos.js');
+const { default: handlerAuth } = await import('../api/auth.js');
+const { default: handlerUsuarios } = await import('../api/usuarios.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -903,6 +905,16 @@ async function tratarRequisicao(req, res) {
       console.error('[ERRO NFE]', e);
       return responderJson(res, 500, { error: 'Falha ao processar nota fiscal: ' + e.message });
     }
+  }
+
+  // ROTA: Autenticação (/api/auth)
+  if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
+    return handlerAuth(req, res);
+  }
+
+  // ROTA: Usuários (/api/usuarios)
+  if (pathname === '/api/usuarios' || pathname.startsWith('/api/usuarios/')) {
+    return handlerUsuarios(req, res);
   }
 
   // ROTA 8.5: Anexos e Mídia (Cloudflare R2 / Fallback Local)
