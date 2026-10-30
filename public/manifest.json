@@ -1,0 +1,30 @@
+{
+  "name": "Mis Sueños ERP - Selaria & Couros",
+  "short_name": "Mis Sueños",
+  "description": "Sistema de Gestão de Clientes, Pedidos, Logística e Central Fiscal Mis Sueños",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#0b1120",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "930x930",
+      "type": "image/png"
+    }
+  ]
+}

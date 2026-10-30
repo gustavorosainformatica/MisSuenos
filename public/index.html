@@ -6,7 +6,14 @@
   <title>Mis Sueños ERP | Gestão Integrada de Couros, Clientes & Fiscal</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mis Sueños">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Mis Sueños ERP">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1807,6 +1814,9 @@
       </div>
 
       <div class="topbar-right">
+        <button class="btn-top" id="btn-instalar-app" onclick="instalarPwaApp()" style="display: none; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700; gap: 6px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);">
+          <span>📲</span> Instalar App
+        </button>
         <button class="btn-top" id="btn-iniciar-tour" onclick="iniciarTourGuiado()" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; font-weight: 700; border: 1px solid rgba(0, 212, 255, 0.5); box-shadow: 0 0 16px rgba(0, 212, 255, 0.3); gap: 6px;">
           <span>▶️</span> Tour com Áudio
         </button>
@@ -4708,6 +4718,42 @@
     </div>
     <button class="tour-hud-close" onclick="pararTourGuiado()">⏹️ Encerrar Tour</button>
   </div>
+  <!-- SCRIPT PWA & SERVICE WORKER (MODO APP STANDALONE) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+          console.log('[PWA] Service Worker registrado:', reg.scope);
+        }).catch((err) => {
+          console.warn('[PWA] Falha ao registrar Service Worker:', err);
+        });
+      });
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('btn-instalar-app');
+      if (btn) btn.style.display = 'inline-flex';
+    });
+
+    window.instalarPwaApp = async function() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('[PWA] Escolha do usuario:', outcome);
+      deferredPrompt = null;
+      const btn = document.getElementById('btn-instalar-app');
+      if (btn) btn.style.display = 'none';
+    };
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] Mis Suenos ERP instalado com sucesso!');
+      const btn = document.getElementById('btn-instalar-app');
+      if (btn) btn.style.display = 'none';
+    });
+  </script>
 </body>
 </html>
 
