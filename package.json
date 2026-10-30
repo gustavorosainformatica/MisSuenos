@@ -7,9 +7,9 @@
   "type": "module",
   "scripts": {
     "converter": "python scripts/converter_enderecos.py",
-    "consultar": "node scripts/consultar.js",
-    "web": "node scripts/servidor_web.js",
-    "migrar:turso": "node scripts/migrar_turso.js"
+    "consultar": "infisical run --silent -- node scripts/consultar.js",
+    "web": "infisical run --silent -- node scripts/servidor_web.js",
+    "migrar:turso": "infisical run --silent -- node scripts/migrar_turso.js"
   },
   "keywords": [
     "clientes",

@@ -37,6 +37,18 @@
       "dest": "/api/produtos.js"
     },
     {
+      "src": "/api/anexos/(.*)",
+      "dest": "/api/anexos.js"
+    },
+    {
+      "src": "/api/anexos",
+      "dest": "/api/anexos.js"
+    },
+    {
+      "src": "/api/logs/(.*)",
+      "dest": "/api/logs.js"
+    },
+    {
       "src": "/api/logs",
       "dest": "/api/logs.js"
     },
