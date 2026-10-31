@@ -1725,6 +1725,24 @@
       border-color: #ef4444;
       color: #fca5a5;
     }
+
+    .erp-kpi-card {
+      cursor: pointer;
+    }
+    .erp-kpi-card.kpi-active-filter {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.25) !important;
+      background: linear-gradient(180deg, rgba(0, 212, 255, 0.08) 0%, var(--bg-card) 100%) !important;
+    }
+    @keyframes tablePulseHighlight {
+      0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.5); border-color: #00d4ff; }
+      50% { box-shadow: 0 0 25px 4px rgba(0, 212, 255, 0.35); border-color: #00d4ff; }
+      100% { box-shadow: none; border-color: var(--border-color); }
+    }
+    .table-filter-pulse {
+      animation: tablePulseHighlight 1.1s ease-out;
+    }
+
   </style>
 </head>
 <body>
@@ -1861,9 +1879,9 @@
         </span>
       </div>
 
-      <!-- CARDS DE METRICAS EXECUTIVAS -->
+      <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
       <section class="erp-kpi-grid">
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiClientes('TODOS', this)" title="Clique para listar todos os 1.140 clientes">
           <div class="kpi-top-row">
             <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
             <div class="kpi-icon-pill">👥</div>
@@ -1871,11 +1889,11 @@
           <div class="kpi-number" id="kpi-total-clientes">1.140</div>
           <div class="kpi-trend">
             <span>↑ 100%</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Cadastros consolidados</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ ver todos</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiClientes('RS', this)" title="Clique para filtrar os 693 clientes do RS">
           <div class="kpi-top-row">
             <span class="kpi-label">Volume de Envios RS</span>
             <div class="kpi-icon-pill">📍</div>
@@ -1883,7 +1901,7 @@
           <div class="kpi-number" id="kpi-envios-rs">693</div>
           <div class="kpi-trend">
             <span id="kpi-perc-rs">60.8%</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Liderança territorial RS</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ filtrar RS</span>
           </div>
         </div>
 
@@ -1899,14 +1917,14 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiClientes('COM_DOC', this)" title="Clique para filtrar clientes com CPF ou CNPJ cadastrado">
           <div class="kpi-top-row">
             <span class="kpi-label">Documentos Fiscais</span>
             <div class="kpi-icon-pill">📄</div>
           </div>
           <div class="kpi-number" id="kpi-docs">199</div>
           <div class="kpi-trend">
-            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs</span>
+            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Filtrar)</span>
           </div>
         </div>
       </section>
@@ -2067,21 +2085,21 @@
         </span>
       </div>
 
-      <!-- CARDS DE METRICAS DO ESTOQUE -->
+      <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
       <section class="erp-kpi-grid">
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiProdutos('TODOS', this)" title="Clique para exibir todos os produtos do catálogo">
           <div class="kpi-top-row">
-            <span class="kpi-label">Catálogo de Produtos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Catálogo de Produtos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ 40 NCM</span></span>
             <div class="kpi-icon-pill">🪵</div>
           </div>
           <div class="kpi-number" id="kpi-prod-total">0</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">11 Itens de Exemplo</span>
-            <span style="color: var(--text-muted); font-weight: normal;">no catálogo</span>
+            <span style="color: #34d399;">Catálogo Completo</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ listar todos)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiProdutos('CATEGORIAS', this)" title="Clique para agrupar produtos por categoria">
           <div class="kpi-top-row">
             <span class="kpi-label">Categorias Ativas</span>
             <div class="kpi-icon-pill">🏷️</div>
@@ -2092,25 +2110,25 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiProdutos('MAIOR_PATRIMONIO', this)" title="Clique para ordenar pelos itens de maior valor em estoque">
           <div class="kpi-top-row">
-            <span class="kpi-label">Patrimônio em Estoque <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Patrimônio em Estoque</span>
             <div class="kpi-number" id="kpi-prod-valor-total" style="font-size: 22px;">R$ 0,00</div>
           </div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">Valor Simulado</span>
-            <span style="color: var(--text-muted); font-weight: normal;">de demonstração</span>
+            <span style="color: #38bdf8;">→ Ordenar por Maior Valor</span>
+            <span style="color: var(--text-muted); font-weight: normal;">em estoque</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiProdutos('ESTOQUE_BAIXO', this)" title="Clique para filtrar apenas produtos com estoque baixo ou crítico">
           <div class="kpi-top-row">
             <span class="kpi-label">Alerta Estoque Baixo</span>
             <div class="kpi-icon-pill">⚠️</div>
           </div>
           <div class="kpi-number" id="kpi-prod-baixo-estoque" style="color: #f59e0b;">0</div>
           <div class="kpi-trend">
-            <span style="color: var(--text-muted); font-weight: normal;">Abaixo do limite de segurança</span>
+            <span style="color: #f59e0b;">→ Filtrar Itens Críticos</span>
           </div>
         </div>
       </section>
@@ -2187,52 +2205,52 @@
         </span>
       </div>
 
-      <!-- CARDS DE METRICAS DE VENDAS -->
+      <!-- CARDS DE METRICAS DE VENDAS (CLICÁVEIS) -->
       <section class="erp-kpi-grid">
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiPedidos('FATURAMENTO', this)" title="Clique para listar todos os pedidos ordenados pelo maior valor de faturamento">
           <div class="kpi-top-row">
             <span class="kpi-label">Faturamento Total <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
             <div class="kpi-icon-pill">💵</div>
           </div>
           <div class="kpi-number" id="kpi-pedidos-total-valor">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">Base Real</span>
+            <span style="color: #34d399;">→ Ver Ranking de Valor</span>
             <span style="color: var(--text-muted); font-weight: normal;">pedidos no banco</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiPedidos('TODOS', this)" title="Clique para mostrar todos os pedidos do histórico completo em carteira">
           <div class="kpi-top-row">
             <span class="kpi-label">Volume de Pedidos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
             <div class="kpi-icon-pill">📦</div>
           </div>
           <div class="kpi-number" id="kpi-pedidos-qtd">0 Pedidos</div>
           <div class="kpi-trend">
-            <span style="color: #38bdf8;">Histórico Completo</span>
+            <span style="color: #38bdf8;">→ Mostrar Histórico Completo</span>
             <span style="color: var(--text-muted); font-weight: normal;">em carteira</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiPedidos('AGUARDANDO_ENVIO', this)" title="Clique para filtrar apenas os pedidos que estão aguardando envio">
           <div class="kpi-top-row">
             <span class="kpi-label">Aguardando Envio</span>
             <div class="kpi-icon-pill">⏳</div>
           </div>
           <div class="kpi-number" id="kpi-pedidos-pendentes" style="color: #f59e0b;">0 Pedidos</div>
           <div class="kpi-trend">
-            <span style="color: #f59e0b;">Separação & Embalagem</span>
-            <span style="color: var(--text-muted); font-weight: normal;">expedição pendente</span>
+            <span style="color: #f59e0b;">→ Filtrar Pendentes de Envio</span>
+            <span style="color: var(--text-muted); font-weight: normal;">expedição</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiPedidos('TICKET_MEDIO', this)" title="Clique para ver o detalhamento de Ticket Médio e pedidos acima da média">
           <div class="kpi-top-row">
             <span class="kpi-label">Ticket Médio</span>
             <div class="kpi-icon-pill">📈</div>
           </div>
           <div class="kpi-number" id="kpi-pedidos-ticket-medio">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">Média por Pedido</span>
+            <span style="color: #34d399;">→ Filtrar Acima da Média</span>
             <span style="color: var(--text-muted); font-weight: normal;">couros e insumos</span>
           </div>
         </div>
@@ -2312,9 +2330,9 @@
         </div>
       </div>
 
-      <!-- KPIs DE FLUXO DE CAIXA -->
+      <!-- KPIs DE FLUXO DE CAIXA (CLICÁVEIS) -->
       <section class="erp-kpi-grid">
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('RECEBER', this)" title="Clique para filtrar apenas Contas a Receber">
           <div class="kpi-top-row">
             <span class="kpi-label">A Receber (Pendente)</span>
             <div class="kpi-icon-pill">🟢</div>
@@ -2325,7 +2343,7 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('PAGAR', this)" title="Clique para filtrar apenas Contas a Pagar">
           <div class="kpi-top-row">
             <span class="kpi-label">A Pagar (Pendente)</span>
             <div class="kpi-icon-pill">🔴</div>
@@ -2336,7 +2354,7 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiFinanceiro('TODOS', this)" title="Clique para exibir todos os lançamentos do Fluxo de Caixa">
           <div class="kpi-top-row">
             <span class="kpi-label">Saldo Previsto (Caixa + Pendentes)</span>
             <div class="kpi-icon-pill">📊</div>
@@ -2347,7 +2365,7 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('ATRASADO', this)" title="Clique para filtrar apenas títulos vencidos / em atraso">
           <div class="kpi-top-row">
             <span class="kpi-label">Títulos em Atraso</span>
             <div class="kpi-icon-pill">⚠️</div>
@@ -2427,53 +2445,50 @@
         </span>
       </div>
 
-      <!-- CARDS FISCAIS -->
+      <!-- CARDS FISCAIS (CLICÁVEIS) -->
       <section class="erp-kpi-grid">
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="abrirModalFiscal()" title="Clique para abrir o emissor rápido de NF-e / NFS-e">
           <div class="kpi-top-row">
             <span class="kpi-label">Status da Conexão Fiscal</span>
             <div class="kpi-icon-pill">🏛️</div>
           </div>
           <div class="kpi-number" style="color: #34d399; font-size: 20px;">🟢 Conectado</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">SEFAZ RS & Portal Nacional</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Ambiente de Homologação</span>
+            <span style="color: #34d399;">→ Emitir Nota Agora</span>
+            <span style="color: var(--text-muted); font-weight: normal;">SEFAZ RS & Nacional</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiFiscal('TODAS', this)" title="Clique para listar todas as 199 notas fiscais">
           <div class="kpi-top-row">
             <span class="kpi-label">Total Documentos Emitidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
             <div class="kpi-icon-pill">📄</div>
           </div>
           <div class="kpi-number">199 Notas</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">100% Homologadas</span>
-            <span style="color: var(--text-muted); font-weight: normal;">dados fictícios</span>
+            <span style="color: #fbbf24;">→ Mostrar Todas (199)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiFiscal('NFE_PRODUTO', this)" title="Clique para filtrar apenas NF-e Modelo 55 (Produtos SEFAZ)">
           <div class="kpi-top-row">
             <span class="kpi-label">NF-e Mercadorias (SEFAZ) <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
             <div class="kpi-icon-pill">🪵</div>
           </div>
           <div class="kpi-number">162 Notas</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">Modelo 55 (Teste)</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Couros, Loncas & Peças</span>
+            <span style="color: #fbbf24;">→ Filtrar Modelo 55 (162)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card">
+        <div class="erp-kpi-card" onclick="acaoKpiFiscal('NFSE_SERVICO', this)" title="Clique para filtrar apenas NFS-e de Serviços (Portal Nacional)">
           <div class="kpi-top-row">
             <span class="kpi-label">NFS-e Portal Nacional <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
             <div class="kpi-icon-pill">🧾</div>
           </div>
           <div class="kpi-number">37 DPS</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">Receita Federal (Teste)</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Serviços & Sovagem</span>
+            <span style="color: #fbbf24;">→ Filtrar NFS-e (37)</span>
           </div>
         </div>
       </section>
@@ -5152,6 +5167,160 @@
         console.error('[ERRO TOUR]', err);
         pararTourGuiado();
       }
+    }
+
+
+    // ========================================================
+    // AÇÕES INTERATIVAS DE CLIQUE NOS CARDS DE KPI
+    // ========================================================
+    function destacarKpiAtivo(cardEl, containerSelector) {
+      if (!cardEl) return;
+      const container = document.querySelector(containerSelector);
+      if (container) {
+        container.querySelectorAll('.erp-kpi-card').forEach(c => c.classList.remove('kpi-active-filter'));
+      }
+      cardEl.classList.add('kpi-active-filter');
+    }
+
+    function destacarTabelaFiltrada(moduloSelector) {
+      const tableCard = document.querySelector(moduloSelector + ' .erp-table-card');
+      if (!tableCard) return;
+      tableCard.classList.remove('table-filter-pulse');
+      void tableCard.offsetWidth; // trigger reflow
+      tableCard.classList.add('table-filter-pulse');
+      tableCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // 1. Clique nos KPIs de Vendas & Pedidos
+    function acaoKpiPedidos(acao, cardEl) {
+      destacarKpiAtivo(cardEl, '#modulo-pedidos-conteudo');
+      const chips = document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip');
+      chips.forEach(b => b.classList.remove('active'));
+
+      if (acao === 'TODOS') {
+        statusFiltroPedido = 'TODOS';
+        if (chips[0]) chips[0].classList.add('active');
+        pedidosFiltrados = [...listaPedidos];
+        renderTabelaPedidos();
+        mostrarToast(`📦 Exibindo histórico completo: ${pedidosFiltrados.length} pedido(s) em carteira.`);
+      } else if (acao === 'AGUARDANDO_ENVIO') {
+        statusFiltroPedido = 'AGUARDANDO_ENVIO';
+        if (chips[1]) chips[1].classList.add('active');
+        pedidosFiltrados = listaPedidos.filter(p => p.status === 'AGUARDANDO_ENVIO');
+        renderTabelaPedidos();
+        mostrarToast(`⏳ Filtrado: ${pedidosFiltrados.length} pedido(s) aguardando envio / separação.`);
+      } else if (acao === 'FATURAMENTO') {
+        statusFiltroPedido = 'TODOS';
+        if (chips[0]) chips[0].classList.add('active');
+        pedidosFiltrados = [...listaPedidos].sort((a, b) => (parseFloat(b.valor_total || b.valor || 0)) - (parseFloat(a.valor_total || a.valor || 0)));
+        renderTabelaPedidos();
+        mostrarToast('💵 Exibindo todos os pedidos ordenados pelo maior valor de faturamento!');
+      } else if (acao === 'TICKET_MEDIO') {
+        const totalValor = listaPedidos.reduce((acc, p) => acc + (parseFloat(p.valor_total || p.valor) || 0), 0);
+        const media = listaPedidos.length > 0 ? (totalValor / listaPedidos.length) : 0;
+        pedidosFiltrados = listaPedidos.filter(p => (parseFloat(p.valor_total || p.valor || 0)) >= media)
+          .sort((a, b) => (parseFloat(b.valor_total || b.valor || 0)) - (parseFloat(a.valor_total || a.valor || 0)));
+        renderTabelaPedidos();
+        mostrarToast(`📈 Exibindo ${pedidosFiltrados.length} pedido(s) com valor acima do Ticket Médio (R$ ${media.toFixed(2).replace('.', ',')}).`);
+      }
+      destacarTabelaFiltrada('#modulo-pedidos-conteudo');
+    }
+
+    // 2. Clique nos KPIs de Clientes & CRM
+    function acaoKpiClientes(acao, cardEl) {
+      destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+      const chips = document.querySelectorAll('#modulo-clientes-conteudo .toolbar-filters .erp-filter-chip');
+      const selComp = document.getElementById('select-completude');
+
+      if (acao === 'TODOS') {
+        if (selComp) selComp.value = 'TODOS';
+        docFiltro = 'TODOS';
+        filtrarPorUf('TODOS', chips[0]);
+        mostrarToast(`👥 Exibindo todos os ${clientes.length} clientes cadastrados.`);
+      } else if (acao === 'RS') {
+        if (selComp) selComp.value = 'TODOS';
+        docFiltro = 'TODOS';
+        filtrarPorUf('RS', chips[1]);
+        mostrarToast(`📍 Filtrado: ${filtrados.length} clientes do Rio Grande do Sul (RS).`);
+      } else if (acao === 'COM_DOC') {
+        ufFiltro = 'TODOS';
+        chips.forEach(b => b.classList.remove('active'));
+        if (chips[0]) chips[0].classList.add('active');
+        if (selComp) selComp.value = 'COM_DOC';
+        filtrarCompletude('COM_DOC');
+        mostrarToast(`📄 Filtrado: ${filtrados.length} clientes com CPF ou CNPJ cadastrado.`);
+      }
+      destacarTabelaFiltrada('#modulo-clientes-conteudo');
+    }
+
+    // 3. Clique nos KPIs de Catálogo & Estoque
+    function acaoKpiProdutos(acao, cardEl) {
+      destacarKpiAtivo(cardEl, '#modulo-produtos-conteudo');
+      const chips = document.querySelectorAll('#modulo-produtos-conteudo .toolbar-filters .erp-filter-chip');
+      chips.forEach(b => b.classList.remove('active'));
+      if (chips[0]) chips[0].classList.add('active');
+
+      if (acao === 'TODOS') {
+        produtosFiltrados = [...produtos];
+        renderTabelaProdutos();
+        mostrarToast(`🪵 Exibindo todos os ${produtosFiltrados.length} produtos do catálogo.`);
+      } else if (acao === 'CATEGORIAS') {
+        produtosFiltrados = [...produtos].sort((a, b) => String(a.categoria || '').localeCompare(String(b.categoria || '')));
+        renderTabelaProdutos();
+        mostrarToast('🏷️ Produtos agrupados por Categoria.');
+      } else if (acao === 'MAIOR_PATRIMONIO') {
+        produtosFiltrados = [...produtos].sort((a, b) => ((b.estoque_atual || 0) * (b.preco_venda || 0)) - ((a.estoque_atual || 0) * (a.preco_venda || 0)));
+        renderTabelaProdutos();
+        mostrarToast('💰 Produtos ordenados pelo maior valor total em estoque!');
+      } else if (acao === 'ESTOQUE_BAIXO') {
+        produtosFiltrados = produtos.filter(p => {
+          const disp = p.estoque_disponivel !== undefined ? parseFloat(p.estoque_disponivel) : Math.max(0, parseFloat(p.estoque_atual || 0) - parseFloat(p.estoque_reservado || 0));
+          return disp <= parseFloat(p.estoque_minimo || 5);
+        });
+        renderTabelaProdutos();
+        mostrarToast(`⚠️ Filtrado: ${produtosFiltrados.length} produto(s) com alerta de estoque baixo/crítico.`);
+      }
+      destacarTabelaFiltrada('#modulo-produtos-conteudo');
+    }
+
+    // 4. Clique nos KPIs de Financeiro & Fluxo de Caixa
+    function acaoKpiFinanceiro(acao, cardEl) {
+      destacarKpiAtivo(cardEl, '#modulo-financeiro-conteudo');
+      const chips = document.querySelectorAll('#modulo-financeiro-conteudo .toolbar-filters .erp-filter-chip');
+      chips.forEach(b => b.classList.remove('active'));
+
+      const hojeIso = new Date().toISOString().slice(0, 10);
+      if (acao === 'TODOS') {
+        if (chips[0]) chips[0].classList.add('active');
+        financeiroFiltrado = [...listaFinanceiro];
+        renderTabelaFinanceiro();
+        mostrarToast(`📊 Exibindo extrato completo: ${financeiroFiltrado.length} lançamento(s).`);
+      } else if (acao === 'RECEBER') {
+        if (chips[1]) chips[1].classList.add('active');
+        financeiroFiltrado = listaFinanceiro.filter(l => l.tipo === 'RECEBER');
+        renderTabelaFinanceiro();
+        mostrarToast(`🟢 Filtrado: ${financeiroFiltrado.length} Conta(s) a Receber.`);
+      } else if (acao === 'PAGAR') {
+        if (chips[2]) chips[2].classList.add('active');
+        financeiroFiltrado = listaFinanceiro.filter(l => l.tipo === 'PAGAR');
+        renderTabelaFinanceiro();
+        mostrarToast(`🔴 Filtrado: ${financeiroFiltrado.length} Conta(s) a Pagar.`);
+      } else if (acao === 'ATRASADO') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.status === 'PENDENTE' && l.data_vencimento && l.data_vencimento < hojeIso);
+        renderTabelaFinanceiro();
+        mostrarToast(`⚠️ Filtrado: ${financeiroFiltrado.length} título(s) vencido(s) / em atraso.`);
+      }
+      destacarTabelaFiltrada('#modulo-financeiro-conteudo');
+    }
+
+    // 5. Clique nos KPIs da Central Fiscal
+    function acaoKpiFiscal(tipo, cardEl) {
+      destacarKpiAtivo(cardEl, '#modulo-fiscal-conteudo');
+      const chips = document.querySelectorAll('#modulo-fiscal-conteudo .toolbar-filters .erp-filter-chip');
+      const btnMap = { 'TODAS': chips[0], 'NFE_PRODUTO': chips[1], 'NFSE_SERVICO': chips[2] };
+      filtrarFiscalPorTipo(tipo, btnMap[tipo]);
+      mostrarToast(tipo === 'TODAS' ? '🧾 Exibindo todas as notas fiscais emitidas.' : tipo === 'NFE_PRODUTO' ? '🪵 Filtrado: NF-e Modelo 55 (Produtos SEFAZ).' : '🧾 Filtrado: NFS-e Portal Nacional (Serviços).');
+      destacarTabelaFiltrada('#modulo-fiscal-conteudo');
     }
 
     // Inicialização da tela
