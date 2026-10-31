@@ -122,3 +122,4 @@ main().catch((err) => {
   console.error('[MIGRAÇÃO V2 ERRO]', err);
   process.exit(1);
 });
+

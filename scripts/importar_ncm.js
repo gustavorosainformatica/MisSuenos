@@ -114,3 +114,4 @@ main().catch((err) => {
   console.error('[IMPORTAR NCM ERRO]', err);
   process.exit(1);
 });
+
