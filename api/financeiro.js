@@ -65,7 +65,7 @@ export default async function handler(req, res) {
       const statusFiltro = url.searchParams.get('status'); // 'PENDENTE' | 'PAGO' | 'ATRASADO'
       const q = url.searchParams.get('q');
 
-      let sql = 'SELECT * FROM financeiro_lancamentos WHERE status != "CANCELADO"';
+      let sql = "SELECT * FROM financeiro_lancamentos WHERE status != 'CANCELADO'";
       const params = [];
 
       if (tipoFiltro && tipoFiltro !== 'TODOS') {
@@ -121,18 +121,26 @@ export default async function handler(req, res) {
         ? lancamentosEnriquecidos.filter(l => l.status_visual === statusFiltro || l.status === statusFiltro)
         : lancamentosEnriquecidos;
 
+      const resumoObj = {
+        totalReceberPendente,
+        totalReceberPago,
+        totalPagarPendente,
+        totalPagarPago,
+        aReceber: totalReceberPendente,
+        recebido: totalReceberPago,
+        aPagar: totalPagarPendente,
+        pago: totalPagarPago,
+        saldoRealizado: totalReceberPago - totalPagarPago,
+        saldoPrevisto: (totalReceberPago + totalReceberPendente) - (totalPagarPago + totalPagarPendente),
+        atrasadosCount,
+        emAtrasoCount: atrasadosCount,
+        atrasadosValor
+      };
+
       return responder(res, 200, {
         success: true,
-        resumo: {
-          totalReceberPendente,
-          totalReceberPago,
-          totalPagarPendente,
-          totalPagarPago,
-          saldoRealizado: totalReceberPago - totalPagarPago,
-          saldoPrevisto: (totalReceberPago + totalReceberPendente) - (totalPagarPago + totalPagarPendente),
-          atrasadosCount,
-          atrasadosValor
-        },
+        ...resumoObj,
+        resumo: resumoObj,
         lancamentos: filtrados
       });
     }
@@ -262,3 +270,4 @@ export default async function handler(req, res) {
     return responder(res, 500, { error: 'Erro no módulo financeiro: ' + err.message });
   }
 }
+

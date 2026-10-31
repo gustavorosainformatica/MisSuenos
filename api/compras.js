@@ -367,8 +367,11 @@ export default async function handler(req, res) {
 
         return responder(res, 201, {
           success: true,
+          numero_nfe: nota.numero_nfe,
+          chave_nfe: nota.chave_nfe,
           fornecedor_id: fornecedorId,
           parcelas_lancadas: parcelasLancadas,
+          duplicatas_geradas: parcelasLancadas,
           itens_somados_estoque: itensSomadosEstoque
         });
       }
