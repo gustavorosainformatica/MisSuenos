@@ -621,6 +621,45 @@
       letter-spacing: 0.5px;
     }
 
+    /* Suporte a Ordenação e Arraste de Colunas em Todas as Tabelas do ERP */
+    table.erp-table thead th.th-arrastavel {
+      cursor: grab;
+      user-select: none;
+      position: relative;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    table.erp-table thead th.th-arrastavel:active {
+      cursor: grabbing;
+    }
+    table.erp-table thead th.th-arrastavel:hover {
+      background: rgba(0, 212, 255, 0.08);
+      color: #38bdf8;
+    }
+    table.erp-table thead th.col-drag-over-left {
+      border-left: 3px solid #00d4ff !important;
+      background: rgba(0, 212, 255, 0.15) !important;
+    }
+    table.erp-table thead th.col-drag-over-right {
+      border-right: 3px solid #00d4ff !important;
+      background: rgba(0, 212, 255, 0.15) !important;
+    }
+    .th-grip-icon {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.25);
+      margin-left: 4px;
+      opacity: 0.6;
+    }
+    table.erp-table thead th:hover .th-grip-icon {
+      color: #00d4ff;
+      opacity: 1;
+    }
+    .sort-icon {
+      font-size: 10px;
+      margin-left: 3px;
+      color: #00d4ff;
+      font-weight: 800;
+    }
+
     table.erp-table tbody td {
       padding: 12px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -1966,10 +2005,10 @@
         </div>
 
         <div class="erp-table-wrapper">
-          <table class="erp-table">
+          <table class="erp-table" id="tabela-clientes">
             <thead>
               <tr>
-                <th style="width: 35px;"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
                 <th style="width: 68px; text-align: center;">Ações</th>
                 <th style="width: 65px;">ID</th>
                 <th>Nome / Razão Social</th>
@@ -1980,7 +2019,8 @@
                 <th style="text-align: right; width: 235px;">Ações Rápidas</th>
               </tr>
             </thead>
-            <tbody id="erp-table-body">
+            <!-- Tabela Clientes -->
+          <tbody id="erp-table-body">
               <!-- Renderização dinâmica via JS -->
             </tbody>
           </table>
@@ -2164,10 +2204,10 @@
         </div>
 
         <div class="erp-table-wrapper">
-          <table class="erp-table">
+          <table class="erp-table" id="tabela-produtos">
             <thead>
               <tr>
-                <th style="width: 35px;"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
                 <th style="width: 110px;">SKU / Código</th>
                 <th style="width: 95px;">NCM Fiscal</th>
                 <th>Nome / Descrição Comercial</th>
@@ -2286,18 +2326,18 @@
         </div>
 
         <div class="erp-table-wrapper">
-          <table class="erp-table">
+          <table class="erp-table" id="tabela-pedidos">
             <thead>
               <tr>
-                <th style="width: 35px;"><input type="checkbox"></th>
-                <th style="width: 110px;">Nº Pedido</th>
-                <th style="width: 90px;">Data</th>
-                <th>Cliente / Destinatário</th>
-                <th style="width: 140px;">Destino (Cidade/UF)</th>
-                <th>Itens / Descrição da Encomenda</th>
-                <th style="width: 110px; text-align: right;">Total (R$)</th>
-                <th style="width: 140px; text-align: center;">Status</th>
-                <th style="text-align: right; width: 220px;">Ações</th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox"></th>
+                <th style="width: 110px;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'numero')" title="Clique para ordenar por Nº Pedido ou arraste para mover">Nº Pedido <span class="sort-icon" id="sort-pedidos-numero"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 90px;" data-col="data" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'data')" title="Clique para ordenar por Data ou arraste para mover">Data <span class="sort-icon" id="sort-pedidos-data"></span><span class="th-grip-icon">⠿</span></th>
+                <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 115px; text-align: right;" data-col="total" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'valor')" title="Clique para ordenar por Total R$ ou arraste para mover">Total (R$) <span class="sort-icon" id="sort-pedidos-valor"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px;" data-col="destino" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cidade')" title="Clique para ordenar por Destino ou arraste para mover">Destino (Cidade/UF) <span class="sort-icon" id="sort-pedidos-cidade"></span><span class="th-grip-icon">⠿</span></th>
+                <th data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Itens ou arraste para mover">Itens / Descrição da Encomenda <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px; text-align: center;" data-col="status" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'status')" title="Clique para ordenar por Status ou arraste para mover">Status <span class="sort-icon" id="sort-pedidos-status"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="text-align: right; width: 220px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
             <tbody id="erp-pedidos-body">
@@ -2407,10 +2447,10 @@
         </div>
 
         <div class="erp-table-wrapper">
-          <table class="erp-table">
+          <table class="erp-table" id="tabela-financeiro">
             <thead>
               <tr>
-                <th style="width: 115px;">Tipo / Origem</th>
+                <th style="width: 115px;" data-col="tipo">Tipo / Origem</th>
                 <th>Descrição do Lançamento</th>
                 <th style="width: 190px;">Cliente / Fornecedor</th>
                 <th style="width: 110px;">Categoria</th>
@@ -2521,11 +2561,11 @@
         </div>
 
         <div class="erp-table-wrapper">
-          <table class="erp-table">
+          <table class="erp-table" id="tabela-fiscal">
             <thead>
               <tr>
-                <th style="width: 35px;"><input type="checkbox"></th>
-                <th style="width: 120px;">Nº Nota / DPS</th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox"></th>
+                <th style="width: 120px;" data-col="numero">Nº Nota / DPS</th>
                 <th style="width: 160px;">Modelo Fiscal</th>
                 <th>Destinatário / Tomador</th>
                 <th style="width: 60px;">UF</th>
@@ -3788,6 +3828,7 @@
       document.getElementById('pag-fim').textContent = fim.toLocaleString('pt-BR');
       document.getElementById('pag-total').textContent = total.toLocaleString('pt-BR');
       document.getElementById('pag-atual').textContent = `${paginaAtual} / ${totalPaginas}`;
+      setTimeout(() => aplicarOrdemColunasSalva(document.getElementById('tabela-clientes')), 50);
 
       document.getElementById('btn-ant').disabled = paginaAtual <= 1;
       document.getElementById('btn-prox').disabled = paginaAtual >= totalPaginas;
@@ -3833,6 +3874,7 @@
           </tr>
         `;
       }).join('');
+      aplicarOrdemColunasSalva(document.getElementById('tabela-pedidos'));
     }
 
     let clienteAtualEditando = null;
@@ -4170,6 +4212,7 @@
       document.getElementById('kpi-prod-baixo-estoque').textContent = baixoEstoque.toString();
       const totalTestes = produtos.filter(p => p.is_teste == 1 || p.is_teste === true || p.id <= 11).length;
       document.getElementById('table-badge-produtos').textContent = totalTestes > 0 ? `${total} produtos (${totalTestes} de demonstração / teste)` : `${total} produtos`;
+      setTimeout(() => aplicarOrdemColunasSalva(document.getElementById('tabela-produtos')), 50);
     }
 
     function renderTabelaProdutos() {
@@ -4501,9 +4544,9 @@
             <td style="font-weight: 700; color: #fff;">
               ${clienteNome}
             </td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${valorNum.toFixed(2).replace('.', ',')}</td>
             <td><span class="uf-tag" style="margin-right: 4px;">${ped.uf || 'RS'}</span> ${ped.cidade || '-'}</td>
             <td style="color: var(--text-muted); font-size: 11.5px; max-width: 250px;">${ped.itens || '-'}</td>
-            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${valorNum.toFixed(2).replace('.', ',')}</td>
             <td style="text-align: center;">${statusBadge}</td>
             <td style="text-align: right; white-space: nowrap;">
               <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorPedidoId(${ped.id})">🏷️ Etiqueta</button>
@@ -5761,8 +5804,235 @@
       destacarTabelaFiltrada('#modulo-fiscal-conteudo');
     }
 
+
+    // ========================================================
+    // ORDENAÇÃO DE COLUNAS EM VENDAS & PEDIDOS (A-Z / VALOR / DATA)
+    // ========================================================
+    let pedidosOrdemColuna = 'id';
+    let pedidosOrdemAsc = false;
+    let dragEmAndamento = false;
+
+    function aoClicarHeaderOrdenar(tabelaId, coluna) {
+      if (dragEmAndamento) return;
+      if (tabelaId === 'tabela-pedidos') {
+        ordenarPedidosPor(coluna);
+      }
+    }
+
+    function ordenarPedidosPor(coluna) {
+      if (pedidosOrdemColuna === coluna) {
+        pedidosOrdemAsc = !pedidosOrdemAsc;
+      } else {
+        pedidosOrdemColuna = coluna;
+        pedidosOrdemAsc = true;
+      }
+
+      pedidosFiltrados.sort((a, b) => {
+        let valA, valB;
+        if (coluna === 'numero') {
+          const numA = parseInt((a.numero || '').replace(/\D/g, '') || 0, 10);
+          const numB = parseInt((b.numero || '').replace(/\D/g, '') || 0, 10);
+          return pedidosOrdemAsc ? numA - numB : numB - numA;
+        }
+        if (coluna === 'data') {
+          const parseData = (str) => {
+            if (!str) return 0;
+            const p = str.split('/');
+            if (p.length === 3) return new Date(`${p[2]}-${p[1]}-${p[0]}`).getTime();
+            return new Date(str).getTime() || 0;
+          };
+          valA = parseData(a.data_pedido || a.data);
+          valB = parseData(b.data_pedido || b.data);
+          return pedidosOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'cliente') {
+          valA = (a.cliente_nome || a.cliente || '').trim();
+          valB = (b.cliente_nome || b.cliente || '').trim();
+          return pedidosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'valor') {
+          valA = parseFloat(a.valor_total || a.valor || 0);
+          valB = parseFloat(b.valor_total || b.valor || 0);
+          return pedidosOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'cidade') {
+          valA = `${a.uf || ''} ${a.cidade || ''}`.trim();
+          valB = `${b.uf || ''} ${b.cidade || ''}`.trim();
+          return pedidosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'itens') {
+          valA = (a.itens || '').trim();
+          valB = (b.itens || '').trim();
+          return pedidosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'status') {
+          valA = (a.status || '').trim();
+          valB = (b.status || '').trim();
+          return pedidosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        return 0;
+      });
+
+      // Atualiza os ícones no thead
+      document.querySelectorAll('#tabela-pedidos .sort-icon').forEach(el => el.textContent = '');
+      const iconEl = document.getElementById(`sort-pedidos-${coluna}`);
+      if (iconEl) {
+        iconEl.textContent = pedidosOrdemAsc ? ' ▲' : ' ▼';
+      }
+
+      renderTabelaPedidos();
+      mostrarToast(`Pedidos ordenados por ${coluna.toUpperCase()} (${pedidosOrdemAsc ? 'Crescente' : 'Decrescente'})`);
+    }
+
+    // ========================================================
+    // SISTEMA UNIVERSAL DE MOVIMENTAÇÃO DE COLUNAS (DRAG & DROP)
+    // ========================================================
+    function inicializarArrasteColunasGlobal() {
+      document.querySelectorAll('table.erp-table').forEach(tabela => {
+        habilitarArrasteColunasTabela(tabela);
+      });
+    }
+
+    function habilitarArrasteColunasTabela(tabela) {
+      if (!tabela || !tabela.id) return;
+      const ths = tabela.querySelectorAll('thead th');
+      let draggedTh = null;
+      let draggedIndex = -1;
+
+      ths.forEach((th) => {
+        if (th.classList.contains('th-nao-arrastavel') || th.querySelector('input[type="checkbox"]')) {
+          th.draggable = false;
+          return;
+        }
+
+        th.draggable = true;
+        th.classList.add('th-arrastavel');
+
+        th.addEventListener('dragstart', (e) => {
+          dragEmAndamento = true;
+          draggedTh = th;
+          draggedIndex = th.cellIndex;
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', String(draggedIndex));
+          th.style.opacity = '0.4';
+        });
+
+        th.addEventListener('dragend', () => {
+          th.style.opacity = '1';
+          tabela.querySelectorAll('th').forEach(t => {
+            t.classList.remove('col-drag-over-left', 'col-drag-over-right');
+          });
+          setTimeout(() => { dragEmAndamento = false; }, 100);
+        });
+
+        th.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          if (!draggedTh || draggedTh === th) return;
+          const rect = th.getBoundingClientRect();
+          const mid = rect.left + rect.width / 2;
+          tabela.querySelectorAll('th').forEach(t => t.classList.remove('col-drag-over-left', 'col-drag-over-right'));
+          if (e.clientX < mid) {
+            th.classList.add('col-drag-over-left');
+          } else {
+            th.classList.add('col-drag-over-right');
+          }
+        });
+
+        th.addEventListener('dragleave', () => {
+          th.classList.remove('col-drag-over-left', 'col-drag-over-right');
+        });
+
+        th.addEventListener('drop', (e) => {
+          e.preventDefault();
+          th.classList.remove('col-drag-over-left', 'col-drag-over-right');
+          if (!draggedTh || draggedTh === th) return;
+
+          const fromIndex = draggedIndex;
+          const toIndex = th.cellIndex;
+
+          moverColunaTabela(tabela, fromIndex, toIndex);
+          salvarOrdemColunasTabela(tabela);
+        });
+      });
+
+      // Aplica ordem salva se existir
+      aplicarOrdemColunasSalva(tabela);
+    }
+
+    function moverColunaTabela(tabela, fromIdx, toIdx) {
+      if (fromIdx === toIdx || fromIdx < 0 || toIdx < 0) return;
+
+      // 1. Move no thead
+      const theadRow = tabela.querySelector('thead tr');
+      if (theadRow) {
+        const ths = theadRow.children;
+        if (ths[fromIdx] && ths[toIdx]) {
+          if (fromIdx < toIdx) {
+            theadRow.insertBefore(ths[fromIdx], ths[toIdx].nextSibling);
+          } else {
+            theadRow.insertBefore(ths[fromIdx], ths[toIdx]);
+          }
+        }
+      }
+
+      // 2. Move em cada linha do tbody
+      tabela.querySelectorAll('tbody tr').forEach(row => {
+        const cells = row.children;
+        if (cells.length > 1 && cells[fromIdx] && cells[toIdx]) {
+          if (fromIdx < toIdx) {
+            row.insertBefore(cells[fromIdx], cells[toIdx].nextSibling);
+          } else {
+            row.insertBefore(cells[fromIdx], cells[toIdx]);
+          }
+        }
+      });
+    }
+
+    function salvarOrdemColunasTabela(tabela) {
+      if (!tabela || !tabela.id) return;
+      const ths = Array.from(tabela.querySelectorAll('thead th'));
+      const ordem = ths.map(th => th.dataset.col || th.innerText.trim().replace(/[▲▼⠿]/g, '').trim());
+      localStorage.setItem('erp_col_order_' + tabela.id, JSON.stringify(ordem));
+      mostrarToast('Ordem das colunas salva automaticamente!');
+    }
+
+    function aplicarOrdemColunasSalva(tabela) {
+      if (!tabela || !tabela.id) return;
+      const salvo = localStorage.getItem('erp_col_order_' + tabela.id);
+      if (!salvo) return;
+      try {
+        const ordemDesejada = JSON.parse(salvo);
+        if (!Array.isArray(ordemDesejada) || ordemDesejada.length === 0) return;
+
+        ordemDesejada.forEach((colKey, targetIdx) => {
+          const currentThs = Array.from(tabela.querySelectorAll('thead th'));
+          const fromIdx = currentThs.findIndex(th => {
+            const key = th.dataset.col || th.innerText.trim().replace(/[▲▼⠿]/g, '').trim();
+            return key === colKey;
+          });
+          if (fromIdx !== -1 && fromIdx !== targetIdx && targetIdx < currentThs.length) {
+            moverColunaTabela(tabela, fromIdx, targetIdx);
+          }
+        });
+      } catch (err) {
+        console.warn('[ERRO APLICAR ORDEM COLUNAS]', err);
+      }
+    }
+
+    function restaurarOrdemPadraoColunas(tabelaId) {
+      localStorage.removeItem('erp_col_order_' + tabelaId);
+      mostrarToast('Ordem original das colunas restaurada!');
+      if (tabelaId === 'tabela-pedidos') carregarPedidosApi();
+      else if (tabelaId === 'tabela-clientes') renderTabela();
+      else if (tabelaId === 'tabela-produtos') renderTabelaProdutos();
+      else if (tabelaId === 'tabela-fiscal') renderTabelaFiscal();
+      else if (tabelaId === 'tabela-financeiro') carregarFinanceiroApi();
+    }
+
     // Inicialização da tela
     aplicarConfiguracaoApp();
+    inicializarArrasteColunasGlobal();
     atualizarKpis();
     renderTabela();
     carregarDadosApi();
