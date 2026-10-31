@@ -1970,6 +1970,7 @@
             <thead>
               <tr>
                 <th style="width: 35px;"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
+                <th style="width: 68px; text-align: center;">Ações</th>
                 <th style="width: 65px;">ID</th>
                 <th>Nome / Razão Social</th>
                 <th>Documento (CPF/CNPJ)</th>
@@ -3794,7 +3795,7 @@
       if (paginaItens.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum cliente localizado com os filtros selecionados.
             </td>
           </tr>
@@ -3811,6 +3812,10 @@
         return `
           <tr>
             <td><input type="checkbox" value="${c.id}"></td>
+            <td style="white-space: nowrap; text-align: center; padding: 4px 6px;">
+              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorClienteId(${c.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1; margin-right: 2px;">🏷️</button>
+              <button class="btn-row-action" title="Editar Ficha do Cliente" onclick="abrirModalEditarCliente(${c.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1;">✏️</button>
+            </td>
             <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-muted);">${c.id || '-'}</td>
             <td style="font-weight: 700; color: #fff;">
               ${c.nome}
