@@ -3194,7 +3194,7 @@
 
   <!-- MODAL DE CADASTRO / EDIÇÃO DE PEDIDO -->
   <div class="modal-overlay" id="modal-pedido">
-    <div class="modal-container" style="max-width: 720px; width: 95%;">
+    <div class="modal-container" style="max-width: 840px; width: 95%;">
       <div class="modal-header">
         <div class="modal-title">
           <span id="modal-ped-icone">📦</span>
@@ -3243,14 +3243,97 @@
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <label class="form-label" style="margin: 0;">Itens do Pedido / Mercadorias *</label>
-              <div style="font-size: 11px; color: #38bdf8; cursor: pointer;" onclick="abrirSeletorRapidoProdutos()">
-                + Inserir do Estoque de Couros
+          <!-- SEÇÃO INTERATIVA DE GESTÃO DE ITENS DO PEDIDO (ADICIONAR / ALTERAR / EXCLUIR) -->
+          <div style="margin-top: 16px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label class="form-label" style="margin: 0; font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
+                  <span>🛍️</span>
+                  <span>Itens e Mercadorias do Pedido</span>
+                </label>
+                <span id="ped-itens-badge" class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; font-size: 10.5px;">0 itens</span>
+              </div>
+              <button type="button" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="alternarModoTextoItensPedido()" title="Alternar entre modo visual e texto bruto">
+                📝 Modo Texto Livre
+              </button>
+            </div>
+
+            <!-- BARRA DE ADIÇÃO RÁPIDA DE ITENS DO ESTOQUE -->
+            <div style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 10px; margin-bottom: 12px;">
+              <div style="display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;">
+                <div style="flex: 3; min-width: 220px;">
+                  <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;">
+                    + Adicionar Produto do Catálogo / Estoque
+                  </label>
+                  <select class="form-input erp-select" id="ped-add-produto-select" onchange="aoSelecionarProdutoItemPedido(this.value)" style="width: 100%;">
+                    <option value="">-- Selecione um produto ou digite avulso abaixo --</option>
+                  </select>
+                </div>
+
+                <div style="width: 80px;">
+                  <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: center;">
+                    Qtd
+                  </label>
+                  <input type="number" id="ped-add-qtd-input" min="1" step="1" value="1" class="form-input" style="text-align: center; font-weight: 700; width: 100%;" oninput="atualizarSubtotalNovoItem()">
+                </div>
+
+                <div style="width: 110px;">
+                  <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: right;">
+                    Unit. (R$)
+                  </label>
+                  <input type="number" id="ped-add-preco-input" min="0" step="0.01" value="0.00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()">
+                </div>
+
+                <div style="width: 100px; text-align: right;">
+                  <label style="display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">
+                    Subtotal
+                  </label>
+                  <div id="ped-add-subtotal-prev" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px; line-height: 32px;">
+                    R$ 0,00
+                  </div>
+                </div>
+
+                <div>
+                  <button type="button" class="btn-top btn-emerald-glow" onclick="adicionarItemAoPedidoAtual()" style="padding: 7px 14px; font-weight: 700; font-size: 12px; white-space: nowrap;">
+                    ➕ Adicionar
+                  </button>
+                </div>
+              </div>
+
+              <!-- CAMPO COMPLEMENTAR PARA ITEM AVULSO -->
+              <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255, 255, 255, 0.08);">
+                <input type="text" id="ped-add-item-custom-nome" class="form-input" placeholder="Ou digite o nome de um item personalizado/avulso..." style="flex: 1; font-size: 11.5px; padding: 6px 10px;">
+                <button type="button" class="btn-top btn-row-action" onclick="adicionarItemAvulsoAoPedidoAtual()" style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
+                  + Adicionar como Avulso
+                </button>
               </div>
             </div>
-            <textarea class="form-input" id="form-ped-itens" rows="3" required placeholder="Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..."></textarea>
+
+            <!-- GRADE / TABELA DINÂMICA DE ITENS NO PEDIDO -->
+            <div class="erp-table-wrapper" style="max-height: 220px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; background: rgba(0, 0, 0, 0.15);">
+              <table class="erp-table" style="margin: 0; font-size: 12px;">
+                <thead>
+                  <tr style="background: rgba(0, 0, 0, 0.35);">
+                    <th style="padding: 8px 10px;">Produto / Mercadoria</th>
+                    <th style="padding: 8px 10px; text-align: center; width: 130px;">Quantidade</th>
+                    <th style="padding: 8px 10px; text-align: right; width: 110px;">Preço Unit.</th>
+                    <th style="padding: 8px 10px; text-align: right; width: 110px;">Subtotal</th>
+                    <th style="padding: 8px 10px; text-align: center; width: 50px;">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="ped-itens-tabela-body">
+                  <!-- Injetado dinamicamente -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- CAMPO SINCRONIZADO / MODO TEXTO (OCULTO POR PADRÃO) -->
+            <div id="ped-itens-texto-wrapper" style="display: none; margin-top: 10px;">
+              <label class="form-label" style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
+                Texto completo do pedido (sincronizado automaticamente):
+              </label>
+              <textarea class="form-input" id="form-ped-itens" rows="2" placeholder="Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..."></textarea>
+            </div>
           </div>
 
           <div class="form-grid-3" style="margin-top: 14px;">
@@ -4451,8 +4534,336 @@
       }
     }
 
+    // ========================================================
+    // GESTÃO DINÂMICA DE ITENS DO PEDIDO (ADICIONAR / ALTERAR / EXCLUIR)
+    // ========================================================
+    let itensPedidoAtual = [];
+
+    function parseTextoParaItens(textoItens, valorTotal) {
+      if (!textoItens || typeof textoItens !== 'string') return [];
+      const partes = textoItens.split(/[,;\n+]|\s*\+\s*/).map(s => s.trim()).filter(Boolean);
+      const resultado = [];
+
+      for (const parte of partes) {
+        // Extrai quantidade (ex: "2x", "3 un", "10 kg", "1 ")
+        const matchQtd = parte.match(/^(\d+(?:[.,]\d+)?)\s*(?:x|un|unid|pç|pc|peças|pecas|rolos|kg|m)?\b/i);
+        const qtd = matchQtd ? parseFloat(matchQtd[1].replace(',', '.')) : 1;
+        let nomeLimpo = matchQtd ? parte.slice(matchQtd[0].length).trim() : parte.trim();
+
+        // Extrai preço se presente, ex: "(R$ 180,00)" ou "(180.00)"
+        let precoUnit = 0;
+        const matchPreco = nomeLimpo.match(/\((?:R\$\s*)?([\d.,]+)\)/i);
+        if (matchPreco) {
+          precoUnit = parseFloat(matchPreco[1].replace(/\./g, '').replace(',', '.'));
+          nomeLimpo = nomeLimpo.replace(matchPreco[0], '').trim();
+        }
+
+        // Tenta associar com o catálogo de produtos
+        let prodEncontrado = null;
+        const parteUpper = nomeLimpo.toUpperCase();
+        if (Array.isArray(produtos) && produtos.length > 0) {
+          prodEncontrado = produtos.find(p => p.codigo_sku && parteUpper.includes(p.codigo_sku.toUpperCase()));
+          if (!prodEncontrado) {
+            prodEncontrado = produtos.find(p => p.nome && (parteUpper.includes(p.nome.toUpperCase()) || p.nome.toUpperCase().includes(parteUpper)));
+          }
+          if (!prodEncontrado) {
+            prodEncontrado = produtos.find(p => {
+              const words = (p.nome || '').toUpperCase().split(/\s+/).filter(w => w.length >= 4);
+              return words.length >= 2 && words.slice(0, 2).every(w => parteUpper.includes(w));
+            });
+          }
+        }
+
+        if (prodEncontrado && (!precoUnit || precoUnit === 0)) {
+          precoUnit = parseFloat(prodEncontrado.preco_venda || 0);
+        }
+
+        if ((!precoUnit || precoUnit === 0) && valorTotal && partes.length > 0) {
+          precoUnit = parseFloat(valorTotal) / (partes.length * qtd);
+        }
+
+        resultado.push({
+          id: prodEncontrado ? prodEncontrado.id : ('item_' + Math.random().toString(36).substring(2, 9)),
+          produto_id: prodEncontrado ? prodEncontrado.id : null,
+          sku: prodEncontrado ? (prodEncontrado.codigo_sku || '') : '',
+          nome: prodEncontrado ? prodEncontrado.nome : (nomeLimpo || parte),
+          qtd: qtd > 0 ? qtd : 1,
+          preco: precoUnit >= 0 ? precoUnit : 0
+        });
+      }
+
+      return resultado;
+    }
+
+    function popularSelectProdutosPedido() {
+      const sel = document.getElementById('ped-add-produto-select');
+      if (!sel) return;
+      sel.innerHTML = '<option value="">-- Selecione um produto do catálogo --</option>';
+
+      if (!Array.isArray(produtos) || produtos.length === 0) return;
+
+      const grupos = {};
+      produtos.forEach(p => {
+        const cat = p.categoria || 'Geral';
+        if (!grupos[cat]) grupos[cat] = [];
+        grupos[cat].push(p);
+      });
+
+      for (const cat of Object.keys(grupos).sort()) {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = `📦 ${cat}`;
+        grupos[cat].sort((a, b) => (a.codigo_sku || '').localeCompare(b.codigo_sku || '')).forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
+          opt.textContent = `${p.codigo_sku ? p.codigo_sku + ' - ' : ''}${p.nome} (R$ ${precoFmt} | Disp: ${estDisp} ${p.unidade_medida || 'UN'})`;
+          optgroup.appendChild(opt);
+        });
+        sel.appendChild(optgroup);
+      }
+    }
+
+    function aoSelecionarProdutoItemPedido(prodId) {
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      if (!prodId) {
+        if (precoInp) precoInp.value = '0.00';
+        atualizarSubtotalNovoItem();
+        return;
+      }
+      const prod = produtos.find(p => String(p.id) === String(prodId));
+      if (prod && precoInp) {
+        precoInp.value = parseFloat(prod.preco_venda || 0).toFixed(2);
+        if (!qtdInp.value || parseFloat(qtdInp.value) <= 0) qtdInp.value = '1';
+        atualizarSubtotalNovoItem();
+      }
+    }
+
+    function atualizarSubtotalNovoItem() {
+      const qtd = parseFloat(document.getElementById('ped-add-qtd-input')?.value || 1);
+      const preco = parseFloat(document.getElementById('ped-add-preco-input')?.value || 0);
+      const subtotal = Math.max(0, qtd * preco);
+      const el = document.getElementById('ped-add-subtotal-prev');
+      if (el) {
+        el.textContent = `R$ ${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+    }
+
+    function adicionarItemAoPedidoAtual() {
+      const sel = document.getElementById('ped-add-produto-select');
+      const prodId = sel ? sel.value : null;
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtd = parseFloat(qtdInp?.value || 1);
+      const preco = parseFloat(precoInp?.value || 0);
+
+      if (!prodId) {
+        alert('Por favor, selecione um produto do catálogo ou utilize o campo de item avulso abaixo.');
+        sel?.focus();
+        return;
+      }
+      if (qtd <= 0) {
+        alert('A quantidade do item deve ser maior que zero.');
+        qtdInp?.focus();
+        return;
+      }
+
+      const prod = produtos.find(p => String(p.id) === String(prodId));
+      const nome = prod ? prod.nome : 'Produto Selecionado';
+      const sku = prod ? (prod.codigo_sku || '') : '';
+
+      const itemExistente = itensPedidoAtual.find(i => String(i.produto_id) === String(prodId));
+      if (itemExistente) {
+        itemExistente.qtd += qtd;
+        if (preco > 0) itemExistente.preco = preco;
+      } else {
+        itensPedidoAtual.push({
+          id: prodId,
+          produto_id: Number(prodId),
+          nome,
+          sku,
+          qtd,
+          preco
+        });
+      }
+
+      sel.value = '';
+      if (qtdInp) qtdInp.value = '1';
+      if (precoInp) precoInp.value = '0.00';
+      atualizarSubtotalNovoItem();
+
+      atualizarTabelaItensPedido();
+      mostrarToast(`Item "${nome}" adicionado ao pedido!`);
+    }
+
+    function adicionarItemAvulsoAoPedidoAtual() {
+      const inputNome = document.getElementById('ped-add-item-custom-nome');
+      const nome = inputNome ? inputNome.value.trim() : '';
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtd = parseFloat(qtdInp?.value || 1);
+      const preco = parseFloat(precoInp?.value || 0);
+
+      if (!nome) {
+        alert('Por favor, digite o nome ou descrição do item avulso.');
+        inputNome?.focus();
+        return;
+      }
+      if (qtd <= 0) {
+        alert('A quantidade deve ser maior que zero.');
+        qtdInp?.focus();
+        return;
+      }
+
+      itensPedidoAtual.push({
+        id: 'avulso_' + Date.now(),
+        produto_id: null,
+        nome,
+        sku: 'AVULSO',
+        qtd,
+        preco
+      });
+
+      inputNome.value = '';
+      if (qtdInp) qtdInp.value = '1';
+      if (precoInp) precoInp.value = '0.00';
+      atualizarSubtotalNovoItem();
+
+      atualizarTabelaItensPedido();
+      mostrarToast(`Item avulso "${nome}" adicionado!`);
+    }
+
+    function alterarQtdItemPedido(index, delta) {
+      if (!itensPedidoAtual[index]) return;
+      const novaQtd = itensPedidoAtual[index].qtd + delta;
+      if (novaQtd <= 0) {
+        if (confirm(`Remover "${itensPedidoAtual[index].nome}" do pedido?`)) {
+          itensPedidoAtual.splice(index, 1);
+        }
+      } else {
+        itensPedidoAtual[index].qtd = novaQtd;
+      }
+      atualizarTabelaItensPedido();
+    }
+
+    function alterarQtdItemPedidoDireto(index, novaQtdVal) {
+      if (!itensPedidoAtual[index]) return;
+      const n = parseFloat(novaQtdVal);
+      if (!isNaN(n) && n > 0) {
+        itensPedidoAtual[index].qtd = n;
+      }
+      atualizarTabelaItensPedido();
+    }
+
+    function alterarPrecoItemPedido(index, novoPrecoVal) {
+      if (!itensPedidoAtual[index]) return;
+      const p = parseFloat(novoPrecoVal);
+      if (!isNaN(p) && p >= 0) {
+        itensPedidoAtual[index].preco = p;
+      }
+      atualizarTabelaItensPedido();
+    }
+
+    function removerItemPedido(index) {
+      if (!itensPedidoAtual[index]) return;
+      const nome = itensPedidoAtual[index].nome;
+      itensPedidoAtual.splice(index, 1);
+      atualizarTabelaItensPedido();
+      mostrarToast(`Item "${nome}" removido do pedido.`);
+    }
+
+    function atualizarTabelaItensPedido() {
+      const tbody = document.getElementById('ped-itens-tabela-body');
+      const badge = document.getElementById('ped-itens-badge');
+      const totalInp = document.getElementById('form-ped-valor');
+      const textItens = document.getElementById('form-ped-itens');
+
+      const totalQtd = itensPedidoAtual.reduce((acc, i) => acc + (parseFloat(i.qtd) || 0), 0);
+      if (badge) {
+        badge.textContent = `${itensPedidoAtual.length} ${itensPedidoAtual.length === 1 ? 'item' : 'itens'} (${totalQtd} un)`;
+      }
+
+      let somaTotal = 0;
+
+      if (!tbody) return;
+
+      if (itensPedidoAtual.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 25px 15px; color: var(--text-muted); font-size: 12px;">
+              Nenhum item adicionado ainda. Selecione um produto acima e clique em <strong>"➕ Adicionar"</strong>.
+            </td>
+          </tr>
+        `;
+        if (textItens) textItens.value = '';
+        return;
+      }
+
+      tbody.innerHTML = itensPedidoAtual.map((item, idx) => {
+        const qtdNum = parseFloat(item.qtd) || 1;
+        const precoNum = parseFloat(item.preco) || 0;
+        const subtotal = qtdNum * precoNum;
+        somaTotal += subtotal;
+
+        const skuTag = item.sku && item.sku !== 'AVULSO'
+          ? `<span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #38bdf8; background: rgba(0, 212, 255, 0.12); border: 1px solid rgba(0, 212, 255, 0.25); padding: 1px 5px; border-radius: 4px; margin-right: 6px;">${item.sku}</span>`
+          : item.sku === 'AVULSO'
+          ? `<span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1px 5px; border-radius: 4px; margin-right: 6px;">AVULSO</span>`
+          : '';
+
+        return `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; flex-wrap: wrap;">
+                ${skuTag}
+                <span style="font-weight: 700; color: #fff;">${item.nome}</span>
+              </div>
+            </td>
+            <td style="text-align: center;">
+              <div style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                <button type="button" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, -1)" title="Diminuir 1 un">−</button>
+                <input type="number" min="1" step="1" value="${qtdNum}" style="width: 48px; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; padding: 3px;" onchange="alterarQtdItemPedidoDireto(${idx}, this.value)">
+                <button type="button" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, 1)" title="Aumentar 1 un">+</button>
+              </div>
+            </td>
+            <td style="text-align: right;">
+              <input type="number" step="0.01" min="0" value="${precoNum.toFixed(2)}" style="width: 85px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #34d399; border-radius: 4px; padding: 3px 5px;" onchange="alterarPrecoItemPedido(${idx}, this.value)">
+            </td>
+            <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px;">
+              R$ ${subtotal.toFixed(2).replace('.', ',')}
+            </td>
+            <td style="text-align: center;">
+              <button type="button" class="btn-row-action" style="color: #ef4444; padding: 3px 7px;" title="Remover item do pedido" onclick="removerItemPedido(${idx})">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (totalInp && somaTotal > 0) {
+        totalInp.value = somaTotal.toFixed(2);
+      }
+
+      if (textItens) {
+        const textoFormatado = itensPedidoAtual.map(i => {
+          const pFmt = (parseFloat(i.preco) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          return `${i.qtd}x ${i.nome} (R$ ${pFmt})`;
+        }).join(' + ');
+        textItens.value = textoFormatado;
+      }
+    }
+
+    function alternarModoTextoItensPedido() {
+      const wrapper = document.getElementById('ped-itens-texto-wrapper');
+      if (wrapper) {
+        wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
     function abrirModalNovoPedido() {
       popularDatalistClientes();
+      popularSelectProdutosPedido();
+      itensPedidoAtual = [];
       const form = document.getElementById('form-pedido');
       if (form) form.reset();
       document.getElementById('form-ped-id').value = '';
@@ -4468,12 +4879,14 @@
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
       document.getElementById('form-ped-status').value = 'AGUARDANDO_ENVIO';
 
+      atualizarTabelaItensPedido();
       document.getElementById('modal-pedido').classList.add('active');
       document.getElementById('form-ped-cliente-nome').focus();
     }
 
     function abrirModalEditarPedido(id) {
       popularDatalistClientes();
+      popularSelectProdutosPedido();
       const ped = listaPedidos.find(p => String(p.id) === String(id));
       if (!ped) return;
 
@@ -4489,10 +4902,15 @@
       document.getElementById('form-ped-uf').value = (ped.uf || 'RS').toUpperCase();
       document.getElementById('form-ped-telefone').value = ped.telefone || ped.tel || '';
       document.getElementById('form-ped-itens').value = ped.itens || '';
-      document.getElementById('form-ped-valor').value = parseFloat(ped.valor_total || ped.valor || 0).toFixed(2);
+      const valorPedido = parseFloat(ped.valor_total || ped.valor || 0);
+      document.getElementById('form-ped-valor').value = valorPedido.toFixed(2);
       document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_ENVIO';
       document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
       document.getElementById('form-ped-obs').value = ped.observacoes || '';
+
+      // Popula a tabela interativa de itens
+      itensPedidoAtual = parseTextoParaItens(ped.itens, valorPedido);
+      atualizarTabelaItensPedido();
 
       document.getElementById('modal-pedido').classList.add('active');
     }
@@ -4512,6 +4930,12 @@
         'CANCELADO': 'Cancelado'
       };
 
+      // Garante sincronização se o usuário digitou no campo texto
+      let itensTexto = document.getElementById('form-ped-itens').value.trim();
+      if (!itensTexto && itensPedidoAtual.length > 0) {
+        itensTexto = itensPedidoAtual.map(i => `${i.qtd}x ${i.nome}`).join(' + ');
+      }
+
       const payload = {
         numero: document.getElementById('form-ped-numero').value.trim(),
         cliente_id: document.getElementById('form-ped-cliente-id').value || null,
@@ -4519,7 +4943,13 @@
         cidade: document.getElementById('form-ped-cidade').value.trim(),
         uf: document.getElementById('form-ped-uf').value.trim().toUpperCase(),
         telefone: document.getElementById('form-ped-telefone').value.trim(),
-        itens: document.getElementById('form-ped-itens').value.trim(),
+        itens: itensTexto,
+        itens_detalhados: itensPedidoAtual.map(i => ({
+          produto_id: i.produto_id,
+          nome: i.nome,
+          qtd: i.qtd,
+          preco_unitario: i.preco
+        })),
         valor_total: parseFloat(document.getElementById('form-ped-valor').value || 0),
         status: status,
         status_texto: statusMap[status] || 'Pendente',
