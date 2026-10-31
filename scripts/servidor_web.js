@@ -30,6 +30,11 @@ const { default: handlerAnexos } = await import('../api/anexos.js');
 const { default: handlerPedidos } = await import('../api/pedidos.js');
 const { default: handlerAuth } = await import('../api/auth.js');
 const { default: handlerUsuarios } = await import('../api/usuarios.js');
+const { default: handlerProdutos } = await import('../api/produtos.js');
+const { default: handlerFinanceiro } = await import('../api/financeiro.js');
+const { default: handlerCompras } = await import('../api/compras.js');
+const { default: handlerConfiguracoes } = await import('../api/configuracoes.js');
+const { default: handlerNfe } = await import('../api/nfe.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -280,6 +285,23 @@ async function tratarRequisicao(req, res) {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     });
     return res.end();
+  }
+
+  // Delegação direta para os handlers Serverless (Paridade 100% Local <-> Vercel)
+  if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
+    return handlerProdutos(req, res);
+  }
+  if (pathname === '/api/financeiro' || pathname.startsWith('/api/financeiro/')) {
+    return handlerFinanceiro(req, res);
+  }
+  if (pathname === '/api/compras' || pathname.startsWith('/api/compras/')) {
+    return handlerCompras(req, res);
+  }
+  if (pathname === '/api/configuracoes' || pathname.startsWith('/api/configuracoes/')) {
+    return handlerConfiguracoes(req, res);
+  }
+  if (pathname === '/api/nfe' || pathname.startsWith('/api/nfe/')) {
+    return handlerNfe(req, res);
   }
 
   // ====================================================================

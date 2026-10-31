@@ -1767,10 +1767,15 @@
         <span>Vendas & Pedidos</span>
         <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
       </a>
-      <a class="nav-item" onclick="trocarModulo('produtos', this)">
+      <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)">
         <span class="nav-icon">🪵</span>
-        <span id="app-stock-menu">Estoque de Couros</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+        <span id="app-stock-menu">Catálogo & Estoque</span>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">40 NCM</span>
+      </a>
+      <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)">
+        <span class="nav-icon">💰</span>
+        <span id="app-financeiro-menu">Financeiro & Compras</span>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">Fluxo/XML</span>
       </a>
 
       <div class="nav-section-title">Fiscal & Faturamento</div>
@@ -2144,13 +2149,14 @@
             <thead>
               <tr>
                 <th style="width: 35px;"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
-                <th style="width: 120px;">SKU / Código</th>
+                <th style="width: 110px;">SKU / Código</th>
+                <th style="width: 95px;">NCM Fiscal</th>
                 <th>Nome / Descrição Comercial</th>
-                <th style="width: 140px;">Categoria</th>
-                <th style="width: 80px;">Unidade</th>
-                <th style="width: 110px; text-align: right;">Preço Custo</th>
-                <th style="width: 120px; text-align: right;">Preço Venda</th>
-                <th style="width: 130px; text-align: center;">Estoque Atual</th>
+                <th style="width: 135px;">Categoria</th>
+                <th style="width: 70px;">Unid.</th>
+                <th style="width: 105px; text-align: right;">Preço Custo</th>
+                <th style="width: 115px; text-align: right;">Preço Venda</th>
+                <th style="width: 175px; text-align: center;">Saldos (Físico / Disp.)</th>
                 <th style="text-align: right; width: 160px;">Ações</th>
               </tr>
             </thead>
@@ -2277,6 +2283,126 @@
             </thead>
             <tbody id="erp-pedidos-body">
               <!-- Injetado dinamicamente via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    
+    <!-- MÓDULO FINANCEIRO, CONTAS A PAGAR/RECEBER & COMPRAS XML (TICKETS 4 & 5) -->
+    <main class="erp-content" id="modulo-financeiro-conteudo" style="display: none;">
+      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">💰</span>
+          <div>
+            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">FLUXO DE CAIXA INTEGRADO & IMPORTADOR DE COMPRAS XML (NF-e)</div>
+            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
+              Pedidos geram Contas a Receber automaticamente. Notas fiscais de compra (.XML) cadastram fornecedores, duplicatas a pagar e permitem escolher por item entre Despesa (Opção A) ou Entrada de Estoque (Opção B).
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-top" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.4); font-weight: 700;" onclick="abrirModalImportarXml()">
+            📥 Importar XML de Compra (NF-e)
+          </button>
+          <button class="btn-top btn-emerald-glow" onclick="abrirModalNovoLancamento()">
+            ➕ Novo Lançamento Avulso
+          </button>
+        </div>
+      </div>
+
+      <!-- KPIs DE FLUXO DE CAIXA -->
+      <section class="erp-kpi-grid">
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">A Receber (Pendente)</span>
+            <div class="kpi-icon-pill">🟢</div>
+          </div>
+          <div class="kpi-number" id="kpi-fin-receber" style="color: #34d399;">R$ 0,00</div>
+          <div class="kpi-trend">
+            <span id="kpi-fin-recebido" style="color: var(--text-muted); font-weight: normal;">Recebido no caixa: R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">A Pagar (Pendente)</span>
+            <div class="kpi-icon-pill">🔴</div>
+          </div>
+          <div class="kpi-number" id="kpi-fin-pagar" style="color: #f87171;">R$ 0,00</div>
+          <div class="kpi-trend">
+            <span id="kpi-fin-pago" style="color: var(--text-muted); font-weight: normal;">Pago / Quitado: R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Saldo Previsto (Caixa + Pendentes)</span>
+            <div class="kpi-icon-pill">📊</div>
+          </div>
+          <div class="kpi-number" id="kpi-fin-saldo" style="color: #38bdf8;">R$ 0,00</div>
+          <div class="kpi-trend">
+            <span id="kpi-fin-caixa-real" style="color: #34d399;">Saldo Realizado: R$ 0,00</span>
+          </div>
+        </div>
+
+        <div class="erp-kpi-card">
+          <div class="kpi-top-row">
+            <span class="kpi-label">Títulos em Atraso</span>
+            <div class="kpi-icon-pill">⚠️</div>
+          </div>
+          <div class="kpi-number" id="kpi-fin-atraso" style="color: #fbbf24;">0 títulos</div>
+          <div class="kpi-trend">
+            <span id="kpi-fin-fornecedores-count" style="color: var(--text-muted); font-weight: normal;">0 fornecedores cadastrados</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE FILTROS FINANCEIROS -->
+      <section class="erp-toolbar">
+        <div class="toolbar-filters">
+          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtro Financeiro:</span>
+          <button class="erp-filter-chip active" onclick="filtrarFinanceiro('TODOS', this)">Todos</button>
+          <button class="erp-filter-chip" onclick="filtrarFinanceiro('RECEBER', this)">🟢 Contas a Receber</button>
+          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGAR', this)">🔴 Contas a Pagar</button>
+          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PENDENTE', this)">⏳ Pendentes</button>
+          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGO', this)">✅ Pagos / Baixados</button>
+        </div>
+
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" onclick="carregarFinanceiroApi()">🔄 Atualizar Caixa</button>
+        </div>
+      </section>
+
+      <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
+      <section class="erp-table-card">
+        <div class="table-top-actions">
+          <div class="table-title">
+            <span>💰 Lançamentos de Contas a Pagar e a Receber</span>
+            <span class="table-count-badge" id="table-badge-financeiro">0 lançamentos</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Baixa rápida em 1 clique e rastreabilidade por Pedido ou Nota Fiscal de Compra
+          </div>
+        </div>
+
+        <div class="erp-table-wrapper">
+          <table class="erp-table">
+            <thead>
+              <tr>
+                <th style="width: 115px;">Tipo / Origem</th>
+                <th>Descrição do Lançamento</th>
+                <th style="width: 190px;">Cliente / Fornecedor</th>
+                <th style="width: 110px;">Categoria</th>
+                <th style="width: 105px; text-align: center;">Vencimento</th>
+                <th style="width: 120px; text-align: right;">Valor (R$)</th>
+                <th style="width: 125px; text-align: center;">Situação</th>
+                <th style="text-align: right; width: 170px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="erp-financeiro-body">
+              <!-- Injetado via JS -->
             </tbody>
           </table>
         </div>
@@ -2464,56 +2590,139 @@
       </section>
     </main>
 
-    <!-- MÓDULO CONFIGURAÇÕES -->
+    <!-- MÓDULO CONFIGURAÇÕES (WHITE-LABEL + USUÁRIOS RBAC - TICKET 6) -->
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
-      <section class="erp-table-card" style="padding: 24px; max-width: 800px;">
-        <h3 style="color: #fff; font-size: 16px; margin-bottom: 6px;">⚙️ Configurações da Empresa Emitente</h3>
-        <p style="color: var(--text-muted); font-size: 12.5px; margin-bottom: 20px;" id="app-config-company-name">
-          Parâmetros fiscais e operacionais da <strong>Mis Sueños Couros & Peles</strong>.
-        </p>
-
-        <div style="display: flex; flex-direction: column; gap: 14px;">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Razão Social / Nome Fantasia</label>
-              <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" readonly>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
+        
+        <!-- CARD 1: MOTOR WHITE-LABEL DE DUPLA CAMADA & EMITENTE -->
+        <section class="erp-table-card" style="padding: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🎨 Parametrização White-Label & Ramo</h3>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="app-config-company-name">
+                Personalize nomenclaturas dos módulos, categorias e dados fiscais da empresa.
+              </p>
             </div>
-            <div class="form-group">
-              <label class="form-label">Responsável Operacional</label>
-              <input type="text" class="form-input" id="app-config-user-name" value="Marcos Machado" readonly>
+            <span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              Template ERP Base
+            </span>
+          </div>
+
+          <!-- CAMADA 1: PRESET RÁPIDO POR RAMO -->
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 18px;">
+            <label class="form-label" style="color: #fbbf24; margin-bottom: 6px; display: block;">⚡ Camada 1: Aplicar Preset Rápido por Ramo de Atividade</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <select class="form-input" id="cfg-ramo-preset" style="flex: 1; min-width: 200px;">
+                <option value="couros">🪵 Couros, Selaria & Artesanato (Padrão Mis Sueños)</option>
+                <option value="informatica">💻 Assistência Técnica & Informática</option>
+                <option value="comercio">🛒 Comércio Varejista & Distribuidora</option>
+                <option value="oficina">🔧 Oficina Mecânica & Prestação de Serviços</option>
+              </select>
+              <button type="button" class="btn-top" style="background: #f59e0b; color: #000; font-weight: 800;" onclick="aplicarPresetRamoWeb()">
+                ⚡ Carregar Preset
+              </button>
             </div>
           </div>
 
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">WhatsApp Comercial</label>
-              <input type="text" class="form-input" value="(51) 99719-9204" readonly>
+          <!-- CAMADA 2: PERSONALIZAÇÃO DETALHADA -->
+          <form id="form-config-whitelabel" onsubmit="salvarConfiguracoesSistema(event)" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Nome Fantasia do Sistema</label>
+                <input type="text" class="form-input" id="cfg-nome-fantasia" value="Mis Sueños" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Subtítulo / Slogan Lateral</label>
+                <input type="text" class="form-input" id="cfg-subtitulo" value="Couros & Insumos • Sapiranga/RS">
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Regime Tributário</label>
-              <input type="text" class="form-input" value="Simples Nacional / MEI / Produtor" readonly>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Razão Social Emitente (NF-e)</label>
+                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CNPJ / CPF do Emitente</label>
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91">
+              </div>
             </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label">Nome Menu Pedidos</label>
+                <input type="text" class="form-input" id="cfg-label-pedidos" value="Pedidos & Vendas">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nome Menu Estoque</label>
+                <input type="text" class="form-input" id="cfg-label-produtos" value="Catálogo & Estoque">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nome Menu Clientes</label>
+                <input type="text" class="form-input" id="cfg-label-clientes" value="Clientes & CRM">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Categorias de Produtos (Separadas por vírgula)</label>
+              <input type="text" class="form-input" id="cfg-categorias-padrao" value="Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria">
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
+                <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Responsável Operacional</label>
+                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Machado">
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Banco isolado Turso Cloud • <strong>Gustavo Rosa Informática</strong>
+              </div>
+              <button type="submit" class="btn-top btn-primary-glow">💾 Salvar Configurações</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- CARD 2: GESTÃO DE OPERADORES E PERMISSÕES (RBAC) -->
+        <section class="erp-table-card" style="padding: 24px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">👥 Operadores e Permissões (RBAC)</h3>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;">
+                Cadastre operadores internos com senha individual e controle o que cada perfil pode acessar.
+              </p>
+            </div>
+            <button type="button" class="btn-top btn-emerald-glow" onclick="abrirModalUsuarioRbac()">
+              ➕ Novo Operador
+            </button>
           </div>
 
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Ambiente Fiscal</label>
-              <input type="text" class="form-input" value="Produção / Homologação Oficial" readonly style="color: #34d399;">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Armazenamento em Nuvem</label>
-              <input type="text" class="form-input" value="Conectado com Redundância" readonly style="color: #38bdf8;">
-            </div>
+          <div class="erp-table-wrapper" style="max-height: 420px; overflow-y: auto;">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Usuário / Login</th>
+                  <th>Nome Completo</th>
+                  <th>Perfil</th>
+                  <th>Permissões Ativas</th>
+                  <th style="text-align: right;">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="erp-usuarios-rbac-body">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 24px; color: var(--text-muted);">Carregando operadores...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </section>
 
-          <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-size: 11.5px; color: var(--text-muted);">
-              Desenvolvido & Customizado por: <strong>Gustavo Rosa Informática</strong>
-            </div>
-            <button class="btn-top btn-primary-glow" onclick="mostrarToast('Configurações salvas e validadas!')">💾 Salvar Parâmetros</button>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
   </div>
 
@@ -2705,7 +2914,11 @@
                 <button type="button" class="btn-top btn-row-action" title="Gerar Código Automático" onclick="gerarSkuAuto()">⚡</button>
               </div>
             </div>
-            <div class="form-group" style="grid-column: span 2;">
+            <div class="form-group">
+              <label class="form-label">NCM Fiscal (8 dígitos) *</label>
+              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24;">
+            </div>
+            <div class="form-group">
               <label class="form-label">Nome / Descrição Comercial *</label>
               <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Legítima Selecionada">
             </div>
@@ -3061,6 +3274,229 @@
     </div>
   </div>
 
+  
+  <!-- MODAL DE NOVO LANÇAMENTO FINANCEIRO AVULSO (TICKET 4) -->
+  <div class="modal-overlay" id="modal-lancamento-financeiro">
+    <div class="modal-container" style="max-width: 620px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>💰</span>
+          <span id="modal-fin-titulo">Novo Lançamento Financeiro (Avulso)</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalLancamento()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-lancamento-fin" onsubmit="salvarLancamentoFinanceiro(event)">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Tipo de Lançamento *</label>
+              <select class="form-input" id="fin-tipo" required>
+                <option value="RECEBER">🟢 Conta a Receber (Entrada)</option>
+                <option value="PAGAR">🔴 Conta a Pagar (Saída / Despesa)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Categoria *</label>
+              <select class="form-input" id="fin-categoria">
+                <option value="Vendas de Mercadorias">Vendas de Mercadorias</option>
+                <option value="Matéria-Prima / Couros">Matéria-Prima / Couros</option>
+                <option value="Frete / Transportadora">Frete / Transportadora</option>
+                <option value="Impostos / Taxas">Impostos / Taxas</option>
+                <option value="Despesas Operacionais">Despesas Operacionais</option>
+                <option value="Serviços de Terceiros">Serviços de Terceiros</option>
+                <option value="Outros">Outros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 12px;">
+            <label class="form-label">Descrição do Lançamento *</label>
+            <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Compra de Sal Grosso / Frete Jadlog / Venda Balcão">
+          </div>
+
+          <div class="form-grid-2" style="margin-top: 12px;">
+            <div class="form-group">
+              <label class="form-label">Cliente ou Fornecedor (Opcional)</label>
+              <input type="text" class="form-input" id="fin-entidade" list="lista-clientes-datalist" placeholder="Nome do cliente ou fornecedor">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Forma de Pagamento</label>
+              <select class="form-input" id="fin-forma">
+                <option value="PIX">PIX</option>
+                <option value="BOLETO">Boleto Bancário</option>
+                <option value="CARTAO">Cartão de Crédito/Débito</option>
+                <option value="DINHEIRO">Dinheiro em Espécie</option>
+                <option value="TRANSFERENCIA">Transferência TED/DOC</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-3" style="margin-top: 12px;">
+            <div class="form-group">
+              <label class="form-label">Valor (R$) *</label>
+              <input type="number" step="0.01" min="0.01" class="form-input" id="fin-valor" required placeholder="0.00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Data de Vencimento *</label>
+              <input type="date" class="form-input" id="fin-vencimento" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status Inicial</label>
+              <select class="form-input" id="fin-status">
+                <option value="PENDENTE">⏳ Pendente (Em Aberto)</option>
+                <option value="PAGO">✅ Já Pago / Recebido</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 12px;">
+            <label class="form-label">Observações</label>
+            <input type="text" class="form-input" id="fin-obs" placeholder="Número de recibo, chave PIX ou anotação interna...">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalLancamento()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-lancamento-fin').requestSubmit()">💾 Salvar Lançamento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE IMPORTAÇÃO DE XML DE COMPRA NF-e HÍBRIDO OPÇÕES A e B (TICKET 5) -->
+  <div class="modal-overlay" id="modal-importar-xml">
+    <div class="modal-container" style="max-width: 920px; width: 96%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>📥</span>
+          <span>Importar Nota Fiscal de Compra (.XML NF-e) • Fluxo Híbrido (A) e (B)</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalImportarXml()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #cbd5e1;">
+          💡 <strong>Como funciona:</strong> Selecione o arquivo <code>.xml</code> da NF-e enviada pelo fornecedor. O sistema extrai automaticamente os dados do <strong>Fornecedor</strong> e as <strong>Duplicatas a Pagar</strong>, permitindo escolher item a item entre <strong>(A) Apenas Despesa/Insumo</strong> ou <strong>(B) Somar no Estoque Físico + Atualizar Custo</strong>.
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <input type="file" id="xml-file-input" accept=".xml,text/xml" class="form-input" style="flex: 1;" onchange="lerArquivoXmlCompra(this)">
+          <button type="button" class="btn-top btn-row-action" onclick="carregarXmlExemploTeste()">🧪 Carregar XML de Exemplo</button>
+        </div>
+
+        <!-- ÁREA DE PREVIEW DO XML ANALISADO -->
+        <div id="xml-preview-container" style="display: none; flex-direction: column; gap: 16px; margin-top: 8px;">
+          <!-- Resumo Cabeçalho + Fornecedor -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+              <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase;">🏢 Fornecedor Extraído (&lt;emit&gt;)</div>
+              <div id="xml-prev-fornecedor-nome" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 4px;">-</div>
+              <div id="xml-prev-fornecedor-doc" style="font-size: 11.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">-</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+              <div style="font-size: 10.5px; font-weight: 800; color: #34d399; text-transform: uppercase;">🧾 Dados da Nota & Contas a Pagar (&lt;cobr&gt;)</div>
+              <div id="xml-prev-nota-num" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 4px;">-</div>
+              <div id="xml-prev-nota-chave" style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; word-break: break-all;">-</div>
+              <div id="xml-prev-duplicatas" style="font-size: 11px; color: #fbbf24; margin-top: 4px;">-</div>
+            </div>
+          </div>
+
+          <!-- Tabela de Itens do XML com Seletor Híbrido (A) ou (B) -->
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 8px;">
+              📦 Itens da Nota Fiscal (&lt;det&gt;) — Escolha o destino de cada item:
+            </div>
+            <div class="erp-table-wrapper" style="max-height: 280px; overflow-y: auto;">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th>Cód / NCM</th>
+                    <th>Produto no XML</th>
+                    <th style="text-align: center;">Qtd</th>
+                    <th style="text-align: right;">Custo Unit.</th>
+                    <th style="width: 240px;">Ação no Sistema (Opção A ou B)</th>
+                    <th style="width: 220px;">Vincular ao Produto (Se Opção B)</th>
+                  </tr>
+                </thead>
+                <tbody id="xml-itens-preview-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-xml" style="display: none;" onclick="confirmarImportacaoXmlCompra()">
+          ✅ Confirmar Importação (Fornecedor + Contas a Pagar + Estoque)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CADASTRO / EDIÇÃO DE OPERADOR RBAC (TICKET 6) -->
+  <div class="modal-overlay" id="modal-usuario-rbac">
+    <div class="modal-container" style="max-width: 560px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>👤</span>
+          <span id="modal-rbac-titulo">Novo Operador do Sistema</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalUsuarioRbac()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-usuario-rbac" onsubmit="salvarUsuarioRbac(event)">
+          <input type="hidden" id="rbac-user-id">
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Login de Acesso *</label>
+              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: financeiro, joao">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nome Completo *</label>
+              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome do operador">
+            </div>
+          </div>
+
+          <div class="form-grid-2" style="margin-top: 12px;">
+            <div class="form-group">
+              <label class="form-label">Senha de Acesso <span id="rbac-senha-hint" style="font-weight: normal; color: var(--text-muted);">(Obrigatória)</span></label>
+              <input type="password" class="form-input" id="rbac-senha" placeholder="Digite a senha...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Papel / Perfil *</label>
+              <select class="form-input" id="rbac-papel" onchange="aoMudarPapelRbac(this.value)">
+                <option value="ADMIN">👑 Administrador Total</option>
+                <option value="VENDAS">💼 Vendas & Atendimento</option>
+                <option value="EXPEDICAO">📦 Expedição & Logística</option>
+                <option value="FINANCEIRO">💰 Financeiro & Compras</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+            <label class="form-label" style="margin-bottom: 8px; display: block;">🔒 Permissões Específicas do Operador:</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: #cbd5e1;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-clientes-criar" checked> Cadastrar/Editar Clientes
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-fiscal-emitir" checked> Emitir NF-e / Central Fiscal
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-produtos-custo" checked> Ver/Editar Preço de Custo
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-configuracoes"> Acessar Aba Configurações
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalUsuarioRbac()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-usuario-rbac').requestSubmit()">💾 Salvar Operador</button>
+      </div>
+    </div>
+  </div>
+
   <!-- CONTAINER DE TOASTS -->
   <div class="toast-container" id="toast-container"></div>
 
@@ -3125,8 +3561,13 @@
         renderTabelaFiscal();
       } else if (modulo === 'painel') {
         document.getElementById('modulo-painel-conteudo').style.display = 'flex';
+      } else if (modulo === 'financeiro') {
+        document.getElementById('modulo-financeiro-conteudo').style.display = 'flex';
+        carregarFinanceiroApi();
       } else if (modulo === 'configuracoes') {
         document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
+        carregarConfiguracoesSistemaApi();
+        carregarUsuariosRbacApi();
       } else if (modulo === 'mapa') {
         document.getElementById('modulo-mapa-conteudo').style.display = 'flex';
         if (typeof renderizarMapaCalor === 'function') {
@@ -3635,7 +4076,7 @@
       if (produtosFiltrados.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="10" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum produto cadastrado ou localizado com os filtros atuais.
             </td>
           </tr>
@@ -3650,39 +4091,48 @@
                        cat === 'Tentos' ? 'rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3);' :
                        'rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);';
 
-        const est = parseFloat(p.estoque_atual || 0);
+        const estFisico = parseFloat(p.estoque_atual || 0);
+        const estReservado = parseFloat(p.estoque_reservado || 0);
+        const estDisponivel = p.estoque_disponivel !== undefined ? parseFloat(p.estoque_disponivel) : Math.max(0, estFisico - estReservado);
         const min = parseFloat(p.estoque_minimo || 5);
-        const isBaixo = est <= min;
-        const estBadge = isBaixo
-          ? `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">⚠️ ${est} ${p.unidade_medida || 'UN'}</span>`
-          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-family: monospace;">${est} ${p.unidade_medida || 'UN'}</span>`;
+        const un = p.unidade_medida || p.unidade || 'UN';
+        const isBaixo = estDisponivel <= min;
+
+        const dispBadge = isBaixo
+          ? `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-family: monospace; font-size: 11px;">⚠️ Disp: ${estDisponivel} ${un}</span>`
+          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-family: monospace; font-size: 11px;">✅ Disp: ${estDisponivel} ${un}</span>`;
+
+        const reservadoBadge = estReservado > 0
+          ? `<div style="margin-top: 4px;"><span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; font-family: monospace;">⏳ ${estReservado} reservado(s)</span></div>`
+          : `<div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Físico: ${estFisico} ${un}</div>`;
 
         const precoCusto = parseFloat(p.preco_custo || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const precoVenda = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const isTeste = Boolean(p.is_teste == 1 || p.is_teste === true || p.id <= 11);
-        const tagTeste = isTeste
-          ? `<span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>`
-          : '';
+        const ncmCodigo = p.ncm || '42050000';
+        const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
           <tr>
             <td><input type="checkbox" value="${p.id}"></td>
-            <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${p.codigo_sku || '-'}</td>
+            <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
+            <td><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
             <td>
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <span style="font-weight: 700; color: #fff;">${p.nome}</span>
-                ${tagTeste}
               </div>
               ${p.descricao ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; max-width: 320px; white-space: normal;">${p.descricao}</div>` : ''}
             </td>
             <td><span style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; ${catCor}">${cat}</span></td>
-            <td><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 11px;">${p.unidade_medida || 'UN'}</span></td>
+            <td><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 11px;">${un}</span></td>
             <td style="text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">R$ ${precoCusto}</td>
             <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${precoVenda}</td>
-            <td style="text-align: center;">${estBadge}</td>
+            <td style="text-align: center;">
+              ${dispBadge}
+              ${reservadoBadge}
+            </td>
             <td style="text-align: right;">
               <button class="btn-row-action" title="Editar Produto" onclick="abrirModalEditarProduto(${p.id})">✏️ Editar</button>
-              <button class="btn-row-action" title="Excluir Produto" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${p.nome.replace(/'/g, '')}')">🗑️</button>
+              <button class="btn-row-action" title="Excluir Produto" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${(p.nome || '').replace(/'/g, '')}')">🗑️</button>
             </td>
           </tr>
         `;
@@ -3704,9 +4154,11 @@
 
     function abrirModalNovoProduto() {
       document.getElementById('modal-prod-icone').textContent = '➕';
-      document.getElementById('modal-prod-titulo').textContent = 'Novo Produto / Couro';
+      document.getElementById('modal-prod-titulo').textContent = 'Novo Produto / Catálogo';
       document.getElementById('form-produto').reset();
       document.getElementById('form-prod-id').value = '';
+      const ncmEl = document.getElementById('form-prod-ncm');
+      if (ncmEl) ncmEl.value = '42050000';
       gerarSkuAuto();
       document.getElementById('modal-produto').classList.add('active');
       document.getElementById('form-prod-nome').focus();
@@ -3719,10 +4171,12 @@
       document.getElementById('modal-prod-icone').textContent = '✏️';
       document.getElementById('modal-prod-titulo').textContent = `Editar: ${prod.nome}`;
       document.getElementById('form-prod-id').value = prod.id || '';
-      document.getElementById('form-prod-sku').value = prod.codigo_sku || '';
+      document.getElementById('form-prod-sku').value = prod.codigo_sku || prod.codigo || '';
+      const ncmEl = document.getElementById('form-prod-ncm');
+      if (ncmEl) ncmEl.value = prod.ncm || '42050000';
       document.getElementById('form-prod-nome').value = prod.nome || '';
       document.getElementById('form-prod-cat').value = prod.categoria || 'Loncas';
-      document.getElementById('form-prod-un').value = prod.unidade_medida || 'Peça';
+      document.getElementById('form-prod-un').value = prod.unidade_medida || prod.unidade || 'UN';
       document.getElementById('form-prod-min').value = prod.estoque_minimo || 5;
       document.getElementById('form-prod-custo').value = prod.preco_custo || 0;
       document.getElementById('form-prod-venda').value = prod.preco_venda || 0;
@@ -3749,6 +4203,7 @@
       const id = document.getElementById('form-prod-id').value;
       const payload = {
         codigo_sku: document.getElementById('form-prod-sku').value.trim(),
+        ncm: (document.getElementById('form-prod-ncm')?.value || '42050000').replace(/\D/g, ''),
         nome: document.getElementById('form-prod-nome').value.trim(),
         categoria: document.getElementById('form-prod-cat').value,
         unidade_medida: document.getElementById('form-prod-un').value,
@@ -3777,7 +4232,7 @@
 
         const data = await resp.json().catch(() => ({}));
         if (resp.ok && (data.success || data.id)) {
-          mostrarToast(`Produto "${payload.nome}" salvo com sucesso!`);
+          mostrarToast(`Produto "${payload.nome}" salvo com NCM ${payload.ncm}!`);
           fecharModalProduto();
           await carregarProdutosApi();
         } else {
@@ -4069,9 +4524,10 @@
         });
 
         if (resp.ok) {
-          mostrarToast(`✅ Pedido ${payload.numero} gravado com sucesso no banco de dados!`);
+          mostrarToast(`✅ Pedido ${payload.numero} gravado! Estoque reservado e Conta a Receber sincronizada.`);
           fecharModalPedido();
           await carregarPedidosApi();
+          await carregarProdutosApi();
         } else {
           const err = await resp.json();
           mostrarToast(`Erro ao salvar pedido: ${err.error || 'Falha na requisição'}`);

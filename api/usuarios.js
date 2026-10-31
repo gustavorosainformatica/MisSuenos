@@ -216,3 +216,4 @@ export default async function handler(req, res) {
     return responder(res, 500, { error: 'Falha ao gerenciar usuários: ' + err.message });
   }
 }
+

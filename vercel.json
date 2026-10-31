@@ -53,6 +53,30 @@
       "dest": "/api/produtos.js"
     },
     {
+      "src": "/api/financeiro/(.*)",
+      "dest": "/api/financeiro.js"
+    },
+    {
+      "src": "/api/financeiro",
+      "dest": "/api/financeiro.js"
+    },
+    {
+      "src": "/api/compras/(.*)",
+      "dest": "/api/compras.js"
+    },
+    {
+      "src": "/api/compras",
+      "dest": "/api/compras.js"
+    },
+    {
+      "src": "/api/configuracoes/(.*)",
+      "dest": "/api/configuracoes.js"
+    },
+    {
+      "src": "/api/configuracoes",
+      "dest": "/api/configuracoes.js"
+    },
+    {
       "src": "/api/anexos/(.*)",
       "dest": "/api/anexos.js"
     },

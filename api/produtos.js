@@ -1,6 +1,7 @@
 /**
  * Vercel Serverless Function: /api/produtos
  * Suporta GET (listar/buscar), POST (criar), PUT (atualizar), DELETE (excluir)
+ *Inclui suporte completo a NCM (8 dígitos) e Estoque Reservado (3 saldos: Físico, Reservado, Disponível).
  * Persistência unificada via lib/db.js (Turso Cloud ou SQLite Local)
  */
 
@@ -38,6 +39,20 @@ async function parseBody(req) {
   });
 }
 
+function enriquecerProduto(p) {
+  if (!p) return null;
+  const fisico = parseFloat(p.estoque_atual || 0);
+  const reservado = Math.max(0, parseFloat(p.estoque_reservado || 0));
+  const disponivel = Math.max(0, fisico - reservado);
+  return {
+    ...p,
+    ncm: p.ncm || '41131090',
+    estoque_atual: fisico,
+    estoque_reservado: reservado,
+    estoque_disponivel: disponivel
+  };
+}
+
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     if (typeof res.status === 'function') {
@@ -55,14 +70,15 @@ export default async function handler(req, res) {
   }
 
   const url = parseUrl(req);
-  const idParam = url.searchParams.get('id') || req.query?.id;
+  const matchPathId = url.pathname.match(/^\/api\/produtos\/(\d+)$/);
+  const idParam = url.searchParams.get('id') || req.query?.id || (matchPathId ? matchPathId[1] : null);
 
   try {
     if (req.method === 'GET') {
       if (idParam) {
         const prod = await get('SELECT * FROM produtos WHERE id = ?', [idParam]);
         if (!prod) return responder(res, 404, { error: 'Produto não encontrado' });
-        return responder(res, 200, prod);
+        return responder(res, 200, enriquecerProduto(prod));
       }
 
       const q = url.searchParams.get('q');
@@ -77,17 +93,17 @@ export default async function handler(req, res) {
       }
 
       if (q) {
-        sql += ' AND (nome LIKE ? OR codigo_sku LIKE ? OR descricao LIKE ?)';
+        sql += ' AND (nome LIKE ? OR codigo_sku LIKE ? OR descricao LIKE ? OR ncm LIKE ?)';
         const termo = `%${q}%`;
-        params.push(termo, termo, termo);
+        params.push(termo, termo, termo, termo);
       }
 
       sql += ' ORDER BY categoria ASC, nome ASC';
       const produtos = await query(sql, params);
-      return responder(res, 200, produtos);
+      return responder(res, 200, produtos.map(enriquecerProduto));
     }
 
-    if (req.method === 'POST') {
+    if (req.method === 'POST' && !idParam) {
       const payload = await parseBody(req);
       if (!payload.nome) {
         return responder(res, 400, { error: 'O nome do produto é obrigatório.' });
@@ -97,45 +113,76 @@ export default async function handler(req, res) {
       const sku = (payload.codigo_sku && payload.codigo_sku.trim()) || `SKU-${Date.now().toString().slice(-6)}`;
       const categoria = payload.categoria || 'Outros';
       const un = payload.unidade_medida || 'UN';
+      const ncm = (payload.ncm || '41131090').replace(/\D/g, '').slice(0, 8) || '41131090';
       const custo = parseFloat(payload.preco_custo || 0);
       const venda = parseFloat(payload.preco_venda || 0);
       const estoque = parseFloat(payload.estoque_atual || 0);
+      const reservado = Math.max(0, parseFloat(payload.estoque_reservado || 0));
       const estoqueMin = parseFloat(payload.estoque_minimo || 5);
       const desc = payload.descricao || '';
 
       const info = await run(`
         INSERT INTO produtos (
-          codigo_sku, nome, categoria, unidade_medida,
-          preco_custo, preco_venda, estoque_atual, estoque_minimo,
+          codigo_sku, nome, categoria, unidade_medida, ncm,
+          preco_custo, preco_venda, estoque_atual, estoque_reservado, estoque_minimo,
           descricao, ativo, data_cadastro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-      `, [sku, payload.nome.trim(), categoria, un, custo, venda, estoque, estoqueMin, desc, agora]);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, estoque, reservado, estoqueMin, desc, agora]);
+
+      await registrarLog({
+        clienteId: null,
+        clienteNome: 'Estoque / Produtos',
+        tipoAcao: 'CADASTRO_PRODUTO',
+        camposAlterados: ['produto_criado'],
+        detalhes: `Produto ${payload.nome} (${sku} | NCM ${ncm}) cadastrado com ${estoque} ${un}`,
+        req
+      }).catch(() => {});
 
       return responder(res, 201, {
         success: true,
         id: info.lastInsertRowid,
         codigo_sku: sku,
-        nome: payload.nome
+        nome: payload.nome,
+        ncm
       });
     }
 
-    if (req.method === 'PUT') {
+    if (req.method === 'PUT' || (req.method === 'POST' && idParam)) {
       if (!idParam) return responder(res, 400, { error: 'ID do produto é obrigatório.' });
+      const atual = await get('SELECT * FROM produtos WHERE id = ?', [idParam]);
+      if (!atual) return responder(res, 404, { error: 'Produto não encontrado' });
+
       const payload = await parseBody(req);
       const agora = new Date().toISOString();
 
+      const sku = payload.codigo_sku !== undefined ? String(payload.codigo_sku).trim() : atual.codigo_sku;
+      const nome = payload.nome !== undefined ? String(payload.nome).trim() : atual.nome;
+      const categoria = payload.categoria !== undefined ? payload.categoria : atual.categoria;
+      const un = payload.unidade_medida !== undefined ? payload.unidade_medida : atual.unidade_medida;
+      const ncm = payload.ncm !== undefined ? (String(payload.ncm).replace(/\D/g, '').slice(0, 8) || '41131090') : (atual.ncm || '41131090');
+      const custo = payload.preco_custo !== undefined ? parseFloat(payload.preco_custo || 0) : parseFloat(atual.preco_custo || 0);
+      const venda = payload.preco_venda !== undefined ? parseFloat(payload.preco_venda || 0) : parseFloat(atual.preco_venda || 0);
+      const estoque = payload.estoque_atual !== undefined ? parseFloat(payload.estoque_atual || 0) : parseFloat(atual.estoque_atual || 0);
+      const reservado = payload.estoque_reservado !== undefined ? Math.max(0, parseFloat(payload.estoque_reservado || 0)) : Math.max(0, parseFloat(atual.estoque_reservado || 0));
+      const min = payload.estoque_minimo !== undefined ? parseFloat(payload.estoque_minimo || 5) : parseFloat(atual.estoque_minimo || 5);
+      const desc = payload.descricao !== undefined ? payload.descricao : (atual.descricao || '');
+
       await run(`
         UPDATE produtos SET
-          nome = ?, categoria = ?, unidade_medida = ?,
-          preco_custo = ?, preco_venda = ?, estoque_atual = ?, estoque_minimo = ?,
+          codigo_sku = ?, nome = ?, categoria = ?, unidade_medida = ?, ncm = ?,
+          preco_custo = ?, preco_venda = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
           descricao = ?, data_atualizacao = ?
         WHERE id = ?
-      `, [
-        payload.nome, payload.categoria, payload.unidade_medida,
-        parseFloat(payload.preco_custo || 0), parseFloat(payload.preco_venda || 0),
-        parseFloat(payload.estoque_atual || 0), parseFloat(payload.estoque_minimo || 5),
-        payload.descricao || '', agora, idParam
-      ]);
+      `, [sku, nome, categoria, un, ncm, custo, venda, estoque, reservado, min, desc, agora, idParam]);
+
+      await registrarLog({
+        clienteId: null,
+        clienteNome: 'Estoque / Produtos',
+        tipoAcao: 'EDICAO_PRODUTO',
+        camposAlterados: ['produto_atualizado'],
+        detalhes: `Produto #${idParam} (${nome} | NCM ${ncm}) atualizado`,
+        req
+      }).catch(() => {});
 
       return responder(res, 200, { success: true, id: idParam, message: 'Produto atualizado' });
     }

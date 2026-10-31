@@ -1,12 +1,13 @@
 /**
  * Vercel Serverless Function: /api/nfe
- * Central de Geração e Exportação Fiscal:
+ * Central de Geração, Validação NCM/CFOP e Transmissão Fiscal (Ticket 7):
  * 1. NFS-e (Portal Nacional da Receita Federal - Padrão DPS / XML)
- * 2. NF-e (Produtos SEFAZ - Modelo 55 / TXT Emissor Gratuito)
+ * 2. NF-e (Produtos SEFAZ - Modelo 55 via Conector WLG Sistemas REST + TXT Emissor SEFAZ)
  * Grava histórico de emissão no banco de dados ativo (logs_auditoria).
  */
 
 import { registrarLog, get } from '../lib/db.js';
+import { calcularCfopVenda, validarItensFiscais, transmitirNfeWlg } from '../lib/wlg.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -77,7 +78,6 @@ export default async function handler(req, res) {
       const codigoTributacao = servico?.codigoTributacao || '14.01.01';
       const discriminacao = servico?.discriminacao || 'Prestação de serviços artesanais em couro e peles.';
 
-      // Monta estrutura DPS padrão Nacional
       const numeroDps = Math.floor(100000 + Math.random() * 900000);
       const serieDps = '1';
 
@@ -98,9 +98,9 @@ export default async function handler(req, res) {
         <xLgr>${emitente?.logradouro || 'Rua das Indústrias'}</xLgr>
         <nro>${emitente?.numero || '100'}</nro>
         <xBairro>${emitente?.bairro || 'Centro'}</xBairro>
-        <cMun>4314902</cMun>
+        <cMun>4319901</cMun>
         <UF>${emitente?.uf || 'RS'}</UF>
-        <CEP>${emitente?.cep?.replace(/\D/g, '') || '90000000'}</CEP>
+        <CEP>${emitente?.cep?.replace(/\D/g, '') || '93800000'}</CEP>
       </end>
     </prest>
     <toma>
@@ -110,7 +110,7 @@ export default async function handler(req, res) {
         <xLgr>${cliente.logradouro || ''}</xLgr>
         <nro>${cliente.numero || 'S/N'}</nro>
         <xBairro>${cliente.bairro || ''}</xBairro>
-        <cMun>${cliente.codigoIbge || '4314902'}</cMun>
+        <cMun>${cliente.codigoIbge || '4319901'}</cMun>
         <xMun>${cliente.cidade || ''}</xMun>
         <UF>${cliente.uf || 'RS'}</UF>
         <CEP>${(cliente.cep || '').replace(/\D/g, '')}</CEP>
@@ -118,7 +118,7 @@ export default async function handler(req, res) {
       <fone>${(cliente.telefone || '').replace(/\D/g, '')}</fone>
     </toma>
     <serv>
-      <cLocPrestacao>4314902</cLocPrestacao>
+      <cLocPrestacao>4319901</cLocPrestacao>
       <cTribNac>${codigoTributacao}</cTribNac>
       <CNAE>${cnae.replace(/\D/g, '')}</CNAE>
       <xDescServ>${discriminacao}</xDescServ>
@@ -167,7 +167,7 @@ export default async function handler(req, res) {
     }
 
     // =========================================================================
-    // 2. NF-e: SEFAZ (PRODUTOS / MERCADORIAS - MODELO 55)
+    // 2. NF-e: SEFAZ / WLG SISTEMAS (PRODUTOS / MERCADORIAS - MODELO 55)
     // =========================================================================
     if (tipoNota === 'NFE_PRODUTO') {
       const valorProdutos = parseFloat(valores?.valorTotal || 0);
@@ -175,27 +175,90 @@ export default async function handler(req, res) {
       const serieNfe = '1';
       const emitNome = emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES';
       const emitCnpj = (emitente?.cnpj || '00000000000191').replace(/\D/g, '');
+      const ufEmitente = emitente?.uf || 'RS';
+      const ufDestinatario = cliente?.uf || 'RS';
+      const cfopAutomatico = calcularCfopVenda(ufEmitente, ufDestinatario);
 
-      // Gera arquivo TXT compatível com o Emissor Gratuito da SEFAZ/Sebrae
+      // Enriquecer itens com NCM oficial do banco de dados caso não tenha sido enviado no payload
+      const listaItensBrutos = Array.isArray(produtos) && produtos.length > 0
+        ? produtos
+        : [{
+            codigo: 'COD-01',
+            nome: payload.descricaoMercadoria || 'Artigos de Couro e Selaria Mis Sueños',
+            ncm: payload.ncm || '41079110',
+            cfop: cfopAutomatico,
+            unidade: 'UN',
+            quantidade: 1,
+            preco_unitario: valorProdutos,
+            subtotal: valorProdutos
+          }];
+
+      for (const item of listaItensBrutos) {
+        if (!item.ncm && (item.produto_id || item.id || item.codigo)) {
+          const prodDb = item.produto_id || item.id
+            ? await get('SELECT ncm, codigo, unidade FROM produtos WHERE id = ?', [item.produto_id || item.id])
+            : await get('SELECT ncm, codigo, unidade FROM produtos WHERE codigo = ?', [item.codigo]);
+          if (prodDb?.ncm) item.ncm = prodDb.ncm;
+          if (!item.codigo && prodDb?.codigo) item.codigo = prodDb.codigo;
+          if (!item.unidade && prodDb?.unidade) item.unidade = prodDb.unidade;
+        }
+        if (!item.ncm) item.ncm = '42050000'; // Fallback oficial NCM obras de couro
+      }
+
+      const validacaoFiscal = validarItensFiscais(listaItensBrutos, ufEmitente, ufDestinatario);
+      if (!validacaoFiscal.valido) {
+        return responder(res, 400, {
+          error: 'Falha na validação fiscal de NCM dos produtos.',
+          erros: validacaoFiscal.erros
+        });
+      }
+
+      // Linhas de itens para o arquivo TXT SEFAZ
+      const linhasItensTxt = [];
+      for (const it of validacaoFiscal.itens) {
+        linhasItensTxt.push(`H|${it.numero_item}||`);
+        linhasItensTxt.push(`I|${it.codigo_produto}||${it.descricao}|${it.ncm}||${it.cfop}|${it.unidade}|${it.quantidade.toFixed(4)}|${it.valor_unitario.toFixed(4)}|${it.valor_total.toFixed(2)}||${it.unidade}|${it.quantidade.toFixed(4)}|${it.valor_unitario.toFixed(4)}|||||1||||`);
+      }
+
+      // Gera arquivo TXT compatível com o Emissor SEFAZ/Sebrae incluindo NCM e CFOP automáticos
+      const idDest = ufEmitente.toUpperCase() === ufDestinatario.toUpperCase() ? '1' : '2';
       const txtSefaz = [
         'NOTAFISCAL|1',
         `A|4.00|NFe|`,
-        `B|43|${numeroNfe}|Venda de Mercadorias (Couros e Loncas)|0|55|${serieNfe}|${numeroNfe}|${agora.toISOString().slice(0, 10)}||1|1|4314902|1|1||1|1|3|1|0|0|||`,
-        `C|${emitNome}|${emitNome}|||||3|`,
+        `B|43|${numeroNfe}|${cfopAutomatico === '5102' ? 'VENDA DENTRO DO ESTADO' : 'VENDA FORA DO ESTADO'}|0|55|${serieNfe}|${numeroNfe}|${agora.toISOString().slice(0, 10)}||1|${idDest}|4319901|1|1||1|1|3|1|0|0|||`,
+        `C|${emitNome}|${emitNome}|||||1|`,
         `C02|${emitCnpj}|`,
         `E|${cliente.nome}|9|||||`,
         `E02|${(cliente.cpf || cliente.cnpj || '').replace(/\D/g, '')}|`,
-        `E05|${cliente.logradouro || ''}|${cliente.numero || 'S/N'}|${cliente.complemento || ''}|${cliente.bairro || ''}|4314902|${cliente.cidade || ''}|${cliente.uf || 'RS'}|${(cliente.cep || '').replace(/\D/g, '')}|1058|BRASIL||`,
+        `E05|${cliente.logradouro || ''}|${cliente.numero || 'S/N'}|${cliente.complemento || ''}|${cliente.bairro || ''}|4319901|${cliente.cidade || ''}|${ufDestinatario}|${(cliente.cep || '').replace(/\D/g, '')}|1058|BRASIL||`,
+        ...linhasItensTxt,
         `W|`,
         `W02|0.00|0.00|0.00|0.00|${valorProdutos.toFixed(2)}|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|${valorProdutos.toFixed(2)}|`
       ].join('\r\n');
+
+      // Conector WLG Sistemas REST API
+      let resultadoWlg = null;
+      try {
+        resultadoWlg = await transmitirNfeWlg({
+          emitente,
+          cliente,
+          itensValidados: validacaoFiscal.itens,
+          cfopAplicado: validacaoFiscal.cfopAplicado,
+          valorTotal: valorProdutos
+        });
+      } catch (wlgErr) {
+        resultadoWlg = {
+          transmitidoApi: false,
+          erroApi: wlgErr.message
+        };
+      }
 
       await registrarLog({
         clienteId: cliente.id || null,
         clienteNome: cliente.nome,
         tipoAcao: 'EMISSAO_NFE_PRODUTO',
-        camposAlterados: ['txt_sefaz', 'valor', 'produtos'],
-        detalhes: `NF-e de Produtos gerada para SEFAZ | NF #${numeroNfe} | Valor: R$ ${valorProdutos.toFixed(2)}`,
+        camposAlterados: ['txt_sefaz', 'wlg_nfe', 'cfop', 'ncm'],
+        detalhes: `NF-e Modelo 55 | NF #${numeroNfe} | CFOP ${validacaoFiscal.cfopAplicado} | Itens: ${validacaoFiscal.itens.length} | Valor: R$ ${valorProdutos.toFixed(2)}`,
         req: req
       });
 
@@ -204,14 +267,19 @@ export default async function handler(req, res) {
         tipoNota: 'NFE_PRODUTO',
         numeroNfe,
         serieNfe,
+        cfopAplicado: validacaoFiscal.cfopAplicado,
+        itensValidados: validacaoFiscal.itens,
         dataEmissao: dataHoraBR,
         valorTotal: valorProdutos,
         txtSefaz,
+        wlgFiscal: resultadoWlg,
         resumoSefaz: {
           modelo: 'NF-e Modelo 55 (Produtos)',
-          orgao: 'SEFAZ Estadual (RS)',
+          orgao: 'SEFAZ Estadual (RS) / Conector WLG Sistemas',
+          cfop: `${validacaoFiscal.cfopAplicado} (${validacaoFiscal.cfopAplicado === '5102' ? 'Estadual RS' : 'Interestadual'})`,
           destinatario: cliente.nome,
           documento: cliente.cpf || cliente.cnpj,
+          ufDestino: ufDestinatario,
           valor: valorProdutos.toFixed(2)
         }
       });

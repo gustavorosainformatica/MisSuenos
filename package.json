@@ -1,7 +1,7 @@
 {
   "name": "missuenos-clientes",
-  "version": "1.0.0",
-  "description": "Banco de dados e extrator de endereços de clientes Mis Sueños",
+  "version": "2.0.0",
+  "description": "Sistema Integrado de Gestão Comercial, Estoque, Financeiro e Fiscal (ERP White-Label Mis Sueños)",
   "port": 3000,
   "main": "scripts/consultar.js",
   "type": "module",
@@ -9,14 +9,19 @@
     "converter": "python scripts/converter_enderecos.py",
     "consultar": "infisical run --silent -- node scripts/consultar.js",
     "web": "infisical run --silent -- node scripts/servidor_web.js",
-    "migrar:turso": "infisical run --silent -- node scripts/migrar_turso.js"
+    "migrar:turso": "infisical run --silent -- node scripts/migrar_turso.js",
+    "migrar:v2": "infisical run --silent -- node scripts/migrar_schema_v2.js",
+    "importar:ncm": "infisical run --silent -- node scripts/importar_ncm.js",
+    "configurar-ramo": "infisical run --silent -- node scripts/configurar_ramo.js"
   },
   "keywords": [
     "clientes",
     "sqlite",
     "enderecos",
     "extrator",
-    "mis-suenos"
+    "mis-suenos",
+    "erp",
+    "turso"
   ],
   "author": "Gustavo Rosa Informática",
   "license": "MIT",

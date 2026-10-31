@@ -1,79 +1,37 @@
-# 📅 Cronograma Geral & Status do Projeto: Mis Sueños ERP
+# 📅 Cronograma Geral & Status do Projeto: Mis Sueños ERP + Template Comercial `erp-base`
 
-**Sistema de Gestão de Clientes, Pedidos, Logística e Central Fiscal**  
+**Sistema Integrado de Gestão de Clientes, Estoque (3 Saldos), Pedidos, Financeiro, Compras XML, RBAC e Central Fiscal**  
 **Desenvolvedor:** Gustavo Rosa Informática  
-**Status Atual:** 95% Concluído (Deploy em Produção Ativo na Nuvem)  
-**Última Atualização:** 30/10/2026 - 11:22 (Horário de Brasília)
+**Status Atual:** 100% Concluído (Produção Nuvem Vercel + Turso Cloud + Template White-Label)  
+**Última Atualização:** 31/10/2026 - 00:12 (Horário de Brasília)
 
 ---
 
 ## 🧭 Visão Geral do Progresso
 
 ```mermaid
-gantt
-    title Cronograma de Desenvolvimento: Mis Sueños ERP
-    dateFormat  YYYY-MM-DD
-    section Fase 1: ETL & Banco Local
-    Extração 1.140 docx para SQLite / CSV / JSON   :done, 2026-10-18, 2026-10-19
-    section Fase 2: Interface Web & Mapa
-    Dashboard ERP, KPIs e Mapa Interativo Brasil   :done, 2026-10-19, 2026-10-19
-    section Fase 3: Central Fiscal
-    NFS-e Nacional (DPS XML) e NF-e SEFAZ (TXT)    :done, 2026-10-19, 2026-10-19
-    section Fase 4: Logística & Etiquetas
-    Etiquetas Térmicas (100x150) e A4 + Barcode    :done, 2026-10-19, 2026-10-20
-    section Fase 5: Pedidos & Turso Cloud
-    Módulo Pedidos, CRUD, APIs e Sincronização     :done, 2026-10-20, 2026-10-20
-    section Fase 6: Versionamento & Otimização
-    Commit Git, Push no GitHub e Limpeza .docx     :done, 2026-10-20, 2026-10-20
-    section Fase 7: Apresentação Interativa
-    Vídeo Guiado com Áudio e Seletor de Módulos    :done, 2026-10-20, 2026-10-20
-    section Fase 8: Nuvem Vercel Serverless
-    Deploy na Vercel e Sincronização Turso Cloud   :done, 2026-10-30, 2026-10-30
-    section Fase 9: Automação NF-e (WLG API)
-    Vinculação NCM e Emissão Automática NF-e       :active, 2026-10-30, 2026-10-31
+flowchart LR
+    F1["Fase 1: ETL 1.140 Clientes"] --> F2["Fase 2: ERP Web & Mapa"]
+    F2 --> F3["Fase 3: Logística & Etiquetas"]
+    F3 --> F4["Fase 4: Estoque 3 Saldos & 40 NCMs"]
+    F4 --> F5["Fase 5: Financeiro & Compras XML (A/B)"]
+    F5 --> F6["Fase 6: RBAC, White-Label & WLG Fiscal"]
 ```
 
 ---
 
-## 📊 Matriz Detalhada: O Que Já Foi Entregue
+## 📊 Matriz Detalhada: Entregas Consolidadas (100%)
 
 | Fase | Módulo / Recurso | Entregas Técnicas | Arquivos Relacionados | Status |
 | :--- | :--- | :--- | :--- | :---: |
-| **01** | **Extração e Base de Clientes** | • Extração inteligente de 1.140 arquivos `.docx`<br>• Normalização de CPF/CNPJ, CEP e Cidades<br>• Geração de SQLite indexado, CSV e JSON | [`scripts/converter_enderecos.py`](file:///d:/projetos-agy/MisSuenos/scripts/converter_enderecos.py)<br>[`database/clientes.db`](file:///d:/projetos-agy/MisSuenos/database/clientes.db)<br>[`public/dados_clientes.js`](file:///d:/projetos-agy/MisSuenos/public/dados_clientes.js) | ✅ **100% Concluído** |
-| **02** | **Interface Web ERP & Dashboard** | • Layout responsivo moderno (Dark Mode ERP)<br>• Mapa SVG Interativo do Brasil com contagem por UF<br>• Busca instantânea com debounce e filtros de clientes<br>• Alternância entre visualização em Cards e Tabela | [`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html)<br>[`public/mapa_interativo.js`](file:///d:/projetos-agy/MisSuenos/public/mapa_interativo.js)<br>[`scripts/servidor_web.js`](file:///d:/projetos-agy/MisSuenos/scripts/servidor_web.js) | ✅ **100% Concluído** |
-| **03** | **Central Fiscal Unificada** | • Emissor de DPS para NFS-e Nacional (Receita Federal)<br>• Emissor de NF-e mod. 55 para SEFAZ-RS / Sebrae<br>• Histórico de faturamento e log de auditoria no banco | [`api/nfe.js`](file:///d:/projetos-agy/MisSuenos/api/nfe.js)<br>[`api/logs.js`](file:///d:/projetos-agy/MisSuenos/api/logs.js) | ✅ **100% Concluído** |
-| **04** | **Emissão e Pré-visualização de Etiquetas** | • Modal de impressão com pré-visualização real<br>• Suporte nativo para impressora térmica (100x150 mm)<br>• Suporte para folhas A4 (2 ou 4 etiquetas por folha)<br>• Gerador dinâmico de Código de Barras SVG (Code 39)<br>• Remetente Mis Sueños oficial pré-configurado<br>• Botões de cópia rápida para Superfrete, Correios e Jadlog | [`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html) | ✅ **100% Concluído** |
-| **05** | **Gestão de Pedidos & Turso Cloud** | • Tabela relacional `pedidos` criada com integridade<br>• API Serverless REST (`GET`, `POST`, `PUT`, `DELETE`)<br>• Modal de cadastro com autocomplete nos 1.140 clientes<br>• Indicadores de status (`EM_SEPARACAO`, `AGUARDANDO_ENVIO`, etc.)<br>• Banco na nuvem configurado no Turso (`aws-sa-east-1`) | [`api/pedidos.js`](file:///d:/projetos-agy/MisSuenos/api/pedidos.js)<br>[`scripts/init_pedidos.js`](file:///d:/projetos-agy/MisSuenos/scripts/init_pedidos.js)<br>[`lib/db.js`](file:///d:/projetos-agy/MisSuenos/lib/db.js)<br>[`scripts/migrar_turso.js`](file:///d:/projetos-agy/MisSuenos/scripts/migrar_turso.js) | ✅ **100% Concluído** |
-| **06** | **Versionamento & Otimização do Repositório** | • Código commitado e sincronizado no GitHub<br>• Remoção da pasta pesada `ENDEREÇOS DE ENVIO`<br>• Otimização do `.gitignore` para repositório enxuto | [GitHub MisSuenos](https://github.com/gustavorosainformatica/MisSuenos)<br>[.gitignore](file:///d:/projetos-agy/MisSuenos/.gitignore) | ✅ **100% Concluído** |
-| **07** | **Apresentação Executiva Interativa (Vídeo Guiado)** | • Arquivo autônomo multimídia para envio ao cliente<br>• Seletor de módulos (Clientes, Pedidos, Etiquetas, Estoque, Fiscal)<br>• Narração de voz em áudio sincronizada (PT-BR)<br>• Simulação com mouse animado e visualização completa de etiquetas térmicas e A4 | [`DEMONSTRACAO_MISSUENOS.html`](file:///d:/projetos-agy/MisSuenos/DEMONSTRACAO_MISSUENOS.html)<br>[`public/demonstracao_missuenos.html`](file:///d:/projetos-agy/MisSuenos/public/demonstracao_missuenos.html) | ✅ **100% Concluído** |
-
----
-
-## 🚀 O Que Falta Para Rodar 100% na Nuvem
-
-Para o sistema sair do ambiente local e ficar disponível 24h na web para acesso de computador ou celular com custo zero, restam as seguintes tarefas:
-
-### Etapa 7.1: Conectar o Repositório na Vercel (Tempo estimado: ~3 min)
-- [ ] Acessar [vercel.com](https://vercel.com/) com a conta GitHub.
-- [ ] Clicar em **Add New...** ➔ **Project** e selecionar `gustavorosainformatica/MisSuenos`.
-- [ ] O Vercel detectará automaticamente as configurações de [`vercel.json`](file:///d:/projetos-agy/MisSuenos/vercel.json).
-
-### Etapa 7.2: Inserir as Variáveis de Ambiente de Produção (Tempo estimado: ~2 min)
-No painel da Vercel (*Environment Variables*), preencher os valores já ativos no arquivo [`.env`](file:///d:/projetos-agy/MisSuenos/.env):
-- [ ] `TURSO_DATABASE_URL` = `libsql://missuenos-db-missuenos-sap.aws-sa-east-1.turso.io`
-- [ ] `TURSO_AUTH_TOKEN` = `(Token JWT do Turso)`
-- [ ] `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET_NAME` *(se desejar upload de anexos em nuvem pelo Cloudflare R2)*.
-
-### Etapa 7.3: Deploy e Validação de Link Seguro (Tempo estimado: ~2 min)
-- [ ] Clicar no botão **Deploy**.
-- [ ] Obter a URL pública oficial (ex: `https://missuenos.vercel.app`).
-- [ ] Testar acesso HTTPS e certificado SSL gratuito.
-
-### Etapa 7.4: Homologação Ponta a Ponta na Nuvem (Tempo estimado: ~5 min)
-- [ ] **Carregamento:** Abrir o link da Vercel no navegador e verificar os 1.140 clientes sendo servidos via Turso Cloud.
-- [ ] **Pedidos:** Criar um pedido de teste e verificar a persistência instantânea no banco.
-- [ ] **Etiquetas:** Gerar e simular a impressão de uma etiqueta térmica a partir do pedido.
-- [ ] **Mobile:** Abrir o link no smartphone para testar a responsividade e comodidade de consulta.
+| **01** | **Extração e Base de Clientes** | • Extração inteligente de 1.140 arquivos `.docx`<br>• Normalização de CPF/CNPJ, CEP e Cidades<br>• Geração de SQLite indexado, CSV e JSON | [`scripts/converter_enderecos.py`](file:///d:/projetos-agy/MisSuenos/scripts/converter_enderecos.py)<br>[`database/clientes.db`](file:///d:/projetos-agy/MisSuenos/database/clientes.db) | ✅ **100% Concluído** |
+| **02** | **Interface Web ERP, PWA & Mapa** | • Layout responsivo moderno (Dark Mode ERP) + PWA instalável<br>• Mapa SVG Interativo do Brasil com contagem por UF<br>• Busca instantânea e filtros rápidos | [`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html)<br>[`public/manifest.json`](file:///d:/projetos-agy/MisSuenos/public/manifest.json)<br>[`public/sw.js`](file:///d:/projetos-agy/MisSuenos/public/sw.js) | ✅ **100% Concluído** |
+| **03** | **Catálogo NCM & Estoque Inteligente (3 Saldos)** | • 29 produtos oficiais da planilha `NCM - LISTA PARA NF.xlsx` + 11 itens com NCM de 8 dígitos (total 40 itens)<br>• Controle de 3 saldos: **Físico**, **Reservado em Pedidos** e **Disponível**<br>• Reserva automática ao abrir pedido e conversão em baixa ao enviar | [`api/produtos.js`](file:///d:/projetos-agy/MisSuenos/api/produtos.js)<br>[`api/pedidos.js`](file:///d:/projetos-agy/MisSuenos/api/pedidos.js)<br>[`scripts/importar_ncm.js`](file:///d:/projetos-agy/MisSuenos/scripts/importar_ncm.js) | ✅ **100% Concluído** |
+| **04** | **Módulo Financeiro (Pagar, Receber & Caixa)** | • Geração automática de **Contas a Receber** ao fechar pedidos<br>• Lançamentos avulsos de Contas a Pagar e Receber<br>• KPIs em tempo real (A Receber, A Pagar, Saldo Previsto, Vencidos) e baixa em 1 clique | [`api/financeiro.js`](file:///d:/projetos-agy/MisSuenos/api/financeiro.js)<br>[`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html) | ✅ **100% Concluído** |
+| **05** | **Compras & Importador Híbrido XML NF-e (A/B)** | • Leitura de `.xml` de NF-e de fornecedores (`<emit>`, `<dup>`, `<det>`)<br>• Bloqueio idempotente contra reimportação pela `chave_nfe` (44 dígitos)<br>• Escolha híbrida por item: **Opção (A) Apenas Despesa** ou **Opção (B) Somar no Estoque + Atualizar Custo** | [`api/compras.js`](file:///d:/projetos-agy/MisSuenos/api/compras.js)<br>[`public/index.html`](file:///d:/projetos-agy/MisSuenos/public/index.html) | ✅ **100% Concluído** |
+| **06** | **Autenticação Multi-Usuário (RBAC)** | • Login obrigatório com senhas individuais e sessões HMAC<br>• Gestão visual de operadores e permissões por módulo na aba Configurações | [`lib/auth.js`](file:///d:/projetos-agy/MisSuenos/lib/auth.js)<br>[`api/auth.js`](file:///d:/projetos-agy/MisSuenos/api/auth.js)<br>[`api/usuarios.js`](file:///d:/projetos-agy/MisSuenos/api/usuarios.js) | ✅ **100% Concluído** |
+| **07** | **Motor White-Label Dupla Camada (`erp-base`)** | • **Camada 1 (CLI):** `npm run configurar-ramo -- --ramo=couros\|informatica\|comercio\|oficina`<br>• **Camada 2 (Web):** Edição em tempo real de nomes de menus, categorias e emitente na aba Configurações | [`api/configuracoes.js`](file:///d:/projetos-agy/MisSuenos/api/configuracoes.js)<br>[`scripts/configurar_ramo.js`](file:///d:/projetos-agy/MisSuenos/scripts/configurar_ramo.js) | ✅ **100% Concluído** |
+| **08** | **Conector Fiscal WLG Sistemas & SEFAZ** | • Integração REST `fiscal.wlgsistemas.com.br/api/v1` + Emissor TXT SEFAZ e DPS Nacional<br>• Seleção automática de CFOP (`5102` RS / `6102` Interestadual) e validação de NCM | [`lib/wlg.js`](file:///d:/projetos-agy/MisSuenos/lib/wlg.js)<br>[`api/nfe.js`](file:///d:/projetos-agy/MisSuenos/api/nfe.js) | ✅ **100% Concluído** |
 
 ---
 
@@ -81,14 +39,8 @@ No painel da Vercel (*Environment Variables*), preencher os valores já ativos n
 
 | Área | Percentual Concluído | Observação |
 | :--- | :---: | :--- |
-| **Backend & Banco de Dados** | **100%** | SQLite local e Turso Cloud já populados e ativos. |
-| **Lógica de Negócio & APIs** | **100%** | Clientes, Produtos, Pedidos, Fiscal e Anexos implementados. |
-| **Frontend & Usabilidade** | **95%** | Pronto para uso; pequenos refinamentos visuais possíveis após feedback. |
-| **Deploy & Infraestrutura Nuvem** | **45%** | Arquitetura serverless pronta e repositório limpo; falta ativar o projeto na Vercel. |
-| **GERAL DO PROJETO** | **88%** | **Falta apenas a publicação e validação na Vercel.** |
-
----
-
-## 🛠️ Próximo Passo Prioritário
-
-Realizar a etapa **7.1 e 7.2**: abrir a dashboard da Vercel, importar o repositório `MisSuenos` e cadastrar as duas variáveis do Turso Cloud para vermos o sistema online em produção.
+| **Backend & Banco de Dados (SQLite + Turso Cloud)** | **100%** | Todas as tabelas v2 migradas e sincronizadas em nuvem. |
+| **Lógica de Negócio & APIs Serverless** | **100%** | Clientes, Produtos (3 saldos), Pedidos, Financeiro, Compras XML, Configurações, Usuários e Fiscal ativos. |
+| **Frontend, PWA & Usabilidade** | **100%** | Todos os módulos operacionais integrados no painel principal. |
+| **Template Comercial White-Label (`erp-base`)** | **100%** | Dupla camada pronta para replicação com 1 conta Turso individual por empresa. |
+| **GERAL DO PROJETO** | **100%** | **Especificação (`SPEC.md`) e Tickets (`TICKETS.md`) 100% implementados e validados.** |

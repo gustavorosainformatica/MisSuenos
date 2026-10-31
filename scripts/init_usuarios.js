@@ -83,3 +83,4 @@ main().catch((err) => {
   console.error('[AUTH SEED ERRO]', err);
   process.exit(1);
 });
+
