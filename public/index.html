@@ -2290,7 +2290,6 @@
             <thead>
               <tr>
                 <th style="width: 35px;"><input type="checkbox"></th>
-                <th style="width: 68px; text-align: center;">Ações</th>
                 <th style="width: 110px;">Nº Pedido</th>
                 <th style="width: 90px;">Data</th>
                 <th>Cliente / Destinatário</th>
@@ -4466,7 +4465,7 @@
       if (pedidosFiltrados.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum pedido encontrado para o status selecionado. Clique em <strong>"+ Novo Pedido"</strong> para cadastrar.
             </td>
           </tr>
@@ -4491,12 +4490,11 @@
         return `
           <tr>
             <td><input type="checkbox" value="${ped.id}"></td>
-            <td style="white-space: nowrap; text-align: center; padding: 4px 6px;">
-              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorPedidoId(${ped.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1; margin-right: 2px;">🏷️</button>
-              <button class="btn-row-action" title="Editar Pedido" onclick="abrirModalEditarPedido(${ped.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1;">✏️</button>
-            </td>
             <td>
-              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
+              <div onclick="abrirModalEditarPedido(${ped.id})" style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" title="Clique para editar este pedido">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
+                <span style="font-size: 10.5px; color: #38bdf8; opacity: 0.7;">↗</span>
+              </div>
               ${rastreioInfo}
             </td>
             <td style="color: var(--text-muted); font-size: 11.5px;">${dataPed}</td>
