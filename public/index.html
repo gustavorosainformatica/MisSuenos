@@ -1456,15 +1456,22 @@
       }
     }
 
-    /* MODAL E VISUALIZADOR DE ETIQUETAS DE ENVIO - TAMANHO AJUSTÁVEL COM MOUSE E PERSISTÊNCIA */
-    #modal-cliente .modal-container,
-    #modal-etiqueta .modal-container {
+    /* ========================================================
+       PADRÃO UNIVERSAL PARA TODAS AS JANELAS DE SOBREPOSIÇÃO (MODAIS)
+       Ajustáveis com mouse, persistência de tamanho e sem barras indesejadas
+       ======================================================== */
+    .modal-overlay .modal-container {
       position: relative;
       resize: both;
       overflow: hidden;
-      min-width: 580px;
-      min-height: 420px;
+      min-width: 460px;
+      min-height: 320px;
     }
+    .modal-overlay .modal-body {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
     #modal-cliente .modal-container {
       max-width: 900px;
       width: 95%;
@@ -1473,8 +1480,6 @@
     #modal-cliente .modal-body {
       padding: 16px 24px 12px 24px !important;
       gap: 10px !important;
-      flex: 1 1 auto;
-      min-height: 0;
     }
     #modal-cliente .form-group {
       gap: 3px !important;
@@ -1496,6 +1501,7 @@
       padding: 12px 24px !important;
     }
 
+    /* Modal de Etiqueta: SEM NENHUMA BARRA DE ROLAGEM NA LATERAL */
     #modal-etiqueta .modal-container {
       max-width: 1140px;
       width: 96%;
@@ -1506,11 +1512,34 @@
     }
     #modal-etiqueta .modal-body {
       padding: 12px 20px !important;
-      flex: 1 1 auto;
-      min-height: 0;
+      overflow-y: hidden !important;
+      overflow-x: hidden !important;
     }
     #modal-etiqueta .modal-footer {
       padding: 10px 20px !important;
+    }
+    #modal-etiqueta .etiqueta-modal-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      height: 100%;
+    }
+    #modal-etiqueta .etiqueta-preview-wrapper {
+      padding: 8px 14px !important;
+      overflow: hidden !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      max-height: none !important;
+      height: 100%;
+    }
+    @media screen {
+      #modal-etiqueta .etiqueta-fisica.formato-termica {
+        transform: scale(0.85);
+        transform-origin: top center;
+        margin: 0 auto -55px auto !important;
+      }
     }
 
     /* Alça visual de redimensionamento no canto inferior direito */
@@ -1572,9 +1601,8 @@
       background: #06090e;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 16px;
-      overflow-y: auto;
-      max-height: 72vh;
+      padding: 12px;
+      overflow: hidden;
     }
 
     /* ETIQUETA FÍSICA (LAYOUT REALISTA DE PAPEL / POSTAL) */
@@ -6791,15 +6819,17 @@
     }
 
     // ========================================================
-    // REDIMENSIONAMENTO DE JANELAS VIA MOUSE E PERSISTÊNCIA
-    // Permite ajustar largura e altura das janelas e grava como padrão
+    // REDIMENSIONAMENTO UNIVERSAL DE TODAS AS JANELAS DE SOBREPOSIÇÃO (MODAIS)
+    // Suporta qualquer janela existente ou criada posteriormente
     // ========================================================
     function aplicarTamanhoSalvoModal(modalId) {
+      if (!modalId) return;
       const salvo = localStorage.getItem('modal_size_' + modalId);
       if (!salvo) return;
       try {
         const { width, height } = JSON.parse(salvo);
-        const container = document.querySelector(`#${modalId} .modal-container`);
+        const modal = document.getElementById(modalId);
+        const container = modal ? modal.querySelector('.modal-container') : null;
         if (container && width && height) {
           const maxW = Math.min(width, window.innerWidth - 20);
           const maxH = Math.min(height, window.innerHeight - 20);
@@ -6814,113 +6844,159 @@
     }
 
     function redefinirTamanhoPadraoModal(modalId) {
+      if (!modalId) return;
       localStorage.removeItem('modal_size_' + modalId);
-      const container = document.querySelector(`#${modalId} .modal-container`);
+      const modal = document.getElementById(modalId);
+      const container = modal ? modal.querySelector('.modal-container') : null;
       if (container) {
         container.style.width = '';
         container.style.height = '';
         container.style.maxWidth = '';
         container.style.maxHeight = '';
       }
-      mostrarToast('Dimensões padrão da janela restauradas!');
+      mostrarToast('Dimensões originais da janela restauradas!');
+    }
+
+    function configurarRedimensionamentoModalElement(modal) {
+      if (!modal || !modal.id) return;
+      const modalId = modal.id;
+      const container = modal.querySelector('.modal-container');
+      if (!container) return;
+
+      // Se já configurado nesta instância, apenas reaplica tamanho
+      if (container.dataset.resizeConfigured === 'true') {
+        aplicarTamanhoSalvoModal(modalId);
+        return;
+      }
+      container.dataset.resizeConfigured = 'true';
+
+      // Aplica o tamanho salvo
+      aplicarTamanhoSalvoModal(modalId);
+
+      // Alça visual no canto inferior direito
+      let handle = container.querySelector('.modal-resize-handle');
+      if (!handle) {
+        handle = document.createElement('div');
+        handle.className = 'modal-resize-handle';
+        handle.dataset.modal = modalId;
+        handle.title = 'Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)';
+        handle.textContent = '◢';
+        container.appendChild(handle);
+      }
+
+      // Duplo clique na alça para restaurar tamanho de fábrica
+      handle.addEventListener('dblclick', (e) => {
+        e.stopPropagation();
+        redefinirTamanhoPadraoModal(modalId);
+      });
+
+      // Arraste com mouse
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startW = container.offsetWidth;
+        const startH = container.offsetHeight;
+
+        container.style.maxWidth = '98vw';
+        container.style.maxHeight = '98vh';
+        container.style.transition = 'none';
+
+        function onMouseMove(moveEvent) {
+          const deltaX = moveEvent.clientX - startX;
+          const deltaY = moveEvent.clientY - startY;
+
+          const minW = modalId === 'modal-etiqueta' ? 700 : 460;
+          const minH = 320;
+          const maxW = window.innerWidth - 20;
+          const maxH = window.innerHeight - 20;
+
+          const newW = Math.max(minW, Math.min(maxW, startW + deltaX));
+          const newH = Math.max(minH, Math.min(maxH, startH + deltaY));
+
+          container.style.width = `${newW}px`;
+          container.style.height = `${newH}px`;
+        }
+
+        function onMouseUp() {
+          document.removeEventListener('mousemove', onMouseMove);
+          document.removeEventListener('mouseup', onMouseUp);
+          container.style.transition = '';
+
+          const finalW = container.offsetWidth;
+          const finalH = container.offsetHeight;
+          localStorage.setItem('modal_size_' + modalId, JSON.stringify({ width: finalW, height: finalH }));
+          mostrarToast(`📐 Tamanho da janela salvo como padrão (${finalW}x${finalH}px)`);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+      });
+
+      // ResizeObserver para capturar redimensionamentos nativos (CSS resize: both)
+      let debounceTimer = null;
+      if (window.ResizeObserver) {
+        const ro = new ResizeObserver((entries) => {
+          if (!modal.classList.contains('active')) return;
+          for (let entry of entries) {
+            const { width, height } = entry.contentRect;
+            if (width > 250 && height > 180) {
+              clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(() => {
+                const currW = container.offsetWidth;
+                const currH = container.offsetHeight;
+                const salvo = localStorage.getItem('modal_size_' + modalId);
+                const salvoObj = salvo ? JSON.parse(salvo) : {};
+                if (salvoObj.width !== currW || salvoObj.height !== currH) {
+                  localStorage.setItem('modal_size_' + modalId, JSON.stringify({ width: currW, height: currH }));
+                }
+              }, 400);
+            }
+          }
+        });
+        ro.observe(container);
+      }
     }
 
     function inicializarRedimensionamentoModais() {
-      ['modal-cliente', 'modal-etiqueta'].forEach(modalId => {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        const container = modal.querySelector('.modal-container');
-        if (!container) return;
+      // 1. Configura todas as janelas modais existentes no DOM
+      document.querySelectorAll('.modal-overlay').forEach(modal => {
+        configurarRedimensionamentoModalElement(modal);
+      });
 
-        // Aplica o tamanho salvo anteriormente
-        aplicarTamanhoSalvoModal(modalId);
-
-        // Alça de arraste
-        let handle = container.querySelector('.modal-resize-handle');
-        if (!handle) {
-          handle = document.createElement('div');
-          handle.className = 'modal-resize-handle';
-          handle.dataset.modal = modalId;
-          handle.title = 'Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)';
-          handle.textContent = '◢';
-          container.appendChild(handle);
-        }
-
-        // Duplo clique na alça para restaurar tamanho de fábrica
-        handle.addEventListener('dblclick', (e) => {
-          e.stopPropagation();
-          redefinirTamanhoPadraoModal(modalId);
-        });
-
-        // Arraste com mouse
-        handle.addEventListener('mousedown', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const startX = e.clientX;
-          const startY = e.clientY;
-          const startW = container.offsetWidth;
-          const startH = container.offsetHeight;
-
-          container.style.maxWidth = '98vw';
-          container.style.maxHeight = '98vh';
-          container.style.transition = 'none';
-
-          function onMouseMove(moveEvent) {
-            const deltaX = moveEvent.clientX - startX;
-            const deltaY = moveEvent.clientY - startY;
-
-            const minW = modalId === 'modal-etiqueta' ? 700 : 550;
-            const minH = 380;
-            const maxW = window.innerWidth - 25;
-            const maxH = window.innerHeight - 25;
-
-            const newW = Math.max(minW, Math.min(maxW, startW + deltaX));
-            const newH = Math.max(minH, Math.min(maxH, startH + deltaY));
-
-            container.style.width = `${newW}px`;
-            container.style.height = `${newH}px`;
-          }
-
-          function onMouseUp() {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-            container.style.transition = '';
-
-            const finalW = container.offsetWidth;
-            const finalH = container.offsetHeight;
-            localStorage.setItem('modal_size_' + modalId, JSON.stringify({ width: finalW, height: finalH }));
-            mostrarToast(`📐 Tamanho da janela salvo como padrão (${finalW}x${finalH}px)`);
-          }
-
-          document.addEventListener('mousemove', onMouseMove);
-          document.addEventListener('mouseup', onMouseUp);
-        });
-
-        // ResizeObserver para capturar redimensionamentos nativos (CSS resize: both)
-        let debounceTimer = null;
-        if (window.ResizeObserver) {
-          const ro = new ResizeObserver((entries) => {
-            if (!modal.classList.contains('active')) return;
-            for (let entry of entries) {
-              const { width, height } = entry.contentRect;
-              if (width > 300 && height > 200) {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                  const currW = container.offsetWidth;
-                  const currH = container.offsetHeight;
-                  const salvo = localStorage.getItem('modal_size_' + modalId);
-                  const salvoObj = salvo ? JSON.parse(salvo) : {};
-                  if (salvoObj.width !== currW || salvoObj.height !== currH) {
-                    localStorage.setItem('modal_size_' + modalId, JSON.stringify({ width: currW, height: currH }));
+      // 2. Observer Universal: detecta abertura de qualquer modal ou modais criados posteriormente
+      if (window.MutationObserver) {
+        const observer = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            // Se novos elementos forem injetados no DOM
+            if (m.type === 'childList') {
+              m.addedNodes.forEach(node => {
+                if (node.nodeType === 1) {
+                  if (node.classList && node.classList.contains('modal-overlay')) {
+                    configurarRedimensionamentoModalElement(node);
                   }
-                }, 400);
+                  if (node.querySelectorAll) {
+                    node.querySelectorAll('.modal-overlay').forEach(subModal => {
+                      configurarRedimensionamentoModalElement(subModal);
+                    });
+                  }
+                }
+              });
+            }
+            // Se a classe active for adicionada a qualquer modal
+            if (m.type === 'attributes' && m.attributeName === 'class') {
+              const target = m.target;
+              if (target && target.classList && target.classList.contains('modal-overlay') && target.classList.contains('active')) {
+                configurarRedimensionamentoModalElement(target);
+                aplicarTamanhoSalvoModal(target.id);
               }
             }
-          });
-          ro.observe(container);
-        }
-      });
+          }
+        });
+        observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+      }
     }
 
     // ========================================================
