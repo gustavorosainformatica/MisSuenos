@@ -670,6 +670,45 @@
       color: #00d4ff;
       font-weight: 800;
     }
+    .col-oculta {
+      display: none !important;
+    }
+    .col-custom-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+    .col-custom-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+    .col-custom-item.locked {
+      opacity: 0.75;
+    }
+    .col-custom-item .btn-move-col {
+      padding: 3px 8px;
+      font-size: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.04);
+      color: #94a3b8;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .col-custom-item .btn-move-col:hover:not(:disabled) {
+      background: rgba(0, 212, 255, 0.15);
+      color: #38bdf8;
+      border-color: rgba(0, 212, 255, 0.4);
+    }
+    .col-custom-item .btn-move-col:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
 
     table.erp-table tbody td {
       padding: 12px 16px;
@@ -2000,6 +2039,7 @@
             <option value="SEM_DOC">Pendentes de Documento</option>
           </select>
           <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 6px 12px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-clientes')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
           <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-clientes')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
         </div>
       </section>
@@ -2198,6 +2238,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-produtos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
           <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-produtos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
@@ -2320,6 +2361,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-pedidos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
           <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-pedidos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
@@ -2443,6 +2485,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-financeiro')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
           <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-financeiro')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="carregarFinanceiroApi()">🔄 Atualizar Caixa</button>
         </div>
@@ -2558,6 +2601,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-fiscal')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
           <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-fiscal')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
         </div>
@@ -3647,6 +3691,41 @@
       <div class="modal-footer">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalUsuarioRbac()">Cancelar</button>
         <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-usuario-rbac').requestSubmit()">💾 Salvar Operador</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE PERSONALIZAÇÃO DE COLUNAS -->
+  <div class="modal-overlay" id="modal-personalizar-colunas">
+    <div class="modal-container" style="max-width: 520px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️</span>
+          <span id="modal-personalizar-titulo">Personalizar Colunas</span>
+        </div>
+        <button class="modal-close" onclick="fecharModalPersonalizarColunas()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 18px 24px;">
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+          Marque as colunas que deseja visualizar e use os botões <strong>▲</strong> e <strong>▼</strong> para reorganizar a ordem de exibição. Suas preferências serão salvas automaticamente.
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;" id="modal-personalizar-subtitulo">Colunas da Tabela</span>
+          <div style="display: flex; gap: 6px;">
+            <button type="button" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="marcarTodasColunasCustomizar(true)">👁️ Exibir Todas</button>
+            <button type="button" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="restaurarPadraoModalCustomizar()">🔄 Ordem Padrão</button>
+          </div>
+        </div>
+        <div id="lista-colunas-customizar" style="max-height: 380px; overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 6px;">
+          <!-- Injetado dinamicamente via JS -->
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-top btn-row-action" style="color: #f87171;" onclick="restaurarPadraoModalCustomizar()">🔄 Redefinir Fábrica</button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPersonalizarColunas()">Cancelar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="salvarPersonalizacaoColunas()">💾 Salvar & Aplicar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -6286,6 +6365,225 @@
       'tabela-fiscal': ['check', 'numero', 'modelo', 'destinatario', 'uf', 'data', 'valor', 'situacao', 'acoes']
     };
 
+    // ========================================================
+    // CENTRAL DE PERSONALIZAÇÃO DE COLUNAS (ORDEM & VISIBILIDADE)
+    // ========================================================
+    const DICIONARIO_COLUNAS_ERP = {
+      'tabela-clientes': {
+        'check': { label: 'Seleção (Checkbox)', locked: true },
+        'acoes': { label: 'Ações Rápidas (Ícones)', locked: false },
+        'id': { label: 'ID do Cliente', locked: false },
+        'nome': { label: 'Nome / Razão Social', locked: true },
+        'doc': { label: 'CPF / CNPJ', locked: false },
+        'cidade': { label: 'Cidade', locked: false },
+        'uf': { label: 'UF (Estado)', locked: false },
+        'tel': { label: 'Telefone / WhatsApp', locked: false },
+        'acoes_fim': { label: 'Ações Rápidas (Botões)', locked: false }
+      },
+      'tabela-pedidos': {
+        'check': { label: 'Seleção (Checkbox)', locked: true },
+        'numero': { label: 'Nº do Pedido & Rastreio', locked: true },
+        'data': { label: 'Data do Pedido', locked: false },
+        'cliente': { label: 'Cliente / Destinatário', locked: false },
+        'total': { label: 'Total (R$)', locked: false },
+        'destino': { label: 'Destino (Cidade / UF)', locked: false },
+        'itens': { label: 'Itens da Encomenda', locked: false },
+        'status': { label: 'Status do Pedido', locked: false },
+        'acoes': { label: 'Ações (Etiqueta, Editar, NF-e)', locked: false }
+      },
+      'tabela-produtos': {
+        'check': { label: 'Seleção (Checkbox)', locked: true },
+        'sku': { label: 'SKU / Código', locked: false },
+        'ncm': { label: 'NCM Fiscal', locked: false },
+        'nome': { label: 'Nome / Descrição Comercial', locked: true },
+        'categoria': { label: 'Categoria', locked: false },
+        'unidade': { label: 'Unidade de Medida', locked: false },
+        'custo': { label: 'Preço de Custo', locked: false },
+        'venda': { label: 'Preço de Venda', locked: false },
+        'saldos': { label: 'Saldos (Físico / Disp.)', locked: false },
+        'acoes': { label: 'Ações (Editar, Excluir)', locked: false }
+      },
+      'tabela-financeiro': {
+        'tipo': { label: 'Tipo / Origem (Receber/Pagar)', locked: false },
+        'descricao': { label: 'Descrição do Lançamento', locked: true },
+        'pessoa': { label: 'Cliente / Fornecedor', locked: false },
+        'categoria': { label: 'Categoria Contábil', locked: false },
+        'vencimento': { label: 'Data de Vencimento', locked: false },
+        'valor': { label: 'Valor (R$)', locked: false },
+        'situacao': { label: 'Situação (Liquidado/Aberto)', locked: false },
+        'acoes': { label: 'Ações (Baixar)', locked: false }
+      },
+      'tabela-fiscal': {
+        'check': { label: 'Seleção (Checkbox)', locked: true },
+        'numero': { label: 'Nº Nota / DPS', locked: true },
+        'modelo': { label: 'Modelo Fiscal (55 / NFS-e)', locked: false },
+        'destinatario': { label: 'Destinatário / Tomador', locked: false },
+        'uf': { label: 'UF (Estado)', locked: false },
+        'data': { label: 'Data de Emissão', locked: false },
+        'valor': { label: 'Valor Total (R$)', locked: false },
+        'situacao': { label: 'Situação SEFAZ', locked: false },
+        'acoes': { label: 'Ações (DANFE, XML)', locked: false }
+      }
+    };
+
+    const NOMES_TABELAS_ERP = {
+      'tabela-clientes': 'Clientes & CRM',
+      'tabela-pedidos': 'Vendas & Pedidos',
+      'tabela-produtos': 'Estoque de Couros & Produtos',
+      'tabela-financeiro': 'Financeiro & Caixa',
+      'tabela-fiscal': 'Central Fiscal (NF-e / NFS-e)'
+    };
+
+    let tabelaPersonalizandoId = null;
+    let colunasEditandoConfig = [];
+
+    function abrirModalPersonalizarColunas(tabelaId) {
+      tabelaPersonalizandoId = tabelaId;
+      const tabela = document.getElementById(tabelaId);
+      if (!tabela) return;
+
+      const tituloEl = document.getElementById('modal-personalizar-titulo');
+      if (tituloEl) tituloEl.textContent = `Personalizar Colunas - ${NOMES_TABELAS_ERP[tabelaId] || 'Tabela'}`;
+
+      const subtituloEl = document.getElementById('modal-personalizar-subtitulo');
+      if (subtituloEl) subtituloEl.textContent = `Colunas de ${NOMES_TABELAS_ERP[tabelaId] || 'Tabela'}`;
+
+      // Lê a ordem atual do thead
+      const currentThs = Array.from(tabela.querySelectorAll('thead th'));
+      const colKeys = currentThs.map(th => th.dataset.col).filter(Boolean);
+
+      // Lê a lista de ocultas salva
+      const ocultasSalvas = JSON.parse(localStorage.getItem('erp_col_hidden_' + tabelaId) || '[]');
+      const dict = DICIONARIO_COLUNAS_ERP[tabelaId] || {};
+
+      colunasEditandoConfig = colKeys.map(key => {
+        const info = dict[key] || { label: key, locked: false };
+        return {
+          key,
+          label: info.label,
+          locked: info.locked,
+          visible: info.locked ? true : !ocultasSalvas.includes(key)
+        };
+      });
+
+      renderizarListaModalCustomizar();
+      document.getElementById('modal-personalizar-colunas').classList.add('active');
+    }
+
+    function fecharModalPersonalizarColunas() {
+      document.getElementById('modal-personalizar-colunas').classList.remove('active');
+    }
+
+    function renderizarListaModalCustomizar() {
+      const container = document.getElementById('lista-colunas-customizar');
+      if (!container) return;
+
+      container.innerHTML = colunasEditandoConfig.map((item, index) => {
+        const isPrimeiro = index === 0;
+        const isUltimo = index === colunasEditandoConfig.length - 1;
+        const disabledCheck = item.locked ? 'disabled' : '';
+        const lockedBadge = item.locked ? `<span style="font-size: 10px; background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); padding: 1px 6px; border-radius: 4px; margin-left: 6px;">🔒 Fixa</span>` : '';
+
+        return `
+          <div class="col-custom-item ${item.locked ? 'locked' : ''}">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <input type="checkbox" id="chk-col-${item.key}" ${item.visible ? 'checked' : ''} ${disabledCheck} onchange="alternarVisibilidadeColuna(${index}, this.checked)">
+              <span class="th-grip-icon" style="font-size: 13px; margin: 0; opacity: 0.6;">⠿</span>
+              <label for="chk-col-${item.key}" style="font-size: 12.5px; font-weight: 600; color: #fff; cursor: ${item.locked ? 'default' : 'pointer'};">
+                ${item.label}
+              </label>
+              ${lockedBadge}
+            </div>
+            <div style="display: flex; gap: 4px;">
+              <button type="button" class="btn-move-col" title="Mover para cima" ${isPrimeiro ? 'disabled' : ''} onclick="moverItemCustomizar(${index}, -1)">▲</button>
+              <button type="button" class="btn-move-col" title="Mover para baixo" ${isUltimo ? 'disabled' : ''} onclick="moverItemCustomizar(${index}, 1)">▼</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function moverItemCustomizar(index, direcao) {
+      const target = index + direcao;
+      if (target < 0 || target >= colunasEditandoConfig.length) return;
+      const temp = colunasEditandoConfig[index];
+      colunasEditandoConfig[index] = colunasEditandoConfig[target];
+      colunasEditandoConfig[target] = temp;
+      renderizarListaModalCustomizar();
+    }
+
+    function alternarVisibilidadeColuna(index, isChecked) {
+      if (colunasEditandoConfig[index] && !colunasEditandoConfig[index].locked) {
+        colunasEditandoConfig[index].visible = isChecked;
+      }
+    }
+
+    function marcarTodasColunasCustomizar(marcar) {
+      colunasEditandoConfig.forEach(item => {
+        if (!item.locked) item.visible = marcar;
+      });
+      renderizarListaModalCustomizar();
+    }
+
+    function restaurarPadraoModalCustomizar() {
+      if (!tabelaPersonalizandoId || !ORDEM_PADRAO_TABELAS[tabelaPersonalizandoId]) return;
+      const dict = DICIONARIO_COLUNAS_ERP[tabelaPersonalizandoId] || {};
+      colunasEditandoConfig = ORDEM_PADRAO_TABELAS[tabelaPersonalizandoId].map(key => {
+        const info = dict[key] || { label: key, locked: false };
+        return {
+          key,
+          label: info.label,
+          locked: info.locked,
+          visible: true
+        };
+      });
+      renderizarListaModalCustomizar();
+    }
+
+    function salvarPersonalizacaoColunas() {
+      if (!tabelaPersonalizandoId) return;
+      const tabela = document.getElementById(tabelaPersonalizandoId);
+      if (!tabela) return;
+
+      const novaOrdem = colunasEditandoConfig.map(c => c.key);
+      const colunasOcultas = colunasEditandoConfig.filter(c => !c.visible).map(c => c.key);
+
+      localStorage.setItem('erp_col_order_' + tabelaPersonalizandoId, JSON.stringify(novaOrdem));
+      localStorage.setItem('erp_col_hidden_' + tabelaPersonalizandoId, JSON.stringify(colunasOcultas));
+
+      // Reordena o thead
+      const theadRow = tabela.querySelector('thead tr');
+      if (theadRow) {
+        novaOrdem.forEach(colKey => {
+          const th = theadRow.querySelector(`th[data-col="${colKey}"]`);
+          if (th) theadRow.appendChild(th);
+        });
+      }
+
+      // Sincroniza tbody e aplica classes de visibilidade
+      sincronizarTbodyComThead(tabela);
+      fecharModalPersonalizarColunas();
+      mostrarToast(`Visualização personalizada de ${NOMES_TABELAS_ERP[tabelaPersonalizandoId] || 'tabela'} salva com sucesso!`);
+    }
+
+    function aplicarVisibilidadeColunas(tabelaId) {
+      const tabela = document.getElementById(tabelaId);
+      if (!tabela) return;
+      const ocultasSalvas = localStorage.getItem('erp_col_hidden_' + tabelaId);
+      const colunasOcultas = ocultasSalvas ? JSON.parse(ocultasSalvas) : [];
+
+      tabela.querySelectorAll('thead th, tbody td').forEach(el => {
+        const colKey = el.dataset.col;
+        if (colKey) {
+          if (colunasOcultas.includes(colKey)) {
+            el.classList.add('col-oculta');
+          } else {
+            el.classList.remove('col-oculta');
+          }
+        }
+      });
+    }
+
     function sincronizarTbodyComThead(tabela) {
       if (!tabela) return;
       const theadThs = Array.from(tabela.querySelectorAll('thead th'));
@@ -6310,6 +6608,9 @@
           });
         }
       });
+
+      // Aplica visibilidade de colunas
+      aplicarVisibilidadeColunas(tabela.id);
     }
 
     function inicializarArrasteColunasGlobal() {
@@ -6456,6 +6757,7 @@
 
     function restaurarOrdemPadraoColunas(tabelaId) {
       localStorage.removeItem('erp_col_order_' + tabelaId);
+      localStorage.removeItem('erp_col_hidden_' + tabelaId);
       const tabela = document.getElementById(tabelaId);
       if (tabela && ORDEM_PADRAO_TABELAS[tabelaId]) {
         const theadRow = tabela.querySelector('thead tr');
@@ -6466,8 +6768,9 @@
           });
         }
         sincronizarTbodyComThead(tabela);
+        aplicarVisibilidadeColunas(tabelaId);
       }
-      mostrarToast('Ordem original das colunas restaurada com sucesso!');
+      mostrarToast('Ordem original e visibilidade de colunas restauradas com sucesso!');
       if (tabelaId === 'tabela-pedidos') carregarPedidosApi();
       else if (tabelaId === 'tabela-clientes') renderTabela();
       else if (tabelaId === 'tabela-produtos') renderTabelaProdutos();
