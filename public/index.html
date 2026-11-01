@@ -2198,6 +2198,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-produtos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
         </div>
@@ -2220,14 +2221,14 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
-                <th style="width: 110px;" data-col="sku">SKU / Código <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 95px;" data-col="ncm">NCM Fiscal <span class="th-grip-icon">⠿</span></th>
-                <th data-col="nome">Nome / Descrição Comercial <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 135px;" data-col="categoria">Categoria <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 70px;" data-col="unidade">Unid. <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 105px; text-align: right;" data-col="custo">Preço Custo <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 115px; text-align: right;" data-col="venda">Preço Venda <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 175px; text-align: center;" data-col="saldos">Saldos (Físico / Disp.) <span class="th-grip-icon">⠿</span></th>
+                <th style="width: 115px; cursor: pointer;" data-col="sku" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'sku')" title="Clique para ordenar por SKU ou arraste para mover">SKU / Código <span class="sort-icon" id="sort-produtos-sku"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 95px; cursor: pointer;" data-col="ncm" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'ncm')" title="Clique para ordenar por NCM ou arraste para mover">NCM Fiscal <span class="sort-icon" id="sort-produtos-ncm"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Descrição Comercial <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 135px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-produtos-categoria"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 70px;" data-col="unidade">Unid.</th>
+                <th style="width: 105px; text-align: right; cursor: pointer;" data-col="custo" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'custo')" title="Clique para ordenar por Custo ou arraste para mover">Preço Custo <span class="sort-icon" id="sort-produtos-custo"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 115px; text-align: right; cursor: pointer;" data-col="venda" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'venda')" title="Clique para ordenar por Venda ou arraste para mover">Preço Venda <span class="sort-icon" id="sort-produtos-venda"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 175px; text-align: center; cursor: pointer;" data-col="saldos" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'saldos')" title="Clique para ordenar por Saldo em Estoque ou arraste para mover">Saldos (Físico / Disp.) <span class="sort-icon" id="sort-produtos-saldos"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="text-align: right; width: 160px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
@@ -2463,13 +2464,13 @@
           <table class="erp-table" id="tabela-financeiro">
             <thead>
               <tr>
-                <th style="width: 120px;" data-col="tipo">Tipo / Origem <span class="th-grip-icon">⠿</span></th>
-                <th data-col="descricao">Descrição do Lançamento <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 190px;" data-col="pessoa">Cliente / Fornecedor <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 120px;" data-col="categoria">Categoria <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 105px; text-align: center;" data-col="vencimento">Vencimento <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 120px; text-align: right;" data-col="valor">Valor (R$) <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 125px; text-align: center;" data-col="situacao">Situação <span class="th-grip-icon">⠿</span></th>
+                <th style="width: 120px; cursor: pointer;" data-col="tipo" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'tipo')" title="Clique para ordenar por Tipo ou arraste para mover">Tipo / Origem <span class="sort-icon" id="sort-financeiro-tipo"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="cursor: pointer;" data-col="descricao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'descricao')" title="Clique para ordenar por Descrição ou arraste para mover">Descrição do Lançamento <span class="sort-icon" id="sort-financeiro-descricao"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 190px; cursor: pointer;" data-col="pessoa" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'pessoa')" title="Clique para ordenar por Cliente/Fornecedor ou arraste para mover">Cliente / Fornecedor <span class="sort-icon" id="sort-financeiro-pessoa"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 120px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-financeiro-categoria"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 110px; text-align: center; cursor: pointer;" data-col="vencimento" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'vencimento')" title="Clique para ordenar por Vencimento ou arraste para mover">Vencimento <span class="sort-icon" id="sort-financeiro-vencimento"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 120px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor (R$) <span class="sort-icon" id="sort-financeiro-valor"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 125px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'situacao')" title="Clique para ordenar por Situação ou arraste para mover">Situação <span class="sort-icon" id="sort-financeiro-situacao"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="text-align: right; width: 170px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
@@ -2548,8 +2549,8 @@
       </section>
 
       <!-- BARRA DE AÇÕES FISCAIS -->
-      <section class="erp-toolbar">
-        <div class="toolbar-filters">
+      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
           <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Tipo de Documento:</span>
           <button class="erp-filter-chip active" onclick="filtrarFiscalPorTipo('TODAS', this)">Todas (199)</button>
           <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFE_PRODUTO', this)">NF-e Produtos SEFAZ (162)</button>
@@ -2557,6 +2558,7 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-fiscal')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
         </div>
       </section>
@@ -2578,13 +2580,13 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox"></th>
-                <th style="width: 130px;" data-col="numero">Nº Nota / DPS <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 160px;" data-col="modelo">Modelo Fiscal <span class="th-grip-icon">⠿</span></th>
-                <th data-col="destinatario">Destinatário / Tomador <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 60px; text-align: center;" data-col="uf">UF <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 100px; text-align: center;" data-col="data">Data Emissão <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 110px; text-align: right;" data-col="valor">Valor (R$) <span class="th-grip-icon">⠿</span></th>
-                <th style="width: 140px; text-align: center;" data-col="situacao">Situação SEFAZ <span class="th-grip-icon">⠿</span></th>
+                <th style="width: 130px; cursor: pointer;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'numero')" title="Clique para ordenar por Número ou arraste para mover">Nº Nota / DPS <span class="sort-icon" id="sort-fiscal-numero"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 160px; cursor: pointer;" data-col="modelo" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'modelo')" title="Clique para ordenar por Modelo Fiscal ou arraste para mover">Modelo Fiscal <span class="sort-icon" id="sort-fiscal-modelo"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="cursor: pointer;" data-col="destinatario" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'destinatario')" title="Clique para ordenar por Destinatário (A-Z) ou arraste para mover">Destinatário / Tomador <span class="sort-icon" id="sort-fiscal-destinatario"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 60px; text-align: center; cursor: pointer;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'uf')" title="Clique para ordenar por UF ou arraste para mover">UF <span class="sort-icon" id="sort-fiscal-uf"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 100px; text-align: center; cursor: pointer;" data-col="data" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'data')" title="Clique para ordenar por Data de Emissão ou arraste para mover">Data Emissão <span class="sort-icon" id="sort-fiscal-data"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 110px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor (R$) <span class="sort-icon" id="sort-fiscal-valor"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'situacao')" title="Clique para ordenar por Situação SEFAZ ou arraste para mover">Situação SEFAZ <span class="sort-icon" id="sort-fiscal-situacao"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="text-align: right; width: 160px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
@@ -5959,7 +5961,202 @@
         ordenarClientesPor(coluna);
       } else if (tabelaId === 'tabela-pedidos') {
         ordenarPedidosPor(coluna);
+      } else if (tabelaId === 'tabela-produtos') {
+        ordenarProdutosPor(coluna);
+      } else if (tabelaId === 'tabela-fiscal') {
+        ordenarFiscalPor(coluna);
+      } else if (tabelaId === 'tabela-financeiro') {
+        ordenarFinanceiroPor(coluna);
       }
+    }
+
+    let produtosOrdemColuna = 'id';
+    let produtosOrdemAsc = true;
+
+    function ordenarProdutosPor(coluna) {
+      if (produtosOrdemColuna === coluna) {
+        produtosOrdemAsc = !produtosOrdemAsc;
+      } else {
+        produtosOrdemColuna = coluna;
+        produtosOrdemAsc = true;
+      }
+
+      produtosFiltrados.sort((a, b) => {
+        let valA, valB;
+        if (coluna === 'sku') {
+          valA = (a.codigo_sku || a.codigo || '').trim();
+          valB = (b.codigo_sku || b.codigo || '').trim();
+          return produtosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'ncm') {
+          valA = parseInt((a.ncm || '').replace(/\D/g, '') || 0, 10);
+          valB = parseInt((b.ncm || '').replace(/\D/g, '') || 0, 10);
+          return produtosOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'nome') {
+          valA = (a.nome || '').trim();
+          valB = (b.nome || '').trim();
+          return produtosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'categoria') {
+          valA = (a.categoria || '').trim();
+          valB = (b.categoria || '').trim();
+          return produtosOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'custo') {
+          valA = parseFloat(a.preco_custo || 0);
+          valB = parseFloat(b.preco_custo || 0);
+          return produtosOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'venda') {
+          valA = parseFloat(a.preco_venda || 0);
+          valB = parseFloat(b.preco_venda || 0);
+          return produtosOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'saldos') {
+          valA = parseFloat(a.estoque_disponivel !== undefined ? a.estoque_disponivel : a.estoque_atual || 0);
+          valB = parseFloat(b.estoque_disponivel !== undefined ? b.estoque_disponivel : b.estoque_atual || 0);
+          return produtosOrdemAsc ? valA - valB : valB - valA;
+        }
+        return 0;
+      });
+
+      document.querySelectorAll('#tabela-produtos .sort-icon').forEach(el => el.textContent = '');
+      const iconEl = document.getElementById(`sort-produtos-${coluna}`);
+      if (iconEl) {
+        iconEl.textContent = produtosOrdemAsc ? ' ▲' : ' ▼';
+      }
+
+      renderTabelaProdutos();
+      mostrarToast(`Produtos ordenados por ${coluna.toUpperCase()} (${produtosOrdemAsc ? 'Crescente' : 'Decrescente'})`);
+    }
+
+    let fiscalOrdemColuna = 'id';
+    let fiscalOrdemAsc = false;
+
+    function ordenarFiscalPor(coluna) {
+      if (fiscalOrdemColuna === coluna) {
+        fiscalOrdemAsc = !fiscalOrdemAsc;
+      } else {
+        fiscalOrdemColuna = coluna;
+        fiscalOrdemAsc = true;
+      }
+
+      fiscalFiltrado.sort((a, b) => {
+        let valA, valB;
+        if (coluna === 'numero') {
+          const numA = parseInt((a.numero || '').replace(/\D/g, '') || 0, 10);
+          const numB = parseInt((b.numero || '').replace(/\D/g, '') || 0, 10);
+          return fiscalOrdemAsc ? numA - numB : numB - numA;
+        }
+        if (coluna === 'modelo') {
+          valA = (a.modelo || '').trim();
+          valB = (b.modelo || '').trim();
+          return fiscalOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'destinatario') {
+          valA = (a.destinatario || '').trim();
+          valB = (b.destinatario || '').trim();
+          return fiscalOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'uf') {
+          valA = (a.uf || '').trim();
+          valB = (b.uf || '').trim();
+          return fiscalOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'data') {
+          const parseData = (str) => {
+            if (!str) return 0;
+            const p = str.split('/');
+            if (p.length === 3) return new Date(`${p[2]}-${p[1]}-${p[0]}`).getTime();
+            return new Date(str).getTime() || 0;
+          };
+          valA = parseData(a.data);
+          valB = parseData(b.data);
+          return fiscalOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'valor') {
+          valA = parseFloat(a.valor || 0);
+          valB = parseFloat(b.valor || 0);
+          return fiscalOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'situacao') {
+          valA = (a.status || '').trim();
+          valB = (b.status || '').trim();
+          return fiscalOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        return 0;
+      });
+
+      document.querySelectorAll('#tabela-fiscal .sort-icon').forEach(el => el.textContent = '');
+      const iconEl = document.getElementById(`sort-fiscal-${coluna}`);
+      if (iconEl) {
+        iconEl.textContent = fiscalOrdemAsc ? ' ▲' : ' ▼';
+      }
+
+      renderTabelaFiscal();
+      mostrarToast(`Notas fiscais ordenadas por ${coluna.toUpperCase()} (${fiscalOrdemAsc ? 'Crescente' : 'Decrescente'})`);
+    }
+
+    let financeiroOrdemColuna = 'id';
+    let financeiroOrdemAsc = true;
+
+    function ordenarFinanceiroPor(coluna) {
+      if (financeiroOrdemColuna === coluna) {
+        financeiroOrdemAsc = !financeiroOrdemAsc;
+      } else {
+        financeiroOrdemColuna = coluna;
+        financeiroOrdemAsc = true;
+      }
+
+      financeiroFiltrado.sort((a, b) => {
+        let valA, valB;
+        if (coluna === 'tipo') {
+          valA = (a.tipo || '').trim();
+          valB = (b.tipo || '').trim();
+          return financeiroOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'descricao') {
+          valA = (a.descricao || '').trim();
+          valB = (b.descricao || '').trim();
+          return financeiroOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'pessoa') {
+          valA = (a.pessoa || '').trim();
+          valB = (b.pessoa || '').trim();
+          return financeiroOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'categoria') {
+          valA = (a.categoria || '').trim();
+          valB = (b.categoria || '').trim();
+          return financeiroOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        if (coluna === 'vencimento') {
+          valA = new Date(a.data_vencimento || 0).getTime() || 0;
+          valB = new Date(b.data_vencimento || 0).getTime() || 0;
+          return financeiroOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'valor') {
+          valA = parseFloat(a.valor || 0);
+          valB = parseFloat(b.valor || 0);
+          return financeiroOrdemAsc ? valA - valB : valB - valA;
+        }
+        if (coluna === 'situacao') {
+          valA = (a.status || '').trim();
+          valB = (b.status || '').trim();
+          return financeiroOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
+        }
+        return 0;
+      });
+
+      document.querySelectorAll('#tabela-financeiro .sort-icon').forEach(el => el.textContent = '');
+      const iconEl = document.getElementById(`sort-financeiro-${coluna}`);
+      if (iconEl) {
+        iconEl.textContent = financeiroOrdemAsc ? ' ▲' : ' ▼';
+      }
+
+      renderTabelaFinanceiro();
+      mostrarToast(`Lançamentos ordenados por ${coluna.toUpperCase()} (${financeiroOrdemAsc ? 'Crescente' : 'Decrescente'})`);
     }
 
     function ordenarClientesPor(coluna) {
