@@ -67,7 +67,68 @@
       --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ESTILOS REFINADOS DA SIDEBAR (ESTILO BLING ERP) */
+    
+    /* ELIMINAÇÃO TOTAL DE BARRAS DE ROLAGEM NA SIDEBAR */
+    .erp-sidebar {
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .erp-sidebar::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    .sidebar-nav {
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 8px 10px !important;
+      gap: 2px !important;
+    }
+    .sidebar-nav::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    .nav-section-title {
+      font-size: 9.5px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.8px !important;
+      color: #64748b !important;
+      padding: 8px 10px 2px 10px !important;
+      margin: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .nav-item {
+      padding: 7px 12px !important;
+      border-radius: 6px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      color: #cbd5e1 !important;
+      margin-bottom: 1px !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      border-left: 3px solid transparent !important;
+    }
+
+    .nav-item.active {
+      background: rgba(0, 168, 104, 0.18) !important;
+      color: #34d399 !important;
+      font-weight: 700 !important;
+      border-left: 3px solid #00a868 !important;
+    }
+
+    .nav-badge {
+      display: none !important;
+    }
+
     .erp-sidebar {
       background-color: #1e293b !important;
       border-right: 1px solid #334155 !important;
@@ -2305,32 +2366,30 @@
     </div>
 
     <nav class="sidebar-nav">
-      <!-- 1. MEU NEGÓCIO (DASHBOARD & KPIS) -->
+      <!-- 1. MEU NEGÓCIO -->
       <div class="nav-section-title">MEU NEGÓCIO</div>
       <a class="nav-item" id="nav-item-painel" onclick="trocarModulo('painel', this)" title="Visão geral e gráficos estratégicos">
         <span class="nav-icon">📊</span>
         <span>Painel & Indicadores</span>
       </a>
 
-      <!-- 2. CADASTROS (CLIENTES & MAPA) -->
+      <!-- 2. CADASTROS -->
       <div class="nav-section-title">CADASTROS</div>
       <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)" title="Gestão de clientes, destinatários e CRM">
         <span class="nav-icon">👥</span>
         <span>Clientes & CRM</span>
-        <span class="nav-badge" id="nav-total-clientes">1.140 Reais</span>
+        <span id="nav-total-clientes" style="display: none;"></span>
       </a>
       <a class="nav-item" id="nav-item-mapa" onclick="trocarModulo('mapa', this)" title="Distribuição geográfica de clientes no Brasil">
         <span class="nav-icon">🗺️</span>
         <span>Mapa Geográfico</span>
-        <span class="nav-badge" style="background: rgba(2, 132, 199, 0.18); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.35);">27 UFs</span>
       </a>
 
-      <!-- 3. VENDAS & EXPEDIÇÃO (PEDIDOS & ETIQUETAS) -->
+      <!-- 3. VENDAS & EXPEDIÇÃO -->
       <div class="nav-section-title">VENDAS & ENCOMENDAS</div>
       <a class="nav-item" id="nav-item-pedidos" onclick="trocarModulo('pedidos', this)" title="Gestão de pedidos de venda, entregas e rastreio">
         <span class="nav-icon">🛒</span>
         <span>Pedidos de Venda</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35);">Operacional</span>
       </a>
 
       <!-- 4. ESTOQUE & CATÁLOGO -->
@@ -2338,7 +2397,6 @@
       <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)" title="Catálogo de produtos, saldo físico e tributação NCM">
         <span class="nav-icon">🪵</span>
         <span id="app-stock-menu">Catálogo de Couros</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35);">40 NCM</span>
       </a>
 
       <!-- 5. FINANÇAS & CENTRAL FISCAL -->
@@ -2346,12 +2404,10 @@
       <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)" title="Contas a pagar/receber, DRE e importação de XML de compras">
         <span class="nav-icon">💰</span>
         <span id="app-financeiro-menu">Financeiro & Compras</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35);">Fluxo/XML</span>
       </a>
       <a class="nav-item" id="nav-item-fiscal" onclick="trocarModulo('fiscal', this)" title="Emissão de notas fiscais, DANFE e integração SEFAZ">
         <span class="nav-icon">🧾</span>
         <span>Central Fiscal (NF-e)</span>
-        <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35);">Emissão</span>
       </a>
 
       <!-- SISTEMA -->
@@ -4332,7 +4388,7 @@
     function atualizarKpis() {
       const total = clientes.length;
       document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
-      document.getElementById('nav-total-clientes').textContent = total.toLocaleString('pt-BR');
+      const elTot = document.getElementById('nav-total-clientes'); if (elTot) elTot.textContent = total.toLocaleString('pt-BR');
 
       const totalRs = clientes.filter(c => (c.uf || '').toUpperCase() === 'RS').length;
       const percRs = total > 0 ? ((totalRs / total) * 100).toFixed(1) : '0';
