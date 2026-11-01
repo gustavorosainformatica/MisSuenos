@@ -67,6 +67,70 @@
       --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* ESTILOS REFINADOS DA SIDEBAR (ESTILO BLING ERP) */
+    .erp-sidebar {
+      background-color: #1e293b !important;
+      border-right: 1px solid #334155 !important;
+    }
+
+    .nav-section-title {
+      font-size: 10px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.9px !important;
+      color: #64748b !important;
+      padding: 14px 12px 4px 12px !important;
+      text-transform: uppercase !important;
+    }
+
+    .nav-item {
+      padding: 10px 14px !important;
+      border-radius: 6px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      color: #cbd5e1 !important;
+      margin-bottom: 2px !important;
+      transition: all 0.15s ease !important;
+      border-left: 3px solid transparent !important;
+    }
+
+    .nav-item:hover {
+      background-color: #334155 !important;
+      color: #ffffff !important;
+    }
+
+    .nav-item.active {
+      background: rgba(0, 168, 104, 0.18) !important;
+      color: #34d399 !important;
+      font-weight: 700 !important;
+      border-left: 3px solid #00a868 !important;
+    }
+
+    .nav-badge {
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      padding: 2px 8px !important;
+      border-radius: 9999px !important;
+    }
+
+    /* RESPIRO E SUAVIDADE NAS TABELAS (ESTILO SAAS MODERNO) */
+    table.erp-table thead th {
+      padding: 12px 16px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    table.erp-table tbody td {
+      padding: 13px 16px !important;
+      font-size: 12.5px !important;
+      vertical-align: middle !important;
+    }
+
+    table.erp-table tbody tr {
+      transition: background-color 0.15s ease !important;
+    }
+
+
     /* ============================================================
      * TEMA CLARO CORPORATIVO (ESTILO BLING ERP / SAAS MODERNO)
      * E BADGES DE STATUS PASTEL
@@ -2241,48 +2305,58 @@
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-section-title">Principal</div>
-      <a class="nav-item" onclick="trocarModulo('painel', this)">
+      <!-- 1. MEU NEGÓCIO (DASHBOARD & KPIS) -->
+      <div class="nav-section-title">MEU NEGÓCIO</div>
+      <a class="nav-item" id="nav-item-painel" onclick="trocarModulo('painel', this)" title="Visão geral e gráficos estratégicos">
         <span class="nav-icon">📊</span>
-        <span>Painel Geral</span>
+        <span>Painel & Indicadores</span>
       </a>
-      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)">
+
+      <!-- 2. CADASTROS (CLIENTES & MAPA) -->
+      <div class="nav-section-title">CADASTROS</div>
+      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)" title="Gestão de clientes, destinatários e CRM">
         <span class="nav-icon">👥</span>
         <span>Clientes & CRM</span>
-        <span class="nav-badge" id="nav-total-clientes" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">1.140 Reais</span>
+        <span class="nav-badge" id="nav-total-clientes">1.140 Reais</span>
       </a>
-      <a class="nav-item" id="nav-item-mapa" onclick="trocarModulo('mapa', this)">
+      <a class="nav-item" id="nav-item-mapa" onclick="trocarModulo('mapa', this)" title="Distribuição geográfica de clientes no Brasil">
         <span class="nav-icon">🗺️</span>
-        <span>Mapa de Clientes</span>
-        <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35);">27 UFs</span>
+        <span>Mapa Geográfico</span>
+        <span class="nav-badge" style="background: rgba(2, 132, 199, 0.18); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.35);">27 UFs</span>
       </a>
 
-      <div class="nav-section-title">Comercial & Estoque</div>
-      <a class="nav-item" id="nav-item-pedidos" onclick="trocarModulo('pedidos', this)">
-        <span class="nav-icon">📦</span>
-        <span>Vendas & Pedidos</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+      <!-- 3. VENDAS & EXPEDIÇÃO (PEDIDOS & ETIQUETAS) -->
+      <div class="nav-section-title">VENDAS & ENCOMENDAS</div>
+      <a class="nav-item" id="nav-item-pedidos" onclick="trocarModulo('pedidos', this)" title="Gestão de pedidos de venda, entregas e rastreio">
+        <span class="nav-icon">🛒</span>
+        <span>Pedidos de Venda</span>
+        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.18); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35);">Operacional</span>
       </a>
-      <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)">
+
+      <!-- 4. ESTOQUE & CATÁLOGO -->
+      <div class="nav-section-title">ESTOQUE & PRODUTOS</div>
+      <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)" title="Catálogo de produtos, saldo físico e tributação NCM">
         <span class="nav-icon">🪵</span>
-        <span id="app-stock-menu">Catálogo & Estoque</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">40 NCM</span>
+        <span id="app-stock-menu">Catálogo de Couros</span>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35);">40 NCM</span>
       </a>
-      <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)">
+
+      <!-- 5. FINANÇAS & CENTRAL FISCAL -->
+      <div class="nav-section-title">FINANÇAS & FISCAL</div>
+      <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)" title="Contas a pagar/receber, DRE e importação de XML de compras">
         <span class="nav-icon">💰</span>
         <span id="app-financeiro-menu">Financeiro & Compras</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">Fluxo/XML</span>
+        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35);">Fluxo/XML</span>
       </a>
-
-      <div class="nav-section-title">Fiscal & Faturamento</div>
-      <a class="nav-item" onclick="trocarModulo('fiscal', this)">
+      <a class="nav-item" id="nav-item-fiscal" onclick="trocarModulo('fiscal', this)" title="Emissão de notas fiscais, DANFE e integração SEFAZ">
         <span class="nav-icon">🧾</span>
         <span>Central Fiscal (NF-e)</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
+        <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35);">Emissão</span>
       </a>
 
-      <div class="nav-section-title">Sistema</div>
-      <a class="nav-item" onclick="trocarModulo('configuracoes', this)">
+      <!-- SISTEMA -->
+      <div class="nav-section-title">SISTEMA</div>
+      <a class="nav-item" id="nav-item-configuracoes" onclick="trocarModulo('configuracoes', this)" title="Configurações gerais, dados da empresa e parâmetros fiscais">
         <span class="nav-icon">⚙️</span>
         <span>Configurações</span>
       </a>
