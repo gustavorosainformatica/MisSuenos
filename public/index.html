@@ -437,6 +437,17 @@
       transform: translateY(-1px);
     }
 
+    .btn-amber-glow {
+      background: #f59e0b;
+      color: #1e1302;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-amber-glow:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
     /* CONTEÚDO PRINCIPAL */
     .erp-content {
       padding: 24px;
@@ -1884,13 +1895,13 @@
         <button class="btn-top" id="btn-instalar-app" onclick="instalarPwaApp()" style="display: none; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700; gap: 6px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);">
           <span>📲</span> Instalar App
         </button>
-        <button class="btn-top" id="btn-iniciar-tour" onclick="iniciarTourGuiado()" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; font-weight: 700; border: 1px solid rgba(0, 212, 255, 0.5); box-shadow: 0 0 16px rgba(0, 212, 255, 0.3); gap: 6px;">
-          <span>▶️</span> Tour com Áudio
-        </button>
-        <div class="status-pill">
+        <div class="status-pill" title="Nuvem Conectada (Turso / SQLite)" style="padding: 7px; width: 28px; height: 28px; justify-content: center; border-radius: 50%;">
           <span class="pulse-dot"></span>
-          <span id="label-conexao">Nuvem Conectada</span>
+          <span id="label-conexao" style="display: none;">Nuvem Conectada</span>
         </div>
+        <button class="btn-top btn-amber-glow" onclick="abrirModalNovoPedido()">
+          <span>📦</span> Novo Pedido
+        </button>
         <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">
           <span>🧾</span> Emitir NF-e
         </button>
@@ -2297,17 +2308,17 @@
         </div>
       </section>
 
-      <!-- BARRA DE FILTROS DE PEDIDOS -->
-      <section class="erp-toolbar">
-        <div class="toolbar-filters">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Status do Pedido:</span>
-          <button class="erp-filter-chip active" onclick="filtrarPedidosPorStatus('TODOS', this)">Todos (<span id="count-ped-todos">0</span>)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('AGUARDANDO_ENVIO', this)">Aguardando Envio (<span id="count-ped-aguardando">0</span>)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('EM_SEPARACAO', this)">Em Separação (<span id="count-ped-separacao">0</span>)</button>
-          <button class="erp-filter-chip" onclick="filtrarPedidosPorStatus('ENVIADO', this)">Enviados (<span id="count-ped-enviados">0</span>)</button>
+      <!-- BARRA DE AÇÕES DE PEDIDOS (SEM FILTROS DUPLICADOS) -->
+      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+            <span>💡</span>
+            <span>Clique nos <strong>Cards de Indicadores</strong> acima para filtrar e nos cabeçalhos da tabela para ordenar.</span>
+          </div>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-pedidos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
         </div>
@@ -5675,24 +5686,19 @@
     // 1. Clique nos KPIs de Vendas & Pedidos
     function acaoKpiPedidos(acao, cardEl) {
       destacarKpiAtivo(cardEl, '#modulo-pedidos-conteudo');
-      const chips = document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip');
-      chips.forEach(b => b.classList.remove('active'));
 
       if (acao === 'TODOS') {
         statusFiltroPedido = 'TODOS';
-        if (chips[0]) chips[0].classList.add('active');
         pedidosFiltrados = [...listaPedidos];
         renderTabelaPedidos();
         mostrarToast(`📦 Exibindo histórico completo: ${pedidosFiltrados.length} pedido(s) em carteira.`);
       } else if (acao === 'AGUARDANDO_ENVIO') {
         statusFiltroPedido = 'AGUARDANDO_ENVIO';
-        if (chips[1]) chips[1].classList.add('active');
         pedidosFiltrados = listaPedidos.filter(p => p.status === 'AGUARDANDO_ENVIO');
         renderTabelaPedidos();
         mostrarToast(`⏳ Filtrado: ${pedidosFiltrados.length} pedido(s) aguardando envio / separação.`);
       } else if (acao === 'FATURAMENTO') {
         statusFiltroPedido = 'TODOS';
-        if (chips[0]) chips[0].classList.add('active');
         pedidosFiltrados = [...listaPedidos].sort((a, b) => (parseFloat(b.valor_total || b.valor || 0)) - (parseFloat(a.valor_total || a.valor || 0)));
         renderTabelaPedidos();
         mostrarToast('💵 Exibindo todos os pedidos ordenados pelo maior valor de faturamento!');
