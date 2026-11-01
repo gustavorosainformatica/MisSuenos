@@ -50,6 +50,19 @@ function isStatusConcluido(st) {
   return st === 'ENVIADO' || st === 'ENTREGUE';
 }
 
+function desformatarNumeroPtBr(valor) {
+  if (typeof valor === 'number') return isNaN(valor) ? 0 : valor;
+  if (!valor) return 0;
+  const str = String(valor).trim().replace(/[R$\s]/g, '');
+  if (str.includes(',')) {
+    const limpo = str.replace(/\./g, '').replace(',', '.');
+    const n = parseFloat(limpo);
+    return isNaN(n) ? 0 : n;
+  }
+  const n = parseFloat(str);
+  return isNaN(n) ? 0 : n;
+}
+
 /**
  * Identifica quais produtos do catálogo estão presentes no texto ou array de itens do pedido
  */
@@ -213,7 +226,7 @@ export default async function handler(req, res) {
         'CANCELADO': 'Cancelado'
       };
       const statusTexto = payload.status_texto || statusMap[status] || 'Aguardando Envio';
-      const valorTotal = parseFloat(payload.valor_total || payload.valor || 0);
+      const valorTotal = desformatarNumeroPtBr(payload.valor_total !== undefined ? payload.valor_total : (payload.valor || 0));
 
       const info = await run(`
         INSERT INTO pedidos (
@@ -341,7 +354,7 @@ export default async function handler(req, res) {
         if (payload[campo] !== undefined) {
           campos.push(`${campo} = ?`);
           if (campo === 'valor_total') {
-            params.push(parseFloat(payload[campo] || 0));
+            params.push(desformatarNumeroPtBr(payload[campo]));
           } else if (campo === 'cliente_id') {
             params.push(payload[campo] ? Number(payload[campo]) : null);
           } else {
@@ -391,7 +404,7 @@ export default async function handler(req, res) {
       if (payload.valor_total !== undefined) {
         await run(
           "UPDATE financeiro_lancamentos SET valor = ?, data_atualizacao = ? WHERE pedido_id = ? AND status = 'PENDENTE'",
-          [parseFloat(payload.valor_total || 0), agoraIso, idParam]
+          [desformatarNumeroPtBr(payload.valor_total), agoraIso, idParam]
         );
       }
 

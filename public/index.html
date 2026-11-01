@@ -764,6 +764,14 @@
       white-space: nowrap;
     }
 
+    table.erp-table tbody td[data-col="itens"],
+    table.erp-table tbody td[data-col="descricao"] {
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     table.erp-table tbody tr:hover {
       background-color: rgba(255, 255, 255, 0.025);
     }
@@ -2436,9 +2444,8 @@
                 <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 115px; text-align: right;" data-col="total" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'valor')" title="Clique para ordenar por Total R$ ou arraste para mover">Total (R$) <span class="sort-icon" id="sort-pedidos-valor"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px;" data-col="destino" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cidade')" title="Clique para ordenar por Destino ou arraste para mover">Destino (Cidade/UF) <span class="sort-icon" id="sort-pedidos-cidade"></span><span class="th-grip-icon">⠿</span></th>
-                <th data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Itens ou arraste para mover">Itens / Descrição da Encomenda <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
+                <th data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Descrição ou arraste para mover">Descrição <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px; text-align: center;" data-col="status" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'status')" title="Clique para ordenar por Status ou arraste para mover">Status <span class="sort-icon" id="sort-pedidos-status"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="text-align: right; width: 220px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
             <tbody id="erp-pedidos-body">
@@ -3040,7 +3047,7 @@
         <div class="form-grid-2">
           <div class="form-group">
             <label class="form-label">Valor Total (R$)</label>
-            <input type="text" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;">
+            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
           </div>
           <div class="form-group">
             <label class="form-label">Modalidade de Frete</label>
@@ -3123,11 +3130,11 @@
           <div class="form-grid-3" style="margin-top: 14px;">
             <div class="form-group">
               <label class="form-label">Preço de Custo (R$)</label>
-              <input type="number" step="0.01" class="form-input" id="form-prod-custo" placeholder="0.00" value="0.00">
+              <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" onblur="this.value = formatarMoedaPtBr(this.value)">
             </div>
             <div class="form-group">
               <label class="form-label">Preço de Venda (R$) *</label>
-              <input type="number" step="0.01" class="form-input" id="form-prod-venda" required placeholder="0.00" style="color: #34d399; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+              <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" style="color: #34d399; font-weight: 700; font-family: 'JetBrains Mono', monospace;" onblur="this.value = formatarMoedaPtBr(this.value)">
             </div>
             <div class="form-group">
               <label class="form-label">Quantidade em Estoque *</label>
@@ -3433,7 +3440,7 @@
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: right;">
                     Unit. (R$)
                   </label>
-                  <input type="number" id="ped-add-preco-input" min="0" step="0.01" value="0.00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()">
+                  <input type="text" inputmode="decimal" id="ped-add-preco-input" value="0,00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()" onblur="this.value = formatarMoedaPtBr(this.value)">
                 </div>
 
                 <div style="width: 100px; text-align: right;">
@@ -3491,7 +3498,7 @@
           <div class="form-grid-3" style="margin-top: 14px;">
             <div class="form-group">
               <label class="form-label">Valor Total (R$) *</label>
-              <input type="number" step="0.01" class="form-input" id="form-ped-valor" required placeholder="0.00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;">
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required placeholder="0,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
             </div>
             <div class="form-group">
               <label class="form-label">Status do Pedido</label>
@@ -3584,7 +3591,7 @@
           <div class="form-grid-3" style="margin-top: 12px;">
             <div class="form-group">
               <label class="form-label">Valor (R$) *</label>
-              <input type="number" step="0.01" min="0.01" class="form-input" id="fin-valor" required placeholder="0.00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">
+              <input type="text" inputmode="decimal" class="form-input" id="fin-valor" required placeholder="0,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
             </div>
             <div class="form-group">
               <label class="form-label">Data de Vencimento *</label>
@@ -3790,6 +3797,29 @@
 
   <!-- LOGICA DO SISTEMA ERP -->
   <script>
+    // ========================================================
+    // PADRONIZAÇÃO MONETÁRIA E NUMÉRICA BRASILEIRA (pt-BR)
+    // Exemplo: 16.383,02 (Ponto como milhar, vírgula como decimal)
+    // ========================================================
+    function desformatarNumeroPtBr(valor) {
+      if (typeof valor === 'number') return isNaN(valor) ? 0 : valor;
+      if (!valor) return 0;
+      const str = String(valor).trim().replace(/[R$\s]/g, '');
+      if (str.includes(',')) {
+        const limpo = str.replace(/\./g, '').replace(',', '.');
+        const n = parseFloat(limpo);
+        return isNaN(n) ? 0 : n;
+      }
+      const n = parseFloat(str);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function formatarMoedaPtBr(valor) {
+      const num = typeof valor === 'number' ? valor : desformatarNumeroPtBr(valor);
+      if (isNaN(num)) return '0,00';
+      return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     let clientes = window.CLIENTES_DATA || [];
     let filtrados = [...clientes];
     let paginaAtual = 1;
@@ -4233,8 +4263,7 @@
         alert('Selecione um cliente na tabela antes de transmitir a nota fiscal.');
         return;
       }
-      const valorStr = document.getElementById('fiscal-valor').value.replace(/\./g, '').replace(',', '.');
-      const valorNum = parseFloat(valorStr) || 0;
+      const valorNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor').value);
       const itemDesc = document.getElementById('fiscal-item').value || 'PRODUTOS ARTESANAIS EM COURO';
       const btn = document.getElementById('btn-transmitir-nfe');
 
@@ -4481,8 +4510,8 @@
       document.getElementById('form-prod-cat').value = prod.categoria || 'Loncas';
       document.getElementById('form-prod-un').value = prod.unidade_medida || prod.unidade || 'UN';
       document.getElementById('form-prod-min').value = prod.estoque_minimo || 5;
-      document.getElementById('form-prod-custo').value = prod.preco_custo || 0;
-      document.getElementById('form-prod-venda').value = prod.preco_venda || 0;
+      document.getElementById('form-prod-custo').value = formatarMoedaPtBr(prod.preco_custo || 0);
+      document.getElementById('form-prod-venda').value = formatarMoedaPtBr(prod.preco_venda || 0);
       document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
       document.getElementById('form-prod-desc').value = prod.descricao || '';
 
@@ -4511,8 +4540,8 @@
         categoria: document.getElementById('form-prod-cat').value,
         unidade_medida: document.getElementById('form-prod-un').value,
         estoque_minimo: parseFloat(document.getElementById('form-prod-min').value || 5),
-        preco_custo: parseFloat(document.getElementById('form-prod-custo').value || 0),
-        preco_venda: parseFloat(document.getElementById('form-prod-venda').value || 0),
+        preco_custo: desformatarNumeroPtBr(document.getElementById('form-prod-custo').value),
+        preco_venda: desformatarNumeroPtBr(document.getElementById('form-prod-venda').value),
         estoque_atual: parseFloat(document.getElementById('form-prod-est').value || 0),
         descricao: document.getElementById('form-prod-desc').value.trim()
       };
@@ -4688,7 +4717,7 @@
         const rastreioInfo = ped.codigo_rastreio ? `<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #38bdf8; margin-top: 3px;">🚚 ${ped.codigo_rastreio}</div>` : '';
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" title="Dois cliques para editar este pedido">
+          <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" oncontextmenu="abrirMenuAcoesPedido(event, ${ped.id}); return false;" title="Dois cliques para editar | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${ped.id}"></td>
             <td data-col="numero">
               <div onclick="abrirModalEditarPedido(${ped.id})" style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" title="Clique para editar este pedido">
@@ -4701,13 +4730,10 @@
             <td data-col="cliente" style="font-weight: 700; color: #fff;">
               ${clienteNome}
             </td>
-            <td data-col="total" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${valorNum.toFixed(2).replace('.', ',')}</td>
+            <td data-col="total" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(valorNum)}</td>
             <td data-col="destino"><span class="uf-tag" style="margin-right: 4px;">${ped.uf || 'RS'}</span> ${ped.cidade || '-'}</td>
-            <td data-col="itens" style="color: var(--text-muted); font-size: 11.5px; max-width: 250px;">${ped.itens || '-'}</td>
+            <td data-col="itens" style="color: var(--text-muted); font-size: 11.5px; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${(ped.itens || '').replace(/"/g, '&quot;')}">${ped.itens || '-'}</td>
             <td data-col="status" style="text-align: center;">${statusBadge}</td>
-            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" onclick="abrirMenuAcoesPedido(event, ${ped.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações Rápidas (Etiqueta, NF-e, WhatsApp)">⋮</button>
-            </td>
           </tr>
         `;
       }).join('');
@@ -4834,7 +4860,7 @@
       const precoInp = document.getElementById('ped-add-preco-input');
       const qtdInp = document.getElementById('ped-add-qtd-input');
       if (!prodId) {
-        if (precoInp) precoInp.value = '0.00';
+        if (precoInp) precoInp.value = '0,00';
         atualizarSubtotalNovoItem();
         return;
       }
@@ -4848,7 +4874,7 @@
 
     function atualizarSubtotalNovoItem() {
       const qtd = parseFloat(document.getElementById('ped-add-qtd-input')?.value || 1);
-      const preco = parseFloat(document.getElementById('ped-add-preco-input')?.value || 0);
+      const preco = desformatarNumeroPtBr(document.getElementById('ped-add-preco-input')?.value || 0);
       const subtotal = Math.max(0, qtd * preco);
       const el = document.getElementById('ped-add-subtotal-prev');
       if (el) {
@@ -4862,7 +4888,7 @@
       const qtdInp = document.getElementById('ped-add-qtd-input');
       const precoInp = document.getElementById('ped-add-preco-input');
       const qtd = parseFloat(qtdInp?.value || 1);
-      const preco = parseFloat(precoInp?.value || 0);
+      const preco = desformatarNumeroPtBr(precoInp?.value || 0);
 
       if (!prodId) {
         alert('Por favor, selecione um produto do catálogo ou utilize o campo de item avulso abaixo.');
@@ -4964,7 +4990,7 @@
 
     function alterarPrecoItemPedido(index, novoPrecoVal) {
       if (!itensPedidoAtual[index]) return;
-      const p = parseFloat(novoPrecoVal);
+      const p = desformatarNumeroPtBr(novoPrecoVal);
       if (!isNaN(p) && p >= 0) {
         itensPedidoAtual[index].preco = p;
       }
@@ -5034,10 +5060,10 @@
               </div>
             </td>
             <td style="text-align: right;">
-              <input type="number" step="0.01" min="0" value="${precoNum.toFixed(2)}" style="width: 85px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #34d399; border-radius: 4px; padding: 3px 5px;" onchange="alterarPrecoItemPedido(${idx}, this.value)">
+              <input type="text" inputmode="decimal" value="${formatarMoedaPtBr(precoNum)}" style="width: 85px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #34d399; border-radius: 4px; padding: 3px 5px;" onchange="alterarPrecoItemPedido(${idx}, this.value)" onblur="this.value = formatarMoedaPtBr(this.value)">
             </td>
             <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px;">
-              R$ ${subtotal.toFixed(2).replace('.', ',')}
+              R$ ${formatarMoedaPtBr(subtotal)}
             </td>
             <td style="text-align: center;">
               <button type="button" class="btn-row-action" style="color: #ef4444; padding: 3px 7px;" title="Remover item do pedido" onclick="removerItemPedido(${idx})">🗑️</button>
@@ -5047,12 +5073,12 @@
       }).join('');
 
       if (totalInp && somaTotal > 0) {
-        totalInp.value = somaTotal.toFixed(2);
+        totalInp.value = formatarMoedaPtBr(somaTotal);
       }
 
       if (textItens) {
         const textoFormatado = itensPedidoAtual.map(i => {
-          const pFmt = (parseFloat(i.preco) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          const pFmt = formatarMoedaPtBr(i.preco || 0);
           return `${i.qtd}x ${i.nome} (R$ ${pFmt})`;
         }).join(' + ');
         textItens.value = textoFormatado;
@@ -5109,7 +5135,7 @@
       document.getElementById('form-ped-telefone').value = ped.telefone || ped.tel || '';
       document.getElementById('form-ped-itens').value = ped.itens || '';
       const valorPedido = parseFloat(ped.valor_total || ped.valor || 0);
-      document.getElementById('form-ped-valor').value = valorPedido.toFixed(2);
+      document.getElementById('form-ped-valor').value = formatarMoedaPtBr(valorPedido);
       document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_ENVIO';
       document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
       document.getElementById('form-ped-obs').value = ped.observacoes || '';
@@ -5156,7 +5182,7 @@
           qtd: i.qtd,
           preco_unitario: i.preco
         })),
-        valor_total: parseFloat(document.getElementById('form-ped-valor').value || 0),
+        valor_total: desformatarNumeroPtBr(document.getElementById('form-ped-valor').value),
         status: status,
         status_texto: statusMap[status] || 'Pendente',
         codigo_rastreio: document.getElementById('form-ped-rastreio').value.trim(),
@@ -5263,7 +5289,7 @@
             </td>
             <td data-col="uf" style="text-align: center;"><span class="uf-tag">${f.uf}</span></td>
             <td data-col="data" style="color: var(--text-muted); font-size: 11.5px; text-align: center;">${f.data}</td>
-            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${f.valor.toFixed(2).replace('.', ',')}</td>
+            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(f.valor)}</td>
             <td data-col="situacao" style="text-align: center;">
               <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
                 🟢 Autorizada (Ambiente Teste)
@@ -5400,7 +5426,7 @@
         pedidoRef: numPedidoCalculado,
         itens: ped ? (ped.itens || 'Artigos em Couro Legítimo') : 'Artigos em Couro / Sola / Insumos de Selaria',
         peso: '2.0 kg',
-        valor: ped ? `R$ ${(parseFloat(ped.valor_total || ped.valor) || 0).toFixed(2).replace('.', ',')}` : ''
+        valor: ped ? `R$ ${formatarMoedaPtBr(ped.valor_total || ped.valor)}` : ''
       });
     }
 
@@ -5430,7 +5456,7 @@
         pedidoRef: ped.numero,
         itens: ped.itens || 'Produtos de Couro',
         peso: '2.5 kg',
-        valor: `R$ ${(parseFloat(ped.valor_total || ped.valor) || 0).toFixed(2).replace('.', ',')}`
+        valor: `R$ ${formatarMoedaPtBr(ped.valor_total || ped.valor)}`
       });
     }
 
@@ -5859,7 +5885,7 @@
         pedidosFiltrados = listaPedidos.filter(p => (parseFloat(p.valor_total || p.valor || 0)) >= media)
           .sort((a, b) => (parseFloat(b.valor_total || b.valor || 0)) - (parseFloat(a.valor_total || a.valor || 0)));
         renderTabelaPedidos();
-        mostrarToast(`📈 Exibindo ${pedidosFiltrados.length} pedido(s) com valor acima do Ticket Médio (R$ ${media.toFixed(2).replace('.', ',')}).`);
+        mostrarToast(`📈 Exibindo ${pedidosFiltrados.length} pedido(s) com valor acima do Ticket Médio (R$ ${formatarMoedaPtBr(media)}).`);
       }
       destacarTabelaFiltrada('#modulo-pedidos-conteudo');
     }
@@ -5999,6 +6025,13 @@
       const pagar = listaFinanceiro.filter(l => l.tipo === 'PAGAR').reduce((acc, l) => acc + (parseFloat(l.valor) || 0), 0);
       const saldo = receber - pagar;
 
+      const elReceber = document.getElementById('kpi-fin-receber');
+      if (elReceber) elReceber.textContent = `R$ ${formatarMoedaPtBr(receber)}`;
+      const elPagar = document.getElementById('kpi-fin-pagar');
+      if (elPagar) elPagar.textContent = `R$ ${formatarMoedaPtBr(pagar)}`;
+      const elSaldo = document.getElementById('kpi-fin-saldo');
+      if (elSaldo) elSaldo.textContent = `R$ ${formatarMoedaPtBr(saldo)}`;
+
       const badge = document.getElementById('table-badge-financeiro');
       if (badge) badge.textContent = `${listaFinanceiro.length} lançamentos`;
     }
@@ -6055,7 +6088,7 @@
             <td data-col="pessoa" style="color: var(--text-muted); font-size: 11.5px;">${l.pessoa}</td>
             <td data-col="categoria"><span style="background: rgba(0, 212, 255, 0.1); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.25); padding: 2px 6px; border-radius: 4px; font-size: 10.5px;">${l.categoria}</span></td>
             <td data-col="vencimento" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">${vencFmt}</td>
-            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: ${valColor};">R$ ${(parseFloat(l.valor) || 0).toFixed(2).replace('.', ',')}</td>
+            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: ${valColor};">R$ ${formatarMoedaPtBr(l.valor)}</td>
             <td data-col="situacao" style="text-align: center;">${sitBadge}</td>
             <td data-col="acoes" style="text-align: right; white-space: nowrap;">
               <button class="btn-row-action" title="Dar baixa / Alterar Situação" onclick="alternarBaixaFinanceiro(${l.id})">💰 Baixar</button>
@@ -6410,7 +6443,7 @@
     // ========================================================
     const ORDEM_PADRAO_TABELAS = {
       'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel', 'acoes'],
-      'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status', 'acoes'],
+      'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status'],
       'tabela-produtos': ['check', 'sku', 'ncm', 'nome', 'categoria', 'unidade', 'custo', 'venda', 'saldos', 'acoes'],
       'tabela-financeiro': ['tipo', 'descricao', 'pessoa', 'categoria', 'vencimento', 'valor', 'situacao', 'acoes'],
       'tabela-fiscal': ['check', 'numero', 'modelo', 'destinatario', 'uf', 'data', 'valor', 'situacao', 'acoes']
@@ -6437,9 +6470,8 @@
         'cliente': { label: 'Cliente / Destinatário', locked: false },
         'total': { label: 'Total (R$)', locked: false },
         'destino': { label: 'Destino (Cidade / UF)', locked: false },
-        'itens': { label: 'Itens da Encomenda', locked: false },
-        'status': { label: 'Status do Pedido', locked: false },
-        'acoes': { label: 'Ações (Etiqueta, Editar, NF-e)', locked: false }
+        'itens': { label: 'Descrição', locked: false },
+        'status': { label: 'Status do Pedido', locked: false }
       },
       'tabela-produtos': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
@@ -6897,6 +6929,12 @@
             sincronizarTbodyComThead(tabela);
             return;
           }
+        }
+        // Sanitização automática para tabela-pedidos (remove coluna ações antiga se presente)
+        if (tabela.id === 'tabela-pedidos' && ordemDesejada.includes('acoes')) {
+          const filtrada = ordemDesejada.filter(k => k !== 'acoes');
+          localStorage.setItem('erp_col_order_tabela-pedidos', JSON.stringify(filtrada));
+          ordemDesejada = filtrada;
         }
 
         // Reordena thead
