@@ -1980,8 +1980,8 @@
       </section>
 
       <!-- BARRA DE FILTROS DO ERP -->
-      <section class="erp-toolbar">
-        <div class="toolbar-filters">
+      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
           <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtrar UF:</span>
           <button class="erp-filter-chip active" onclick="filtrarPorUf('TODOS', this)">Todas</button>
           <button class="erp-filter-chip" onclick="filtrarPorUf('RS', this)">RS (693)</button>
@@ -1990,16 +1990,18 @@
           <button class="erp-filter-chip" onclick="filtrarPorUf('SC', this)">SC (85)</button>
           <button class="erp-filter-chip" onclick="filtrarPorUf('MT', this)">MT (33)</button>
           <button class="erp-filter-chip" onclick="filtrarPorUf('MS', this)">MS (41)</button>
-          <button class="erp-filter-chip" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);">🗺️ Ver no Mapa</button>
+          <button class="erp-filter-chip" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" title="Visualizar Mapa de Calor por Estado">🗺️ Ver no Mapa</button>
+          <button class="erp-filter-chip" onclick="mostrarTodosCadastrosClientes(this)" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399; background: rgba(16, 185, 129, 0.1);" title="Limpar filtros e exibir toda a base de 1.140 clientes">👥 Todos os Cadastros</button>
+          <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 5px 12px; margin-left: 2px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
           <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)">
-            <option value="TODOS">Todos os Cadastros</option>
+            <option value="TODOS">Documentação: Todos</option>
             <option value="COM_DOC">Apenas com CPF/CNPJ</option>
             <option value="SEM_DOC">Pendentes de Documento</option>
           </select>
-          <button class="btn-top btn-row-action" onclick="exportarCsv()">📥 Exportar Planilha</button>
+          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-clientes')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
         </div>
       </section>
 
@@ -3798,6 +3800,20 @@
     function filtrarCompletude(val) {
       docFiltro = val;
       aplicarFiltros();
+    }
+
+    function mostrarTodosCadastrosClientes(btn) {
+      ufFiltro = 'TODOS';
+      docFiltro = 'TODOS';
+      buscaTexto = '';
+      const topSearch = document.getElementById('topbar-search');
+      if (topSearch) topSearch.value = '';
+      const selComp = document.getElementById('select-completude');
+      if (selComp) selComp.value = 'TODOS';
+      document.querySelectorAll('#modulo-clientes-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      aplicarFiltros();
+      mostrarToast(`👥 Exibindo todos os ${clientes.length} cadastros de clientes.`);
     }
 
     function filtrarTabela(val) {
