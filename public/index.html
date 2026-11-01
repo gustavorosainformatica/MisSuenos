@@ -2613,7 +2613,8 @@
       </div>
 
       <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiClientes('TODOS', this)" title="Clique para listar todos os 1.140 clientes">
           <div class="kpi-top-row">
             <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
@@ -2661,6 +2662,13 @@
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- BARRA DE FILTROS DO ERP -->
       <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -2822,7 +2830,8 @@
       </div>
 
       <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiProdutos('TODOS', this)" title="Clique para exibir todos os produtos do catálogo">
           <div class="kpi-top-row">
             <span class="kpi-label">Catálogo de Produtos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ 40 NCM</span></span>
@@ -2868,6 +2877,13 @@
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- BARRA DE FILTROS DO ESTOQUE -->
       <section class="erp-toolbar">
@@ -3077,7 +3093,8 @@
       </div>
 
       <!-- KPIs DE FLUXO DE CAIXA (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('RECEBER', this)" title="Clique para filtrar apenas Contas a Receber">
           <div class="kpi-top-row">
             <span class="kpi-label">A Receber (Pendente)</span>
@@ -3122,6 +3139,13 @@
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- BARRA DE FILTROS FINANCEIROS -->
       <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -3194,7 +3218,8 @@
       </div>
 
       <!-- CARDS FISCAIS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card" onclick="abrirModalFiscal()" title="Clique para abrir o emissor rápido de NF-e / NFS-e">
           <div class="kpi-top-row">
             <span class="kpi-label">Status da Conexão Fiscal</span>
@@ -3240,6 +3265,13 @@
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- BARRA DE AÇÕES FISCAIS -->
       <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -3294,7 +3326,8 @@
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
     <main class="erp-content" id="modulo-painel-conteudo" style="display: none;">
-      <section class="erp-kpi-grid">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))">
           <div class="kpi-top-row">
             <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
@@ -3331,6 +3364,13 @@
           <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal (Homologação Teste)</span></div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- ATALHOS RAPIDOS DO ERP -->
       <section class="erp-table-card" style="padding: 24px;">
