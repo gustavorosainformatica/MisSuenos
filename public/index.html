@@ -3382,8 +3382,8 @@
               <!-- CABEÇALHO DA ETIQUETA -->
               <div class="etq-header">
                 <div class="etq-brand">
-                  <div class="etq-brand-title">MIS SUEÑOS</div>
-                  <div class="etq-brand-sub">COUROS & PELES</div>
+                  <div class="etq-brand-title" id="etq-brand-title">MIS SUEÑOS</div>
+                  <div class="etq-brand-sub" id="etq-brand-sub">COUROS & PELES</div>
                 </div>
                 <div class="etq-service-badge" id="etq-service-label">
                   SUPERFRETE / CORREIOS
@@ -3442,10 +3442,10 @@
               <!-- BLOCO REMETENTE -->
               <div class="etq-block etq-remetente">
                 <div class="etq-block-label">REMETENTE</div>
-                <div class="etq-rem-nome">MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)</div>
-                <div class="etq-rem-endereco">Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras</div>
-                <div class="etq-rem-cidade">SANTO ANTÔNIO DA PATRULHA - RS</div>
-                <div class="etq-rem-cep-tel">
+                <div class="etq-rem-nome" id="etq-rem-nome">MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)</div>
+                <div class="etq-rem-endereco" id="etq-rem-endereco">Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras</div>
+                <div class="etq-rem-cidade" id="etq-rem-cidade">SANTO ANTÔNIO DA PATRULHA - RS</div>
+                <div class="etq-rem-cep-tel" id="etq-rem-cep-tel">
                   <strong>CEP: 95500-000</strong> · WhatsApp: (51) 99719-9204
                 </div>
               </div>
@@ -5489,6 +5489,24 @@
       const noticeBadge = document.getElementById('app-notice-badge');
       if (noticeBadge && cfg.dataNoticeBadge) noticeBadge.textContent = cfg.dataNoticeBadge;
 
+      // Vinculação dinâmica do remetente e marca da Etiqueta de Envio (White-label)
+      const etqBrand = document.getElementById('etq-brand-title');
+      if (etqBrand && cfg.shortName) etqBrand.textContent = cfg.shortName.toUpperCase();
+      const etqBrandSub = document.getElementById('etq-brand-sub');
+      if (etqBrandSub && cfg.tagline) etqBrandSub.textContent = cfg.tagline.toUpperCase();
+      const etqRemNome = document.getElementById('etq-rem-nome');
+      if (etqRemNome && cfg.companyName) {
+        etqRemNome.textContent = `${cfg.companyName.toUpperCase()}${cfg.userName ? ' (' + cfg.userName + ')' : ''}`;
+      }
+      const etqRemEnd = document.getElementById('etq-rem-endereco');
+      if (etqRemEnd && cfg.companyAddress) etqRemEnd.textContent = cfg.companyAddress;
+      const etqRemCid = document.getElementById('etq-rem-cidade');
+      if (etqRemCid && cfg.companyCityState) etqRemCid.textContent = cfg.companyCityState;
+      const etqRemCepTel = document.getElementById('etq-rem-cep-tel');
+      if (etqRemCepTel && (cfg.companyCep || cfg.companyPhone)) {
+        etqRemCepTel.innerHTML = `<strong>CEP: ${cfg.companyCep || '95500-000'}</strong>${cfg.companyPhone ? ' · WhatsApp: ' + cfg.companyPhone : ''}`;
+      }
+
       const configComp = document.getElementById('app-config-company-name');
       if (configComp && cfg.companyName) configComp.innerHTML = `Parâmetros fiscais e operacionais da <strong>${cfg.companyName}</strong>.`;
       const configRazao = document.getElementById('app-config-razao-social');
@@ -5703,7 +5721,7 @@
 
       const texto = [
         '=== DADOS PARA COTAÇÃO / ENVIO SUPERFRETE ===',
-        'Origem: CEP 95500-000 (Santo Antônio da Patrulha - RS) · Mis Sueños Couros',
+        `Origem: CEP ${(window.APP_CONFIG && window.APP_CONFIG.companyCep) || '95500-000'} (${(window.APP_CONFIG && window.APP_CONFIG.companyCityState) || 'Santo Antônio da Patrulha - RS'}) · ${(window.APP_CONFIG && (window.APP_CONFIG.shortName || window.APP_CONFIG.companyName)) || 'Mis Sueños Couros'}`,
         `Destino: CEP ${cli.cep || ''} (${cli.cidade || ''} - ${cli.uf || ''})`,
         '',
         '--- DADOS DO DESTINATÁRIO ---',
@@ -5747,11 +5765,11 @@
         cli.telefone ? `Tel: ${cli.telefone}` : '',
         '',
         'REMETENTE:',
-        'MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)',
-        'Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras',
-        'Santo Antônio da Patrulha - RS',
-        'CEP: 95500-000',
-        'Telefone / WhatsApp: (51) 99719-9204',
+        ((window.APP_CONFIG && window.APP_CONFIG.companyName) ? `${window.APP_CONFIG.companyName.toUpperCase()}${window.APP_CONFIG.userName ? ' (' + window.APP_CONFIG.userName + ')' : ''}` : 'MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyAddress) || 'Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyCityState) || 'Santo Antônio da Patrulha - RS'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyCep) ? `CEP: ${window.APP_CONFIG.companyCep}` : 'CEP: 95500-000'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyPhone) ? `Telefone / WhatsApp: ${window.APP_CONFIG.companyPhone}` : 'Telefone / WhatsApp: (51) 99719-9204'),
         '',
         pedido ? `Ref Pedido: ${pedido}` : '',
         conteudo ? `Conteúdo: ${conteudo}` : ''

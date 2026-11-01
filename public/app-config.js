@@ -19,5 +19,9 @@ window.APP_CONFIG = {
   dataNoticeTitle: "BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES",
   dataNoticeText: "Todos os registros deste módulo são clientes e destinatários reais consolidados da Mis Sueños Couros & Peles.",
   dataNoticeBadge: "✅ DADOS 100% REAIS",
+  companyAddress: "Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras",
+  companyCityState: "SANTO ANTÔNIO DA PATRULHA - RS",
+  companyCep: "95500-000",
+  companyPhone: "(51) 99719-9204",
   isTemplateBase: false
 };
