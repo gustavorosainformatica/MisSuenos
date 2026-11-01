@@ -69,64 +69,126 @@
 
     
     
-    /* REDUÇÃO DE TAMANHO DOS CARDS/BOTÕES DE KPIS */
-    .erp-kpi-grid {
-      display: grid !important;
-      grid-template-columns: repeat(5, 1fr) !important;
-      gap: 12px !important;
+    
+    /* CALIBRAÇÃO EQUILIBRADA DOS CARDS DE KPIS */
+    .kpis-com-mapa-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 14px;
+      align-items: stretch;
+      margin-bottom: 18px;
     }
     @media (max-width: 1200px) {
-      .erp-kpi-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
+      .kpis-com-mapa-wrapper {
+        grid-template-columns: 1fr;
       }
     }
-    @media (max-width: 768px) {
-      .erp-kpi-grid {
-        grid-template-columns: 1fr 1fr !important;
+
+    .kpis-com-mapa-wrapper .erp-kpi-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 14px !important;
+    }
+    @media (max-width: 900px) {
+      .kpis-com-mapa-wrapper .erp-kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
       }
     }
 
     .erp-kpi-card {
-      padding: 10px 14px !important;
-      border-radius: 8px !important;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15) !important;
+      padding: 13px 18px !important;
+      border-radius: 10px !important;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
     }
 
     .kpi-top-row {
-      margin-bottom: 4px !important;
+      margin-bottom: 6px !important;
     }
 
     .kpi-label {
-      font-size: 10.5px !important;
-      letter-spacing: 0.3px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.4px !important;
     }
 
     .kpi-icon-pill {
-      width: 24px !important;
-      height: 24px !important;
-      font-size: 12px !important;
-      border-radius: 5px !important;
+      width: 26px !important;
+      height: 26px !important;
+      font-size: 13px !important;
+      border-radius: 6px !important;
     }
 
     .kpi-number {
-      font-size: 20px !important;
-      letter-spacing: -0.3px !important;
+      font-size: 23px !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.4px !important;
       line-height: 1.15 !important;
     }
 
     .kpi-trend {
-      font-size: 10.5px !important;
-      margin-top: 4px !important;
+      font-size: 11px !important;
+      margin-top: 5px !important;
     }
 
-    .kpi-card-mini-mapa {
-      transition: all 0.2s ease !important;
-      border-color: rgba(0, 212, 255, 0.35) !important;
+    /* BOTÃO NO FORMATO DE PEQUENO MAPA DO BRASIL */
+    .btn-mini-mapa-brasil {
+      background: linear-gradient(145deg, #131c2d, #0c121d);
+      border: 1.5px solid rgba(0, 212, 255, 0.35);
+      border-radius: 12px;
+      padding: 8px 10px;
+      width: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+      outline: none;
     }
-    .kpi-card-mini-mapa:hover {
-      border-color: #00d4ff !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 14px rgba(0, 212, 255, 0.25) !important;
+
+    .btn-mini-mapa-brasil:hover {
+      border-color: #00d4ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 212, 255, 0.35);
+      background: linear-gradient(145deg, #18243a, #0f1624);
+    }
+
+    .btn-mini-mapa-brasil .img-mapa-brasil {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 6px;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+      transition: transform 0.2s ease;
+    }
+
+    .btn-mini-mapa-brasil:hover .img-mapa-brasil {
+      transform: scale(1.08);
+    }
+
+    .btn-mini-mapa-brasil .btn-mapa-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* AJUSTES NO TEMA CLARO */
+    [data-theme="light"] .btn-mini-mapa-brasil {
+      background: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    }
+    [data-theme="light"] .btn-mini-mapa-brasil:hover {
+      border-color: #00a868 !important;
+      box-shadow: 0 4px 14px rgba(0, 168, 104, 0.22) !important;
+    }
+    [data-theme="light"] .btn-mini-mapa-brasil .btn-mapa-label {
+      color: #00a868 !important;
     }
 
     /* ELIMINAÇÃO TOTAL DE BARRAS DE ROLAGEM NA SIDEBAR */
@@ -2881,8 +2943,9 @@
         </span>
       </div>
 
-      <!-- CARDS DE METRICAS DE VENDAS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
+      <!-- CARDS DE METRICAS DE VENDAS COM BOTÃO DE MINI MAPA AO LADO -->
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
         <div class="erp-kpi-card" onclick="acaoKpiPedidos('FATURAMENTO', this)" title="Clique para listar todos os pedidos ordenados pelo maior valor de faturamento">
           <div class="kpi-top-row">
             <span class="kpi-label">Faturamento Total <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
@@ -2930,34 +2993,14 @@
             <span style="color: var(--text-muted); font-weight: normal;">couros e insumos</span>
           </div>
         </div>
-        <!-- 5º CARD: MINI MAPA GEOGRÁFICO INTERATIVO -->
-        <div class="erp-kpi-card kpi-card-mini-mapa" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Visão Completa do Mapa Geográfico (27 UFs)" style="cursor: pointer; background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(16, 185, 129, 0.08)); border: 1px solid rgba(0, 212, 255, 0.35);">
-          <div class="kpi-top-row">
-            <span class="kpi-label" style="color: #38bdf8; font-weight: 800;">Mapa Geográfico</span>
-            <div class="kpi-icon-pill" style="background: rgba(0, 212, 255, 0.18); color: #38bdf8;">🗺️</div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 8px; margin: 3px 0;">
-            <!-- Miniatura Artística do Mapa do Brasil -->
-            <div style="width: 34px; height: 34px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 6px;">
-              <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
-                <path d="M35 15 C45 10, 65 12, 75 18 C85 24, 88 32, 85 42 C82 50, 75 58, 70 68 C65 76, 55 85, 48 92 C42 90, 38 82, 34 76 C28 68, 22 60, 20 50 C18 42, 22 32, 26 24 Z" fill="#0284c7" fill-opacity="0.6" stroke="#38bdf8" stroke-width="3"/>
-                <circle cx="48" cy="85" r="5" fill="#10b981"/>
-                <circle cx="62" cy="65" r="4.5" fill="#38bdf8"/>
-                <circle cx="70" cy="40" r="4" fill="#fbbf24"/>
-                <circle cx="45" cy="30" r="4" fill="#34d399"/>
-              </svg>
-            </div>
-            <div style="min-width: 0;">
-              <div class="kpi-number" style="font-size: 16px; color: #38bdf8;">27 UFs</div>
-              <div style="font-size: 9.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Carteira Nacional</div>
-            </div>
-          </div>
-          <div class="kpi-trend">
-            <span style="color: #38bdf8; font-weight: 700;">→ Abrir Mapa ↗</span>
-          </div>
-        </div>
+        </section>
 
-      </section>
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png" alt="Mapa do Brasil" class="img-mapa-brasil">
+          <span class="btn-mapa-label">MAPA 27 UFs ↗</span>
+        </button>
+      </div>
 
       <!-- BARRA DE AÇÕES DE PEDIDOS (SEM FILTROS DUPLICADOS) -->
       <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
