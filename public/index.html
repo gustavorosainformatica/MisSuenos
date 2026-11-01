@@ -670,6 +670,53 @@
       color: #00d4ff;
       font-weight: 800;
     }
+    table.erp-table tbody tr {
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    table.erp-table tbody tr:hover {
+      background: rgba(0, 212, 255, 0.04) !important;
+    }
+    .erp-context-menu {
+      position: fixed;
+      background: #0d1527;
+      border: 1px solid rgba(0, 212, 255, 0.35);
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+      padding: 6px;
+      min-width: 200px;
+      z-index: 99999;
+      animation: fadeInContextMenu 0.12s ease-out;
+    }
+    @keyframes fadeInContextMenu {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .erp-context-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+    .erp-context-item:hover {
+      background: rgba(0, 212, 255, 0.15);
+      color: #38bdf8;
+    }
+    .erp-context-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin: 4px 0;
+    }
     .col-oculta {
       display: none !important;
     }
@@ -2061,14 +2108,13 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
-                <th style="width: 72px; text-align: center;" data-col="acoes">Ações</th>
-                <th style="width: 75px;" data-col="id" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'id')" title="Clique para ordenar por ID ou arraste para mover" style="cursor: pointer;">ID <span class="sort-icon" id="sort-clientes-id"></span><span class="th-grip-icon">⠿</span></th>
-                <th data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover" style="cursor: pointer;">Nome / Razão Social <span class="sort-icon" id="sort-clientes-nome"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 140px;" data-col="doc" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'doc')" title="Clique para ordenar por CPF/CNPJ ou arraste para mover" style="cursor: pointer;">CPF / CNPJ <span class="sort-icon" id="sort-clientes-doc"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 160px;" data-col="cidade" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'cidade')" title="Clique para ordenar por Cidade ou arraste para mover" style="cursor: pointer;">Cidade <span class="sort-icon" id="sort-clientes-cidade"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 65px; text-align: center;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'uf')" title="Clique para ordenar por UF ou arraste para mover" style="cursor: pointer;">UF <span class="sort-icon" id="sort-clientes-uf"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 75px; cursor: pointer;" data-col="id" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'id')" title="Clique para ordenar por ID ou arraste para mover">ID <span class="sort-icon" id="sort-clientes-id"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Razão Social <span class="sort-icon" id="sort-clientes-nome"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px; cursor: pointer;" data-col="doc" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'doc')" title="Clique para ordenar por CPF/CNPJ ou arraste para mover">CPF / CNPJ <span class="sort-icon" id="sort-clientes-doc"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 160px; cursor: pointer;" data-col="cidade" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'cidade')" title="Clique para ordenar por Cidade ou arraste para mover">Cidade <span class="sort-icon" id="sort-clientes-cidade"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 65px; text-align: center; cursor: pointer;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'uf')" title="Clique para ordenar por UF ou arraste para mover">UF <span class="sort-icon" id="sort-clientes-uf"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 150px;" data-col="tel">Telefone / WhatsApp</th>
-                <th style="text-align: right; width: 235px;" class="th-nao-arrastavel" data-col="acoes_fim">Ações Rápidas</th>
+                <th style="text-align: right; width: 60px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
             <!-- Tabela Clientes -->
@@ -2932,10 +2978,16 @@
         </form>
       </div>
 
-      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-        <div>
-          <button type="button" class="btn-top btn-row-action" onclick="abrirEtiquetaDoClienteModal()" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary);">
-            🏷️ Ver Etiqueta de Envio
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn-top btn-row-action" onclick="abrirEtiquetaDoClienteModal()" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" title="Gerar Etiqueta de Envio">
+            🏷️ Gerar Etiqueta
+          </button>
+          <button type="button" class="btn-top btn-row-action" onclick="abrirFiscalDoClienteModal()" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="Emitir NF-e / NFS-e">
+            🧾 Emitir NF-e
+          </button>
+          <button type="button" class="btn-top btn-row-action" onclick="abrirWhatsappDoClienteModal()" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" title="Chamar no WhatsApp">
+            💬 WhatsApp
           </button>
         </div>
         <div style="display: flex; gap: 8px;">
@@ -3143,8 +3195,8 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Nº Pedido / Ref.</label>
-                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="#PED-1038 ou Avulso" oninput="atualizarPreviewEtiqueta()">
+                <label class="form-label">Nº Pedido</label>
+                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="Ex: #PED-1035" oninput="atualizarPreviewEtiqueta()">
               </div>
             </div>
 
@@ -3271,7 +3323,7 @@
               <!-- DECLARAÇÃO SIMPLIFICADA DE CONTEÚDO -->
               <div class="etq-declaracao-conteudo">
                 <div class="etq-decl-row">
-                  <span><strong>Ref / Pedido:</strong> <span id="etq-info-pedido">Avulso</span></span>
+                  <span><strong>Nº Pedido:</strong> <span id="etq-info-pedido">#PED-1035</span></span>
                   <span><strong>Peso:</strong> <span id="etq-info-peso">2.0 kg</span></span>
                 </div>
                 <div class="etq-decl-conteudo">
@@ -3730,6 +3782,9 @@
     </div>
   </div>
 
+  <!-- MENU DE CONTEXTO FLUTUANTE (AÇÕES RÁPIDAS ⋮) -->
+  <div id="erp-context-menu" class="erp-context-menu" style="display: none;"></div>
+
   <!-- CONTAINER DE TOASTS -->
   <div class="toast-container" id="toast-container"></div>
 
@@ -3959,13 +4014,9 @@
         const uf = (c.uf || 'RS').toUpperCase();
 
         return `
-          <tr>
+          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" title="Dois cliques para abrir e editar a ficha deste cliente">
             <td data-col="check"><input type="checkbox" value="${c.id}"></td>
-            <td data-col="acoes" style="white-space: nowrap; text-align: center; padding: 4px 6px;">
-              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorClienteId(${c.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1; margin-right: 2px;">🏷️</button>
-              <button class="btn-row-action" title="Editar Ficha do Cliente" onclick="abrirModalEditarCliente(${c.id})" style="padding: 3px 6px; font-size: 13px; line-height: 1;">✏️</button>
-            </td>
-            <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-muted);">${c.id || '-'}</td>
+            <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
             <td data-col="nome" style="font-weight: 700; color: #fff;">
               ${c.nome}
               ${c.apelido_referencia ? `<span style="font-weight: 400; font-size: 11px; color: var(--text-muted); margin-left: 4px;">(${c.apelido_referencia})</span>` : ''}
@@ -3974,10 +4025,8 @@
             <td data-col="cidade">${c.cidade || '-'}</td>
             <td data-col="uf" style="text-align: center;"><span class="uf-tag">${uf}</span></td>
             <td data-col="tel">${telLink}</td>
-            <td data-col="acoes_fim" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorClienteId(${c.id})">🏷️ Etiqueta</button>
-              <button class="btn-row-action" title="Editar Ficha" onclick="abrirModalEditarCliente(${c.id})">✏️ Editar</button>
-              <button class="btn-row-action" title="Emitir NF-e" onclick="abrirModalFiscal(${c.id})">🧾 Nota</button>
+            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
+              <button class="btn-row-action" onclick="abrirMenuAcoesCliente(event, ${c.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações Rápidas (Etiqueta, NF-e, WhatsApp)">⋮</button>
             </td>
           </tr>
         `;
@@ -4366,7 +4415,7 @@
         const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
-          <tr>
+          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" title="Dois cliques para editar este produto">
             <td data-col="check"><input type="checkbox" value="${p.id}"></td>
             <td data-col="sku" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
             <td data-col="ncm"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
@@ -4384,9 +4433,8 @@
               ${dispBadge}
               ${reservadoBadge}
             </td>
-            <td data-col="acoes" style="text-align: right;">
-              <button class="btn-row-action" title="Editar Produto" onclick="abrirModalEditarProduto(${p.id})">✏️ Editar</button>
-              <button class="btn-row-action" title="Excluir Produto" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${(p.nome || '').replace(/'/g, '')}')">🗑️</button>
+            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
+              <button class="btn-row-action" onclick="abrirMenuAcoesProduto(event, ${p.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações do Produto">⋮</button>
             </td>
           </tr>
         `;
@@ -4640,7 +4688,7 @@
         const rastreioInfo = ped.codigo_rastreio ? `<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #38bdf8; margin-top: 3px;">🚚 ${ped.codigo_rastreio}</div>` : '';
 
         return `
-          <tr>
+          <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" title="Dois cliques para editar este pedido">
             <td data-col="check"><input type="checkbox" value="${ped.id}"></td>
             <td data-col="numero">
               <div onclick="abrirModalEditarPedido(${ped.id})" style="cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" title="Clique para editar este pedido">
@@ -4658,10 +4706,7 @@
             <td data-col="itens" style="color: var(--text-muted); font-size: 11.5px; max-width: 250px;">${ped.itens || '-'}</td>
             <td data-col="status" style="text-align: center;">${statusBadge}</td>
             <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" title="Visualizar e Imprimir Etiqueta de Envio" onclick="abrirModalEtiquetaPorPedidoId(${ped.id})">🏷️ Etiqueta</button>
-              <button class="btn-row-action" title="Editar Pedido" onclick="abrirModalEditarPedido(${ped.id})">✏️ Editar</button>
-              <button class="btn-row-action" title="Emitir NF-e para este pedido" onclick="abrirModalFiscal()">🧾 NF-e</button>
-              ${rawTel ? `<button class="btn-row-action" title="Contato WhatsApp" onclick="window.open('https://wa.me/55${rawTel}', '_blank')">💬</button>` : ''}
+              <button class="btn-row-action" onclick="abrirMenuAcoesPedido(event, ${ped.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações Rápidas (Etiqueta, NF-e, WhatsApp)">⋮</button>
             </td>
           </tr>
         `;
@@ -5344,12 +5389,18 @@
         return;
       }
       clienteEtiquetaAtual = cliente;
+
+      // Puxa automaticamente o pedido real deste cliente cadastrado no banco de pedidos
+      const nomeLimpo = (cliente.nome || '').trim().toUpperCase();
+      const ped = listaPedidos.find(p => (p.cliente_nome || p.cliente || '').trim().toUpperCase() === nomeLimpo);
+      const numPedidoCalculado = ped ? ped.numero : `#PED-${cliente.id || '1035'}`;
+
       preencherEExibirEtiqueta({
         cliente: cliente,
-        pedidoRef: 'Avulso',
-        itens: 'Artigos em Couro / Sola / Insumos de Selaria',
+        pedidoRef: numPedidoCalculado,
+        itens: ped ? (ped.itens || 'Artigos em Couro Legítimo') : 'Artigos em Couro / Sola / Insumos de Selaria',
         peso: '2.0 kg',
-        valor: ''
+        valor: ped ? `R$ ${(parseFloat(ped.valor_total || ped.valor) || 0).toFixed(2).replace('.', ',')}` : ''
       });
     }
 
@@ -5379,33 +5430,33 @@
         pedidoRef: ped.numero,
         itens: ped.itens || 'Produtos de Couro',
         peso: '2.5 kg',
-        valor: `R$ ${ped.valor.toFixed(2).replace('.', ',')}`
+        valor: `R$ ${(parseFloat(ped.valor_total || ped.valor) || 0).toFixed(2).replace('.', ',')}`
       });
     }
 
     function abrirEtiquetaDoClienteModal() {
-      const cli = {
-        id: document.getElementById('form-id')?.value || null,
-        nome: document.getElementById('form-nome')?.value.trim() || 'Cliente sem nome',
-        apelido_referencia: document.getElementById('form-apelido')?.value.trim() || '',
-        cpf: document.getElementById('form-doc')?.value.trim() || '',
-        telefone: document.getElementById('form-telefone')?.value.trim() || '',
-        cep: document.getElementById('form-cep')?.value.trim() || '',
-        logradouro: document.getElementById('form-logradouro')?.value.trim() || '',
-        numero: document.getElementById('form-numero')?.value.trim() || '',
-        complemento: document.getElementById('form-complemento')?.value.trim() || '',
-        bairro: document.getElementById('form-bairro')?.value.trim() || '',
-        cidade: document.getElementById('form-cidade')?.value.trim() || '',
-        uf: (document.getElementById('form-uf')?.value.trim() || 'RS').toUpperCase()
-      };
-      clienteEtiquetaAtual = cli;
-      preencherEExibirEtiqueta({
-        cliente: cli,
-        pedidoRef: 'Avulso',
-        itens: 'Artigos em Couro / Insumos',
-        peso: '1.5 kg',
-        valor: ''
-      });
+      const id = document.getElementById('form-id')?.value;
+      if (id) {
+        fecharModalCliente();
+        abrirModalEtiquetaPorClienteId(id);
+      }
+    }
+
+    function abrirFiscalDoClienteModal() {
+      const id = document.getElementById('form-id')?.value;
+      if (id) {
+        fecharModalCliente();
+        abrirModalFiscal(id);
+      }
+    }
+
+    function abrirWhatsappDoClienteModal() {
+      const tel = (document.getElementById('form-telefone')?.value || '').replace(/\D/g, '');
+      if (!tel) {
+        mostrarToast('Este cliente não possui telefone/WhatsApp informado.');
+        return;
+      }
+      window.open(`https://wa.me/55${tel}`, '_blank');
     }
 
     function preencherEExibirEtiqueta(dados) {
@@ -5441,7 +5492,7 @@
       if (!clienteEtiquetaAtual) return;
       const cli = clienteEtiquetaAtual;
       const servico = document.getElementById('etiqueta-servico')?.value || 'SUPERFRETE / CORREIOS';
-      const pedido = document.getElementById('etiqueta-num-pedido')?.value.trim() || 'Avulso';
+      const pedido = document.getElementById('etiqueta-num-pedido')?.value.trim() || (cli.id ? `#PED-${cli.id}` : '#PED-1035');
       const conteudo = document.getElementById('etiqueta-conteudo')?.value.trim() || 'Artigos em Couro / Insumos';
       const peso = document.getElementById('etiqueta-peso')?.value.trim() || '2.0 kg';
 
@@ -6358,7 +6409,7 @@
     // COM PROTEÇÃO CONTRA DESSINCRONIZAÇÃO E AUTO-ALINHAMENTO
     // ========================================================
     const ORDEM_PADRAO_TABELAS = {
-      'tabela-clientes': ['check', 'acoes', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel', 'acoes_fim'],
+      'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel', 'acoes'],
       'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status', 'acoes'],
       'tabela-produtos': ['check', 'sku', 'ncm', 'nome', 'categoria', 'unidade', 'custo', 'venda', 'saldos', 'acoes'],
       'tabela-financeiro': ['tipo', 'descricao', 'pessoa', 'categoria', 'vencimento', 'valor', 'situacao', 'acoes'],
@@ -6371,14 +6422,13 @@
     const DICIONARIO_COLUNAS_ERP = {
       'tabela-clientes': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
-        'acoes': { label: 'Ações Rápidas (Ícones)', locked: false },
         'id': { label: 'ID do Cliente', locked: false },
         'nome': { label: 'Nome / Razão Social', locked: true },
         'doc': { label: 'CPF / CNPJ', locked: false },
         'cidade': { label: 'Cidade', locked: false },
         'uf': { label: 'UF (Estado)', locked: false },
         'tel': { label: 'Telefone / WhatsApp', locked: false },
-        'acoes_fim': { label: 'Ações Rápidas (Botões)', locked: false }
+        'acoes': { label: 'Ações Rápidas (Menu ⋮)', locked: false }
       },
       'tabela-pedidos': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
@@ -6613,6 +6663,117 @@
       aplicarVisibilidadeColunas(tabela.id);
     }
 
+    // ========================================================
+    // MENU DE CONTEXTO FLUTUANTE (AÇÕES RÁPIDAS ⋮) E DUPLO CLIQUE
+    // ========================================================
+    function aoDuploCliqueLinhaCliente(e, id) {
+      if (e.target.closest('input, a, button')) return;
+      abrirModalEditarCliente(id);
+    }
+
+    function aoDuploCliqueLinhaPedido(e, id) {
+      if (e.target.closest('input, a, button')) return;
+      abrirModalEditarPedido(id);
+    }
+
+    function aoDuploCliqueLinhaProduto(e, id) {
+      if (e.target.closest('input, a, button')) return;
+      abrirModalEditarProduto(id);
+    }
+
+    function fecharContextMenu() {
+      const menu = document.getElementById('erp-context-menu');
+      if (menu) menu.style.display = 'none';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#erp-context-menu') && !e.target.closest('.btn-row-action')) {
+        fecharContextMenu();
+      }
+    });
+
+    window.addEventListener('resize', fecharContextMenu);
+    window.addEventListener('scroll', fecharContextMenu, true);
+
+    function posicionarContextMenu(e, itensHtml) {
+      const menu = document.getElementById('erp-context-menu');
+      if (!menu) return;
+      menu.innerHTML = itensHtml;
+      menu.style.display = 'block';
+
+      const btn = e.currentTarget || e.target;
+      const rect = btn.getBoundingClientRect();
+      const menuWidth = 210;
+      let left = rect.right - menuWidth;
+      if (left < 10) left = rect.left;
+      let top = rect.bottom + 6;
+      if (top + 190 > window.innerHeight) {
+        top = Math.max(10, rect.top - 190);
+      }
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+    }
+
+    function abrirMenuAcoesCliente(e, id) {
+      e.stopPropagation();
+      const c = clientes.find(item => String(item.id) === String(id));
+      if (!c) return;
+
+      const rawTel = (c.telefone || '').replace(/\D/g, '');
+      const whatsBtn = rawTel
+        ? `<button class="erp-context-item" onclick="window.open('https://wa.me/55${rawTel}', '_blank'); fecharContextMenu();">💬 WhatsApp Direto</button>`
+        : `<button class="erp-context-item" disabled style="opacity: 0.4;">💬 Sem WhatsApp</button>`;
+
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          👤 ${c.nome.length > 20 ? c.nome.substring(0, 20) + '...' : c.nome}
+        </div>
+        <button class="erp-context-item" onclick="abrirModalEditarCliente(${c.id}); fecharContextMenu();">✏️ Editar Ficha do Cliente</button>
+        <button class="erp-context-item" onclick="abrirModalEtiquetaPorClienteId(${c.id}); fecharContextMenu();">🏷️ Gerar Etiqueta de Envio</button>
+        <button class="erp-context-item" onclick="abrirModalFiscal(${c.id}); fecharContextMenu();">🧾 Emitir NF-e / Fiscal</button>
+        ${whatsBtn}
+      `;
+      posicionarContextMenu(e, itens);
+    }
+
+    function abrirMenuAcoesPedido(e, id) {
+      e.stopPropagation();
+      const p = listaPedidos.find(item => String(item.id) === String(id));
+      if (!p) return;
+
+      const rawTel = (p.telefone || p.tel || '').replace(/\D/g, '');
+      const whatsBtn = rawTel
+        ? `<button class="erp-context-item" onclick="window.open('https://wa.me/55${rawTel}', '_blank'); fecharContextMenu();">💬 WhatsApp do Cliente</button>`
+        : '';
+
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          📦 Pedido ${p.numero}
+        </div>
+        <button class="erp-context-item" onclick="abrirModalEditarPedido(${p.id}); fecharContextMenu();">✏️ Editar Pedido & Itens</button>
+        <button class="erp-context-item" onclick="abrirModalEtiquetaPorPedidoId(${p.id}); fecharContextMenu();">🏷️ Imprimir Etiqueta</button>
+        <button class="erp-context-item" onclick="abrirModalFiscal(); fecharContextMenu();">🧾 Emitir Nota Fiscal</button>
+        ${whatsBtn}
+      `;
+      posicionarContextMenu(e, itens);
+    }
+
+    function abrirMenuAcoesProduto(e, id) {
+      e.stopPropagation();
+      const p = produtos.find(item => String(item.id) === String(id));
+      if (!p) return;
+
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          🪵 ${(p.nome || 'Produto').substring(0, 20)}
+        </div>
+        <button class="erp-context-item" onclick="abrirModalEditarProduto(${p.id}); fecharContextMenu();">✏️ Editar Produto / Estoque</button>
+        <button class="erp-context-item" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${(p.nome || '').replace(/'/g, '')}'); fecharContextMenu();">🗑️ Inativar do Catálogo</button>
+      `;
+      posicionarContextMenu(e, itens);
+    }
+
     function inicializarArrasteColunasGlobal() {
       document.querySelectorAll('table.erp-table').forEach(tabela => {
         habilitarArrasteColunasTabela(tabela);
@@ -6730,8 +6891,8 @@
 
         // Sanitização automática de localStorage legado ou corrompido em tabela-clientes
         if (tabela.id === 'tabela-clientes') {
-          const contemTextosAntigos = ordemDesejada.some(k => k === 'ID' || k === 'Ações' || k === 'Nome / Razão Social' || k.includes('CPF'));
-          if (contemTextosAntigos) {
+          const contemTextosAntigos = ordemDesejada.some(k => k === 'ID' || k === 'Ações' || k === 'acoes_fim' || k === 'Nome / Razão Social' || k.includes('CPF'));
+          if (contemTextosAntigos || (ordemDesejada.includes('acoes') && ordemDesejada.indexOf('acoes') < ordemDesejada.indexOf('id'))) {
             localStorage.removeItem('erp_col_order_tabela-clientes');
             sincronizarTbodyComThead(tabela);
             return;
