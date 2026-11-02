@@ -4481,6 +4481,7 @@
         document.getElementById('modulo-clientes-conteudo').style.display = 'flex';
       } else if (modulo === 'pedidos') {
         document.getElementById('modulo-pedidos-conteudo').style.display = 'flex';
+        atualizarKpisPedidos();
         renderTabelaPedidos();
       } else if (modulo === 'fiscal') {
         document.getElementById('modulo-fiscal-conteudo').style.display = 'flex';
@@ -5301,16 +5302,16 @@
       const ticketMedio = totalPedidos > 0 ? (totalValor / totalPedidos) : 0;
 
       // KPIs
-      const elTotal = document.getElementById('kpi-pedidos-total-valor');
+      const elTotal = document.getElementById('kpi-ped-faturamento') || document.getElementById('kpi-pedidos-total-valor');
       if (elTotal) elTotal.textContent = `R$ ${totalValor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-      const elQtd = document.getElementById('kpi-pedidos-qtd');
-      if (elQtd) elQtd.textContent = `${totalPedidos} Pedido${totalPedidos === 1 ? '' : 's'}`;
+      const elQtd = document.getElementById('kpi-ped-total') || document.getElementById('kpi-pedidos-qtd');
+      if (elQtd) elQtd.textContent = totalPedidos.toString();
 
-      const elPendentes = document.getElementById('kpi-pedidos-pendentes');
-      if (elPendentes) elPendentes.textContent = `${pendentes} Pedido${pendentes === 1 ? '' : 's'}`;
+      const elPendentes = document.getElementById('kpi-ped-aguardando') || document.getElementById('kpi-pedidos-pendentes');
+      if (elPendentes) elPendentes.textContent = pendentes.toString();
 
-      const elTicket = document.getElementById('kpi-pedidos-ticket-medio');
+      const elTicket = document.getElementById('kpi-ped-ticket') || document.getElementById('kpi-pedidos-ticket-medio');
       if (elTicket) elTicket.textContent = `R$ ${ticketMedio.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       // Contadores nas abas de filtros
