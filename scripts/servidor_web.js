@@ -16,7 +16,14 @@ import { execSync } from 'node:child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT;
+if (!PORT) {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8'));
+    if (pkg.port) PORT = pkg.port;
+  } catch {}
+}
+PORT = PORT || 3000;
 const BASE_DIR = path.join(__dirname, '..');
 const PUBLIC_DIR = path.join(BASE_DIR, 'public');
 const DB_DIR = path.join(BASE_DIR, 'database');
