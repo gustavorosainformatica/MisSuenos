@@ -463,14 +463,15 @@
           `;
         } else if (cardKey === 'categorias') {
           html = `
-            <div class="erp-context-header"><span>🏷️</span> <span>Filtrar por Categoria</span></div>
-            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🪵 Filtrado: Couros Bovinos & Soletas.')"><span>🪵</span> <span>Couros Bovinos & Soletas</span></button>
-            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📜 Filtrado: Loncas & Insumos.')"><span>📜</span> <span>Loncas & Insumos</span></button>
-            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🔨 Filtrado: Ferramentas & Acessórios.')"><span>🔨</span> <span>Ferramentas & Acessórios</span></button>
-            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🔗 Filtrado: Fivelas & Ferragens.')"><span>🔗</span> <span>Fivelas & Ferragens</span></button>
+            <div class="erp-context-header"><span>🏷️</span> <span>Filtrar por Categoria (5 Ativas)</span></div>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🪵 Filtrado: Categoria Couros & Peles.')"><span>🪵</span> <span>Couros & Peles</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📜 Filtrado: Categoria Loncas.')"><span>📜</span> <span>Loncas</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🪢 Filtrado: Categoria Tentos.')"><span>🪢</span> <span>Tentos</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🔨 Filtrado: Categoria Ferramentas.')"><span>🔨</span> <span>Ferramentas</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('👜 Filtrado: Categoria Artefatos.')"><span>👜</span> <span>Artefatos</span></button>
             <div class="erp-context-divider"></div>
             <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('🔤 Produtos agrupados em ordem alfabética por categoria.')"><span>🔤</span> <span>Agrupar por Categoria (A-Z)</span></button>
-            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todas as categorias de produtos.')"><span>🔄</span> <span>Todas as Categorias</span></button>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todas as 5 categorias de produtos.')"><span>🔄</span> <span>Todas as Categorias</span></button>
           `;
         } else if (cardKey === 'valor') {
           html = `

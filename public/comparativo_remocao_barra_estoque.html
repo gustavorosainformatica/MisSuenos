@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Comparativo: Remoção da Barra de Ferramentas do Estoque | Mis Sueños ERP</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: #070d19; color: #f8fafc; padding: 24px; min-height: 100vh; }
+    .header { margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; }
+    .header h1 { font-size: 22px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+    .header p { font-size: 13.5px; color: #94a3b8; margin-top: 6px; line-height: 1.5; }
+    .badge-clean { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+    .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 28px; }
+    @media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr; } }
+
+    .card-panel { background: #0c1424; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; }
+    .card-panel.before { border-top: 3px solid #f87171; }
+    .card-panel.after { border-top: 3px solid #34d399; background: #0d172c; }
+
+    .panel-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+    .title-before { color: #f87171; }
+    .title-after { color: #34d399; }
+
+    /* Mockups */
+    .mock-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+    .mock-kpi { background: #131d33; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 10px 8px; font-size: 10px; color: #94a3b8; text-align: center; }
+    .mock-kpi strong { display: block; font-size: 14px; color: #fff; margin-top: 4px; }
+    .mock-kpi.active-kpi { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+
+    /* Barra antiga */
+    .mock-toolbar { background: #0f172a; border: 1px dashed #f87171; border-radius: 6px; padding: 10px 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #cbd5e1; }
+    .mock-chip { background: #1e293b; padding: 3px 8px; border-radius: 4px; font-size: 10px; margin: 0 2px; }
+    .mock-chip.active { background: #0284c7; color: #fff; }
+
+    /* Tabela */
+    .mock-table { background: #090e1a; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 12px; }
+    .mock-th { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #64748b; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .mock-tr { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+    /* Mapa de Execução */
+    .mapping-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+    .mapping-table th, .mapping-table td { padding: 12px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mapping-table th { background: #0f192e; color: #38bdf8; font-weight: 700; font-size: 12px; text-transform: uppercase; }
+    .mapping-table tr:hover { background: rgba(56, 189, 248, 0.04); }
+
+    .tag-action { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .tag-click { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>✨ Eliminação da Barra de Ferramentas do Estoque</h1>
+      <span class="badge-clean">Módulo 100% Otimizado</span>
+    </div>
+    <p>A barra intermediária de botões e chips foi removida com sucesso. Todas as operações foram absorvidas pela Dupla Função (clique esquerdo/direito) dos cards de KPI e pelo menu de contexto da tabela de produtos.</p>
+  </div>
+
+  <div class="comparison-grid">
+    <!-- ANTES -->
+    <div class="card-panel before">
+      <div class="panel-title">
+        <span class="title-before">❌ ANTES (Barra Intermediária Poluída)</span>
+        <span style="font-size: 11px; color: #f87171;">Espaço vertical desperdiçado</span>
+      </div>
+
+      <div class="mock-kpis">
+        <div class="mock-kpi">Catálogo<strong>40 Itens</strong></div>
+        <div class="mock-kpi">Categorias<strong>5 Cats</strong></div>
+        <div class="mock-kpi">Patrimônio<strong>R$ 84k</strong></div>
+        <div class="mock-kpi">Estoque Baixo<strong>3 Itens</strong></div>
+      </div>
+
+      <!-- Barra redundante -->
+      <div class="mock-toolbar">
+        <div>
+          <span>Categoria: </span>
+          <span class="mock-chip active">Todas</span>
+          <span class="mock-chip">Loncas</span>
+          <span class="mock-chip">Couros</span>
+          <span class="mock-chip">Tentos</span>
+        </div>
+        <div>
+          <span style="background: rgba(255,255,255,0.08); padding: 3px 6px; border-radius: 4px;">📥 Exportar</span>
+          <span style="background: #00d4ff; color: #000; padding: 3px 6px; border-radius: 4px; font-weight: 700;">+ Novo</span>
+        </div>
+      </div>
+
+      <div class="mock-table">
+        <div class="mock-th"><span>CÓDIGO / PRODUTO</span><span>CATEGORIA</span><span>PREÇO</span></div>
+        <div class="mock-tr"><span>CO-001 · Couro Vaqueta Nobuck</span><span>Couros & Peles</span><span>R$ 145,00</span></div>
+        <div class="mock-tr"><span>LC-002 · Lonca de Potro Fina</span><span>Loncas</span><span>R$ 89,00</span></div>
+      </div>
+    </div>
+
+    <!-- DEPOIS -->
+    <div class="card-panel after">
+      <div class="panel-title">
+        <span class="title-after">✅ DEPOIS (Layout Direto & Sofisticado)</span>
+        <span style="font-size: 11px; color: #34d399;">Sem poluição · Tabela imediata</span>
+      </div>
+
+      <div class="mock-kpis">
+        <div class="mock-kpi active-kpi">Catálogo 🖱️<strong>40 Itens</strong></div>
+        <div class="mock-kpi">Categorias 🖱️<strong>5 Cats</strong></div>
+        <div class="mock-kpi">Patrimônio 🖱️<strong>R$ 84k</strong></div>
+        <div class="mock-kpi">Estoque Baixo 🖱️<strong>3 Itens</strong></div>
+      </div>
+
+      <!-- Sem barra! Tabela começa imediatamente -->
+      <div class="mock-table" style="border-color: rgba(56, 189, 248, 0.3);">
+        <div class="mock-th" style="color: #38bdf8;"><span>CÓDIGO / PRODUTO</span><span>CATEGORIA</span><span>PREÇO</span></div>
+        <div class="mock-tr"><span>CO-001 · Couro Vaqueta Nobuck</span><span>Couros & Peles</span><span>R$ 145,00</span></div>
+        <div class="mock-tr"><span>LC-002 · Lonca de Potro Fina</span><span>Loncas</span><span>R$ 89,00</span></div>
+        <div class="mock-tr"><span>TT-003 · Tento de Couro Cru 4mm</span><span>Tentos</span><span>R$ 42,00</span></div>
+      </div>
+      <div style="font-size: 11px; color: #34d399; margin-top: 10px; text-align: center;">
+        ⬆️ Ganho imediato de espaço na tela. Tabela visível sem rolagem excessiva.
+      </div>
+    </div>
+  </div>
+
+  <!-- MAPA DE EXECUÇÃO -->
+  <div class="card-panel">
+    <div class="panel-title" style="color: #38bdf8;">
+      <span>🗺️ Como Executar Cada Ação Sem a Barra</span>
+    </div>
+
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>Botão Anterior (Removido)</th>
+          <th>Nova Forma de Execução no Mis Sueños</th>
+          <th>Tipo de Interação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>+ Novo Produto</strong></td>
+          <td>Card <strong>Catálogo de Produtos</strong> ➔ Opção <code>➕ Cadastrar Novo Produto</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Exportar Preços</strong></td>
+          <td>Card <strong>Catálogo de Produtos</strong> ➔ Opção <code>🏷️ Exportar Preços (CSV)</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Todas</strong></td>
+          <td>Card <strong>Catálogo de Produtos</strong> ➔ Clique normal direto</td>
+          <td><span class="tag-action tag-click" style="color: #34d399; border-color: rgba(16, 185, 129, 0.4); background: rgba(16,185,129,0.15);">🖱️ Botão Esquerdo no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Loncas</strong></td>
+          <td>Card <strong>Categorias Ativas</strong> ➔ Opção <code>📜 Loncas</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Couros & Peles</strong></td>
+          <td>Card <strong>Categorias Ativas</strong> ➔ Opção <code>🪵 Couros & Peles</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Tentos</strong></td>
+          <td>Card <strong>Categorias Ativas</strong> ➔ Opção <code>🪢 Tentos</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Ferramentas</strong></td>
+          <td>Card <strong>Categorias Ativas</strong> ➔ Opção <code>🔨 Ferramentas</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+        <tr>
+          <td><strong>Filtrar Categoria: Artefatos</strong></td>
+          <td>Card <strong>Categorias Ativas</strong> ➔ Opção <code>👜 Artefatos</code></td>
+          <td><span class="tag-action tag-click">🖱️ Botão Direito no KPI</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
