@@ -4589,8 +4589,12 @@
             return false;
           }
         }
-        if (docFiltro === 'COM_DOC' && !c.cpf && !c.cnpj) return false;
-        if (docFiltro === 'SEM_DOC' && (c.cpf || c.cnpj)) return false;
+        const temCpf = !!(c.cpf && c.cpf.trim());
+        const temCnpj = !!(c.cnpj && c.cnpj.trim());
+        if (docFiltro === 'COM_DOC' && !temCpf && !temCnpj) return false;
+        if (docFiltro === 'CPF' && !temCpf) return false;
+        if (docFiltro === 'CNPJ' && !temCnpj) return false;
+        if (docFiltro === 'SEM_DOC' && (temCpf || temCnpj)) return false;
         if (termo) {
           const texto = `${c.nome || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`.toLowerCase();
           if (!texto.includes(termo)) return false;
@@ -7980,6 +7984,32 @@
     // ========================================================
     // SISTEMA UNIVERSAL DE DUPLO CLIQUE / MENU DE CONTEXTO EM TODOS OS KPIS (BOTÃO DIREITO 🖱️)
     // ========================================================
+    function filtrarCompletudeEToast(tipo, cardId) {
+      docFiltro = tipo;
+      aplicarFiltros();
+
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+        }
+      } else {
+        document.querySelectorAll('#modulo-clientes-conteudo .erp-kpi-card').forEach(c => c.classList.remove('kpi-active-filter'));
+      }
+
+      if (tipo === 'COM_DOC') {
+        mostrarToast(`📄 Filtrado: exibindo ${filtrados.length} clientes com CPF ou CNPJ cadastrado.`);
+      } else if (tipo === 'CPF') {
+        mostrarToast(`👤 Filtrado: exibindo ${filtrados.length} clientes com CPF (Pessoa Física).`);
+      } else if (tipo === 'CNPJ') {
+        mostrarToast(`🏢 Filtrado: exibindo ${filtrados.length} clientes com CNPJ (Pessoa Jurídica).`);
+      } else if (tipo === 'SEM_DOC') {
+        mostrarToast(`⚠️ Filtrado: exibindo ${filtrados.length} clientes pendentes de CPF/CNPJ.`);
+      } else {
+        mostrarToast(`👥 Exibindo todos os ${filtrados.length} clientes cadastrados.`);
+      }
+    }
+
     function filtrarRegiaoSul(cardId) {
       ufFiltro = 'SUL';
       docFiltro = 'TODOS';
@@ -8179,7 +8209,9 @@
       if (!menu) return;
 
       const totalClientes = (typeof clientes !== 'undefined' && clientes) ? clientes.length : 1140;
-      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf || c.cnpj).length : 199;
+      const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 170;
+      const totalCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cnpj && c.cnpj.trim()).length : 29;
+      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 182;
       const semDoc = totalClientes - comDoc;
 
       let html = '';
@@ -8269,6 +8301,12 @@
             </div>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs')">
               <span>✅</span> <span>Apenas com CPF ou CNPJ (${comDoc})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CPF', 'card-kpi-docs')">
+              <span>👤</span> <span>Apenas CPF (${totalCpfs})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #60a5fa;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CNPJ', 'card-kpi-docs')">
+              <span>🏢</span> <span>Apenas CNPJ (${totalCnpjs})</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarCompletudeEToast('SEM_DOC', 'card-kpi-docs')">
               <span>⚠️</span> <span>Pendentes de Documento (${semDoc})</span>

@@ -442,10 +442,12 @@
         } else if (cardKey === 'docs') {
           html = `
             <div class="erp-context-header"><span>📄</span> <span>Filtro de Documentação Fiscal</span></div>
-            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('✅ Filtrado: 199 clientes com CPF ou CNPJ cadastrado.')"><span>✅</span> <span>Apenas com CPF ou CNPJ (199)</span></button>
-            <button class="erp-context-item" style="color: #f87171;" onclick="fecharMenu(); registrarLog('⚠️ Filtrado: 941 clientes pendentes de documentação fiscal.')"><span>⚠️</span> <span>Pendentes de Documento (941)</span></button>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('✅ Filtrado: 182 clientes com CPF ou CNPJ cadastrado.')"><span>✅</span> <span>Apenas com CPF ou CNPJ (182)</span></button>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('👤 Filtrado: 170 clientes Pessoa Física com CPF.')"><span>👤</span> <span>Apenas CPF (170)</span></button>
+            <button class="erp-context-item" style="color: #60a5fa;" onclick="fecharMenu(); registrarLog('🏢 Filtrado: 29 clientes Pessoa Jurídica com CNPJ.')"><span>🏢</span> <span>Apenas CNPJ (29)</span></button>
+            <button class="erp-context-item" style="color: #f87171;" onclick="fecharMenu(); registrarLog('⚠️ Filtrado: 958 clientes pendentes de CPF/CNPJ.')"><span>⚠️</span> <span>Pendentes de Documento (958)</span></button>
             <div class="erp-context-divider"></div>
-            <button class="erp-context-item" style="color: #cbd5e1;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os Clientes (1.140)</span></button>
+            <button class="erp-context-item" style="color: #cbd5e1;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os Clientes (1140)</span></button>
           `;
         }
       } else if (mod === 'produtos') {
