@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Análise Comparativa de UI/UX: Bling ERP vs Mis Sueños ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* PALETA BLING ERP OFICIAL */
+      --bling-green: #00a868;
+      --bling-green-hover: #008f58;
+      --bling-green-light: #e6f6f0;
+      --bling-sidebar-bg: #1e293b;
+      --bling-sidebar-hover: #334155;
+      --bling-body-bg: #f8fafc;
+      --bling-card-bg: #ffffff;
+      --bling-border: #e2e8f0;
+      --bling-border-light: #f1f5f9;
+      --bling-text-main: #0f172a;
+      --bling-text-muted: #64748b;
+      --bling-blue: #0284c7;
+      --bling-blue-light: #e0f2fe;
+      --bling-amber: #d97706;
+      --bling-amber-light: #fef3c7;
+      --bling-red: #dc2626;
+      --bling-red-light: #fee2e2;
+
+      /* PALETA MIS SUENOS ATUAL */
+      --ms-dark-bg: #0b1329;
+      --ms-card-bg: #111e38;
+      --ms-border: #1e3a5f;
+      --ms-primary: #00d4ff;
+      --ms-emerald: #10b981;
+      --ms-text: #f1f5f9;
+      --ms-text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    /* TOPO DE NAVEGAÇÃO */
+    .top-header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #334155;
+      padding: 16px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #00a868, #00d4ff);
+      color: #fff;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .header-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+    .header-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .header-nav {
+      display: flex;
+      gap: 8px;
+    }
+    .nav-btn {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #334155;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: #00a868;
+      border-color: #00a868;
+      color: #ffffff;
+    }
+
+    /* CONTAINER PRINCIPAL */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    /* BANNER DE BOAS-VINDAS E INTRODUÇÃO */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .hero-text h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-text p {
+      font-size: 14px;
+      color: #94a3b8;
+      max-width: 800px;
+      line-height: 1.6;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 16px;
+    }
+    .stat-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px 20px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: #00a868;
+    }
+    .stat-lbl {
+      font-size: 11px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* SEÇÃO DE TÍTULO */
+    .section-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title span.icon {
+      font-size: 20px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: -10px;
+      margin-bottom: 24px;
+    }
+
+    /* PALETA DE CORES INTERATIVA */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .color-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .color-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.5);
+    }
+    .color-swatch {
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    .color-details {
+      padding: 12px 14px;
+    }
+    .color-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 2px;
+    }
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .copy-pill {
+      font-size: 9.5px;
+      background: #334155;
+      color: #cbd5e1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ABAS DE MOCKUP DAS TELAS */
+    .tabs-wrapper {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid #334155;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #f8fafc;
+      background: #1e293b;
+    }
+    .tab-btn.active {
+      color: #ffffff;
+      background: #00a868;
+    }
+
+    /* MOCKUP CONTAINER */
+    .mockup-display {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+    }
+    .mockup-bar {
+      background: #0f172a;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .mockup-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .mockup-address {
+      background: #1e293b;
+      border-radius: 6px;
+      padding: 4px 16px;
+      font-size: 11.5px;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+      width: 480px;
+      text-align: center;
+    }
+    .mockup-theme-switcher {
+      display: flex;
+      gap: 6px;
+    }
+    .theme-toggle-btn {
+      background: #334155;
+      color: #f1f5f9;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .theme-toggle-btn.active {
+      background: #00a868;
+      color: #fff;
+    }
+
+    /* ÁREA INTERNA DO MOCKUP (SIMULADOR DO SISTEMA) */
+    .app-simulator {
+      min-height: 580px;
+      display: flex;
+      background: #f8fafc;
+      color: #0f172a;
+      transition: background 0.3s;
+    }
+
+    /* MODO ESCURO SUAVE (NOVO ESTILO PROPOSTO) */
+    .app-simulator.dark-mode {
+      background: #0b1120;
+      color: #f1f5f9;
+    }
+
+    /* SIDEBAR DO BLING */
+    .sim-sidebar {
+      width: 240px;
+      background: #1e293b;
+      color: #cbd5e1;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid #334155;
+      flex-shrink: 0;
+    }
+    .sim-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 8px 18px 8px;
+      border-bottom: 1px solid #334155;
+      margin-bottom: 14px;
+    }
+    .sim-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: #00a868;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .sim-brand-name {
+      font-weight: 800;
+      font-size: 15px;
+      color: #fff;
+    }
+    .sim-brand-sub {
+      font-size: 10.5px;
+      color: #94a3b8;
+    }
+    .sim-nav-group-title {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 8px 10px 4px 10px;
+    }
+    .sim-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+      cursor: pointer;
+      margin-bottom: 2px;
+      transition: all 0.15s;
+    }
+    .sim-nav-item:hover {
+      background: #334155;
+      color: #fff;
+    }
+    .sim-nav-item.active {
+      background: rgba(0, 168, 104, 0.15);
+      color: #34d399;
+      font-weight: 700;
+      border-left: 3px solid #00a868;
+    }
+    .sim-nav-badge {
+      margin-left: auto;
+      background: #00a868;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    /* CONTEÚDO PRINCIPAL DO SIMULADOR */
+    .sim-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sim-topbar {
+      height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .app-simulator.dark-mode .sim-topbar {
+      background: #111827;
+      border-color: #1f2937;
+    }
+    .sim-search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 6px 14px;
+      border-radius: 6px;
+      width: 380px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .app-simulator.dark-mode .sim-search-box {
+      background: #1f2937;
+      border-color: #374151;
+      color: #9ca3af;
+    }
+    .sim-search-shortcut {
+      margin-left: auto;
+      background: #e2e8f0;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: monospace;
+    }
+    .app-simulator.dark-mode .sim-search-shortcut {
+      background: #374151;
+      color: #e5e7eb;
+    }
+
+    .sim-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sim-avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #00a868;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .sim-content {
+      padding: 24px;
+      flex: 1;
+    }
+
+    /* BARRA DE AÇÕES DA TELA */
+    .sim-page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .sim-page-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .sim-btn-primary {
+      background: #00a868;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: background 0.15s;
+    }
+    .sim-btn-primary:hover {
+      background: #008f58;
+    }
+    .sim-btn-secondary {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .app-simulator.dark-mode .sim-btn-secondary {
+      background: #1f2937;
+      color: #e5e7eb;
+      border-color: #374151;
+    }
+
+    /* FILTROS SANFONADOS DO BLING */
+    .sim-filters-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .app-simulator.dark-mode .sim-filters-bar {
+      background: #111827;
+      border-color: #1f2937;
+    }
+    .sim-filter-pill {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .app-simulator.dark-mode .sim-filter-pill {
+      background: #1f2937;
+      color: #9ca3af;
+    }
+    .sim-filter-pill.active {
+      background: rgba(0, 168, 104, 0.12);
+      color: #00a868;
+      border-color: rgba(0, 168, 104, 0.3);
+      font-weight: 700;
+    }
+
+    /* TABELA DO BLING */
+    .sim-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    .app-simulator.dark-mode .sim-card {
+      background: #111827;
+      border-color: #1f2937;
+    }
+    .sim-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      text-align: left;
+    }
+    .sim-table th {
+      background: #f8fafc;
+      color: #64748b;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .app-simulator.dark-mode .sim-table th {
+      background: #1f2937;
+      color: #9ca3af;
+      border-color: #374151;
+    }
+    .sim-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #1e293b;
+    }
+    .app-simulator.dark-mode .sim-table td {
+      border-color: #1f2937;
+      color: #e5e7eb;
+    }
+    .sim-table tr:hover td {
+      background: #f8fafc;
+    }
+    .app-simulator.dark-mode .sim-table tr:hover td {
+      background: #1f2937;
+    }
+
+    /* BADGES DE STATUS NO ESTILO BLING */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-atendido {
+      background: #e6f6f0;
+      color: #00a868;
+    }
+    .status-aberto {
+      background: #fef3c7;
+      color: #d97706;
+    }
+    .status-andamento {
+      background: #e0f2fe;
+      color: #0284c7;
+    }
+    .status-cancelado {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    /* COMPARATIVO LADO A LADO */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .comp-col {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #334155;
+    }
+    .comp-title {
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .comp-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .badge-bling { background: #00a868; color: #fff; }
+    .badge-ms { background: #00d4ff; color: #000; }
+
+    .comp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .comp-list li {
+      font-size: 13px;
+      color: #cbd5e1;
+      display: flex;
+      gap: 10px;
+      line-height: 1.45;
+    }
+    .comp-list li strong {
+      color: #fff;
+    }
+
+    /* FORMULÁRIO DE SELEÇÃO INTERATIVO */
+    .checklist-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 40px;
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .check-item:hover {
+      border-color: #00a868;
+    }
+    .check-item input[type="checkbox"] {
+      margin-top: 3px;
+      accent-color: #00a868;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .check-item-text h4 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .check-item-text p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .btn-generate-plan {
+      background: linear-gradient(135deg, #00a868, #10b981);
+      color: #ffffff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      box-shadow: 0 4px 14px rgba(0, 168, 104, 0.4);
+      transition: transform 0.15s;
+    }
+    .btn-generate-plan:hover {
+      transform: scale(1.02);
+    }
+
+    /* TOAST DE FEEDBACK */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #00a868;
+      color: #fff;
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+      display: none;
+      z-index: 2000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO FIXO -->
+  <header class="top-header">
+    <div class="header-brand">
+      <span class="brand-badge">UI/UX LAB</span>
+      <div>
+        <div class="header-title">Galeria de Design System: Bling ERP vs Mis Sueños</div>
+        <div class="header-subtitle">Ambiente de Inspiração e Comparativo de Frontend</div>
+      </div>
+    </div>
+    <div class="header-nav">
+      <a href="#simulador" class="nav-btn active">👁️ Simulador Visual</a>
+      <a href="#cores" class="nav-btn">🎨 Paleta de Cores</a>
+      <a href="#comparativo" class="nav-btn">⚖️ Comparativo Direto</a>
+      <a href="#decisao" class="nav-btn">✅ Definir Mudanças</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- HERO BANNER -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <h1>Análise do Novo Design System do Bling ERP</h1>
+        <p>
+          O Bling é a maior referência nacional em usabilidade corporativa para e-commerce e varejo. 
+          Ele combina <strong>sidebar escura com alto contraste</strong>, <strong>telas claras com respiração confortável</strong> e <strong>verde esmeralda suave</strong> para criar uma interface produtiva, rápida e que não cansa a vista após 8 horas de trabalho diário.
+        </p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-val">#00A868</div>
+          <div class="stat-lbl">Verde Esmeralda</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val">5 Blocos</div>
+          <div class="stat-lbl">Menus Otimizados</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 1: SIMULADOR VISUAL DE TELAS -->
+    <div id="simulador">
+      <div class="section-title">
+        <span class="icon">🖥️</span>
+        <span>1. Simulador Fiel da Nova Interface do Bling ERP</span>
+      </div>
+      <p class="section-desc">
+        Navegue entre as telas abaixo para ver como o Bling estrutura os menus, espaçamentos, tabelas e filtros. Você pode alternar entre <strong>Tema Claro Corporativo</strong> e <strong>Tema Dark Suave</strong>.
+      </p>
+
+      <!-- ABAS DE NAVEGAÇÃO ENTRE AS TELAS DO BLING -->
+      <div class="tabs-wrapper">
+        <button class="tab-btn active" onclick="mostrarTela('pedidos', this)">📦 1. Pedidos de Venda & Encomendas</button>
+        <button class="tab-btn" onclick="mostrarTela('dashboard', this)">📊 2. Dashboard Estratégico (Meu Negócio)</button>
+        <button class="tab-btn" onclick="mostrarTela('produtos', this)">🪵 3. Cadastro de Produtos & Estoque</button>
+        <button class="tab-btn" onclick="mostrarTela('checkout', this)">🏷️ 4. Checkout & Emissão Logística</button>
+      </div>
+
+      <!-- MOCKUP BROWSER WINDOW -->
+      <div class="mockup-display">
+        <div class="mockup-bar">
+          <div class="mockup-dots">
+            <div class="dot dot-red"></div>
+            <div class="dot dot-yellow"></div>
+            <div class="dot dot-green"></div>
+          </div>
+          <div class="mockup-address" id="mockup-url">https://bling.com.br/vendas/pedidos-de-venda</div>
+          <div class="mockup-theme-switcher">
+            <button class="theme-toggle-btn active" id="btn-theme-light" onclick="mudarTemaSimulador('light')">☀️ Tema Claro (Padrão Bling)</button>
+            <button class="theme-toggle-btn" id="btn-theme-dark" onclick="mudarTemaSimulador('dark')">🌙 Tema Escuro Suave</button>
+          </div>
+        </div>
+
+        <!-- APP SIMULATOR -->
+        <div class="app-simulator" id="app-sim">
+          
+          <!-- SIDEBAR ESQUERDA PADRÃO BLING -->
+          <aside class="sim-sidebar">
+            <div>
+              <div class="sim-brand">
+                <div class="sim-logo-icon">B</div>
+                <div>
+                  <div class="sim-brand-name">Bling ERP</div>
+                  <div class="sim-brand-sub">Mis Sueños (Inspiração)</div>
+                </div>
+              </div>
+
+              <div class="sim-nav-group-title">MEU NEGÓCIO</div>
+              <div class="sim-nav-item" onclick="mostrarTela('dashboard', document.querySelectorAll('.tab-btn')[1])">
+                <span>📈</span> Dashboard & KPIs
+              </div>
+
+              <div class="sim-nav-group-title">CADASTROS</div>
+              <div class="sim-nav-item">
+                <span>👥</span> Clientes & Contatos
+              </div>
+              <div class="sim-nav-item" onclick="mostrarTela('produtos', document.querySelectorAll('.tab-btn')[2])">
+                <span>📦</span> Produtos & Catálogo
+              </div>
+
+              <div class="sim-nav-group-title">VENDAS</div>
+              <div class="sim-nav-item active" onclick="mostrarTela('pedidos', document.querySelectorAll('.tab-btn')[0])">
+                <span>🛒</span> Pedidos de Venda
+                <span class="sim-nav-badge">12</span>
+              </div>
+              <div class="sim-nav-item">
+                <span>📑</span> Notas Fiscais (NF-e)
+              </div>
+              <div class="sim-nav-item" onclick="mostrarTela('checkout', document.querySelectorAll('.tab-btn')[3])">
+                <span>🏷️</span> Expedição & Etiquetas
+              </div>
+
+              <div class="sim-nav-group-title">FINANÇAS</div>
+              <div class="sim-nav-item">
+                <span>💰</span> Contas a Pagar/Receber
+              </div>
+              <div class="sim-nav-item">
+                <span>📊</span> Fluxo de Caixa / DRE
+              </div>
+            </div>
+
+            <!-- RODAPÉ DA SIDEBAR -->
+            <div style="padding-top: 14px; border-top: 1px solid #334155; font-size: 11px; color: #64748b;">
+              <div>Plano: <strong>Titânio PRO</strong></div>
+              <div style="font-size: 10px; margin-top: 2px;">Usuário: Gustavo Rosa</div>
+            </div>
+          </aside>
+
+          <!-- CONTEÚDO PRINCIPAL (RENDERIZADO DINAMICAMENTE) -->
+          <main class="sim-main">
+            <!-- TOPBAR -->
+            <header class="sim-topbar">
+              <div class="sim-search-box">
+                <span>🔍</span>
+                <span>Buscar pedidos, clientes, produtos ou NF-e...</span>
+                <span class="sim-search-shortcut">Ctrl+K</span>
+              </div>
+              <div class="sim-top-actions">
+                <span style="font-size: 16px; cursor: pointer;" title="Notificações">🔔</span>
+                <span style="font-size: 16px; cursor: pointer;" title="Configurações">⚙️</span>
+                <div class="sim-avatar-circle">GR</div>
+              </div>
+            </header>
+
+            <!-- ÁREA DINÂMICA DA TELA -->
+            <div class="sim-content" id="sim-dynamic-content">
+              <!-- CONTEÚDO DA TELA DE PEDIDOS DE VENDA (PADRÃO) -->
+              <div class="sim-page-header">
+                <div>
+                  <h2 class="sim-page-title">Pedidos de Venda</h2>
+                  <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Gerencie suas encomendas, gere etiquetas e emita NF-e em lote</p>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <button class="sim-btn-secondary">⚙️ Colunas</button>
+                  <button class="sim-btn-secondary">📤 Exportar</button>
+                  <button class="sim-btn-primary">➕ Incluir Pedido</button>
+                </div>
+              </div>
+
+              <!-- FILTROS SANFONADOS DO BLING -->
+              <div class="sim-filters-bar">
+                <span style="font-size: 11.5px; font-weight: 700; color: #64748b;">SITUAÇÃO:</span>
+                <span class="sim-filter-pill active">Todos (12)</span>
+                <span class="sim-filter-pill">Em aberto (4)</span>
+                <span class="sim-filter-pill">Em andamento (3)</span>
+                <span class="sim-filter-pill">Atendidos (5)</span>
+                <span class="sim-filter-pill">Cancelados (0)</span>
+                <span style="margin-left: auto; font-size: 11.5px; color: #00a868; font-weight: 700; cursor: pointer;">+ Mais Filtros</span>
+              </div>
+
+              <!-- TABELA DE PEDIDOS NO ESTILO BLING -->
+              <div class="sim-card">
+                <table class="sim-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 32px;"><input type="checkbox"></th>
+                      <th>Nº Pedido</th>
+                      <th>Data</th>
+                      <th>Cliente / Destinatário</th>
+                      <th>Itens / Descrição</th>
+                      <th>Total (R$)</th>
+                      <th>Situação</th>
+                      <th style="text-align: right;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1042</td>
+                      <td>15/10/2026</td>
+                      <td><strong>ACÁCIO BENEDITO RAMOS</strong><br><span style="font-size: 11px; color: #64748b;">Conceição dos Ouros - MG</span></td>
+                      <td>2x Lonca de Cabrito + 1x Tento 100m</td>
+                      <td style="font-weight: 700;">R$ 385,00</td>
+                      <td><span class="status-badge status-aberto">● Em aberto</span></td>
+                      <td style="text-align: right; cursor: pointer;">•••</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1041</td>
+                      <td>14/10/2026</td>
+                      <td><strong>ADAIR JOSÉ BRANCO</strong><br><span style="font-size: 11px; color: #64748b;">Ponte Alta - SC</span></td>
+                      <td>1x Meio Couro Cru Sovado + 1x Faca 5"</td>
+                      <td style="font-weight: 700;">R$ 455,00</td>
+                      <td><span class="status-badge status-andamento">● Em andamento</span></td>
+                      <td style="text-align: right; cursor: pointer;">•••</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1040</td>
+                      <td>14/10/2026</td>
+                      <td><strong>ADEL DA TRINDADE DIAS</strong><br><span style="font-size: 11px; color: #64748b;">São Nicolau - RS</span></td>
+                      <td>3x Lonca de Potro Extra Macia</td>
+                      <td style="font-weight: 700;">R$ 755,00</td>
+                      <td><span class="status-badge status-atendido">✓ Atendido</span></td>
+                      <td style="text-align: right; cursor: pointer;">•••</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1039</td>
+                      <td>13/10/2026</td>
+                      <td><strong>ADELINA DE LURDES PAZ</strong><br><span style="font-size: 11px; color: #64748b;">Tramandaí - RS</span></td>
+                      <td>1x Tento Lonca 50m + 1x Vazadores</td>
+                      <td style="font-weight: 700;">R$ 245,00</td>
+                      <td><span class="status-badge status-atendido">✓ Atendido</span></td>
+                      <td style="text-align: right; cursor: pointer;">•••</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1035</td>
+                      <td>10/10/2026</td>
+                      <td><strong>ADILSON IFRAN MARTINS</strong><br><span style="font-size: 11px; color: #64748b;">São Borja - RS</span></td>
+                      <td>1x Meio Couro + 2x Tento + 50x Bovino</td>
+                      <td style="font-weight: 800; color: #00a868;">R$ 16.383,02</td>
+                      <td><span class="status-badge status-atendido">✓ Atendido</span></td>
+                      <td style="text-align: right; cursor: pointer;">•••</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2: PALETA DE CORES HEXADECIMAL DO BLING -->
+    <div id="cores">
+      <div class="section-title">
+        <span class="icon">🎨</span>
+        <span>2. Paleta Oficial de Cores do Bling ERP (Design System)</span>
+      </div>
+      <p class="section-desc">
+        Clique em qualquer cartão de cor para copiar o código HEX para a área de transferência.
+      </p>
+
+      <div class="palette-grid">
+        <div class="color-card" onclick="copiarCor('#00A868', 'Verde Esmeralda Bling')">
+          <div class="color-swatch" style="background: #00a868; color: #fff;">#00A868</div>
+          <div class="color-details">
+            <div class="color-name">Verde Primário Bling</div>
+            <div class="color-hex"><span>#00A868</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#1E293B', 'Sidebar Slate')">
+          <div class="color-swatch" style="background: #1e293b; color: #fff;">#1E293B</div>
+          <div class="color-details">
+            <div class="color-name">Menu Lateral Escuro</div>
+            <div class="color-hex"><span>#1E293B</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#F8FAFC', 'Canvas Cinza Claro')">
+          <div class="color-swatch" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0;">#F8FAFC</div>
+          <div class="color-details">
+            <div class="color-name">Fundo da Página (Canvas)</div>
+            <div class="color-hex"><span>#F8FAFC</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#FFFFFF', 'Card Branco')">
+          <div class="color-swatch" style="background: #ffffff; color: #0f172a; border: 1px solid #e2e8f0;">#FFFFFF</div>
+          <div class="color-details">
+            <div class="color-name">Superfície dos Cartões</div>
+            <div class="color-hex"><span>#FFFFFF</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#E2E8F0', 'Borda Neutra')">
+          <div class="color-swatch" style="background: #e2e8f0; color: #334155;">#E2E8F0</div>
+          <div class="color-details">
+            <div class="color-name">Borda Suave / Divisores</div>
+            <div class="color-hex"><span>#E2E8F0</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#E6F6F0', 'Verde Pastel')">
+          <div class="color-swatch" style="background: #e6f6f0; color: #00a868;">#E6F6F0</div>
+          <div class="color-details">
+            <div class="color-name">Badge Sucesso / Atendido</div>
+            <div class="color-hex"><span>#E6F6F0</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#FEF3C7', 'Âmbar Pastel')">
+          <div class="color-swatch" style="background: #fef3c7; color: #d97706;">#FEF3C7</div>
+          <div class="color-details">
+            <div class="color-name">Badge Pendente / Em Aberto</div>
+            <div class="color-hex"><span>#FEF3C7</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+
+        <div class="color-card" onclick="copiarCor('#FEE2E2', 'Vermelho Pastel')">
+          <div class="color-swatch" style="background: #fee2e2; color: #dc2626;">#FEE2E2</div>
+          <div class="color-details">
+            <div class="color-name">Badge Alerta / Cancelado</div>
+            <div class="color-hex"><span>#FEE2E2</span> <span class="copy-pill">Copiar</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3: COMPARATIVO DIRETO (BLING VS MIS SUENOS) -->
+    <div id="comparativo">
+      <div class="section-title">
+        <span class="icon">⚖️</span>
+        <span>3. Comparativo Direto: O que mudar no Mis Sueños</span>
+      </div>
+      <p class="section-desc">
+        Principais diferenças de arquitetura visual entre o padrão do Bling e o design atual do Mis Sueños.
+      </p>
+
+      <div class="comparison-grid">
+        <!-- COLUNA BLING -->
+        <div class="comp-col">
+          <div class="comp-header">
+            <div class="comp-title">🟢 Estilo Bling ERP (SaaS Corporativo)</div>
+            <span class="comp-badge badge-bling">Referência</span>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <span>✔</span>
+              <div><strong>Fundo Claro com Sidebar Escura:</strong> Dá um contraste agradável, separando o menu da área de trabalho sem escurecer tudo.</div>
+            </li>
+            <li>
+              <span>✔</span>
+              <div><strong>Verde Esmeralda Confiável:</strong> Sem neon ou brilhos intensos; cor sóbria e focada em negócios.</div>
+            </li>
+            <li>
+              <span>✔</span>
+              <div><strong>Tabelas com Mais Altura (Padding 14px):</strong> Menos sensação de cansaço visual; leitura mais fluida.</div>
+            </li>
+            <li>
+              <span>✔</span>
+              <div><strong>Badges Arredondadas em Tons Pastel:</strong> Cores suaves no fundo e texto escuro, facilitando bater o olho no status.</div>
+            </li>
+            <li>
+              <span>✔</span>
+              <div><strong>Ações Secundárias em Menu (...):</strong> Não polui a tabela com 4 botões por linha.</div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- COLUNA MIS SUENOS ATUAL -->
+        <div class="comp-col">
+          <div class="comp-header">
+            <div class="comp-title">🔵 Estilo Mis Sueños Atual (Dark Tech)</div>
+            <span class="comp-badge badge-ms">Atual</span>
+          </div>
+          <ul class="comp-list">
+            <li>
+              <span>⚡</span>
+              <div><strong>Tema 100% Escuro (Dark Navy):</strong> Fundo `#0b1329`. Muito moderno à noite, mas pode cansar sob luz do dia.</div>
+            </li>
+            <li>
+              <span>⚡</span>
+              <div><strong>Cores Neon (Ciano e Esmeralda Vibrante):</strong> Traz aspecto futurista e de alta tecnologia.</div>
+            </li>
+            <li>
+              <span>⚡</span>
+              <div><strong>Alta Densidade de Informação:</strong> Exibe bastante dados de uma vez na tela.</div>
+            </li>
+            <li>
+              <span>⚡</span>
+              <div><strong>Janelas Flutuantes com Redimensionamento:</strong> Já superamos o Bling neste quesito! Suas janelas agora têm ajuste de tamanho livre com mouse.</div>
+            </li>
+            <li>
+              <span>⚡</span>
+              <div><strong>Formatação Numérica 100% BR:</strong> Já ajustada com precisão (`16.383,02`).</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4: DEFINIÇÃO DE MUDANÇAS (CHECKLIST INTERATIVO) -->
+    <div id="decisao">
+      <div class="section-title">
+        <span class="icon">✅</span>
+        <span>4. O que você gostaria de mudar no Mis Sueños?</span>
+      </div>
+      <p class="section-desc">
+        Marque abaixo os itens do Bling que você mais gostou. Ao clicar no botão ao final, você pode copiar o resumo pronto para me enviar no chat!
+      </p>
+
+      <div class="checklist-box">
+        <label class="check-item">
+          <input type="checkbox" id="chk-cores" checked>
+          <div class="check-item-text">
+            <h4>Adotar a Paleta Verde Esmeralda & Neutros do Bling</h4>
+            <p>Substituir o ciano elétrico pelo verde corporativo do Bling (`#00a868`) nos botões de ação principal, dando ar mais sóbrio e profissional de ERP.</p>
+          </div>
+        </label>
+
+        <label class="check-item">
+          <input type="checkbox" id="chk-badges" checked>
+          <div class="check-item-text">
+            <h4>Badges de Status em Tom Pastel Suave</h4>
+            <p>Trocar os status neon vibrantes pelas pílulas arredondadas em tom pastel (fundo suave + texto nítido), iguais às do Bling.</p>
+          </div>
+        </label>
+
+        <label class="check-item">
+          <input type="checkbox" id="chk-menu" checked>
+          <div class="check-item-text">
+            <h4>Menu Lateral com Agrupamento por Categorias</h4>
+            <p>Agrupar a barra lateral em 5 blocos elegantes: *Meu Negócio*, *Cadastros*, *Vendas*, *Estoque* e *Finanças*.</p>
+          </div>
+        </label>
+
+        <label class="check-item">
+          <input type="checkbox" id="chk-tabelas" checked>
+          <div class="check-item-text">
+            <h4>Aumentar o Respiro e Suavidade das Tabelas</h4>
+            <p>Linhas um pouco mais altas (padding confortável de 12 a 14px) para leitura mais agradável de pedidos e clientes.</p>
+          </div>
+        </label>
+
+        <label class="check-item">
+          <input type="checkbox" id="chk-tema-claro">
+          <div class="check-item-text">
+            <h4>Criar Alternador de Tema: Claro (Bling) / Escuro (Mis Sueños)</h4>
+            <p>Permitir alternar com 1 clique entre o tema claro suave corporativo (estilo Bling) e o tema escuro tradicional.</p>
+          </div>
+        </label>
+
+        <button class="btn-generate-plan" onclick="gerarResumoMudancas()">
+          <span>📋</span> Copiar Resumo Selecionado para Enviar no Chat
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast">Copiado com sucesso!</div>
+
+  <script>
+    // TROCAR CONTEÚDO DAS TELAS DO SIMULADOR
+    const telas = {
+      pedidos: {
+        url: 'https://bling.com.br/vendas/pedidos-de-venda',
+        html: `
+          <div class="sim-page-header">
+            <div>
+              <h2 class="sim-page-title">Pedidos de Venda</h2>
+              <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Gerencie suas encomendas, gere etiquetas e emita NF-e em lote</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="sim-btn-secondary">⚙️ Colunas</button>
+              <button class="sim-btn-secondary">📤 Exportar</button>
+              <button class="sim-btn-primary">➕ Incluir Pedido</button>
+            </div>
+          </div>
+
+          <div class="sim-filters-bar">
+            <span style="font-size: 11.5px; font-weight: 700; color: #64748b;">SITUAÇÃO:</span>
+            <span class="sim-filter-pill active">Todos (12)</span>
+            <span class="sim-filter-pill">Em aberto (4)</span>
+            <span class="sim-filter-pill">Em andamento (3)</span>
+            <span class="sim-filter-pill">Atendidos (5)</span>
+            <span class="sim-filter-pill">Cancelados (0)</span>
+            <span style="margin-left: auto; font-size: 11.5px; color: #00a868; font-weight: 700; cursor: pointer;">+ Mais Filtros</span>
+          </div>
+
+          <div class="sim-card">
+            <table class="sim-table">
+              <thead>
+                <tr>
+                  <th style="width: 32px;"><input type="checkbox"></th>
+                  <th>Nº Pedido</th>
+                  <th>Data</th>
+                  <th>Cliente / Destinatário</th>
+                  <th>Itens / Descrição</th>
+                  <th>Total (R$)</th>
+                  <th>Situação</th>
+                  <th style="text-align: right;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1042</td>
+                  <td>15/10/2026</td>
+                  <td><strong>ACÁCIO BENEDITO RAMOS</strong><br><span style="font-size: 11px; color: #64748b;">Conceição dos Ouros - MG</span></td>
+                  <td>2x Lonca de Cabrito + 1x Tento 100m</td>
+                  <td style="font-weight: 700;">R$ 385,00</td>
+                  <td><span class="status-badge status-aberto">● Em aberto</span></td>
+                  <td style="text-align: right; cursor: pointer;">•••</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1041</td>
+                  <td>14/10/2026</td>
+                  <td><strong>ADAIR JOSÉ BRANCO</strong><br><span style="font-size: 11px; color: #64748b;">Ponte Alta - SC</span></td>
+                  <td>1x Meio Couro Cru Sovado + 1x Faca 5"</td>
+                  <td style="font-weight: 700;">R$ 455,00</td>
+                  <td><span class="status-badge status-andamento">● Em andamento</span></td>
+                  <td style="text-align: right; cursor: pointer;">•••</td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"></td>
+                  <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #00a868;">#1035</td>
+                  <td>10/10/2026</td>
+                  <td><strong>ADILSON IFRAN MARTINS</strong><br><span style="font-size: 11px; color: #64748b;">São Borja - RS</span></td>
+                  <td>1x Meio Couro + 2x Tento + 50x Bovino</td>
+                  <td style="font-weight: 800; color: #00a868;">R$ 16.383,02</td>
+                  <td><span class="status-badge status-atendido">✓ Atendido</span></td>
+                  <td style="text-align: right; cursor: pointer;">•••</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      dashboard: {
+        url: 'https://bling.com.br/meu-negocio/dashboard',
+        html: `
+          <div class="sim-page-header">
+            <div>
+              <h2 class="sim-page-title">Painel Geral (Meu Negócio)</h2>
+              <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Indicadores de desempenho em tempo real</p>
+            </div>
+            <div>
+              <button class="sim-btn-secondary">📅 Hoje: 01/11/2026 ▼</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px;">
+            <div class="sim-card" style="padding: 16px;">
+              <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total de Vendas</div>
+              <div style="font-size: 22px; font-weight: 800; color: #00a868; margin: 4px 0;">R$ 18.223,02</div>
+              <div style="font-size: 11px; color: #00a868; font-weight: 600;">↑ 12% vs mês anterior</div>
+            </div>
+            <div class="sim-card" style="padding: 16px;">
+              <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Pedidos em Aberto</div>
+              <div style="font-size: 22px; font-weight: 800; color: #d97706; margin: 4px 0;">4 Pedidos</div>
+              <div style="font-size: 11px; color: #64748b;">Prontos p/ expedição</div>
+            </div>
+            <div class="sim-card" style="padding: 16px;">
+              <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Estoque de Couros</div>
+              <div style="font-size: 22px; font-weight: 800; color: #0284c7; margin: 4px 0;">40 NCMs</div>
+              <div style="font-size: 11px; color: #64748b;">100% catalogados</div>
+            </div>
+            <div class="sim-card" style="padding: 16px;">
+              <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Carteira de Clientes</div>
+              <div style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 4px 0;">1.140</div>
+              <div style="font-size: 11px; color: #64748b;">Em 27 Estados do Brasil</div>
+            </div>
+          </div>
+
+          <div class="sim-card" style="padding: 20px;">
+            <div style="font-weight: 700; font-size: 13.5px; margin-bottom: 12px;">Desempenho Comercial por Região (RS, SC, PR, SP, MG)</div>
+            <div style="height: 140px; background: rgba(0, 168, 104, 0.05); border: 1px dashed #cbd5e1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #64748b;">
+              [Gráfico de Vendas e Volume de Encomendas por Estado]
+            </div>
+          </div>
+        `
+      },
+      produtos: {
+        url: 'https://bling.com.br/cadastros/produtos',
+        html: `
+          <div class="sim-page-header">
+            <div>
+              <h2 class="sim-page-title">Catálogo de Produtos & Estoque</h2>
+              <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Controle de preços de custo, venda e saldo mínimo</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="sim-btn-secondary">⚙️ Categorias</button>
+              <button class="sim-btn-primary">➕ Novo Produto</button>
+            </div>
+          </div>
+
+          <div class="sim-card">
+            <table class="sim-table">
+              <thead>
+                <tr>
+                  <th>Código / SKU</th>
+                  <th>Descrição do Produto</th>
+                  <th>Categoria</th>
+                  <th>Preço Custo</th>
+                  <th>Preço Venda</th>
+                  <th>Estoque Físico</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-family: monospace; font-weight: 700;">SKU-COU-001</td>
+                  <td><strong>Couro Cru Bovino Sovado (Melo)</strong></td>
+                  <td>Couros Sovados</td>
+                  <td>R$ 180,00</td>
+                  <td style="font-weight: 700; color: #00a868;">R$ 280,00</td>
+                  <td style="font-weight: 800;">50 UN</td>
+                  <td><span class="status-badge status-atendido">Ativo</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family: monospace; font-weight: 700;">SKU-LNC-002</td>
+                  <td><strong>Lonca de Cabrito Selecionada</strong></td>
+                  <td>Loncas & Pelagens</td>
+                  <td>R$ 95,00</td>
+                  <td style="font-weight: 700; color: #00a868;">R$ 195,00</td>
+                  <td style="font-weight: 800;">18 UN</td>
+                  <td><span class="status-badge status-atendido">Ativo</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family: monospace; font-weight: 700;">SKU-TNT-003</td>
+                  <td><strong>Tento Bovino Sovado 100 Metros</strong></td>
+                  <td>Tentaria & Tranças</td>
+                  <td>R$ 65,00</td>
+                  <td style="font-weight: 700; color: #00a868;">R$ 117,00</td>
+                  <td style="font-weight: 800; color: #d97706;">3 UN (Baixo)</td>
+                  <td><span class="status-badge status-aberto">Alerta</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `
+      },
+      checkout: {
+        url: 'https://bling.com.br/vendas/checkout-logistica',
+        html: `
+          <div class="sim-page-header">
+            <div>
+              <h2 class="sim-page-title">Expedição, Etiquetas & Logística</h2>
+              <p style="font-size: 12px; color: #64748b; margin-top: 2px;">Conferência de itens e geração de etiquetas térmicas Superfrete / Correios</p>
+            </div>
+            <div>
+              <button class="sim-btn-primary">🖨️ Imprimir Todas Etiquetas</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="sim-card" style="padding: 18px;">
+              <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">Leitura e Conferência</h3>
+              <div style="background: #f1f5f9; padding: 12px; border-radius: 6px; font-size: 12px; color: #64748b; margin-bottom: 14px;">
+                Bipe o código de barras do produto para validar a caixa
+              </div>
+              <input type="text" placeholder="Código de barras / SKU..." style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; margin-bottom: 12px;">
+              <button class="sim-btn-primary" style="width: 100%; justify-content: center;">Conferir Próximo Item</button>
+            </div>
+
+            <div class="sim-card" style="padding: 18px;">
+              <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">Etiqueta Térmica 100x150 mm</h3>
+              <div style="border: 1px dashed #cbd5e1; padding: 14px; border-radius: 6px; background: #fff; color: #000; font-size: 11px; line-height: 1.4;">
+                <div style="font-weight: 800; border-bottom: 1px solid #000; padding-bottom: 4px; margin-bottom: 6px;">MIS SUEÑOS COUROS & PELES</div>
+                <div>DESTINATÁRIO: ADILSON IFRAN MARTINS</div>
+                <div>SÃO BORJA - RS · CEP: 97670-000</div>
+                <div style="text-align: center; margin-top: 8px; font-weight: 900; letter-spacing: 2px;">|||| | ||||| |||| || |||</div>
+              </div>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function mostrarTela(chave, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tela = telas[chave];
+      if (tela) {
+        document.getElementById('mockup-url').textContent = tela.url;
+        document.getElementById('sim-dynamic-content').innerHTML = tela.html;
+      }
+    }
+
+    function mudarTemaSimulador(tema) {
+      const sim = document.getElementById('app-sim');
+      const btnLight = document.getElementById('btn-theme-light');
+      const btnDark = document.getElementById('btn-theme-dark');
+
+      if (tema === 'dark') {
+        sim.classList.add('dark-mode');
+        btnDark.classList.add('active');
+        btnLight.classList.remove('active');
+      } else {
+        sim.classList.remove('dark-mode');
+        btnLight.classList.add('active');
+        btnDark.classList.remove('active');
+      }
+    }
+
+    function copiarCor(hex, nome) {
+      navigator.clipboard.writeText(hex).then(() => {
+        mostrarToast(`Cor ${hex} (${nome}) copiada!`);
+      });
+    }
+
+    function mostrarToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => {
+        t.style.display = 'none';
+      }, 2500);
+    }
+
+    function gerarResumoMudancas() {
+      const itens = [];
+      if (document.getElementById('chk-cores').checked) itens.push('- Adotar a Paleta Verde Esmeralda (#00a868) e neutros corporativos do Bling');
+      if (document.getElementById('chk-badges').checked) itens.push('- Badges de situação em tom pastel suave (fundo claro + texto colorido)');
+      if (document.getElementById('chk-menu').checked) itens.push('- Agrupar Menu Lateral em 5 blocos: Meu Negócio, Cadastros, Vendas, Estoque e Finanças');
+      if (document.getElementById('chk-tabelas').checked) itens.push('- Aumentar o respiro das tabelas com padding confortável de 12 a 14px');
+      if (document.getElementById('chk-tema-claro').checked) itens.push('- Implementar alternador de tema Claro Corporativo (Bling) / Escuro (Mis Sueños)');
+
+      const texto = "Gustavo, quero aplicar as seguintes melhorias inspiradas no Bling ERP no meu Mis Sueños (Ambiente de Testes):\n\n" + itens.join('\n');
+      navigator.clipboard.writeText(texto).then(() => {
+        mostrarToast('Resumo copiado! Cole no chat do Antigravity.');
+      });
+    }
+  </script>
+</body>
+</html>
+
