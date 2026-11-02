@@ -131,12 +131,14 @@
     }
 
     
-    /* BOTÃO DO MAPA DO BRASIL (PURO, SEM BORDA, SEM CANTOS ARREDONDADOS E SEM LEGENDA) */
+    /* ========================================================
+       OPÇÃO 1: CARD ESTILO BLING / GLASSMORPHISM (APLICADA)
+       ======================================================== */
     .kpis-com-mapa-wrapper {
       display: grid !important;
       grid-template-columns: 1fr auto !important;
       gap: 14px !important;
-      align-items: center !important;
+      align-items: stretch !important;
       margin-bottom: 18px !important;
     }
     @media (max-width: 1200px) {
@@ -151,53 +153,62 @@
     }
 
     .btn-mini-mapa-brasil {
-      background: transparent !important;
-      border: none !important;
-      border-radius: 0 !important;
-      padding: 0 4px !important;
-      width: auto !important;
-      min-width: 80px !important;
+      width: 95px !important;
+      min-width: 95px !important;
+      min-height: 85px !important;
+      border-radius: 10px !important;
+      background: linear-gradient(145deg, #131c2d, #0c121d) !important;
+      border: 1.5px solid rgba(0, 212, 255, 0.35) !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       cursor: pointer !important;
-      box-shadow: none !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      position: relative !important;
+      overflow: hidden !important;
       outline: none !important;
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.22s ease !important;
+      padding: 6px !important;
+      box-sizing: border-box !important;
     }
 
     .btn-mini-mapa-brasil:hover {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      transform: scale(1.08) !important;
-      filter: drop-shadow(0 4px 16px rgba(0, 212, 255, 0.45)) !important;
+      border-color: #00d4ff !important;
+      transform: translateY(-2px) scale(1.03) !important;
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.38) !important;
+      background: linear-gradient(145deg, #18253b, #0e1624) !important;
     }
 
     .btn-mini-mapa-brasil .img-mapa-brasil {
-      width: 82px !important;
-      height: 82px !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 75px !important;
+      max-height: 75px !important;
       object-fit: contain !important;
-      border-radius: 0 !important;
-      border: none !important;
+      transition: transform 0.25s ease !important;
       display: block !important;
-      filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.4)) !important;
-      transition: transform 0.2s ease !important;
+      border: none !important;
+      border-radius: 4px !important;
+    }
+
+    .btn-mini-mapa-brasil:hover .img-mapa-brasil {
+      transform: scale(1.06) !important;
     }
 
     .btn-mini-mapa-brasil .btn-mapa-label {
       display: none !important;
     }
 
+    /* AJUSTES NO TEMA CLARO */
     [data-theme="light"] .btn-mini-mapa-brasil {
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
+      background: #ffffff !important;
+      border-color: #00d4ff !important;
+      box-shadow: 0 2px 10px rgba(0, 212, 255, 0.15) !important;
     }
     [data-theme="light"] .btn-mini-mapa-brasil:hover {
-      border: none !important;
-      box-shadow: none !important;
-      filter: drop-shadow(0 4px 14px rgba(0, 168, 104, 0.3)) !important;
+      border-color: #00a868 !important;
+      box-shadow: 0 6px 20px rgba(0, 168, 104, 0.25) !important;
+      background: #ffffff !important;
     }
 
     /* ELIMINAÇÃO TOTAL DE BARRAS DE ROLAGEM NA SIDEBAR */
