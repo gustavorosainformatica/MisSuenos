@@ -463,7 +463,21 @@
       border-top: 1px solid #e2e8f0 !important;
     }
 
-    [data-theme="light"] .btn-top {
+    [data-theme="light"] #btn-top-configuracoes {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #btn-top-configuracoes:hover span {
+      display: inline-block;
+      transform: rotate(45deg);
+      transition: transform 0.25s ease;
+    }
+    #btn-top-configuracoes.active {
+      background: rgba(0, 212, 255, 0.2) !important;
+      border-color: #00d4ff !important;
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.35) !important;
+    }
+
+    .btn-top {
       background: #ffffff !important;
       color: #334155 !important;
       border: 1px solid #cbd5e1 !important;
@@ -2550,12 +2564,7 @@
         <span>Central Fiscal (NF-e)</span>
       </a>
 
-      <!-- SISTEMA -->
-      <div class="nav-section-title">SISTEMA</div>
-      <a class="nav-item" id="nav-item-configuracoes" onclick="trocarModulo('configuracoes', this)" title="Configurações gerais, dados da empresa e parâmetros fiscais">
-        <span class="nav-icon">⚙️</span>
-        <span>Configurações</span>
-      </a>
+      
     </nav>
 
     <div class="sidebar-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;">
@@ -2610,6 +2619,11 @@
         </button>
         <button class="btn-top btn-primary-glow" onclick="abrirModalNovoCliente()">
           <span>👤</span> Cadastrar Cliente
+        </button>
+
+        <!-- ÍCONE DE CONFIGURAÇÕES (CANTO SUPERIOR DIREITO) -->
+        <button class="btn-top btn-icon-only" id="btn-top-configuracoes" onclick="trocarModulo('configuracoes', this)" title="Configurações do Sistema, Empresa e Parâmetros Fiscais" style="padding: 7px; width: 36px; height: 36px; justify-content: center; border-radius: 8px; font-size: 16px; margin-left: 4px;">
+          <span>⚙️</span>
         </button>
       </div>
     </header>
@@ -2999,19 +3013,7 @@
       </div>
 
       <!-- BARRA DE AÇÕES DE PEDIDOS (SEM FILTROS DUPLICADOS) -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
-            <span>💡</span>
-            <span>Clique nos <strong>Cards de Indicadores</strong> acima para filtrar e nos cabeçalhos da tabela para ordenar.</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
-          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
-        </div>
-      </section>
+      
 
       <!-- TABELA DE PEDIDOS -->
       <section class="erp-table-card">
@@ -3130,20 +3132,7 @@
       </div>
 
       <!-- BARRA DE FILTROS FINANCEIROS -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtro Financeiro:</span>
-          <button class="erp-filter-chip active" onclick="filtrarFinanceiro('TODOS', this)">Todos</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('RECEBER', this)">🟢 Contas a Receber</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGAR', this)">🔴 Contas a Pagar</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PENDENTE', this)">⏳ Pendentes</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGO', this)">✅ Pagos / Baixados</button>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" onclick="carregarFinanceiroApi()">🔄 Atualizar Caixa</button>
-        </div>
-      </section>
+      
 
       <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
       <section class="erp-table-card">
@@ -3257,18 +3246,7 @@
       </div>
 
       <!-- BARRA DE AÇÕES FISCAIS -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Tipo de Documento:</span>
-          <button class="erp-filter-chip active" onclick="filtrarFiscalPorTipo('TODAS', this)">Todas (199)</button>
-          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFE_PRODUTO', this)">NF-e Produtos SEFAZ (162)</button>
-          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFSE_SERVICO', this)">NFS-e Portal Nacional (37)</button>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
-        </div>
-      </section>
+      
 
       <!-- TABELA FISCAL -->
       <section class="erp-table-card">
@@ -4484,8 +4462,13 @@
     // Troca de módulos do ERP
     function trocarModulo(modulo, el) {
       document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
+      const btnTopCfg = document.getElementById('btn-top-configuracoes');
+      if (btnTopCfg) btnTopCfg.classList.remove('active');
+
       if (el) el.classList.add('active');
-      const titulo = el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo;
+      if (modulo === 'configuracoes' && btnTopCfg) btnTopCfg.classList.add('active');
+
+      const titulo = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
       document.getElementById('breadcrumb-modulo').textContent = titulo;
 
       // Oculta todas as seções de conteúdo do ERP
@@ -9155,9 +9138,9 @@
       }
 
       // 3. Configurações
-      const menuConfig = document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
+      const menuConfig = document.getElementById('btn-top-configuracoes') || document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
       if (menuConfig) {
-        menuConfig.style.display = perms.configuracoes === false ? 'none' : 'flex';
+        menuConfig.style.display = perms.configuracoes === false ? 'none' : 'inline-flex';
       }
     }
 
