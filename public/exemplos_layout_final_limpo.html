@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Layout Final Limpo | Mis Sueños ERP</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: #070d19; color: #f8fafc; padding: 24px; min-height: 100vh; }
+    .header { margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header h1 { font-size: 22px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+    .header p { font-size: 13.5px; color: #94a3b8; margin-top: 6px; line-height: 1.5; }
+    .badge-dev { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+    /* Layout Mockup Container */
+    .app-mockup { background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,0.6); margin-bottom: 24px; }
+
+    /* Topbar Mockup */
+    .mock-topbar { height: 60px; background: #0d1527; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+    .mock-breadcrumbs { font-size: 13px; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
+    .mock-breadcrumbs strong { color: #f8fafc; }
+    .mock-topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn-mock { background: #162238; border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary-mock { background: #00d4ff; color: #000; border: none; font-weight: 700; }
+    .btn-gear-mock { background: #1e293b; border: 1px solid rgba(56, 189, 248, 0.35); color: #38bdf8; width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 16px; cursor: pointer; transition: all 0.2s; }
+    .btn-gear-mock:hover { background: rgba(56, 189, 248, 0.2); transform: rotate(45deg); box-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
+
+    /* Main Area Mockup */
+    .mock-main { display: grid; grid-template-columns: 200px 1fr; min-height: 380px; }
+    .mock-sidebar { background: #090e1a; border-right: 1px solid rgba(255,255,255,0.08); padding: 16px 12px; }
+    .mock-sidebar-title { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; padding-left: 8px; }
+    .mock-nav-item { padding: 8px 10px; border-radius: 6px; font-size: 12.5px; color: #94a3b8; display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .mock-nav-item.active { background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 700; }
+
+    .mock-content { padding: 20px; background: #070d19; }
+    .mock-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .mock-kpi { background: #0c1424; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; }
+    .mock-kpi-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
+    .mock-kpi-val { font-size: 18px; font-weight: 800; color: #f8fafc; margin-top: 4px; }
+
+    .mock-table-card { background: #0c1424; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; }
+    .mock-table-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #38bdf8; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px; }
+
+    /* Summary Highlights */
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .summary-card { background: #0c1424; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; }
+    .summary-card h3 { font-size: 14px; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .summary-card p { font-size: 12.5px; color: #94a3b8; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>✨ Layout Final Limpo: 100% Sem Barras Redundantes</h1>
+      <p>Todas as 5 barras intermediárias foram removidas do sistema. A navegação de configurações foi transferida exclusivamente para o ícone de engrenagem no canto superior direito.</p>
+    </div>
+    <span class="badge-dev">MISSUENOS-DEV (PORTA 3002)</span>
+  </div>
+
+  <!-- Mockup do Novo Layout -->
+  <div class="app-mockup">
+    <!-- Topbar com Engrenagem no Canto Superior Direito -->
+    <div class="mock-topbar">
+      <div class="mock-breadcrumbs">
+        <span>Mis Sueños ERP</span> <span>/</span> <strong id="lbl-modulo">Estoque de Couros</strong>
+      </div>
+      <div class="mock-topbar-actions">
+        <span class="btn-mock">☀️ Claro</span>
+        <span class="btn-mock">📦 Novo Pedido</span>
+        <span class="btn-mock">🧾 Emitir NF-e</span>
+        <span class="btn-mock btn-primary-mock">👤 Cadastrar Cliente</span>
+        
+        <!-- Engrenagem em Destaque -->
+        <button class="btn-gear-mock" title="Configurações do Sistema" onclick="alert('Módulo de Configurações Aberto!')">
+          ⚙️
+        </button>
+      </div>
+    </div>
+
+    <div class="mock-main">
+      <!-- Sidebar sem o item SISTEMA / Configurações -->
+      <div class="mock-sidebar">
+        <div class="mock-sidebar-title">MÓDULOS PRINCIPAIS</div>
+        <div class="mock-nav-item">📈 Painel Geral</div>
+        <div class="mock-nav-item">🗺️ Mapa de Calor</div>
+        <div class="mock-nav-item">👥 Clientes & CRM</div>
+        <div class="mock-nav-item active">🪵 Estoque de Couros</div>
+        <div class="mock-nav-item">📦 Pedidos de Venda</div>
+        <div class="mock-nav-item">📊 Financeiro & Caixa</div>
+        <div class="mock-nav-item">🧾 Central Fiscal</div>
+      </div>
+
+      <!-- Conteúdo limpo: Sem barra intermediária, tabela direta abaixo dos KPIs -->
+      <div class="mock-content">
+        <div class="mock-kpis">
+          <div class="mock-kpi"><div class="mock-kpi-title">Catálogo 🖱️</div><div class="mock-kpi-val">40 Itens</div></div>
+          <div class="mock-kpi"><div class="mock-kpi-title">Categorias 🖱️</div><div class="mock-kpi-val">5 Cats</div></div>
+          <div class="mock-kpi"><div class="mock-kpi-title">Patrimônio 🖱️</div><div class="mock-kpi-val">R$ 84k</div></div>
+          <div class="mock-kpi"><div class="mock-kpi-title">Estoque Baixo 🖱️</div><div class="mock-kpi-val">3 Itens</div></div>
+        </div>
+
+        <div class="mock-table-card">
+          <div class="mock-table-header">
+            <span>🪵 TABELA DE PRODUTOS & CONTROLE DE ESTOQUE</span>
+            <span>40 produtos cadastrados</span>
+          </div>
+          <div style="font-size: 11.5px; color: #34d399;">
+            ✅ Zero barras intermediárias. Tabela começa imediatamente abaixo dos KPIs, ganhando altura e visibilidade de dados.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h3><span>⚙️</span> Engrenagem no Canto Superior Direito</h3>
+      <p>O item foi retirado da lateral esquerda e colocado no topo direito com microinteração de rotação ao passar o mouse, mantendo o menu lateral focado exclusivamente nos fluxos operacionais.</p>
+    </div>
+    <div class="summary-card">
+      <h3><span>🧹</span> 0 Barras Redundantes no ERP</h3>
+      <p>Todas as 5 barras foram eliminadas (Clientes, Estoque, Pedidos, Financeiro e Fiscal). O design agora é 100% padronizado e coeso em todas as telas.</p>
+    </div>
+    <div class="summary-card">
+      <h3><span>🖱️</span> Dupla Função Universal</h3>
+      <p>Todas as ações de criação (+ Novo), exportações (CSV), filtros rápidos e relatórios agora são acessados por Clique Esquerdo ou Botão Direito nos cards de KPI ou colunas das tabelas.</p>
+    </div>
+  </div>
+
+</body>
+</html>
