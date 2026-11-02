@@ -2690,29 +2690,27 @@
         </button>
       </div>
 
-      <!-- BARRA DE FILTROS DO ERP -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtrar UF:</span>
-          <button class="erp-filter-chip active" onclick="filtrarPorUf('TODOS', this)">Todas (1.140)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('RS', this)">RS (693)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('SP', this)">SP (108)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('PR', this)">PR (91)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('SC', this)">SC (85)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('MT', this)">MT (33)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('MS', this)">MS (41)</button>
-          <button class="erp-filter-chip" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" title="Visualizar Mapa de Calor por Estado">🗺️ Ver no Mapa</button>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)">
+      <!-- BARRA DE AÇÕES DA TABELA (COMPACTA & EXECUTIVA) -->
+      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <select class="erp-select" id="select-uf-clientes" onchange="filtrarPorUfSelect(this.value)" style="min-width: 145px;" title="Filtrar tabela por Estado">
+            <option value="TODOS">Estado (UF): Todas (1.140)</option>
+            <option value="RS">RS – Rio Grande do Sul (693)</option>
+            <option value="SP">SP – São Paulo (108)</option>
+            <option value="PR">PR – Paraná (91)</option>
+            <option value="SC">SC – Santa Catarina (85)</option>
+            <option value="MT">MT – Mato Grosso (33)</option>
+            <option value="MS">MS – Mato Grosso do Sul (41)</option>
+          </select>
+          <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)" title="Filtrar por Documentação Fiscal">
             <option value="TODOS">Documentação: Todos</option>
             <option value="COM_DOC">Apenas com CPF/CNPJ</option>
             <option value="SEM_DOC">Pendentes de Documento</option>
           </select>
-          <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 6px 12px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-clientes')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-clientes')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
+        </div>
+
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 6px 14px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
         </div>
       </section>
 
@@ -2917,8 +2915,6 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-produtos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-produtos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
         </div>
@@ -3048,8 +3044,6 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-pedidos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-pedidos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
           <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
         </div>
@@ -3179,8 +3173,6 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-financeiro')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-financeiro')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-row-action" onclick="carregarFinanceiroApi()">🔄 Atualizar Caixa</button>
         </div>
       </section>
@@ -3303,8 +3295,6 @@
         </div>
 
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-fiscal')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-fiscal')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
           <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
         </div>
       </section>
@@ -4001,11 +3991,16 @@
         </div>
       </div>
 
-      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="font-size: 11px; color: var(--text-muted);">
-          💡 Dica: Na janela de impressão do navegador, defina as margens como "Nenhuma" ou "Padrão" para melhor encaixe térmico.
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" style="color: #f87171; font-size: 11px; padding: 5px 9px;" onclick="restaurarPadraoModalCustomizar()" title="Restaurar padrão original de fábrica do sistema">🏭 Padrão Fábrica</button>
+          <button type="button" class="btn-top btn-row-action" style="color: #fde047; border-color: rgba(250, 204, 21, 0.4); font-size: 11px; padding: 5px 9px;" onclick="definirComoMeuPadraoModal()" title="Salvar o layout e ordem atual como seu padrão favorito de trabalho">⭐ Salvar Meu Padrão</button>
+          <button type="button" class="btn-top btn-row-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); font-size: 11px; padding: 5px 9px;" onclick="restaurarMeuPadraoModal()" title="Carregar a sua configuração favorita salva">🔄 Meu Padrão</button>
         </div>
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalEtiqueta()">Fechar</button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPersonalizarColunas()">Cancelar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="salvarPersonalizacaoColunas()">💾 Salvar & Aplicar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -7840,6 +7835,215 @@
         sincronizarTbodyComThead(tabela);
       }
     }
+
+    
+    // ========================================================
+    // GESTÃO DE PADRÃO DO USUÁRIO VS PADRÃO DE FÁBRICA
+    // ========================================================
+    function filtrarPorUfSelect(uf) {
+      if (typeof filtrarPorUf === 'function') {
+        filtrarPorUf(uf, null);
+      } else {
+        filtroUfAtual = uf;
+        renderTabela();
+      }
+    }
+
+    function definirPadraoUsuario(tabelaId) {
+      const tabela = document.getElementById(tabelaId);
+      if (!tabela) return;
+
+      const currentThs = Array.from(tabela.querySelectorAll('thead th'));
+      const colKeys = currentThs.map(th => th.dataset.col).filter(Boolean);
+      const ocultas = JSON.parse(localStorage.getItem('erp_col_hidden_' + tabelaId) || '[]');
+
+      localStorage.setItem('erp_user_default_order_' + tabelaId, JSON.stringify(colKeys));
+      localStorage.setItem('erp_user_default_hidden_' + tabelaId, JSON.stringify(ocultas));
+      localStorage.setItem('erp_user_default_time_' + tabelaId, new Date().toISOString());
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+      mostrarToast(`⭐ Seu padrão de colunas para "${nomeTab}" foi gravado com sucesso!`);
+    }
+
+    function restaurarPadraoUsuario(tabelaId) {
+      const savedOrder = localStorage.getItem('erp_user_default_order_' + tabelaId);
+      const savedHidden = localStorage.getItem('erp_user_default_hidden_' + tabelaId);
+
+      if (!savedOrder) {
+        mostrarToast('⚠️ Nenhum padrão pessoal salvo ainda. Configure as colunas e clique em "⭐ Salvar como Meu Padrão"!', 'warning');
+        return;
+      }
+
+      localStorage.setItem('erp_col_order_' + tabelaId, savedOrder);
+      localStorage.setItem('erp_col_hidden_' + tabelaId, savedHidden || '[]');
+
+      const tabela = document.getElementById(tabelaId);
+      if (tabela) {
+        const theadRow = tabela.querySelector('thead tr');
+        const order = JSON.parse(savedOrder);
+        if (theadRow && Array.isArray(order)) {
+          order.forEach(colKey => {
+            const th = theadRow.querySelector(`th[data-col="${colKey}"]`);
+            if (th) theadRow.appendChild(th);
+          });
+        }
+        sincronizarTbodyComThead(tabela);
+        aplicarVisibilidadeColunas(tabelaId);
+      }
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+      mostrarToast(`🔄 O seu padrão pessoal de colunas para "${nomeTab}" foi restaurado!`);
+
+      if (tabelaId === 'tabela-pedidos') carregarPedidosApi();
+      else if (tabelaId === 'tabela-clientes') renderTabela();
+      else if (tabelaId === 'tabela-produtos') renderTabelaProdutos();
+      else if (tabelaId === 'tabela-fiscal') renderTabelaFiscal();
+      else if (tabelaId === 'tabela-financeiro') carregarFinanceiroApi();
+    }
+
+    function ocultarColunaRapida(tabelaId, colKey) {
+      const dict = DICIONARIO_COLUNAS_ERP[tabelaId] || {};
+      const colInfo = dict[colKey];
+      if (colInfo && colInfo.locked) {
+        mostrarToast('⚠️ Esta coluna é fixa/obrigatória e não pode ser ocultada.', 'warning');
+        return;
+      }
+
+      const ocultas = JSON.parse(localStorage.getItem('erp_col_hidden_' + tabelaId) || '[]');
+      if (!ocultas.includes(colKey)) {
+        ocultas.push(colKey);
+        localStorage.setItem('erp_col_hidden_' + tabelaId, JSON.stringify(ocultas));
+        aplicarVisibilidadeColunas(tabelaId);
+        const nome = colInfo?.label || colKey;
+        mostrarToast(`Coluna "${nome}" ocultada. Para reexibir: clique com botão direito > Personalizar.`);
+      }
+    }
+
+    function definirComoMeuPadraoModal() {
+      if (!tabelaPersonalizandoId) return;
+      const novaOrdem = colunasEditandoConfig.map(c => c.key);
+      const colunasOcultas = colunasEditandoConfig.filter(c => !c.visible).map(c => c.key);
+
+      localStorage.setItem('erp_user_default_order_' + tabelaPersonalizandoId, JSON.stringify(novaOrdem));
+      localStorage.setItem('erp_user_default_hidden_' + tabelaPersonalizandoId, JSON.stringify(colunasOcultas));
+      localStorage.setItem('erp_user_default_time_' + tabelaPersonalizandoId, new Date().toISOString());
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaPersonalizandoId] || 'Tabela';
+      mostrarToast(`⭐ Configuração salva como seu padrão pessoal em "${nomeTab}"!`);
+    }
+
+    function restaurarMeuPadraoModal() {
+      if (!tabelaPersonalizandoId) return;
+      const savedOrder = localStorage.getItem('erp_user_default_order_' + tabelaPersonalizandoId);
+      const savedHidden = localStorage.getItem('erp_user_default_hidden_' + tabelaPersonalizandoId);
+
+      if (!savedOrder) {
+        mostrarToast('⚠️ Nenhum padrão pessoal salvo ainda. Ajuste as colunas e clique em "⭐ Salvar Meu Padrão"!', 'warning');
+        return;
+      }
+
+      try {
+        const order = JSON.parse(savedOrder);
+        const hidden = JSON.parse(savedHidden || '[]');
+        const dict = DICIONARIO_COLUNAS_ERP[tabelaPersonalizandoId] || {};
+
+        colunasEditandoConfig = order.map(key => {
+          const info = dict[key] || { label: key, locked: false };
+          return {
+            key,
+            label: info.label,
+            locked: info.locked,
+            visible: info.locked ? true : !hidden.includes(key)
+          };
+        });
+
+        renderizarListaModalCustomizar();
+        mostrarToast('🔄 Seu padrão pessoal foi carregado na lista do modal!');
+      } catch (e) {
+        console.error('Erro ao restaurar padrão do usuário no modal:', e);
+      }
+    }
+
+    // ========================================================
+    // MENU DE CONTEXTO DO BOTÃO DIREITO NAS COLUNAS DAS TABELAS
+    // ========================================================
+    function abrirMenuContextoColuna(e, th, tabela) {
+      const tabelaId = tabela.id;
+      const colKey = th.dataset.col;
+      const colDict = DICIONARIO_COLUNAS_ERP[tabelaId] || {};
+      const colInfo = colDict[colKey] || { label: th.textContent.trim().replace(/[▲▼]/g, ''), locked: false };
+      const colLabel = colInfo.label || 'Esta Coluna';
+      const tabelaNome = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+
+      const menu = document.getElementById('erp-context-menu');
+      if (!menu) return;
+
+      const temPadraoSalvo = !!localStorage.getItem('erp_user_default_order_' + tabelaId);
+
+      let html = `
+        <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>📌</span> <span>Coluna: ${colLabel}</span>
+        </div>
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('${tabelaId}')">
+          <span>⚙️</span>
+          <span>Personalizar e Reordenar Colunas...</span>
+        </button>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+        <button type="button" class="erp-context-item" style="color: #fde047;" onclick="fecharContextMenu(); definirPadraoUsuario('${tabelaId}')">
+          <span>⭐</span>
+          <span>Salvar como Meu Padrão</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #67e8f9; ${temPadraoSalvo ? '' : 'opacity: 0.6;'}" onclick="fecharContextMenu(); restaurarPadraoUsuario('${tabelaId}')">
+          <span>🔄</span>
+          <span>Restaurar Meu Padrão ${temPadraoSalvo ? '' : '(Não definido)'}</span>
+        </button>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+        <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('${tabelaId}')">
+          <span>🏭</span>
+          <span>Redefinir para Padrão de Fábrica</span>
+        </button>
+      `;
+
+      if (!colInfo.locked && colKey) {
+        html += `
+          <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+          <button type="button" class="erp-context-item" style="color: #cbd5e1;" onclick="fecharContextMenu(); ocultarColunaRapida('${tabelaId}', '${colKey}')">
+            <span>👁️</span>
+            <span>Ocultar "${colLabel}"</span>
+          </button>
+        `;
+      }
+
+      menu.innerHTML = html;
+      menu.style.display = 'block';
+
+      // Posicionamento inteligente no cursor do mouse
+      const menuWidth = 250;
+      const menuHeight = 240;
+      let left = e.clientX;
+      if (left + menuWidth > window.innerWidth) {
+        left = window.innerWidth - menuWidth - 12;
+      }
+      let top = e.clientY;
+      if (top + menuHeight > window.innerHeight) {
+        top = window.innerHeight - menuHeight - 12;
+      }
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+    }
+
+    // Interceptação global do clique com o botão direito nas colunas de todas as tabelas
+    document.addEventListener('contextmenu', (e) => {
+      const th = e.target.closest('table.erp-table thead th');
+      if (!th) return;
+
+      const tabela = th.closest('table.erp-table');
+      if (!tabela || !tabela.id) return;
+
+      e.preventDefault();
+      abrirMenuContextoColuna(e, th, tabela);
+    });
 
     function restaurarOrdemPadraoColunas(tabelaId) {
       localStorage.removeItem('erp_col_order_' + tabelaId);
