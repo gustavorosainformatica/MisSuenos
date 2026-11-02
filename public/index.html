@@ -14,6 +14,14 @@
   <meta name="apple-mobile-web-app-title" content="Mis Sueños">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Mis Sueños ERP">
+    <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('missuenos_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,6 +66,493 @@
       --topbar-height: 64px;
       --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    
+    
+    
+    /* CALIBRAÇÃO EQUILIBRADA DOS CARDS DE KPIS */
+    .kpis-com-mapa-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 110px;
+      gap: 14px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+    @media (max-width: 1200px) {
+      .kpis-com-mapa-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kpis-com-mapa-wrapper .erp-kpi-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 14px !important;
+    }
+    @media (max-width: 900px) {
+      .kpis-com-mapa-wrapper .erp-kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
+    .erp-kpi-card {
+      padding: 13px 18px !important;
+      border-radius: 10px !important;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18) !important;
+    }
+
+    .kpi-top-row {
+      margin-bottom: 6px !important;
+    }
+
+    .kpi-label {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.4px !important;
+    }
+
+    .kpi-icon-pill {
+      width: 26px !important;
+      height: 26px !important;
+      font-size: 13px !important;
+      border-radius: 6px !important;
+    }
+
+    .kpi-number {
+      font-size: 23px !important;
+      font-weight: 800 !important;
+      letter-spacing: -0.4px !important;
+      line-height: 1.15 !important;
+    }
+
+    .kpi-trend {
+      font-size: 11px !important;
+      margin-top: 5px !important;
+    }
+
+    
+    /* ========================================================
+       OPÇÃO 1: CARD ESTILO BLING / GLASSMORPHISM (APLICADA)
+       ======================================================== */
+    .kpis-com-mapa-wrapper {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      gap: 14px !important;
+      align-items: stretch !important;
+      margin-bottom: 18px !important;
+    }
+    @media (max-width: 1200px) {
+      .kpis-com-mapa-wrapper {
+        grid-template-columns: 1fr auto !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .kpis-com-mapa-wrapper {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    .btn-mini-mapa-brasil {
+      width: 95px !important;
+      min-width: 95px !important;
+      min-height: 85px !important;
+      border-radius: 10px !important;
+      background: linear-gradient(145deg, #131c2d, #0c121d) !important;
+      border: 1.5px solid rgba(0, 212, 255, 0.35) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      position: relative !important;
+      overflow: hidden !important;
+      outline: none !important;
+      padding: 6px !important;
+      box-sizing: border-box !important;
+    }
+
+    .btn-mini-mapa-brasil:hover {
+      border-color: #00d4ff !important;
+      transform: translateY(-2px) scale(1.03) !important;
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.38) !important;
+      background: linear-gradient(145deg, #18253b, #0e1624) !important;
+    }
+
+    .btn-mini-mapa-brasil .img-mapa-brasil {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 75px !important;
+      max-height: 75px !important;
+      object-fit: contain !important;
+      transition: transform 0.25s ease !important;
+      display: block !important;
+      border: none !important;
+      border-radius: 4px !important;
+    }
+
+    .btn-mini-mapa-brasil:hover .img-mapa-brasil {
+      transform: scale(1.06) !important;
+    }
+
+    .btn-mini-mapa-brasil .btn-mapa-label {
+      display: none !important;
+    }
+
+    /* AJUSTES NO TEMA CLARO */
+    [data-theme="light"] .btn-mini-mapa-brasil {
+      background: #ffffff !important;
+      border-color: #00d4ff !important;
+      box-shadow: 0 2px 10px rgba(0, 212, 255, 0.15) !important;
+    }
+    [data-theme="light"] .btn-mini-mapa-brasil:hover {
+      border-color: #00a868 !important;
+      box-shadow: 0 6px 20px rgba(0, 168, 104, 0.25) !important;
+      background: #ffffff !important;
+    }
+
+    /* ELIMINAÇÃO TOTAL DE BARRAS DE ROLAGEM NA SIDEBAR */
+    .erp-sidebar {
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .erp-sidebar::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    .sidebar-nav {
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 8px 10px !important;
+      gap: 2px !important;
+    }
+    .sidebar-nav::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    .nav-section-title {
+      font-size: 9.5px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.8px !important;
+      color: #64748b !important;
+      padding: 8px 10px 2px 10px !important;
+      margin: 0 !important;
+      text-transform: uppercase !important;
+    }
+
+    .nav-item {
+      padding: 7px 12px !important;
+      border-radius: 6px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      color: #cbd5e1 !important;
+      margin-bottom: 1px !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      border-left: 3px solid transparent !important;
+    }
+
+    .nav-item.active {
+      background: rgba(0, 168, 104, 0.18) !important;
+      color: #34d399 !important;
+      font-weight: 700 !important;
+      border-left: 3px solid #00a868 !important;
+    }
+
+    .nav-badge {
+      display: none !important;
+    }
+
+    .erp-sidebar {
+      background-color: #1e293b !important;
+      border-right: 1px solid #334155 !important;
+    }
+
+    .nav-section-title {
+      font-size: 10px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.9px !important;
+      color: #64748b !important;
+      padding: 14px 12px 4px 12px !important;
+      text-transform: uppercase !important;
+    }
+
+    .nav-item {
+      padding: 10px 14px !important;
+      border-radius: 6px !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      color: #cbd5e1 !important;
+      margin-bottom: 2px !important;
+      transition: all 0.15s ease !important;
+      border-left: 3px solid transparent !important;
+    }
+
+    .nav-item:hover {
+      background-color: #334155 !important;
+      color: #ffffff !important;
+    }
+
+    .nav-item.active {
+      background: rgba(0, 168, 104, 0.18) !important;
+      color: #34d399 !important;
+      font-weight: 700 !important;
+      border-left: 3px solid #00a868 !important;
+    }
+
+    .nav-badge {
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      padding: 2px 8px !important;
+      border-radius: 9999px !important;
+    }
+
+    /* RESPIRO E SUAVIDADE NAS TABELAS (ESTILO SAAS MODERNO) */
+    table.erp-table thead th {
+      padding: 12px 16px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    table.erp-table tbody td {
+      padding: 13px 16px !important;
+      font-size: 12.5px !important;
+      vertical-align: middle !important;
+    }
+
+    table.erp-table tbody tr {
+      transition: background-color 0.15s ease !important;
+    }
+
+
+    /* ============================================================
+     * TEMA CLARO CORPORATIVO (ESTILO BLING ERP / SAAS MODERNO)
+     * E BADGES DE STATUS PASTEL
+     * ============================================================ */
+    [data-theme="light"] {
+      --bg-app: #f4f6f8;
+      --bg-sidebar: #1e293b;
+      --bg-sidebar-hover: #334155;
+      --bg-card: #ffffff;
+      --bg-card-elevated: #ffffff;
+      --border-color: #e2e8f0;
+      --border-active: #00a868;
+      
+      --primary: #00a868;
+      --primary-hover: #008f58;
+      --primary-glow: rgba(0, 168, 104, 0.15);
+      
+      --emerald: #00a868;
+      --emerald-glow: rgba(0, 168, 104, 0.15);
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-faint: #94a3b8;
+    }
+
+    [data-theme="light"] body {
+      background-color: #f4f6f8 !important;
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .erp-topbar {
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    [data-theme="light"] .topbar-search-box {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    [data-theme="light"] .topbar-search-input {
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .breadcrumbs strong {
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .erp-kpi-card {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    [data-theme="light"] .kpi-label {
+      color: #64748b !important;
+    }
+
+    [data-theme="light"] .kpi-number {
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .erp-table-container,
+    [data-theme="light"] .erp-table-card,
+    [data-theme="light"] .card-dashboard {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    [data-theme="light"] table.erp-table thead th {
+      background: #f8fafc !important;
+      color: #475569 !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    [data-theme="light"] table.erp-table tbody td {
+      border-bottom: 1px solid #f1f5f9 !important;
+      color: #1e293b !important;
+    }
+
+    [data-theme="light"] table.erp-table tbody tr:hover td {
+      background-color: #f8fafc !important;
+    }
+
+    [data-theme="light"] table.erp-table tbody tr.row-selected td {
+      background-color: #e6f6f0 !important;
+    }
+
+    [data-theme="light"] .form-input,
+    [data-theme="light"] .erp-select {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .form-input:focus,
+    [data-theme="light"] .erp-select:focus {
+      border-color: #00a868 !important;
+      box-shadow: 0 0 0 3px rgba(0, 168, 104, 0.15) !important;
+    }
+
+    [data-theme="light"] .form-label {
+      color: #334155 !important;
+    }
+
+    [data-theme="light"] .modal-container {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    [data-theme="light"] .modal-header {
+      background-color: #f8fafc !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    [data-theme="light"] .modal-title {
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .modal-footer {
+      background-color: #f8fafc !important;
+      border-top: 1px solid #e2e8f0 !important;
+    }
+
+    [data-theme="light"] #btn-top-configuracoes {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #btn-top-configuracoes:hover span {
+      display: inline-block;
+      transform: rotate(45deg);
+      transition: transform 0.25s ease;
+    }
+    #btn-top-configuracoes.active {
+      background: rgba(0, 212, 255, 0.2) !important;
+      border-color: #00d4ff !important;
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.35) !important;
+    }
+
+    .btn-top {
+      background: #ffffff !important;
+      color: #334155 !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+
+    [data-theme="light"] .btn-top:hover {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+    }
+
+    [data-theme="light"] .btn-emerald-glow,
+    [data-theme="light"] .btn-primary-glow {
+      background: #00a868 !important;
+      color: #ffffff !important;
+      border-color: #00a868 !important;
+      box-shadow: 0 2px 8px rgba(0, 168, 104, 0.25) !important;
+    }
+
+    /* BADGES DE STATUS EM TOM PASTEL SUAVE (PADRÃO BLING / SAAS) */
+    .erp-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .erp-status-pill.status-aguardando {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .erp-status-pill.status-separacao {
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(2, 132, 199, 0.35);
+    }
+    .erp-status-pill.status-enviado {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .erp-status-pill.status-cancelado {
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    [data-theme="light"] .erp-status-pill.status-aguardando {
+      background: #fef3c7 !important;
+      color: #b45309 !important;
+      border: 1px solid #fde68a !important;
+    }
+    [data-theme="light"] .erp-status-pill.status-separacao {
+      background: #e0f2fe !important;
+      color: #0369a1 !important;
+      border: 1px solid #bae6fd !important;
+    }
+    [data-theme="light"] .erp-status-pill.status-enviado {
+      background: #e6f6f0 !important;
+      color: #00875a !important;
+      border: 1px solid #b7ebd7 !important;
+    }
+    [data-theme="light"] .erp-status-pill.status-cancelado {
+      background: #fee2e2 !important;
+      color: #b91c1c !important;
+      border: 1px solid #fecaca !important;
+    }
+
 
     * {
       box-sizing: border-box;
@@ -2028,51 +2523,48 @@
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-section-title">Principal</div>
-      <a class="nav-item" onclick="trocarModulo('painel', this)">
+      <!-- 1. MEU NEGÓCIO -->
+      <div class="nav-section-title">MEU NEGÓCIO</div>
+      <a class="nav-item" id="nav-item-painel" onclick="trocarModulo('painel', this)" title="Visão geral e gráficos estratégicos">
         <span class="nav-icon">📊</span>
-        <span>Painel Geral</span>
+        <span>Painel & Indicadores</span>
       </a>
-      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)">
+
+      <!-- 2. CADASTROS -->
+      <div class="nav-section-title">CADASTROS</div>
+      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)" title="Gestão de clientes, destinatários e CRM">
         <span class="nav-icon">👥</span>
         <span>Clientes & CRM</span>
-        <span class="nav-badge" id="nav-total-clientes" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">1.140 Reais</span>
+        <span id="nav-total-clientes" style="display: none;"></span>
       </a>
-      <a class="nav-item" id="nav-item-mapa" onclick="trocarModulo('mapa', this)">
-        <span class="nav-icon">🗺️</span>
-        <span>Mapa de Clientes</span>
-        <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35);">27 UFs</span>
+      <div id="nav-item-mapa" style="display: none;"></div>
+
+      <!-- 3. VENDAS & EXPEDIÇÃO -->
+      <div class="nav-section-title">VENDAS & ENCOMENDAS</div>
+      <a class="nav-item" id="nav-item-pedidos" onclick="trocarModulo('pedidos', this)" title="Gestão de pedidos de venda, entregas e rastreio">
+        <span class="nav-icon">🛒</span>
+        <span>Pedidos de Venda</span>
       </a>
 
-      <div class="nav-section-title">Comercial & Estoque</div>
-      <a class="nav-item" id="nav-item-pedidos" onclick="trocarModulo('pedidos', this)">
-        <span class="nav-icon">📦</span>
-        <span>Vendas & Pedidos</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
-      </a>
-      <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)">
+      <!-- 4. ESTOQUE & CATÁLOGO -->
+      <div class="nav-section-title">ESTOQUE & PRODUTOS</div>
+      <a class="nav-item" id="nav-item-produtos" onclick="trocarModulo('produtos', this)" title="Catálogo de produtos, saldo físico e tributação NCM">
         <span class="nav-icon">🪵</span>
-        <span id="app-stock-menu">Catálogo & Estoque</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">40 NCM</span>
+        <span id="app-stock-menu">Catálogo de Couros</span>
       </a>
-      <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)">
+
+      <!-- 5. FINANÇAS & CENTRAL FISCAL -->
+      <div class="nav-section-title">FINANÇAS & FISCAL</div>
+      <a class="nav-item" id="nav-item-financeiro" onclick="trocarModulo('financeiro', this)" title="Contas a pagar/receber, DRE e importação de XML de compras">
         <span class="nav-icon">💰</span>
         <span id="app-financeiro-menu">Financeiro & Compras</span>
-        <span class="nav-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">Fluxo/XML</span>
       </a>
-
-      <div class="nav-section-title">Fiscal & Faturamento</div>
-      <a class="nav-item" onclick="trocarModulo('fiscal', this)">
+      <a class="nav-item" id="nav-item-fiscal" onclick="trocarModulo('fiscal', this)" title="Emissão de notas fiscais, DANFE e integração SEFAZ">
         <span class="nav-icon">🧾</span>
         <span>Central Fiscal (NF-e)</span>
-        <span class="nav-badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">🧪 Teste</span>
       </a>
 
-      <div class="nav-section-title">Sistema</div>
-      <a class="nav-item" onclick="trocarModulo('configuracoes', this)">
-        <span class="nav-icon">⚙️</span>
-        <span>Configurações</span>
-      </a>
+      
     </nav>
 
     <div class="sidebar-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;">
@@ -2107,6 +2599,11 @@
       </div>
 
       <div class="topbar-right">
+        <!-- ALTERNADOR DE TEMA CLARO / ESCURO (ESTILO BLING) -->
+        <button class="btn-top" id="btn-toggle-theme" onclick="alternarTemaVisual()" title="Alternar entre Tema Claro Corporativo (Bling SaaS) e Tema Escuro (Mis Sueños Tech)" style="padding: 7px 12px; font-weight: 700; gap: 6px; border-radius: 8px;">
+          <span id="theme-icon">☀️</span> <span id="theme-text">Claro</span>
+        </button>
+
         <button class="btn-top" id="btn-instalar-app" onclick="instalarPwaApp()" style="display: none; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700; gap: 6px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);">
           <span>📲</span> Instalar App
         </button>
@@ -2122,6 +2619,11 @@
         </button>
         <button class="btn-top btn-primary-glow" onclick="abrirModalNovoCliente()">
           <span>👤</span> Cadastrar Cliente
+        </button>
+
+        <!-- ÍCONE DE CONFIGURAÇÕES (CANTO SUPERIOR DIREITO) -->
+        <button class="btn-top btn-icon-only" id="btn-top-configuracoes" onclick="trocarModulo('configuracoes', this)" title="Configurações do Sistema, Empresa e Parâmetros Fiscais" style="padding: 7px; width: 36px; height: 36px; justify-content: center; border-radius: 8px; font-size: 16px; margin-left: 4px;">
+          <span>⚙️</span>
         </button>
       </div>
     </header>
@@ -2145,90 +2647,74 @@
       </div>
 
       <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiClientes('TODOS', this)" title="Clique para listar todos os 1.140 clientes">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-cli-total" onclick="acaoKpiClientes('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'base', this)" title="💡 Botão Esquerdo: Listar Todos (1.140) · Botão Direito (🖱️): Menu de Opções & Cadastro">
           <div class="kpi-top-row">
             <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
-            <div class="kpi-icon-pill">👥</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de opções">👥</div>
           </div>
           <div class="kpi-number" id="kpi-total-clientes">1.140</div>
           <div class="kpi-trend">
             <span>↑ 100%</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ ver todos</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ ver · Botão Direito 🖱️</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiClientes('RS', this)" title="Clique para filtrar os 693 clientes do RS">
+        <div class="erp-kpi-card" id="card-kpi-cli-rs" onclick="acaoKpiClientes('RS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'rs', this)" title="💡 Botão Esquerdo: Filtrar RS (693) · Botão Direito (🖱️): Menu Regional (RS, SC, PR, Sul)">
           <div class="kpi-top-row">
             <span class="kpi-label">Volume de Envios RS</span>
-            <div class="kpi-icon-pill">📍</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de regiões">📍</div>
           </div>
           <div class="kpi-number" id="kpi-envios-rs">693</div>
           <div class="kpi-trend">
             <span id="kpi-perc-rs">60.8%</span>
-            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ filtrar RS</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Clique p/ filtrar RS · Menu 🖱️</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir o Mapa de Calor do Brasil">
+        <div class="erp-kpi-card" id="card-kpi-cli-ufs" style="cursor: pointer;" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'ufs', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Seleção Rápida de Estados (UFs)">
           <div class="kpi-top-row">
             <span class="kpi-label">Estados Atendidos</span>
-            <div class="kpi-icon-pill">🇧🇷</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para seleção rápida de UFs">🇧🇷</div>
           </div>
           <div class="kpi-number" id="kpi-ufs">14 UFs</div>
           <div class="kpi-trend">
-            <span style="color: var(--primary);">→ Ver Mapa de Calor</span>
-            <span style="color: var(--text-muted); font-weight: normal;">(Brasil Interativo)</span>
+            <span style="color: var(--primary);">→ Ver Mapa</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Brasil · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiClientes('COM_DOC', this)" title="Clique para filtrar clientes com CPF ou CNPJ cadastrado">
+        <div class="erp-kpi-card" id="card-kpi-docs" onclick="acaoKpiClientes('COM_DOC', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'docs', this)" title="💡 Botão Esquerdo: Com CPF/CNPJ (199) · Botão Direito (🖱️): Menu de Documentação Fiscal">
           <div class="kpi-top-row">
             <span class="kpi-label">Documentos Fiscais</span>
-            <div class="kpi-icon-pill">📄</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de filtros fiscais">📄</div>
           </div>
           <div class="kpi-number" id="kpi-docs">199</div>
           <div class="kpi-trend">
-            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Filtrar)</span>
+            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Botão Direito 🖱️)</span>
           </div>
         </div>
       </section>
 
-      <!-- BARRA DE FILTROS DO ERP -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtrar UF:</span>
-          <button class="erp-filter-chip active" onclick="filtrarPorUf('TODOS', this)">Todas (1.140)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('RS', this)">RS (693)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('SP', this)">SP (108)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('PR', this)">PR (91)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('SC', this)">SC (85)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('MT', this)">MT (33)</button>
-          <button class="erp-filter-chip" onclick="filtrarPorUf('MS', this)">MS (41)</button>
-          <button class="erp-filter-chip" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" title="Visualizar Mapa de Calor por Estado">🗺️ Ver no Mapa</button>
-        </div>
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)">
-            <option value="TODOS">Documentação: Todos</option>
-            <option value="COM_DOC">Apenas com CPF/CNPJ</option>
-            <option value="SEM_DOC">Pendentes de Documento</option>
-          </select>
-          <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 6px 12px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-clientes')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-clientes')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
-        </div>
-      </section>
+      
 
       <!-- DATA GRID CORPORATIVA -->
       <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
-            <span>📋 Relação de Clientes & Destinatários de Encomendas</span>
+            <span>📋 Clientes & Destinatários de Encomendas</span>
             <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Layout corporativo de alta densidade
+            💡 Layout corporativo de alta densidade · Clique com botão direito nas colunas para opções
           </div>
         </div>
 
@@ -2354,71 +2840,63 @@
       </div>
 
       <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiProdutos('TODOS', this)" title="Clique para exibir todos os produtos do catálogo">
+      <div class="kpis-com-mapa-wrapper">
+              <section class="erp-kpi-grid">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-prod-total" onclick="acaoKpiProdutos('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'total', this)" title="💡 Botão Esquerdo: Catálogo Completo · Botão Direito (🖱️): Menu de Opções & Novo Item">
           <div class="kpi-top-row">
             <span class="kpi-label">Catálogo de Produtos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ 40 NCM</span></span>
-            <div class="kpi-icon-pill">🪵</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu do catálogo">🪵</div>
           </div>
           <div class="kpi-number" id="kpi-prod-total">0</div>
           <div class="kpi-trend">
             <span style="color: #34d399;">Catálogo Completo</span>
-            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ listar todos)</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ listar · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiProdutos('CATEGORIAS', this)" title="Clique para agrupar produtos por categoria">
+        <div class="erp-kpi-card" id="card-kpi-prod-categorias" onclick="acaoKpiProdutos('CATEGORIAS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'categorias', this)" title="💡 Botão Esquerdo: Agrupar por Categorias · Botão Direito (🖱️): Filtrar por Categoria Específica">
           <div class="kpi-top-row">
             <span class="kpi-label">Categorias Ativas</span>
-            <div class="kpi-icon-pill">🏷️</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para filtrar por categoria">🏷️</div>
           </div>
           <div class="kpi-number" id="kpi-prod-categorias">4</div>
           <div class="kpi-trend">
-            <span>Loncas · Couros · Tentos · Ferramentas</span>
+            <span>Loncas · Couros · Ferragens (Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiProdutos('MAIOR_PATRIMONIO', this)" title="Clique para ordenar pelos itens de maior valor em estoque">
+        <div class="erp-kpi-card" id="card-kpi-prod-valor" onclick="acaoKpiProdutos('MAIOR_PATRIMONIO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'valor', this)" title="💡 Botão Esquerdo: Ordenar Maior Patrimônio · Botão Direito (🖱️): Opções de Preço & Patrimônio">
           <div class="kpi-top-row">
             <span class="kpi-label">Patrimônio em Estoque</span>
             <div class="kpi-number" id="kpi-prod-valor-total" style="font-size: 22px;">R$ 0,00</div>
           </div>
           <div class="kpi-trend">
-            <span style="color: #38bdf8;">→ Ordenar por Maior Valor</span>
-            <span style="color: var(--text-muted); font-weight: normal;">em estoque</span>
+            <span style="color: #38bdf8;">→ Maior Valor</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(em estoque · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiProdutos('ESTOQUE_BAIXO', this)" title="Clique para filtrar apenas produtos com estoque baixo ou crítico">
+        <div class="erp-kpi-card" id="card-kpi-prod-baixo" onclick="acaoKpiProdutos('ESTOQUE_BAIXO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'estoque_baixo', this)" title="💡 Botão Esquerdo: Filtrar Estoque Baixo · Botão Direito (🖱️): Níveis de Saldo (Crítico, Normal, Zerado)">
           <div class="kpi-top-row">
             <span class="kpi-label">Alerta Estoque Baixo</span>
-            <div class="kpi-icon-pill">⚠️</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de níveis de saldo">⚠️</div>
           </div>
-          <div class="kpi-number" id="kpi-prod-baixo-estoque" style="color: #f59e0b;">0</div>
+          <div class="kpi-number" id="kpi-prod-baixo-estoque" style="color: #fbbf24;">0</div>
           <div class="kpi-trend">
-            <span style="color: #f59e0b;">→ Filtrar Itens Críticos</span>
+            <span style="color: #fbbf24;">→ Estoque Baixo</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(&lt; 5 un · Menu 🖱️)</span>
           </div>
         </div>
       </section>
 
-      <!-- BARRA DE FILTROS DO ESTOQUE -->
-      <section class="erp-toolbar">
-        <div class="toolbar-filters">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Categoria:</span>
-          <button class="erp-filter-chip active" onclick="filtrarProdutosPorCategoria('TODAS', this)">Todas</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Loncas', this)">Loncas</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Couros & Peles', this)">Couros & Peles</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Tentos', this)">Tentos</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Ferramentas', this)">Ferramentas</button>
-        </div>
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-produtos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-produtos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
-          <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
-          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
-        </div>
-      </section>
+      
 
       <!-- DATA GRID DE PRODUTOS -->
       <section class="erp-table-card">
@@ -2475,73 +2953,67 @@
         </span>
       </div>
 
-      <!-- CARDS DE METRICAS DE VENDAS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card" onclick="acaoKpiPedidos('FATURAMENTO', this)" title="Clique para listar todos os pedidos ordenados pelo maior valor de faturamento">
+      <!-- CARDS DE METRICAS DE VENDAS COM BOTÃO DE MINI MAPA AO LADO -->
+      <div class="kpis-com-mapa-wrapper">
+              <section class="erp-kpi-grid">
+        <div class="erp-kpi-card" id="card-kpi-ped-faturamento" onclick="acaoKpiPedidos('FATURAMENTO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'pedidos', 'faturamento', this)" title="💡 Botão Esquerdo: Maior Faturamento · Botão Direito (🖱️): Ranking & Exportação de Vendas">
           <div class="kpi-top-row">
             <span class="kpi-label">Faturamento Total <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
-            <div class="kpi-icon-pill">💵</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de faturamento">💵</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-total-valor">R$ 0,00</div>
+          <div class="kpi-number" id="kpi-ped-faturamento">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">→ Ver Ranking de Valor</span>
-            <span style="color: var(--text-muted); font-weight: normal;">pedidos no banco</span>
+            <span style="color: #34d399;">→ Maior Valor</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Ranking · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiPedidos('TODOS', this)" title="Clique para mostrar todos os pedidos do histórico completo em carteira">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-ped-total" onclick="acaoKpiPedidos('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'pedidos', 'total', this)" title="💡 Botão Esquerdo: Histórico Completo · Botão Direito (🖱️): Gestão de Pedidos & Novo Pedido">
           <div class="kpi-top-row">
-            <span class="kpi-label">Volume de Pedidos <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
-            <div class="kpi-icon-pill">📦</div>
+            <span class="kpi-label">Volume de Pedidos</span>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de pedidos">📦</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-qtd">0 Pedidos</div>
+          <div class="kpi-number" id="kpi-ped-total">0</div>
           <div class="kpi-trend">
-            <span style="color: #38bdf8;">→ Mostrar Histórico Completo</span>
-            <span style="color: var(--text-muted); font-weight: normal;">em carteira</span>
+            <span>Histórico Completo</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ listar · Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiPedidos('AGUARDANDO_ENVIO', this)" title="Clique para filtrar apenas os pedidos que estão aguardando envio">
+        <div class="erp-kpi-card" id="card-kpi-ped-aguardando" onclick="acaoKpiPedidos('AGUARDANDO_ENVIO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'pedidos', 'aguardando', this)" title="💡 Botão Esquerdo: Aguardando Envio · Botão Direito (🖱️): Menu de Status Logístico">
           <div class="kpi-top-row">
             <span class="kpi-label">Aguardando Envio</span>
-            <div class="kpi-icon-pill">⏳</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para status de envio">⏳</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-pendentes" style="color: #f59e0b;">0 Pedidos</div>
+          <div class="kpi-number" id="kpi-ped-aguardando" style="color: #fbbf24;">0</div>
           <div class="kpi-trend">
-            <span style="color: #f59e0b;">→ Filtrar Pendentes de Envio</span>
-            <span style="color: var(--text-muted); font-weight: normal;">expedição</span>
+            <span style="color: #fbbf24;">→ Em Separação</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Filtrar · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiPedidos('TICKET_MEDIO', this)" title="Clique para ver o detalhamento de Ticket Médio e pedidos acima da média">
+        <div class="erp-kpi-card" id="card-kpi-ped-ticket" onclick="acaoKpiPedidos('TICKET_MEDIO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'pedidos', 'ticket', this)" title="💡 Botão Esquerdo: Acima da Média · Botão Direito (🖱️): Segmentação de Ticket & VIP">
           <div class="kpi-top-row">
             <span class="kpi-label">Ticket Médio</span>
-            <div class="kpi-icon-pill">📈</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para segmentação por ticket">🎯</div>
           </div>
-          <div class="kpi-number" id="kpi-pedidos-ticket-medio">R$ 0,00</div>
+          <div class="kpi-number" id="kpi-ped-ticket">R$ 0,00</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">→ Filtrar Acima da Média</span>
-            <span style="color: var(--text-muted); font-weight: normal;">couros e insumos</span>
+            <span style="color: #38bdf8;">→ Acima da Média</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Segmentação · Menu 🖱️)</span>
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
       <!-- BARRA DE AÇÕES DE PEDIDOS (SEM FILTROS DUPLICADOS) -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <div style="font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
-            <span>💡</span>
-            <span>Clique nos <strong>Cards de Indicadores</strong> acima para filtrar e nos cabeçalhos da tabela para ordenar.</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-pedidos')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-pedidos')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
-          <button class="btn-top btn-row-action" onclick="exportarPedidosCsv()">📥 Exportar Pedidos</button>
-          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoPedido()">➕ + Novo Pedido</button>
-        </div>
-      </section>
+      
 
       <!-- TABELA DE PEDIDOS -->
       <section class="erp-table-card">
@@ -2601,69 +3073,66 @@
       </div>
 
       <!-- KPIs DE FLUXO DE CAIXA (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('RECEBER', this)" title="Clique para filtrar apenas Contas a Receber">
+      <div class="kpis-com-mapa-wrapper">
+              <section class="erp-kpi-grid">
+        <div class="erp-kpi-card" id="card-kpi-fin-receber" onclick="acaoKpiFinanceiro('RECEBER', this)" oncontextmenu="abrirMenuContextoKpi(event, 'financeiro', 'receber', this)" title="💡 Botão Esquerdo: Filtrar A Receber · Botão Direito (🖱️): Menu de Contas a Receber">
           <div class="kpi-top-row">
             <span class="kpi-label">A Receber (Pendente)</span>
-            <div class="kpi-icon-pill">🟢</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de contas a receber">📥</div>
           </div>
           <div class="kpi-number" id="kpi-fin-receber" style="color: #34d399;">R$ 0,00</div>
           <div class="kpi-trend">
-            <span id="kpi-fin-recebido" style="color: var(--text-muted); font-weight: normal;">Recebido no caixa: R$ 0,00</span>
+            <span style="color: #34d399;">→ A Receber</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Filtrar · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('PAGAR', this)" title="Clique para filtrar apenas Contas a Pagar">
+        <div class="erp-kpi-card" id="card-kpi-fin-pagar" onclick="acaoKpiFinanceiro('PAGAR', this)" oncontextmenu="abrirMenuContextoKpi(event, 'financeiro', 'pagar', this)" title="💡 Botão Esquerdo: Filtrar A Pagar · Botão Direito (🖱️): Menu de Contas a Pagar & Prazos">
           <div class="kpi-top-row">
             <span class="kpi-label">A Pagar (Pendente)</span>
-            <div class="kpi-icon-pill">🔴</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de contas a pagar">📤</div>
           </div>
           <div class="kpi-number" id="kpi-fin-pagar" style="color: #f87171;">R$ 0,00</div>
           <div class="kpi-trend">
-            <span id="kpi-fin-pago" style="color: var(--text-muted); font-weight: normal;">Pago / Quitado: R$ 0,00</span>
+            <span style="color: #f87171;">→ A Pagar</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Filtrar · Botão Direito 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiFinanceiro('TODOS', this)" title="Clique para exibir todos os lançamentos do Fluxo de Caixa">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-fin-saldo" onclick="acaoKpiFinanceiro('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'financeiro', 'saldo', this)" title="💡 Botão Esquerdo: Extrato Completo · Botão Direito (🖱️): Menu Fluxo de Caixa & Exportação">
           <div class="kpi-top-row">
             <span class="kpi-label">Saldo Previsto (Caixa + Pendentes)</span>
-            <div class="kpi-icon-pill">📊</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de tesouraria">📊</div>
           </div>
           <div class="kpi-number" id="kpi-fin-saldo" style="color: #38bdf8;">R$ 0,00</div>
           <div class="kpi-trend">
-            <span id="kpi-fin-caixa-real" style="color: #34d399;">Saldo Realizado: R$ 0,00</span>
+            <span>Fluxo de Caixa Geral</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ ver · Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiFinanceiro('ATRASADO', this)" title="Clique para filtrar apenas títulos vencidos / em atraso">
+        <div class="erp-kpi-card" id="card-kpi-fin-atrasados" onclick="acaoKpiFinanceiro('ATRASADO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'financeiro', 'atrasados', this)" title="💡 Botão Esquerdo: Títulos Vencidos · Botão Direito (🖱️): Gestão de Inadimplência & Cobrança">
           <div class="kpi-top-row">
             <span class="kpi-label">Títulos em Atraso</span>
-            <div class="kpi-icon-pill">⚠️</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para gestão de inadimplência">⚠️</div>
           </div>
-          <div class="kpi-number" id="kpi-fin-atraso" style="color: #fbbf24;">0 títulos</div>
+          <div class="kpi-number" id="kpi-fin-atrasados" style="color: #fbbf24;">0 Títulos</div>
           <div class="kpi-trend">
-            <span id="kpi-fin-fornecedores-count" style="color: var(--text-muted); font-weight: normal;">0 fornecedores cadastrados</span>
+            <span style="color: #fbbf24;">→ Inadimplentes</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Cobrança · Menu 🖱️)</span>
           </div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
       <!-- BARRA DE FILTROS FINANCEIROS -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Filtro Financeiro:</span>
-          <button class="erp-filter-chip active" onclick="filtrarFinanceiro('TODOS', this)">Todos</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('RECEBER', this)">🟢 Contas a Receber</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGAR', this)">🔴 Contas a Pagar</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PENDENTE', this)">⏳ Pendentes</button>
-          <button class="erp-filter-chip" onclick="filtrarFinanceiro('PAGO', this)">✅ Pagos / Baixados</button>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-financeiro')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-financeiro')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
-          <button class="btn-top btn-row-action" onclick="carregarFinanceiroApi()">🔄 Atualizar Caixa</button>
-        </div>
-      </section>
+      
 
       <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
       <section class="erp-table-card">
@@ -2718,68 +3187,66 @@
       </div>
 
       <!-- CARDS FISCAIS (CLICÁVEIS) -->
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card" onclick="abrirModalFiscal()" title="Clique para abrir o emissor rápido de NF-e / NFS-e">
+      <div class="kpis-com-mapa-wrapper">
+              <section class="erp-kpi-grid">
+        <div class="erp-kpi-card" id="card-kpi-fisc-emitir" onclick="abrirModalFiscal()" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'emitir', this)" title="💡 Botão Esquerdo: Emissor Rápido · Botão Direito (🖱️): Menu de Emissão NF-e & NFS-e">
           <div class="kpi-top-row">
-            <span class="kpi-label">Status da Conexão Fiscal</span>
-            <div class="kpi-icon-pill">🏛️</div>
+            <span class="kpi-label">Status da Conexão Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🟢 100% ON</span></span>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de emissão fiscal">🧾</div>
           </div>
-          <div class="kpi-number" style="color: #34d399; font-size: 20px;">🟢 Conectado</div>
+          <div class="kpi-number" style="font-size: 19px; color: #34d399;">SEFAZ RS + Nacional</div>
           <div class="kpi-trend">
-            <span style="color: #34d399;">→ Emitir Nota Agora</span>
-            <span style="color: var(--text-muted); font-weight: normal;">SEFAZ RS & Nacional</span>
+            <span style="color: #38bdf8;">+ Emitir Nota</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ abrir · Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card kpi-active-filter" onclick="acaoKpiFiscal('TODAS', this)" title="Clique para listar todas as 199 notas fiscais">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-fisc-total" onclick="acaoKpiFiscal('TODAS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'total', this)" title="💡 Botão Esquerdo: Todas as 199 Notas · Botão Direito (🖱️): Filtros por Status (Autorizada, Cancelada)">
           <div class="kpi-top-row">
             <span class="kpi-label">Total Documentos Emitidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">📄</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para filtros de notas emitidas">📄</div>
           </div>
           <div class="kpi-number">199 Notas</div>
           <div class="kpi-trend">
             <span style="color: #fbbf24;">→ Mostrar Todas (199)</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiFiscal('NFE_PRODUTO', this)" title="Clique para filtrar apenas NF-e Modelo 55 (Produtos SEFAZ)">
+        <div class="erp-kpi-card" id="card-kpi-fisc-nfe" onclick="acaoKpiFiscal('NFE_PRODUTO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'nfe', this)" title="💡 Botão Esquerdo: Modelo 55 SEFAZ (162) · Botão Direito (🖱️): Status SEFAZ RS & Exportação">
           <div class="kpi-top-row">
             <span class="kpi-label">NF-e Mercadorias (SEFAZ) <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">🪵</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para ações de NF-e">🪵</div>
           </div>
           <div class="kpi-number">162 Notas</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">→ Filtrar Modelo 55 (162)</span>
+            <span style="color: #fbbf24;">→ Filtrar Modelo 55</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(162 · Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiFiscal('NFSE_SERVICO', this)" title="Clique para filtrar apenas NFS-e de Serviços (Portal Nacional)">
+        <div class="erp-kpi-card" id="card-kpi-fisc-nfse" onclick="acaoKpiFiscal('NFSE_SERVICO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'nfse', this)" title="💡 Botão Esquerdo: NFS-e Nacional (37) · Botão Direito (🖱️): Consultas & Ações do Portal NFS-e">
           <div class="kpi-top-row">
             <span class="kpi-label">NFS-e Portal Nacional <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">🧾</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para ações de NFS-e">🧾</div>
           </div>
           <div class="kpi-number">37 DPS</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">→ Filtrar NFS-e (37)</span>
+            <span style="color: #fbbf24;">→ Filtrar NFS-e</span>
+            <span style="color: var(--text-muted); font-weight: normal;">(37 · Menu 🖱️)</span>
           </div>
         </div>
       </section>
 
-      <!-- BARRA DE AÇÕES FISCAIS -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div class="toolbar-filters" style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Tipo de Documento:</span>
-          <button class="erp-filter-chip active" onclick="filtrarFiscalPorTipo('TODAS', this)">Todas (199)</button>
-          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFE_PRODUTO', this)">NF-e Produtos SEFAZ (162)</button>
-          <button class="erp-filter-chip" onclick="filtrarFiscalPorTipo('NFSE_SERVICO', this)">NFS-e Portal Nacional (37)</button>
-        </div>
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="abrirModalPersonalizarColunas('tabela-fiscal')" title="Personalizar visibilidade e ordem das colunas">⚙️ Colunas</button>
-          <button class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px;" onclick="restaurarOrdemPadraoColunas('tabela-fiscal')" title="Restaurar a ordem original das colunas">🔄 Restaurar Colunas</button>
-          <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">🧾 + Emitir NF-e / NFS-e</button>
-        </div>
-      </section>
+      <!-- BARRA DE AÇÕES FISCAIS -->
+      
 
       <!-- TABELA FISCAL -->
       <section class="erp-table-card">
@@ -2818,43 +3285,51 @@
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
     <main class="erp-content" id="modulo-painel-conteudo" style="display: none;">
-      <section class="erp-kpi-grid">
-        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))">
+      <div class="kpis-com-mapa-wrapper">
+        <section class="erp-kpi-grid">
+        <div class="erp-kpi-card" id="card-kpi-painel-clientes" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'clientes', this)" title="💡 Botão Esquerdo: Abrir CRM · Botão Direito (🖱️): Atalhos Rápidos & Filtros de Clientes">
           <div class="kpi-top-row">
             <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
-            <div class="kpi-icon-pill">👥</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de clientes">👥</div>
           </div>
           <div class="kpi-number">1.140</div>
-          <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM de Clientes (Base Real)</span></div>
+          <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM</span> <span style="color: var(--text-muted); font-weight: normal;">(Base Real · Menu 🖱️)</span></div>
         </div>
 
-        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)'))">
+        <div class="erp-kpi-card" id="card-kpi-painel-pedidos" style="cursor: pointer;" onclick="trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'pedidos', this)" title="💡 Botão Esquerdo: Abrir Pedidos · Botão Direito (🖱️): Atalhos Rápidos & Separação">
           <div class="kpi-top-row">
             <span class="kpi-label">Vendas no Mês <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">📦</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de pedidos">📦</div>
           </div>
           <div class="kpi-number">R$ 18.450</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas (Simulação Fictícia)</span></div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas</span> <span style="color: var(--text-muted); font-weight: normal;">(Simulação · Menu 🖱️)</span></div>
         </div>
 
-        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
+        <div class="erp-kpi-card" id="card-kpi-painel-produtos" style="cursor: pointer;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'produtos', this)" title="💡 Botão Esquerdo: Abrir Estoque · Botão Direito (🖱️): Atalhos Rápidos & Alertas">
           <div class="kpi-top-row">
             <span class="kpi-label">Estoque de Couros <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">🪵</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de estoque">🪵</div>
           </div>
           <div class="kpi-number">11 Itens</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Estoque (Demonstração)</span></div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Estoque</span> <span style="color: var(--text-muted); font-weight: normal;">(Demonstração · Menu 🖱️)</span></div>
         </div>
 
-        <div class="erp-kpi-card" style="cursor: pointer;" onclick="trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)'))">
+        <div class="erp-kpi-card" id="card-kpi-painel-fiscal" style="cursor: pointer;" onclick="trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'fiscal', this)" title="💡 Botão Esquerdo: Abrir Fiscal · Botão Direito (🖱️): Atalhos Rápidos & Emissão">
           <div class="kpi-top-row">
             <span class="kpi-label">Central Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
-            <div class="kpi-icon-pill">🧾</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos fiscais">🧾</div>
           </div>
           <div class="kpi-number">199 Notas</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal (Homologação Teste)</span></div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal</span> <span style="color: var(--text-muted); font-weight: normal;">(Homologação · Menu 🖱️)</span></div>
         </div>
       </section>
+
+        <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+          <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
+          
+        </button>
+      </div>
 
       <!-- ATALHOS RAPIDOS DO ERP -->
       <section class="erp-table-card" style="padding: 24px;">
@@ -3465,11 +3940,16 @@
         </div>
       </div>
 
-      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
-        <div style="font-size: 11px; color: var(--text-muted);">
-          💡 Dica: Na janela de impressão do navegador, defina as margens como "Nenhuma" ou "Padrão" para melhor encaixe térmico.
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" style="color: #f87171; font-size: 11px; padding: 5px 9px;" onclick="restaurarPadraoModalCustomizar()" title="Restaurar padrão original de fábrica do sistema">🏭 Padrão Fábrica</button>
+          <button type="button" class="btn-top btn-row-action" style="color: #fde047; border-color: rgba(250, 204, 21, 0.4); font-size: 11px; padding: 5px 9px;" onclick="definirComoMeuPadraoModal()" title="Salvar o layout e ordem atual como seu padrão favorito de trabalho">⭐ Salvar Meu Padrão</button>
+          <button type="button" class="btn-top btn-row-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); font-size: 11px; padding: 5px 9px;" onclick="restaurarMeuPadraoModal()" title="Carregar a sua configuração favorita salva">🔄 Meu Padrão</button>
         </div>
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalEtiqueta()">Fechar</button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPersonalizarColunas()">Cancelar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="salvarPersonalizacaoColunas()">💾 Salvar & Aplicar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -3982,8 +4462,13 @@
     // Troca de módulos do ERP
     function trocarModulo(modulo, el) {
       document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
+      const btnTopCfg = document.getElementById('btn-top-configuracoes');
+      if (btnTopCfg) btnTopCfg.classList.remove('active');
+
       if (el) el.classList.add('active');
-      const titulo = el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo;
+      if (modulo === 'configuracoes' && btnTopCfg) btnTopCfg.classList.add('active');
+
+      const titulo = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
       document.getElementById('breadcrumb-modulo').textContent = titulo;
 
       // Oculta todas as seções de conteúdo do ERP
@@ -3996,6 +4481,7 @@
         document.getElementById('modulo-clientes-conteudo').style.display = 'flex';
       } else if (modulo === 'pedidos') {
         document.getElementById('modulo-pedidos-conteudo').style.display = 'flex';
+        atualizarKpisPedidos();
         renderTabelaPedidos();
       } else if (modulo === 'fiscal') {
         document.getElementById('modulo-fiscal-conteudo').style.display = 'flex';
@@ -4040,7 +4526,7 @@
     function atualizarKpis() {
       const total = clientes.length;
       document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
-      document.getElementById('nav-total-clientes').textContent = total.toLocaleString('pt-BR');
+      const elTot = document.getElementById('nav-total-clientes'); if (elTot) elTot.textContent = total.toLocaleString('pt-BR');
 
       const totalRs = clientes.filter(c => (c.uf || '').toUpperCase() === 'RS').length;
       const percRs = total > 0 ? ((totalRs / total) * 100).toFixed(1) : '0';
@@ -4065,9 +4551,19 @@
     function aplicarFiltros() {
       const termo = (buscaTexto || '').toLowerCase().trim();
       filtrados = clientes.filter(c => {
-        if (ufFiltro !== 'TODOS' && (c.uf || '').toUpperCase() !== ufFiltro) return false;
-        if (docFiltro === 'COM_DOC' && !c.cpf && !c.cnpj) return false;
-        if (docFiltro === 'SEM_DOC' && (c.cpf || c.cnpj)) return false;
+        if (ufFiltro !== 'TODOS') {
+          if (ufFiltro === 'SUL') {
+            if (!['RS', 'SC', 'PR'].includes((c.uf || '').toUpperCase())) return false;
+          } else if ((c.uf || '').toUpperCase() !== ufFiltro) {
+            return false;
+          }
+        }
+        const temCpf = !!(c.cpf && c.cpf.trim());
+        const temCnpj = !!(c.cnpj && c.cnpj.trim());
+        if (docFiltro === 'COM_DOC' && !temCpf && !temCnpj) return false;
+        if (docFiltro === 'CPF' && !temCpf) return false;
+        if (docFiltro === 'CNPJ' && !temCnpj) return false;
+        if (docFiltro === 'SEM_DOC' && (temCpf || temCnpj)) return false;
         if (termo) {
           const texto = `${c.nome || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`.toLowerCase();
           if (!texto.includes(termo)) return false;
@@ -4167,7 +4663,7 @@
         const uf = (c.uf || 'RS').toUpperCase();
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" title="Dois cliques para abrir e editar a ficha deste cliente">
+          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${c.id}"></td>
             <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
             <td data-col="nome" style="font-weight: 700; color: #fff;">
@@ -4569,7 +5065,7 @@
         const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" title="Dois cliques para editar este produto">
+          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" oncontextmenu="abrirMenuAcoesProduto(event, ${p.id}); return false;" title="Dois cliques para editar este produto | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${p.id}"></td>
             <td data-col="sku" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
             <td data-col="ncm"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
@@ -4713,6 +5209,36 @@
       }
     }
 
+    function exportarTabelaPrecosCsv() {
+      const lista = (produtosFiltrados && produtosFiltrados.length > 0) ? produtosFiltrados : (typeof produtos !== 'undefined' ? produtos : []);
+      if (!lista || lista.length === 0) {
+        mostrarToast('⚠️ Nenhum produto disponível para exportar preços.');
+        return;
+      }
+      const headers = ['Código SKU', 'Produto / Descrição', 'Categoria', 'Unidade', 'NCM', 'Preço de Venda (R$)', 'Disponibilidade'];
+      const rows = lista.map(p => [
+        `"${p.codigo_sku || ''}"`,
+        `"${(p.nome || '').replace(/"/g, '""')}"`,
+        `"${p.categoria || ''}"`,
+        `"${p.unidade_medida || 'UN'}"`,
+        `"${p.ncm || '4104.11.00'}"`,
+        `"R$ ${(parseFloat(p.preco_venda) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}"`,
+        (p.estoque_atual || 0) > 0 ? '"Em Estoque"' : '"Sob Encomenda"'
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      const dataHoje = new Date().toISOString().slice(0, 10);
+      link.setAttribute('download', `MisSuenos_Tabela_Precos_${dataHoje}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarToast(`🏷️ Tabela de Preços exportada com sucesso (${lista.length} produtos)!`);
+    }
+
     function exportarProdutosCsv() {
       if (produtosFiltrados.length === 0) return alert('Nenhum produto para exportar.');
       const headers = ['SKU', 'Produto', 'Categoria', 'Unidade', 'Preco_Custo', 'Preco_Venda', 'Estoque_Atual', 'Estoque_Minimo', 'Descricao'];
@@ -4776,16 +5302,16 @@
       const ticketMedio = totalPedidos > 0 ? (totalValor / totalPedidos) : 0;
 
       // KPIs
-      const elTotal = document.getElementById('kpi-pedidos-total-valor');
+      const elTotal = document.getElementById('kpi-ped-faturamento') || document.getElementById('kpi-pedidos-total-valor');
       if (elTotal) elTotal.textContent = `R$ ${totalValor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-      const elQtd = document.getElementById('kpi-pedidos-qtd');
-      if (elQtd) elQtd.textContent = `${totalPedidos} Pedido${totalPedidos === 1 ? '' : 's'}`;
+      const elQtd = document.getElementById('kpi-ped-total') || document.getElementById('kpi-pedidos-qtd');
+      if (elQtd) elQtd.textContent = totalPedidos.toString();
 
-      const elPendentes = document.getElementById('kpi-pedidos-pendentes');
-      if (elPendentes) elPendentes.textContent = `${pendentes} Pedido${pendentes === 1 ? '' : 's'}`;
+      const elPendentes = document.getElementById('kpi-ped-aguardando') || document.getElementById('kpi-pedidos-pendentes');
+      if (elPendentes) elPendentes.textContent = pendentes.toString();
 
-      const elTicket = document.getElementById('kpi-pedidos-ticket-medio');
+      const elTicket = document.getElementById('kpi-ped-ticket') || document.getElementById('kpi-pedidos-ticket-medio');
       if (elTicket) elTicket.textContent = `R$ ${ticketMedio.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       // Contadores nas abas de filtros
@@ -4830,10 +5356,12 @@
       tbody.innerHTML = pedidosFiltrados.map(ped => {
         const statusTexto = ped.status_texto || ped.statusTexto || 'Pendente';
         const statusBadge = ped.status === 'AGUARDANDO_ENVIO'
-          ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">⏳ ${statusTexto}</span>`
+          ? `<span class="erp-status-pill status-aguardando">⏳ ${statusTexto}</span>`
           : ped.status === 'EM_SEPARACAO'
-          ? `<span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">📦 ${statusTexto}</span>`
-          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px;">✅ ${statusTexto}</span>`;
+          ? `<span class="erp-status-pill status-separacao">📦 ${statusTexto}</span>`
+          : ped.status === 'ENVIADO'
+          ? `<span class="erp-status-pill status-enviado">✓ ${statusTexto}</span>`
+          : `<span class="erp-status-pill status-cancelado">✕ ${statusTexto}</span>`;
 
         const valorNum = parseFloat(ped.valor_total || ped.valor || 0);
         const dataPed = ped.data_pedido || ped.data || '-';
@@ -5438,6 +5966,33 @@
         fiscalFiltrado = listaFiscal.filter(f => f.modelo === tipo);
       }
       renderTabelaFiscal();
+    }
+
+    
+    // GERENCIAMENTO DE TEMA VISUAL: CLARO CORPORATIVO (BLING) / ESCURO (MIS SUEÑOS)
+    function alternarTemaVisual() {
+      const atual = document.documentElement.getAttribute('data-theme') || 'dark';
+      const novo = atual === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', novo);
+      try {
+        localStorage.setItem('missuenos_theme', novo);
+      } catch(e) {}
+
+      atualizarBotoesTema(novo);
+      mostrarToast(novo === 'light' ? '☀️ Modo Claro Corporativo ativado (Estilo Bling/SaaS)' : '🌙 Modo Escuro ativado (Mis Sueños Tech)');
+    }
+
+    function atualizarBotoesTema(tema) {
+      const iconEl = document.getElementById('theme-icon');
+      const textEl = document.getElementById('theme-text');
+      if (iconEl) iconEl.textContent = tema === 'light' ? '🌙' : '☀️';
+      if (textEl) textEl.textContent = tema === 'light' ? 'Escuro' : 'Claro';
+    }
+
+    function inicializarTemaVisual() {
+      const salvo = localStorage.getItem('missuenos_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', salvo);
+      atualizarBotoesTema(salvo);
     }
 
     function aplicarConfiguracaoApp() {
@@ -7046,31 +7601,73 @@
       }
     });
 
+    document.addEventListener('contextmenu', (e) => {
+      if (!e.target.closest('#erp-context-menu') && !e.target.closest('tr') && !e.target.closest('.card-kpi-custom') && !e.target.closest('table.erp-table thead th')) {
+        fecharContextMenu();
+      }
+    });
+
     window.addEventListener('resize', fecharContextMenu);
     window.addEventListener('scroll', fecharContextMenu, true);
 
     function posicionarContextMenu(e, itensHtml) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+
       const menu = document.getElementById('erp-context-menu');
       if (!menu) return;
       menu.innerHTML = itensHtml;
       menu.style.display = 'block';
 
-      const btn = e.currentTarget || e.target;
-      const rect = btn.getBoundingClientRect();
-      const menuWidth = 210;
-      let left = rect.right - menuWidth;
-      if (left < 10) left = rect.left;
-      let top = rect.bottom + 6;
-      if (top + 190 > window.innerHeight) {
-        top = Math.max(10, rect.top - 190);
+      // Coleta dimensões dinâmicas do menu renderizado
+      const menuWidth = menu.offsetWidth || 230;
+      const menuHeight = menu.offsetHeight || 190;
+      let left, top;
+
+      const isRightClick = e && (e.type === 'contextmenu' || e.button === 2);
+      const isActionBtn = e && (e.target?.closest?.('.btn-row-action') || e.currentTarget?.classList?.contains?.('btn-row-action'));
+      const hasMouseCoords = e && typeof e.clientX === 'number' && (e.clientX > 0 || e.clientY > 0);
+
+      if (isActionBtn && !isRightClick) {
+        // Clique com botão esquerdo no botão de 3 pontinhos ⋮ -> ancora logo abaixo do botão
+        const btn = e.target.closest('.btn-row-action') || e.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        left = rect.right - menuWidth;
+        if (left < 10) left = rect.left;
+        top = rect.bottom + 6;
+        if (top + menuHeight > window.innerHeight) {
+          top = Math.max(10, rect.top - menuHeight - 6);
+        }
+      } else if (hasMouseCoords) {
+        // Clique com botão direito (contextmenu) ou clique em linha -> abre exatamente na posição do mouse!
+        left = e.clientX;
+        top = e.clientY;
+
+        // Evita estourar para fora da tela (direita)
+        if (left + menuWidth > window.innerWidth) {
+          left = Math.max(10, window.innerWidth - menuWidth - 12);
+        }
+        // Evita estourar para fora da tela (baixo)
+        if (top + menuHeight > window.innerHeight) {
+          top = Math.max(10, window.innerHeight - menuHeight - 12);
+        }
+      } else if (e && (e.currentTarget || e.target)) {
+        const el = e.currentTarget || e.target;
+        const rect = el.getBoundingClientRect();
+        left = rect.left;
+        top = rect.bottom + 4;
+      } else {
+        left = 100;
+        top = 100;
       }
 
-      menu.style.left = `${Math.max(10, left)}px`;
-      menu.style.top = `${Math.max(10, top)}px`;
+      menu.style.left = `${Math.max(10, Math.round(left))}px`;
+      menu.style.top = `${Math.max(10, Math.round(top))}px`;
     }
 
     function abrirMenuAcoesCliente(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const c = clientes.find(item => String(item.id) === String(id));
       if (!c) return;
 
@@ -7092,7 +7689,8 @@
     }
 
     function abrirMenuAcoesPedido(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const p = listaPedidos.find(item => String(item.id) === String(id));
       if (!p) return;
 
@@ -7114,7 +7712,8 @@
     }
 
     function abrirMenuAcoesProduto(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const p = produtos.find(item => String(item.id) === String(id));
       if (!p) return;
 
@@ -7275,6 +7874,1023 @@
         sincronizarTbodyComThead(tabela);
       }
     }
+
+    
+    // ========================================================
+    // GESTÃO DE PADRÃO DO USUÁRIO VS PADRÃO DE FÁBRICA
+    // ========================================================
+    function filtrarPorUfSelect(uf) {
+      if (typeof filtrarPorUf === 'function') {
+        filtrarPorUf(uf, null);
+      } else {
+        filtroUfAtual = uf;
+        renderTabela();
+      }
+    }
+
+    function definirPadraoUsuario(tabelaId) {
+      const tabela = document.getElementById(tabelaId);
+      if (!tabela) return;
+
+      const currentThs = Array.from(tabela.querySelectorAll('thead th'));
+      const colKeys = currentThs.map(th => th.dataset.col).filter(Boolean);
+      const ocultas = JSON.parse(localStorage.getItem('erp_col_hidden_' + tabelaId) || '[]');
+
+      localStorage.setItem('erp_user_default_order_' + tabelaId, JSON.stringify(colKeys));
+      localStorage.setItem('erp_user_default_hidden_' + tabelaId, JSON.stringify(ocultas));
+      localStorage.setItem('erp_user_default_time_' + tabelaId, new Date().toISOString());
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+      mostrarToast(`⭐ Seu padrão de colunas para "${nomeTab}" foi gravado com sucesso!`);
+    }
+
+    function restaurarPadraoUsuario(tabelaId) {
+      const savedOrder = localStorage.getItem('erp_user_default_order_' + tabelaId);
+      const savedHidden = localStorage.getItem('erp_user_default_hidden_' + tabelaId);
+
+      if (!savedOrder) {
+        mostrarToast('⚠️ Nenhum padrão pessoal salvo ainda. Configure as colunas e clique em "⭐ Salvar como Meu Padrão"!', 'warning');
+        return;
+      }
+
+      localStorage.setItem('erp_col_order_' + tabelaId, savedOrder);
+      localStorage.setItem('erp_col_hidden_' + tabelaId, savedHidden || '[]');
+
+      const tabela = document.getElementById(tabelaId);
+      if (tabela) {
+        const theadRow = tabela.querySelector('thead tr');
+        const order = JSON.parse(savedOrder);
+        if (theadRow && Array.isArray(order)) {
+          order.forEach(colKey => {
+            const th = theadRow.querySelector(`th[data-col="${colKey}"]`);
+            if (th) theadRow.appendChild(th);
+          });
+        }
+        sincronizarTbodyComThead(tabela);
+        aplicarVisibilidadeColunas(tabelaId);
+      }
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+      mostrarToast(`🔄 O seu padrão pessoal de colunas para "${nomeTab}" foi restaurado!`);
+
+      if (tabelaId === 'tabela-pedidos') carregarPedidosApi();
+      else if (tabelaId === 'tabela-clientes') renderTabela();
+      else if (tabelaId === 'tabela-produtos') renderTabelaProdutos();
+      else if (tabelaId === 'tabela-fiscal') renderTabelaFiscal();
+      else if (tabelaId === 'tabela-financeiro') carregarFinanceiroApi();
+    }
+
+    function ocultarColunaRapida(tabelaId, colKey) {
+      const dict = DICIONARIO_COLUNAS_ERP[tabelaId] || {};
+      const colInfo = dict[colKey];
+      if (colInfo && colInfo.locked) {
+        mostrarToast('⚠️ Esta coluna é fixa/obrigatória e não pode ser ocultada.', 'warning');
+        return;
+      }
+
+      const ocultas = JSON.parse(localStorage.getItem('erp_col_hidden_' + tabelaId) || '[]');
+      if (!ocultas.includes(colKey)) {
+        ocultas.push(colKey);
+        localStorage.setItem('erp_col_hidden_' + tabelaId, JSON.stringify(ocultas));
+        aplicarVisibilidadeColunas(tabelaId);
+        const nome = colInfo?.label || colKey;
+        mostrarToast(`Coluna "${nome}" ocultada. Para reexibir: clique com botão direito > Personalizar.`);
+      }
+    }
+
+    function definirComoMeuPadraoModal() {
+      if (!tabelaPersonalizandoId) return;
+      const novaOrdem = colunasEditandoConfig.map(c => c.key);
+      const colunasOcultas = colunasEditandoConfig.filter(c => !c.visible).map(c => c.key);
+
+      localStorage.setItem('erp_user_default_order_' + tabelaPersonalizandoId, JSON.stringify(novaOrdem));
+      localStorage.setItem('erp_user_default_hidden_' + tabelaPersonalizandoId, JSON.stringify(colunasOcultas));
+      localStorage.setItem('erp_user_default_time_' + tabelaPersonalizandoId, new Date().toISOString());
+
+      const nomeTab = NOMES_TABELAS_ERP[tabelaPersonalizandoId] || 'Tabela';
+      mostrarToast(`⭐ Configuração salva como seu padrão pessoal em "${nomeTab}"!`);
+    }
+
+    function restaurarMeuPadraoModal() {
+      if (!tabelaPersonalizandoId) return;
+      const savedOrder = localStorage.getItem('erp_user_default_order_' + tabelaPersonalizandoId);
+      const savedHidden = localStorage.getItem('erp_user_default_hidden_' + tabelaPersonalizandoId);
+
+      if (!savedOrder) {
+        mostrarToast('⚠️ Nenhum padrão pessoal salvo ainda. Ajuste as colunas e clique em "⭐ Salvar Meu Padrão"!', 'warning');
+        return;
+      }
+
+      try {
+        const order = JSON.parse(savedOrder);
+        const hidden = JSON.parse(savedHidden || '[]');
+        const dict = DICIONARIO_COLUNAS_ERP[tabelaPersonalizandoId] || {};
+
+        colunasEditandoConfig = order.map(key => {
+          const info = dict[key] || { label: key, locked: false };
+          return {
+            key,
+            label: info.label,
+            locked: info.locked,
+            visible: info.locked ? true : !hidden.includes(key)
+          };
+        });
+
+        renderizarListaModalCustomizar();
+        mostrarToast('🔄 Seu padrão pessoal foi carregado na lista do modal!');
+      } catch (e) {
+        console.error('Erro ao restaurar padrão do usuário no modal:', e);
+      }
+    }
+
+    // ========================================================
+    // MENU DE CONTEXTO DO BOTÃO DIREITO NAS COLUNAS DAS TABELAS
+    // ========================================================
+    
+    function exportarTabelaContexto(tabelaId) {
+      if (tabelaId === 'tabela-clientes' && typeof exportarCsv === 'function') {
+        exportarCsv();
+      } else if (tabelaId === 'tabela-produtos' && typeof exportarProdutosCsv === 'function') {
+        exportarProdutosCsv();
+      } else if (tabelaId === 'tabela-pedidos' && typeof exportarPedidosCsv === 'function') {
+        exportarPedidosCsv();
+      } else {
+        mostrarToast('📥 Exportando dados da tabela...');
+      }
+    }
+
+    
+    // ========================================================
+    // MENU DE CONTEXTO DO CARD DE DOCUMENTOS FISCAIS (BOTÃO DIREITO)
+    // ========================================================
+    
+    // ========================================================
+    // SISTEMA UNIVERSAL DE DUPLO CLIQUE / MENU DE CONTEXTO EM TODOS OS KPIS (BOTÃO DIREITO 🖱️)
+    // ========================================================
+    function filtrarCompletudeEToast(tipo, cardId) {
+      docFiltro = tipo;
+      aplicarFiltros();
+
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+        }
+      } else {
+        document.querySelectorAll('#modulo-clientes-conteudo .erp-kpi-card').forEach(c => c.classList.remove('kpi-active-filter'));
+      }
+
+      if (tipo === 'COM_DOC') {
+        mostrarToast(`📄 Filtrado: exibindo ${filtrados.length} clientes com CPF ou CNPJ cadastrado.`);
+      } else if (tipo === 'CPF') {
+        mostrarToast(`👤 Filtrado: exibindo ${filtrados.length} clientes com CPF (Pessoa Física).`);
+      } else if (tipo === 'CNPJ') {
+        mostrarToast(`🏢 Filtrado: exibindo ${filtrados.length} clientes com CNPJ (Pessoa Jurídica).`);
+      } else if (tipo === 'SEM_DOC') {
+        mostrarToast(`⚠️ Filtrado: exibindo ${filtrados.length} clientes pendentes de CPF/CNPJ.`);
+      } else {
+        mostrarToast(`👥 Exibindo todos os ${filtrados.length} clientes cadastrados.`);
+      }
+    }
+
+    function filtrarRegiaoSul(cardId) {
+      ufFiltro = 'SUL';
+      docFiltro = 'TODOS';
+      aplicarFiltros();
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+        }
+      }
+      mostrarToast(`🗺️ Filtrado: ${filtrados.length} clientes da Região Sul (RS, SC e PR).`);
+    }
+
+    function filtrarClientesPorUfEToast(uf, cardId) {
+      ufFiltro = uf;
+      docFiltro = 'TODOS';
+      aplicarFiltros();
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+        }
+      }
+      if (uf === 'TODOS') {
+        mostrarToast(`👥 Exibindo todos os ${filtrados.length} clientes cadastrados.`);
+      } else {
+        mostrarToast(`📍 Filtrado: ${filtrados.length} clientes do estado (${uf}).`);
+      }
+    }
+
+    function filtrarProdutosPorCategoria(cat, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-produtos-conteudo');
+        }
+      }
+      if (cat === 'TODAS') {
+        produtosFiltrados = [...produtos];
+        mostrarToast(`🪵 Exibindo todas as categorias (${produtosFiltrados.length} produtos).`);
+      } else {
+        produtosFiltrados = produtos.filter(p => (p.categoria || '').toLowerCase().includes(cat.toLowerCase()));
+        mostrarToast(`🏷️ Filtrado: ${produtosFiltrados.length} produtos da categoria "${cat}".`);
+      }
+      renderTabelaProdutos();
+    }
+
+    function ordenarProdutosPorPreco(ordem, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-produtos-conteudo');
+        }
+      }
+      if (ordem === 'VALOR_DESC') {
+        produtosFiltrados = [...produtos].sort((a, b) => ((b.estoque_atual || 0) * (b.preco_venda || 0)) - ((a.estoque_atual || 0) * (a.preco_venda || 0)));
+        mostrarToast('💰 Produtos ordenados pelo maior patrimônio em estoque!');
+      } else if (ordem === 'VALOR_ASC') {
+        produtosFiltrados = [...produtos].sort((a, b) => ((a.estoque_atual || 0) * (a.preco_venda || 0)) - ((b.estoque_atual || 0) * (b.preco_venda || 0)));
+        mostrarToast('📉 Produtos ordenados pelo menor patrimônio em estoque.');
+      } else if (ordem === 'PRECO_DESC') {
+        produtosFiltrados = [...produtos].sort((a, b) => (b.preco_venda || 0) - (a.preco_venda || 0));
+        mostrarToast('🏷️ Produtos ordenados pelo maior preço de venda unitário!');
+      }
+      renderTabelaProdutos();
+    }
+
+    function filtrarProdutosPorNivelEstoque(nivel, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-produtos-conteudo');
+        }
+      }
+      if (nivel === 'BAIXO') {
+        produtosFiltrados = produtos.filter(p => (p.estoque_atual || 0) < 5);
+        mostrarToast(`⚠️ Filtrado: ${produtosFiltrados.length} produto(s) com estoque baixo (< 5 unid.).`);
+      } else if (nivel === 'NORMAL') {
+        produtosFiltrados = produtos.filter(p => (p.estoque_atual || 0) >= 5);
+        mostrarToast(`📦 Filtrado: ${produtosFiltrados.length} produto(s) com estoque regular (≥ 5 unid.).`);
+      } else if (nivel === 'ZERADO') {
+        produtosFiltrados = produtos.filter(p => (p.estoque_atual || 0) <= 0);
+        mostrarToast(`🚫 Filtrado: ${produtosFiltrados.length} produto(s) esgotados / estoque zerado.`);
+      } else {
+        produtosFiltrados = [...produtos];
+        mostrarToast(`🪵 Exibindo todos os ${produtosFiltrados.length} produtos.`);
+      }
+      renderTabelaProdutos();
+    }
+
+    function filtrarPedidosPorStatusCustom(status, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-pedidos-conteudo');
+        }
+      }
+      statusFiltroPedido = status;
+      if (status === 'TODOS') {
+        pedidosFiltrados = [...listaPedidos];
+        mostrarToast(`📦 Exibindo histórico completo: ${pedidosFiltrados.length} pedidos em carteira.`);
+      } else {
+        pedidosFiltrados = listaPedidos.filter(p => p.status === status);
+        const label = status === 'AGUARDANDO_ENVIO' ? 'aguardando envio' : status === 'ENVIADO' ? 'enviados' : status === 'ENTREGUE' ? 'entregues' : 'cancelados';
+        mostrarToast(`🚚 Filtrado: ${pedidosFiltrados.length} pedido(s) ${label}.`);
+      }
+      renderTabelaPedidos();
+    }
+
+    function filtrarPedidosPorTicketCustom(tipo, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-pedidos-conteudo');
+        }
+      }
+      const totalValor = listaPedidos.reduce((acc, p) => acc + (parseFloat(p.valor_total || p.valor) || 0), 0);
+      const media = listaPedidos.length > 0 ? (totalValor / listaPedidos.length) : 0;
+      if (tipo === 'ACIMA') {
+        pedidosFiltrados = listaPedidos.filter(p => (parseFloat(p.valor_total || p.valor) || 0) >= media);
+        mostrarToast(`📈 Filtrado: ${pedidosFiltrados.length} pedido(s) acima do Ticket Médio (R$ ${media.toFixed(2)}).`);
+      } else if (tipo === 'ABAIXO') {
+        pedidosFiltrados = listaPedidos.filter(p => (parseFloat(p.valor_total || p.valor) || 0) < media);
+        mostrarToast(`📉 Filtrado: ${pedidosFiltrados.length} pedido(s) abaixo do Ticket Médio (R$ ${media.toFixed(2)}).`);
+      } else if (tipo === 'VIP') {
+        pedidosFiltrados = listaPedidos.filter(p => (parseFloat(p.valor_total || p.valor) || 0) >= 2000);
+        mostrarToast(`👑 Filtrado: ${pedidosFiltrados.length} pedidos VIP / Alto Valor (≥ R$ 2.000,00).`);
+      } else {
+        pedidosFiltrados = [...listaPedidos];
+        mostrarToast(`📦 Exibindo todos os ${pedidosFiltrados.length} pedidos.`);
+      }
+      renderTabelaPedidos();
+    }
+
+    function filtrarFinanceiroPorStatusCustom(tipoOuStatus, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-financeiro-conteudo');
+        }
+      }
+      const hojeIso = new Date().toISOString().slice(0, 10);
+      const em7Dias = new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10);
+
+      if (tipoOuStatus === 'TODOS') {
+        financeiroFiltrado = [...listaFinanceiro];
+        mostrarToast(`📊 Exibindo extrato completo: ${financeiroFiltrado.length} lançamentos.`);
+      } else if (tipoOuStatus === 'RECEBER') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.tipo === 'RECEBER');
+        mostrarToast(`🟢 Filtrado: ${financeiroFiltrado.length} Contas a Receber.`);
+      } else if (tipoOuStatus === 'PAGAR') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.tipo === 'PAGAR');
+        mostrarToast(`🔴 Filtrado: ${financeiroFiltrado.length} Contas a Pagar.`);
+      } else if (tipoOuStatus === 'ATRASADO') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.status !== 'PAGO' && l.data_vencimento && l.data_vencimento < hojeIso);
+        mostrarToast(`⚠️ Filtrado: ${financeiroFiltrado.length} título(s) vencido(s) / em atraso.`);
+      } else if (tipoOuStatus === 'QUITADO') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.status === 'PAGO');
+        mostrarToast(`✅ Filtrado: ${financeiroFiltrado.length} lançamentos quitados / pagos.`);
+      } else if (tipoOuStatus === 'PROXIMOS_7') {
+        financeiroFiltrado = listaFinanceiro.filter(l => l.status !== 'PAGO' && l.data_vencimento >= hojeIso && l.data_vencimento <= em7Dias);
+        mostrarToast(`⏳ Filtrado: ${financeiroFiltrado.length} lançamentos vencendo nos próximos 7 dias.`);
+      }
+      renderTabelaFinanceiro();
+      destacarTabelaFiltrada('#modulo-financeiro-conteudo');
+    }
+
+    function filtrarFiscalPorStatusCustom(status, cardId) {
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-fiscal-conteudo');
+        }
+      }
+      if (status === 'TODAS') {
+        fiscalFiltrado = [...listaFiscal];
+        mostrarToast(`🧾 Exibindo todas as ${fiscalFiltrado.length} notas fiscais emitidas.`);
+      } else if (status === 'AUTORIZADA') {
+        fiscalFiltrado = listaFiscal.filter(f => (f.status || '').toLowerCase().includes('autoriz'));
+        mostrarToast(`🟢 Filtrado: ${fiscalFiltrado.length} nota(s) fiscais autorizadas.`);
+      } else if (status === 'CANCELADA') {
+        fiscalFiltrado = listaFiscal.filter(f => (f.status || '').toLowerCase().includes('cancel'));
+        mostrarToast(`❌ Filtrado: ${fiscalFiltrado.length} nota(s) canceladas.`);
+      } else if (status === 'NFE_PRODUTO' || status === 'NFSE_SERVICO') {
+        fiscalFiltrado = listaFiscal.filter(f => f.modelo === status);
+        mostrarToast(status === 'NFE_PRODUTO' ? `🪵 Filtrado: ${fiscalFiltrado.length} NF-e SEFAZ (Produtos).` : `🏢 Filtrado: ${fiscalFiltrado.length} NFS-e Nacional (Serviços).`);
+      }
+      renderTabelaFiscal();
+      destacarTabelaFiltrada('#modulo-fiscal-conteudo');
+    }
+
+    function abrirMenuContextoKpi(e, modulo, cardKey, cardEl) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const menu = document.getElementById('erp-context-menu');
+      if (!menu) return;
+
+      const totalClientes = (typeof clientes !== 'undefined' && clientes) ? clientes.length : 1140;
+      const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 170;
+      const totalCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cnpj && c.cnpj.trim()).length : 29;
+      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 182;
+      const semDoc = totalClientes - comDoc;
+
+      let html = '';
+
+      // --- MÓDULO: CLIENTES ---
+      if (modulo === 'clientes') {
+        if (cardKey === 'base') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>👥</span> <span>Base de Clientes & CRM</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoCliente()">
+              <span>➕</span> <span>Cadastrar Novo Cliente</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiClientes('TODOS', document.getElementById('card-kpi-cli-total'))">
+              <span>👥</span> <span>Exibir Todos os Clientes (${totalClientes})</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarCsv()">
+              <span>📥</span> <span>Exportar Planilha (CSV)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-clientes')">
+              <span>⚙️</span> <span>Personalizar Colunas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('tabela-clientes')">
+              <span>🏭</span> <span>Restaurar Padrão de Fábrica</span>
+            </button>
+          `;
+        } else if (cardKey === 'rs') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📍</span> <span>Filtro Regional / Envios RS & Sul</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs')">
+              <span>📍</span> <span>Rio Grande do Sul (693 clientes)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('SC', 'card-kpi-cli-rs')">
+              <span>📍</span> <span>Santa Catarina (85 clientes)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('PR', 'card-kpi-cli-rs')">
+              <span>📍</span> <span>Paraná (91 clientes)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarRegiaoSul('card-kpi-cli-rs')">
+              <span>🗺️</span> <span>Região Sul Completa (869 clientes)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('TODOS', 'card-kpi-cli-total')">
+              <span>🔄</span> <span>Exibir Todos os Estados (${totalClientes})</span>
+            </button>
+          `;
+        } else if (cardKey === 'ufs') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🇧🇷</span> <span>Estados Atendidos (14 UFs)</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+              <span>🗺️</span> <span>Abrir Mapa de Calor do Brasil</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('RS', 'card-kpi-cli-ufs')">
+              <span>🥇</span> <span>RS - Rio Grande do Sul (693)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('SP', 'card-kpi-cli-ufs')">
+              <span>🥈</span> <span>SP - São Paulo (108)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('PR', 'card-kpi-cli-ufs')">
+              <span>🥉</span> <span>PR - Paraná (91)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('SC', 'card-kpi-cli-ufs')">
+              <span>📍</span> <span>SC - Santa Catarina (85)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('MS', 'card-kpi-cli-ufs')">
+              <span>📍</span> <span>MS - Mato Grosso do Sul (41)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('MT', 'card-kpi-cli-ufs')">
+              <span>📍</span> <span>MT - Mato Grosso (33)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarClientesPorUfEToast('TODOS', 'card-kpi-cli-total')">
+              <span>🔄</span> <span>Exibir Todas as 14 UFs (${totalClientes})</span>
+            </button>
+          `;
+        } else if (cardKey === 'docs') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📄</span> <span>Filtro de Documentação Fiscal</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs')">
+              <span>✅</span> <span>Apenas com CPF ou CNPJ (${comDoc})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CPF', 'card-kpi-docs')">
+              <span>👤</span> <span>Apenas CPF (${totalCpfs})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #60a5fa;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CNPJ', 'card-kpi-docs')">
+              <span>🏢</span> <span>Apenas CNPJ (${totalCnpjs})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarCompletudeEToast('SEM_DOC', 'card-kpi-docs')">
+              <span>⚠️</span> <span>Pendentes de Documento (${semDoc})</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #cbd5e1;" onclick="fecharContextMenu(); filtrarCompletudeEToast('TODOS', null)">
+              <span>👥</span> <span>Exibir Todos os Clientes (${totalClientes})</span>
+            </button>
+          `;
+        }
+      }
+
+      // --- MÓDULO: PRODUTOS (ESTOQUE) ---
+      else if (modulo === 'produtos') {
+        if (cardKey === 'total') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🪵</span> <span>Catálogo de Produtos & Estoque</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoProduto()">
+              <span>➕</span> <span>Cadastrar Novo Produto</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiProdutos('TODOS', document.getElementById('card-kpi-prod-total'))">
+              <span>🪵</span> <span>Exibir Catálogo Completo</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaPrecosCsv()">
+              <span>🏷️</span> <span>Exportar Preços (CSV)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarProdutosCsv()">
+              <span>📥</span> <span>Exportar Catálogo Completo (CSV)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-produtos')">
+              <span>⚙️</span> <span>Personalizar Colunas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('tabela-produtos')">
+              <span>🏭</span> <span>Restaurar Padrão de Fábrica</span>
+            </button>
+          `;
+        } else if (cardKey === 'categorias') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🏷️</span> <span>Filtrar por Categoria</span>
+            </div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Couros & Peles', 'card-kpi-prod-categorias')">
+              <span>🪵</span> <span>Couros & Peles</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Loncas', 'card-kpi-prod-categorias')">
+              <span>📜</span> <span>Loncas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Tentos', 'card-kpi-prod-categorias')">
+              <span>🪢</span> <span>Tentos</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Ferramentas', 'card-kpi-prod-categorias')">
+              <span>🔨</span> <span>Ferramentas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Artefatos', 'card-kpi-prod-categorias')">
+              <span>👜</span> <span>Artefatos</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiProdutos('CATEGORIAS', document.getElementById('card-kpi-prod-categorias'))">
+              <span>🔤</span> <span>Agrupar por Categoria (A-Z)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('TODAS', 'card-kpi-prod-total')">
+              <span>🔄</span> <span>Todas as Categorias</span>
+            </button>
+          `;
+        } else if (cardKey === 'valor') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>💰</span> <span>Análise de Patrimônio & Preço</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); ordenarProdutosPorPreco('VALOR_DESC', 'card-kpi-prod-valor')">
+              <span>📈</span> <span>Maior Patrimônio em Estoque</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); ordenarProdutosPorPreco('VALOR_ASC', 'card-kpi-prod-valor')">
+              <span>📉</span> <span>Menor Patrimônio em Estoque</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); ordenarProdutosPorPreco('PRECO_DESC', 'card-kpi-prod-valor')">
+              <span>🏷️</span> <span>Maior Preço de Venda Unitário</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaPrecosCsv()">
+              <span>📥</span> <span>Exportar Tabela de Preços (CSV)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); acaoKpiProdutos('TODOS', document.getElementById('card-kpi-prod-total'))">
+              <span>🔄</span> <span>Ordem Padrão de Cadastro</span>
+            </button>
+          `;
+        } else if (cardKey === 'estoque_baixo') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>⚠️</span> <span>Controle de Níveis de Estoque</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarProdutosPorNivelEstoque('BAIXO', 'card-kpi-prod-baixo')">
+              <span>⚠️</span> <span>Estoque Crítico / Baixo (&lt; 5 unid.)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarProdutosPorNivelEstoque('NORMAL', 'card-kpi-prod-baixo')">
+              <span>📦</span> <span>Estoque Normal / Abastecido (≥ 5 unid.)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarProdutosPorNivelEstoque('ZERADO', 'card-kpi-prod-baixo')">
+              <span>🚫</span> <span>Estoque Zerado / Esgotado</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarProdutosPorNivelEstoque('TODOS', 'card-kpi-prod-total')">
+              <span>🔄</span> <span>Exibir Todos os Produtos</span>
+            </button>
+          `;
+        }
+      }
+
+      // --- MÓDULO: PEDIDOS ---
+      else if (modulo === 'pedidos') {
+        if (cardKey === 'faturamento') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>💵</span> <span>Faturamento & Vendas</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiPedidos('FATURAMENTO', document.getElementById('card-kpi-ped-faturamento'))">
+              <span>📈</span> <span>Ordenar por Maior Valor de Venda</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarPedidosCsv()">
+              <span>📥</span> <span>Exportar Relatório de Vendas (CSV)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); acaoKpiPedidos('TODOS', document.getElementById('card-kpi-ped-total'))">
+              <span>🔄</span> <span>Ordem Cronológica Mais Recente</span>
+            </button>
+          `;
+        } else if (cardKey === 'total') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📦</span> <span>Gestão de Pedidos em Carteira</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoPedido()">
+              <span>➕</span> <span>Criar Novo Pedido de Venda</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiPedidos('TODOS', document.getElementById('card-kpi-ped-total'))">
+              <span>📦</span> <span>Exibir Histórico Completo</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarPedidosCsv()">
+              <span>📥</span> <span>Exportar Planilha de Pedidos (CSV)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-pedidos')">
+              <span>⚙️</span> <span>Personalizar Colunas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('tabela-pedidos')">
+              <span>🏭</span> <span>Restaurar Padrão de Fábrica</span>
+            </button>
+          `;
+        } else if (cardKey === 'aguardando') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🚚</span> <span>Status Logístico & Envio</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('AGUARDANDO_ENVIO', 'card-kpi-ped-aguardando')">
+              <span>⏳</span> <span>Aguardando Envio / Separação</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('ENVIADO', 'card-kpi-ped-aguardando')">
+              <span>🚚</span> <span>Pedidos Enviados / Em Trânsito</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('ENTREGUE', 'card-kpi-ped-aguardando')">
+              <span>✅</span> <span>Pedidos Entregues / Concluídos</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('CANCELADO', 'card-kpi-ped-aguardando')">
+              <span>❌</span> <span>Pedidos Cancelados</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('TODOS', 'card-kpi-ped-total')">
+              <span>🔄</span> <span>Exibir Todos os Status</span>
+            </button>
+          `;
+        } else if (cardKey === 'ticket') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🎯</span> <span>Segmentação por Ticket Médio</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarPedidosPorTicketCustom('ACIMA', 'card-kpi-ped-ticket')">
+              <span>📈</span> <span>Pedidos Acima da Média</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarPedidosPorTicketCustom('ABAIXO', 'card-kpi-ped-ticket')">
+              <span>📉</span> <span>Pedidos Abaixo da Média</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarPedidosPorTicketCustom('VIP', 'card-kpi-ped-ticket')">
+              <span>👑</span> <span>Pedidos VIP (≥ R$ 2.000)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarPedidosPorTicketCustom('TODOS', 'card-kpi-ped-total')">
+              <span>🔄</span> <span>Exibir Todos os Pedidos</span>
+            </button>
+          `;
+        }
+      }
+
+      // --- MÓDULO: FINANCEIRO ---
+      else if (modulo === 'financeiro') {
+        if (cardKey === 'receber') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📥</span> <span>Contas a Receber</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('RECEBER', 'card-kpi-fin-receber')">
+              <span>⏳</span> <span>Títulos a Receber (Pendentes)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('ATRASADO', 'card-kpi-fin-atrasados')">
+              <span>⚠️</span> <span>Títulos Vencidos / Inadimplentes</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('QUITADO', 'card-kpi-fin-receber')">
+              <span>✅</span> <span>Títulos já Recebidos / Quitados</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('TODOS', 'card-kpi-fin-saldo')">
+              <span>🔄</span> <span>Extrato Completo do Fluxo</span>
+            </button>
+          `;
+        } else if (cardKey === 'pagar') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📤</span> <span>Contas a Pagar</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('PAGAR', 'card-kpi-fin-pagar')">
+              <span>⏳</span> <span>Contas a Pagar (Pendentes)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('PROXIMOS_7', 'card-kpi-fin-pagar')">
+              <span>📅</span> <span>Vencendo nos Próximos 7 Dias</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('QUITADO', 'card-kpi-fin-pagar')">
+              <span>✅</span> <span>Contas já Pagas / Liquidadas</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('TODOS', 'card-kpi-fin-saldo')">
+              <span>🔄</span> <span>Extrato Completo do Fluxo</span>
+            </button>
+          `;
+        } else if (cardKey === 'saldo') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📊</span> <span>Fluxo de Caixa & Tesouraria</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('TODOS', 'card-kpi-fin-saldo')">
+              <span>📊</span> <span>Exibir Extrato Completo</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarTabelaContexto('tabela-financeiro')">
+              <span>📥</span> <span>Exportar Extrato (CSV)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); carregarFinanceiroApi()">
+              <span>🔄</span> <span>Recarregar Lançamentos da API</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-financeiro')">
+              <span>⚙️</span> <span>Personalizar Colunas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('tabela-financeiro')">
+              <span>🏭</span> <span>Restaurar Padrão de Fábrica</span>
+            </button>
+          `;
+        } else if (cardKey === 'atrasados') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>⚠️</span> <span>Cobrança & Inadimplência</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('ATRASADO', 'card-kpi-fin-atrasados')">
+              <span>🔴</span> <span>Todos os Títulos Vencidos / Em Atraso</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('PROXIMOS_7', 'card-kpi-fin-atrasados')">
+              <span>⏳</span> <span>Vencimentos dos Próximos 7 Dias</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFinanceiroPorStatusCustom('TODOS', 'card-kpi-fin-saldo')">
+              <span>🔄</span> <span>Extrato Completo do Fluxo</span>
+            </button>
+          `;
+        }
+      }
+
+      // --- MÓDULO: FISCAL ---
+      else if (modulo === 'fiscal') {
+        if (cardKey === 'emitir') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🧾</span> <span>Emissão Fiscal SEFAZ & NFS-e</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalFiscal()">
+              <span>➕</span> <span>Abrir Emissor Rápido de Documentos</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarTabelaContexto('tabela-fiscal')">
+              <span>📥</span> <span>Exportar Livro Fiscal (CSV)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-fiscal')">
+              <span>⚙️</span> <span>Personalizar Colunas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('tabela-fiscal')">
+              <span>🏭</span> <span>Restaurar Padrão de Fábrica</span>
+            </button>
+          `;
+        } else if (cardKey === 'total') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📄</span> <span>Livro de Documentos Fiscais</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
+              <span>📄</span> <span>Exibir Todas as Notas Fiscais (199)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('AUTORIZADA', 'card-kpi-fisc-total')">
+              <span>🟢</span> <span>Apenas Notas Autorizadas (SEFAZ)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('CANCELADA', 'card-kpi-fisc-total')">
+              <span>❌</span> <span>Notas Canceladas / Inutilizadas</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarTabelaContexto('tabela-fiscal')">
+              <span>📥</span> <span>Exportar Relatório Fiscal (CSV)</span>
+            </button>
+          `;
+        } else if (cardKey === 'nfe') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🪵</span> <span>NF-e Modelo 55 (Produtos SEFAZ)</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('NFE_PRODUTO', 'card-kpi-fisc-nfe')">
+              <span>🪵</span> <span>Filtrar Apenas NF-e SEFAZ (162 Notas)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); mostrarToast('🟢 SEFAZ RS: Servidores em Operação Normal (100% On-line)')">
+              <span>🟢</span> <span>Verificar Status SEFAZ RS</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
+              <span>🔄</span> <span>Exibir Todos os Documentos</span>
+            </button>
+          `;
+        } else if (cardKey === 'nfse') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🏢</span> <span>NFS-e Padrão Nacional (Serviços)</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('NFSE_SERVICO', 'card-kpi-fisc-nfse')">
+              <span>🧾</span> <span>Filtrar Apenas NFS-e Nacional (37 DPS)</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); mostrarToast('🟢 Portal Nacional NFS-e: Conectado e Homologado')">
+              <span>🏛️</span> <span>Consultar Ambiente Nacional NFS-e</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
+              <span>🔄</span> <span>Exibir Todos os Documentos</span>
+            </button>
+          `;
+        }
+      }
+
+      // --- MÓDULO: PAINEL GERAL (DASHBOARD) ---
+      else if (modulo === 'painel') {
+        if (cardKey === 'clientes') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>👥</span> <span>Atalhos Rápidos: Clientes</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => acaoKpiClientes('TODOS', document.getElementById('card-kpi-cli-total')), 80)">
+              <span>👥</span> <span>Abrir CRM (Todos os 1.140 Clientes)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs'), 80)">
+              <span>📍</span> <span>Abrir Clientes do RS (693)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs'), 80)">
+              <span>📄</span> <span>Abrir Clientes com CPF/CNPJ (199)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+              <span>🗺️</span> <span>Abrir Mapa de Calor do Brasil</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoCliente()">
+              <span>➕</span> <span>Cadastrar Novo Cliente</span>
+            </button>
+          `;
+        } else if (cardKey === 'pedidos') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>📦</span> <span>Atalhos Rápidos: Pedidos</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)')); setTimeout(() => acaoKpiPedidos('TODOS', document.getElementById('card-kpi-ped-total')), 80)">
+              <span>📦</span> <span>Abrir Todos os Pedidos em Carteira</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)')); setTimeout(() => filtrarPedidosPorStatusCustom('AGUARDANDO_ENVIO', 'card-kpi-ped-aguardando'), 80)">
+              <span>⏳</span> <span>Ver Pedidos Aguardando Envio</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)')); setTimeout(() => acaoKpiPedidos('FATURAMENTO', document.getElementById('card-kpi-ped-faturamento')), 80)">
+              <span>📈</span> <span>Ranking por Maior Faturamento</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoPedido()">
+              <span>➕</span> <span>Criar Novo Pedido de Venda</span>
+            </button>
+          `;
+        } else if (cardKey === 'produtos') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🪵</span> <span>Atalhos Rápidos: Estoque</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)')); setTimeout(() => acaoKpiProdutos('TODOS', document.getElementById('card-kpi-prod-total')), 80)">
+              <span>🪵</span> <span>Ver Catálogo Completo de Couros</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)')); setTimeout(() => filtrarProdutosPorNivelEstoque('BAIXO', 'card-kpi-prod-baixo'), 80)">
+              <span>⚠️</span> <span>Ver Produtos com Estoque Baixo</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)')); setTimeout(() => ordenarProdutosPorPreco('VALOR_DESC', 'card-kpi-prod-valor'), 80)">
+              <span>💰</span> <span>Ver Itens de Maior Valor em Estoque</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalNovoProduto()">
+              <span>➕</span> <span>Cadastrar Novo Produto</span>
+            </button>
+          `;
+        } else if (cardKey === 'fiscal') {
+          html = `
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+              <span>🧾</span> <span>Atalhos Rápidos: Central Fiscal</span>
+            </div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)')); setTimeout(() => acaoKpiFiscal('TODAS', document.getElementById('card-kpi-fisc-total')), 80)">
+              <span>📄</span> <span>Abrir Central Fiscal (199 Notas)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)')); setTimeout(() => filtrarFiscalPorStatusCustom('NFE_PRODUTO', 'card-kpi-fisc-nfe'), 80)">
+              <span>🪵</span> <span>Ver NF-e Modelo 55 (Produtos SEFAZ)</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)')); setTimeout(() => filtrarFiscalPorStatusCustom('NFSE_SERVICO', 'card-kpi-fisc-nfse'), 80)">
+              <span>🏢</span> <span>Ver NFS-e Portal Nacional (Serviços)</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); abrirModalFiscal()">
+              <span>➕</span> <span>Abrir Emissor Rápido de Documentos</span>
+            </button>
+          `;
+        }
+      }
+
+      if (!html) return;
+
+      menu.innerHTML = html;
+      menu.style.display = 'block';
+
+      const menuWidth = 280;
+      let left = e.clientX;
+      if (left + menuWidth > window.innerWidth) {
+        left = window.innerWidth - menuWidth - 12;
+      }
+      let top = e.clientY;
+      const menuHeight = menu.offsetHeight || 280;
+      if (top + menuHeight > window.innerHeight) {
+        top = window.innerHeight - menuHeight - 12;
+      }
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+    }
+
+    function abrirMenuContextoDocsKpi(e, cardEl) {
+      abrirMenuContextoKpi(e, 'clientes', 'docs', cardEl);
+    }
+
+
+    function abrirMenuContextoColuna(e, th, tabela) {
+      const tabelaId = tabela.id;
+      const colKey = th.dataset.col;
+      const colDict = DICIONARIO_COLUNAS_ERP[tabelaId] || {};
+      const colInfo = colDict[colKey] || { label: th.textContent.trim().replace(/[▲▼]/g, ''), locked: false };
+      const colLabel = colInfo.label || 'Esta Coluna';
+      const tabelaNome = NOMES_TABELAS_ERP[tabelaId] || 'Tabela';
+
+      const menu = document.getElementById('erp-context-menu');
+      if (!menu) return;
+
+      const temPadraoSalvo = !!localStorage.getItem('erp_user_default_order_' + tabelaId);
+
+      let html = `
+        <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>📌</span> <span>Coluna: ${colLabel}</span>
+        </div>
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('${tabelaId}')">
+          <span>⚙️</span>
+          <span>Personalizar e Reordenar Colunas...</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaContexto('${tabelaId}')">
+          <span>📥</span>
+          <span>Exportar Dados desta Tabela (Planilha CSV)</span>
+        </button>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+        <button type="button" class="erp-context-item" style="color: #fde047;" onclick="fecharContextMenu(); definirPadraoUsuario('${tabelaId}')">
+          <span>⭐</span>
+          <span>Salvar como Meu Padrão</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #67e8f9; ${temPadraoSalvo ? '' : 'opacity: 0.6;'}" onclick="fecharContextMenu(); restaurarPadraoUsuario('${tabelaId}')">
+          <span>🔄</span>
+          <span>Restaurar Meu Padrão ${temPadraoSalvo ? '' : '(Não definido)'}</span>
+        </button>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+        <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('${tabelaId}')">
+          <span>🏭</span>
+          <span>Redefinir para Padrão de Fábrica</span>
+        </button>
+      `;
+
+      if (!colInfo.locked && colKey) {
+        html += `
+          <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+          <button type="button" class="erp-context-item" style="color: #cbd5e1;" onclick="fecharContextMenu(); ocultarColunaRapida('${tabelaId}', '${colKey}')">
+            <span>👁️</span>
+            <span>Ocultar "${colLabel}"</span>
+          </button>
+        `;
+      }
+
+      menu.innerHTML = html;
+      menu.style.display = 'block';
+
+      // Posicionamento inteligente no cursor do mouse
+      const menuWidth = 250;
+      const menuHeight = 240;
+      let left = e.clientX;
+      if (left + menuWidth > window.innerWidth) {
+        left = window.innerWidth - menuWidth - 12;
+      }
+      let top = e.clientY;
+      if (top + menuHeight > window.innerHeight) {
+        top = window.innerHeight - menuHeight - 12;
+      }
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+    }
+
+    // Interceptação global do clique com o botão direito nas colunas de todas as tabelas
+    document.addEventListener('contextmenu', (e) => {
+      const th = e.target.closest('table.erp-table thead th');
+      if (!th) return;
+
+      const tabela = th.closest('table.erp-table');
+      if (!tabela || !tabela.id) return;
+
+      e.preventDefault();
+      abrirMenuContextoColuna(e, th, tabela);
+    });
 
     function restaurarOrdemPadraoColunas(tabelaId) {
       localStorage.removeItem('erp_col_order_' + tabelaId);
@@ -7567,9 +9183,9 @@
       }
 
       // 3. Configurações
-      const menuConfig = document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
+      const menuConfig = document.getElementById('btn-top-configuracoes') || document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
       if (menuConfig) {
-        menuConfig.style.display = perms.configuracoes === false ? 'none' : 'flex';
+        menuConfig.style.display = perms.configuracoes === false ? 'none' : 'inline-flex';
       }
     }
 

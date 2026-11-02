@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Como cada ação será executada sem a barra de botões</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0f19;
+      color: #f1f5f9;
+    }
+    .badge-before {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+    .badge-after {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+    .card-box {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+    }
+    .step-pill {
+      background: #1e293b;
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #e2e8f0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body class="p-6 antialiased">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- CABEÇALHO -->
+    <div>
+      <span class="px-2.5 py-1 rounded text-xs font-bold badge-after mb-2 inline-block">MAPA DE TRANSIÇÃO E EXECUÇÃO</span>
+      <h1 class="text-xl font-extrabold text-white">Como cada ação funcionará após remover os botões da barra</h1>
+      <p class="text-xs text-slate-400 mt-1">Nenhuma função é perdida: todas são redistribuídas para locais mais rápidos, contextuais e modernos.</p>
+    </div>
+
+    <!-- COMPARATIVO ANTES VS DEPOIS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- ANTES (COM A BARRA POLUÍDA) -->
+      <div class="card-box p-4 border-rose-900/40">
+        <div class="flex items-center justify-between mb-3">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold badge-before">🔴 ANTES: Barra de Botões Fixa</span>
+          <span class="text-xs text-rose-400">Ocupa espaço vertical</span>
+        </div>
+        
+        <div class="p-3 bg-black/40 rounded-lg border border-slate-800 space-y-2 opacity-85 text-xs">
+          <div class="text-[11px] text-slate-400 font-semibold">Barra 1 (Pills de UF + Ver no Mapa):</div>
+          <div class="flex flex-wrap gap-1 items-center">
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300">Todas (1.140)</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-slate-400">RS (693)</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-slate-400">SP (108)</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px] text-slate-400">PR (91)</span>
+            <span class="px-2 py-0.5 rounded bg-cyan-950/80 text-[10px] text-cyan-400 border border-cyan-800">🗺️ Ver no Mapa</span>
+          </div>
+
+          <div class="text-[11px] text-slate-400 font-semibold mt-2">Barra 2 (Ações e Colunas):</div>
+          <div class="flex flex-wrap gap-1 items-center">
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px]">Documentação: Todos ▾</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px]">📥 Exportar</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px]">⚙️ Colunas</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800 text-[10px]">🔄 Restaurar</span>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500 mt-2">Problema: 2 linhas de botões empilhados antes mesmo da tabela começar.</p>
+      </div>
+
+      <!-- DEPOIS (LIMPO E INTEGRADO) -->
+      <div class="card-box p-4 border-emerald-900/40">
+        <div class="flex items-center justify-between mb-3">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold badge-after">🟢 DEPOIS: Layout Executivo Limpo</span>
+          <span class="text-xs text-emerald-400">Mais área útil para os dados</span>
+        </div>
+        
+        <div class="p-3 bg-slate-900/60 rounded-lg border border-cyan-500/30 space-y-2 text-xs">
+          <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-slate-800">
+            <span class="text-slate-300 font-bold text-xs flex items-center gap-1.5">
+              <span>👥</span> Clientes & CRM <span class="text-slate-500 font-normal">(1.140 cadastrados)</span>
+            </span>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[11px] border border-slate-700">UF: Todas ▾</span>
+              <button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 text-[11px] border border-slate-700 flex items-center gap-1">
+                📥 Exportar Planilha
+              </button>
+            </div>
+          </div>
+          <div class="text-[11px] text-emerald-400 font-medium py-1">
+            ✓ A tabela começa imediatamente abaixo, sem barras empilhadas!
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-400 mt-2">Resultado: Visual profissional, limpo e direto aos dados da tabela.</p>
+      </div>
+
+    </div>
+
+    <!-- ONDE CADA UMA DAS 5 AÇÕES VAI FUNCIONAR -->
+    <div class="card-box p-5 space-y-4">
+      <h2 class="text-sm font-bold text-white uppercase tracking-wider text-cyan-400">
+        🔍 Detalhamento: Onde cada ação é executada
+      </h2>
+
+      <!-- AÇÃO 1 -->
+      <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-4">
+        <div class="text-2xl mt-0.5">⚙️</div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-slate-200 text-xs">1. Personalizar Colunas, Salvar Meu Padrão & Restaurar:</strong>
+            <span class="step-pill text-[10px] text-cyan-300">🖱️ Botão Direito no Cabeçalho</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Ao clicar com o <strong>botão direito</strong> em qualquer coluna da tabela (ex: <em>Nome</em> ou <em>CPF/CNPJ</em>), abre-se o menu de contexto instantâneo com as opções: <em>Personalizar Colunas...</em>, <em>⭐ Salvar como Meu Padrão</em>, <em>🔄 Restaurar Meu Padrão</em> ou <em>🏭 Padrão de Fábrica</em>.
+          </p>
+        </div>
+      </div>
+
+      <!-- AÇÃO 2 -->
+      <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-4">
+        <div class="text-2xl mt-0.5">🗺️</div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-slate-200 text-xs">2. Ver no Mapa Geográfico:</strong>
+            <span class="step-pill text-[10px] text-cyan-300">🗺️ Card do Mapa no Topo (KPIs)</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Você não precisa mais do botão <code>🗺️ Ver no Mapa</code> na barra, pois já possui o <strong>Card do Mapa do Brasil</strong> no topo da tela, alinhado perfeitamente aos 4 cards de KPIs. Um clique nele e você navega para a distribuição de clientes nas 27 UFs.
+          </p>
+        </div>
+      </div>
+
+      <!-- AÇÃO 3 -->
+      <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-4">
+        <div class="text-2xl mt-0.5">📍</div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-slate-200 text-xs">3. Filtrar por Estado (UF: RS, SP, PR, etc.):</strong>
+            <span class="step-pill text-[10px] text-cyan-300">📍 Mapa Interativo OU Dropdown Compacto</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            • <strong>No Mapa Interativo:</strong> Clicar na sigla do estado no mapa (ex: <code>RS</code>) filtra a tabela inteira na hora.<br>
+            • <strong>Na Tabela:</strong> Um seletor discreto <code>UF: Todas ▾</code> de 70px ao lado da pesquisa substitui a fileira inteira de 7 botões de UFs.
+          </p>
+        </div>
+      </div>
+
+      <!-- AÇÃO 4 -->
+      <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-4">
+        <div class="text-2xl mt-0.5">📄</div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-slate-200 text-xs">4. Filtrar por Documentação (CPF / CNPJ / Sem Doc):</strong>
+            <span class="step-pill text-[10px] text-cyan-300">📄 Card de KPI "Documentos Fiscais"</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            O próprio card de KPI no topo da tela (<strong>Documentos Fiscais 199</strong>) já é um botão com filtro rápido. Clicar nele filtra imediatamente os clientes com CPF/CNPJ cadastrado.
+          </p>
+        </div>
+      </div>
+
+      <!-- AÇÃO 5 -->
+      <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-start gap-4">
+        <div class="text-2xl mt-0.5">📥</div>
+        <div class="space-y-1 flex-1">
+          <div class="flex items-center justify-between">
+            <strong class="text-slate-200 text-xs">5. Exportar Planilha (CSV / Excel):</strong>
+            <span class="step-pill text-[10px] text-cyan-300">📥 Botão Limpo no Topo da Tabela</span>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Fica posicionado no canto superior direito da tabela (ao lado da contagem de registros), como um botão elegante de download, sem precisar de uma barra inteira só para ele.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+</html>

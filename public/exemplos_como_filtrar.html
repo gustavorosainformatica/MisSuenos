@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Opções de Filtragem por Estado (UF) e Documentação</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0f19;
+      color: #f1f5f9;
+    }
+    .card-box {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+    }
+  </style>
+</head>
+<body class="p-6 antialiased">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <div>
+      <h1 class="text-xl font-extrabold text-white flex items-center gap-2">
+        <span>🔍</span> Como Filtrar por Estado (UF) e Documentação
+      </h1>
+      <p class="text-xs text-slate-400 mt-1">Veja os métodos disponíveis agora e as melhores opções de design para acionar os filtros sem poluir a interface.</p>
+    </div>
+
+    <!-- MÉTODOS JÁ ATIVOS HOJE (SEM PRECISAR DE NENHUM BOTÃO EXTRA) -->
+    <div class="card-box p-5 border-cyan-500/30 bg-slate-900/60 space-y-3">
+      <h2 class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+        <span>⚡</span> Métodos Já Ativos Hoje no seu ERP:
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+        <div class="p-3 bg-black/40 rounded-xl border border-slate-800 space-y-1">
+          <strong class="text-white flex items-center gap-1"><span>📄</span> Documentação (CPF/CNPJ):</strong>
+          <p class="text-slate-400">Basta dar <strong>1 clique no Card de KPI "Documentos Fiscais (199)"</strong> no topo da tela. Ele filtra na hora quem tem documento! Para voltar a exibir todos, clique no card de Faturamento.</p>
+        </div>
+        <div class="p-3 bg-black/40 rounded-xl border border-slate-800 space-y-1">
+          <strong class="text-white flex items-center gap-1"><span>🗺️</span> Estado (UF):</strong>
+          <p class="text-slate-400">Clique no <strong>Card do Mapa do Brasil</strong> no topo para ver as 27 UFs. Ao clicar em qualquer estado no mapa (ex: RS ou SP), o sistema já filtra a tabela de clientes daquele estado!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 OPÇÕES DE DESIGN PARA ACESSO DIRETO SEM POLUIR -->
+    <div class="space-y-4">
+      <h2 class="text-sm font-bold text-white uppercase tracking-wider text-slate-300">
+        3 Opções Elegantes para Seleção Rápida de UF e Documentação:
+      </h2>
+
+      <!-- OPÇÃO 1 -->
+      <div class="card-box p-4 border-l-4 border-l-cyan-500 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-cyan-400">OPÇÃO 1: Diretamente no Clique com Botão Direito na Coluna (⭐ Padrão Excel/Sheets)</span>
+          <span class="text-[11px] text-emerald-400 font-semibold">Zero Poluição Visual</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Ao clicar com o <strong>botão direito na coluna "UF"</strong>, além de personalizar a coluna, o menu já abre uma lista rápida para você filtrar: <code>[RS]</code>, <code>[SP]</code>, <code>[PR]</code>, <code>[SC]</code> ou <code>[Todas]</code>. Na coluna de CPF/CNPJ, abre <code>[Com Documento]</code> ou <code>[Sem Documento]</code>.
+        </p>
+        <div class="p-3 bg-black/50 rounded-lg border border-slate-800 flex items-center gap-3 text-xs">
+          <span class="text-slate-400">Exemplo do menu no botão direito da coluna UF:</span>
+          <div class="flex gap-1.5 flex-wrap">
+            <span class="px-2 py-1 rounded bg-cyan-950 text-cyan-400 border border-cyan-800 text-[11px] font-bold">Filtrar: RS (693)</span>
+            <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[11px]">SP (108)</span>
+            <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[11px]">PR (91)</span>
+            <span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[11px]">Todas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPÇÃO 2 -->
+      <div class="card-box p-4 border-l-4 border-l-amber-500 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-amber-400">OPÇÃO 2: Botão Compacto "Filtros ▾" ao lado da Busca Global</span>
+          <span class="text-[11px] text-slate-400">Topo da Tela</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          Ao lado do campo de busca geral (<code>Ctrl+K</code>), colocamos um botão discreto de <strong>⚡ Filtros ▾</strong>. Ao clicar nele, abre-se um pequeno menu suspenso com os dois seletores (UF e Documentação).
+        </p>
+        <div class="p-3 bg-black/50 rounded-lg border border-slate-800 flex items-center gap-3 text-xs">
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5">
+            <span>🔍</span> <span>Pesquisar clientes...</span>
+          </span>
+          <span class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold flex items-center gap-1.5">
+            <span>⚡</span> <span>Filtros (UF, Doc) ▾</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- OPÇÃO 3 -->
+      <div class="card-box p-4 border-l-4 border-l-purple-500 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-purple-400">OPÇÃO 3: Filtro Rápido na Linha do Título da Tabela (Discreto)</span>
+          <span class="text-[11px] text-slate-400">Canto Direito da Tabela</span>
+        </div>
+        <p class="text-xs text-slate-400">
+          No mesmo nível onde fica escrito <em>"📋 Clientes & Destinatários (1.140)"</em>, colocamos apenas dois pequenos seletores de 26px de altura alinhados à direita, sem criar uma barra separada.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+</html>

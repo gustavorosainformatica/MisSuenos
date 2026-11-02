@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Demonstração Interativa: Dupla Função em Todos os KPIs | Mis Sueños ERP</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background: #070d19; color: #f8fafc; padding: 24px; min-height: 100vh; }
+    .header { margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .header h1 { font-size: 22px; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+    .header p { font-size: 13.5px; color: #94a3b8; margin-top: 6px; line-height: 1.5; }
+    .badge-dev { background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+
+    /* Instructions Banner */
+    .instruction-box { background: rgba(0, 212, 255, 0.06); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .instruction-text { display: flex; align-items: center; gap: 14px; font-size: 13px; color: #e2e8f0; }
+    .instruction-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .tag-left { background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; }
+    .tag-right { background: rgba(56, 189, 248, 0.2); border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; }
+
+    /* Module Selector Tabs */
+    .module-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
+    .tab-btn { background: #0f172a; border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s; white-space: nowrap; }
+    .tab-btn:hover { background: #1e293b; color: #f8fafc; border-color: rgba(56, 189, 248, 0.3); }
+    .tab-btn.active { background: #0284c7; color: #ffffff; border-color: #38bdf8; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35); }
+
+    /* KPI Grid */
+    .erp-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .erp-kpi-card { background: #0c1424; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); user-select: none; position: relative; }
+    .erp-kpi-card:hover { transform: translateY(-2px); border-color: rgba(0, 212, 255, 0.4); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); background: #0f1a30; }
+    .erp-kpi-card.kpi-active-filter { border-color: #00d4ff !important; box-shadow: 0 0 0 1px #00d4ff, 0 8px 25px rgba(0, 212, 255, 0.2) !important; background: #0f1c34 !important; }
+    
+    .kpi-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .kpi-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #94a3b8; display: flex; align-items: center; gap: 6px; }
+    .kpi-icon-pill { font-size: 14px; width: 28px; height: 28px; border-radius: 6px; background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.06); }
+    .kpi-number { font-size: 26px; font-weight: 800; color: #f8fafc; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .kpi-trend { font-size: 11.5px; font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 6px; }
+
+    /* Context Menu */
+    .erp-context-menu { position: fixed; background: #0d1527; border: 1px solid rgba(0, 212, 255, 0.35); border-radius: 8px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7); padding: 6px; min-width: 250px; z-index: 99999; animation: fadeInMenu 0.12s ease-out; display: none; }
+    @keyframes fadeInMenu { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+    .erp-context-header { font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .erp-context-item { display: flex; align-items: center; gap: 9px; padding: 8px 12px; font-size: 12.5px; font-weight: 600; color: #cbd5e1; border-radius: 5px; cursor: pointer; transition: all 0.12s ease; background: transparent; border: none; width: 100%; text-align: left; }
+    .erp-context-item:hover { background: rgba(0, 212, 255, 0.15); color: #38bdf8; }
+    .erp-context-divider { height: 1px; background: rgba(255, 255, 255, 0.08); margin: 4px 0; }
+
+    /* Interactive Log / Toast Area */
+    .log-panel { background: #080f1e; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; margin-top: 16px; }
+    .log-title { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .log-output { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; color: #34d399; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); min-height: 48px; display: flex; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>🖱️ Demonstração da Dupla Função em Todos os KPIs</h1>
+      <p>Todos os indicadores do Mis Sueños contam agora com ação rápida no clique esquerdo e menu suspenso contextual completo no clique com botão direito.</p>
+    </div>
+    <span class="badge-dev">Ambiente de Desenvolvimento (Porta 3002)</span>
+  </div>
+
+  <div class="instruction-box">
+    <div class="instruction-text">
+      <span>Como interagir com os cards abaixo:</span>
+      <span class="instruction-tag tag-left">🖱️ Botão Esquerdo: Dispara o Filtro Primário</span>
+      <span class="instruction-tag tag-right">🖱️ Botão Direito: Abre Menu Suspenso de Opções & Filtros</span>
+    </div>
+    <span style="font-size: 12px; color: #94a3b8;">Experimente em qualquer card!</span>
+  </div>
+
+  <!-- Tabs dos Módulos -->
+  <div class="module-tabs">
+    <button class="tab-btn active" onclick="selecionarModulo('clientes', this)">👥 Clientes & CRM</button>
+    <button class="tab-btn" onclick="selecionarModulo('produtos', this)">🪵 Estoque de Couros</button>
+    <button class="tab-btn" onclick="selecionarModulo('pedidos', this)">📦 Pedidos de Venda</button>
+    <button class="tab-btn" onclick="selecionarModulo('financeiro', this)">📊 Financeiro & Compras</button>
+    <button class="tab-btn" onclick="selecionarModulo('fiscal', this)">🧾 Central Fiscal</button>
+    <button class="tab-btn" onclick="selecionarModulo('painel', this)">📈 Painel Geral</button>
+  </div>
+
+  <!-- Container de KPIs Dinâmico -->
+  <div id="kpi-container" class="erp-kpi-grid"></div>
+
+  <!-- Painel de Logs de Ação -->
+  <div class="log-panel">
+    <div class="log-title"><span>⚡ Registro de Ações Executadas (Feedback do ERP)</span></div>
+    <div id="log-display" class="log-output">Pronto para teste. Clique com o Botão Esquerdo ou Botão Direito em qualquer card acima!</div>
+  </div>
+
+  <!-- Menu de Contexto Flutuante -->
+  <div id="demo-context-menu" class="erp-context-menu"></div>
+
+  <script>
+    const DADOS_MODULOS = {
+      clientes: [
+        {
+          id: 'card-kpi-cli-total',
+          label: 'Base de Clientes',
+          badge: '✅ REAL',
+          icon: '👥',
+          valor: '1.140',
+          trend: '↑ 100% · Clique p/ ver todos',
+          acaoEsquerda: 'Exibindo todos os 1.140 clientes cadastrados.',
+          cardKey: 'base'
+        },
+        {
+          id: 'card-kpi-cli-rs',
+          label: 'Volume de Envios RS',
+          badge: '',
+          icon: '📍',
+          valor: '693',
+          trend: '60.8% · Clique p/ filtrar RS',
+          acaoEsquerda: 'Filtrado: 693 clientes do Rio Grande do Sul (RS).',
+          cardKey: 'rs'
+        },
+        {
+          id: 'card-kpi-cli-ufs',
+          label: 'Estados Atendidos',
+          badge: '',
+          icon: '🇧🇷',
+          valor: '14 UFs',
+          trend: '→ Ver Mapa de Calor',
+          acaoEsquerda: 'Abrindo o Mapa de Calor Geográfico com 14 UFs.',
+          cardKey: 'ufs'
+        },
+        {
+          id: 'card-kpi-docs',
+          label: 'Documentos Fiscais',
+          badge: '',
+          icon: '📄',
+          valor: '199',
+          trend: '170 CPFs · 29 CNPJs',
+          acaoEsquerda: 'Filtrado: exibindo apenas clientes com CPF ou CNPJ cadastrado (199).',
+          cardKey: 'docs'
+        }
+      ],
+      produtos: [
+        {
+          id: 'card-kpi-prod-total',
+          label: 'Catálogo de Produtos',
+          badge: '✅ 40 NCM',
+          icon: '🪵',
+          valor: '40 Itens',
+          trend: 'Catálogo Completo',
+          acaoEsquerda: 'Exibindo todos os 40 produtos do catálogo de couros.',
+          cardKey: 'total'
+        },
+        {
+          id: 'card-kpi-prod-categorias',
+          label: 'Categorias Ativas',
+          badge: '',
+          icon: '🏷️',
+          valor: '4 Categorias',
+          trend: 'Loncas · Couros · Ferragens',
+          acaoEsquerda: 'Produtos agrupados em ordem por Categoria.',
+          cardKey: 'categorias'
+        },
+        {
+          id: 'card-kpi-prod-valor',
+          label: 'Patrimônio em Estoque',
+          badge: '',
+          icon: '💰',
+          valor: 'R$ 84.520,00',
+          trend: '→ Maior Patrimônio',
+          acaoEsquerda: 'Produtos ordenados pelo maior valor total em estoque.',
+          cardKey: 'valor'
+        },
+        {
+          id: 'card-kpi-prod-baixo',
+          label: 'Alerta Estoque Baixo',
+          badge: '',
+          icon: '⚠️',
+          valor: '3 Itens',
+          trend: '→ Filtrar Estoque Baixo (< 5 un)',
+          acaoEsquerda: 'Filtrado: 3 produto(s) com estoque baixo ou crítico (< 5 unidades).',
+          cardKey: 'estoque_baixo'
+        }
+      ],
+      pedidos: [
+        {
+          id: 'card-kpi-ped-faturamento',
+          label: 'Faturamento Total',
+          badge: '✅ REAL',
+          icon: '💵',
+          valor: 'R$ 18.450,00',
+          trend: '→ Ordenar por Maior Valor',
+          acaoEsquerda: 'Pedidos ordenados pelo maior valor de faturamento.',
+          cardKey: 'faturamento'
+        },
+        {
+          id: 'card-kpi-ped-total',
+          label: 'Volume de Pedidos',
+          badge: '',
+          icon: '📦',
+          valor: '18 Pedidos',
+          trend: 'Histórico Completo em Carteira',
+          acaoEsquerda: 'Exibindo todos os 18 pedidos em carteira.',
+          cardKey: 'total'
+        },
+        {
+          id: 'card-kpi-ped-aguardando',
+          label: 'Aguardando Envio',
+          badge: '',
+          icon: '⏳',
+          valor: '5 Pedidos',
+          trend: '→ Filtrar Em Separação',
+          acaoEsquerda: 'Filtrado: 5 pedido(s) aguardando envio / separação.',
+          cardKey: 'aguardando'
+        },
+        {
+          id: 'card-kpi-ped-ticket',
+          label: 'Ticket Médio',
+          badge: '',
+          icon: '🎯',
+          valor: 'R$ 1.025,00',
+          trend: '→ Pedidos Acima da Média',
+          acaoEsquerda: 'Filtrado: pedidos com valor acima do Ticket Médio (R$ 1.025,00).',
+          cardKey: 'ticket'
+        }
+      ],
+      financeiro: [
+        {
+          id: 'card-kpi-fin-receber',
+          label: 'A Receber (Pendente)',
+          badge: '',
+          icon: '📥',
+          valor: 'R$ 14.800,00',
+          trend: '→ Filtrar A Receber',
+          acaoEsquerda: 'Filtrado: exibindo apenas títulos a receber pendentes.',
+          cardKey: 'receber'
+        },
+        {
+          id: 'card-kpi-fin-pagar',
+          label: 'A Pagar (Pendente)',
+          badge: '',
+          icon: '📤',
+          valor: 'R$ 8.240,00',
+          trend: '→ Filtrar A Pagar',
+          acaoEsquerda: 'Filtrado: exibindo apenas títulos a pagar pendentes.',
+          cardKey: 'pagar'
+        },
+        {
+          id: 'card-kpi-fin-saldo',
+          label: 'Saldo Previsto',
+          badge: '',
+          icon: '📊',
+          valor: 'R$ 28.320,00',
+          trend: 'Fluxo de Caixa Geral',
+          acaoEsquerda: 'Exibindo extrato financeiro completo.',
+          cardKey: 'saldo'
+        },
+        {
+          id: 'card-kpi-fin-atrasados',
+          label: 'Títulos em Atraso',
+          badge: '',
+          icon: '⚠️',
+          valor: '2 Títulos',
+          trend: '→ Filtrar Inadimplentes',
+          acaoEsquerda: 'Filtrado: 2 título(s) vencido(s) / em atraso.',
+          cardKey: 'atrasados'
+        }
+      ],
+      fiscal: [
+        {
+          id: 'card-kpi-fisc-emitir',
+          label: 'Status da Conexão Fiscal',
+          badge: '🟢 100% ON',
+          icon: '🧾',
+          valor: 'SEFAZ RS + DPS',
+          trend: '+ Emitir Nova Nota',
+          acaoEsquerda: 'Abrindo emissor rápido de NF-e (Mod. 55) e NFS-e.',
+          cardKey: 'emitir'
+        },
+        {
+          id: 'card-kpi-fisc-total',
+          label: 'Documentos Emitidos',
+          badge: '🧪 TESTE',
+          icon: '📄',
+          valor: '199 Notas',
+          trend: '→ Mostrar Todas (199)',
+          acaoEsquerda: 'Exibindo todas as 199 notas fiscais emitidas.',
+          cardKey: 'total'
+        },
+        {
+          id: 'card-kpi-fisc-nfe',
+          label: 'NF-e Mercadorias',
+          badge: '🧪 TESTE',
+          icon: '🪵',
+          valor: '162 Notas',
+          trend: '→ Filtrar Modelo 55 (SEFAZ)',
+          acaoEsquerda: 'Filtrado: 162 NF-e Modelo 55 (Produtos SEFAZ).',
+          cardKey: 'nfe'
+        },
+        {
+          id: 'card-kpi-fisc-nfse',
+          label: 'NFS-e Portal Nacional',
+          badge: '🧪 TESTE',
+          icon: '🧾',
+          valor: '37 DPS',
+          trend: '→ Filtrar NFS-e Serviços',
+          acaoEsquerda: 'Filtrado: 37 NFS-e Padrão Nacional (Serviços).',
+          cardKey: 'nfse'
+        }
+      ],
+      painel: [
+        {
+          id: 'card-kpi-painel-clientes',
+          label: 'Base de Clientes',
+          badge: '✅ REAL',
+          icon: '👥',
+          valor: '1.140',
+          trend: '→ Ver CRM de Clientes',
+          acaoEsquerda: 'Navegando para o módulo Clientes & CRM.',
+          cardKey: 'clientes'
+        },
+        {
+          id: 'card-kpi-painel-pedidos',
+          label: 'Vendas no Mês',
+          badge: '🧪 TESTE',
+          icon: '📦',
+          valor: 'R$ 18.450',
+          trend: '→ Ver Pedidos de Venda',
+          acaoEsquerda: 'Navegando para o módulo Pedidos de Venda.',
+          cardKey: 'pedidos'
+        },
+        {
+          id: 'card-kpi-painel-produtos',
+          label: 'Estoque de Couros',
+          badge: '🧪 TESTE',
+          icon: '🪵',
+          valor: '40 Itens',
+          trend: '→ Ver Estoque de Couros',
+          acaoEsquerda: 'Navegando para o módulo Estoque de Couros.',
+          cardKey: 'produtos'
+        },
+        {
+          id: 'card-kpi-painel-fiscal',
+          label: 'Central Fiscal',
+          badge: '🧪 TESTE',
+          icon: '🧾',
+          valor: '199 Notas',
+          trend: '→ Ver Central Fiscal',
+          acaoEsquerda: 'Navegando para o módulo Central Fiscal.',
+          cardKey: 'fiscal'
+        }
+      ]
+    };
+
+    let moduloAtivo = 'clientes';
+
+    function selecionarModulo(modulo, btn) {
+      moduloAtivo = modulo;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderizarCards();
+    }
+
+    function registrarLog(msg) {
+      document.getElementById('log-display').innerHTML = `<span>⚡</span> <span>${msg}</span>`;
+    }
+
+    function renderizarCards() {
+      const container = document.getElementById('kpi-container');
+      const cards = DADOS_MODULOS[moduloAtivo] || [];
+      
+      container.innerHTML = cards.map((c, idx) => `
+        <div class="erp-kpi-card ${idx === 0 ? 'kpi-active-filter' : ''}" 
+             id="${c.id}"
+             onclick="aoClicarEsquerdo('${c.id}', '${c.acaoEsquerda}')"
+             oncontextmenu="aoClicarDireito(event, '${moduloAtivo}', '${c.cardKey}', this)"
+             title="💡 Botão Esquerdo: Disparar ação · Botão Direito (🖱️): Menu de Opções">
+          <div class="kpi-top-row">
+            <span class="kpi-label">${c.label} ${c.badge ? `<span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">${c.badge}</span>` : ''}</span>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de opções">${c.icon}</div>
+          </div>
+          <div class="kpi-number">${c.valor}</div>
+          <div class="kpi-trend">
+            <span>${c.trend}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function aoClicarEsquerdo(cardId, acaoMsg) {
+      document.querySelectorAll('.erp-kpi-card').forEach(c => c.classList.remove('kpi-active-filter'));
+      const card = document.getElementById(cardId);
+      if (card) card.classList.add('kpi-active-filter');
+      registrarLog(`[BOTÃO ESQUERDO] ${acaoMsg}`);
+    }
+
+    function fecharMenu() {
+      const menu = document.getElementById('demo-context-menu');
+      if (menu) menu.style.display = 'none';
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#demo-context-menu')) fecharMenu();
+    });
+
+    function aoClicarDireito(e, mod, cardKey, cardEl) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const menu = document.getElementById('demo-context-menu');
+      let html = '';
+
+      if (mod === 'clientes') {
+        if (cardKey === 'base') {
+          html = `
+            <div class="erp-context-header"><span>👥</span> <span>Base de Clientes & CRM</span></div>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('➕ Abrindo modal para Cadastrar Novo Cliente.')"><span>➕</span> <span>Cadastrar Novo Cliente</span></button>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os 1.140 Clientes</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📥 Gerando e baixando planilha de clientes (CSV)...')"><span>📥</span> <span>Exportar Planilha (CSV)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('⚙️ Abrindo modal de personalização de colunas da tabela.')"><span>⚙️</span> <span>Personalizar Colunas</span></button>
+          `;
+        } else if (cardKey === 'rs') {
+          html = `
+            <div class="erp-context-header"><span>📍</span> <span>Filtro Regional / Envios RS & Sul</span></div>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('📍 Filtrado: 693 clientes do Rio Grande do Sul.')"><span>📍</span> <span>Rio Grande do Sul (693 clientes)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📍 Filtrado: 85 clientes de Santa Catarina.')"><span>📍</span> <span>Santa Catarina (85 clientes)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📍 Filtrado: 91 clientes do Paraná.')"><span>📍</span> <span>Paraná (91 clientes)</span></button>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('🗺️ Filtrado: 869 clientes de toda a Região Sul (RS, SC e PR).')"><span>🗺️</span> <span>Região Sul Completa (869 clientes)</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todos os estados do Brasil.')"><span>🔄</span> <span>Exibir Todos os Estados</span></button>
+          `;
+        } else if (cardKey === 'ufs') {
+          html = `
+            <div class="erp-context-header"><span>🇧🇷</span> <span>Estados Atendidos (14 UFs)</span></div>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('🗺️ Abrindo Mapa de Calor Interativo do Brasil.')"><span>🗺️</span> <span>Abrir Mapa de Calor do Brasil</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🥇 Filtrado: 693 clientes do RS.')"><span>🥇</span> <span>RS - Rio Grande do Sul (693)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🥈 Filtrado: 108 clientes de SP.')"><span>🥈</span> <span>SP - São Paulo (108)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🥉 Filtrado: 91 clientes do PR.')"><span>🥉</span> <span>PR - Paraná (91)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📍 Filtrado: 85 clientes de SC.')"><span>📍</span> <span>SC - Santa Catarina (85)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📍 Filtrado: 41 clientes de MS.')"><span>📍</span> <span>MS - Mato Grosso do Sul (41)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📍 Filtrado: 33 clientes de MT.')"><span>📍</span> <span>MT - Mato Grosso (33)</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todas as 14 UFs atendidas.')"><span>🔄</span> <span>Exibir Todas as 14 UFs</span></button>
+          `;
+        } else if (cardKey === 'docs') {
+          html = `
+            <div class="erp-context-header"><span>📄</span> <span>Filtro de Documentação Fiscal</span></div>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('✅ Filtrado: 182 clientes com CPF ou CNPJ cadastrado.')"><span>✅</span> <span>Apenas com CPF ou CNPJ (182)</span></button>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('👤 Filtrado: 170 clientes Pessoa Física com CPF.')"><span>👤</span> <span>Apenas CPF (170)</span></button>
+            <button class="erp-context-item" style="color: #60a5fa;" onclick="fecharMenu(); registrarLog('🏢 Filtrado: 29 clientes Pessoa Jurídica com CNPJ.')"><span>🏢</span> <span>Apenas CNPJ (29)</span></button>
+            <button class="erp-context-item" style="color: #f87171;" onclick="fecharMenu(); registrarLog('⚠️ Filtrado: 958 clientes pendentes de CPF/CNPJ.')"><span>⚠️</span> <span>Pendentes de Documento (958)</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #cbd5e1;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os Clientes (1140)</span></button>
+          `;
+        }
+      } else if (mod === 'produtos') {
+        if (cardKey === 'total') {
+          html = `
+            <div class="erp-context-header"><span>🪵</span> <span>Catálogo de Produtos & Estoque</span></div>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('➕ Abrindo cadastro de novo produto de couro.')"><span>➕</span> <span>Cadastrar Novo Produto</span></button>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('🪵 Exibindo catálogo completo de 40 produtos.')"><span>🪵</span> <span>Exibir Catálogo Completo</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('🏷️ Exportando Tabela de Preços (CSV) com valores de venda e NCM...')"><span>🏷️</span> <span>Exportar Preços (CSV)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📥 Exportando catálogo completo de produtos com custos e estoque...')"><span>📥</span> <span>Exportar Catálogo Completo (CSV)</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('⚙️ Gerenciador de colunas do estoque aberto.')"><span>⚙️</span> <span>Personalizar Colunas</span></button>
+          `;
+        } else if (cardKey === 'categorias') {
+          html = `
+            <div class="erp-context-header"><span>🏷️</span> <span>Filtrar por Categoria (5 Ativas)</span></div>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🪵 Filtrado: Categoria Couros & Peles.')"><span>🪵</span> <span>Couros & Peles</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📜 Filtrado: Categoria Loncas.')"><span>📜</span> <span>Loncas</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🪢 Filtrado: Categoria Tentos.')"><span>🪢</span> <span>Tentos</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('🔨 Filtrado: Categoria Ferramentas.')"><span>🔨</span> <span>Ferramentas</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('👜 Filtrado: Categoria Artefatos.')"><span>👜</span> <span>Artefatos</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('🔤 Produtos agrupados em ordem alfabética por categoria.')"><span>🔤</span> <span>Agrupar por Categoria (A-Z)</span></button>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todas as 5 categorias de produtos.')"><span>🔄</span> <span>Todas as Categorias</span></button>
+          `;
+        } else if (cardKey === 'valor') {
+          html = `
+            <div class="erp-context-header"><span>💰</span> <span>Análise de Patrimônio & Preço</span></div>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('📈 Produtos ordenados pelo maior patrimônio total em estoque.')"><span>📈</span> <span>Maior Patrimônio em Estoque</span></button>
+            <button class="erp-context-item" onclick="fecharMenu(); registrarLog('📉 Produtos ordenados pelo menor valor em estoque.')"><span>📉</span> <span>Menor Patrimônio em Estoque</span></button>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('🏷️ Produtos ordenados pelo maior preço de venda unitário.')"><span>🏷️</span> <span>Maior Preço de Venda Unitário</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Ordem padrão restaurada.')"><span>🔄</span> <span>Ordem Padrão de Cadastro</span></button>
+          `;
+        } else if (cardKey === 'estoque_baixo') {
+          html = `
+            <div class="erp-context-header"><span>⚠️</span> <span>Controle de Níveis de Estoque</span></div>
+            <button class="erp-context-item" style="color: #f87171;" onclick="fecharMenu(); registrarLog('⚠️ Filtrado: produtos com estoque baixo ou crítico (< 5 unidades).')"><span>⚠️</span> <span>Estoque Crítico / Baixo (&lt; 5 unid.)</span></button>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('📦 Filtrado: produtos com estoque abastecido (≥ 5 unidades).')"><span>📦</span> <span>Estoque Normal / Abastecido (≥ 5 unid.)</span></button>
+            <button class="erp-context-item" style="color: #fbbf24;" onclick="fecharMenu(); registrarLog('🚫 Filtrado: produtos esgotados (0 unidades).')"><span>🚫</span> <span>Estoque Zerado / Esgotado</span></button>
+            <div class="erp-context-divider"></div>
+            <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('🔄 Exibindo todos os níveis de estoque.')"><span>🔄</span> <span>Exibir Todos os Produtos</span></button>
+          `;
+        }
+      } else {
+        html = `
+          <div class="erp-context-header"><span>⚡</span> <span>Opções do Indicador</span></div>
+          <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('Filtrando indicador selecionado...')"><span>📊</span> <span>Filtrar Detalhado</span></button>
+          <button class="erp-context-item" onclick="fecharMenu(); registrarLog('Exportando relatório para CSV...')"><span>📥</span> <span>Exportar Planilha (CSV)</span></button>
+          <div class="erp-context-divider"></div>
+          <button class="erp-context-item" style="color: #94a3b8;" onclick="fecharMenu(); registrarLog('Restaurando visualização completa.')"><span>🔄</span> <span>Exibir Todos</span></button>
+        `;
+      }
+
+      menu.innerHTML = html;
+      menu.style.display = 'block';
+
+      let left = e.clientX;
+      let top = e.clientY;
+      const menuWidth = 260;
+      const menuHeight = 240;
+
+      if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 12;
+      if (top + menuHeight > window.innerHeight) top = window.innerHeight - menuHeight - 12;
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+      registrarLog(`[BOTÃO DIREITO 🖱️] Menu de contexto aberto para o indicador "${cardKey.toUpperCase()}".`);
+    }
+
+    // Inicialização
+    renderizarCards();
+  </script>
+</body>
+</html>
