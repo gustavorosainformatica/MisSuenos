@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Exemplo: Menu de Contexto e Padrão do Usuário</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0b0f19;
+      color: #f1f5f9;
+    }
+
+    /* MENU DE CONTEXTO FLUTUANTE (BOTÃO DIREITO) */
+    .ctx-menu {
+      width: 250px;
+      background: #111827;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 212, 255, 0.15);
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .ctx-header {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #38bdf8;
+      padding: 6px 10px 4px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 4px;
+    }
+    .ctx-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .ctx-item:hover {
+      background: rgba(0, 212, 255, 0.15);
+      color: #38bdf8;
+      transform: translateX(3px);
+    }
+    .ctx-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      margin: 4px 0;
+    }
+
+    /* MOCK DO CABEÇALHO DA TABELA */
+    .table-th-mock {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
+      cursor: context-menu;
+    }
+    .table-th-mock:hover {
+      border-color: #00d4ff;
+      background: #1a2538;
+    }
+  </style>
+</head>
+<body class="p-6 antialiased">
+  <div class="max-w-3xl mx-auto space-y-6">
+
+    <div>
+      <h2 class="text-lg font-bold text-white flex items-center gap-2">
+        <span>🖱️</span> Menu de Contexto (Botão Direito) + Padrão do Usuário
+      </h2>
+      <p class="text-xs text-slate-400 mt-1">Veja como funcionará o menu ao clicar com o botão direito em cima do cabeçalho de qualquer coluna:</p>
+    </div>
+
+    <!-- DEMONSTRAÇÃO VISUAL -->
+    <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex items-start gap-8 flex-wrap">
+      
+      <!-- Simulação do Clique na Coluna -->
+      <div>
+        <span class="text-xs font-semibold text-slate-400 block mb-2">Cabeçalho da Tabela (Clique com Botão Direito):</span>
+        <div class="table-th-mock border-cyan-500 shadow-md">
+          <span>Nome / Razão Social</span>
+          <span class="text-cyan-400 text-xs">🖱️ [Right Click]</span>
+        </div>
+      </div>
+
+      <!-- Menu de Contexto que abre -->
+      <div>
+        <span class="text-xs font-semibold text-slate-400 block mb-2">Menu que se abre no cursor:</span>
+        <div class="ctx-menu">
+          <div class="ctx-header">Coluna: Nome / Razão Social</div>
+          
+          <div class="ctx-item">
+            <span>⚙️</span>
+            <span>Personalizar Colunas...</span>
+          </div>
+          
+          <div class="ctx-divider"></div>
+
+          <!-- NOVIDADE: DEFINIR PADRÃO DO USUÁRIO -->
+          <div class="ctx-item text-amber-300 font-semibold">
+            <span>⭐</span>
+            <span>Salvar como Meu Padrão</span>
+          </div>
+
+          <div class="ctx-item text-cyan-300">
+            <span>🔄</span>
+            <span>Restaurar Meu Padrão</span>
+          </div>
+
+          <div class="ctx-divider"></div>
+
+          <div class="ctx-item text-rose-400">
+            <span>🏭</span>
+            <span>Redefinir para Padrão de Fábrica</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DENTRO DO MODAL -->
+    <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+      <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wide">Também integrado dentro do Modal Completo:</h3>
+      <p class="text-xs text-slate-400">No rodapé do modal de personalização, adicionamos os controles para você gravar ou restaurar o seu padrão a qualquer momento:</p>
+      
+      <div class="p-3 bg-slate-950/70 rounded-xl border border-slate-800 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition flex items-center gap-1.5">
+            <span>⭐</span> Definir como Meu Padrão
+          </button>
+          <button class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 hover:bg-cyan-500/30 transition flex items-center gap-1.5">
+            <span>🔄</span> Restaurar Meu Padrão
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 text-xs rounded-lg border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 transition">
+            🏭 Redefinir Fábrica
+          </button>
+          <button class="px-4 py-1.5 text-xs font-bold rounded-lg bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition">
+            💾 Salvar & Aplicar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

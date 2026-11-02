@@ -81,3 +81,4 @@ try {
   console.error(c.red + err.message + c.reset);
   process.exit(1);
 }
+
