@@ -2690,39 +2690,28 @@
         </button>
       </div>
 
-      <!-- BARRA DE AÇÕES DA TABELA (COMPACTA & EXECUTIVA) -->
-      <section class="erp-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-          <select class="erp-select" id="select-uf-clientes" onchange="filtrarPorUfSelect(this.value)" style="min-width: 145px;" title="Filtrar tabela por Estado">
-            <option value="TODOS">Estado (UF): Todas (1.140)</option>
-            <option value="RS">RS – Rio Grande do Sul (693)</option>
-            <option value="SP">SP – São Paulo (108)</option>
-            <option value="PR">PR – Paraná (91)</option>
-            <option value="SC">SC – Santa Catarina (85)</option>
-            <option value="MT">MT – Mato Grosso (33)</option>
-            <option value="MS">MS – Mato Grosso do Sul (41)</option>
-          </select>
-          <select class="erp-select" id="select-completude" onchange="filtrarCompletude(this.value)" title="Filtrar por Documentação Fiscal">
-            <option value="TODOS">Documentação: Todos</option>
-            <option value="COM_DOC">Apenas com CPF/CNPJ</option>
-            <option value="SEM_DOC">Pendentes de Documento</option>
-          </select>
-        </div>
-
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 6px 14px;" title="Exportar dados completos em planilha CSV/Excel">📥 Exportar Planilha</button>
-        </div>
-      </section>
+      
 
       <!-- DATA GRID CORPORATIVA -->
       <section class="erp-table-card">
-        <div class="table-top-actions">
-          <div class="table-title">
-            <span>📋 Relação de Clientes & Destinatários de Encomendas</span>
+        <div class="table-top-actions" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div class="table-title" style="display: flex; align-items: center; gap: 8px;">
+            <span>📋 Clientes & Destinatários de Encomendas</span>
             <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
           </div>
-          <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Layout corporativo de alta densidade
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <select class="erp-select" id="select-uf-clientes" onchange="filtrarPorUfSelect(this.value)" style="font-size: 11.5px; padding: 4px 10px; height: 30px;" title="Filtrar tabela por Estado">
+              <option value="TODOS">UF: Todas</option>
+              <option value="RS">RS (693)</option>
+              <option value="SP">SP (108)</option>
+              <option value="PR">PR (91)</option>
+              <option value="SC">SC (85)</option>
+              <option value="MT">MT (33)</option>
+              <option value="MS">MS (41)</option>
+            </select>
+            <button type="button" class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 4px 12px; height: 30px; display: inline-flex; align-items: center; gap: 5px;" title="Exportar dados completos em planilha CSV/Excel">
+              <span>📥</span> <span>Exportar Planilha</span>
+            </button>
           </div>
         </div>
 
