@@ -2694,24 +2694,13 @@
 
       <!-- DATA GRID CORPORATIVA -->
       <section class="erp-table-card">
-        <div class="table-top-actions" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-          <div class="table-title" style="display: flex; align-items: center; gap: 8px;">
+        <div class="table-top-actions">
+          <div class="table-title">
             <span>📋 Clientes & Destinatários de Encomendas</span>
             <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-            <select class="erp-select" id="select-uf-clientes" onchange="filtrarPorUfSelect(this.value)" style="font-size: 11.5px; padding: 4px 10px; height: 30px;" title="Filtrar tabela por Estado">
-              <option value="TODOS">UF: Todas</option>
-              <option value="RS">RS (693)</option>
-              <option value="SP">SP (108)</option>
-              <option value="PR">PR (91)</option>
-              <option value="SC">SC (85)</option>
-              <option value="MT">MT (33)</option>
-              <option value="MS">MS (41)</option>
-            </select>
-            <button type="button" class="btn-top btn-row-action" onclick="exportarCsv()" style="font-size: 11.5px; padding: 4px 12px; height: 30px; display: inline-flex; align-items: center; gap: 5px;" title="Exportar dados completos em planilha CSV/Excel">
-              <span>📥</span> <span>Exportar Planilha</span>
-            </button>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            💡 Layout corporativo de alta densidade · Clique com botão direito nas colunas para opções
           </div>
         </div>
 
@@ -7956,6 +7945,19 @@
     // ========================================================
     // MENU DE CONTEXTO DO BOTÃO DIREITO NAS COLUNAS DAS TABELAS
     // ========================================================
+    
+    function exportarTabelaContexto(tabelaId) {
+      if (tabelaId === 'tabela-clientes' && typeof exportarCsv === 'function') {
+        exportarCsv();
+      } else if (tabelaId === 'tabela-produtos' && typeof exportarProdutosCsv === 'function') {
+        exportarProdutosCsv();
+      } else if (tabelaId === 'tabela-pedidos' && typeof exportarPedidosCsv === 'function') {
+        exportarPedidosCsv();
+      } else {
+        mostrarToast('📥 Exportando dados da tabela...');
+      }
+    }
+
     function abrirMenuContextoColuna(e, th, tabela) {
       const tabelaId = tabela.id;
       const colKey = th.dataset.col;
@@ -7976,6 +7978,10 @@
         <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('${tabelaId}')">
           <span>⚙️</span>
           <span>Personalizar e Reordenar Colunas...</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaContexto('${tabelaId}')">
+          <span>📥</span>
+          <span>Exportar Dados desta Tabela (Planilha CSV)</span>
         </button>
         <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
         <button type="button" class="erp-context-item" style="color: #fde047;" onclick="fecharContextMenu(); definirPadraoUsuario('${tabelaId}')">
