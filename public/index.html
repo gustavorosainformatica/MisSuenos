@@ -2882,22 +2882,7 @@
         </button>
       </div>
 
-      <!-- BARRA DE FILTROS DO ESTOQUE -->
-      <section class="erp-toolbar">
-        <div class="toolbar-filters">
-          <span style="font-weight: 700; color: #fff; font-size: 11.5px; margin-right: 4px;">Categoria:</span>
-          <button class="erp-filter-chip active" onclick="filtrarProdutosPorCategoria('TODAS', this)">Todas</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Loncas', this)">Loncas</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Couros & Peles', this)">Couros & Peles</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Tentos', this)">Tentos</button>
-          <button class="erp-filter-chip" onclick="filtrarProdutosPorCategoria('Ferramentas', this)">Ferramentas</button>
-        </div>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="btn-top btn-row-action" onclick="exportarProdutosCsv()">📥 Exportar Preços</button>
-          <button class="btn-top btn-primary-glow" onclick="abrirModalNovoProduto()">➕ + Novo Produto</button>
-        </div>
-      </section>
+      
 
       <!-- DATA GRID DE PRODUTOS -->
       <section class="erp-table-card">
@@ -8381,17 +8366,20 @@
             <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
               <span>🏷️</span> <span>Filtrar por Categoria</span>
             </div>
-            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Couros', 'card-kpi-prod-categorias')">
-              <span>🪵</span> <span>Couros Bovinos & Soletas</span>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Couros & Peles', 'card-kpi-prod-categorias')">
+              <span>🪵</span> <span>Couros & Peles</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Loncas', 'card-kpi-prod-categorias')">
-              <span>📜</span> <span>Loncas & Insumos</span>
+              <span>📜</span> <span>Loncas</span>
+            </button>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Tentos', 'card-kpi-prod-categorias')">
+              <span>🪢</span> <span>Tentos</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Ferramentas', 'card-kpi-prod-categorias')">
-              <span>🔨</span> <span>Ferramentas & Acessórios</span>
+              <span>🔨</span> <span>Ferramentas</span>
             </button>
-            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Ferragens', 'card-kpi-prod-categorias')">
-              <span>🔗</span> <span>Fivelas & Ferragens</span>
+            <button type="button" class="erp-context-item" onclick="fecharContextMenu(); filtrarProdutosPorCategoria('Artefatos', 'card-kpi-prod-categorias')">
+              <span>👜</span> <span>Artefatos</span>
             </button>
             <div class="erp-context-divider"></div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); acaoKpiProdutos('CATEGORIAS', document.getElementById('card-kpi-prod-categorias'))">
