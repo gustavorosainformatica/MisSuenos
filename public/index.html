@@ -4662,7 +4662,7 @@
         const uf = (c.uf || 'RS').toUpperCase();
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" title="Dois cliques para abrir e editar a ficha deste cliente">
+          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${c.id}"></td>
             <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
             <td data-col="nome" style="font-weight: 700; color: #fff;">
@@ -5064,7 +5064,7 @@
         const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" title="Dois cliques para editar este produto">
+          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" oncontextmenu="abrirMenuAcoesProduto(event, ${p.id}); return false;" title="Dois cliques para editar este produto | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${p.id}"></td>
             <td data-col="sku" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
             <td data-col="ncm"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
@@ -7600,31 +7600,73 @@
       }
     });
 
+    document.addEventListener('contextmenu', (e) => {
+      if (!e.target.closest('#erp-context-menu') && !e.target.closest('tr') && !e.target.closest('.card-kpi-custom') && !e.target.closest('table.erp-table thead th')) {
+        fecharContextMenu();
+      }
+    });
+
     window.addEventListener('resize', fecharContextMenu);
     window.addEventListener('scroll', fecharContextMenu, true);
 
     function posicionarContextMenu(e, itensHtml) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+
       const menu = document.getElementById('erp-context-menu');
       if (!menu) return;
       menu.innerHTML = itensHtml;
       menu.style.display = 'block';
 
-      const btn = e.currentTarget || e.target;
-      const rect = btn.getBoundingClientRect();
-      const menuWidth = 210;
-      let left = rect.right - menuWidth;
-      if (left < 10) left = rect.left;
-      let top = rect.bottom + 6;
-      if (top + 190 > window.innerHeight) {
-        top = Math.max(10, rect.top - 190);
+      // Coleta dimensões dinâmicas do menu renderizado
+      const menuWidth = menu.offsetWidth || 230;
+      const menuHeight = menu.offsetHeight || 190;
+      let left, top;
+
+      const isRightClick = e && (e.type === 'contextmenu' || e.button === 2);
+      const isActionBtn = e && (e.target?.closest?.('.btn-row-action') || e.currentTarget?.classList?.contains?.('btn-row-action'));
+      const hasMouseCoords = e && typeof e.clientX === 'number' && (e.clientX > 0 || e.clientY > 0);
+
+      if (isActionBtn && !isRightClick) {
+        // Clique com botão esquerdo no botão de 3 pontinhos ⋮ -> ancora logo abaixo do botão
+        const btn = e.target.closest('.btn-row-action') || e.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        left = rect.right - menuWidth;
+        if (left < 10) left = rect.left;
+        top = rect.bottom + 6;
+        if (top + menuHeight > window.innerHeight) {
+          top = Math.max(10, rect.top - menuHeight - 6);
+        }
+      } else if (hasMouseCoords) {
+        // Clique com botão direito (contextmenu) ou clique em linha -> abre exatamente na posição do mouse!
+        left = e.clientX;
+        top = e.clientY;
+
+        // Evita estourar para fora da tela (direita)
+        if (left + menuWidth > window.innerWidth) {
+          left = Math.max(10, window.innerWidth - menuWidth - 12);
+        }
+        // Evita estourar para fora da tela (baixo)
+        if (top + menuHeight > window.innerHeight) {
+          top = Math.max(10, window.innerHeight - menuHeight - 12);
+        }
+      } else if (e && (e.currentTarget || e.target)) {
+        const el = e.currentTarget || e.target;
+        const rect = el.getBoundingClientRect();
+        left = rect.left;
+        top = rect.bottom + 4;
+      } else {
+        left = 100;
+        top = 100;
       }
 
-      menu.style.left = `${Math.max(10, left)}px`;
-      menu.style.top = `${Math.max(10, top)}px`;
+      menu.style.left = `${Math.max(10, Math.round(left))}px`;
+      menu.style.top = `${Math.max(10, Math.round(top))}px`;
     }
 
     function abrirMenuAcoesCliente(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const c = clientes.find(item => String(item.id) === String(id));
       if (!c) return;
 
@@ -7646,7 +7688,8 @@
     }
 
     function abrirMenuAcoesPedido(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const p = listaPedidos.find(item => String(item.id) === String(id));
       if (!p) return;
 
@@ -7668,7 +7711,8 @@
     }
 
     function abrirMenuAcoesProduto(e, id) {
-      e.stopPropagation();
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
       const p = produtos.find(item => String(item.id) === String(id));
       if (!p) return;
 
