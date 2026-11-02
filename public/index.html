@@ -5240,6 +5240,36 @@
       }
     }
 
+    function exportarTabelaPrecosCsv() {
+      const lista = (produtosFiltrados && produtosFiltrados.length > 0) ? produtosFiltrados : (typeof produtos !== 'undefined' ? produtos : []);
+      if (!lista || lista.length === 0) {
+        mostrarToast('⚠️ Nenhum produto disponível para exportar preços.');
+        return;
+      }
+      const headers = ['Código SKU', 'Produto / Descrição', 'Categoria', 'Unidade', 'NCM', 'Preço de Venda (R$)', 'Disponibilidade'];
+      const rows = lista.map(p => [
+        `"${p.codigo_sku || ''}"`,
+        `"${(p.nome || '').replace(/"/g, '""')}"`,
+        `"${p.categoria || ''}"`,
+        `"${p.unidade_medida || 'UN'}"`,
+        `"${p.ncm || '4104.11.00'}"`,
+        `"R$ ${(parseFloat(p.preco_venda) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}"`,
+        (p.estoque_atual || 0) > 0 ? '"Em Estoque"' : '"Sob Encomenda"'
+      ]);
+
+      const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      const dataHoje = new Date().toISOString().slice(0, 10);
+      link.setAttribute('download', `MisSuenos_Tabela_Precos_${dataHoje}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarToast(`🏷️ Tabela de Preços exportada com sucesso (${lista.length} produtos)!`);
+    }
+
     function exportarProdutosCsv() {
       if (produtosFiltrados.length === 0) return alert('Nenhum produto para exportar.');
       const headers = ['SKU', 'Produto', 'Categoria', 'Unidade', 'Preco_Custo', 'Preco_Venda', 'Estoque_Atual', 'Estoque_Minimo', 'Descricao'];
@@ -8333,8 +8363,11 @@
               <span>🪵</span> <span>Exibir Catálogo Completo</span>
             </button>
             <div class="erp-context-divider"></div>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaPrecosCsv()">
+              <span>🏷️</span> <span>Exportar Preços (CSV)</span>
+            </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarProdutosCsv()">
-              <span>📥</span> <span>Exportar Produtos (CSV)</span>
+              <span>📥</span> <span>Exportar Catálogo Completo (CSV)</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalPersonalizarColunas('tabela-produtos')">
               <span>⚙️</span> <span>Personalizar Colunas</span>
@@ -8381,6 +8414,9 @@
             </button>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); ordenarProdutosPorPreco('PRECO_DESC', 'card-kpi-prod-valor')">
               <span>🏷️</span> <span>Maior Preço de Venda Unitário</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); exportarTabelaPrecosCsv()">
+              <span>📥</span> <span>Exportar Tabela de Preços (CSV)</span>
             </button>
             <div class="erp-context-divider"></div>
             <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); acaoKpiProdutos('TODOS', document.getElementById('card-kpi-prod-total'))">
