@@ -2671,14 +2671,14 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card" onclick="acaoKpiClientes('COM_DOC', this)" title="Clique para filtrar clientes com CPF ou CNPJ cadastrado">
+        <div class="erp-kpi-card" id="card-kpi-docs" onclick="acaoKpiClientes('COM_DOC', this)" oncontextmenu="abrirMenuContextoDocsKpi(event, this)" title="💡 Clique com o Botão Direito para escolher: Com CPF/CNPJ, Sem Documento ou Todos · Botão Esquerdo para filtrar direto">
           <div class="kpi-top-row">
             <span class="kpi-label">Documentos Fiscais</span>
-            <div class="kpi-icon-pill">📄</div>
+            <div class="kpi-icon-pill" title="Clique com o botão direito para menu de filtros">📄</div>
           </div>
           <div class="kpi-number" id="kpi-docs">199</div>
           <div class="kpi-trend">
-            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Filtrar)</span>
+            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Botão Direito 🖱️)</span>
           </div>
         </div>
       </section>
@@ -7955,6 +7955,79 @@
         exportarPedidosCsv();
       } else {
         mostrarToast('📥 Exportando dados da tabela...');
+      }
+    }
+
+    
+    // ========================================================
+    // MENU DE CONTEXTO DO CARD DE DOCUMENTOS FISCAIS (BOTÃO DIREITO)
+    // ========================================================
+    function abrirMenuContextoDocsKpi(e, cardEl) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const menu = document.getElementById('erp-context-menu');
+      if (!menu) return;
+
+      const total = clientes ? clientes.length : 1140;
+      const comDoc = clientes ? clientes.filter(c => c.cpf || c.cnpj).length : 199;
+      const semDoc = total - comDoc;
+
+      menu.innerHTML = `
+        <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <span>📄</span> <span>Filtro de Documentação Fiscal</span>
+        </div>
+        <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs')">
+          <span>✅</span>
+          <span>Apenas com CPF ou CNPJ (${comDoc})</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarCompletudeEToast('SEM_DOC', 'card-kpi-docs')">
+          <span>⚠️</span>
+          <span>Pendentes de Documento (${semDoc})</span>
+        </button>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 4px 0;"></div>
+        <button type="button" class="erp-context-item" style="color: #cbd5e1;" onclick="fecharContextMenu(); filtrarCompletudeEToast('TODOS', null)">
+          <span>👥</span>
+          <span>Exibir Todos os Clientes (${total})</span>
+        </button>
+      `;
+
+      menu.style.display = 'block';
+
+      const menuWidth = 260;
+      const menuHeight = 175;
+      let left = e.clientX;
+      if (left + menuWidth > window.innerWidth) {
+        left = window.innerWidth - menuWidth - 12;
+      }
+      let top = e.clientY;
+      if (top + menuHeight > window.innerHeight) {
+        top = window.innerHeight - menuHeight - 12;
+      }
+
+      menu.style.left = `${Math.max(10, left)}px`;
+      menu.style.top = `${Math.max(10, top)}px`;
+    }
+
+    function filtrarCompletudeEToast(tipo, cardId) {
+      docFiltro = tipo;
+      aplicarFiltros();
+
+      if (cardId) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl && typeof destacarKpiAtivo === 'function') {
+          destacarKpiAtivo(cardEl, '#modulo-clientes-conteudo');
+        }
+      } else {
+        document.querySelectorAll('#modulo-clientes-conteudo .erp-kpi-card').forEach(c => c.classList.remove('kpi-active-filter'));
+      }
+
+      if (tipo === 'COM_DOC') {
+        mostrarToast(`📄 Filtrado: exibindo apenas clientes com CPF ou CNPJ cadastrado (${filtrados.length}).`);
+      } else if (tipo === 'SEM_DOC') {
+        mostrarToast(`⚠️ Filtrado: exibindo ${filtrados.length} clientes pendentes de CPF/CNPJ.`);
+      } else {
+        mostrarToast(`👥 Exibindo todos os ${filtrados.length} clientes cadastrados.`);
       }
     }
 
