@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Comparativo: Setas de Navegação (Voltar & Avançar)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #070d19;
+      color: #f8fafc;
+      margin: 0;
+      padding: 20px;
+    }
+    .preview-card {
+      background: #0b1120;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+    }
+    .tab-btn:not(.active) {
+      background: rgba(255, 255, 255, 0.05);
+      color: #94a3b8;
+    }
+    .tab-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+    }
+    .nav-arrow-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+  </style>
+</head>
+<body class="p-4 bg-[#070d19] text-slate-100">
+
+  <!-- CABEÇALHO -->
+  <div class="mb-6 flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🧭</span>
+        <h1 class="text-xl font-bold text-sky-400">Navegação Inteligente: Voltar (◀) & Avançar (▶)</h1>
+      </div>
+      <p class="text-xs text-slate-400 mt-1">
+        Substituição do texto redundante "Clientes & CRM" por controle de histórico rápido entre módulos.
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="mudarTema('dark')" id="btn-theme-dark" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-950 border border-sky-500/40 text-sky-300">🌙 Escuro</button>
+      <button onclick="mudarTema('light')" id="btn-theme-light" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400">☀️ Claro (Bling)</button>
+    </div>
+  </div>
+
+  <!-- SELETOR DE ABAS -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    <button onclick="selecionarOpcao('opcao1')" id="tab-opcao1" class="tab-btn active">
+      🏆 Opção 1: Setas Puras [ ◀ ] [ ▶ ] (Estilo Navegador / Notion)
+    </button>
+    <button onclick="selecionarOpcao('opcao2')" id="tab-opcao2" class="tab-btn">
+      🏷️ Opção 2: Setas + Nome Limpo do Módulo Ativo
+    </button>
+    <button onclick="selecionarOpcao('atual')" id="tab-atual" class="tab-btn">
+      ⚠️ Layout Atual (Texto Estático Redundante)
+    </button>
+  </div>
+
+  <!-- CONTAINER DE PREVIEW -->
+  <div class="preview-card" id="mockup-frame">
+    
+    <!-- TOPBAR SIMULADA -->
+    <div id="mock-topbar" class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80 bg-[#0d1527] transition-colors">
+      
+      <!-- LADO ESQUERDO: LOCAL ONDE FICA O COMPONENTE -->
+      <div class="flex items-center gap-3" id="mock-left-area">
+        <!-- Injetado dinamicamente -->
+      </div>
+
+      <!-- LADO DIREITO FIXO (STATUS E ENGRENAGEM) -->
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center" title="Nuvem Conectada">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
+        <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-sky-400 border border-sky-500/30 flex items-center justify-center hover:bg-sky-500/20 transition">
+          ⚙️
+        </button>
+      </div>
+
+    </div>
+
+    <!-- CORPO DO SIMULADOR COM INTERAÇÃO REAL -->
+    <div class="p-6 bg-[#070d19]" id="mock-body">
+      <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800/90 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-bold text-sky-400 uppercase tracking-wider">Simulador de Histórico de Navegação:</div>
+          <div class="text-xs text-slate-300 mt-1">
+            Módulo simulado atual: <strong class="text-white text-sm" id="label-modulo-atual">Clientes & CRM</strong>
+          </div>
+          <div class="text-[11px] text-slate-500 mt-0.5">
+            Clique nos botões abaixo para simular a troca de telas e teste as setas ◀ e ▶ na topbar acima!
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button onclick="navegarPara('Clientes & CRM')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+            👥 Clientes
+          </button>
+          <button onclick="navegarPara('Pedidos de Venda')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+            📦 Pedidos
+          </button>
+          <button onclick="navegarPara('Estoque de Couros')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+            🪵 Estoque
+          </button>
+          <button onclick="navegarPara('Financeiro & Caixa')" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">
+            💰 Financeiro
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPARATIVO TÉCNICO -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    
+    <!-- CARD 1 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-sky-500/40">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">🏆</span>
+        <h3 class="text-sm font-bold text-sky-300">Opção 1: Setas Puras [ ◀ ] [ ▶ ]</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Substitui todo o texto por duas setas minimalistas de navegação. 
+        Como a barra lateral esquerda já destaca qual módulo está aberto, o topo fica 100% livre e a busca ganha foco total.
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-emerald-400 font-semibold">✔ Vantagens:</div>
+        <div class="text-slate-300">• Padrão mundial de apps (Notion, Spotify, VS Code)</div>
+        <div class="text-slate-300">• Elimina redundância com o menu lateral</div>
+        <div class="text-slate-300">• Barra de busca mais ampla e centrada</div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">🏷️</span>
+        <h3 class="text-sm font-bold text-slate-200">Opção 2: Setas + Nome Limpo</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Exibe as setas [ ◀ ] [ ▶ ] e logo em seguida apenas o nome do módulo ativo (ex: <strong>Clientes & CRM</strong>), removendo o prefixo "Mis Sueños [DEV] /".
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-sky-400 font-semibold">✔ Vantagens:</div>
+        <div class="text-slate-300">• Mantém a referência do nome no cabeçalho</div>
+        <div class="text-slate-300">• Remove o texto repetitivo do sistema</div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">⚠️</span>
+        <h3 class="text-sm font-bold text-slate-400">Layout Atual</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Exibe o texto estático <code>Mis Sueños [DEV] / Clientes & CRM</code>, que não é clicável e repete a informação da barra lateral.
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-amber-400 font-semibold">✖ Limitação:</div>
+        <div class="text-slate-300">• Não permite avançar ou voltar</div>
+        <div class="text-slate-300">• Informação redundante</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT DO SIMULADOR -->
+  <script>
+    let opcaoAtiva = 'opcao1';
+    let temaAtivo = 'dark';
+
+    // Histórico de navegação
+    let historico = ['Clientes & CRM'];
+    let indiceHistorico = 0;
+
+    function navegarPara(modulo) {
+      if (historico[indiceHistorico] === modulo) return;
+      // Trunca histórico futuro se navegou a partir do meio
+      historico = historico.slice(0, indiceHistorico + 1);
+      historico.push(modulo);
+      indiceHistorico = historico.length - 1;
+      atualizarEstado();
+    }
+
+    function voltarHistorico() {
+      if (indiceHistorico > 0) {
+        indiceHistorico--;
+        atualizarEstado();
+      }
+    }
+
+    function avancarHistorico() {
+      if (indiceHistorico < historico.length - 1) {
+        indiceHistorico++;
+        atualizarEstado();
+      }
+    }
+
+    function atualizarEstado() {
+      const atual = historico[indiceHistorico];
+      document.getElementById('label-modulo-atual').textContent = atual;
+      renderizarLeftArea();
+    }
+
+    function renderizarLeftArea() {
+      const area = document.getElementById('mock-left-area');
+      const podeVoltar = indiceHistorico > 0;
+      const podeAvancar = indiceHistorico < historico.length - 1;
+      const moduloAtual = historico[indiceHistorico];
+
+      const btnVoltarStyle = podeVoltar 
+        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 cursor-pointer border border-sky-500/30' 
+        : 'bg-slate-900/40 text-slate-600 border border-slate-800 cursor-not-allowed opacity-40';
+
+      const btnAvancarStyle = podeAvancar 
+        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 cursor-pointer border border-sky-500/30' 
+        : 'bg-slate-900/40 text-slate-600 border border-slate-800 cursor-not-allowed opacity-40';
+
+      if (opcaoAtiva === 'opcao1') {
+        // OPÇÃO 1: APENAS SETAS + BUSCA
+        area.innerHTML = `
+          <button class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 flex items-center justify-center text-sm mr-1">☰</button>
+          
+          <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+            <button class="nav-arrow-btn ${btnVoltarStyle}" onclick="voltarHistorico()" title="Voltar (Módulo Anterior)">
+              ◀
+            </button>
+            <button class="nav-arrow-btn ${btnAvancarStyle}" onclick="avancarHistorico()" title="Avançar (Próximo Módulo)">
+              ▶
+            </button>
+          </div>
+
+          <div class="relative flex items-center ml-2">
+            <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
+            <input type="text" placeholder="Busca rápida (Nome, CPF, Tel)..." readonly
+                   class="bg-slate-900/90 border border-slate-700/60 rounded-lg pl-8 pr-16 py-1.5 text-xs text-slate-300 w-72 focus:outline-none">
+            <span class="absolute right-2 px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl+K</span>
+          </div>
+        `;
+      } else if (opcaoAtiva === 'opcao2') {
+        // OPÇÃO 2: SETAS + NOME DO MÓDULO + BUSCA
+        area.innerHTML = `
+          <button class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 flex items-center justify-center text-sm mr-1">☰</button>
+          
+          <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+            <button class="nav-arrow-btn ${btnVoltarStyle}" onclick="voltarHistorico()" title="Voltar">
+              ◀
+            </button>
+            <button class="nav-arrow-btn ${btnAvancarStyle}" onclick="avancarHistorico()" title="Avançar">
+              ▶
+            </button>
+          </div>
+
+          <div class="text-xs font-bold text-white px-2 py-1 rounded bg-slate-800/60 border border-slate-700/60">
+            ${moduloAtual}
+          </div>
+
+          <div class="relative flex items-center ml-1">
+            <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
+            <input type="text" placeholder="Busca rápida..." readonly
+                   class="bg-slate-900/90 border border-slate-700/60 rounded-lg pl-8 pr-14 py-1.5 text-xs text-slate-300 w-56 focus:outline-none">
+            <span class="absolute right-2 px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl+K</span>
+          </div>
+        `;
+      } else if (opcaoAtiva === 'atual') {
+        // LAYOUT ATUAL: TEXTO ESTÁTICO REDUNDANTE
+        area.innerHTML = `
+          <button class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 flex items-center justify-center text-sm mr-1">☰</button>
+          
+          <div class="text-xs text-slate-400 flex items-center gap-1.5 font-medium">
+            <span>Mis Sueños [DEV]</span>
+            <span>/</span>
+            <span class="text-sky-400 font-bold">${moduloAtual}</span>
+          </div>
+
+          <div class="relative flex items-center ml-2">
+            <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
+            <input type="text" placeholder="Busca rápida..." readonly
+                   class="bg-slate-900/90 border border-slate-700/60 rounded-lg pl-8 pr-14 py-1.5 text-xs text-slate-300 w-60 focus:outline-none">
+            <span class="absolute right-2 px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl+K</span>
+          </div>
+        `;
+      }
+    }
+
+    function selecionarOpcao(op) {
+      opcaoAtiva = op;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + op).classList.add('active');
+      renderizarLeftArea();
+    }
+
+    function mudarTema(tema) {
+      temaAtivo = tema;
+      const topbar = document.getElementById('mock-topbar');
+      const body = document.getElementById('mock-body');
+      const btnDark = document.getElementById('btn-theme-dark');
+      const btnLight = document.getElementById('btn-theme-light');
+
+      if (tema === 'light') {
+        topbar.style.background = '#f1f5f9';
+        topbar.style.borderColor = '#cbd5e1';
+        body.style.background = '#f8fafc';
+        btnLight.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-600 text-white border border-sky-500';
+        btnDark.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400';
+      } else {
+        topbar.style.background = '#0d1527';
+        topbar.style.borderColor = 'rgba(255,255,255,0.08)';
+        body.style.background = '#070d19';
+        btnDark.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-950 border border-sky-500/40 text-sky-300';
+        btnLight.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400';
+      }
+    }
+
+    // Inicializa na Opção 1
+    renderizarLeftArea();
+  </script>
+</body>
+</html>

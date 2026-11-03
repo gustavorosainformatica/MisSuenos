@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Os Padrões de Interface Mais Modernos do Mundo</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #070d19;
+      color: #f8fafc;
+      margin: 0;
+      padding: 20px;
+    }
+    .preview-card {
+      background: #0b1120;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+    }
+    .tab-btn:not(.active) {
+      background: rgba(255, 255, 255, 0.05);
+      color: #94a3b8;
+    }
+    .tab-btn:hover:not(.active) {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f8fafc;
+    }
+  </style>
+</head>
+<body class="p-4 bg-[#070d19] text-slate-100">
+
+  <!-- TOPO -->
+  <div class="mb-6 flex flex-wrap justify-between items-center gap-4 border-b border-slate-800 pb-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">✨</span>
+        <h1 class="text-xl font-bold text-sky-400">Benchmarking: As 3 Interfaces Mais Modernas do Mundo</h1>
+      </div>
+      <p class="text-xs text-slate-400 mt-1">
+        Comparação entre o Padrão Linear (Omnibar), o Padrão Notion (Desktop com Setas) e o Padrão Stripe (Interactive Pill).
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="mudarTema('dark')" id="btn-theme-dark" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-950 border border-sky-500/40 text-sky-300">🌙 Escuro</button>
+      <button onclick="mudarTema('light')" id="btn-theme-light" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400">☀️ Claro</button>
+    </div>
+  </div>
+
+  <!-- SELETOR DE PADRÕES -->
+  <div class="flex flex-wrap gap-2 mb-4">
+    <button onclick="selecionarPadrao('linear')" id="tab-linear" class="tab-btn active">
+      🌟 1. Padrão "Linear.app" (Omnibar Central - O Mais Moderno do Mundo)
+    </button>
+    <button onclick="selecionarPadrao('notion')" id="tab-notion" class="tab-btn">
+      🖥️ 2. Padrão "Notion / Windows 11" (Setas Nativas [ ◀ ] [ ▶ ])
+    </button>
+    <button onclick="selecionarPadrao('stripe')" id="tab-stripe" class="tab-btn">
+      ⚡ 3. Padrão "Stripe" (Pílula Interativa Dropdown)
+    </button>
+  </div>
+
+  <!-- CONTAINER DE PREVIEW -->
+  <div class="preview-card" id="mockup-frame">
+    
+    <!-- TOPBAR DINÂMICA -->
+    <div id="mock-topbar" class="h-16 px-5 flex items-center justify-between border-b border-slate-800/80 bg-[#0d1527] transition-colors">
+      <!-- Injetado dinamicamente -->
+    </div>
+
+    <!-- CONTEÚDO SIMULADO -->
+    <div class="p-6 bg-[#070d19]" id="mock-body">
+      <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800/80 flex items-center justify-between">
+        <div>
+          <div class="text-xs font-bold text-sky-400 uppercase tracking-wider" id="mock-title-explicacao">Padrão Linear.app Selecionado</div>
+          <div class="text-xs text-slate-300 mt-1" id="mock-desc-explicacao">
+            Zero redundância. O cabeçalho vira uma barra de comando executiva limpa e ultra-rápida.
+          </div>
+        </div>
+        <span class="text-xs font-bold px-3 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40" id="mock-badge">
+          REFERÊNCIA GLOBAL EM DESIGN
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ANÁLISE COMPARATIVA DOS PADRÕES -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    
+    <!-- CARD 1 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-sky-500/50">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">🌟</span>
+        <h3 class="text-sm font-bold text-sky-300">1. Padrão Linear (Omnibar)</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Usado por <strong>Linear.app, Raycast, Vercel e Superhuman</strong>. Remove todo e qualquer texto do cabeçalho. A barra de busca `Ctrl+K` ganha o centro absoluto da tela, permitindo buscar clientes, emitir comandos e navegar sem encostar no mouse.
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-sky-400 font-semibold">Avaliação de Design:</div>
+        <div class="text-slate-300">• Considerado o visual mais sofisticado e moderno da atualidade</div>
+        <div class="text-slate-300">• Sensação de aplicativo rápido, fluido e futurista</div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">🖥️</span>
+        <h3 class="text-sm font-bold text-slate-200">2. Padrão Desktop com Setas</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Usado por <strong>Notion, Spotify, Windows Explorer e VS Code</strong>. Adiciona os botões de histórico `[ ◀ ] [ ▶ ]` ao lado do menu.
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-emerald-400 font-semibold">Avaliação de Design:</div>
+        <div class="text-slate-300">• Excelente para quem está acostumado com software desktop instalado</div>
+        <div class="text-slate-300">• Muito prático para alternar entre duas telas frequentemente</div>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="p-4 rounded-xl bg-[#0c1424] border border-slate-800">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg">⚡</span>
+        <h3 class="text-sm font-bold text-slate-200">3. Padrão Stripe (Interactive Pill)</h3>
+      </div>
+      <p class="text-xs text-slate-400 leading-relaxed mb-3">
+        Usado pelo <strong>Stripe Dashboard e GitHub</strong>. O título não é estático: ele se torna uma pílula sutil clicável <code>Clientes & CRM ▾</code> que abre uma lista rápida para alternar módulos com 1 clique.
+      </p>
+      <div class="text-[11px] bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 space-y-1">
+        <div class="text-purple-400 font-semibold">Avaliação de Design:</div>
+        <div class="text-slate-300">• Elimina a redundância porque o texto vira um botão de ação real</div>
+        <div class="text-slate-300">• Muito elegante para dashboards corporativos SaaS</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT INTERATIVO -->
+  <script>
+    let padraoAtivo = 'linear';
+    let temaAtivo = 'dark';
+
+    function renderizarTopbar() {
+      const topbar = document.getElementById('mock-topbar');
+
+      if (padraoAtivo === 'linear') {
+        // PADRÃO LINEAR: OMNIBAR CENTRALIZADA E PURA
+        topbar.innerHTML = `
+          <!-- ESQUERDA: APENAS HAMBURGER / CONTROLE DISCRETO -->
+          <div class="flex items-center gap-3">
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-slate-400 flex items-center justify-center text-sm hover:bg-slate-700">☰</button>
+          </div>
+
+          <!-- CENTRO: BARRA DE COMANDO CENTRAL FLUTUANTE (OMNIBAR) -->
+          <div class="flex-1 max-w-xl mx-4">
+            <div class="relative flex items-center">
+              <span class="absolute left-3.5 text-sky-400 text-xs">✨</span>
+              <input type="text" placeholder="Buscar clientes, produtos, pedidos ou digitar um comando..." readonly
+                     class="w-full bg-slate-950/80 border border-sky-500/30 rounded-xl pl-9 pr-24 py-2 text-xs text-slate-200 shadow-inner focus:outline-none">
+              <div class="absolute right-2 flex items-center gap-1">
+                <span class="px-2 py-0.5 rounded-md bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl + K</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIREITA: STATUS E CONFIGURAÇÕES -->
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center" title="Nuvem Conectada">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-sky-400 border border-sky-500/30 flex items-center justify-center">⚙️</button>
+          </div>
+        `;
+        document.getElementById('mock-title-explicacao').textContent = 'Padrão 1: Linear Omnibar Centralizada';
+        document.getElementById('mock-desc-explicacao').textContent = 'O topo é 100% focado na barra de busca flutuante no centro. Nenhum texto redundante com o menu lateral.';
+        document.getElementById('mock-badge').textContent = 'O MAIS MODERNO DO MUNDO (LINEAR / RAYCAST)';
+      } 
+      else if (padraoAtivo === 'notion') {
+        // PADRÃO NOTION / WINDOWS: SETAS [ ◀ ] [ ▶ ]
+        topbar.innerHTML = `
+          <div class="flex items-center gap-2">
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-slate-400 flex items-center justify-center text-sm mr-1">☰</button>
+            <div class="flex items-center gap-1 bg-slate-900/80 p-1 rounded-lg border border-slate-800">
+              <button class="w-7 h-7 rounded-md bg-slate-800 text-sky-400 border border-sky-500/30 flex items-center justify-center text-xs hover:bg-slate-700">◀</button>
+              <button class="w-7 h-7 rounded-md bg-slate-900/40 text-slate-600 border border-slate-800 flex items-center justify-center text-xs opacity-40">▶</button>
+            </div>
+            <div class="relative flex items-center ml-2">
+              <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
+              <input type="text" placeholder="Busca rápida..." readonly
+                     class="bg-slate-900/90 border border-slate-700/60 rounded-lg pl-8 pr-16 py-1.5 text-xs text-slate-300 w-64 focus:outline-none">
+              <span class="absolute right-2 px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl+K</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-sky-400 border border-sky-500/30 flex items-center justify-center">⚙️</button>
+          </div>
+        `;
+        document.getElementById('mock-title-explicacao').textContent = 'Padrão 2: Desktop Nativo com Setas de Histórico';
+        document.getElementById('mock-desc-explicacao').textContent = 'Setas ◀ e ▶ para alternar entre as últimas telas navegadas, simulando um app desktop instalado.';
+        document.getElementById('mock-badge').textContent = 'PADRÃO NOTION / SPOTIFY / WINDOWS 11';
+      }
+      else if (padraoAtivo === 'stripe') {
+        // PADRÃO STRIPE: PÍLULA INTERATIVA DROPDOWN
+        topbar.innerHTML = `
+          <div class="flex items-center gap-3">
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-slate-400 flex items-center justify-center text-sm">☰</button>
+            <button class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 flex items-center gap-2">
+              <span>👥</span> <span>Clientes & CRM</span> <span class="text-[10px] text-slate-400">▾</span>
+            </button>
+            <div class="relative flex items-center">
+              <span class="absolute left-3 text-slate-500 text-xs">🔍</span>
+              <input type="text" placeholder="Busca rápida..." readonly
+                     class="bg-slate-900/90 border border-slate-700/60 rounded-lg pl-8 pr-16 py-1.5 text-xs text-slate-300 w-60 focus:outline-none">
+              <span class="absolute right-2 px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">Ctrl+K</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/50 flex items-center justify-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <button class="w-8 h-8 rounded-lg bg-slate-800/90 text-sky-400 border border-sky-500/30 flex items-center justify-center">⚙️</button>
+          </div>
+        `;
+        document.getElementById('mock-title-explicacao').textContent = 'Padrão 3: Stripe Interactive Pill';
+        document.getElementById('mock-desc-explicacao').textContent = 'O título deixa de ser texto morto e vira um botão seletor compacto para trocar de módulo sem ir até a barra lateral.';
+        document.getElementById('mock-badge').textContent = 'PADRÃO STRIPE / GITHUB';
+      }
+    }
+
+    function selecionarPadrao(p) {
+      padraoAtivo = p;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + p).classList.add('active');
+      renderizarTopbar();
+    }
+
+    function mudarTema(tema) {
+      temaAtivo = tema;
+      const topbar = document.getElementById('mock-topbar');
+      const body = document.getElementById('mock-body');
+      const btnDark = document.getElementById('btn-theme-dark');
+      const btnLight = document.getElementById('btn-theme-light');
+
+      if (tema === 'light') {
+        topbar.style.background = '#f1f5f9';
+        topbar.style.borderColor = '#cbd5e1';
+        body.style.background = '#f8fafc';
+        btnLight.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-600 text-white border border-sky-500';
+        btnDark.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400';
+      } else {
+        topbar.style.background = '#0d1527';
+        topbar.style.borderColor = 'rgba(255,255,255,0.08)';
+        body.style.background = '#070d19';
+        btnDark.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-950 border border-sky-500/40 text-sky-300';
+        btnLight.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-800 border border-slate-700 text-slate-400';
+      }
+    }
+
+    renderizarTopbar();
+  </script>
+</body>
+</html>
