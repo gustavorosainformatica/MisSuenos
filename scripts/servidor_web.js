@@ -314,6 +314,12 @@ async function tratarRequisicao(req, res) {
   if (pathname.startsWith('/api/sistema')) {
     return handlerSistema(req, res);
   }
+  if (pathname === '/api/sistema/armazenamento' || pathname.startsWith('/api/sistema/armazenamento')) {
+    return handlerSistemaArmazenamento(req, res);
+  }
+  if (pathname === '/api/sistema/manutencao' || pathname === '/api/sistema/otimizar' || pathname === '/api/sistema/limpar-logs') {
+    return handlerSistemaManutencao(req, res);
+  }
 
   // ====================================================================
   // ROTAS DA API REST

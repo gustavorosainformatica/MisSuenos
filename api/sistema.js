@@ -464,3 +464,4 @@ export default async function handler(req, res) {
 
   return responder(res, 405, { error: 'Método não permitido' });
 }
+
