@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Suporte offline imediato e White-Label -->
-  <script src="app-config.js?v=2.2"></script>
+  <script src="app-config.js?v=2.3"></script>
   <script src="dados_clientes.js"></script>
   <script src="mapa_interativo.js"></script>
   <style>
@@ -3073,22 +3073,10 @@
           <span id="theme-icon">☀️</span> <span id="theme-text">Claro</span>
         </button>
 
-        <button class="btn-top" id="btn-instalar-app" onclick="instalarPwaApp()" style="display: none; background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); font-weight: 700; gap: 6px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);">
-          <span>📲</span> Instalar App
-        </button>
         <div class="status-pill" title="Nuvem Conectada (Turso / SQLite)" style="padding: 7px; width: 28px; height: 28px; justify-content: center; border-radius: 50%;">
           <span class="pulse-dot"></span>
           <span id="label-conexao" style="display: none;">Nuvem Conectada</span>
         </div>
-        <button class="btn-top btn-amber-glow" onclick="abrirModalNovoPedido()">
-          <span>📦</span> Novo Pedido
-        </button>
-        <button class="btn-top btn-emerald-glow" onclick="abrirModalFiscal()">
-          <span>🧾</span> Emitir NF-e
-        </button>
-        <button class="btn-top btn-primary-glow" onclick="abrirModalNovoCliente()">
-          <span>👤</span> Cadastrar Cliente
-        </button>
 
         <!-- CONTAINER DO MENU DA ENGRENAGEM -->
         <div style="position: relative; display: inline-block;">
