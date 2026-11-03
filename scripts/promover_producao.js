@@ -65,7 +65,30 @@ try {
   console.log('\n🔀 [4/5] Integrando novidades da branch dev na branch main (Merge seguro)...');
   const mergeResult = run('git merge dev -m "merge: promover melhorias testadas de dev para producao"', prodDir);
   console.log(c.dim + '   ' + mergeResult.split('\n')[0] + c.reset);
-  console.log(c.green + '   ✔ Merge executado sem conflitos!' + c.reset);
+  console.log(c.green + '   ✔ Merge executado com sucesso!' + c.reset);
+
+  // 4.1 Garantir preservação das configurações exclusivas de Produção
+  const prodPkgPath = path.join(prodDir, 'package.json');
+  if (fs.existsSync(prodPkgPath)) {
+    const pkg = JSON.parse(fs.readFileSync(prodPkgPath, 'utf-8'));
+    let precisaAjuste = false;
+    if (pkg.port !== 3000) { pkg.port = 3000; precisaAjuste = true; }
+    if (pkg.name !== 'missuenos-clientes') { pkg.name = 'missuenos-clientes'; precisaAjuste = true; }
+    if (pkg.version && pkg.version.includes('-dev')) { pkg.version = pkg.version.replace('-dev', ''); precisaAjuste = true; }
+    if (pkg.description && pkg.description.includes('Homologação')) {
+      pkg.description = 'Sistema de Gestão Integrada Mis Sueños ERP';
+      precisaAjuste = true;
+    }
+
+    if (precisaAjuste) {
+      fs.writeFileSync(prodPkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf-8');
+      run('git add package.json', prodDir);
+      try {
+        run('git commit -m "chore: preservar configuracoes e porta 3000 oficiais de producao"', prodDir);
+        console.log(c.green + '   ✔ Configurações oficiais de produção preservadas.' + c.reset);
+      } catch {}
+    }
+  }
 
   // 5. Enviar para a produção oficial na Nuvem (GitHub / Vercel / Cloudflare)
   console.log('\n🚀 [5/5] Enviando para a branch main no GitHub (Disparando deploy na Nuvem)...');
@@ -81,4 +104,3 @@ try {
   console.error(c.red + err.message + c.reset);
   process.exit(1);
 }
-
