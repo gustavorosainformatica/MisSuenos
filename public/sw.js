@@ -1,5 +1,5 @@
 // Service Worker - Mis Sueños ERP PWA
-const CACHE_NAME = 'missuenos-pwa-v3';
+const CACHE_NAME = 'missuenos-pwa-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
