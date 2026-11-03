@@ -42,8 +42,7 @@ const { default: handlerFinanceiro } = await import('../api/financeiro.js');
 const { default: handlerCompras } = await import('../api/compras.js');
 const { default: handlerConfiguracoes } = await import('../api/configuracoes.js');
 const { default: handlerNfe } = await import('../api/nfe.js');
-const { default: handlerSistemaArmazenamento } = await import('../api/sistema_armazenamento.js');
-const { default: handlerSistemaManutencao } = await import('../api/sistema_manutencao.js');
+const { default: handlerSistema } = await import('../api/sistema.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -312,11 +311,8 @@ async function tratarRequisicao(req, res) {
   if (pathname === '/api/nfe' || pathname.startsWith('/api/nfe/')) {
     return handlerNfe(req, res);
   }
-  if (pathname === '/api/sistema/armazenamento' || pathname.startsWith('/api/sistema/armazenamento')) {
-    return handlerSistemaArmazenamento(req, res);
-  }
-  if (pathname === '/api/sistema/manutencao' || pathname === '/api/sistema/otimizar' || pathname === '/api/sistema/limpar-logs') {
-    return handlerSistemaManutencao(req, res);
+  if (pathname.startsWith('/api/sistema')) {
+    return handlerSistema(req, res);
   }
 
   // ====================================================================
