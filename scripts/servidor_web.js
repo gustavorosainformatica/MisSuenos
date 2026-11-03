@@ -21,7 +21,7 @@ if (!PORT) {
   try {
     const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf-8'));
     if (pkg.port) PORT = pkg.port;
-  } catch {}
+  } catch { }
 }
 PORT = PORT || 3000;
 const BASE_DIR = path.join(__dirname, '..');
@@ -1088,11 +1088,11 @@ try {
       const parts = line.trim().split(/\s+/);
       const pid = parts[parts.length - 1];
       if (pid && pid !== String(process.pid)) {
-        try { execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' }); } catch {}
+        try { execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' }); } catch { }
       }
     }
   }
-} catch {}
+} catch { }
 
 server.listen(PORT, () => {
   console.log(`\n======================================================================`);
