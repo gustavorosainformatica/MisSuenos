@@ -3130,6 +3130,11 @@
               <span class="gear-dd-left"><span>💾</span> <span>Backup & Exportação</span></span>
             </button>
 
+            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalArmazenamento();">
+              <span class="gear-dd-left"><span>📊</span> <span>Armazenamento & Quotas</span></span>
+              <span class="gear-dd-badge badge-emerald" id="gear-badge-armazenamento">Turso 9GB</span>
+            </button>
+
             <div class="gear-dd-divider"></div>
 
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirSuporteWhatsApp();">
@@ -4386,6 +4391,194 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ARMAZENAMENTO, QUOTAS & COLD STORAGE R2 -->
+  <div class="modal-overlay" id="modal-armazenamento-quotas">
+    <div class="modal-container" style="max-width: 840px; width: 96%; max-height: 92vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="padding: 14px 22px;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>📊</span>
+          <span>Painel de Armazenamento, Quotas & Nuvem</span>
+          <span class="gear-dd-badge badge-emerald" id="arm-modal-badge-modo" style="font-size: 10px;">Turso libSQL</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalArmazenamento()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px;">
+        <!-- SUBTÍTULO -->
+        <div style="font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <span>Monitoramento de cotas gratuitas do Turso Cloud (9.0 GB), SQLite local e Cloudflare R2 (10 GB).</span>
+          <button type="button" class="btn-top btn-row-action" onclick="carregarMetricasArmazenamento()" style="padding: 4px 10px; font-size: 11px;">
+            🔄 Atualizar
+          </button>
+        </div>
+
+        <!-- GRID DE CARDS DE SERVIÇOS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px;">
+          <!-- CARD TURSO -->
+          <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; font-weight: 700; color: #38bdf8;">🌐 Turso Cloud</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">9.0 GB GRÁTIS</span>
+            </div>
+            <div>
+              <div style="font-size: 19px; font-weight: 800; color: #fff;">
+                <span id="arm-turso-usado">Carregando...</span> <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">/ 9.0 GB</span>
+              </div>
+              <div style="font-size: 11px; color: #38bdf8; margin-top: 2px;" id="arm-turso-pct">0% da quota utilizada</div>
+            </div>
+            <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+              <div id="arm-turso-bar" style="height: 100%; width: 0.5%; background: #00d4ff; border-radius: 999px; transition: width 0.3s ease;"></div>
+            </div>
+            <div style="font-size: 10.5px; color: var(--text-muted); display: flex; justify-content: space-between;">
+              <span>Páginas: <strong id="arm-turso-pages">-</strong></span>
+              <span>Reaproveitável: <strong id="arm-turso-free">0 B</strong></span>
+            </div>
+          </div>
+
+          <!-- CARD SQLITE LOCAL -->
+          <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; font-weight: 700; color: #34d399;">💾 SQLite Local</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 2px 6px; border-radius: 4px;">ARQUIVO .DB</span>
+            </div>
+            <div>
+              <div style="font-size: 19px; font-weight: 800; color: #fff;" id="arm-sqlite-usado">Carregando...</div>
+              <div style="font-size: 11px; color: #34d399; margin-top: 2px;">Persistência em disco local</div>
+            </div>
+            <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+              <div style="height: 100%; width: 5%; background: #10b981; border-radius: 999px;"></div>
+            </div>
+            <div style="font-size: 10.5px; color: var(--text-muted);">
+              Caminho: <code>database/clientes.db</code>
+            </div>
+          </div>
+
+          <!-- CARD CLOUDFLARE R2 -->
+          <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 12px; font-weight: 700; color: #fbbf24;">☁️ Cloudflare R2</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 2px 6px; border-radius: 4px;">10 GB GRÁTIS</span>
+            </div>
+            <div>
+              <div style="font-size: 19px; font-weight: 800; color: #fff;">
+                <span id="arm-r2-usado">Carregando...</span> <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">/ 10.0 GB</span>
+              </div>
+              <div style="font-size: 11px; color: #fbbf24; margin-top: 2px;" id="arm-r2-pct">0% da quota utilizada</div>
+            </div>
+            <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+              <div id="arm-r2-bar" style="height: 100%; width: 0.5%; background: #f59e0b; border-radius: 999px; transition: width 0.3s ease;"></div>
+            </div>
+            <div style="font-size: 10.5px; color: var(--text-muted); display: flex; justify-content: space-between;">
+              <span>Arquivos: <strong id="arm-r2-total">0</strong></span>
+              <span>Provedor: <strong id="arm-r2-prov">R2</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO DE MANUTENÇÃO PREVENTIVA -->
+        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 16px;">
+          <div style="font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <span>⚡</span>
+            <span>Ações de Manutenção Preventiva (Seguras & Automáticas)</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            <!-- AÇÃO 1: VACUUM -->
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+              <div>
+                <div style="font-weight: 700; color: #38bdf8; font-size: 13px;">🧹 Otimizar Banco de Dados (VACUUM)</div>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
+                  Reorganiza as páginas físicas, desfragmenta os índices B-Tree e encolhe o arquivo do banco devolvendo megabytes livres.
+                </div>
+              </div>
+              <button type="button" class="btn-top btn-primary-glow" onclick="executarOtimizacaoBanco()" style="width: 100%; justify-content: center;">
+                ⚡ Executar Otimização (VACUUM)
+              </button>
+            </div>
+
+            <!-- AÇÃO 2: COLD STORAGE LOGS NO R2 -->
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+              <div>
+                <div style="font-weight: 700; color: #34d399; font-size: 13px;">☁️ Cold Storage no R2 (Logs > 90 dias)</div>
+                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
+                  Gera arquivo <code>.csv</code> dos logs antigos, faz upload para o Cloudflare R2 e remove do banco liberando espaço imediato.
+                </div>
+              </div>
+              <button type="button" class="btn-top btn-emerald-glow" onclick="executarLimpezaLogsColdStorage()" style="width: 100%; justify-content: center;">
+                ☁️ Arquivar no R2 & Limpar Logs
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: TABELA DETALHADA -->
+        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 16px;">
+          <div style="font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+            <span>📑 Espaço Ocupado por Tabela</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Calculado em tempo real</span>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); text-align: left; color: var(--text-muted);">
+                  <th style="padding: 6px 10px;">Tabela</th>
+                  <th style="padding: 6px 10px;">Registros</th>
+                  <th style="padding: 6px 10px;">Espaço Est.</th>
+                  <th style="padding: 6px 10px;">% do Banco</th>
+                </tr>
+              </thead>
+              <tbody id="arm-tabela-corpo">
+                <tr><td colspan="4" style="padding: 12px; text-align: center; color: var(--text-muted);">Carregando métricas...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 11px; color: var(--text-muted);">Status: <span id="arm-status-geral" style="color: #34d399; font-weight: 700;">100% Saudável</span></span>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalArmazenamento()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ALERTA PREVENTIVO DE QUOTA (25%, 50%, 75%) -->
+  <div class="modal-overlay" id="modal-alerta-quota">
+    <div class="modal-container" style="max-width: 480px; width: 92%; padding: 0; border-radius: 16px; overflow: hidden;" id="modal-alerta-quota-container">
+      <div style="padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;">
+        <span id="alerta-quota-tag" style="font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px;">NÍVEL DE ALERTA</span>
+        <button class="modal-close-btn" onclick="fecharModalAlertaQuota()">✕</button>
+      </div>
+      <div style="padding: 20px 24px; display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="alerta-quota-icone" style="font-size: 26px;">ℹ️</span>
+          <div style="font-size: 16px; font-weight: 700; color: #fff;" id="alerta-quota-titulo">Aviso de Quota</div>
+        </div>
+        <p style="font-size: 13px; color: #cbd5e1; line-height: 1.5;" id="alerta-quota-mensagem">
+          O armazenamento do sistema atingiu um dos limites de monitoramento.
+        </p>
+        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px;">
+            <span id="alerta-quota-detalhe-texto">Uso Atual</span>
+            <span id="alerta-quota-pct-label" style="font-weight: 800;">25%</span>
+          </div>
+          <div style="height: 8px; background: rgba(255, 255, 255, 0.1); border-radius: 999px; overflow: hidden;">
+            <div id="alerta-quota-bar" style="height: 100%; width: 25%; border-radius: 999px; transition: width 0.3s ease;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 14px 20px; background: rgba(0, 0, 0, 0.2); border-top: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 10px;">
+        <button type="button" class="btn-top btn-row-action" style="flex: 1; justify-content: center;" onclick="dispensarAlertaQuota(7)">
+          Dispensar (7 dias)
+        </button>
+        <button type="button" class="btn-top btn-primary-glow" style="flex: 1; justify-content: center;" id="alerta-quota-btn-acao" onclick="abrirModalArmazenamento(); fecharModalAlertaQuota();">
+          Ver Detalhes 📊
+        </button>
       </div>
     </div>
   </div>
@@ -9794,6 +9987,228 @@
       if (modal) modal.classList.remove('active');
     }
 
+    // ========================================================
+    // CONTROLADORES DE ARMAZENAMENTO, QUOTAS & COLD STORAGE R2
+    // ========================================================
+    let ultimaMetricaArmazenamento = null;
+
+    function abrirModalArmazenamento() {
+      const modal = document.getElementById('modal-armazenamento-quotas');
+      if (modal) modal.classList.add('active');
+      carregarMetricasArmazenamento();
+    }
+
+    function fecharModalArmazenamento() {
+      const modal = document.getElementById('modal-armazenamento-quotas');
+      if (modal) modal.classList.remove('active');
+    }
+
+    async function carregarMetricasArmazenamento() {
+      try {
+        const res = await fetch('/api/sistema/armazenamento');
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+        ultimaMetricaArmazenamento = data;
+
+        // Atualiza Badge do Modo
+        const modoEl = document.getElementById('arm-modal-badge-modo');
+        if (modoEl) modoEl.textContent = data.ambiente_banco || 'Turso libSQL';
+
+        // Atualiza Turso Cloud
+        const turso = data.metricas?.turso;
+        if (turso) {
+          const tUsado = document.getElementById('arm-turso-usado');
+          const tPct = document.getElementById('arm-turso-pct');
+          const tBar = document.getElementById('arm-turso-bar');
+          const tPages = document.getElementById('arm-turso-pages');
+          const tFree = document.getElementById('arm-turso-free');
+
+          if (tUsado) tUsado.textContent = turso.usado_formatado;
+          if (tPct) tPct.textContent = `${turso.percentual_usado}% da quota utilizada`;
+          if (tBar) tBar.style.width = Math.max(1, Math.min(100, turso.percentual_usado * 10)) + '%';
+          if (tPages) tPages.textContent = turso.paginas_ativas;
+          if (tFree) tFree.textContent = turso.bytes_reaproveitaveis_formatado || '0 B';
+
+          const badgeGear = document.getElementById('gear-badge-armazenamento');
+          if (badgeGear) badgeGear.textContent = `${turso.usado_formatado} / 9GB`;
+        }
+
+        // Atualiza SQLite Local
+        const sqlite = data.metricas?.sqlite_local;
+        if (sqlite) {
+          const sqUsado = document.getElementById('arm-sqlite-usado');
+          if (sqUsado) sqUsado.textContent = sqlite.usado_formatado;
+        }
+
+        // Atualiza R2 Anexos
+        const r2 = data.metricas?.r2_anexos;
+        if (r2) {
+          const rUsado = document.getElementById('arm-r2-usado');
+          const rPct = document.getElementById('arm-r2-pct');
+          const rBar = document.getElementById('arm-r2-bar');
+          const rTotal = document.getElementById('arm-r2-total');
+          const rProv = document.getElementById('arm-r2-prov');
+
+          if (rUsado) rUsado.textContent = r2.usado_formatado;
+          if (rPct) rPct.textContent = `${r2.percentual_usado}% da quota utilizada`;
+          if (rBar) rBar.style.width = Math.max(1, Math.min(100, r2.percentual_usado * 10)) + '%';
+          if (rTotal) rTotal.textContent = r2.total_arquivos;
+          if (rProv) rProv.textContent = r2.r2_configurado ? 'Cloudflare R2' : 'Local';
+        }
+
+        // Atualiza Tabela de Espaço por Tabela
+        const tbody = document.getElementById('arm-tabela-corpo');
+        if (tbody && data.tabelas) {
+          tbody.innerHTML = data.tabelas.map(t => `
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+              <td style="padding: 8px 10px; font-weight: 600; color: #fff;">${t.label}</td>
+              <td style="padding: 8px 10px; color: var(--text-muted);">${t.registros.toLocaleString('pt-BR')} registros</td>
+              <td style="padding: 8px 10px; color: #38bdf8; font-weight: 700;">${t.tamanho_formatado}</td>
+              <td style="padding: 8px 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 5px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
+                    <div style="height: 100%; width: ${Math.max(2, t.percentual)}%; background: #34d399; border-radius: 999px;"></div>
+                  </div>
+                  <span style="font-size: 10.5px; color: var(--text-muted); width: 34px;">${t.percentual}%</span>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+        }
+
+        // Checa se precisa exibir alerta popup
+        checarAlertasQuotas(data);
+
+      } catch (err) {
+        console.warn('[ERRO CARREGAR ARMAZENAMENTO]', err);
+      }
+    }
+
+    async function executarOtimizacaoBanco() {
+      if (!confirm('Deseja executar a otimização (VACUUM) no banco de dados agora? O processo é rápido e seguro.')) return;
+      try {
+        if (typeof mostrarToast === 'function') mostrarToast('Executando desfragmentação e VACUUM...');
+        const res = await fetch('/api/sistema/otimizar', { method: 'POST' });
+        const data = await res.json();
+        if (data.sucesso) {
+          if (typeof mostrarToast === 'function') {
+            mostrarToast(`Banco otimizado com sucesso! Liberados ${data.bytes_liberados ? (data.bytes_liberados / 1024).toFixed(1) + ' KB' : 'espaço'} em ${data.tempo_execucao_ms}ms.`);
+          }
+          carregarMetricasArmazenamento();
+        } else {
+          alert('Erro ao otimizar: ' + (data.error || 'Falha'));
+        }
+      } catch (err) {
+        alert('Falha na comunicação com o servidor: ' + err.message);
+      }
+    }
+
+    async function executarLimpezaLogsColdStorage() {
+      const confirmMsg = 'Deseja arquivar e expurgar logs com mais de 90 dias?\\n\\n' +
+        '🛡️ Segurança Ativa: Um arquivo CSV será enviado automaticamente para a pasta /backups/logs no Cloudflare R2 antes da exclusão do Turso.';
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        if (typeof mostrarToast === 'function') mostrarToast('Compactando e arquivando logs no Cloudflare R2...');
+        const res = await fetch('/api/sistema/limpar-logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dias_retencao: 90 })
+        });
+        const data = await res.json();
+        if (data.sucesso) {
+          const msg = data.logs_arquivados > 0
+            ? `✅ Sucesso: ${data.logs_arquivados} logs foram salvos no Cloudflare R2 (${data.arquivo_backup?.nome}) e expurgados do banco!`
+            : (data.mensagem || 'Nenhum log antigo para arquivar no momento.');
+          alert(msg);
+          if (typeof mostrarToast === 'function') mostrarToast(data.mensagem);
+          carregarMetricasArmazenamento();
+        } else {
+          alert('Erro: ' + (data.error || 'Falha no arquivamento'));
+        }
+      } catch (err) {
+        alert('Falha na requisição: ' + err.message);
+      }
+    }
+
+    // ========================================================
+    // POPUPS DE ALERTA DE QUOTAS (25%, 50% e 75%)
+    // ========================================================
+    function checarAlertasQuotas(data) {
+      if (!data?.alerta_global) return;
+      const { nivel, maior_percentual, precisa_alerta } = data.alerta_global;
+
+      if (!precisa_alerta) return;
+
+      const dispensadoAte = localStorage.getItem('missuenos_quota_alert_dismissed_until');
+      if (dispensadoAte && Date.now() < Number(dispensadoAte)) {
+        return;
+      }
+
+      exibirPopupAlerta(nivel, maior_percentual);
+    }
+
+    function exibirPopupAlerta(nivel, pct) {
+      const modal = document.getElementById('modal-alerta-quota');
+      const container = document.getElementById('modal-alerta-quota-container');
+      const tag = document.getElementById('alerta-quota-tag');
+      const icone = document.getElementById('alerta-quota-icone');
+      const titulo = document.getElementById('alerta-quota-titulo');
+      const msg = document.getElementById('alerta-quota-mensagem');
+      const pctLabel = document.getElementById('alerta-quota-pct-label');
+      const bar = document.getElementById('alerta-quota-bar');
+      const btnAcao = document.getElementById('alerta-quota-btn-acao');
+
+      if (!modal) return;
+
+      if (nivel === 'NIVEL_75' || pct >= 75) {
+        if (container) container.style.border = '2px solid #ef4444';
+        if (tag) { tag.textContent = 'NÍVEL 3 • 75% ALERTA'; tag.style.background = 'rgba(239, 68, 68, 0.2)'; tag.style.color = '#ef4444'; }
+        if (icone) icone.textContent = '🛑';
+        if (titulo) titulo.textContent = 'Alerta Preventivo de Armazenamento (75%)';
+        if (msg) msg.textContent = 'O banco de dados atingiu 75% da cota recomendada. É altamente recomendável executar o Cold Storage e otimização para manter o sistema leve.';
+        if (bar) { bar.style.width = pct + '%'; bar.style.background = '#ef4444'; }
+        if (pctLabel) { pctLabel.textContent = pct + '%'; pctLabel.style.color = '#ef4444'; }
+        if (btnAcao) { btnAcao.textContent = 'Limpar Logs ⚡'; btnAcao.style.background = '#ef4444'; }
+      } else if (nivel === 'NIVEL_50' || pct >= 50) {
+        if (container) container.style.border = '2px solid #f59e0b';
+        if (tag) { tag.textContent = 'NÍVEL 2 • 50% ATENÇÃO'; tag.style.background = 'rgba(245, 158, 11, 0.2)'; tag.style.color = '#f59e0b'; }
+        if (icone) icone.textContent = '⚠️';
+        if (titulo) titulo.textContent = 'Atenção de Quota (50% Consumido)';
+        if (msg) msg.textContent = 'Metade da capacidade de armazenamento foi atingida. O sistema opera normalmente, mas sugere-se conferir os arquivos e logs de auditoria.';
+        if (bar) { bar.style.width = pct + '%'; bar.style.background = '#f59e0b'; }
+        if (pctLabel) { pctLabel.textContent = pct + '%'; pctLabel.style.color = '#f59e0b'; }
+        if (btnAcao) { btnAcao.textContent = 'Otimizar 🧹'; btnAcao.style.background = '#f59e0b'; }
+      } else {
+        if (container) container.style.border = '2px solid #00d4ff';
+        if (tag) { tag.textContent = 'NÍVEL 1 • 25% AVISO'; tag.style.background = 'rgba(0, 212, 255, 0.2)'; tag.style.color = '#00d4ff'; }
+        if (icone) icone.textContent = 'ℹ️';
+        if (titulo) titulo.textContent = 'Aviso de Quota (25% Utilizado)';
+        if (msg) msg.textContent = 'O armazenamento atingiu 25% da quota inicial. O ERP continua operando com 100% de folga e performance total.';
+        if (bar) { bar.style.width = pct + '%'; bar.style.background = '#00d4ff'; }
+        if (pctLabel) { pctLabel.textContent = pct + '%'; pctLabel.style.color = '#00d4ff'; }
+        if (btnAcao) { btnAcao.textContent = 'Ver Detalhes 📊'; btnAcao.style.background = '#00d4ff'; }
+      }
+
+      modal.classList.add('active');
+    }
+
+    function fecharModalAlertaQuota() {
+      const modal = document.getElementById('modal-alerta-quota');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function dispensarAlertaQuota(dias = 7) {
+      const tempo = Date.now() + dias * 24 * 60 * 60 * 1000;
+      localStorage.setItem('missuenos_quota_alert_dismissed_until', String(tempo));
+      fecharModalAlertaQuota();
+      if (typeof mostrarToast === 'function') mostrarToast(`Alerta de quota dispensado por ${dias} dias.`);
+    }
+
+    function simularAlertaQuota(nivel = 25) {
+      exibirPopupAlerta(nivel === 75 ? 'NIVEL_75' : (nivel === 50 ? 'NIVEL_50' : 'NIVEL_25'), nivel);
+    }
+
     // MODAL CHANGELOG
     function abrirModalChangelog() {
       const modal = document.getElementById('modal-changelog');
@@ -10048,6 +10463,13 @@
 
     // Dispara checagem de autenticação imediatamente
     checarAutenticacao();
+
+    // Consulta telemetria de armazenamento em segundo plano e monitora quotas
+    setTimeout(() => {
+      if (typeof carregarMetricasArmazenamento === 'function') {
+        carregarMetricasArmazenamento();
+      }
+    }, 1500);
   </script>
 
 
