@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Suporte offline imediato e White-Label -->
-  <script src="app-config.js?v=2.4"></script>
+  <script src="app-config.js?v=2.5"></script>
   <script src="dados_clientes.js"></script>
   <script src="mapa_interativo.js"></script>
   <style>
@@ -4855,7 +4855,7 @@
           <!-- SELEÇÃO RÁPIDA DE CLIENTE COM AUTOCOMPLETE / DATALIST -->
           <div class="form-group" style="margin-top: 14px;">
             <label class="form-label">Cliente / Destinatário * <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(Selecione da base de 1.140 clientes ou digite)</span></label>
-            <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)">
+            <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)">
             <datalist id="lista-clientes-datalist">
               <!-- Populado via JS com os clientes cadastrados -->
             </datalist>
@@ -6271,19 +6271,38 @@
     function popularDatalistClientes() {
       const dl = document.getElementById('lista-clientes-datalist');
       if (!dl) return;
-      dl.innerHTML = clientes.slice(0, 300).map(c => {
-        return `<option value="${c.nome}">${c.cidade || ''} - ${c.uf || ''} ${c.cpf ? '· ' + c.cpf : ''}</option>`;
+      
+      // Carrega 100% da base oficial (sem truncamento/slice) ordenada alfabeticamente
+      const clientesValidos = (Array.isArray(clientes) ? clientes : [])
+        .filter(c => c && c.nome && c.nome.trim())
+        .sort((a, b) => a.nome.trim().localeCompare(b.nome.trim(), 'pt-BR'));
+
+      dl.innerHTML = clientesValidos.map(c => {
+        const doc = c.cpf || c.cnpj || '';
+        const local = [c.cidade, c.uf].filter(Boolean).join(' - ');
+        const detalhe = [local, doc].filter(Boolean).join(' · ');
+        return `<option value="${c.nome}">${detalhe}</option>`;
       }).join('');
     }
 
     function aoSelecionarClientePedido(nomeDigitado) {
       if (!nomeDigitado) return;
-      const cli = clientes.find(c => c.nome.trim().toUpperCase() === nomeDigitado.trim().toUpperCase());
+      const digitadoLimpo = String(nomeDigitado).trim().toUpperCase();
+      const cli = (Array.isArray(clientes) ? clientes : []).find(c => {
+        if (!c || !c.nome) return false;
+        const nomeCli = String(c.nome).trim().toUpperCase();
+        const razaoCli = String(c.razao_social || '').trim().toUpperCase();
+        return nomeCli === digitadoLimpo || razaoCli === digitadoLimpo;
+      });
       if (cli) {
-        document.getElementById('form-ped-cliente-id').value = cli.id || '';
-        document.getElementById('form-ped-cidade').value = cli.cidade || '';
-        document.getElementById('form-ped-uf').value = (cli.uf || 'RS').toUpperCase();
-        document.getElementById('form-ped-telefone').value = cli.telefone || '';
+        const idEl = document.getElementById('form-ped-cliente-id');
+        const cidEl = document.getElementById('form-ped-cidade');
+        const ufEl = document.getElementById('form-ped-uf');
+        const telEl = document.getElementById('form-ped-telefone');
+        if (idEl) idEl.value = cli.id || '';
+        if (cidEl) cidEl.value = cli.cidade || '';
+        if (ufEl) ufEl.value = (cli.uf || 'RS').toUpperCase();
+        if (telEl) telEl.value = cli.telefone || '';
       }
     }
 
@@ -6613,7 +6632,7 @@
       }
     }
 
-    function abrirModalNovoPedido() {
+    function abrirModalNovoPedido(clienteId = null) {
       popularDatalistClientes();
       popularSelectProdutosPedido();
       itensPedidoAtual = [];
@@ -6632,9 +6651,23 @@
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
       document.getElementById('form-ped-status').value = 'AGUARDANDO_ENVIO';
 
+      // Se passou clienteId, auto-preenche todos os dados do cliente selecionado
+      if (clienteId) {
+        const cli = (Array.isArray(clientes) ? clientes : []).find(c => Number(c.id) === Number(clienteId));
+        if (cli) {
+          document.getElementById('form-ped-cliente-id').value = cli.id || '';
+          document.getElementById('form-ped-cliente-nome').value = cli.nome || '';
+          document.getElementById('form-ped-cidade').value = cli.cidade || '';
+          document.getElementById('form-ped-uf').value = (cli.uf || 'RS').toUpperCase();
+          document.getElementById('form-ped-telefone').value = cli.telefone || '';
+        }
+      }
+
       atualizarTabelaItensPedido();
       document.getElementById('modal-pedido').classList.add('active');
-      document.getElementById('form-ped-cliente-nome').focus();
+      if (!clienteId) {
+        document.getElementById('form-ped-cliente-nome').focus();
+      }
     }
 
     function abrirModalEditarPedido(id) {
