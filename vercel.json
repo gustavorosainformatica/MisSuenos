@@ -97,6 +97,22 @@
       "dest": "/api/nfe.js"
     },
     {
+      "src": "/api/sistema/armazenamento",
+      "dest": "/api/sistema_armazenamento.js"
+    },
+    {
+      "src": "/api/sistema/otimizar",
+      "dest": "/api/sistema_manutencao.js"
+    },
+    {
+      "src": "/api/sistema/limpar-logs",
+      "dest": "/api/sistema_manutencao.js"
+    },
+    {
+      "src": "/api/sistema/manutencao",
+      "dest": "/api/sistema_manutencao.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }
