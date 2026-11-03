@@ -1,8 +1,8 @@
 {
-  "name": "missuenos-clientes-dev",
-  "version": "2.0.0-dev",
-  "description": "Ambiente de Desenvolvimento e Homologação - Mis Sueños ERP",
-  "port": 3002,
+  "name": "missuenos-clientes",
+  "version": "2.0.0",
+  "description": "Sistema de Gestão Integrada Mis Sueños ERP",
+  "port": 3000,
   "main": "scripts/servidor_web.js",
   "type": "module",
   "scripts": {
@@ -18,8 +18,7 @@
   "keywords": [
     "clientes",
     "sqlite",
-    "dev",
-    "homologacao",
+    "producao",
     "mis-suenos",
     "erp"
   ],
