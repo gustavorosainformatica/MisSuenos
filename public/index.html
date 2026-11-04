@@ -5935,6 +5935,90 @@
       }
     }
 
+    // =========================================================================
+    // COTAÇÕES DE MERCADO FINANCEIRO EM TEMPO REAL (AWESOMEAPI) - MIS SUEÑOS ERP
+    // =========================================================================
+    async function atualizarCotacoesMercado(forcar = false) {
+      const tsEl = document.getElementById('market-timestamp');
+      const btcValEl = document.getElementById('btc-val-bid');
+      if (!btcValEl) return;
+
+      try {
+        if (tsEl) tsEl.textContent = 'Atualizando cotações...';
+        
+        const cacheKey = 'missuenos_market_cache';
+        const cacheTimeKey = 'missuenos_market_cache_ts';
+        const now = Date.now();
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTs = Number(localStorage.getItem(cacheTimeKey) || 0);
+
+        let data = null;
+        if (!forcar && cachedData && (now - cachedTs < 180000)) {
+          data = JSON.parse(cachedData);
+        } else {
+          const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL');
+          if (!res.ok) throw new Error('Falha ao consultar API de cotações');
+          data = await res.json();
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+          localStorage.setItem(cacheTimeKey, String(now));
+        }
+
+        const formatarBRL = (val) => Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const formatarBadge = (elId, pct) => {
+          const badge = document.getElementById(elId);
+          if (!badge) return;
+          const num = parseFloat(pct);
+          const isPos = num >= 0;
+          badge.textContent = `${isPos ? '↑ +' : '↓ '}${num.toFixed(2)}%`;
+          badge.style.background = isPos ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)';
+          badge.style.color = isPos ? '#34d399' : '#fb7185';
+          badge.style.borderColor = isPos ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
+        };
+
+        // 1. Dólar Comercial (USD)
+        if (data.USDBRL) {
+          const usdVal = document.getElementById('usd-val-bid');
+          const usdLow = document.getElementById('usd-val-low');
+          const usdHigh = document.getElementById('usd-val-high');
+          if (usdVal) usdVal.textContent = formatarBRL(data.USDBRL.bid);
+          if (usdLow) usdLow.textContent = formatarBRL(data.USDBRL.low);
+          if (usdHigh) usdHigh.textContent = formatarBRL(data.USDBRL.high);
+          formatarBadge('usd-var-badge', data.USDBRL.pctChange);
+        }
+
+        // 2. Euro Comercial (EUR)
+        if (data.EURBRL) {
+          const eurVal = document.getElementById('eur-val-bid');
+          const eurLow = document.getElementById('eur-val-low');
+          const eurHigh = document.getElementById('eur-val-high');
+          if (eurVal) eurVal.textContent = formatarBRL(data.EURBRL.bid);
+          if (eurLow) eurLow.textContent = formatarBRL(data.EURBRL.low);
+          if (eurHigh) eurHigh.textContent = formatarBRL(data.EURBRL.high);
+          formatarBadge('eur-var-badge', data.EURBRL.pctChange);
+        }
+
+        // 3. Bitcoin (BTC)
+        if (data.BTCBRL) {
+          const btcVal = document.getElementById('btc-val-bid');
+          const btcLow = document.getElementById('btc-val-low');
+          const btcHigh = document.getElementById('btc-val-high');
+          if (btcVal) btcVal.textContent = formatarBRL(data.BTCBRL.bid);
+          if (btcLow) btcLow.textContent = formatarBRL(data.BTCBRL.low);
+          if (btcHigh) btcHigh.textContent = formatarBRL(data.BTCBRL.high);
+          formatarBadge('btc-var-badge', data.BTCBRL.pctChange);
+        }
+
+        if (tsEl) {
+          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          tsEl.textContent = `Atualizado às ${hora}`;
+        }
+      } catch (err) {
+        console.warn('Cotações de mercado:', err.message);
+        if (tsEl) tsEl.textContent = 'Cotações em modo offline (cache)';
+      }
+    }
+    window.atualizarCotacoesMercado = atualizarCotacoesMercado;
+
     // Troca de módulos do ERP
     function trocarModulo(modulo, el) {
       fecharMenuHoverSidebar();
@@ -5965,14 +6049,16 @@
         renderTabelaFiscal();
       } else if (modulo === 'painel') {
         document.getElementById('modulo-painel-conteudo').style.display = 'flex';
-        atualizarCotacoesMercado();
+        if (typeof atualizarCotacoesMercado === 'function') {
+          atualizarCotacoesMercado();
+        }
       } else if (modulo === 'financeiro') {
         document.getElementById('modulo-financeiro-conteudo').style.display = 'flex';
-        carregarFinanceiroApi();
+        if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
       } else if (modulo === 'configuracoes') {
         document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
-        carregarConfiguracoesSistemaApi();
-        carregarUsuariosRbacApi();
+        if (typeof carregarConfiguracoesSistemaApi === 'function') carregarConfiguracoesSistemaApi();
+        if (typeof carregarUsuariosRbacApi === 'function') carregarUsuariosRbacApi();
       } else if (modulo === 'mapa') {
         document.getElementById('modulo-mapa-conteudo').style.display = 'flex';
         if (typeof renderizarMapaCalor === 'function') {
@@ -8962,15 +9048,155 @@
       if (modal) modal.classList.remove('active');
     }
 
-    function abrirModalUsuarioRbac() {
+    function aoMudarPapelRbac(papel) {
+      const chkClientes = document.getElementById('perm-clientes-criar');
+      const chkFiscal = document.getElementById('perm-fiscal-emitir');
+      const chkCusto = document.getElementById('perm-produtos-custo');
+      const chkConfig = document.getElementById('perm-configuracoes');
+
+      if (!chkClientes || !chkFiscal || !chkCusto || !chkConfig) return;
+
+      if (papel === 'ADMIN') {
+        chkClientes.checked = true;
+        chkFiscal.checked = true;
+        chkCusto.checked = true;
+        chkConfig.checked = true;
+      } else if (papel === 'VENDAS') {
+        chkClientes.checked = true;
+        chkFiscal.checked = true;
+        chkCusto.checked = false;
+        chkConfig.checked = false;
+      } else if (papel === 'EXPEDICAO') {
+        chkClientes.checked = false;
+        chkFiscal.checked = false;
+        chkCusto.checked = false;
+        chkConfig.checked = false;
+      } else if (papel === 'FINANCEIRO') {
+        chkClientes.checked = false;
+        chkFiscal.checked = true;
+        chkCusto.checked = true;
+        chkConfig.checked = false;
+      }
+    }
+
+    function abrirModalUsuarioRbac(id) {
       aplicarTamanhoSalvoModal('modal-usuario-rbac');
       const modal = document.getElementById('modal-usuario-rbac');
+      const form = document.getElementById('form-usuario-rbac');
+      if (form) form.reset();
+
+      const titulo = document.getElementById('modal-rbac-titulo');
+      const inputId = document.getElementById('rbac-user-id');
+      const inputLogin = document.getElementById('rbac-login');
+      const hintSenha = document.getElementById('rbac-senha-hint');
+
+      if (inputId) inputId.value = '';
+      if (inputLogin) inputLogin.disabled = false;
+      if (titulo) titulo.textContent = 'Novo Operador do Sistema';
+      if (hintSenha) hintSenha.textContent = '(Obrigatória)';
+
+      const papelSel = document.getElementById('rbac-papel');
+      if (papelSel) papelSel.value = 'ADMIN';
+      aoMudarPapelRbac('ADMIN');
+
       if (modal) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
       }
     }
+
+    async function salvarUsuarioRbac(event) {
+      if (event) event.preventDefault();
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : (localStorage.getItem('missuenos_token') || '');
+      if (!token) {
+        alert('Sessão expirada. Faça login novamente.');
+        return;
+      }
+
+      const id = (document.getElementById('rbac-user-id')?.value || '').trim();
+      const login = (document.getElementById('rbac-login')?.value || '').trim().toLowerCase();
+      const nome = (document.getElementById('rbac-nome')?.value || '').trim();
+      const senha = document.getElementById('rbac-senha')?.value || '';
+      const papel = document.getElementById('rbac-papel')?.value || 'VENDAS';
+
+      const permClientes = document.getElementById('perm-clientes-criar')?.checked || false;
+      const permFiscal = document.getElementById('perm-fiscal-emitir')?.checked || false;
+      const permCusto = document.getElementById('perm-produtos-custo')?.checked || false;
+      const permConfig = document.getElementById('perm-configuracoes')?.checked || false;
+
+      if (!login || !nome) {
+        alert('Por favor, preencha o login e o nome completo.');
+        return;
+      }
+
+      if (!id && (!senha || senha.length < 4)) {
+        alert('A senha inicial é obrigatória e deve ter no mínimo 4 caracteres.');
+        return;
+      }
+
+      const permissoes = {
+        admin: papel === 'ADMIN',
+        clientes_ver: true,
+        clientes_criar: permClientes,
+        clientes_editar: permClientes,
+        clientes_excluir: papel === 'ADMIN',
+        pedidos_ver: true,
+        pedidos_criar: papel === 'ADMIN' || papel === 'VENDAS',
+        pedidos_editar: papel === 'ADMIN' || papel === 'VENDAS' || papel === 'EXPEDICAO',
+        pedidos_excluir: papel === 'ADMIN',
+        produtos_ver: true,
+        produtos_editar: papel === 'ADMIN' || papel === 'EXPEDICAO',
+        produtos_custo: permCusto,
+        fiscal_emitir: permFiscal,
+        configuracoes: permConfig,
+        usuarios_gerenciar: papel === 'ADMIN'
+      };
+
+      const payload = {
+        login,
+        nome,
+        papel,
+        permissoes,
+        ativo: true
+      };
+      if (senha && senha.trim().length >= 4) {
+        payload.senha = senha.trim();
+      }
+
+      try {
+        const metodo = id ? 'PUT' : 'POST';
+        const url = id ? `/api/usuarios?id=${id}` : '/api/usuarios';
+        const res = await fetch(url, {
+          method: metodo,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok || (!data.success && !data.id)) {
+          alert(data.error || 'Falha ao salvar operador.');
+          return;
+        }
+
+        fecharModalUsuarioRbac();
+        if (typeof carregarUsuariosRbacApi === 'function') {
+          carregarUsuariosRbacApi();
+        }
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Operador ${nome} (@${login}) salvo com sucesso!`, 'sucesso');
+        } else {
+          alert(`Operador ${nome} (@${login}) salvo com sucesso!`);
+        }
+      } catch (err) {
+        console.error('Erro ao salvar operador:', err);
+        alert('Erro de conexão ao salvar operador.');
+      }
+    }
+
     function fecharModalUsuarioRbac() {
       const modal = document.getElementById('modal-usuario-rbac');
       if (modal) modal.classList.remove('active');
@@ -13073,95 +13299,17 @@
       }
     }, 1500);
   
-    // =========================================================================
-    // COTAÇÕES DE MERCADO FINANCEIRO EM TEMPO REAL (AWESOMEAPI) - MIS SUEÑOS ERP
-    // =========================================================================
-    async function atualizarCotacoesMercado(forcar = false) {
-      const tsEl = document.getElementById('market-timestamp');
-      const btcValEl = document.getElementById('btc-val-bid');
-      if (!btcValEl) return;
-
-      try {
-        if (tsEl) tsEl.textContent = 'Atualizando cotações...';
-        
-        const cacheKey = 'missuenos_market_cache';
-        const cacheTimeKey = 'missuenos_market_cache_ts';
-        const now = Date.now();
-        const cachedData = localStorage.getItem(cacheKey);
-        const cachedTs = Number(localStorage.getItem(cacheTimeKey) || 0);
-
-        let data = null;
-        if (!forcar && cachedData && (now - cachedTs < 180000)) {
-          data = JSON.parse(cachedData);
-        } else {
-          const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL');
-          if (!res.ok) throw new Error('Falha ao consultar API de cotações');
-          data = await res.json();
-          localStorage.setItem(cacheKey, JSON.stringify(data));
-          localStorage.setItem(cacheTimeKey, String(now));
-        }
-
-        const formatarBRL = (val) => Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const formatarBadge = (elId, pct) => {
-          const badge = document.getElementById(elId);
-          if (!badge) return;
-          const num = parseFloat(pct);
-          const isPos = num >= 0;
-          badge.textContent = `${isPos ? '↑ +' : '↓ '}${num.toFixed(2)}%`;
-          badge.style.background = isPos ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)';
-          badge.style.color = isPos ? '#34d399' : '#fb7185';
-          badge.style.borderColor = isPos ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
-        };
-
-        // 1. Dólar Comercial (USD)
-        if (data.USDBRL) {
-          const usdVal = document.getElementById('usd-val-bid');
-          const usdLow = document.getElementById('usd-val-low');
-          const usdHigh = document.getElementById('usd-val-high');
-          if (usdVal) usdVal.textContent = formatarBRL(data.USDBRL.bid);
-          if (usdLow) usdLow.textContent = formatarBRL(data.USDBRL.low);
-          if (usdHigh) usdHigh.textContent = formatarBRL(data.USDBRL.high);
-          formatarBadge('usd-var-badge', data.USDBRL.pctChange);
-        }
-
-        // 2. Euro Comercial (EUR)
-        if (data.EURBRL) {
-          const eurVal = document.getElementById('eur-val-bid');
-          const eurLow = document.getElementById('eur-val-low');
-          const eurHigh = document.getElementById('eur-val-high');
-          if (eurVal) eurVal.textContent = formatarBRL(data.EURBRL.bid);
-          if (eurLow) eurLow.textContent = formatarBRL(data.EURBRL.low);
-          if (eurHigh) eurHigh.textContent = formatarBRL(data.EURBRL.high);
-          formatarBadge('eur-var-badge', data.EURBRL.pctChange);
-        }
-
-        // 3. Bitcoin (BTC)
-        if (data.BTCBRL) {
-          const btcVal = document.getElementById('btc-val-bid');
-          const btcLow = document.getElementById('btc-val-low');
-          const btcHigh = document.getElementById('btc-val-high');
-          if (btcVal) btcVal.textContent = formatarBRL(data.BTCBRL.bid);
-          if (btcLow) btcLow.textContent = formatarBRL(data.BTCBRL.low);
-          if (btcHigh) btcHigh.textContent = formatarBRL(data.BTCBRL.high);
-          formatarBadge('btc-var-badge', data.BTCBRL.pctChange);
-        }
-
-        if (tsEl) {
-          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          tsEl.textContent = `Atualizado às ${hora}`;
-        }
-      } catch (err) {
-        console.warn('Cotações de mercado:', err.message);
-        if (tsEl) tsEl.textContent = 'Cotações em modo offline (cache)';
-      }
-    }
-
-
     // Inicia cotações do painel
-    setTimeout(() => atualizarCotacoesMercado(), 800);
+    setTimeout(() => {
+      if (typeof atualizarCotacoesMercado === 'function') {
+        atualizarCotacoesMercado();
+      }
+    }, 800);
     setInterval(() => {
       const p = document.getElementById('modulo-painel-conteudo');
-      if (p && p.style.display !== 'none') atualizarCotacoesMercado(true);
+      if (p && p.style.display !== 'none' && typeof atualizarCotacoesMercado === 'function') {
+        atualizarCotacoesMercado(true);
+      }
     }, 300000);
 
 </script>

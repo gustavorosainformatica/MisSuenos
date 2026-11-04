@@ -163,8 +163,33 @@ export default async function handler(req, res) {
         return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres' });
       }
 
-      const existe = await get('SELECT id FROM usuarios WHERE LOWER(login) = ?', [login]);
+      const existe = await get('SELECT id, ativo FROM usuarios WHERE LOWER(login) = ?', [login]);
       if (existe) {
+        if (existe.ativo === 0) {
+          // Reativação de operador previamente desativado
+          const hash = gerarHashSenha(senha);
+          const agora = new Date().toISOString();
+          await run(`
+            UPDATE usuarios
+            SET nome = ?, senha_hash = ?, papel = ?, permissoes = ?, ativo = 1, data_atualizacao = ?, exigir_troca_senha = 0
+            WHERE id = ?
+          `, [nome, hash, papel, permissoes, agora, existe.id]);
+
+          registrarLog({
+            tipoAcao: 'USUARIO_REATIVADO',
+            detalhes: `Usuário reativado pelo administrador: ${nome} (@${login}) | Papel: ${papel}`,
+            req
+          }).catch(() => {});
+
+          return responder(res, 200, {
+            success: true,
+            id: existe.id,
+            nome,
+            login,
+            papel,
+            message: 'Usuário reativado e atualizado com sucesso'
+          });
+        }
         return responder(res, 409, { error: 'Este login já está em uso por outro usuário' });
       }
 

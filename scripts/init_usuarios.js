@@ -47,6 +47,13 @@ async function main() {
         permissoes: PAPEIS_SISTEMA.ADMIN.permissoes
       },
       {
+        nome: 'Rodrigo',
+        login: 'rodrigo',
+        senha: 'admin123',
+        papel: 'ADMIN',
+        permissoes: PAPEIS_SISTEMA.ADMIN.permissoes
+      },
+      {
         nome: 'Equipe de Vendas',
         login: 'vendas',
         senha: 'vendas123',
