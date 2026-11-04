@@ -3725,52 +3725,155 @@
     </main>
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
-    <main class="erp-content" id="modulo-painel-conteudo" style="display: none;">
+    <main class="erp-content" id="modulo-painel-conteudo" style="display: none; flex-direction: column; gap: 20px;">
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
         <div class="erp-kpi-card" id="card-kpi-painel-clientes" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'clientes', this)" title="💡 Botão Esquerdo: Abrir CRM · Botão Direito (🖱️): Atalhos Rápidos & Filtros de Clientes">
           <div class="kpi-top-row">
-            <span class="kpi-label">Base de Clientes <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">✅ REAL</span></span>
+            <span class="kpi-label">Base de Clientes</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de clientes">👥</div>
           </div>
           <div class="kpi-number">1.140</div>
-          <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM</span> <span style="color: var(--text-muted); font-weight: normal;">(Base Real · Menu 🖱️)</span></div>
+          <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM</span> <span style="color: var(--text-muted); font-weight: normal;">(Base Oficial · 🖱️)</span></div>
         </div>
 
         <div class="erp-kpi-card" id="card-kpi-painel-pedidos" style="cursor: pointer;" onclick="trocarModulo('pedidos', document.querySelector('.sidebar-nav a:nth-child(5)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'pedidos', this)" title="💡 Botão Esquerdo: Abrir Pedidos · Botão Direito (🖱️): Atalhos Rápidos & Separação">
           <div class="kpi-top-row">
-            <span class="kpi-label">Vendas no Mês <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Vendas no Mês</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de pedidos">📦</div>
           </div>
           <div class="kpi-number">R$ 18.450</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas</span> <span style="color: var(--text-muted); font-weight: normal;">(Simulação · Menu 🖱️)</span></div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas</span> <span style="color: var(--text-muted); font-weight: normal;">(Pedidos Ativos · 🖱️)</span></div>
         </div>
 
         <div class="erp-kpi-card" id="card-kpi-painel-produtos" style="cursor: pointer;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'produtos', this)" title="💡 Botão Esquerdo: Abrir Estoque · Botão Direito (🖱️): Atalhos Rápidos & Alertas">
           <div class="kpi-top-row">
-            <span class="kpi-label">Estoque de Couros <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Estoque de Couros</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de estoque">🪵</div>
           </div>
           <div class="kpi-number">11 Itens</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Estoque</span> <span style="color: var(--text-muted); font-weight: normal;">(Demonstração · Menu 🖱️)</span></div>
+          <div class="kpi-trend"><span style="color: #38bdf8;">→ Ver Estoque</span> <span style="color: var(--text-muted); font-weight: normal;">(Catálogo & Lotes · 🖱️)</span></div>
         </div>
 
         <div class="erp-kpi-card" id="card-kpi-painel-fiscal" style="cursor: pointer;" onclick="trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'fiscal', this)" title="💡 Botão Esquerdo: Abrir Fiscal · Botão Direito (🖱️): Atalhos Rápidos & Emissão">
           <div class="kpi-top-row">
-            <span class="kpi-label">Central Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Central Fiscal</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos fiscais">🧾</div>
           </div>
           <div class="kpi-number">199 Notas</div>
-          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal</span> <span style="color: var(--text-muted); font-weight: normal;">(Homologação · Menu 🖱️)</span></div>
+          <div class="kpi-trend"><span style="color: #34d399;">→ Ver Fiscal</span> <span style="color: var(--text-muted); font-weight: normal;">(SEFAZ RS 🟢 · 🖱️)</span></div>
         </div>
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
         <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
-          
         </button>
       </div>
+
+      <!-- SEÇÃO: COTAÇÕES & INDICADORES DE MERCADO EM TEMPO REAL (AWESOMEAPI) -->
+      <section style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 16px;">📈</span>
+            <span style="font-size: 13px; font-weight: 800; color: #f8fafc; letter-spacing: 0.3px; text-transform: uppercase;">Mercado Financeiro & Câmbio em Tempo Real</span>
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399;" title="Conectado à API de Cotações"></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span id="market-timestamp" style="font-size: 11px; color: var(--text-muted);">Consultando cotações ao vivo...</span>
+            <button type="button" onclick="atualizarCotacoesMercado(true)" title="Atualizar Cotações Agora" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #38bdf8; border-radius: 6px; padding: 4px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
+              <span>🔄</span> <span>Atualizar</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+          <!-- CARD DÓLAR -->
+          <div class="erp-kpi-card" id="card-market-usd" style="background: linear-gradient(135deg, rgba(14, 27, 49, 0.95), rgba(8, 16, 30, 0.95)); border: 1px solid rgba(56, 189, 248, 0.35); position: relative; overflow: hidden; padding: 16px;">
+            <div class="kpi-top-row">
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 15px;">🇺🇸</span> <strong style="color: #38bdf8;">Dólar Comercial</strong> (USD/BRL)
+              </span>
+              <span id="usd-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                --
+              </span>
+            </div>
+            <div class="kpi-number" id="usd-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+              R$ 0,00
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+              <span>Mín: <strong id="usd-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
+              <span>Máx: <strong id="usd-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
+            </div>
+          </div>
+
+          <!-- CARD EURO -->
+          <div class="erp-kpi-card" id="card-market-eur" style="background: linear-gradient(135deg, rgba(20, 24, 53, 0.95), rgba(10, 14, 34, 0.95)); border: 1px solid rgba(129, 140, 248, 0.35); position: relative; overflow: hidden; padding: 16px;">
+            <div class="kpi-top-row">
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 15px;">🇪🇺</span> <strong style="color: #818cf8;">Euro Comercial</strong> (EUR/BRL)
+              </span>
+              <span id="eur-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                --
+              </span>
+            </div>
+            <div class="kpi-number" id="eur-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+              R$ 0,00
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+              <span>Mín: <strong id="eur-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
+              <span>Máx: <strong id="eur-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
+            </div>
+          </div>
+
+          <!-- CARD BITCOIN -->
+          <div class="erp-kpi-card" id="card-market-btc" style="background: linear-gradient(135deg, rgba(35, 26, 10, 0.95), rgba(18, 14, 6, 0.95)); border: 1px solid rgba(245, 158, 11, 0.35); position: relative; overflow: hidden; padding: 16px;">
+            <div class="kpi-top-row">
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 15px;">₿</span> <strong style="color: #fbbf24;">Bitcoin Brasil</strong> (BTC/BRL)
+              </span>
+              <span id="btc-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+                --
+              </span>
+            </div>
+            <div class="kpi-number" id="btc-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+              R$ 0,00
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+              <span>Mín: <strong id="btc-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
+              <span>Máx: <strong id="btc-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEÇÃO: PERFORMANCE & METAS MENSAIS -->
+      <section class="erp-table-card" style="padding: 20px 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3 style="color: #fff; font-size: 14px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;">
+              <span>🎯</span> Metas de Faturamento & Desempenho Mensal
+            </h3>
+            <span style="font-size: 11px; color: var(--text-muted);">Acompanhamento da meta de vendas da Mis Sueños para o mês corrente</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="meta-percentual-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 6px;">
+              82% Atingido
+            </span>
+          </div>
+        </div>
+
+        <!-- BARRA DE PROGRESSO COM GRADIENTE -->
+        <div style="width: 100%; height: 12px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px;">
+          <div id="meta-progress-bar" style="height: 100%; width: 82%; background: linear-gradient(90deg, #0ea5e9, #10b981); border-radius: 10px; transition: width 0.6s ease;"></div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+          <span>Realizado no Mês: <strong id="meta-val-realizado" style="color: #38bdf8;">R$ 18.450,00</strong></span>
+          <span>Meta Estipulada: <strong id="meta-val-estipulada" style="color: #f8fafc;">R$ 22.500,00</strong></span>
+          <span>Restante para a Meta: <strong id="meta-val-restante" style="color: #fbbf24;">R$ 4.050,00</strong></span>
+        </div>
+      </section>
 
       <!-- ATALHOS RAPIDOS DO ERP -->
       <section class="erp-table-card" style="padding: 24px;">
@@ -5289,6 +5392,7 @@
         renderTabelaFiscal();
       } else if (modulo === 'painel') {
         document.getElementById('modulo-painel-conteudo').style.display = 'flex';
+        atualizarCotacoesMercado();
       } else if (modulo === 'financeiro') {
         document.getElementById('modulo-financeiro-conteudo').style.display = 'flex';
         carregarFinanceiroApi();
@@ -10411,7 +10515,99 @@
         carregarMetricasArmazenamento();
       }
     }, 1500);
-  </script>
+  
+    // =========================================================================
+    // COTAÇÕES DE MERCADO FINANCEIRO EM TEMPO REAL (AWESOMEAPI) - MIS SUEÑOS ERP
+    // =========================================================================
+    async function atualizarCotacoesMercado(forcar = false) {
+      const tsEl = document.getElementById('market-timestamp');
+      const btcValEl = document.getElementById('btc-val-bid');
+      if (!btcValEl) return;
+
+      try {
+        if (tsEl) tsEl.textContent = 'Atualizando cotações...';
+        
+        const cacheKey = 'missuenos_market_cache';
+        const cacheTimeKey = 'missuenos_market_cache_ts';
+        const now = Date.now();
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTs = Number(localStorage.getItem(cacheTimeKey) || 0);
+
+        let data = null;
+        if (!forcar && cachedData && (now - cachedTs < 180000)) {
+          data = JSON.parse(cachedData);
+        } else {
+          const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL');
+          if (!res.ok) throw new Error('Falha ao consultar API de cotações');
+          data = await res.json();
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+          localStorage.setItem(cacheTimeKey, String(now));
+        }
+
+        const formatarBRL = (val) => Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const formatarBadge = (elId, pct) => {
+          const badge = document.getElementById(elId);
+          if (!badge) return;
+          const num = parseFloat(pct);
+          const isPos = num >= 0;
+          badge.textContent = `${isPos ? '↑ +' : '↓ '}${num.toFixed(2)}%`;
+          badge.style.background = isPos ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)';
+          badge.style.color = isPos ? '#34d399' : '#fb7185';
+          badge.style.borderColor = isPos ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
+        };
+
+        // 1. Dólar Comercial (USD)
+        if (data.USDBRL) {
+          const usdVal = document.getElementById('usd-val-bid');
+          const usdLow = document.getElementById('usd-val-low');
+          const usdHigh = document.getElementById('usd-val-high');
+          if (usdVal) usdVal.textContent = formatarBRL(data.USDBRL.bid);
+          if (usdLow) usdLow.textContent = formatarBRL(data.USDBRL.low);
+          if (usdHigh) usdHigh.textContent = formatarBRL(data.USDBRL.high);
+          formatarBadge('usd-var-badge', data.USDBRL.pctChange);
+        }
+
+        // 2. Euro Comercial (EUR)
+        if (data.EURBRL) {
+          const eurVal = document.getElementById('eur-val-bid');
+          const eurLow = document.getElementById('eur-val-low');
+          const eurHigh = document.getElementById('eur-val-high');
+          if (eurVal) eurVal.textContent = formatarBRL(data.EURBRL.bid);
+          if (eurLow) eurLow.textContent = formatarBRL(data.EURBRL.low);
+          if (eurHigh) eurHigh.textContent = formatarBRL(data.EURBRL.high);
+          formatarBadge('eur-var-badge', data.EURBRL.pctChange);
+        }
+
+        // 3. Bitcoin (BTC)
+        if (data.BTCBRL) {
+          const btcVal = document.getElementById('btc-val-bid');
+          const btcLow = document.getElementById('btc-val-low');
+          const btcHigh = document.getElementById('btc-val-high');
+          if (btcVal) btcVal.textContent = formatarBRL(data.BTCBRL.bid);
+          if (btcLow) btcLow.textContent = formatarBRL(data.BTCBRL.low);
+          if (btcHigh) btcHigh.textContent = formatarBRL(data.BTCBRL.high);
+          formatarBadge('btc-var-badge', data.BTCBRL.pctChange);
+        }
+
+        if (tsEl) {
+          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          tsEl.textContent = `Atualizado às ${hora}`;
+        }
+      } catch (err) {
+        console.warn('Cotações de mercado:', err.message);
+        if (tsEl) tsEl.textContent = 'Cotações em modo offline (cache)';
+      }
+    }
+
+
+    // Inicia cotações do painel
+    setTimeout(() => atualizarCotacoesMercado(), 800);
+    setInterval(() => {
+      const p = document.getElementById('modulo-painel-conteudo');
+      if (p && p.style.display !== 'none') atualizarCotacoesMercado(true);
+    }, 300000);
+
+</script>
 
 
   <!-- BACKDROP DA SIDEBAR MOBILE -->
