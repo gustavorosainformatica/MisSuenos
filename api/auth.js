@@ -5,7 +5,7 @@
  */
 
 import { get, run, registrarLog } from '../lib/db.js';
-import { verificarSenha, gerarTokenSessao, validarTokenSessao, PAPEIS_SISTEMA } from '../lib/auth.js';
+import { verificarSenha, gerarHashSenha, gerarTokenSessao, validarTokenSessao, PAPEIS_SISTEMA } from '../lib/auth.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -56,6 +56,44 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
     const token = body.token || bearerToken;
+
+    // 0. Ação 'trocar_senha': Atualização de senha definitiva pelo operador
+    if (body.acao === 'trocar_senha') {
+      if (!token) {
+        return responder(res, 401, { error: 'Token de autenticação não fornecido.' });
+      }
+
+      const sessao = validarTokenSessao(token);
+      if (!sessao) {
+        return responder(res, 401, { error: 'Sessão inválida ou expirada. Faça login novamente.' });
+      }
+
+      const novaSenha = (body.novaSenha || '').trim();
+      if (!novaSenha || novaSenha.length < 4) {
+        return responder(res, 400, { error: 'A nova senha deve ter no mínimo 4 caracteres.' });
+      }
+
+      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+      if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
+        return responder(res, 400, { error: 'A nova senha não pode ser uma senha padrão do sistema. Escolha uma senha pessoal diferente.' });
+      }
+
+      const novoHash = gerarHashSenha(novaSenha);
+      const agora = new Date().toISOString();
+      await run('UPDATE usuarios SET senha_hash = ?, data_atualizacao = ? WHERE id = ?', [novoHash, agora, sessao.usuarioId]);
+
+      registrarLog({
+        clienteId: sessao.usuarioId,
+        tipoAcao: 'SENHA_ALTERADA',
+        detalhes: `Nova senha pessoal cadastrada com sucesso pelo operador @${sessao.login}`,
+        req
+      }).catch(() => {});
+
+      return responder(res, 200, {
+        success: true,
+        mensagem: 'Nova senha cadastrada com sucesso!'
+      });
+    }
 
     // 1. GET ou POST com ação 'me': validar sessão ativa
     if (req.method === 'GET' || body.acao === 'me') {
@@ -119,12 +157,11 @@ export default async function handler(req, res) {
         return responder(res, 403, { error: 'Este usuário está desativado. Contate o administrador.' });
       }
 
-      // Validação com suporte a senhas zeradas (admin123), PIN de 6 dígitos homologado (123456) ou senha cadastrada
-      const senhaValida = verificarSenha(senhaInformada, user.senha_hash) 
-        || (senhaInformada === 'admin123') 
-        || (senhaInformada === '123456')
-        || (senhaInformada === 'vendas123')
-        || (senhaInformada === 'expedicao123');
+      // Validação com detecção de senhas padrão para troca obrigatória
+      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+      const usouSenhaPadrao = SENHAS_PADRAO.includes(senhaInformada.toLowerCase());
+
+      const senhaValida = verificarSenha(senhaInformada, user.senha_hash) || usouSenhaPadrao;
       if (!senhaValida) {
         registrarLog({
           clienteId: user.id,
@@ -153,13 +190,14 @@ export default async function handler(req, res) {
         clienteId: user.id,
         clienteNome: user.nome,
         tipoAcao: 'LOGIN_SUCESSO',
-        detalhes: `Login efetuado com sucesso | Papel: ${user.papel}`,
+        detalhes: `Login efetuado com sucesso | Papel: ${user.papel}${usouSenhaPadrao ? ' (Exigindo troca de senha padrão)' : ''}`,
         req
       }).catch(() => {});
 
       return responder(res, 200, {
         success: true,
         token: tokenGerado,
+        exigirTrocaSenha: usouSenhaPadrao,
         usuario: {
           id: user.id,
           nome: user.nome,
