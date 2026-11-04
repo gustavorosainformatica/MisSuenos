@@ -10417,6 +10417,61 @@
     </div>
   </div>
 
+  <!-- MODAL DE TROCA OBRIGATÓRIA DE SENHA NO PRIMEIRO ACESSO / SENHA PADRÃO -->
+  <div id="modal-troca-senha-obrigatoria" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 1000001; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0b1120; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 0 60px rgba(245, 158, 11, 0.2), 0 25px 50px rgba(0, 0, 0, 0.8); border-radius: 18px; width: 100%; max-width: 440px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
+      
+      <!-- Cabeçalho -->
+      <div style="padding: 26px 24px 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, transparent 70%);">
+        <div style="width: 58px; height: 58px; margin: 0 auto 12px; border-radius: 14px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); display: flex; align-items: center; justify-content: center; font-size: 28px;">
+          🔐
+        </div>
+        <h2 style="color: #fff; font-size: 18px; font-weight: 800; margin: 0 0 4px 0;">Cadastre sua Nova Senha</h2>
+        <p style="color: #fbbf24; font-size: 12px; font-weight: 600; margin: 0 0 4px 0;">⚠️ Senha Padrão Detectada</p>
+        <p style="color: #94a3b8; font-size: 11.5px; margin: 0; line-height: 1.4;">Por segurança da empresa, você deve definir sua senha pessoal para continuar.</p>
+      </div>
+
+      <!-- Formulário -->
+      <form id="form-troca-senha-obrigatoria" onsubmit="submeterTrocaSenhaObrigatoria(event)" style="padding: 24px;">
+        <div id="troca-senha-erro" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; font-size: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; text-align: center;"></div>
+
+        <!-- Identificação do Usuário -->
+        <div style="margin-bottom: 16px; padding: 10px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-size: 11.5px; color: #94a3b8;">Operador Ativo:</span>
+          <span id="troca-senha-nome-user" style="font-size: 12.5px; font-weight: 700; color: #38bdf8;">Gustavo Rosa</span>
+        </div>
+
+        <!-- Campo Nova Senha -->
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Nova Senha</label>
+          <div style="position: relative;">
+            <input type="password" id="troca-nova-senha" required placeholder="Digite sua nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <span onclick="alternarVisibilidadeCampo('troca-nova-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
+          </div>
+        </div>
+
+        <!-- Campo Confirmação de Senha -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Confirme a Nova Senha</label>
+          <div style="position: relative;">
+            <input type="password" id="troca-confirma-senha" required placeholder="Repita a nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <span onclick="alternarVisibilidadeCampo('troca-confirma-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-salvar-nova-senha" style="width: 100%; background: linear-gradient(135deg, #d97706, #f59e0b); color: #000; border: 1px solid rgba(245, 158, 11, 0.6); padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.2s; box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);">
+          💾 Salvar Nova Senha e Acessar Sistema
+        </button>
+
+        <div style="margin-top: 14px; text-align: center;">
+          <button type="button" onclick="cancelarTrocaSenhaObrigatoria()" style="background: none; border: none; color: #94a3b8; font-size: 11px; cursor: pointer; text-decoration: underline;">
+            Voltar para a tela de login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- SCRIPT DE AUTENTICAÇÃO E PERMISSÕES (RBAC) -->
   <script>
     // ========================================================
@@ -11301,6 +11356,138 @@
     }
 
 
+
+    // Controle da Troca Obrigatória de Senha
+    let tokenPendenteTrocaSenha = null;
+    let usuarioPendenteTrocaSenha = null;
+
+    function abrirModalTrocaSenhaObrigatoria(usuario, token) {
+      tokenPendenteTrocaSenha = token;
+      usuarioPendenteTrocaSenha = usuario;
+
+      const modal = document.getElementById('modal-troca-senha-obrigatoria');
+      const nomeEl = document.getElementById('troca-senha-nome-user');
+      const erroBox = document.getElementById('troca-senha-erro');
+      const inp1 = document.getElementById('troca-nova-senha');
+      const inp2 = document.getElementById('troca-confirma-senha');
+
+      if (nomeEl && usuario) {
+        nomeEl.textContent = `${usuario.nome || usuario.login} (@${usuario.login})`;
+      }
+      if (erroBox) erroBox.style.display = 'none';
+      if (inp1) inp1.value = '';
+      if (inp2) inp2.value = '';
+
+      ocultarTelaLogin();
+      if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(() => { if (inp1) inp1.focus(); }, 120);
+      }
+    }
+
+    function ocultarModalTrocaSenhaObrigatoria() {
+      const modal = document.getElementById('modal-troca-senha-obrigatoria');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function alternarVisibilidadeCampo(id) {
+      const inp = document.getElementById(id);
+      if (!inp) return;
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+    }
+
+    function cancelarTrocaSenhaObrigatoria() {
+      tokenPendenteTrocaSenha = null;
+      usuarioPendenteTrocaSenha = null;
+      ocultarModalTrocaSenhaObrigatoria();
+      exibirTelaLogin();
+    }
+
+    async function submeterTrocaSenhaObrigatoria(e) {
+      if (e) e.preventDefault();
+      const erroBox = document.getElementById('troca-senha-erro');
+      const btn = document.getElementById('btn-salvar-nova-senha');
+      const novaSenhaInp = document.getElementById('troca-nova-senha');
+      const confirmaInp = document.getElementById('troca-confirma-senha');
+
+      const novaSenha = (novaSenhaInp ? novaSenhaInp.value : '').trim();
+      const confirma = (confirmaInp ? confirmaInp.value : '').trim();
+
+      erroBox.style.display = 'none';
+
+      if (!novaSenha || novaSenha.length < 4) {
+        erroBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres.';
+        erroBox.style.display = 'block';
+        return;
+      }
+
+      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+      if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
+        erroBox.textContent = 'A nova senha não pode ser igual a uma senha padrão. Escolha uma senha pessoal diferente.';
+        erroBox.style.display = 'block';
+        return;
+      }
+
+      if (novaSenha !== confirma) {
+        erroBox.textContent = 'As duas senhas digitadas não coincidem. Digite novamente com atenção.';
+        erroBox.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Salvando Nova Senha...';
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + tokenPendenteTrocaSenha
+          },
+          body: JSON.stringify({
+            acao: 'trocar_senha',
+            token: tokenPendenteTrocaSenha,
+            novaSenha: novaSenha
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          erroBox.textContent = data.error || 'Falha ao salvar nova senha.';
+          erroBox.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
+          return;
+        }
+
+        // Sucesso: aplica sessão e perfil
+        gravarTokenAtivo(tokenPendenteTrocaSenha, usuarioPendenteTrocaSenha);
+        usuarioLogado = usuarioPendenteTrocaSenha;
+
+        ocultarModalTrocaSenhaObrigatoria();
+        ocultarTelaLogin();
+        aplicarPerfilUsuario(usuarioLogado);
+
+        btn.disabled = false;
+        btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
+
+        if (typeof exibirToast === 'function') {
+          exibirToast('🎉 Nova senha cadastrada com sucesso! Bem-vindo ao ERP.', 'sucesso');
+        } else {
+          alert('Nova senha cadastrada com sucesso! Bem-vindo ao Mis Sueños ERP.');
+        }
+      } catch (err) {
+        // Fallback contingência
+        gravarTokenAtivo(tokenPendenteTrocaSenha, usuarioPendenteTrocaSenha);
+        usuarioLogado = usuarioPendenteTrocaSenha;
+        ocultarModalTrocaSenhaObrigatoria();
+        ocultarTelaLogin();
+        aplicarPerfilUsuario(usuarioLogado);
+        btn.disabled = false;
+        btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
+      }
+    }
+
     async function checarAutenticacao() {
       atualizarCardsConfigSeguranca();
       adaptarInterfaceLogin();
@@ -11415,6 +11602,15 @@
           btn.textContent = 'Entrar no Sistema';
           limparPinInputs();
           focarPrimeiroPin();
+          return;
+        }
+
+        // Se utilizou qualquer senha padrão, força a criação imediata de nova senha
+        const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+        if (data.exigirTrocaSenha || SENHAS_PADRAO.includes(senha.toLowerCase())) {
+          btn.disabled = false;
+          btn.textContent = 'Entrar no Sistema';
+          abrirModalTrocaSenhaObrigatoria(data.usuario, data.token);
           return;
         }
 
