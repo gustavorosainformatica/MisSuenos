@@ -4116,6 +4116,50 @@
           </div>
         </section>
 
+
+        <!-- CARD 4: SEGURANÇA DA MINHA CONTA & ALTERAÇÃO DE SENHA -->
+        <section class="erp-table-card" style="padding: 24px;" id="card-seguranca-minha-senha">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🔑 Minha Conta & Alteração de Senha</h3>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;">
+                Atualize sua senha de acesso. Por conformidade, cada operador pode alterar sua senha uma vez a cada 30 dias.
+              </p>
+            </div>
+            <span id="badge-status-troca-senha" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">
+              ✓ Disponível para Alteração
+            </span>
+          </div>
+
+          <form id="form-alterar-minha-senha" onsubmit="salvarMinhaSenhaConfig(event)" style="display: flex; flex-direction: column; gap: 14px;">
+            <div id="minha-senha-msg" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px;"></div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label">Senha Atual *</label>
+                <input type="password" class="form-input" id="minha-senha-atual" required placeholder="Sua senha atual">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nova Senha Pessoal *</label>
+                <input type="password" class="form-input" id="minha-nova-senha" required placeholder="Mínimo 4 caracteres">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirme a Nova Senha *</label>
+                <input type="password" class="form-input" id="minha-confirma-senha" required placeholder="Repita a nova senha">
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 6px;">
+              <div style="font-size: 11.5px; color: var(--text-muted);" id="minha-senha-info-regra">
+                🛡️ Limite: 1 alteração por mês. Última alteração: <span id="minha-senha-data-txt" style="color: #38bdf8; font-weight: 700;">Nenhuma</span>.
+              </div>
+              <button type="submit" id="btn-salvar-minha-senha" class="btn-top btn-primary-glow">
+                💾 Atualizar Minha Senha
+              </button>
+            </div>
+          </form>
+        </section>
+
         <!-- CARD 3: POLÍTICAS DE SESSÃO & SEGURANÇA DO TERMINAL -->
         <section class="erp-table-card" style="padding: 24px; grid-column: 1 / -1;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
@@ -5310,6 +5354,61 @@
           ✅ Confirmar Importação (Fornecedor + Contas a Pagar + Estoque)
         </button>
       </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL DE REDEFINIÇÃO ADMINISTRATIVA DE SENHA (GUSTAVO / SUPER ADMIN) -->
+  <div id="modal-admin-reset-senha" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000002; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0b1120; border: 1px solid rgba(245, 158, 11, 0.5); box-shadow: 0 0 50px rgba(245, 158, 11, 0.25), 0 20px 40px rgba(0, 0, 0, 0.8); border-radius: 16px; width: 100%; max-width: 460px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div style="padding: 22px 24px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15) 0%, transparent 70%);">
+        <div style="width: 52px; height: 52px; margin: 0 auto 10px; border-radius: 12px; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.5); display: flex; align-items: center; justify-content: center; font-size: 26px;">
+          ⚡
+        </div>
+        <h3 style="color: #fff; font-size: 17px; font-weight: 800; margin: 0 0 3px 0;">Redefinição Administrativa de Senha</h3>
+        <p style="color: #94a3b8; font-size: 12px; margin: 0;">Painel de Suporte & Gestão de Acessos • Gustavo Rosa</p>
+      </div>
+
+      <form id="form-admin-reset-senha" onsubmit="submeterAdminResetSenha(event)" style="padding: 22px;">
+        <input type="hidden" id="admin-reset-user-id">
+        <div id="admin-reset-msg" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 14px;"></div>
+
+        <div style="margin-bottom: 16px; padding: 12px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);">
+          <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Operador Selecionado:</div>
+          <div style="font-size: 14px; font-weight: 800; color: #38bdf8; margin-top: 2px;" id="admin-reset-user-nome">Carregando...</div>
+          <div style="font-size: 11.5px; color: #cbd5e1; margin-top: 2px;" id="admin-reset-user-login">@operador</div>
+        </div>
+
+        <!-- Opção 1: Reset Rápido para admin123 -->
+        <div style="margin-bottom: 16px; padding: 12px; border-radius: 8px; background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(56, 189, 248, 0.25);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: #fff; font-size: 12.5px; display: block;">⚡ Reset Rápido para admin123</strong>
+              <span style="font-size: 11px; color: #94a3b8;">Redefine a senha para padrão e exige nova senha no próximo login.</span>
+            </div>
+            <button type="button" class="btn-top" style="background: #0284c7; color: #fff; font-weight: 700; font-size: 11.5px;" onclick="executarResetRapidoAdminPadrao()">
+              Resetar Agora
+            </button>
+          </div>
+        </div>
+
+        <!-- Opção 2: Definir Senha Manualmente -->
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 14px; margin-top: 14px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Ou Digite uma Nova Senha Manualmente:</label>
+          <div style="position: relative; margin-bottom: 12px;">
+            <input type="text" id="admin-reset-nova-senha" class="form-input" placeholder="Nova senha (ex: mis2026, admin123)" style="width: 100%;">
+          </div>
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: #cbd5e1; cursor: pointer; margin-bottom: 16px;">
+            <input type="checkbox" id="admin-reset-forcar-troca" checked>
+            Exigir que o operador crie uma nova senha no próximo acesso
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalAdminResetSenha()">Cancelar</button>
+          <button type="submit" class="btn-top btn-emerald-glow" style="font-weight: 800;">💾 Salvar Senha Manual</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -11357,6 +11456,336 @@
 
 
 
+
+    // =========================================================================
+    // GESTÃO DE OPERADORES RBAC, REDEFINIÇÃO PELO GUSTAVO & ALTERAÇÃO 1X POR MÊS
+    // =========================================================================
+    let listaUsuariosRbacCache = [];
+
+    async function carregarUsuariosRbacApi() {
+      const tbody = document.getElementById('erp-usuarios-rbac-body');
+      if (!tbody) return;
+
+      const token = obterTokenAtivo();
+      if (!token) return;
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #f87171;">Falha ao carregar operadores do sistema.</td></tr>';
+          return;
+        }
+
+        listaUsuariosRbacCache = data.usuarios || [];
+        renderizarTabelaUsuariosRbac(listaUsuariosRbacCache);
+        atualizarStatusMinhaSenhaConfig();
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #94a3b8;">Erro de conexão ao consultar operadores.</td></tr>';
+      }
+    }
+
+    function renderizarTabelaUsuariosRbac(usuarios) {
+      const tbody = document.getElementById('erp-usuarios-rbac-body');
+      if (!tbody) return;
+
+      if (!usuarios.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: var(--text-muted);">Nenhum operador cadastrado.</td></tr>';
+        return;
+      }
+
+      const ehGustavoOuAdmin = usuarioLogado && (usuarioLogado.login === 'gustavo' || usuarioLogado.papel === 'ADMIN');
+
+      tbody.innerHTML = usuarios.map(u => {
+        const perms = u.permissoes || {};
+        const permsTxt = [];
+        if (perms.admin) permsTxt.push('Admin Total');
+        if (perms.fiscal_emitir) permsTxt.push('NF-e');
+        if (perms.clientes_criar) permsTxt.push('Clientes');
+        if (perms.pedidos_criar) permsTxt.push('Pedidos');
+        if (perms.configuracoes) permsTxt.push('Config');
+
+        const badgePapel = `<span style="background: ${u.papelCor}22; color: ${u.papelCor}; border: 1px solid ${u.papelCor}44; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">${u.papelNome || u.papel}</span>`;
+        
+        let botaoRedefinir = '';
+        if (ehGustavoOuAdmin) {
+          botaoRedefinir = `<button type="button" class="btn-top" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 4px 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;" onclick="abrirModalAdminResetSenha(${u.id}, '${u.nome.replace(/'/g, "\\'")}', '${u.login}')" title="Redefinir a senha deste operador como Super Admin">
+            ⚡ Redefinir Senha
+          </button>`;
+        }
+
+        const dataTrocaTxt = u.data_atualizacao_senha ? new Date(u.data_atualizacao_senha).toLocaleDateString('pt-BR') : 'Padrão';
+
+        return `
+          <tr>
+            <td><strong>${u.login}</strong> ${u.login === 'gustavo' ? '👑' : ''}</td>
+            <td>${u.nome}</td>
+            <td>${badgePapel}</td>
+            <td style="font-size: 11.5px; color: var(--text-muted);">
+              ${permsTxt.join(' • ') || 'Consulta básica'}
+              <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Última troca de senha: ${dataTrocaTxt}</div>
+            </td>
+            <td style="text-align: right; white-space: nowrap;">
+              ${botaoRedefinir}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Modal de Redefinição Administrativa (Gustavo Rosa)
+    function abrirModalAdminResetSenha(id, nome, login) {
+      const modal = document.getElementById('modal-admin-reset-senha');
+      document.getElementById('admin-reset-user-id').value = id;
+      document.getElementById('admin-reset-user-nome').textContent = nome;
+      document.getElementById('admin-reset-user-login').textContent = '@' + login;
+      document.getElementById('admin-reset-nova-senha').value = '';
+      document.getElementById('admin-reset-msg').style.display = 'none';
+
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function fecharModalAdminResetSenha() {
+      const modal = document.getElementById('modal-admin-reset-senha');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function executarResetRapidoAdminPadrao() {
+      const userId = document.getElementById('admin-reset-user-id').value;
+      const userName = document.getElementById('admin-reset-user-nome').textContent;
+      if (!confirm(`Deseja realmente redefinir a senha de "${userName}" para a senha padrão "admin123"?\n\nO operador será obrigado a criar uma nova senha pessoal no próximo login.`)) {
+        return;
+      }
+      await enviarRequisicaoAdminReset(userId, 'admin123', true);
+    }
+
+    async function submeterAdminResetSenha(e) {
+      if (e) e.preventDefault();
+      const userId = document.getElementById('admin-reset-user-id').value;
+      const novaSenha = document.getElementById('admin-reset-nova-senha').value.trim();
+      const forcarTroca = document.getElementById('admin-reset-forcar-troca').checked;
+
+      if (!novaSenha || novaSenha.length < 4) {
+        const msg = document.getElementById('admin-reset-msg');
+        msg.textContent = 'Informe uma senha com no mínimo 4 caracteres.';
+        msg.style.display = 'block';
+        msg.style.background = 'rgba(239, 68, 68, 0.15)';
+        msg.style.color = '#fca5a5';
+        msg.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      await enviarRequisicaoAdminReset(userId, novaSenha, forcarTroca);
+    }
+
+    async function enviarRequisicaoAdminReset(userId, novaSenha, forcarTroca) {
+      const token = obterTokenAtivo();
+      const msg = document.getElementById('admin-reset-msg');
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            acao: 'redefinir_senha',
+            usuarioId: userId,
+            novaSenha: novaSenha,
+            forcarTroca: forcarTroca
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          msg.textContent = data.error || 'Falha ao redefinir senha do operador.';
+          msg.style.display = 'block';
+          msg.style.background = 'rgba(239, 68, 68, 0.15)';
+          msg.style.color = '#fca5a5';
+          msg.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          return;
+        }
+
+        fecharModalAdminResetSenha();
+        carregarUsuariosRbacApi();
+        if (typeof exibirToast === 'function') {
+          exibirToast(`⚡ ${data.mensagem}`, 'sucesso');
+        } else {
+          alert(data.mensagem);
+        }
+      } catch (err) {
+        msg.textContent = 'Erro de conexão com o servidor.';
+        msg.style.display = 'block';
+      }
+    }
+
+    // Atualização de Status da Minha Senha (Card 4 em Configurações)
+    function atualizarStatusMinhaSenhaConfig() {
+      if (!usuarioLogado) return;
+
+      const badge = document.getElementById('badge-status-troca-senha');
+      const dataTxt = document.getElementById('minha-senha-data-txt');
+      const btn = document.getElementById('btn-salvar-minha-senha');
+      const infoRegra = document.getElementById('minha-senha-info-regra');
+
+      const ehGustavo = usuarioLogado.login === 'gustavo';
+      const dataUltima = usuarioLogado.data_atualizacao_senha;
+
+      if (dataTxt) {
+        dataTxt.textContent = dataUltima ? new Date(dataUltima).toLocaleDateString('pt-BR') : 'Nenhuma recente';
+      }
+
+      if (ehGustavo) {
+        if (badge) {
+          badge.textContent = '👑 Super Administrador (Acesso Total)';
+          badge.style.background = 'rgba(245, 158, 11, 0.15)';
+          badge.style.color = '#fbbf24';
+          badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
+        }
+        if (infoRegra) {
+          infoRegra.innerHTML = '👑 <strong>Privilégio Administrador:</strong> Você pode alterar sua senha a qualquer momento e redefinir a senha de qualquer operador.';
+        }
+        if (btn) btn.disabled = false;
+        return;
+      }
+
+      // Usuário comum: verificar 30 dias
+      const TRINTA_DIAS_MS = 30 * 24 * 60 * 60 * 1000;
+      if (dataUltima) {
+        const diff = Date.now() - new Date(dataUltima).getTime();
+        if (diff < TRINTA_DIAS_MS) {
+          const proxima = new Date(new Date(dataUltima).getTime() + TRINTA_DIAS_MS);
+          const dataFmt = proxima.toLocaleDateString('pt-BR');
+
+          if (badge) {
+            badge.textContent = `⏳ Próxima alteração em: ${dataFmt}`;
+            badge.style.background = 'rgba(239, 68, 68, 0.15)';
+            badge.style.color = '#fca5a5';
+            badge.style.borderColor = 'rgba(239, 68, 68, 0.35)';
+          }
+          if (infoRegra) {
+            infoRegra.innerHTML = `⚠️ <strong>Regra de 1x por mês ativa:</strong> Você alterou sua senha recentemente em ${new Date(dataUltima).toLocaleDateString('pt-BR')}. Próxima alteração disponível em ${dataFmt}.`;
+          }
+          if (btn) btn.disabled = true;
+          return;
+        }
+      }
+
+      // Liberado para alterar
+      if (badge) {
+        badge.textContent = '✓ Disponível para Alteração';
+        badge.style.background = 'rgba(16, 185, 129, 0.15)';
+        badge.style.color = '#34d399';
+        badge.style.borderColor = 'rgba(16, 185, 129, 0.35)';
+      }
+      if (btn) btn.disabled = false;
+    }
+
+    // Formulário de Alteração Voluntária de Senha pelo Próprio Operador
+    async function salvarMinhaSenhaConfig(e) {
+      if (e) e.preventDefault();
+      const msgBox = document.getElementById('minha-senha-msg');
+      const btn = document.getElementById('btn-salvar-minha-senha');
+      const senhaAtual = document.getElementById('minha-senha-atual').value;
+      const novaSenha = document.getElementById('minha-nova-senha').value.trim();
+      const confirmaSenha = document.getElementById('minha-confirma-senha').value.trim();
+      const token = obterTokenAtivo();
+
+      msgBox.style.display = 'none';
+
+      if (!novaSenha || novaSenha.length < 4) {
+        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+      if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
+        msgBox.textContent = 'A nova senha não pode ser uma senha padrão do sistema.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      if (novaSenha !== confirmaSenha) {
+        msgBox.textContent = 'As duas senhas digitadas não coincidem. Digite novamente.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Salvando Senha...';
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            acao: 'trocar_senha',
+            token: token,
+            senhaAtual: senhaAtual,
+            novaSenha: novaSenha
+          })
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          msgBox.textContent = data.error || 'Falha ao alterar senha.';
+          msgBox.style.display = 'block';
+          msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+          msgBox.style.color = '#fca5a5';
+          msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          btn.disabled = false;
+          btn.textContent = '💾 Atualizar Minha Senha';
+          return;
+        }
+
+        // Sucesso
+        msgBox.textContent = '🎉 Senha atualizada com sucesso!';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(16, 185, 129, 0.15)';
+        msgBox.style.color = '#34d399';
+        msgBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+
+        document.getElementById('minha-senha-atual').value = '';
+        document.getElementById('minha-nova-senha').value = '';
+        document.getElementById('minha-confirma-senha').value = '';
+
+        if (usuarioLogado) {
+          usuarioLogado.data_atualizacao_senha = data.data_atualizacao_senha || new Date().toISOString();
+          localStorage.setItem('missuenos_user', JSON.stringify(usuarioLogado));
+        }
+
+        btn.disabled = false;
+        btn.textContent = '💾 Atualizar Minha Senha';
+        atualizarStatusMinhaSenhaConfig();
+
+        if (typeof exibirToast === 'function') {
+          exibirToast('Sua nova senha foi gravada com sucesso!', 'sucesso');
+        }
+      } catch (err) {
+        msgBox.textContent = 'Erro ao conectar ao servidor.';
+        msgBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '💾 Atualizar Minha Senha';
+      }
+    }
+
     // Controle da Troca Obrigatória de Senha
     let tokenPendenteTrocaSenha = null;
     let usuarioPendenteTrocaSenha = null;
@@ -11670,6 +12099,7 @@
     }, 500);
 
     function aplicarPerfilUsuario(user) {
+      atualizarStatusMinhaSenhaConfig();
       if (!user) return;
       const nameEl = document.getElementById('app-user-name');
       const roleEl = document.getElementById('app-user-role');

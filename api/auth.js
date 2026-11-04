@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
     const token = body.token || bearerToken;
 
-    // 0. Ação 'trocar_senha': Atualização de senha definitiva pelo operador
+    // 0. Ação 'trocar_senha': Atualização de senha definitiva pelo operador (Limite: 1x por mês)
     if (body.acao === 'trocar_senha') {
       if (!token) {
         return responder(res, 401, { error: 'Token de autenticação não fornecido.' });
@@ -66,6 +66,35 @@ export default async function handler(req, res) {
       const sessao = validarTokenSessao(token);
       if (!sessao) {
         return responder(res, 401, { error: 'Sessão inválida ou expirada. Faça login novamente.' });
+      }
+
+      const user = await get('SELECT id, login, nome, senha_hash, papel, data_atualizacao_senha, exigir_troca_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
+      if (!user) {
+        return responder(res, 404, { error: 'Usuário não encontrado.' });
+      }
+
+      // Regra de Frequência: 1 vez a cada 30 dias (Gustavo tem bypass de super-administrador, e troca obrigatória não é bloqueada)
+      const TRINTA_DIAS_MS = 30 * 24 * 60 * 60 * 1000;
+      const deveTrocarObrigatorio = user.exigir_troca_senha === 1;
+      if (!deveTrocarObrigatorio && user.data_atualizacao_senha && user.login.toLowerCase() !== 'gustavo') {
+        const ultimaTroca = new Date(user.data_atualizacao_senha).getTime();
+        const diff = Date.now() - ultimaTroca;
+        if (diff < TRINTA_DIAS_MS) {
+          const proximaData = new Date(ultimaTroca + TRINTA_DIAS_MS);
+          const dataFmt = proximaData.toLocaleDateString('pt-BR');
+          return responder(res, 403, {
+            error: `Você só pode alterar sua senha uma vez a cada 30 dias. Próxima alteração disponível em: ${dataFmt}.`
+          });
+        }
+      }
+
+      // Se informou senha atual (para troca voluntária no menu de configurações)
+      if (body.senhaAtual) {
+        const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+        const senhaAtualValida = verificarSenha(body.senhaAtual, user.senha_hash) || SENHAS_PADRAO.includes(body.senhaAtual.toLowerCase());
+        if (!senhaAtualValida) {
+          return responder(res, 400, { error: 'A senha atual informada está incorreta.' });
+        }
       }
 
       const novaSenha = (body.novaSenha || '').trim();
@@ -80,7 +109,7 @@ export default async function handler(req, res) {
 
       const novoHash = gerarHashSenha(novaSenha);
       const agora = new Date().toISOString();
-      await run('UPDATE usuarios SET senha_hash = ?, data_atualizacao = ? WHERE id = ?', [novoHash, agora, sessao.usuarioId]);
+      await run('UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0 WHERE id = ?', [novoHash, agora, agora, sessao.usuarioId]);
 
       registrarLog({
         clienteId: sessao.usuarioId,
@@ -91,7 +120,8 @@ export default async function handler(req, res) {
 
       return responder(res, 200, {
         success: true,
-        mensagem: 'Nova senha cadastrada com sucesso!'
+        mensagem: 'Nova senha cadastrada com sucesso!',
+        data_atualizacao_senha: agora
       });
     }
 
@@ -106,7 +136,7 @@ export default async function handler(req, res) {
         return responder(res, 401, { error: 'Sessão inválida ou expirada' });
       }
 
-      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login FROM usuarios WHERE id = ?', [sessao.usuarioId]);
+      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login, data_atualizacao_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
       if (!user || user.ativo !== 1) {
         return responder(res, 401, { error: 'Usuário inativo ou inexistente' });
       }
@@ -129,7 +159,8 @@ export default async function handler(req, res) {
           papel: user.papel,
           papelNome: papelConfig.nome,
           papelCor: papelConfig.cor,
-          permissoes: permissoesFinais
+          permissoes: permissoesFinais,
+          data_atualizacao_senha: user.data_atualizacao_senha || null
         }
       });
     }
@@ -205,7 +236,8 @@ export default async function handler(req, res) {
           papel: user.papel,
           papelNome: papelConfig.nome,
           papelCor: papelConfig.cor,
-          permissoes: permissoesFinais
+          permissoes: permissoesFinais,
+          data_atualizacao_senha: user.data_atualizacao_senha || null
         }
       });
     }
