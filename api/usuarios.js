@@ -74,10 +74,51 @@ export default async function handler(req, res) {
     const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const idParam = urlObj.searchParams.get('id');
 
+    // AÇÃO ADMINISTRATIVA: Redefinir senha de qualquer operador (Gustavo / Super Admin)
+    const bodyRequisicao = (req.method === 'POST' || req.method === 'PUT') ? await parseBody(req) : {};
+    if (bodyRequisicao.acao === 'redefinir_senha') {
+      const targetId = bodyRequisicao.usuarioId || idParam || bodyRequisicao.id;
+      if (!targetId) {
+        return responder(res, 400, { error: 'ID do usuário não especificado.' });
+      }
+
+      const targetUser = await get('SELECT id, nome, login FROM usuarios WHERE id = ?', [targetId]);
+      if (!targetUser) {
+        return responder(res, 404, { error: 'Operador não encontrado.' });
+      }
+
+      const novaSenha = (bodyRequisicao.novaSenha || 'admin123').trim();
+      if (!novaSenha || novaSenha.length < 4) {
+        return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres.' });
+      }
+
+      const novoHash = gerarHashSenha(novaSenha);
+      const agora = new Date().toISOString();
+      const forcarTroca = bodyRequisicao.forcarTroca !== false ? 1 : 0;
+
+      await run(`
+        UPDATE usuarios 
+        SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?
+        WHERE id = ?
+      `, [novoHash, agora, forcarTroca, targetId]);
+
+      registrarLog({
+        clienteId: operador.id,
+        tipoAcao: 'ADMIN_RESET_SENHA',
+        detalhes: `Administrador @${operador.login} redefiniu a senha do operador @${targetUser.login} (Nova senha: ${novaSenha} | Forçar troca: ${forcarTroca})`,
+        req
+      }).catch(() => {});
+
+      return responder(res, 200, {
+        success: true,
+        mensagem: `Senha de @${targetUser.login} redefinida com sucesso para "${novaSenha}".`
+      });
+    }
+
     // 1. GET: Listar usuários
     if (req.method === 'GET') {
       const rows = await query(`
-        SELECT id, nome, login, papel, permissoes, cliente_id, ativo, ultimo_login, data_cadastro
+        SELECT id, nome, login, papel, permissoes, cliente_id, ativo, ultimo_login, data_cadastro, data_atualizacao_senha, exigir_troca_senha
         FROM usuarios
         ORDER BY papel ASC, nome ASC
       `);
@@ -96,7 +137,9 @@ export default async function handler(req, res) {
           permissoes: perms,
           ativo: u.ativo === 1,
           ultimo_login: u.ultimo_login,
-          data_cadastro: u.data_cadastro
+          data_cadastro: u.data_cadastro,
+          data_atualizacao_senha: u.data_atualizacao_senha || null,
+          exigir_troca_senha: u.exigir_troca_senha === 1
         };
       });
 
