@@ -10334,6 +10334,16 @@
           </div>
         </div>
 
+        <!-- SELETOR RÁPIDO DE MODO DE ENTRADA (SENHA OU PIN) -->
+        <div style="display: flex; gap: 8px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
+          <button type="button" id="tab-modo-senha" onclick="alternarModoEntrada('simples')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid rgba(56, 189, 248, 0.4); cursor: pointer; transition: 0.2s; background: rgba(2, 132, 199, 0.25); color: #38bdf8;">
+            🔤 Senha (admin123)
+          </button>
+          <button type="button" id="tab-modo-pin" onclick="alternarModoEntrada('pin')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">
+            🔢 PIN (123456)
+          </button>
+        </div>
+
         <!-- CAMPO LOGIN (TEXTO / OCULTO SE PIN) -->
         <div id="auth-bloco-login-input" style="margin-bottom: 16px;">
           <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Usuário / Login</label>
@@ -10392,9 +10402,9 @@
 
         <!-- Dica de Acessos Homologados -->
         <div id="auth-dica-homologados" style="margin-top: 16px; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;">
-          <strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">👥 Homologação Rápida:</strong>
-          • <strong>PIN Padrão:</strong> <code>123456</code> (ou senha do usuário)<br>
-          • <strong>Senhas:</strong> marcos/gustavo: <code>admin123</code> | vendas: <code>vendas123</code>
+          <strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">👥 Credenciais Zeradas (Todos os Usuários):</strong>
+          • <strong>Senha Padrão:</strong> <code style="color: #38bdf8;">admin123</code> (marcos, gustavo, vendas, expedicao)<br>
+          • <strong>PIN Numérico:</strong> <code style="color: #34d399;">123456</code> (acesso instantâneo para todos)
         </div>
 
         <!-- LINK PARA CONFIGURAR POLÍTICAS DESTE TERMINAL -->
@@ -10810,12 +10820,19 @@
           const cfg = JSON.parse(bruta);
           return {
             sessao: cfg.sessao || 'fechou',
-            tipoSenha: cfg.tipoSenha || 'pin',
+            tipoSenha: cfg.tipoSenha || 'simples',
             configuradoEm: cfg.configuradoEm || null
           };
         }
       } catch {}
-      return { sessao: 'fechou', tipoSenha: 'pin', configuradoEm: null };
+      return { sessao: 'fechou', tipoSenha: 'simples', configuradoEm: null };
+    }
+
+    function alternarModoEntrada(modo) {
+      const cfg = obterConfigSeguranca();
+      cfg.tipoSenha = modo;
+      salvarConfigSeguranca(cfg.sessao, modo);
+      adaptarInterfaceLogin();
     }
 
     function salvarConfigSeguranca(sessao, tipoSenha) {
@@ -11015,34 +11032,64 @@
       const chipsOperadores = document.getElementById('auth-chips-operadores');
       const blocoForca = document.getElementById('auth-bloco-forca-senha');
       const labelSenha = document.getElementById('auth-label-senha');
+      const tabSenha = document.getElementById('tab-modo-senha');
+      const tabPin = document.getElementById('tab-modo-pin');
 
       // Atualiza badge no topo do modal
       if (badge) {
         let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : (cfg.sessao === 'timeout' ? '⏱️ Timeout 15 Min' : '⚡ Permanente');
-        let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha Simples' : '🔐 Senha Forte');
+        let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha admin123' : '🔐 Senha Forte');
         badge.textContent = `${txtSessao} • ${txtSenha}`;
       }
 
       if (cfg.tipoSenha === 'pin') {
+        if (tabPin) {
+          tabPin.style.background = 'rgba(2, 132, 199, 0.25)';
+          tabPin.style.color = '#38bdf8';
+          tabPin.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+        }
+        if (tabSenha) {
+          tabSenha.style.background = 'transparent';
+          tabSenha.style.color = '#94a3b8';
+          tabSenha.style.borderColor = 'transparent';
+        }
         if (blocoPin) blocoPin.style.display = 'block';
         if (blocoSenha) blocoSenha.style.display = 'none';
         if (chipsOperadores) chipsOperadores.style.display = 'block';
-        if (blocoLoginInput) blocoLoginInput.style.display = 'none'; // oculto porque os chips selecionam o operador
+        if (blocoLoginInput) blocoLoginInput.style.display = 'none';
         limparPinInputs();
-        setTimeout(() => focarPrimeiroPin(), 100);
+        setTimeout(() => focarPrimeiroPin(), 120);
       } else {
+        if (tabSenha) {
+          tabSenha.style.background = 'rgba(2, 132, 199, 0.25)';
+          tabSenha.style.color = '#38bdf8';
+          tabSenha.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+        }
+        if (tabPin) {
+          tabPin.style.background = 'transparent';
+          tabPin.style.color = '#94a3b8';
+          tabPin.style.borderColor = 'transparent';
+        }
         if (blocoPin) blocoPin.style.display = 'none';
         if (blocoSenha) blocoSenha.style.display = 'block';
         if (chipsOperadores) chipsOperadores.style.display = 'block';
         if (blocoLoginInput) blocoLoginInput.style.display = 'block';
+
+        const senhaInp = document.getElementById('auth-senha-input');
+        if (senhaInp) {
+          senhaInp.placeholder = 'Digite admin123 ou sua senha';
+        }
 
         if (cfg.tipoSenha === 'forte') {
           if (blocoForca) blocoForca.style.display = 'block';
           if (labelSenha) labelSenha.textContent = 'Senha Forte Corporativa (@#$%!)';
         } else {
           if (blocoForca) blocoForca.style.display = 'none';
-          if (labelSenha) labelSenha.textContent = 'Senha Simples (Letras e números)';
+          if (labelSenha) labelSenha.textContent = 'Senha Padrão (admin123)';
         }
+        setTimeout(() => {
+          if (senhaInp) senhaInp.focus();
+        }, 120);
       }
     }
 
