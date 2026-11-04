@@ -140,13 +140,25 @@
     
     /* ========================================================
        OPÇÃO 1: CARD ESTILO BLING / GLASSMORPHISM (APLICADA)
+       BARRA DE KPIS FIXA (STICKY) JUNTO COM A TOPBAR
        ======================================================== */
     .kpis-com-mapa-wrapper {
       display: grid !important;
       grid-template-columns: 1fr auto !important;
       gap: 14px !important;
       align-items: stretch !important;
-      margin-bottom: 18px !important;
+      position: sticky !important;
+      top: var(--topbar-height) !important;
+      z-index: 80 !important;
+      background: var(--bg-app) !important;
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+      margin-top: -12px !important;
+      margin-bottom: 16px !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.6) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     @media (max-width: 1200px) {
       .kpis-com-mapa-wrapper {
@@ -156,7 +168,20 @@
     @media (max-width: 768px) {
       .kpis-com-mapa-wrapper {
         grid-template-columns: 1fr !important;
+        position: static !important;
+        top: auto !important;
+        box-shadow: none !important;
+        border-bottom: none !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
       }
+    }
+
+    [data-theme="light"] .kpis-com-mapa-wrapper {
+      background: #f4f6f8 !important;
+      border-bottom-color: #e2e8f0 !important;
+      box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.08) !important;
     }
 
     .btn-mini-mapa-brasil {
