@@ -5113,15 +5113,34 @@
               </button>
             </div>
 
-            <!-- BARRA DE ADIÇÃO RÁPIDA DE ITENS DO ESTOQUE -->
+            <!-- BARRA DE ADIÇÃO RÁPIDA: DIGITAR NOME OU SELECIONAR DO CATÁLOGO -->
             <div style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 10px; margin-bottom: 12px;">
               <div style="display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;">
-                <div style="flex: 3; min-width: 220px;">
-                  <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;">
-                    + Adicionar Produto do Catálogo / Estoque
-                  </label>
-                  <select class="form-input erp-select" id="ped-add-produto-select" onchange="aoSelecionarProdutoItemPedido(this.value)" style="width: 100%;">
-                    <option value="">-- Selecione um produto ou digite avulso abaixo --</option>
+                <div style="flex: 3; min-width: 230px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">
+                      + Adicionar Produto (Digite ou Selecione)
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <span id="ped-add-produto-tipo-tag" style="font-size: 9.5px; color: #94a3b8;">Catálogo ou Avulso</span>
+                      <button type="button" id="btn-toggle-modo-prod" onclick="alternarModoEntradaProduto()" style="background: none; border: none; color: #38bdf8; font-size: 10px; cursor: pointer; text-decoration: underline; padding: 0;">
+                        📋 Menu Dropdown
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- MODO DIGITAÇÃO + AUTOCOMPLETE / DATALIST (PADRÃO) -->
+                  <div id="ped-add-produto-input-wrap" style="position: relative;">
+                    <input type="text" id="ped-add-produto-input" list="lista-produtos-ped-datalist" class="form-input" placeholder="Digite o nome do produto ou selecione da lista..." style="width: 100%; box-sizing: border-box; padding-right: 26px;" oninput="aoDigitarOuSelecionarProdutoItem(this.value)" onchange="aoDigitarOuSelecionarProdutoItem(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
+                    <datalist id="lista-produtos-ped-datalist">
+                      <!-- Populado dinamicamente com todos os produtos -->
+                    </datalist>
+                    <span title="Clique ou pressione seta para baixo para ver a lista" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+                  </div>
+
+                  <!-- MODO SELECT DROPDOWN (OPCIONAL VIA TOGGLE) -->
+                  <select class="form-input erp-select" id="ped-add-produto-select" onchange="aoSelecionarProdutoItemPedido(this.value)" style="width: 100%; display: none;">
+                    <option value="">-- Selecione um produto do catálogo --</option>
                   </select>
                 </div>
 
@@ -5129,14 +5148,14 @@
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: center;">
                     Qtd
                   </label>
-                  <input type="number" id="ped-add-qtd-input" min="1" step="1" value="1" class="form-input" style="text-align: center; font-weight: 700; width: 100%;" oninput="atualizarSubtotalNovoItem()">
+                  <input type="number" id="ped-add-qtd-input" min="1" step="1" value="1" class="form-input" style="text-align: center; font-weight: 700; width: 100%;" oninput="atualizarSubtotalNovoItem()" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
                 </div>
 
                 <div style="width: 110px;">
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: right;">
                     Unit. (R$)
                   </label>
-                  <input type="text" inputmode="decimal" id="ped-add-preco-input" value="0,00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()" onblur="this.value = formatarMoedaPtBr(this.value)">
+                  <input type="text" inputmode="decimal" id="ped-add-preco-input" value="0,00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()" onblur="this.value = formatarMoedaPtBr(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
                 </div>
 
                 <div style="width: 100px; text-align: right;">
@@ -5153,14 +5172,6 @@
                     ➕ Adicionar
                   </button>
                 </div>
-              </div>
-
-              <!-- CAMPO COMPLEMENTAR PARA ITEM AVULSO -->
-              <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255, 255, 255, 0.08);">
-                <input type="text" id="ped-add-item-custom-nome" class="form-input" placeholder="Ou digite o nome de um item personalizado/avulso..." style="flex: 1; font-size: 11.5px; padding: 6px 10px;">
-                <button type="button" class="btn-top btn-row-action" onclick="adicionarItemAvulsoAoPedidoAtual()" style="font-size: 11px; padding: 6px 12px; white-space: nowrap;">
-                  + Adicionar como Avulso
-                </button>
               </div>
             </div>
 
@@ -6688,47 +6699,134 @@
       return resultado;
     }
 
-    function popularSelectProdutosPedido() {
+    function alternarModoEntradaProduto() {
+      const inpWrap = document.getElementById('ped-add-produto-input-wrap');
       const sel = document.getElementById('ped-add-produto-select');
-      if (!sel) return;
-      sel.innerHTML = '<option value="">-- Selecione um produto do catálogo --</option>';
+      const btn = document.getElementById('btn-toggle-modo-prod');
+      const inp = document.getElementById('ped-add-produto-input');
+
+      if (!inpWrap || !sel) return;
+
+      if (sel.style.display === 'none') {
+        inpWrap.style.display = 'none';
+        sel.style.display = 'block';
+        if (btn) btn.textContent = '✏️ Digitar Produto';
+        sel.focus();
+      } else {
+        sel.style.display = 'none';
+        inpWrap.style.display = 'block';
+        if (btn) btn.textContent = '📋 Menu Dropdown';
+        if (inp) inp.focus();
+      }
+    }
+
+    function popularSelectProdutosPedido() {
+      const datalist = document.getElementById('lista-produtos-ped-datalist');
+      const sel = document.getElementById('ped-add-produto-select');
 
       if (!Array.isArray(produtos) || produtos.length === 0) return;
 
-      const grupos = {};
-      produtos.forEach(p => {
-        const cat = p.categoria || 'Geral';
-        if (!grupos[cat]) grupos[cat] = [];
-        grupos[cat].push(p);
-      });
-
-      for (const cat of Object.keys(grupos).sort()) {
-        const optgroup = document.createElement('optgroup');
-        optgroup.label = `📦 ${cat}`;
-        grupos[cat].sort((a, b) => (a.codigo_sku || '').localeCompare(b.codigo_sku || '')).forEach(p => {
-          const opt = document.createElement('option');
-          opt.value = p.id;
+      // 1. Popula o DATALIST para digitação com autocomplete inteligente
+      if (datalist) {
+        datalist.innerHTML = produtos.map(p => {
           const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
           const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
-          opt.textContent = `${p.codigo_sku ? p.codigo_sku + ' - ' : ''}${p.nome} (R$ ${precoFmt} | Disp: ${estDisp} ${p.unidade_medida || 'UN'})`;
-          optgroup.appendChild(opt);
-        });
-        sel.appendChild(optgroup);
+          const skuStr = p.codigo_sku ? `${p.codigo_sku} · ` : '';
+          return `<option value="${p.nome}">${skuStr}R$ ${precoFmt} (Disp: ${estDisp} ${p.unidade_medida || 'UN'})</option>`;
+        }).join('');
       }
+
+      // 2. Popula o SELECT para o modo dropdown opcional
+      if (sel) {
+        sel.innerHTML = '<option value="">-- Selecione um produto do catálogo --</option>';
+        const grupos = {};
+        produtos.forEach(p => {
+          const cat = p.categoria || 'Geral';
+          if (!grupos[cat]) grupos[cat] = [];
+          grupos[cat].push(p);
+        });
+
+        for (const cat of Object.keys(grupos).sort()) {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = `📦 ${cat}`;
+          grupos[cat].sort((a, b) => (a.codigo_sku || '').localeCompare(b.codigo_sku || '')).forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
+            opt.textContent = `${p.codigo_sku ? p.codigo_sku + ' - ' : ''}${p.nome} (R$ ${precoFmt} | Disp: ${estDisp} ${p.unidade_medida || 'UN'})`;
+            optgroup.appendChild(opt);
+          });
+          sel.appendChild(optgroup);
+        }
+      }
+    }
+
+    function aoDigitarOuSelecionarProdutoItem(valorDigitado) {
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
+
+      if (!valorDigitado || !valorDigitado.trim()) {
+        if (tagTipo) {
+          tagTipo.innerHTML = 'Catálogo ou Avulso';
+          tagTipo.style.color = '#94a3b8';
+        }
+        atualizarSubtotalNovoItem();
+        return;
+      }
+
+      const textoNorm = normalizarTextoBusca(valorDigitado.trim());
+      const prod = (Array.isArray(produtos) ? produtos : []).find(p => {
+        if (!p) return false;
+        const nomeNorm = normalizarTextoBusca(p.nome || '');
+        const skuNorm = normalizarTextoBusca(p.codigo_sku || '');
+        return nomeNorm === textoNorm || skuNorm === textoNorm;
+      });
+
+      if (prod) {
+        // Encontrou produto no catálogo
+        if (precoInp) {
+          precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
+        }
+        if (tagTipo) {
+          const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
+          tagTipo.innerHTML = `📦 <strong style="color: #38bdf8;">Catálogo</strong> • Disp: <strong style="color: #34d399;">${estDisp} ${prod.unidade_medida || 'UN'}</strong>`;
+          tagTipo.style.color = '#38bdf8';
+        }
+      } else {
+        // Item avulso digitado livremente (ex: "lonca crua")
+        if (tagTipo) {
+          tagTipo.innerHTML = `✨ <strong style="color: #fbbf24;">Item Avulso / Personalizado</strong>`;
+          tagTipo.style.color = '#fbbf24';
+        }
+      }
+
+      if (qtdInp && (!qtdInp.value || parseFloat(qtdInp.value) <= 0)) {
+        qtdInp.value = '1';
+      }
+      atualizarSubtotalNovoItem();
     }
 
     function aoSelecionarProdutoItemPedido(prodId) {
       const precoInp = document.getElementById('ped-add-preco-input');
       const qtdInp = document.getElementById('ped-add-qtd-input');
+      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
+
       if (!prodId) {
         if (precoInp) precoInp.value = '0,00';
+        if (tagTipo) tagTipo.textContent = 'Catálogo ou Avulso';
         atualizarSubtotalNovoItem();
         return;
       }
-      const prod = produtos.find(p => String(p.id) === String(prodId));
-      if (prod && precoInp) {
-        precoInp.value = parseFloat(prod.preco_venda || 0).toFixed(2);
+      const prod = (Array.isArray(produtos) ? produtos : []).find(p => String(p.id) === String(prodId));
+      if (prod) {
+        if (precoInp) precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
         if (!qtdInp.value || parseFloat(qtdInp.value) <= 0) qtdInp.value = '1';
+        if (tagTipo) {
+          const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
+          tagTipo.innerHTML = `📦 <strong style="color: #38bdf8;">Catálogo</strong> • Disp: <strong style="color: #34d399;">${estDisp} ${prod.unidade_medida || 'UN'}</strong>`;
+        }
         atualizarSubtotalNovoItem();
       }
     }
@@ -6744,87 +6842,111 @@
     }
 
     function adicionarItemAoPedidoAtual() {
+      const inp = document.getElementById('ped-add-produto-input');
       const sel = document.getElementById('ped-add-produto-select');
-      const prodId = sel ? sel.value : null;
       const qtdInp = document.getElementById('ped-add-qtd-input');
       const precoInp = document.getElementById('ped-add-preco-input');
+
+      // Obtém o nome digitado no input OU a opção escolhida no select
+      let texto = (inp && inp.parentElement && inp.parentElement.style.display !== 'none' ? inp.value : '').trim();
+      let prodId = null;
+
+      if (!texto && sel && sel.style.display !== 'none' && sel.value) {
+        prodId = sel.value;
+        const pSel = (Array.isArray(produtos) ? produtos : []).find(p => String(p.id) === String(prodId));
+        if (pSel) texto = pSel.nome;
+      }
+
+      // Se ainda estiver vazio, tenta ler o inp mesmo que não esteja visível
+      if (!texto && inp && inp.value.trim()) {
+        texto = inp.value.trim();
+      }
+
+      if (!texto) {
+        alert('Por favor, digite o nome do produto ou selecione um item do catálogo.');
+        if (inp && inp.parentElement && inp.parentElement.style.display !== 'none') inp.focus();
+        else if (sel) sel.focus();
+        return;
+      }
+
       const qtd = parseFloat(qtdInp?.value || 1);
       const preco = desformatarNumeroPtBr(precoInp?.value || 0);
 
-      if (!prodId) {
-        alert('Por favor, selecione um produto do catálogo ou utilize o campo de item avulso abaixo.');
-        sel?.focus();
-        return;
-      }
       if (qtd <= 0) {
         alert('A quantidade do item deve ser maior que zero.');
         qtdInp?.focus();
         return;
       }
 
-      const prod = produtos.find(p => String(p.id) === String(prodId));
-      const nome = prod ? prod.nome : 'Produto Selecionado';
-      const sku = prod ? (prod.codigo_sku || '') : '';
+      // Procura no catálogo por ID, nome ou SKU
+      let prod = null;
+      if (prodId) {
+        prod = (Array.isArray(produtos) ? produtos : []).find(p => String(p.id) === String(prodId));
+      }
+      if (!prod) {
+        const textoNorm = normalizarTextoBusca(texto);
+        prod = (Array.isArray(produtos) ? produtos : []).find(p => {
+          if (!p) return false;
+          const nomeNorm = normalizarTextoBusca(p.nome || '');
+          const skuNorm = normalizarTextoBusca(p.codigo_sku || '');
+          return nomeNorm === textoNorm || skuNorm === textoNorm;
+        });
+      }
 
-      const itemExistente = itensPedidoAtual.find(i => String(i.produto_id) === String(prodId));
+      let finalId, finalNome, finalSku, finalProdId;
+      if (prod) {
+        finalProdId = Number(prod.id);
+        finalId = String(prod.id);
+        finalNome = prod.nome;
+        finalSku = prod.codigo_sku || '';
+      } else {
+        // Item Avulso / Personalizado (como 'lonca crua')
+        finalProdId = null;
+        finalId = 'avulso_' + Date.now();
+        finalNome = texto;
+        finalSku = 'AVULSO';
+      }
+
+      const itemExistente = itensPedidoAtual.find(i => {
+        if (finalProdId && i.produto_id) return Number(i.produto_id) === Number(finalProdId);
+        return normalizarTextoBusca(i.nome) === normalizarTextoBusca(finalNome);
+      });
+
       if (itemExistente) {
         itemExistente.qtd += qtd;
         if (preco > 0) itemExistente.preco = preco;
       } else {
         itensPedidoAtual.push({
-          id: prodId,
-          produto_id: Number(prodId),
-          nome,
-          sku,
+          id: finalId,
+          produto_id: finalProdId,
+          nome: finalNome,
+          sku: finalSku,
           qtd,
           preco
         });
       }
 
-      sel.value = '';
+      if (inp) {
+        inp.value = '';
+        inp.focus();
+      }
+      if (sel) sel.value = '';
       if (qtdInp) qtdInp.value = '1';
-      if (precoInp) precoInp.value = '0.00';
+      if (precoInp) precoInp.value = '0,00';
       atualizarSubtotalNovoItem();
 
+      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
+      if (tagTipo) {
+        tagTipo.textContent = 'Catálogo ou Avulso';
+        tagTipo.style.color = '#94a3b8';
+      }
+
       atualizarTabelaItensPedido();
-      mostrarToast(`Item "${nome}" adicionado ao pedido!`);
+      mostrarToast(`Item "${finalNome}" adicionado ao pedido!`);
     }
 
     function adicionarItemAvulsoAoPedidoAtual() {
-      const inputNome = document.getElementById('ped-add-item-custom-nome');
-      const nome = inputNome ? inputNome.value.trim() : '';
-      const qtdInp = document.getElementById('ped-add-qtd-input');
-      const precoInp = document.getElementById('ped-add-preco-input');
-      const qtd = parseFloat(qtdInp?.value || 1);
-      const preco = parseFloat(precoInp?.value || 0);
-
-      if (!nome) {
-        alert('Por favor, digite o nome ou descrição do item avulso.');
-        inputNome?.focus();
-        return;
-      }
-      if (qtd <= 0) {
-        alert('A quantidade deve ser maior que zero.');
-        qtdInp?.focus();
-        return;
-      }
-
-      itensPedidoAtual.push({
-        id: 'avulso_' + Date.now(),
-        produto_id: null,
-        nome,
-        sku: 'AVULSO',
-        qtd,
-        preco
-      });
-
-      inputNome.value = '';
-      if (qtdInp) qtdInp.value = '1';
-      if (precoInp) precoInp.value = '0.00';
-      atualizarSubtotalNovoItem();
-
-      atualizarTabelaItensPedido();
-      mostrarToast(`Item avulso "${nome}" adicionado!`);
+      adicionarItemAoPedidoAtual();
     }
 
     function alterarQtdItemPedido(index, delta) {
