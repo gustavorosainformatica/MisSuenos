@@ -4185,9 +4185,36 @@
               <div style="font-size: 11px; color: #64748b; margin-top: 4px;" id="cfg-card-senha-sub">Entrada ágil estilo caixa/PDV</div>
             </div>
             <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px;">
+              <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 4px;">Timeout por Inatividade</div>
+              <div style="font-size: 14px; font-weight: 800; color: #fbbf24;" id="cfg-card-timeout-txt">⏱️ 15 Minutos</div>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;" id="cfg-card-timeout-sub">Padrão ativo para todos os usuários</div>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px;">
               <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 4px;">Status da Instalação</div>
               <div style="font-size: 14px; font-weight: 800; color: #a855f7;" id="cfg-card-status-txt">✓ Terminal Configurado</div>
               <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Salvo nas diretrizes locais deste navegador</div>
+            </div>
+          </div>
+
+          <!-- CONTROLE DE TIMEOUT EXCLUSIVO DO ADMINISTRADOR GUSTAVO -->
+          <div id="cfg-bloco-timeout-admin" style="display: none; margin-top: 16px; padding: 14px 18px; border-radius: 10px; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.25); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">⏱️</span>
+              <div>
+                <strong style="color: #fff; font-size: 13.5px; display: block;">Definir Tempo de Inatividade da Empresa (Admin Gustavo)</strong>
+                <span style="color: #94a3b8; font-size: 11.5px;">Aplica-se automaticamente a todos os operadores e padrões de acesso desta empresa.</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <select id="cfg-select-timeout-admin" onchange="alterarTimeoutAdmin(this.value)" style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+                <option value="5">5 Minutos (Máxima Segurança)</option>
+                <option value="10">10 Minutos</option>
+                <option value="15" selected>15 Minutos (Padrão Recomendado)</option>
+                <option value="30">30 Minutos (Expediente Médio)</option>
+                <option value="60">60 Minutos (1 Hora)</option>
+                <option value="0">Desativar Timeout Automático</option>
+              </select>
+              <span id="cfg-timeout-salvo-badge" style="display: none; color: #34d399; font-size: 12px; font-weight: 700;">✓ Salvo!</span>
             </div>
           </div>
         </section>
@@ -10218,18 +10245,29 @@
                 </div>
               </div>
 
-              <!-- OPÇÃO 2: TIMEOUT 15 MINUTOS -->
-              <div onclick="wizardSelecionarSessao('timeout')" id="wizard-sessao-timeout" class="wizard-option-card" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-sessao" style="margin-top: 3px; accent-color: #0284c7;">
-                <div>
-                  <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
-                    <span>⏱️ Timeout por Inatividade (Expediente)</span>
-                    <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-weight: 800;">15 Minutos</span>
+              <!-- REGRA GLOBAL DE TIMEOUT ATIVA PARA TODOS OS PADRÕES -->
+              <div style="margin-top: 6px; padding: 12px 14px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">⏱️</span>
+                    <strong style="color: #38bdf8; font-size: 12px;">Timeout por Inatividade: <span id="wizard-timeout-minutos-badge">15 Minutos</span></strong>
+                    <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(34, 197, 94, 0.2); color: #4ade80; font-weight: 800;">ATIVO PARA TODOS</span>
                   </div>
-                  <p style="font-size: 11.5px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">
-                    Mantém conectado enquanto em uso contínuo, mas expira automaticamente após 15 minutos sem cliques ou toques.
-                  </p>
+                  <div id="wizard-controle-timeout-gustavo" style="display: none; align-items: center; gap: 6px;">
+                    <span style="font-size: 11px; color: #fbbf24; font-weight: 700;">Ajustar (Admin Gustavo):</span>
+                    <select id="wizard-select-timeout" onchange="alterarTimeoutAdmin(this.value)" style="background: #0f172a; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 11px; padding: 3px 6px; border-radius: 6px; outline: none; cursor: pointer;">
+                      <option value="5">5 Minutos</option>
+                      <option value="10">10 Minutos</option>
+                      <option value="15" selected>15 Minutos (Padrão)</option>
+                      <option value="30">30 Minutos</option>
+                      <option value="60">60 Minutos</option>
+                      <option value="0">Desativar</option>
+                    </select>
+                  </div>
                 </div>
+                <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">
+                  Proteção corporativa ativa em todos os operadores. Caso o terminal fique ocioso pelo tempo definido, a tela bloqueia automaticamente.
+                </p>
               </div>
 
               <!-- OPÇÃO 3: PERMANENTE -->
@@ -10974,19 +11012,57 @@
 
     
     // =========================================================================
-    // MOTOR DE SEGURANÇA, SESSÕES & PADRÕES DE CREDENCIAIS (MIS SUEÑOS ERP)
+    // MOTOR DE SEGURANÇA, SESSÕES & TIMEOUT GLOBAL (MIS SUEÑOS ERP)
     // =========================================================================
-    const TIMEOUT_INATIVIDADE_MS = 15 * 60 * 1000; // 15 minutos de inatividade solicitados pelo operador
     let wizardTempSessao = 'fechou';
     let wizardTempSenha = 'pin';
+
+    function obterTimeoutInatividadeMinutos() {
+      try {
+        const val = localStorage.getItem('missuenos_timeout_minutos');
+        if (val !== null) return parseInt(val, 10);
+      } catch (e) {}
+      return 15; // 15 minutos é o padrão corporativo
+    }
+
+    function obterTimeoutInatividadeMs() {
+      const min = obterTimeoutInatividadeMinutos();
+      return min > 0 ? min * 60 * 1000 : 0;
+    }
+
+    function alterarTimeoutAdmin(minutos) {
+      const min = parseInt(minutos, 10);
+      try {
+        localStorage.setItem('missuenos_timeout_minutos', String(min));
+        const selCfg = document.getElementById('cfg-select-timeout-admin');
+        const selWiz = document.getElementById('wizard-select-timeout');
+        if (selCfg) selCfg.value = String(min);
+        if (selWiz) selWiz.value = String(min);
+
+        const badge = document.getElementById('cfg-timeout-salvo-badge');
+        if (badge) {
+          badge.style.display = 'inline';
+          setTimeout(() => { badge.style.display = 'none'; }, 2000);
+        }
+        atualizarCardsConfigSeguranca();
+        adaptarInterfaceLogin();
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Timeout por inatividade atualizado para ${min === 0 ? 'Desativado' : min + ' minutos'}!`, 'sucesso');
+        }
+      } catch (e) {
+        console.error('Erro ao salvar timeout:', e);
+      }
+    }
 
     function obterConfigSeguranca() {
       try {
         const bruta = localStorage.getItem('missuenos_security_config');
         if (bruta) {
           const cfg = JSON.parse(bruta);
+          // Se estava 'timeout' legado como modo exclusivo, normaliza para 'fechou'
+          const sessaoNormalizada = cfg.sessao === 'timeout' ? 'fechou' : (cfg.sessao || 'fechou');
           return {
-            sessao: cfg.sessao || 'fechou',
+            sessao: sessaoNormalizada,
             tipoSenha: cfg.tipoSenha || 'simples',
             configuradoEm: cfg.configuradoEm || null
           };
@@ -11003,8 +11079,9 @@
     }
 
     function salvarConfigSeguranca(sessao, tipoSenha) {
+      const sessaoNormalizada = sessao === 'timeout' ? 'fechou' : (sessao || 'fechou');
       const config = {
-        sessao: sessao || 'fechou',
+        sessao: sessaoNormalizada,
         tipoSenha: tipoSenha || 'pin',
         configuradoEm: new Date().toISOString()
       };
@@ -11017,23 +11094,24 @@
 
     function obterTokenAtivo() {
       const cfg = obterConfigSeguranca();
-      if (cfg.sessao === 'fechou') {
-        // Modo Fechou = sessionStorage exclusivo
-        return sessionStorage.getItem('missuenos_token');
-      } else if (cfg.sessao === 'timeout') {
-        // Modo Timeout por Inatividade (15 minutos)
-        const exp = localStorage.getItem('missuenos_token_expiry');
-        if (exp && Date.now() > Number(exp)) {
-          // Expirou por inatividade
-          console.warn('[AUTH] Sessão expirada por inatividade de 15 minutos.');
+      const token = cfg.sessao === 'fechou'
+        ? sessionStorage.getItem('missuenos_token')
+        : localStorage.getItem('missuenos_token');
+
+      if (!token) return null;
+
+      // Validação do Timeout por Inatividade Universal (ativo para todos os usuários)
+      const timeoutMs = obterTimeoutInatividadeMs();
+      if (timeoutMs > 0) {
+        const ultimaAtividade = Number(localStorage.getItem('missuenos_ultima_atividade') || Date.now());
+        if (Date.now() - ultimaAtividade > timeoutMs) {
+          console.warn('[AUTH] Sessão expirada por inatividade de ' + (timeoutMs / 60000) + ' minutos.');
           limparSessaoAtiva();
           return null;
         }
-        return localStorage.getItem('missuenos_token');
-      } else {
-        // Permanente / Lembrar de mim
-        return localStorage.getItem('missuenos_token');
       }
+
+      return token;
     }
 
     function gravarTokenAtivo(token, user) {
@@ -11055,17 +11133,15 @@
         }
       }
 
+      // Registra timestamp inicial de atividade
+      localStorage.setItem('missuenos_ultima_atividade', String(Date.now()));
+
       if (cfg.sessao === 'fechou') {
         sessionStorage.setItem('missuenos_token', token);
         sessionStorage.setItem('missuenos_user', userJson);
         // Remove do localStorage para garantir destruição ao fechar janela
         localStorage.removeItem('missuenos_token');
         localStorage.removeItem('missuenos_token_expiry');
-      } else if (cfg.sessao === 'timeout') {
-        localStorage.setItem('missuenos_token', token);
-        localStorage.setItem('missuenos_user', userJson);
-        localStorage.setItem('missuenos_token_expiry', String(Date.now() + TIMEOUT_INATIVIDADE_MS));
-        sessionStorage.removeItem('missuenos_token');
       } else {
         localStorage.setItem('missuenos_token', token);
         localStorage.setItem('missuenos_user', userJson);
@@ -11083,15 +11159,42 @@
     }
 
     function renovarTimeoutInatividade() {
-      const cfg = obterConfigSeguranca();
-      if (cfg.sessao === 'timeout' && localStorage.getItem('missuenos_token')) {
-        localStorage.setItem('missuenos_token_expiry', String(Date.now() + TIMEOUT_INATIVIDADE_MS));
+      const token = sessionStorage.getItem('missuenos_token') || localStorage.getItem('missuenos_token');
+      if (token) {
+        localStorage.setItem('missuenos_ultima_atividade', String(Date.now()));
       }
     }
 
-    // Registra detectores de atividade do operador (15 min)
+    function checarExpiracaoInatividade() {
+      const token = sessionStorage.getItem('missuenos_token') || localStorage.getItem('missuenos_token');
+      if (!token) return;
+
+      const timeoutMs = obterTimeoutInatividadeMs();
+      if (timeoutMs > 0) {
+        const ultimaAtividade = Number(localStorage.getItem('missuenos_ultima_atividade') || Date.now());
+        if (Date.now() - ultimaAtividade > timeoutMs) {
+          console.warn('[AUTH] Bloqueio de segurança automático por inatividade.');
+          limparSessaoAtiva();
+          usuarioLogado = null;
+          exibirTelaLogin();
+          const erroBox = document.getElementById('auth-erro-msg');
+          if (erroBox) {
+            erroBox.textContent = `Sessão bloqueada por inatividade (${timeoutMs / 60000} minutos). Digite sua senha ou PIN para continuar.`;
+            erroBox.style.display = 'block';
+          }
+        }
+      }
+    }
+
+    // Monitora atividade do operador nos eventos de uso
     ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach(evt => {
       window.addEventListener(evt, () => renovarTimeoutInatividade(), { passive: true });
+    });
+
+    // Verificação periódica em segundo plano a cada 15 segundos
+    setInterval(checarExpiracaoInatividade, 15000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') checarExpiracaoInatividade();
     });
 
     // Assistente de Instalação (Setup Wizard)
@@ -11112,9 +11215,9 @@
     }
 
     function wizardSelecionarSessao(tipo) {
-      wizardTempSessao = tipo;
+      wizardTempSessao = tipo === 'timeout' ? 'fechou' : tipo;
       document.querySelectorAll('[id^="wizard-sessao-"]').forEach(c => c.classList.remove('selected'));
-      const card = document.getElementById('wizard-sessao-' + tipo);
+      const card = document.getElementById('wizard-sessao-' + wizardTempSessao);
       if (card) {
         card.classList.add('selected');
         const radio = card.querySelector('input[type="radio"]');
@@ -11122,10 +11225,8 @@
       }
       const info = document.getElementById('wizard-info-politica');
       if (info) {
-        if (tipo === 'fechou') {
+        if (wizardTempSessao === 'fechou') {
           info.innerHTML = "🔒 <strong>Política Ativa:</strong> Ao fechar a janela, o operador terá que digitar as credenciais novamente para reabrir (sessionStorage).";
-        } else if (tipo === 'timeout') {
-          info.innerHTML = "⏱️ <strong>Política Ativa:</strong> Mantém conectado durante o uso, mas expira automaticamente após 15 minutos sem atividade.";
         } else {
           info.innerHTML = "⚡ <strong>Política Ativa:</strong> Conexão permanente no terminal. Só pede senha se clicar no botão Sair.";
         }
@@ -11173,23 +11274,39 @@
 
     function atualizarCardsConfigSeguranca() {
       const cfg = obterConfigSeguranca();
+      const timeoutMin = obterTimeoutInatividadeMinutos();
+
       const txtSessao = document.getElementById('cfg-card-sessao-txt');
       const subSessao = document.getElementById('cfg-card-sessao-sub');
       const txtSenha = document.getElementById('cfg-card-senha-txt');
       const subSenha = document.getElementById('cfg-card-senha-sub');
+      const txtTimeout = document.getElementById('cfg-card-timeout-txt');
+      const subTimeout = document.getElementById('cfg-card-timeout-sub');
+      const selTimeoutAdmin = document.getElementById('cfg-select-timeout-admin');
+      const selTimeoutWiz = document.getElementById('wizard-select-timeout');
+      const badgeTimeoutWiz = document.getElementById('wizard-timeout-minutos-badge');
 
       if (txtSessao) {
         if (cfg.sessao === 'fechou') {
           txtSessao.textContent = '🔒 Fechou o ERP = Exige Senha';
           if (subSessao) subSessao.textContent = 'sessionStorage (Destruição imediata ao fechar)';
-        } else if (cfg.sessao === 'timeout') {
-          txtSessao.textContent = '⏱️ Timeout por Inatividade (15 Min)';
-          if (subSessao) subSessao.textContent = 'Expira após 15 minutos sem interação';
         } else {
           txtSessao.textContent = '⚡ Manter Conectado';
           if (subSessao) subSessao.textContent = 'localStorage (Permanente até logout explícito)';
         }
       }
+
+      if (txtTimeout) {
+        txtTimeout.textContent = timeoutMin === 0 ? '🚫 Desativado' : `⏱️ ${timeoutMin} Minutos`;
+      }
+      if (subTimeout) {
+        subTimeout.textContent = timeoutMin === 0 ? 'Sem bloqueio automático' : 'Ativo para todos os usuários da empresa';
+      }
+      if (badgeTimeoutWiz) {
+        badgeTimeoutWiz.textContent = timeoutMin === 0 ? 'Desativado' : `${timeoutMin} Minutos`;
+      }
+      if (selTimeoutAdmin) selTimeoutAdmin.value = String(timeoutMin);
+      if (selTimeoutWiz) selTimeoutWiz.value = String(timeoutMin);
 
       if (txtSenha) {
         if (cfg.tipoSenha === 'pin') {
@@ -11220,9 +11337,11 @@
 
       // Atualiza badge no topo do modal
       if (badge) {
-        let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : (cfg.sessao === 'timeout' ? '⏱️ Timeout 15 Min' : '⚡ Permanente');
+        const timeoutMin = obterTimeoutInatividadeMinutos();
+        let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : '⚡ Permanente';
+        let txtTimeout = timeoutMin === 0 ? '' : ` • ⏱️ Timeout ${timeoutMin}m`;
         let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha admin123' : '🔐 Senha Forte');
-        badge.textContent = `${txtSessao} • ${txtSenha}`;
+        badge.textContent = `${txtSessao}${txtTimeout} • ${txtSenha}`;
       }
 
       // Verifica se há operador memorizado neste terminal
@@ -12217,6 +12336,17 @@
     function aplicarPerfilUsuario(user) {
       atualizarStatusMinhaSenhaConfig();
       if (!user) return;
+
+      const ehAdminGustavo = user && (user.login === 'gustavo' || user.papel === 'ADMIN');
+      const blocoTimeoutAdmin = document.getElementById('cfg-bloco-timeout-admin');
+      const wizardControleGustavo = document.getElementById('wizard-controle-timeout-gustavo');
+
+      if (blocoTimeoutAdmin) {
+        blocoTimeoutAdmin.style.display = ehAdminGustavo ? 'flex' : 'none';
+      }
+      if (wizardControleGustavo) {
+        wizardControleGustavo.style.display = ehAdminGustavo ? 'flex' : 'none';
+      }
       const nameEl = document.getElementById('app-user-name');
       const roleEl = document.getElementById('app-user-role');
       const initialsEl = document.getElementById('app-user-initials');
