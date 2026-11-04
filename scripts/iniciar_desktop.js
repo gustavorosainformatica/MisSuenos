@@ -5,8 +5,9 @@
  * 
  * Abre o sistema em Modo Aplicativo Nativo (sem barra de URL).
  * Utiliza perfil de dados dedicado para manter processo isolado.
- * Quando a janela do aplicativo é fechada pelo usuário (clique no 'X'),
- * encerra automaticamente o servidor em segundo plano.
+ * Suporta MÚLTIPLAS INSTÂNCIAS/JANELAS CONCORRENTES:
+ * Se o ERP já estiver aberto, NÃO encerra o servidor; apenas abre
+ * uma nova janela independente do aplicativo.
  * Zero janelas pretas de terminal abertas.
  */
 
@@ -19,6 +20,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BASE_DIR = path.join(__dirname, '..');
+
 // Descobre a porta configurada no projeto
 let PORT = process.env.PORT;
 if (!PORT) {
@@ -36,7 +38,74 @@ if (!PORT) {
 }
 PORT = PORT || 3000;
 
-// 1. Libera a porta caso um processo antigo do Node tenha ficado travado
+// Localiza o executável do navegador (Chrome ou Edge)
+const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+let browserPath = null;
+
+if (fs.existsSync(chromePath)) {
+  browserPath = chromePath;
+} else if (fs.existsSync(edgePath)) {
+  browserPath = edgePath;
+}
+
+// Diretório de dados de perfil isolado para garantir processo independente
+const pastaPerfil = path.join(
+  process.env.LOCALAPPDATA || path.join(process.env.USERPROFILE || 'C:\\Users\\Usuario', 'AppData', 'Local'),
+  'ERP_Apps_Profiles',
+  path.basename(BASE_DIR)
+);
+
+if (!fs.existsSync(pastaPerfil)) {
+  fs.mkdirSync(pastaPerfil, { recursive: true });
+}
+
+const browserArgs = [
+  `--app=http://localhost:${PORT}`,
+  `--user-data-dir=${pastaPerfil}`,
+  '--no-first-run',
+  '--no-default-browser-check',
+  '--disable-http-cache'
+];
+
+// Função para testar se o servidor já está ativo e respondendo
+function testarServidorAtivo() {
+  return new Promise((resolve) => {
+    const req = http.get(`http://localhost:${PORT}/app-config.js`, (res) => {
+      resolve(res.statusCode === 200);
+    });
+    req.on('error', () => resolve(false));
+    req.setTimeout(600, () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+// ====================================================================
+// CASO 1: O ERP JÁ ESTÁ ABERTO (SEGUNDA JANELA / INSTÂNCIA)
+// ====================================================================
+const servidorJaAtivo = await testarServidorAtivo();
+
+if (servidorJaAtivo) {
+  // NÃO encerra o processo Node nem mata o servidor!
+  // Apenas abre uma nova janela nativa independente do aplicativo
+  if (browserPath) {
+    const novaJanela = spawn(browserPath, browserArgs, {
+      detached: true,
+      stdio: 'ignore'
+    });
+    novaJanela.unref();
+  } else {
+    execSync(`start http://localhost:${PORT}`, { shell: 'cmd.exe' });
+  }
+  process.exit(0);
+}
+
+// ====================================================================
+// CASO 2: PRIMEIRA INICIALIZAÇÃO (INICIA O SERVIDOR WEB)
+// ====================================================================
+// 1. Libera a porta caso um processo zumbi travado do Node tenha ficado para trás
 try {
   const netstatOut = execSync('netstat -aon', { encoding: 'utf-8' });
   for (const line of netstatOut.split('\n')) {
@@ -90,43 +159,14 @@ function aguardarServidor(tentativas = 30) {
 
 await aguardarServidor();
 
-// 4. Localiza o navegador para abrir em Modo Aplicativo
-const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-let browserPath = null;
-
-if (fs.existsSync(chromePath)) {
-  browserPath = chromePath;
-} else if (fs.existsSync(edgePath)) {
-  browserPath = edgePath;
-}
-
+// 4. Abre a janela do aplicativo nativo e monitora encerramento
 if (browserPath) {
-  // Diretório de dados de perfil isolado para garantir processo independente
-  const pastaPerfil = path.join(
-    process.env.LOCALAPPDATA || path.join(process.env.USERPROFILE || 'C:\\Users\\Usuario', 'AppData', 'Local'),
-    'ERP_Apps_Profiles',
-    path.basename(BASE_DIR)
-  );
-
-  if (!fs.existsSync(pastaPerfil)) {
-    fs.mkdirSync(pastaPerfil, { recursive: true });
-  }
-
-  const browserArgs = [
-    `--app=http://localhost:${PORT}`,
-    `--user-data-dir=${pastaPerfil}`,
-    '--no-first-run',
-    '--no-default-browser-check'
-  ];
-
-  // Abre o navegador em Modo App isolado e monitora fechamento da janela
   const appWindow = spawn(browserPath, browserArgs, {
     detached: false,
     windowsHide: false
   });
 
-  // Quando o usuário fecha a janela do aplicativo (clica no 'X'), encerra o servidor!
+  // Quando todas as janelas do aplicativo forem fechadas, encerra o servidor
   appWindow.on('exit', () => {
     encerrarTudo();
   });
