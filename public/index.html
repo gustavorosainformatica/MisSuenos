@@ -139,26 +139,24 @@
 
     
     /* ========================================================
-       OPÇÃO 1: CARD ESTILO BLING / GLASSMORPHISM (APLICADA)
-       BARRA DE KPIS FIXA (STICKY) JUNTO COM A TOPBAR
+       CABEÇALHO FIXO SUPERIOR: BARRA DE KPIS SEM ROLAGEM
+       (PERMANECE 100% FIXA NO TOPO - ACIMA DA LINHA DIVISÓRIA)
        ======================================================== */
     .kpis-com-mapa-wrapper {
       display: grid !important;
       grid-template-columns: 1fr auto !important;
       gap: 14px !important;
       align-items: stretch !important;
-      position: sticky !important;
-      top: var(--topbar-height) !important;
-      z-index: 80 !important;
+      position: static !important;
+      flex-shrink: 0 !important;
+      z-index: 40 !important;
       background: var(--bg-app) !important;
-      padding-top: 12px !important;
-      padding-bottom: 12px !important;
-      margin-top: -12px !important;
-      margin-bottom: 16px !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-      box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.6) !important;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      padding: 12px 24px !important;
+      margin: 0 !important;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
     }
     @media (max-width: 1200px) {
       .kpis-com-mapa-wrapper {
@@ -752,18 +750,18 @@
       padding: 0;
     }
 
-    /* ELIMINAÇÃO TOTAL DA BARRA DE ROLAGEM GLOBAL NATIVA DO WINDOWS NA LATERAL DIREITA */
+    /* CONTROLE ESTRUTURAL DE ROLAGEM: WINDOWS / DESKTOP / PWA */
     html, body {
+      height: 100% !important;
+      max-height: 100vh !important;
+      overflow: hidden !important;
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
-      overflow-x: hidden !important;
     }
 
     html::-webkit-scrollbar,
     body::-webkit-scrollbar,
-    .erp-main-wrapper::-webkit-scrollbar,
-    .erp-content::-webkit-scrollbar,
-    main.erp-content::-webkit-scrollbar {
+    .erp-main-wrapper::-webkit-scrollbar {
       display: none !important;
       width: 0 !important;
       height: 0 !important;
@@ -774,9 +772,9 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-app);
       color: var(--text-main);
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
-      overflow-x: hidden;
+      overflow: hidden !important;
       font-size: 13px;
     }
 
@@ -3325,29 +3323,103 @@
       pointer-events: auto;
     }
 
-    /* ÁREA PRINCIPAL DO ERP EM TELA CHEIA (100%) */
+    /* ÁREA PRINCIPAL DO ERP EM TELA CHEIA (100% VIEWPORT) */
     .erp-main-wrapper {
       flex: 1 !important;
       width: 100% !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
       min-width: 0 !important;
       display: flex !important;
       flex-direction: column !important;
       background-color: var(--bg-app) !important;
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
+      overflow: hidden !important;
     }
 
-    .erp-content, main.erp-content {
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
+    .erp-topbar {
+      flex-shrink: 0 !important;
+      position: static !important;
     }
 
-    /* GARANTIA DE OCULTAÇÃO DE SCROLLBAR NATIVO NO WINDOWS / CHROME */
-    ::-webkit-scrollbar {
+    .erp-content {
+      display: none;
+    }
+
+    .erp-content:not(.modulo-ativo) {
       display: none !important;
-      width: 0 !important;
-      height: 0 !important;
-      background: transparent !important;
+    }
+
+    .erp-content.modulo-ativo {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      height: calc(100vh - var(--topbar-height)) !important;
+      max-height: calc(100vh - var(--topbar-height)) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      gap: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ========================================================
+       ÁREA ROLÁVEL COM BARRA DE ROLAGEM VISÍVEL À DIREITA
+       (FUNCIONA SOMENTE ABAIXO DA LINHA DOS KPIS)
+       ======================================================== */
+    .erp-scrollable-area {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-y: scroll !important; /* Força scrollbar visível e interativa à direita */
+      overflow-x: hidden !important;
+      padding: 16px 24px 28px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 18px !important;
+      scrollbar-width: thin !important;
+      scrollbar-color: rgba(255, 255, 255, 0.35) rgba(11, 16, 25, 0.6) !important;
+    }
+
+    .erp-scrollable-area > * {
+      flex-shrink: 0 !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar {
+      display: block !important;
+      width: 10px !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-track {
+      background: rgba(11, 16, 25, 0.6) !important;
+      border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.28) !important;
+      border-radius: 6px !important;
+      border: 2px solid rgba(11, 16, 25, 0.6) !important;
+      transition: background 0.2s ease !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 212, 255, 0.6) !important;
+    }
+
+    [data-theme="light"] .erp-scrollable-area {
+      scrollbar-color: #94a3b8 #f8fafc !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-track {
+      background: #f8fafc !important;
+      border-left: 1px solid #e2e8f0 !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-thumb {
+      background: #94a3b8 !important;
+      border: 2px solid #f8fafc !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-thumb:hover {
+      background: #64748b !important;
     }
 
   </style>
@@ -3607,8 +3679,9 @@
 
       
 
-      <!-- DATA GRID CORPORATIVA -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- DATA GRID CORPORATIVA -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>📋 Clientes & Destinatários de Encomendas</span>
@@ -3651,10 +3724,12 @@
           </div>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area clientes -->
     </main>
 
     <!-- MÓDULO MAPA DE CALOR INTERATIVO DO BRASIL -->
-    <main class="erp-content" id="modulo-mapa-conteudo" style="display: none; flex-direction: column; gap: 20px;">
+    <main class="erp-content" id="modulo-mapa-conteudo" style="display: none;">
+      <div class="erp-scrollable-area">
       <section class="mapa-section" id="mapa-calor-section">
         <div class="mapa-header">
           <div class="mapa-header-title">
@@ -3720,6 +3795,7 @@
           </div>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area mapa -->
     </main>
 
     <!-- MÓDULO DE PRODUTOS & ESTOQUE DE COUROS (ERP) -->
@@ -3783,8 +3859,9 @@
 
       
 
-      <!-- DATA GRID DE PRODUTOS -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- DATA GRID DE PRODUTOS -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>🪵 Tabela de Produtos & Controle de Estoque (Mis Sueños)</span>
@@ -3817,6 +3894,7 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area produtos -->
     </main>
 
     <!-- MÓDULO DE VENDAS & PEDIDOS (ERP) -->
@@ -3997,8 +4075,9 @@
       <!-- BARRA DE FILTROS FINANCEIROS -->
       
 
-      <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>💰 Lançamentos de Contas a Pagar e a Receber</span>
@@ -4029,6 +4108,7 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area financeiro -->
     </main>
 
     <!-- MÓDULO CENTRAL FISCAL (NF-E & NFS-E) -->
@@ -4095,8 +4175,9 @@
       <!-- BARRA DE AÇÕES FISCAIS -->
       
 
-      <!-- TABELA FISCAL -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- TABELA FISCAL -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>🧾 Registro de Notas Fiscais Eletrônicas Emitidas</span>
@@ -4128,10 +4209,11 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area fiscal -->
     </main>
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
-    <main class="erp-content" id="modulo-painel-conteudo" style="display: flex; flex-direction: column; gap: 20px;">
+    <main class="erp-content" id="modulo-painel-conteudo" style="display: flex; flex-direction: column;">
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
         <div class="erp-kpi-card" id="card-kpi-painel-clientes" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'clientes', this)" title="💡 Botão Esquerdo: Abrir CRM · Botão Direito (🖱️): Atalhos Rápidos & Filtros de Clientes">
@@ -4177,7 +4259,8 @@
         </button>
       </div>
 
-      <!-- SEÇÃO: COTAÇÕES & INDICADORES DE MERCADO EM TEMPO REAL (AWESOMEAPI) -->
+      <div class="erp-scrollable-area">
+        <!-- SEÇÃO: COTAÇÕES & INDICADORES DE MERCADO EM TEMPO REAL (AWESOMEAPI) -->
       <section style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px 24px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -4303,11 +4386,13 @@
           </button>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area painel -->
     </main>
 
     <!-- MÓDULO CONFIGURAÇÕES (WHITE-LABEL + USUÁRIOS RBAC - TICKET 6) -->
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
+      <div class="erp-scrollable-area">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
         
         <!-- CARD 1: MOTOR WHITE-LABEL DE DUPLA CAMADA & EMITENTE -->
         <section class="erp-table-card" style="padding: 24px;">
@@ -6189,34 +6274,47 @@
       }
 
       // Oculta todas as seções de conteúdo do ERP
-      document.querySelectorAll('.erp-content').forEach(m => m.style.display = 'none');
+      document.querySelectorAll('.erp-content').forEach(m => {
+        m.classList.remove('modulo-ativo');
+        m.style.display = 'none';
+      });
+
+      const mapaModulosEl = {
+        produtos: document.getElementById('modulo-produtos-conteudo'),
+        clientes: document.getElementById('modulo-clientes-conteudo'),
+        pedidos: document.getElementById('modulo-pedidos-conteudo'),
+        fiscal: document.getElementById('modulo-fiscal-conteudo'),
+        painel: document.getElementById('modulo-painel-conteudo'),
+        financeiro: document.getElementById('modulo-financeiro-conteudo'),
+        configuracoes: document.getElementById('modulo-configuracoes-conteudo'),
+        mapa: document.getElementById('modulo-mapa-conteudo')
+      };
+
+      const modAtivo = mapaModulosEl[modulo];
+      if (modAtivo) {
+        modAtivo.classList.add('modulo-ativo');
+        modAtivo.style.display = 'flex';
+      }
 
       if (modulo === 'produtos') {
-        document.getElementById('modulo-produtos-conteudo').style.display = 'flex';
         carregarProdutosApi();
       } else if (modulo === 'clientes') {
-        document.getElementById('modulo-clientes-conteudo').style.display = 'flex';
+        if (typeof renderTabela === 'function') renderTabela();
       } else if (modulo === 'pedidos') {
-        document.getElementById('modulo-pedidos-conteudo').style.display = 'flex';
         atualizarKpisPedidos();
         renderTabelaPedidos();
       } else if (modulo === 'fiscal') {
-        document.getElementById('modulo-fiscal-conteudo').style.display = 'flex';
         renderTabelaFiscal();
       } else if (modulo === 'painel') {
-        document.getElementById('modulo-painel-conteudo').style.display = 'flex';
         if (typeof atualizarCotacoesMercado === 'function') {
           atualizarCotacoesMercado();
         }
       } else if (modulo === 'financeiro') {
-        document.getElementById('modulo-financeiro-conteudo').style.display = 'flex';
         if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
       } else if (modulo === 'configuracoes') {
-        document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
         if (typeof carregarConfiguracoesSistemaApi === 'function') carregarConfiguracoesSistemaApi();
         if (typeof carregarUsuariosRbacApi === 'function') carregarUsuariosRbacApi();
       } else if (modulo === 'mapa') {
-        document.getElementById('modulo-mapa-conteudo').style.display = 'flex';
         if (typeof renderizarMapaCalor === 'function') {
           renderizarMapaCalor(clientes);
         }
