@@ -2969,7 +2969,7 @@
     /* =========================================================================
        POLÍTICAS DE SESSÃO & SEGURANÇA (PIN 6 DÍGITOS, SENHAS E ASSISTENTE)
        ========================================================================= */
-    .pin-digit-box {
+    .pin-digit-box, .pin-digit-simulador {
       width: 44px;
       height: 52px;
       background: #070d18;
@@ -10226,12 +10226,12 @@
               <div id="sim-box-pin" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
                 <label style="font-size: 11.5px; font-weight: 700; color: #cbd5e1;">Digite seu PIN de 6 dígitos:</label>
                 <div style="display: flex; gap: 6px;">
-                  <input type="password" maxlength="1" value="1" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="2" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="3" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="4" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-box" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" value="1" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" value="2" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" value="3" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" value="4" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
                 </div>
                 <div style="font-size: 10.5px; color: #64748b; text-align: center;">Autenticação automática ao digitar o 6º dígito</div>
               </div>
@@ -11063,41 +11063,88 @@
     }
 
     function limparPinInputs() {
-      document.querySelectorAll('.pin-digit-box').forEach(inp => {
+      document.querySelectorAll('#auth-bloco-pin .pin-digit-box').forEach(inp => {
         inp.value = '';
         inp.classList.remove('preenchido');
       });
     }
 
     function focarPrimeiroPin() {
-      const primeiro = document.querySelector('.pin-digit-box[data-pin-idx="0"]');
-      if (primeiro) primeiro.focus();
+      const primeiro = document.querySelector('#auth-bloco-pin .pin-digit-box[data-pin-idx="0"]');
+      if (primeiro) {
+        primeiro.focus();
+        try { primeiro.select(); } catch {}
+      }
     }
 
     function obterPinCompleto() {
       let pin = '';
       for (let i = 0; i < 6; i++) {
-        const inp = document.querySelector(`.pin-digit-box[data-pin-idx="${i}"]`);
+        const inp = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${i}"]`);
         pin += inp ? (inp.value || '') : '';
       }
       return pin;
     }
 
     function configurarEventosPin() {
-      const pinBoxes = document.querySelectorAll('.pin-digit-box');
-      pinBoxes.forEach((inp, idx) => {
-        inp.addEventListener('input', (e) => {
-          const val = inp.value.replace(/\D/g, '');
-          inp.value = val ? val[0] : '';
-          inp.classList.toggle('preenchido', !!inp.value);
+      const pinBoxes = document.querySelectorAll('#auth-bloco-pin .pin-digit-box');
+      if (!pinBoxes.length) return;
 
-          if (inp.value && idx < 5) {
-            const prox = document.querySelector(`.pin-digit-box[data-pin-idx="${idx + 1}"]`);
-            if (prox) prox.focus();
+      pinBoxes.forEach(inp => {
+        const idx = parseInt(inp.getAttribute('data-pin-idx'), 10);
+
+        // Ao focar, seleciona o dígito para substituição rápida
+        inp.addEventListener('focus', () => {
+          try { inp.select(); } catch {}
+        });
+
+        // Evento keydown para captura de números, Backspace e setas
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace') {
+            if (!inp.value && idx > 0) {
+              e.preventDefault();
+              const ant = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${idx - 1}"]`);
+              if (ant) {
+                ant.value = '';
+                ant.classList.remove('preenchido');
+                ant.focus();
+                try { ant.select(); } catch {}
+              }
+            } else {
+              inp.value = '';
+              inp.classList.remove('preenchido');
+            }
+            return;
           }
 
-          // Se preencheu o 6º dígito, dispara login automático
-          if (idx === 5 && inp.value) {
+          if (e.key === 'ArrowLeft' && idx > 0) {
+            e.preventDefault();
+            const ant = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${idx - 1}"]`);
+            if (ant) ant.focus();
+            return;
+          }
+
+          if (e.key === 'ArrowRight' && idx < 5) {
+            e.preventDefault();
+            const prox = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${idx + 1}"]`);
+            if (prox) prox.focus();
+            return;
+          }
+
+          // Se for dígito numérico (0-9)
+          if (/^[0-9]$/.test(e.key)) {
+            e.preventDefault();
+            inp.value = e.key;
+            inp.classList.add('preenchido');
+
+            if (idx < 5) {
+              const prox = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${idx + 1}"]`);
+              if (prox) {
+                prox.focus();
+                try { prox.select(); } catch {}
+              }
+            }
+
             const pinCompleto = obterPinCompleto();
             if (pinCompleto.length === 6) {
               submeterLoginDiretoPin(pinCompleto);
@@ -11105,23 +11152,33 @@
           }
         });
 
-        inp.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && !inp.value && idx > 0) {
-            const ant = document.querySelector(`.pin-digit-box[data-pin-idx="${idx - 1}"]`);
-            if (ant) {
-              ant.focus();
-              ant.value = '';
-              ant.classList.remove('preenchido');
+        // Evento input para teclado touch/mobile
+        inp.addEventListener('input', () => {
+          const val = inp.value.replace(/\D/g, '');
+          inp.value = val ? val.slice(-1) : '';
+          inp.classList.toggle('preenchido', !!inp.value);
+
+          if (inp.value && idx < 5) {
+            const prox = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${idx + 1}"]`);
+            if (prox) {
+              prox.focus();
+              try { prox.select(); } catch {}
             }
+          }
+
+          const pinCompleto = obterPinCompleto();
+          if (pinCompleto.length === 6) {
+            submeterLoginDiretoPin(pinCompleto);
           }
         });
 
+        // Colar PIN completo de 6 dígitos
         inp.addEventListener('paste', (e) => {
           e.preventDefault();
           const colado = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
           if (colado) {
             for (let i = 0; i < colado.length; i++) {
-              const b = document.querySelector(`.pin-digit-box[data-pin-idx="${i}"]`);
+              const b = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${i}"]`);
               if (b) {
                 b.value = colado[i];
                 b.classList.add('preenchido');
@@ -11130,7 +11187,7 @@
             if (colado.length === 6) {
               submeterLoginDiretoPin(colado);
             } else {
-              const prox = document.querySelector(`.pin-digit-box[data-pin-idx="${colado.length}"]`);
+              const prox = document.querySelector(`#auth-bloco-pin .pin-digit-box[data-pin-idx="${colado.length}"]`);
               if (prox) prox.focus();
             }
           }
