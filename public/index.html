@@ -3097,23 +3097,121 @@
       transition: width 0.3s, background-color 0.3s;
     }
 
+
+    /* =========================================================================
+       LAYOUT IMERSIVO: LOGO FIXO NA TOPBAR & MENU LATERAL FLUTUANTE (HOVER)
+       ========================================================================= */
+    .topbar-brand-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 10px 5px 6px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .topbar-brand-wrapper:hover,
+    .topbar-brand-wrapper.active {
+      background: rgba(0, 212, 255, 0.08);
+      border-color: rgba(0, 212, 255, 0.35);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+    }
+
+    .topbar-menu-indicator {
+      font-size: 12px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 6px;
+      border-radius: 6px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+      margin-left: 4px;
+    }
+
+    .topbar-brand-wrapper:hover .topbar-menu-indicator,
+    .topbar-brand-wrapper.active .topbar-menu-indicator {
+      transform: scale(1.1);
+      background: rgba(56, 189, 248, 0.25);
+    }
+
+    /* BARRA LATERAL RECOLHIDA POR PADRÃO - DESLIZA NO HOVER */
+    .erp-sidebar {
+      width: 260px !important;
+      background: rgba(9, 14, 26, 0.97) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-right: 1px solid rgba(0, 212, 255, 0.3) !important;
+      box-shadow: 12px 0 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 212, 255, 0.12) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      height: calc(100vh - var(--topbar-height)) !important;
+      position: fixed !important;
+      top: var(--topbar-height) !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      z-index: 999 !important;
+      transform: translateX(-105%) !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease !important;
+      user-select: none !important;
+    }
+
+    .erp-sidebar.menu-hover-active,
+    .erp-sidebar.mobile-open {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    .erp-sidebar-backdrop {
+      position: fixed;
+      top: var(--topbar-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      z-index: 998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .erp-sidebar-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ÁREA PRINCIPAL DO ERP EM TELA CHEIA (100%) */
+    .erp-main-wrapper {
+      flex: 1 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      background-color: var(--bg-app) !important;
+    }
+
   </style>
 </head>
 <body>
 
   <!-- SIDEBAR DO ERP -->
   <aside class="erp-sidebar" id="erp-sidebar">
-    <div class="sidebar-header">
-      <a href="#" class="sidebar-brand">
-        <div class="brand-icon" id="app-brand-icon">
-          <img src="logo.png" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
-        </div>
-        <div class="brand-texts">
-          <h2 id="app-short-name">Mis Sueños</h2>
-          <span id="app-tagline">ERP Selaria & Couros</span>
-        </div>
-      </a>
-      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher Menu">◀</button>
+    <div class="sidebar-flyout-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+      <span style="font-size: 11px; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px; text-transform: uppercase;">Navegação do ERP</span>
+      <button type="button" onclick="fecharMenuHoverSidebar()" style="background: none; border: none; color: var(--text-muted); font-size: 14px; cursor: pointer; padding: 4px;" title="Fechar Menu">✕</button>
     </div>
 
     <nav class="sidebar-nav">
@@ -3174,17 +3272,24 @@
       </button>
     </div>
   </aside>
+  <div class="erp-sidebar-backdrop" id="sidebar-hover-backdrop"></div>
 
   <!-- ÁREA DE TRABALHO -->
   <div class="erp-main-wrapper">
     <!-- TOPBAR FIXA -->
     <header class="erp-topbar">
-      <!-- LADO ESQUERDO: CONTROLES DISCRETOS -->
-      <div class="topbar-left">
-        <!-- BOTÃO HAMBÚRGUER MOBILE -->
-        <button class="mobile-hamburger-btn" id="mobile-hamburger-btn" onclick="toggleMobileSidebar()" title="Abrir Menu Lateral">
-          <span>☰</span>
-        </button>
+      <!-- LADO ESQUERDO: LOGO FIXO E GATILHO DO MENU POR HOVER -->
+      <div class="topbar-left" style="display: flex; align-items: center; gap: 12px;">
+        <div class="topbar-brand-wrapper" id="topbar-brand-trigger" title="Passe o mouse sobre o logo para expandir o menu lateral">
+          <div class="brand-icon" id="app-brand-icon">
+            <img src="logo.png" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
+          </div>
+          <div class="brand-texts">
+            <h2 id="app-short-name">Mis Sueños</h2>
+            <span id="app-tagline">ERP Selaria & Couros</span>
+          </div>
+          <span class="topbar-menu-indicator" title="Menu Lateral">☰</span>
+        </div>
         <!-- Elementos ocultos para manter compatibilidade com scripts do sistema -->
         <span id="app-breadcrumb-name" style="display: none;"></span>
         <span id="breadcrumb-modulo" style="display: none;"></span>
@@ -5678,8 +5783,92 @@
         .forEach(el => el.style.display = isCollapsed ? '' : 'none');
     }
 
+
+    // =========================================================================
+    // MENU LATERAL FLUTUANTE POR HOVER NO LOGO DA TOPBAR (TELA CHEIA)
+    // =========================================================================
+    let _timeoutFecharSidebar = null;
+
+    function abrirMenuHoverSidebar() {
+      if (_timeoutFecharSidebar) {
+        clearTimeout(_timeoutFecharSidebar);
+        _timeoutFecharSidebar = null;
+      }
+      const sidebar = document.getElementById('erp-sidebar');
+      const trigger = document.getElementById('topbar-brand-trigger');
+      const backdrop = document.getElementById('sidebar-hover-backdrop');
+      if (sidebar) sidebar.classList.add('menu-hover-active');
+      if (trigger) trigger.classList.add('active');
+      if (backdrop) backdrop.classList.add('active');
+    }
+
+    function fecharMenuHoverSidebar() {
+      const sidebar = document.getElementById('erp-sidebar');
+      const trigger = document.getElementById('topbar-brand-trigger');
+      const backdrop = document.getElementById('sidebar-hover-backdrop');
+      if (sidebar) sidebar.classList.remove('menu-hover-active', 'mobile-open');
+      if (trigger) trigger.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+    }
+
+    function agendarFechamentoSidebar() {
+      if (_timeoutFecharSidebar) clearTimeout(_timeoutFecharSidebar);
+      _timeoutFecharSidebar = setTimeout(() => {
+        fecharMenuHoverSidebar();
+      }, 320); // 320ms de tolerância suave para movimentação natural do cursor
+    }
+
+    function alternarMenuHoverSidebar() {
+      const sidebar = document.getElementById('erp-sidebar');
+      if (sidebar && sidebar.classList.contains('menu-hover-active')) {
+        fecharMenuHoverSidebar();
+      } else {
+        abrirMenuHoverSidebar();
+      }
+    }
+
+    function inicializarEventosHoverLogo() {
+      const trigger = document.getElementById('topbar-brand-trigger');
+      const sidebar = document.getElementById('erp-sidebar');
+      const backdrop = document.getElementById('sidebar-hover-backdrop');
+
+      if (trigger) {
+        // Hover no Desktop
+        trigger.addEventListener('mouseenter', abrirMenuHoverSidebar);
+        trigger.addEventListener('mouseleave', agendarFechamentoSidebar);
+
+        // Toque / Clique (compatibilidade mobile e touch screen)
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          alternarMenuHoverSidebar();
+        });
+      }
+
+      if (sidebar) {
+        sidebar.addEventListener('mouseenter', () => {
+          if (_timeoutFecharSidebar) {
+            clearTimeout(_timeoutFecharSidebar);
+            _timeoutFecharSidebar = null;
+          }
+        });
+        sidebar.addEventListener('mouseleave', agendarFechamentoSidebar);
+
+        // Ao clicar em qualquer opção do menu, fecha suavemente a gaveta
+        sidebar.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('click', () => {
+            setTimeout(fecharMenuHoverSidebar, 150);
+          });
+        });
+      }
+
+      if (backdrop) {
+        backdrop.addEventListener('click', fecharMenuHoverSidebar);
+      }
+    }
+
     // Troca de módulos do ERP
     function trocarModulo(modulo, el) {
+      fecharMenuHoverSidebar();
       document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
       const btnTopCfg = document.getElementById('btn-top-configuracoes');
       if (btnTopCfg) btnTopCfg.classList.remove('active');
@@ -10407,6 +10596,7 @@
     aplicarConfiguracaoApp();
     inicializarArrasteColunasGlobal();
     inicializarRedimensionamentoModais();
+    inicializarEventosHoverLogo();
     atualizarKpis();
     renderTabela();
     carregarDadosApi();
