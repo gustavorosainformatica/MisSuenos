@@ -752,6 +752,24 @@
       padding: 0;
     }
 
+    /* ELIMINAÇÃO TOTAL DA BARRA DE ROLAGEM GLOBAL NATIVA DO WINDOWS NA LATERAL DIREITA */
+    html, body {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      overflow-x: hidden !important;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .erp-main-wrapper::-webkit-scrollbar,
+    .erp-content::-webkit-scrollbar,
+    main.erp-content::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-app);
@@ -3315,6 +3333,21 @@
       display: flex !important;
       flex-direction: column !important;
       background-color: var(--bg-app) !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .erp-content, main.erp-content {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    /* GARANTIA DE OCULTAÇÃO DE SCROLLBAR NATIVO NO WINDOWS / CHROME */
+    ::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
     }
 
   </style>
