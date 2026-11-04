@@ -11,7 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
-import { execSync } from 'node:child_process';
+import { spawn, execSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -259,6 +259,9 @@ function sincronizarArquivosSecundarios() {
 function responderJson(res, statusCode, data) {
   res.writeHead(statusCode, {
     'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
@@ -311,6 +314,43 @@ async function tratarRequisicao(req, res) {
   if (pathname === '/api/nfe' || pathname.startsWith('/api/nfe/')) {
     return handlerNfe(req, res);
   }
+  // ROTA ESPECIAL: Abrir Nova Janela Nativa no Desktop (sem barra de URL)
+  if ((pathname === '/api/sistema/abrir-janela' || pathname === '/api/sistema/nova-janela') && (method === 'POST' || method === 'GET')) {
+    try {
+      const chromePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+      const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+      let browserPath = null;
+      if (fs.existsSync(chromePath)) browserPath = chromePath;
+      else if (fs.existsSync(edgePath)) browserPath = edgePath;
+
+      if (browserPath) {
+        const pastaPerfil = path.join(
+          process.env.LOCALAPPDATA || path.join(process.env.USERPROFILE || 'C:\\Users\\Usuario', 'AppData', 'Local'),
+          'ERP_Apps_Profiles',
+          path.basename(BASE_DIR)
+        );
+        if (!fs.existsSync(pastaPerfil)) fs.mkdirSync(pastaPerfil, { recursive: true });
+
+        const browserArgs = [
+          `--app=http://localhost:${PORT}`,
+          `--user-data-dir=${pastaPerfil}`,
+          '--no-first-run',
+          '--no-default-browser-check',
+          '--disable-http-cache'
+        ];
+
+        const proc = spawn(browserPath, browserArgs, { detached: true, stdio: 'ignore' });
+        proc.unref();
+        return responderJson(res, 200, { success: true, local: true, mensagem: 'Nova janela iniciada no desktop' });
+      } else {
+        return responderJson(res, 200, { success: true, local: false, mensagem: 'Navegador nativo não localizado' });
+      }
+    } catch (e) {
+      console.error('[ERRO AO ABRIR NOVA JANELA]', e);
+      return responderJson(res, 500, { success: false, error: e.message });
+    }
+  }
+
   if (pathname.startsWith('/api/sistema')) {
     return handlerSistema(req, res);
   }
@@ -1053,7 +1093,22 @@ async function tratarRequisicao(req, res) {
     }
     res.end('Erro ao ler arquivo');
   });
-  res.writeHead(200, { 'Content-Type': contentType });
+  const headers = {
+    'Content-Type': contentType,
+    'Access-Control-Allow-Origin': '*'
+  };
+
+  // Garante que páginas HTML, scripts JS, manifest e configurações nunca fiquem em cache estagnado
+  if (ext === '.html' || ext === '.js' || ext === '.json' || filePath.endsWith('sw.js')) {
+    headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+    headers['Pragma'] = 'no-cache';
+    headers['Expires'] = '0';
+  } else {
+    // Imagens e fontes: cache com revalidação
+    headers['Cache-Control'] = 'public, max-age=3600, must-revalidate';
+  }
+
+  res.writeHead(200, headers);
   stream.pipe(res);
 }
 

@@ -1,6 +1,6 @@
 /**
  * Base de Clientes Mis Sueños (Offline)
- * Atualizado em: 2026-11-03T04:03:41.493Z
+ * Atualizado em: 2026-11-04T11:56:42.672Z
  */
 window.CLIENTES_DATA = [
   {
