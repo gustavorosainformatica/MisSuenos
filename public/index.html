@@ -3119,14 +3119,14 @@
     <nav class="sidebar-nav">
       <!-- 1. MEU NEGÓCIO -->
       <div class="nav-section-title">MEU NEGÓCIO</div>
-      <a class="nav-item" id="nav-item-painel" onclick="trocarModulo('painel', this)" title="Visão geral e gráficos estratégicos">
+      <a class="nav-item active" id="nav-item-painel" onclick="trocarModulo('painel', this)" title="Visão geral e gráficos estratégicos">
         <span class="nav-icon">📊</span>
         <span>Painel & Indicadores</span>
       </a>
 
       <!-- 2. CADASTROS -->
       <div class="nav-section-title">CADASTROS</div>
-      <a class="nav-item active" id="nav-item-clientes" onclick="trocarModulo('clientes', this)" title="Gestão de clientes, destinatários e CRM">
+      <a class="nav-item" id="nav-item-clientes" onclick="trocarModulo('clientes', this)" title="Gestão de clientes, destinatários e CRM">
         <span class="nav-icon">👥</span>
         <span>Clientes & CRM</span>
         <span id="nav-total-clientes" style="display: none;"></span>
@@ -3276,7 +3276,7 @@
     </header>
 
     <!-- CONTEÚDO PRINCIPAL (CLIENTES & CRM) -->
-    <main class="erp-content" id="modulo-clientes-conteudo">
+    <main class="erp-content" id="modulo-clientes-conteudo" style="display: none;">
       <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
@@ -3861,7 +3861,7 @@
     </main>
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
-    <main class="erp-content" id="modulo-painel-conteudo" style="display: none; flex-direction: column; gap: 20px;">
+    <main class="erp-content" id="modulo-painel-conteudo" style="display: flex; flex-direction: column; gap: 20px;">
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
         <div class="erp-kpi-card" id="card-kpi-painel-clientes" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'clientes', this)" title="💡 Botão Esquerdo: Abrir CRM · Botão Direito (🖱️): Atalhos Rápidos & Filtros de Clientes">
@@ -10412,6 +10412,12 @@
     carregarDadosApi();
     carregarProdutosApi();
     carregarPedidosApi();
+
+    // Iniciar sempre com o Painel & Indicadores por padrão
+    const navPainelInicial = document.getElementById('nav-item-painel');
+    if (navPainelInicial) {
+      trocarModulo('painel', navPainelInicial);
+    }
   </script>
 
   <!-- ELEMENTOS VISUAIS DO TOUR GUIADO -->
@@ -12568,6 +12574,10 @@
         ocultarTelaLogin();
         btn.disabled = false;
         btn.textContent = 'Entrar no Sistema';
+
+        // Redireciona sempre para o Painel & Indicadores ao efetuar login
+        const navPainelPosLogin = document.getElementById('nav-item-painel');
+        if (navPainelPosLogin) trocarModulo('painel', navPainelPosLogin);
       } catch (err) {
         // Fallback offline de segurança para contingência PWA
         const usuariosOffline = [
@@ -12585,6 +12595,8 @@
           ocultarTelaLogin();
           btn.disabled = false;
           btn.textContent = 'Entrar no Sistema';
+          const navPainelOffline = document.getElementById('nav-item-painel');
+          if (navPainelOffline) trocarModulo('painel', navPainelOffline);
           return;
         }
 
