@@ -977,6 +977,71 @@
       min-width: 44px;
     }
 
+    /* SEPARADOR E BADGE INDICADOR DE MÓDULO ATIVO NA TOPBAR */
+    .topbar-breadcrumb-sep {
+      color: rgba(255, 255, 255, 0.22);
+      font-size: 15px;
+      font-weight: 300;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .topbar-module-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.32);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.12);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .topbar-module-badge:hover {
+      background: rgba(0, 212, 255, 0.14);
+      border-color: rgba(0, 212, 255, 0.5);
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.22);
+    }
+    .topbar-module-icon {
+      font-size: 14px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+    }
+    .topbar-module-name {
+      font-size: 12.5px;
+      letter-spacing: -0.1px;
+      color: #f0f9ff;
+    }
+
+    @keyframes badgeBump {
+      0% { transform: scale(0.96); opacity: 0.7; }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .topbar-module-badge.badge-bump {
+      animation: badgeBump 0.24s ease-out;
+    }
+
+    /* Ajustes Tema Claro */
+    [data-theme="light"] .topbar-breadcrumb-sep {
+      color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .topbar-module-badge {
+      background: #f0f9ff !important;
+      border-color: #bae6fd !important;
+      color: #0284c7 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+    [data-theme="light"] .topbar-module-name {
+      color: #0f172a !important;
+    }
+
     .topbar-center {
       flex: 1;
       display: flex;
@@ -2894,6 +2959,10 @@
       .breadcrumbs {
         display: none !important;
       }
+      .topbar-breadcrumb-sep,
+      .topbar-module-badge {
+        display: none !important;
+      }
       .topbar-search-box {
         max-width: 100% !important;
         flex: 1 !important;
@@ -3310,9 +3379,14 @@
           </div>
           <span class="topbar-menu-indicator" title="Menu Lateral">☰</span>
         </div>
-        <!-- Elementos ocultos para manter compatibilidade com scripts do sistema -->
+        <!-- SEPARADOR E INDICADOR DE CONTEXTO ATIVO -->
+        <span class="topbar-breadcrumb-sep" id="topbar-breadcrumb-sep">/</span>
+        <div class="topbar-module-badge" id="topbar-module-badge" title="Módulo Ativo no ERP">
+          <span class="topbar-module-icon" id="topbar-module-icon">📊</span>
+          <span class="topbar-module-name" id="breadcrumb-modulo">Painel & Indicadores</span>
+        </div>
+        <!-- Elementos para manter compatibilidade com scripts do sistema -->
         <span id="app-breadcrumb-name" style="display: none;"></span>
-        <span id="breadcrumb-modulo" style="display: none;"></span>
       </div>
 
       <!-- CENTRO: OMNIBAR CENTRAL FLUTUANTE (PADRÃO LINEAR.APP) -->
@@ -6029,8 +6103,32 @@
       if (el) el.classList.add('active');
       if (modulo === 'configuracoes' && btnTopCfg) btnTopCfg.classList.add('active');
 
-      const titulo = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
-      document.getElementById('breadcrumb-modulo').textContent = titulo;
+      const MAPA_MODULOS_TITULO = {
+        painel: { nome: 'Painel & Indicadores', icone: '📊' },
+        clientes: { nome: 'Clientes & CRM', icone: '👥' },
+        pedidos: { nome: 'Pedidos de Venda', icone: '📦' },
+        produtos: { nome: 'Estoque de Couros', icone: '🪵' },
+        fiscal: { nome: 'Central Fiscal', icone: '🧾' },
+        financeiro: { nome: 'Financeiro & Caixa', icone: '💰' },
+        compras: { nome: 'Compras & XML', icone: '📥' },
+        configuracoes: { nome: 'Configurações', icone: '⚙️' },
+        mapa: { nome: 'Distribuição Brasil', icone: '🗺️' }
+      };
+
+      const tituloFallback = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
+      const infoMod = MAPA_MODULOS_TITULO[modulo] || { nome: tituloFallback, icone: '📍' };
+
+      const elBread = document.getElementById('breadcrumb-modulo');
+      if (elBread) elBread.textContent = infoMod.nome;
+      const elIcon = document.getElementById('topbar-module-icon');
+      if (elIcon) elIcon.textContent = infoMod.icone;
+
+      const elBadge = document.getElementById('topbar-module-badge');
+      if (elBadge) {
+        elBadge.classList.remove('badge-bump');
+        void elBadge.offsetWidth;
+        elBadge.classList.add('badge-bump');
+      }
 
       // Oculta todas as seções de conteúdo do ERP
       document.querySelectorAll('.erp-content').forEach(m => m.style.display = 'none');
