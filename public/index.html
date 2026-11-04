@@ -3141,22 +3141,6 @@
 
     <!-- CONTEÚDO PRINCIPAL (CLIENTES & CRM) -->
     <main class="erp-content" id="modulo-clientes-conteudo">
-      <!-- INFORMATIVO DE BASE DE DADOS REAL -->
-      <div id="app-notice-bar" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: none; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;" id="app-notice-icon">🧪</span>
-          <div>
-            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;" id="app-notice-title">BASE DE DADOS ISOLADA PARA TESTES</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;" id="app-notice-text">
-              Ambiente isolado de testes e homologação. Novas funções, pedidos e clientes criados aqui NÃO afetam a base oficial do cliente.
-            </div>
-          </div>
-        </div>
-        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;" id="app-notice-badge">
-          🧪 AMBIENTE DE TESTES
-        </span>
-      </div>
-
       <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
@@ -3334,22 +3318,6 @@
 
     <!-- MÓDULO DE PRODUTOS & ESTOQUE DE COUROS (ERP) -->
     <main class="erp-content" id="modulo-produtos-conteudo" style="display: none;">
-      <!-- ALERTA DE PRODUTOS DE DEMONSTRAÇÃO / TESTE -->
-      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">🧪</span>
-          <div>
-            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">CATÁLOGO INICIAL: PRODUTOS DE DEMONSTRAÇÃO / TESTE</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
-              Os 11 itens cadastrados são dados demonstrativos/fictícios baseados nas categorias da Mis Sueños. Novos produtos que você cadastrar serão salvos como itens REAIS.
-            </div>
-          </div>
-        </div>
-        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
-          🧪 ITENS DE TESTE
-        </span>
-      </div>
-
       <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
       <div class="kpis-com-mapa-wrapper">
               <section class="erp-kpi-grid">
@@ -3447,23 +3415,6 @@
 
     <!-- MÓDULO DE VENDAS & PEDIDOS (ERP) -->
     <main class="erp-content" id="modulo-pedidos-conteudo" style="display: none;">
-      <!-- ALERTA DE DADOS FICTÍCIOS / SIMULAÇÃO -->
-      <!-- INFORMATIVO DE BASE DE PEDIDOS REAL -->
-      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">📦</span>
-          <div>
-            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">MÓDULO DE VENDAS & EXPEDIÇÃO (BANCO DE DADOS ATIVO)</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
-              Gestão de pedidos reais com gravação no banco de dados (SQLite / Turso Cloud), rastreio e emissão direta de etiquetas de envio.
-            </div>
-          </div>
-        </div>
-        <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
-          ✅ BANCO CONECTADO
-        </span>
-      </div>
-
       <!-- CARDS DE METRICAS DE VENDAS COM BOTÃO DE MINI MAPA AO LADO -->
       <div class="kpis-com-mapa-wrapper">
               <section class="erp-kpi-grid">
@@ -3563,15 +3514,10 @@
     
     <!-- MÓDULO FINANCEIRO, CONTAS A PAGAR/RECEBER & COMPRAS XML (TICKETS 4 & 5) -->
     <main class="erp-content" id="modulo-financeiro-conteudo" style="display: none;">
-      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">💰</span>
-          <div>
-            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">FLUXO DE CAIXA INTEGRADO & IMPORTADOR DE COMPRAS XML (NF-e)</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
-              Pedidos geram Contas a Receber automaticamente. Notas fiscais de compra (.XML) cadastram fornecedores, duplicatas a pagar e permitem escolher por item entre Despesa (Opção A) ou Entrada de Estoque (Opção B).
-            </div>
-          </div>
+      <!-- BARRA DE AÇÕES DO FINANCEIRO (SEM FAIXA DE AVISO) -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+        <div style="font-size: 13px; font-weight: 700; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+          <span>💼</span> <span>Gestão Financeira & Compras</span>
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn-top" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.4); font-weight: 700;" onclick="abrirModalImportarXml()">
@@ -3681,22 +3627,6 @@
 
     <!-- MÓDULO CENTRAL FISCAL (NF-E & NFS-E) -->
     <main class="erp-content" id="modulo-fiscal-conteudo" style="display: none;">
-      <!-- ALERTA DE HOMOLOGAÇÃO / DADOS FICTÍCIOS FISCAIS -->
-      <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">🧪</span>
-          <div>
-            <div style="color: #fbbf24; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;">CENTRAL FISCAL EM AMBIENTE DE HOMOLOGAÇÃO / TESTE</div>
-            <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;">
-              Todas as 199 notas fiscais (NF-e Modelo 55 e NFS-e DPS) listadas abaixo são documentos fictícios de teste para validação de emissão.
-            </div>
-          </div>
-        </div>
-        <span style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">
-          🧪 HOMOLOGAÇÃO / TESTE
-        </span>
-      </div>
-
       <!-- CARDS FISCAIS (CLICÁVEIS) -->
       <div class="kpis-com-mapa-wrapper">
               <section class="erp-kpi-grid">
@@ -6941,19 +6871,7 @@
       const breadcrumb = document.getElementById('app-breadcrumb-name');
       if (breadcrumb && cfg.breadcrumbName) breadcrumb.textContent = cfg.breadcrumbName;
 
-            // Controle da Barra de Aviso: Visível SOMENTE no ambiente de testes (Dev - porta 3002)
-      const noticeBar = document.getElementById('app-notice-bar');
-      if (noticeBar) {
-        noticeBar.style.display = cfg.isDevEnvironment ? 'flex' : 'none';
-      }
-      const noticeIcon = document.getElementById('app-notice-icon');
-      if (noticeIcon && cfg.dataNoticeIcon) noticeIcon.textContent = cfg.dataNoticeIcon;
-      const noticeTitle = document.getElementById('app-notice-title');
-      if (noticeTitle && cfg.dataNoticeTitle) noticeTitle.textContent = cfg.dataNoticeTitle;
-      const noticeText = document.getElementById('app-notice-text');
-      if (noticeText && cfg.dataNoticeText) noticeText.textContent = cfg.dataNoticeText;
-      const noticeBadge = document.getElementById('app-notice-badge');
-      if (noticeBadge && cfg.dataNoticeBadge) noticeBadge.textContent = cfg.dataNoticeBadge;
+      // Barras de aviso removidas globalmente para layout 100% limpo em todos os ambientes
 
       // Vinculação dinâmica do remetente e marca da Etiqueta de Envio (White-label)
       const etqBrand = document.getElementById('etq-brand-title');
