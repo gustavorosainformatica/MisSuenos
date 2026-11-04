@@ -10422,15 +10422,25 @@
       <form id="form-login-auth" onsubmit="submeterLogin(event)" style="padding: 24px;">
         <div id="auth-erro-msg" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; font-size: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; text-align: center;"></div>
 
-        <!-- SELEÇÃO RÁPIDA DE OPERADORES (MODO PIN E ATALHO) -->
-        <div id="auth-chips-operadores" style="margin-bottom: 16px;">
-          <label style="display: block; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">Operador do Terminal:</label>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <div class="chip-operador ativo" data-login="marcos" onclick="selecionarOperadorChip('marcos')">👤 Marcos</div>
-            <div class="chip-operador" data-login="gustavo" onclick="selecionarOperadorChip('gustavo')">👤 Gustavo</div>
-            <div class="chip-operador" data-login="vendas" onclick="selecionarOperadorChip('vendas')">🏷️ Vendas</div>
-            <div class="chip-operador" data-login="expedicao" onclick="selecionarOperadorChip('expedicao')">📦 Expedição</div>
+        <!-- OPERADOR MEMORIZADO NESTE TERMINAL -->
+        <div id="auth-card-operador-salvo" style="display: none; margin-bottom: 16px; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 12px 14px; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);">
+          <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+            <div id="auth-card-avatar" style="width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(56, 189, 248, 0.4); flex-shrink: 0; box-shadow: 0 0 14px rgba(14, 165, 233, 0.3);">
+              GR
+            </div>
+            <div style="min-width: 0;">
+              <div style="font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; font-weight: 700;">Operador deste Terminal</div>
+              <div id="auth-card-nome" style="font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Gustavo Rosa</div>
+              <div style="font-size: 11px; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                <span id="auth-card-login">@gustavo</span>
+                <span style="opacity: 0.5;">•</span>
+                <span id="auth-card-papel" style="color: #34d399; font-weight: 600;">Administrador</span>
+              </div>
+            </div>
           </div>
+          <button type="button" onclick="trocarOperadorTerminal()" title="Entrar com outro usuário neste computador" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); color: #cbd5e1; padding: 8px 12px; border-radius: 8px; font-size: 11.5px; font-weight: 600; cursor: pointer; transition: 0.2s; white-space: nowrap; display: flex; align-items: center; gap: 5px; flex-shrink: 0;" onmouseover="this.style.background='rgba(56, 189, 248, 0.15)'; this.style.borderColor='#38bdf8'; this.style.color='#38bdf8';" onmouseout="this.style.background='rgba(255, 255, 255, 0.06)'; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.color='#cbd5e1';">
+            🔄 Trocar
+          </button>
         </div>
 
         <!-- SELETOR RÁPIDO DE MODO DE ENTRADA (SENHA OU PIN) -->
@@ -10443,12 +10453,15 @@
           </button>
         </div>
 
-        <!-- CAMPO LOGIN (TEXTO / OCULTO SE PIN) -->
+        <!-- CAMPO LOGIN (PRIMEIRO ACESSO OU APÓS CLICAR EM TROCAR OPERADOR) -->
         <div id="auth-bloco-login-input" style="margin-bottom: 16px;">
-          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Usuário / Login</label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Operador / Usuário</label>
+            <span style="font-size: 10.5px; color: #94a3b8;">Ficará memorizado neste terminal</span>
+          </div>
           <div style="position: relative;">
             <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.7;">👤</span>
-            <input type="text" id="auth-login-input" value="marcos" required autocomplete="username" placeholder="Seu usuário" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <input type="text" id="auth-login-input" value="" required autocomplete="username" placeholder="Digite seu usuário (ex: gustavo, marcos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
           </div>
         </div>
 
@@ -10501,9 +10514,9 @@
 
         <!-- Dica de Acessos Homologados -->
         <div id="auth-dica-homologados" style="margin-top: 16px; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;">
-          <strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">👥 Credenciais Zeradas (Todos os Usuários):</strong>
-          • <strong>Senha Padrão:</strong> <code style="color: #38bdf8;">admin123</code> (marcos, gustavo, vendas, expedicao)<br>
-          • <strong>PIN Numérico:</strong> <code style="color: #34d399;">123456</code> (acesso instantâneo para todos)
+          <strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">🔑 Primeiro Acesso / Credenciais Iniciais:</strong>
+          • Digite seu usuário na primeira vez para fixá-lo neste terminal.<br>
+          • <strong>Senha Padrão:</strong> <code style="color: #38bdf8;">admin123</code> • <strong>PIN Padrão:</strong> <code style="color: #34d399;">123456</code>
         </div>
 
         <!-- LINK PARA CONFIGURAR POLÍTICAS DESTE TERMINAL -->
@@ -11027,6 +11040,21 @@
       const cfg = obterConfigSeguranca();
       const userJson = JSON.stringify(user);
 
+      // Memoriza operador do terminal para reaberturas e reinicializações
+      if (user && user.login) {
+        try {
+          localStorage.setItem('missuenos_terminal_operador', JSON.stringify({
+            login: user.login,
+            nome: user.nome || user.login,
+            papel: user.papel || '',
+            papelNome: user.papelNome || user.papel || 'Operador',
+            papelCor: user.papelCor || '#38bdf8'
+          }));
+        } catch (e) {
+          console.warn('Erro ao memorizar operador:', e);
+        }
+      }
+
       if (cfg.sessao === 'fechou') {
         sessionStorage.setItem('missuenos_token', token);
         sessionStorage.setItem('missuenos_user', userJson);
@@ -11183,11 +11211,12 @@
       const blocoPin = document.getElementById('auth-bloco-pin');
       const blocoSenha = document.getElementById('auth-bloco-senha');
       const blocoLoginInput = document.getElementById('auth-bloco-login-input');
-      const chipsOperadores = document.getElementById('auth-chips-operadores');
+      const cardOperadorSalvo = document.getElementById('auth-card-operador-salvo');
       const blocoForca = document.getElementById('auth-bloco-forca-senha');
       const labelSenha = document.getElementById('auth-label-senha');
       const tabSenha = document.getElementById('tab-modo-senha');
       const tabPin = document.getElementById('tab-modo-pin');
+      const loginInput = document.getElementById('auth-login-input');
 
       // Atualiza badge no topo do modal
       if (badge) {
@@ -11196,6 +11225,45 @@
         badge.textContent = `${txtSessao} • ${txtSenha}`;
       }
 
+      // Verifica se há operador memorizado neste terminal
+      let opSalvo = null;
+      try {
+        const raw = localStorage.getItem('missuenos_terminal_operador');
+        if (raw) opSalvo = JSON.parse(raw);
+      } catch (e) {
+        opSalvo = null;
+      }
+
+      if (opSalvo && opSalvo.login) {
+        // Exibe card do operador memorizado e oculta campo de login
+        if (loginInput) loginInput.value = opSalvo.login;
+        if (cardOperadorSalvo) {
+          cardOperadorSalvo.style.display = 'flex';
+          const elNome = document.getElementById('auth-card-nome');
+          const elLogin = document.getElementById('auth-card-login');
+          const elPapel = document.getElementById('auth-card-papel');
+          const elAvatar = document.getElementById('auth-card-avatar');
+
+          if (elNome) elNome.textContent = opSalvo.nome || opSalvo.login;
+          if (elLogin) elLogin.textContent = '@' + opSalvo.login;
+          if (elPapel) {
+            elPapel.textContent = opSalvo.papelNome || opSalvo.papel || 'Operador';
+            if (opSalvo.papelCor) elPapel.style.color = opSalvo.papelCor;
+          }
+          if (elAvatar) {
+            const partes = (opSalvo.nome || opSalvo.login || 'OP').trim().split(/\s+/);
+            const iniciais = partes.slice(0, 2).map(p => p[0].toUpperCase()).join('');
+            elAvatar.textContent = iniciais;
+          }
+        }
+        if (blocoLoginInput) blocoLoginInput.style.display = 'none';
+      } else {
+        // Primeiro acesso neste terminal ou solicitou trocar operador
+        if (cardOperadorSalvo) cardOperadorSalvo.style.display = 'none';
+        if (blocoLoginInput) blocoLoginInput.style.display = 'block';
+      }
+
+      // Alternância entre PIN e Senha
       if (cfg.tipoSenha === 'pin') {
         if (tabPin) {
           tabPin.style.background = 'rgba(2, 132, 199, 0.25)';
@@ -11209,10 +11277,15 @@
         }
         if (blocoPin) blocoPin.style.display = 'block';
         if (blocoSenha) blocoSenha.style.display = 'none';
-        if (chipsOperadores) chipsOperadores.style.display = 'block';
-        if (blocoLoginInput) blocoLoginInput.style.display = 'none';
         limparPinInputs();
-        setTimeout(() => focarPrimeiroPin(), 120);
+
+        setTimeout(() => {
+          if (opSalvo && opSalvo.login) {
+            focarPrimeiroPin();
+          } else {
+            if (loginInput) loginInput.focus();
+          }
+        }, 120);
       } else {
         if (tabSenha) {
           tabSenha.style.background = 'rgba(2, 132, 199, 0.25)';
@@ -11226,8 +11299,6 @@
         }
         if (blocoPin) blocoPin.style.display = 'none';
         if (blocoSenha) blocoSenha.style.display = 'block';
-        if (chipsOperadores) chipsOperadores.style.display = 'block';
-        if (blocoLoginInput) blocoLoginInput.style.display = 'block';
 
         const senhaInp = document.getElementById('auth-senha-input');
         if (senhaInp) {
@@ -11241,16 +11312,42 @@
           if (blocoForca) blocoForca.style.display = 'none';
           if (labelSenha) labelSenha.textContent = 'Senha Padrão (admin123)';
         }
+
         setTimeout(() => {
-          if (senhaInp) senhaInp.focus();
+          if (opSalvo && opSalvo.login) {
+            if (senhaInp) senhaInp.focus();
+          } else {
+            if (loginInput) loginInput.focus();
+          }
         }, 120);
       }
     }
 
+    function trocarOperadorTerminal() {
+      try {
+        localStorage.removeItem('missuenos_terminal_operador');
+      } catch (e) {}
+
+      const cardSalvo = document.getElementById('auth-card-operador-salvo');
+      const blocoLogin = document.getElementById('auth-bloco-login-input');
+      const loginInp = document.getElementById('auth-login-input');
+      const senhaInp = document.getElementById('auth-senha-input');
+      const erroBox = document.getElementById('auth-erro-msg');
+
+      if (erroBox) erroBox.style.display = 'none';
+      if (cardSalvo) cardSalvo.style.display = 'none';
+      if (blocoLogin) blocoLogin.style.display = 'block';
+
+      if (loginInp) {
+        loginInp.value = '';
+        loginInp.placeholder = 'Digite seu usuário (ex: gustavo, marcos)';
+        loginInp.focus();
+      }
+      if (senhaInp) senhaInp.value = '';
+      limparPinInputs();
+    }
+
     function selecionarOperadorChip(login) {
-      document.querySelectorAll('.chip-operador').forEach(c => {
-        c.classList.toggle('ativo', c.getAttribute('data-login') === login);
-      });
       const input = document.getElementById('auth-login-input');
       if (input) input.value = login;
       limparPinInputs();
@@ -11450,7 +11547,16 @@
 
     async function submeterLoginDiretoPin(pin) {
       const loginInp = document.getElementById('auth-login-input');
-      const login = (loginInp ? loginInp.value : 'marcos').trim();
+      const login = (loginInp ? loginInp.value : '').trim();
+      if (!login) {
+        const erroBox = document.getElementById('auth-erro-msg');
+        if (erroBox) {
+          erroBox.textContent = 'Por favor, digite seu usuário ou operador primeiro.';
+          erroBox.style.display = 'block';
+        }
+        if (loginInp) loginInp.focus();
+        return;
+      }
       await processarAutenticacao(login, pin);
     }
 
@@ -11989,7 +12095,17 @@
       if (e) e.preventDefault();
       const cfg = obterConfigSeguranca();
       const loginInput = document.getElementById('auth-login-input');
-      const login = (loginInput ? loginInput.value : 'marcos').trim();
+      const login = (loginInput ? loginInput.value : '').trim();
+
+      if (!login) {
+        const erroBox = document.getElementById('auth-erro-msg');
+        if (erroBox) {
+          erroBox.textContent = 'Por favor, digite seu usuário ou operador.';
+          erroBox.style.display = 'block';
+        }
+        if (loginInput) loginInput.focus();
+        return;
+      }
 
       let senha = '';
       if (cfg.tipoSenha === 'pin') {
