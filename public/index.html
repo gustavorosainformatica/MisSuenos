@@ -5452,9 +5452,20 @@
       }
     }
 
-    // Filtros combinados
+    // =========================================================================
+    // MOTOR DE BUSCA INTELIGENTE: NORMALIZAÇÃO DE ACENTOS, TIS E CEDILHAS
+    // =========================================================================
+    function normalizarTextoBusca(str) {
+      return (str || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') // Remove acentos gráficos (ex: á->a, õ->o, é->e, ç->c)
+        .toLowerCase()
+        .trim();
+    }
+
+    // Filtros combinados de Clientes (Busca insensível a acentuação e maiúsculas/minúsculas)
     function aplicarFiltros() {
-      const termo = (buscaTexto || '').toLowerCase().trim();
+      const termo = normalizarTextoBusca(buscaTexto);
       filtrados = clientes.filter(c => {
         if (ufFiltro !== 'TODOS') {
           if (ufFiltro === 'SUL') {
@@ -5470,7 +5481,7 @@
         if (docFiltro === 'CNPJ' && !temCnpj) return false;
         if (docFiltro === 'SEM_DOC' && (temCpf || temCnpj)) return false;
         if (termo) {
-          const texto = `${c.nome || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`.toLowerCase();
+          const texto = normalizarTextoBusca(`${c.nome || ''} ${c.razao_social || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`);
           if (!texto.includes(termo)) return false;
         }
         return true;
@@ -5508,12 +5519,21 @@
 
     function filtrarTabela(val) {
       buscaTexto = val;
+      const modPed = document.getElementById('modulo-pedidos-conteudo');
+      const modProd = document.getElementById('modulo-produtos-conteudo');
       const modCli = document.getElementById('modulo-clientes-conteudo');
-      if (modCli && modCli.style.display === 'none' && val.trim().length > 0) {
-        const navCli = document.querySelector('.sidebar-nav a:nth-child(3)');
-        trocarModulo('clientes', navCli);
+
+      if (modPed && modPed.style.display !== 'none') {
+        aplicarFiltrosPedidos();
+      } else if (modProd && modProd.style.display !== 'none') {
+        aplicarFiltrosProdutos();
+      } else {
+        if (modCli && modCli.style.display === 'none' && val.trim().length > 0) {
+          const navCli = document.querySelector('.sidebar-nav a:nth-child(3)');
+          trocarModulo('clientes', navCli);
+        }
+        aplicarFiltros();
       }
-      aplicarFiltros();
     }
 
     function mudarPagina(delta) {
@@ -6235,12 +6255,35 @@
     }
 
     function aplicarFiltrosPedidos() {
-      if (statusFiltroPedido === 'TODOS') {
-        pedidosFiltrados = [...listaPedidos];
-      } else {
-        pedidosFiltrados = listaPedidos.filter(p => p.status === statusFiltroPedido);
+      const termo = normalizarTextoBusca(buscaTexto);
+      let lista = [...listaPedidos];
+      if (statusFiltroPedido !== 'TODOS') {
+        lista = lista.filter(p => p.status === statusFiltroPedido);
       }
+      if (termo) {
+        lista = lista.filter(p => {
+          const texto = normalizarTextoBusca(`${p.numero || ''} ${p.cliente_nome || ''} ${p.cliente || ''} ${p.cidade || ''} ${p.uf || ''} ${p.itens_resumo || ''}`);
+          return texto.includes(termo);
+        });
+      }
+      pedidosFiltrados = lista;
       renderTabelaPedidos();
+    }
+
+    function aplicarFiltrosProdutos() {
+      const termo = normalizarTextoBusca(buscaTexto);
+      let lista = [...produtos];
+      if (categoriaFiltroProd !== 'TODAS') {
+        lista = lista.filter(p => p.categoria === categoriaFiltroProd);
+      }
+      if (termo) {
+        lista = lista.filter(p => {
+          const texto = normalizarTextoBusca(`${p.nome || ''} ${p.categoria || ''} ${p.codigo_sku || ''} ${p.ncm || ''}`);
+          return texto.includes(termo);
+        });
+      }
+      produtosFiltrados = lista;
+      renderTabelaProdutos();
     }
 
     function renderTabelaPedidos() {
@@ -6321,12 +6364,12 @@
 
     function aoSelecionarClientePedido(nomeDigitado) {
       if (!nomeDigitado) return;
-      const digitadoLimpo = String(nomeDigitado).trim().toUpperCase();
+      const digitadoNorm = normalizarTextoBusca(nomeDigitado);
       const cli = (Array.isArray(clientes) ? clientes : []).find(c => {
         if (!c || !c.nome) return false;
-        const nomeCli = String(c.nome).trim().toUpperCase();
-        const razaoCli = String(c.razao_social || '').trim().toUpperCase();
-        return nomeCli === digitadoLimpo || razaoCli === digitadoLimpo;
+        const nomeNorm = normalizarTextoBusca(c.nome);
+        const razaoNorm = normalizarTextoBusca(c.razao_social);
+        return nomeNorm === digitadoNorm || razaoNorm === digitadoNorm;
       });
       if (cli) {
         const idEl = document.getElementById('form-ped-cliente-id');
