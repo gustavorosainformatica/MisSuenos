@@ -3142,18 +3142,18 @@
     <!-- CONTEÚDO PRINCIPAL (CLIENTES & CRM) -->
     <main class="erp-content" id="modulo-clientes-conteudo">
       <!-- INFORMATIVO DE BASE DE DADOS REAL -->
-      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+      <div id="app-notice-bar" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; display: none; align-items: center; justify-content: space-between; gap: 12px;">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 20px;">✅</span>
+          <span style="font-size: 20px;" id="app-notice-icon">🧪</span>
           <div>
-            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;" id="app-notice-title">BASE OFICIAL DE DADOS REAIS: 1.140 CLIENTES</div>
+            <div style="color: #34d399; font-weight: 800; font-size: 13px; letter-spacing: 0.3px;" id="app-notice-title">BASE DE DADOS ISOLADA PARA TESTES</div>
             <div style="color: rgba(255,255,255,0.75); font-size: 11.5px; margin-top: 2px;" id="app-notice-text">
-              Todos os registros deste módulo são clientes e destinatários reais consolidados da Mis Sueños Couros & Peles.
+              Ambiente isolado de testes e homologação. Novas funções, pedidos e clientes criados aqui NÃO afetam a base oficial do cliente.
             </div>
           </div>
         </div>
         <span style="background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px; white-space: nowrap;" id="app-notice-badge">
-          ✅ DADOS 100% REAIS
+          🧪 AMBIENTE DE TESTES
         </span>
       </div>
 
@@ -6941,6 +6941,13 @@
       const breadcrumb = document.getElementById('app-breadcrumb-name');
       if (breadcrumb && cfg.breadcrumbName) breadcrumb.textContent = cfg.breadcrumbName;
 
+            // Controle da Barra de Aviso: Visível SOMENTE no ambiente de testes (Dev - porta 3002)
+      const noticeBar = document.getElementById('app-notice-bar');
+      if (noticeBar) {
+        noticeBar.style.display = cfg.isDevEnvironment ? 'flex' : 'none';
+      }
+      const noticeIcon = document.getElementById('app-notice-icon');
+      if (noticeIcon && cfg.dataNoticeIcon) noticeIcon.textContent = cfg.dataNoticeIcon;
       const noticeTitle = document.getElementById('app-notice-title');
       if (noticeTitle && cfg.dataNoticeTitle) noticeTitle.textContent = cfg.dataNoticeTitle;
       const noticeText = document.getElementById('app-notice-text');
