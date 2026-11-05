@@ -5186,29 +5186,35 @@
         </div> <!-- fim grid-configuracoes-cards -->
       </div> <!-- fim erp-scrollable-area -->
     </main>
-  </div>
 
-  
     <!-- MÓDULO: CENTRAL DE RELATÓRIOS EXECUTIVOS & BI (COCKPIT ANALÍTICO) -->
     <main class="erp-content" id="modulo-relatorios-conteudo" style="display: none; flex-direction: column; height: calc(100vh - var(--topbar-height)); overflow: hidden;">
       <!-- CABEÇALHO FIXO COM ABAS E CONTROLES (SEM ROLAGEM) -->
       <div class="relatorios-fixed-header">
         <!-- LINHA 1: ABAS POR CATEGORIA ESTRATÉGICA -->
-        <div class="rel-nav-tabs">
-          <button type="button" class="rel-tab-btn active" id="btn-cat-rel-vendas" onclick="selecionarCategoriaRelatorio('vendas')">
-            <span>📈</span> <span>Comercial & Vendas</span>
-          </button>
-          <button type="button" class="rel-tab-btn" id="btn-cat-rel-financeiro" onclick="selecionarCategoriaRelatorio('financeiro')">
-            <span>💰</span> <span>Financeiro & DRE</span>
-          </button>
-          <button type="button" class="rel-tab-btn" id="btn-cat-rel-estoque" onclick="selecionarCategoriaRelatorio('estoque')">
-            <span>📦</span> <span>Estoque & Suprimentos</span>
-          </button>
-          <button type="button" class="rel-tab-btn" id="btn-cat-rel-fiscal" onclick="selecionarCategoriaRelatorio('fiscal')">
-            <span>🧾</span> <span>Fiscal & Fechamento</span>
-          </button>
-          <button type="button" class="rel-tab-btn" id="btn-cat-rel-crm" onclick="selecionarCategoriaRelatorio('crm')">
-            <span>👥</span> <span>Clientes & CRM</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 12px; flex-wrap: wrap;">
+          <div class="rel-nav-tabs">
+            <button type="button" class="rel-tab-btn active" id="btn-cat-rel-vendas" onclick="selecionarCategoriaRelatorio('vendas')">
+              <span>📈</span> <span>Comercial & Vendas</span>
+            </button>
+            <button type="button" class="rel-tab-btn" id="btn-cat-rel-financeiro" onclick="selecionarCategoriaRelatorio('financeiro')">
+              <span>💰</span> <span>Financeiro & DRE</span>
+            </button>
+            <button type="button" class="rel-tab-btn" id="btn-cat-rel-estoque" onclick="selecionarCategoriaRelatorio('estoque')">
+              <span>📦</span> <span>Estoque & Suprimentos</span>
+            </button>
+            <button type="button" class="rel-tab-btn" id="btn-cat-rel-fiscal" onclick="selecionarCategoriaRelatorio('fiscal')">
+              <span>🧾</span> <span>Fiscal & Fechamento</span>
+            </button>
+            <button type="button" class="rel-tab-btn" id="btn-cat-rel-crm" onclick="selecionarCategoriaRelatorio('crm')">
+              <span>👥</span> <span>Clientes & CRM</span>
+            </button>
+          </div>
+
+          <!-- BOTÃO RÁPIDO PARA RETORNAR AO APLICATIVO / PAINEL -->
+          <button type="button" class="btn-top" onclick="trocarModulo('painel', document.getElementById('nav-item-painel'))" style="padding: 7px 16px; font-size: 12px; font-weight: 700; background: rgba(0, 212, 255, 0.1); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3); border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.2s ease;" title="Retornar ao Painel Principal do Mis Sueños">
+            <span style="font-size: 14px;">🏠</span>
+            <span>Voltar ao Aplicativo (Painel)</span>
           </button>
         </div>
 
@@ -5300,6 +5306,7 @@
         </div>
       </div>
     </main>
+  </div> <!-- fim erp-main-wrapper -->
 
     <!-- ÁREA DE IMPRESSÃO TIMBRADA A4 (OCULTA NA TELA, VISÍVEL SOMENTE NO PRINT) -->
     <div id="area-impressao-timbrada" style="display: none;">
