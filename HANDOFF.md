@@ -1,49 +1,89 @@
 # Registro de Transição de Contexto (Handoff)
 
-**Data / Hora:** 29/10/2026 às 15:58 (Horário de Brasília)  
-**Projeto:** ERP MisSuenos (Clientes, Vendas e Logística)  
-**Objetivo da Sessão:** Análise técnica comparativa e planejamento de arquitetura para integração de emissor gratuito de notas fiscais (NF-e Modelo 55) diretamente no ERP MisSuenos.
+**Data / Hora:** 05/11/2026 às 14:48 (Horário de Brasília)  
+**Projeto:** Mis Sueños ERP (`d:\projetos-agy\MisSuenos`)  
+**Repositório Oficial:** [github.com/gustavorosainformatica/MisSuenos](https://github.com/gustavorosainformatica/MisSuenos) (`main` / `dev`)  
+**Produção Oficial na Nuvem:** [https://missuenos.vercel.app](https://missuenos.vercel.app)  
+**Template Base White-Label:** `d:\projetos-agy\erp-base`  
+**Objetivo da Sessão:** Implementação da Central de Relatórios Executivos & BI, Suíte de Navegação Windows 11, identidade visual com novo logotipo e resolução definitiva da publicação em produção na Vercel.
 
 ---
 
 ## 1. O que foi Concluído
-- **Análise Comparativa de Soluções Fiscais Gratuitas:**
-  - `tiranota.com.br`: Plataforma SaaS da *Organisys* (mesmo grupo do Bling). Focada em digitação manual em painel web; **descartada** por não oferecer API REST pública e gratuita para integração programática com ERPs terceiros.
-  - `wlgsistemas.com.br`: **Aprovada e selecionada**. Disponibiliza API Fiscal REST gratuita oficial (`fiscal.wlgsistemas.com.br/api/v1`), autenticação OAuth2/JWT Bearer, documentação Swagger interativa, suporte a NF-e (Modelo 55) e NFC-e (Modelo 65), processamento assíncrono com `operationId`, e download direto de DANFE (PDF) e XML autorizado.
-- **Detalhamento do Tripé Fiscal SEFAZ/RS:**
-  - **Dados do Emitente:** Razão Social, CNPJ, Inscrição Estadual (IE ativa no RS), Código IBGE do município (`4314902` - Novo Hamburgo), CRT (Simples Nacional/MEI) e upload do Certificado Digital A1 no painel da WLG.
-  - **NCM (Nomenclatura Comum do Mercosul):** Código de 8 dígitos obrigatório por item (produtos de couro e peles enquadrados nos Capítulos 41 e 42 da NCM).
-  - **CFOP (Código Fiscal de Operações):** Definição da regra de negócio automática:
-    - `5102`: Venda interna dentro do Rio Grande do Sul (RS -> RS).
-    - `6102`: Venda interestadual (RS -> demais estados).
-    - Lógica implementada via código sem sobrecarregar o operador com seleção manual.
+
+- **Central de Relatórios Executivos & BI Corporativo:**
+  - Backend analítico de alta performance (`api/relatorios.js`) com 6 visões estratégicas consolidadas:
+    1. *Curva ABC de Clientes / Pareto (80/15/5)*
+    2. *Vendas & Distribuição por UF*
+    3. *DRE Gerencial Sintético & Analítico (Receita, CMV estimado, Despesas Operacionais e Lucro Líquido)*
+    4. *Posição de Estoque & Patrimônio a Custo vs Venda*
+    5. *Livro de Saídas Fiscal (NF-e Modelo 55 / NFS-e)*
+    6. *Clientes Inativos & Análise de Recorrência CRM*
+  - Suporte a filtros rápidos de período (*Hoje, 7 Dias, Mês Atual, Mês Anterior, Trimestre, Ano, Todos, Personalizado*).
+  - Exportação para planilha CSV com codificação UTF-8 BOM (`0xEF, 0xBB, 0xBF`) para compatibilidade perfeita com o Microsoft Excel.
+  - Folha de estilos dedicada para impressão e exportação em PDF em folha A4 Paisagem.
+
+- **Suíte de Navegação Histórica Windows 11 (`nav-windows-suite`):**
+  - Implementação de botões Voltar (`←`), Avançar (`→`) e Subir Nível (`↑`) integrados ao histórico de transição de telas do ERP.
+  - Barra de endereço com *breadcrumbs* clicáveis (`🏢 Mis Sueños › 📊 Painel › 📑 Relatórios`) permitindo saltar diretamente entre níveis hierárquicos.
+  - Atalhos globais de teclado integrados: `Alt + ←` (Voltar) e `Alt + →` (Avançar).
+
+- **Identidade Visual & Logotipo Oficial por Ambiente:**
+  - Extração e vetorização em alta resolução da marca oficial Mis Sueños Couros & Peles (`public/logo.png`, 876 KB).
+  - **Ambiente de Produção (`missuenos.vercel.app` / Porta 3000):** Logotipo ampliado (48px), limpo e protagonista, sem textos descritivos redundantes.
+  - **Ambiente de Testes / Homologação (Porta 3002):** Logotipo compacto (42px) acompanhado do selo minimalista `[TESTES]`.
+
+- **Engenharia de Nuvem & Resolução do Deploy na Vercel:**
+  - Diagnóstico da falha de deploy originada pela cota do plano gratuito da Vercel (*Hobby Tier*, limite rígido de 12 Serverless Functions).
+  - Desenvolvimento do **API Gateway / Dispatcher Central (`api/index.js`)**, unificando todos os 13 módulos em **apenas 1 Serverless Function**.
+  - Economia de 91% da cota da Vercel e eliminação de *cold starts* individuais.
+  - Deploy em produção concluído com sucesso (`State: success | Deployment has completed`).
+
+- **Sincronização de Código e Ambientes:**
+  - Repositório de Produção (`MisSuenos` - branch `main` no commit `29fc64c`).
+  - Repositório de Homologação (`MisSuenos-Dev` - branch `dev` no commit `76d863c`).
+  - Template Base White-Label (`erp-base` - branch `main` no commit `22278ca`).
+  - Auditoria formal de código (`/code-review`) concluída e 100% aprovada.
 
 ---
 
 ## 2. Arquivos Modificados / Criados
-- `HANDOFF.md` - Documento de transferência de contexto gerado na raiz do projeto para assegurar a continuidade técnica sem perda de histórico.
+
+- `api/index.js` - Novo dispatcher central unificado que resolveu a cota da Vercel.
+- `api/relatorios.js` - API REST e agregador de dados dos relatórios executivos e DRE.
+- `vercel.json` - Reconfiguração do mapeamento da Vercel para consumir o dispatcher único.
+- `scripts/servidor_web.js` - Integração da rota local de relatórios e telemetria.
+- `public/index.html` - Suíte de navegação Windows 11, interface de relatórios e identidade visual.
+- `public/logo.png` e `public/logo-oficial.jpg` - Nova arte oficial de alta resolução.
+- `HANDOFF.md` - Este documento de registro de transição e continuidade de contexto.
 
 ---
 
 ## 3. Estado Atual e Decisões Críticas
-- **Provedor Homologado:** WLG Sistemas (`fiscal.wlgsistemas.com.br`).
-- **Segurança e Variáveis de Ambiente:** As credenciais `WLG_CLIENT_ID` e `WLG_CLIENT_SECRET` serão centralizadas e injetadas pelo **Infisical**, mantendo o padrão seguro do projeto.
-- **Backend MisSuenos:** A integração será acoplada ao servidor Node.js (`scripts/servidor_web.js`), reaproveitando o fluxo da rota `/api/nfe` ou criando módulo isolado em `lib/wlg.js`.
-- **Armazenamento de Notas:** Os XMLs autorizados e DANFEs em PDF retornados pela API poderão ser persistidos tanto no banco local (SQLite/Turso) quanto no storage de anexos existente (Cloudflare R2).
+
+- **Produção na Nuvem Operacional:** O sistema está online e respondendo em [https://missuenos.vercel.app](https://missuenos.vercel.app).
+- **Paridade Local vs Nuvem:** Tanto o servidor local (`npm run web` na porta 3000/3002) quanto a nuvem da Vercel utilizam exatamente o mesmo código e regras de negócio.
+- **Banco de Dados Turso:** Conexão distribuída ativa e integrada via `@libsql/client` com fallback offline nativo para SQLite local.
 
 ---
 
-## 4. Próximos Passos Imediatos
-- [ ] **Ação Administrativa:** Criar conta gratuita na [WLG Sistemas](https://wlgsistemas.com.br) para a empresa Mis Sueños.
-- [ ] **Ação Administrativa:** Fazer o upload do Certificado Digital A1 (`.pfx`) e preencher os dados cadastrais da empresa no painel da WLG.
-- [ ] **Ação Administrativa:** Gerar as credenciais da API (`ClientId` e `ClientSecret`) no portal da WLG.
-- [ ] **Configuração SecretOps:** Inserir `WLG_CLIENT_ID` e `WLG_CLIENT_SECRET` no Infisical.
-- [ ] **Banco de Dados:** Garantir que a tabela `produtos` contenha a coluna `ncm` preenchida para cada produto ativo.
-- [ ] **Desenvolvimento Backend:** Implementar o cliente HTTP Node.js para autenticação (`/api/v1/auth/token`) e disparo de notas (`/api/v1/nfe`) inicialmente em ambiente de homologação (`tipoAmbiente: 2`).
+## 4. Próximos Passos Imediatos (Roadmap de Continuidade)
+
+Conforme o [Roadmap de Evolução do ERP](file:///d:/projetos-agy/MisSuenos/ROADMAP_EVOLUCAO_ERP.md):
+
+- [ ] **Fase 1 do Roadmap - Ajustes Manuais de Estoque & Ficha Kardex:**
+  - Criar tabela `estoque_movimentacoes` no banco.
+  - Implementar modal de "Ajuste de Estoque" para registrar perdas, descartes e sobras de couro.
+  - Adicionar aba "Ficha Kardex" no cadastro de produtos com histórico de entradas/saídas.
+  - *Comando para iniciar:* `/grill-me Quero implementar o Módulo de Estoque e Ficha Kardex`.
+- [ ] **Fase 4 do Roadmap - Logística & Rastreio dos Correios:**
+  - Consulta automática de códigos de rastreio e atualização de status para `ENTREGUE`.
+- [ ] **Refinamento Não-Bloqueante (CSV):**
+  - Implementar sanitização preventiva de fórmulas no Excel (`/^[=\+\-@]/`) na exportação de relatórios.
 
 ---
 
 ## 5. Cuidados e Observações Técnicas
-- **Certificado Digital A1 Obrigatório:** O certificado deve ser obrigatoriamente do modelo A1 (arquivo `.pfx`). Dispositivos A3 (token USB/smartcard físico) são incompatíveis com automação em nuvem via API.
-- **Ambiente de Homologação Primeiro:** Todo o desenvolvimento e validação dos primeiros disparos devem obrigatoriamente rodar com `tipoAmbiente = 2` (Homologação / Sem valor fiscal) até que a estrutura dos dados esteja 100% validada pela SEFAZ/RS.
 
+- **Novos Módulos de API:** Qualquer nova rota Serverless futura **deve ser registrada dentro de `api/index.js`**, mantendo o projeto com apenas 1 função na Vercel e prevenindo reincidência do limite da cota do plano Hobby.
+- **Sincronização:** Sempre que fizer alterações na branch `main`, propagar as mudanças para `MisSuenos-Dev` e `erp-base` para preservar a paridade.
