@@ -4027,6 +4027,97 @@
       color: #94a3b8 !important;
     }
 
+  
+    /* =========================================================
+       DESTAQUE DO LOGO E IDENTIFICAÇÃO MINIMALISTA DE AMBIENTE
+       ========================================================= */
+    .topbar-brand-wrapper {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 4px 8px 4px 4px !important;
+      border-radius: 12px !important;
+      background: rgba(255, 255, 255, 0.03) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      cursor: pointer !important;
+      transition: all 0.22s ease !important;
+      user-select: none !important;
+      flex-shrink: 0 !important;
+    }
+    .topbar-brand-wrapper:hover {
+      background: rgba(0, 212, 255, 0.08) !important;
+      border-color: rgba(0, 212, 255, 0.35) !important;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.15) !important;
+    }
+
+    /* LOGO PROTAGONISTA: PADRÃO PRODUÇÃO AMPLIADO (48px) */
+    .brand-icon {
+      width: 48px !important;
+      height: 48px !important;
+      background: #1e130c !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+      border: 2px solid #f59e0b !important;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.45) !important;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+    }
+    .topbar-brand-wrapper:hover .brand-icon {
+      transform: scale(1.06) !important;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.7) !important;
+    }
+
+    .brand-icon img.brand-logo-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+      display: block !important;
+    }
+
+    /* QUANDO EM MODO DE TESTES: LOGO COMPACTO (42px) */
+    .topbar-brand-wrapper.is-testes .brand-icon {
+      width: 42px !important;
+      height: 42px !important;
+      border-color: #d97706 !important;
+    }
+
+    /* BADGE 'TESTES' COMPACTA E ELEGANTE */
+    .badge-env-testes {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #fbbf24 !important;
+      border: 1px solid rgba(245, 158, 11, 0.45) !important;
+      padding: 3px 8px !important;
+      border-radius: 6px !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.6px !important;
+      text-transform: uppercase !important;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.2) !important;
+    }
+
+    .topbar-menu-indicator {
+      font-size: 12px !important;
+      color: #94a3b8 !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      padding: 4px 7px !important;
+      border-radius: 6px !important;
+      font-weight: 800 !important;
+      transition: all 0.15s ease !important;
+    }
+    .topbar-brand-wrapper:hover .topbar-menu-indicator {
+      background: rgba(0, 212, 255, 0.15) !important;
+      color: #38bdf8 !important;
+      border-color: rgba(0, 212, 255, 0.35) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -4111,13 +4202,14 @@
     <header class="erp-topbar">
       <!-- LADO ESQUERDO: LOGO FIXO E GATILHO DO MENU POR HOVER -->
       <div class="topbar-left" style="display: flex; align-items: center; gap: 12px;">
-        <div class="topbar-brand-wrapper" id="topbar-brand-trigger" title="Passe o mouse sobre o logo para expandir o menu lateral">
+        <div class="topbar-brand-wrapper" id="topbar-brand-trigger" onclick="trocarModulo('painel')" title="Mis Sueños ERP (Clique para Início / Passe o mouse para o menu)">
           <div class="brand-icon" id="app-brand-icon">
-            <img src="logo.png" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
+            <img src="logo.png?v=3.2" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
           </div>
-          <div class="brand-texts">
-            <h2 id="app-short-name">Mis Sueños</h2>
-            <span id="app-tagline">ERP Selaria & Couros</span>
+          <span class="badge-env-testes" id="app-badge-testes">TESTES</span>
+          <div class="brand-texts" style="display: none;">
+            <h2 id="app-short-name"></h2>
+            <span id="app-tagline"></span>
           </div>
           <span class="topbar-menu-indicator" title="Menu Lateral">☰</span>
         </div>
@@ -9192,6 +9284,18 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (shortName && cfg.shortName) shortName.textContent = cfg.shortName;
       const tagline = document.getElementById('app-tagline');
       if (tagline && cfg.tagline) tagline.textContent = cfg.tagline;
+
+      // Controle dinâmico: Testes (Logo + TESTES) vs Produção (Somente Logo ampliado 48px)
+      const brandWrapper = document.getElementById('topbar-brand-trigger');
+      const badgeTestes = document.getElementById('app-badge-testes');
+      const isTestes = cfg.isDevEnvironment || cfg.shortName === 'TESTES' || window.location.port === '3002' || window.location.search.includes('env=dev');
+      
+      if (badgeTestes) {
+        badgeTestes.style.display = isTestes ? 'inline-flex' : 'none';
+      }
+      if (brandWrapper) {
+        brandWrapper.classList.toggle('is-testes', isTestes);
+      }
       const stockMenu = document.getElementById('app-stock-menu');
       if (stockMenu && cfg.stockModuleName) stockMenu.textContent = cfg.stockModuleName;
       const userInitials = document.getElementById('app-user-initials');

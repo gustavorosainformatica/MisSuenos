@@ -29,8 +29,8 @@
 
   const configProd = {
     appName: "Mis Sueños ERP | Gestão Integrada de Couros, Clientes & Fiscal",
-    shortName: "Mis Sueños",
-    tagline: "ERP Selaria & Couros",
+    shortName: "", // Produção: somente o logo ampliado, sem textos ao lado
+    tagline: "", // Produção: sem subtítulo para ocupar espaço mínimo
     companyName: "Mis Sueños Couros & Peles",
     companyRazaoSocial: "MIS SUEÑOS COUROS & PELES",
     userName: "Marcos Machado",
@@ -53,9 +53,9 @@
   };
 
   const configDev = {
-    appName: "Mis Sueños ERP [AMBIENTE DE TESTES] | Homologação & Validação",
-    shortName: "Mis Sueños (TESTES)",
-    tagline: "🧪 Ambiente de Desenvolvimento & Testes (Porta 3002)",
+    appName: "Mis Sueños ERP [TESTES]",
+    shortName: "TESTES", // Testes: somente o logo + badge TESTES ao lado
+    tagline: "", // Testes: sem texto longo para ocupar espaço mínimo
     companyName: "Mis Sueños Couros & Peles (TESTES)",
     companyRazaoSocial: "MIS SUEÑOS COUROS & PELES (AMBIENTE DE HOMOLOGAÇÃO)",
     userName: "Marcos Machado (Testes)",
