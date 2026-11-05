@@ -209,6 +209,12 @@
       background: linear-gradient(145deg, #18253b, #0e1624) !important;
     }
 
+    .btn-mini-mapa-brasil, .btn-mini-mapa-brasil * {
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      -webkit-user-drag: none !important;
+    }
+
     .btn-mini-mapa-brasil .img-mapa-brasil {
       width: 100% !important;
       height: 100% !important;
@@ -219,6 +225,7 @@
       display: block !important;
       border: none !important;
       border-radius: 4px !important;
+      pointer-events: none !important;
     }
 
     .btn-mini-mapa-brasil:hover .img-mapa-brasil {
@@ -3753,7 +3760,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3933,7 +3940,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -4034,7 +4041,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -4148,7 +4155,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -4248,7 +4255,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -4336,7 +4343,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
         </button>
       </div>
@@ -10566,8 +10573,34 @@
 
       let html = '';
 
-      // --- MÓDULO: CLIENTES ---
-      if (modulo === 'clientes') {
+      // --- MÓDULO / ATALHO: MINI MAPA DO BRASIL ---
+      if (modulo === 'mapa' || cardKey === 'mini-mapa') {
+        html = `
+          <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <span>🗺️</span> <span>Distribuição Territorial & UFs</span>
+          </div>
+          <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+            <span>🗺️</span> <span>Abrir Mapa Interativo Completo</span>
+          </button>
+          <div class="erp-context-divider"></div>
+          <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarRegiaoSul('card-kpi-cli-rs'), 120)">
+            <span>📍</span> <span>Filtrar Região Sul (RS, SC, PR)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs'), 120)">
+            <span>🥇</span> <span>Filtrar Rio Grande do Sul (693)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('SP', 'card-kpi-cli-ufs'), 120)">
+            <span>🥈</span> <span>Filtrar São Paulo (108)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('PR', 'card-kpi-cli-ufs'), 120)">
+            <span>🥉</span> <span>Filtrar Paraná (91)</span>
+          </button>
+          <div class="erp-context-divider"></div>
+          <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('TODOS', 'card-kpi-cli-total'), 120)">
+            <span>👥</span> <span>Exibir Todos os Clientes (${totalClientes})</span>
+          </button>
+        `;
+      } else if (modulo === 'clientes') {
         if (cardKey === 'base') {
           html = `
             <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
