@@ -634,9 +634,27 @@
       color: #34d399;
       border: 1px solid rgba(52, 211, 153, 0.35);
     }
+    .gear-dd-badge.badge-blue {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
     .gear-dd-badge.badge-green {
       background: rgba(16, 185, 129, 0.2);
       color: #10b981;
+    }
+
+    /* DESTAQUE SUAVE AO CLICAR EM SEÇÕES DE CONFIGURAÇÃO (EMPRESA / WHITE-LABEL) */
+    @keyframes destaqueCardPulso {
+      0% { box-shadow: 0 0 0 rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.2); }
+      25% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.55); border-color: #00d4ff; }
+      70% { box-shadow: 0 0 18px rgba(0, 212, 255, 0.35); border-color: #00d4ff; }
+      100% { box-shadow: 0 0 0 rgba(0, 212, 255, 0); border-color: var(--border-color); }
+    }
+    .card-destaque-glow {
+      animation: destaqueCardPulso 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      position: relative;
+      z-index: 5;
     }
     .gear-dd-subtext {
       font-size: 11px;
@@ -3664,8 +3682,12 @@
 
             <div class="gear-dd-divider"></div>
 
-            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));">
-              <span class="gear-dd-left"><span>🏢</span> <span>Empresa & White-Label</span></span>
+            <button type="button" class="gear-dd-item" id="btn-gear-empresa" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('empresa');">
+              <span class="gear-dd-left"><span>🏢</span> <span>Empresa</span></span>
+            </button>
+
+            <button type="button" class="gear-dd-item" id="btn-gear-whitelabel" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('whitelabel');">
+              <span class="gear-dd-left"><span>🎨</span> <span>White-Label</span></span>
             </button>
 
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalUsuarioRbac();">
@@ -4482,17 +4504,85 @@
       <div class="erp-scrollable-area">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
         
-        <!-- CARD 1: MOTOR WHITE-LABEL DE DUPLA CAMADA & EMITENTE -->
-        <section class="erp-table-card" style="padding: 24px;">
+        <!-- CARD 1: DADOS DA EMPRESA & EMITENTE FISCAL -->
+        <section class="erp-table-card" id="card-config-empresa" style="padding: 24px; transition: all 0.3s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🏢 Dados da Empresa & Emitente Fiscal</h3>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="app-config-company-name">
+                Informações cadastrais e fiscais da empresa emitente (NF-e, etiquetas e relatórios).
+              </p>
+            </div>
+            <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              Emitente Oficial
+            </span>
+          </div>
+
+          <form id="form-config-empresa" onsubmit="salvarDadosEmpresa(event)" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Razão Social Emitente (NF-e) *</label>
+                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">CNPJ / CPF do Emitente *</label>
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Responsável Operacional *</label>
+                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Nunes Machado" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Inscrição Estadual (IE)</label>
+                <input type="text" class="form-input" id="cfg-ie-emitente" value="ISENTO">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Cidade / Estado (Origem)</label>
+                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="Santo Antônio da Patrulha - RS">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CEP de Postagem</label>
+                <input type="text" class="form-input" id="cfg-cep-emitente" value="95500-000">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Endereço da Sede / Remetente</label>
+                <input type="text" class="form-input" id="cfg-endereco-emitente" value="Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone / WhatsApp Comercial</label>
+                <input type="text" class="form-input" id="cfg-telefone-emitente" value="(51) 99719-9204">
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Vinculado a emissão de NF-e, DANFE e Etiquetas de Envio
+              </div>
+              <button type="submit" id="btn-salvar-empresa" class="btn-top btn-primary-glow">💾 Salvar Dados da Empresa</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- CARD 2: PARAMETRIZAÇÃO WHITE-LABEL & RAMO -->
+        <section class="erp-table-card" id="card-config-whitelabel" style="padding: 24px; transition: all 0.3s ease;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🎨 Parametrização White-Label & Ramo</h3>
-              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="app-config-company-name">
-                Personalize nomenclaturas dos módulos, categorias e dados fiscais da empresa.
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;">
+                Personalize nomenclaturas dos módulos, categorias, unidades e presets de ramo de atividade.
               </p>
             </div>
-            <span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
-              Template ERP Base
+            <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              Personalização Visual
             </span>
           </div>
 
@@ -4525,17 +4615,6 @@
               </div>
             </div>
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label class="form-label">Razão Social Emitente (NF-e)</label>
-                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES">
-              </div>
-              <div class="form-group">
-                <label class="form-label">CNPJ / CPF do Emitente</label>
-                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91">
-              </div>
-            </div>
-
             <div class="form-grid-3">
               <div class="form-group">
                 <label class="form-label">Nome Menu Pedidos</label>
@@ -4556,22 +4635,16 @@
               <input type="text" class="form-input" id="cfg-categorias-padrao" value="Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria">
             </div>
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
-                <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Responsável Operacional</label>
-                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Machado">
-              </div>
+            <div class="form-group">
+              <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
+              <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
             </div>
 
-            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
               <div style="font-size: 11px; color: var(--text-muted);">
-                Banco isolado Turso Cloud • <strong>Gustavo Rosa Informática</strong>
+                Motor White-Label Dupla Camada • <strong>Mis Sueños ERP</strong>
               </div>
-              <button type="submit" class="btn-top btn-primary-glow">💾 Salvar Configurações</button>
+              <button type="submit" id="btn-salvar-whitelabel" class="btn-top btn-emerald-glow">💾 Salvar White-Label</button>
             </div>
           </form>
         </section>
@@ -11855,6 +11928,284 @@
       }
     });
 
+    // ========================================================
+    // MOTOR DE CONFIGURAÇÕES: EMPRESA FISCAL & WHITE-LABEL
+    // ========================================================
+    const PRESETS_RAMO_CLIENTE = {
+      couros: {
+        ramo_preset: 'couros',
+        nome_fantasia: 'Mis Sueños',
+        subtitulo_sistema: 'Couros & Insumos • Sapiranga/RS',
+        cor_primaria: '#c9a96e',
+        label_pedidos: 'Pedidos & Vendas',
+        label_produtos: 'Catálogo & Estoque',
+        label_clientes: 'Clientes & CRM',
+        categorias_padrao: 'Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria',
+        unidades_padrao: 'UN,PAR,M2,KG,KIT,RL,Peça'
+      },
+      informatica: {
+        ramo_preset: 'informatica',
+        nome_fantasia: 'Gustavo Informática',
+        subtitulo_sistema: 'Assistência Técnica & TI • Gestão Comercial',
+        cor_primaria: '#3b82f6',
+        label_pedidos: 'Ordens de Serviço & Vendas',
+        label_produtos: 'Peças & Serviços',
+        label_clientes: 'Clientes & Empresas',
+        categorias_padrao: 'Hardware & Peças,Periféricos,Serviços de Manutenção,Redes & Infraestrutura,Licenças & Software,Cabos & Adaptadores',
+        unidades_padrao: 'UN,SERV,HR,KIT,MT,CX'
+      },
+      comercio: {
+        ramo_preset: 'comercio',
+        nome_fantasia: 'ERP Comercial',
+        subtitulo_sistema: 'Gestão de Vendas, Estoque & Faturamento',
+        cor_primaria: '#10b981',
+        label_pedidos: 'Vendas & Orçamentos',
+        label_produtos: 'Produtos & Estoque',
+        label_clientes: 'Clientes',
+        categorias_padrao: 'Geral,Lançamentos,Promoções,Acessórios,Kits,Insumos',
+        unidades_padrao: 'UN,CX,KG,LT,KIT,PAR'
+      },
+      oficina: {
+        ramo_preset: 'oficina',
+        nome_fantasia: 'ERP Oficina & Serviços',
+        subtitulo_sistema: 'Controle de Ordens de Serviço, Peças & Caixa',
+        cor_primaria: '#f59e0b',
+        label_pedidos: 'Ordens de Serviço (OS)',
+        label_produtos: 'Peças, Insumos & Mão de Obra',
+        label_clientes: 'Clientes & Veículos/Equipamentos',
+        categorias_padrao: 'Peças de Reposição,Mão de Obra / Serviços,Fluidos & Lubrificantes,Elétrica,Acessórios,Revisão Preventiva',
+        unidades_padrao: 'UN,SERV,LT,HR,KIT,PAR'
+      }
+    };
+
+    function abrirConfiguracoesSecao(secao) {
+      fecharMenuEngrenagem();
+      trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));
+
+      setTimeout(() => {
+        let targetCard = null;
+        if (secao === 'empresa') {
+          targetCard = document.getElementById('card-config-empresa');
+        } else if (secao === 'whitelabel') {
+          targetCard = document.getElementById('card-config-whitelabel');
+        }
+
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          targetCard.classList.remove('card-destaque-glow');
+          void targetCard.offsetWidth;
+          targetCard.classList.add('card-destaque-glow');
+          setTimeout(() => {
+            targetCard.classList.remove('card-destaque-glow');
+          }, 2400);
+        }
+      }, 90);
+    }
+    window.abrirConfiguracoesSecao = abrirConfiguracoesSecao;
+
+    async function salvarDadosEmpresa(e) {
+      if (e) e.preventDefault();
+      const btn = document.getElementById('btn-salvar-empresa');
+      if (btn) { btn.disabled = true; btn.textContent = 'Gravando dados...'; }
+
+      const dadosEmpresa = {
+        companyRazaoSocial: (document.getElementById('app-config-razao-social')?.value || '').trim(),
+        companyCnpj: (document.getElementById('cfg-cnpj-emitente')?.value || '').trim(),
+        userName: (document.getElementById('app-config-user-name')?.value || '').trim(),
+        companyIe: (document.getElementById('cfg-ie-emitente')?.value || '').trim(),
+        companyCityState: (document.getElementById('cfg-cidade-uf-emitente')?.value || '').trim(),
+        companyCep: (document.getElementById('cfg-cep-emitente')?.value || '').trim(),
+        companyAddress: (document.getElementById('cfg-endereco-emitente')?.value || '').trim(),
+        companyPhone: (document.getElementById('cfg-telefone-emitente')?.value || '').trim()
+      };
+
+      try {
+        localStorage.setItem('missuenos_empresa_config', JSON.stringify(dadosEmpresa));
+        if (!window.APP_CONFIG) window.APP_CONFIG = {};
+        Object.assign(window.APP_CONFIG, dadosEmpresa);
+        if (typeof aplicarConfiguracaoApp === 'function') aplicarConfiguracaoApp();
+
+        // Envia para API
+        const token = (typeof obterTokenAtivo === 'function') ? obterTokenAtivo() : null;
+        if (token) {
+          fetch('/api/configuracoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              configuracoes: {
+                razao_social: dadosEmpresa.companyRazaoSocial,
+                cnpj_emitente: dadosEmpresa.companyCnpj,
+                responsavel: dadosEmpresa.userName,
+                ie_emitente: dadosEmpresa.companyIe,
+                cidade_uf_emitente: dadosEmpresa.companyCityState,
+                cep_emitente: dadosEmpresa.companyCep,
+                endereco_emitente: dadosEmpresa.companyAddress,
+                telefone_emitente: dadosEmpresa.companyPhone
+              }
+            })
+          }).catch(() => {});
+        }
+
+        mostrarToast('🏢 Dados da Empresa & Emitente salvos com sucesso!');
+      } catch (err) {
+        console.error('Erro ao salvar dados da empresa:', err);
+        mostrarToast('Erro ao salvar dados da empresa.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar Dados da Empresa'; }
+      }
+    }
+    window.salvarDadosEmpresa = salvarDadosEmpresa;
+
+    async function salvarConfiguracoesSistema(e) {
+      if (e) e.preventDefault();
+      const btn = document.getElementById('btn-salvar-whitelabel');
+      if (btn) { btn.disabled = true; btn.textContent = 'Gravando White-Label...'; }
+
+      const dadosWhiteLabel = {
+        shortName: (document.getElementById('cfg-nome-fantasia')?.value || '').trim(),
+        tagline: (document.getElementById('cfg-subtitulo')?.value || '').trim(),
+        label_pedidos: (document.getElementById('cfg-label-pedidos')?.value || '').trim(),
+        label_produtos: (document.getElementById('cfg-label-produtos')?.value || '').trim(),
+        label_clientes: (document.getElementById('cfg-label-clientes')?.value || '').trim(),
+        categorias_padrao: (document.getElementById('cfg-categorias-padrao')?.value || '').trim(),
+        unidades_padrao: (document.getElementById('cfg-unidades-padrao')?.value || '').trim(),
+        ramo_preset: (document.getElementById('cfg-ramo-preset')?.value || 'couros')
+      };
+
+      try {
+        localStorage.setItem('missuenos_whitelabel_config', JSON.stringify(dadosWhiteLabel));
+        if (!window.APP_CONFIG) window.APP_CONFIG = {};
+        window.APP_CONFIG.shortName = dadosWhiteLabel.shortName;
+        window.APP_CONFIG.tagline = dadosWhiteLabel.tagline;
+
+        // Atualiza textos visíveis na interface
+        const elShort = document.getElementById('app-short-name');
+        if (elShort && dadosWhiteLabel.shortName) elShort.textContent = dadosWhiteLabel.shortName;
+        const elTagline = document.getElementById('app-tagline');
+        if (elTagline && dadosWhiteLabel.tagline) elTagline.textContent = dadosWhiteLabel.tagline;
+
+        const navPedidos = document.querySelector('#nav-item-pedidos span:not(.nav-icon):not(.nav-badge)');
+        if (navPedidos && dadosWhiteLabel.label_pedidos) navPedidos.textContent = dadosWhiteLabel.label_pedidos;
+        const navProdutos = document.querySelector('#nav-item-produtos span:not(.nav-icon):not(.nav-badge)');
+        if (navProdutos && dadosWhiteLabel.label_produtos) navProdutos.textContent = dadosWhiteLabel.label_produtos;
+        const navClientes = document.querySelector('#nav-item-clientes span:not(.nav-icon):not(.nav-badge)');
+        if (navClientes && dadosWhiteLabel.label_clientes) navClientes.textContent = dadosWhiteLabel.label_clientes;
+
+        // Envia para API
+        const token = (typeof obterTokenAtivo === 'function') ? obterTokenAtivo() : null;
+        if (token) {
+          fetch('/api/configuracoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              configuracoes: {
+                nome_fantasia: dadosWhiteLabel.shortName,
+                subtitulo_sistema: dadosWhiteLabel.tagline,
+                label_pedidos: dadosWhiteLabel.label_pedidos,
+                label_produtos: dadosWhiteLabel.label_produtos,
+                label_clientes: dadosWhiteLabel.label_clientes,
+                categorias_padrao: dadosWhiteLabel.categorias_padrao,
+                unidades_padrao: dadosWhiteLabel.unidades_padrao,
+                ramo_preset: dadosWhiteLabel.ramo_preset
+              }
+            })
+          }).catch(() => {});
+        }
+
+        mostrarToast('🎨 Parametrização White-Label salva com sucesso!');
+      } catch (err) {
+        console.error('Erro ao salvar White-Label:', err);
+        mostrarToast('Erro ao salvar parametrizações White-Label.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar White-Label'; }
+      }
+    }
+    window.salvarConfiguracoesSistema = salvarConfiguracoesSistema;
+
+    function aplicarPresetRamoWeb() {
+      const select = document.getElementById('cfg-ramo-preset');
+      const ramo = select ? select.value : 'couros';
+      const preset = PRESETS_RAMO_CLIENTE[ramo];
+      if (!preset) return;
+
+      const inpNome = document.getElementById('cfg-nome-fantasia');
+      if (inpNome) inpNome.value = preset.nome_fantasia;
+      const inpSub = document.getElementById('cfg-subtitulo');
+      if (inpSub) inpSub.value = preset.subtitulo_sistema;
+      const inpPed = document.getElementById('cfg-label-pedidos');
+      if (inpPed) inpPed.value = preset.label_pedidos;
+      const inpProd = document.getElementById('cfg-label-produtos');
+      if (inpProd) inpProd.value = preset.label_produtos;
+      const inpCli = document.getElementById('cfg-label-clientes');
+      if (inpCli) inpCli.value = preset.label_clientes;
+      const inpCat = document.getElementById('cfg-categorias-padrao');
+      if (inpCat) inpCat.value = preset.categorias_padrao;
+      const inpUni = document.getElementById('cfg-unidades-padrao');
+      if (inpUni) inpUni.value = preset.unidades_padrao;
+
+      salvarConfiguracoesSistema();
+      mostrarToast(`⚡ Preset "${preset.nome_fantasia}" carregado com sucesso!`);
+    }
+    window.aplicarPresetRamoWeb = aplicarPresetRamoWeb;
+
+    function carregarConfiguracoesSistemaApi() {
+      // Carrega dados da empresa salvos localmente
+      try {
+        const empRaw = localStorage.getItem('missuenos_empresa_config');
+        if (empRaw) {
+          const emp = JSON.parse(empRaw);
+          if (emp.companyRazaoSocial && document.getElementById('app-config-razao-social')) document.getElementById('app-config-razao-social').value = emp.companyRazaoSocial;
+          if (emp.companyCnpj && document.getElementById('cfg-cnpj-emitente')) document.getElementById('cfg-cnpj-emitente').value = emp.companyCnpj;
+          if (emp.userName && document.getElementById('app-config-user-name')) document.getElementById('app-config-user-name').value = emp.userName;
+          if (emp.companyIe && document.getElementById('cfg-ie-emitente')) document.getElementById('cfg-ie-emitente').value = emp.companyIe;
+          if (emp.companyCityState && document.getElementById('cfg-cidade-uf-emitente')) document.getElementById('cfg-cidade-uf-emitente').value = emp.companyCityState;
+          if (emp.companyCep && document.getElementById('cfg-cep-emitente')) document.getElementById('cfg-cep-emitente').value = emp.companyCep;
+          if (emp.companyAddress && document.getElementById('cfg-endereco-emitente')) document.getElementById('cfg-endereco-emitente').value = emp.companyAddress;
+          if (emp.companyPhone && document.getElementById('cfg-telefone-emitente')) document.getElementById('cfg-telefone-emitente').value = emp.companyPhone;
+        }
+
+        const wlRaw = localStorage.getItem('missuenos_whitelabel_config');
+        if (wlRaw) {
+          const wl = JSON.parse(wlRaw);
+          if (wl.shortName && document.getElementById('cfg-nome-fantasia')) document.getElementById('cfg-nome-fantasia').value = wl.shortName;
+          if (wl.tagline && document.getElementById('cfg-subtitulo')) document.getElementById('cfg-subtitulo').value = wl.tagline;
+          if (wl.label_pedidos && document.getElementById('cfg-label-pedidos')) document.getElementById('cfg-label-pedidos').value = wl.label_pedidos;
+          if (wl.label_produtos && document.getElementById('cfg-label-produtos')) document.getElementById('cfg-label-produtos').value = wl.label_produtos;
+          if (wl.label_clientes && document.getElementById('cfg-label-clientes')) document.getElementById('cfg-label-clientes').value = wl.label_clientes;
+          if (wl.categorias_padrao && document.getElementById('cfg-categorias-padrao')) document.getElementById('cfg-categorias-padrao').value = wl.categorias_padrao;
+          if (wl.unidades_padrao && document.getElementById('cfg-unidades-padrao')) document.getElementById('cfg-unidades-padrao').value = wl.unidades_padrao;
+          if (wl.ramo_preset && document.getElementById('cfg-ramo-preset')) document.getElementById('cfg-ramo-preset').value = wl.ramo_preset;
+        }
+      } catch (e) {}
+
+      // Tenta buscar da API
+      fetch('/api/configuracoes')
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.configuracoes) {
+            const c = d.configuracoes;
+            if (c.nome_fantasia && document.getElementById('cfg-nome-fantasia')) document.getElementById('cfg-nome-fantasia').value = c.nome_fantasia;
+            if (c.subtitulo_sistema && document.getElementById('cfg-subtitulo')) document.getElementById('cfg-subtitulo').value = c.subtitulo_sistema;
+            if (c.razao_social && document.getElementById('app-config-razao-social')) document.getElementById('app-config-razao-social').value = c.razao_social;
+            if (c.cnpj_emitente && document.getElementById('cfg-cnpj-emitente')) document.getElementById('cfg-cnpj-emitente').value = c.cnpj_emitente;
+            if (c.responsavel && document.getElementById('app-config-user-name')) document.getElementById('app-config-user-name').value = c.responsavel;
+            if (c.ie_emitente && document.getElementById('cfg-ie-emitente')) document.getElementById('cfg-ie-emitente').value = c.ie_emitente;
+            if (c.cidade_uf_emitente && document.getElementById('cfg-cidade-uf-emitente')) document.getElementById('cfg-cidade-uf-emitente').value = c.cidade_uf_emitente;
+            if (c.cep_emitente && document.getElementById('cfg-cep-emitente')) document.getElementById('cfg-cep-emitente').value = c.cep_emitente;
+            if (c.endereco_emitente && document.getElementById('cfg-endereco-emitente')) document.getElementById('cfg-endereco-emitente').value = c.endereco_emitente;
+            if (c.telefone_emitente && document.getElementById('cfg-telefone-emitente')) document.getElementById('cfg-telefone-emitente').value = c.telefone_emitente;
+            if (c.label_pedidos && document.getElementById('cfg-label-pedidos')) document.getElementById('cfg-label-pedidos').value = c.label_pedidos;
+            if (c.label_produtos && document.getElementById('cfg-label-produtos')) document.getElementById('cfg-label-produtos').value = c.label_produtos;
+            if (c.label_clientes && document.getElementById('cfg-label-clientes')) document.getElementById('cfg-label-clientes').value = c.label_clientes;
+            if (c.categorias_padrao && document.getElementById('cfg-categorias-padrao')) document.getElementById('cfg-categorias-padrao').value = c.categorias_padrao;
+            if (c.unidades_padrao && document.getElementById('cfg-unidades-padrao')) document.getElementById('cfg-unidades-padrao').value = c.unidades_padrao;
+            if (c.ramo_preset && document.getElementById('cfg-ramo-preset')) document.getElementById('cfg-ramo-preset').value = c.ramo_preset;
+          }
+        })
+        .catch(() => {});
+    }
+    window.carregarConfiguracoesSistemaApi = carregarConfiguracoesSistemaApi;
+
     // MODAL CONFIRMAÇÃO DE NOVA JANELA INDEPENDENTE (INSTÂNCIA)
     function confirmarAbrirNovaJanela() {
       const modal = document.getElementById('modal-confirmar-nova-janela');
@@ -13659,6 +14010,9 @@
 
     // Dispara checagem de autenticação imediatamente
     checarAutenticacao();
+    if (typeof carregarConfiguracoesSistemaApi === 'function') {
+      carregarConfiguracoesSistemaApi();
+    }
 
     // Consulta telemetria de armazenamento em segundo plano e monitora quotas
     setTimeout(() => {
