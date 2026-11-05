@@ -3540,6 +3540,46 @@
       font-size: 12px !important;
     }
 
+    /* BARRA FIXA DE ABAS NO MÓDULO CONFIGURAÇÕES (SEM ROLAGEM) */
+    .config-tabs-fixed-header {
+      flex-shrink: 0 !important;
+      padding: 14px 24px !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      background: rgba(11, 16, 25, 0.95) !important;
+      backdrop-filter: blur(8px) !important;
+      z-index: 10 !important;
+    }
+    [data-theme="light"] .config-tabs-fixed-header {
+      background: #ffffff !important;
+      border-bottom-color: #e2e8f0 !important;
+    }
+
+    #modulo-configuracoes-conteudo .erp-scrollable-area {
+      overflow-y: auto !important;
+    }
+
+    /* BADGE INTERATIVO DE PERFIL (RBAC) COM BOTÃO DIREITO */
+    .badge-rbac-papel {
+      cursor: pointer !important;
+      user-select: none !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      border-radius: 6px !important;
+      padding: 3px 9px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+    }
+    .badge-rbac-papel:hover {
+      filter: brightness(1.25) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3) !important;
+    }
+    .badge-rbac-papel:active {
+      transform: translateY(0) !important;
+    }
+
   </style>
 </head>
 <body>
@@ -3693,16 +3733,8 @@
 
             <div class="gear-dd-divider"></div>
 
-            <button type="button" class="gear-dd-item" id="btn-gear-empresa" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('empresa');">
-              <span class="gear-dd-left"><span>🏢</span> <span>Empresa</span></span>
-            </button>
-
-            <button type="button" class="gear-dd-item" id="btn-gear-whitelabel" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('whitelabel');">
-              <span class="gear-dd-left"><span>🎨</span> <span>White-Label</span></span>
-            </button>
-
-            <button type="button" class="gear-dd-item" id="btn-gear-rbac" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('rbac');">
-              <span class="gear-dd-left"><span>👥</span> <span>Operadores & RBAC</span></span>
+            <button type="button" class="gear-dd-item" id="btn-gear-configuracoes" onclick="fecharMenuEngrenagem(); trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));">
+              <span class="gear-dd-left"><span>⚙️</span> <span>Configurações do Sistema</span></span>
             </button>
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirWizardSeguranca();">
               <span class="gear-dd-left"><span>🛡️</span> <span>Políticas de Acesso & Sessão</span></span>
@@ -4512,9 +4544,9 @@
 
     <!-- MÓDULO CONFIGURAÇÕES (WHITE-LABEL + USUÁRIOS RBAC - TICKET 6) -->
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
-      <div class="erp-scrollable-area">
-        <!-- BARRA DE SELEÇÃO RÁPIDA / ABAS DE CONFIGURAÇÃO (SEM REDUNDÂNCIA) -->
-        <div class="config-tabs-nav" style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; width: 100%;">
+      <!-- BARRA FIXA DE SELEÇÃO RÁPIDA / ABAS DE CONFIGURAÇÃO (SEM ROLAGEM) -->
+      <div class="config-tabs-fixed-header">
+        <div class="config-tabs-nav" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; width: 100%;">
           <button type="button" class="btn-top" id="btn-tab-cfg-empresa" onclick="filtrarSecaoConfiguracoes('empresa')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
             🏢 Empresa
           </button>
@@ -4528,7 +4560,10 @@
             🌐 Ver Todas as Seções
           </button>
         </div>
+      </div>
 
+      <!-- ÁREA DE ROLAGEM EXCLUSIVA DOS CARDS (FUNCIONA SOMENTE ABAIXO DA BARRA FIXA) -->
+      <div class="erp-scrollable-area" id="config-cards-scrollable-area" style="padding: 20px 24px;">
         <div id="grid-configuracoes-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
         
         <!-- CARD 1: DADOS DA EMPRESA & EMITENTE FISCAL -->
@@ -4685,9 +4720,14 @@
                 Cadastre operadores internos com senha individual e controle o que cada perfil pode acessar.
               </p>
             </div>
-            <button type="button" class="btn-top btn-emerald-glow" onclick="abrirModalUsuarioRbac()">
-              ➕ Novo Operador
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn-top" onclick="abrirModalGerenciarPerfis()" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;" title="Clique para gerenciar, editar ou criar novos perfis de acesso">
+                🛡️ Gerenciar Perfis
+              </button>
+              <button type="button" class="btn-top btn-emerald-glow" onclick="abrirModalUsuarioRbac()">
+                ➕ Novo Operador
+              </button>
+            </div>
           </div>
 
           <div class="erp-table-wrapper rbac-table-wrapper" style="max-height: none; overflow-x: auto; overflow-y: visible; width: 100%;">
@@ -4696,8 +4736,10 @@
                 <tr>
                   <th style="width: 15%; min-width: 120px;">Usuário / Login</th>
                   <th style="width: 20%; min-width: 160px;">Nome Completo</th>
-                  <th style="width: 18%; min-width: 140px;">Perfil</th>
-                  <th style="width: 32%;">Permissões Ativas</th>
+                  <th style="width: 20%; min-width: 150px; cursor: pointer;" onclick="abrirModalGerenciarPerfis()" title="💡 Clique com o botão direito em qualquer perfil abaixo ou clique aqui para gerenciar perfis">
+                    Perfil <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">(🖱️ Opções)</span>
+                  </th>
+                  <th style="width: 30%;">Permissões Ativas</th>
                   <th style="text-align: right; width: 15%; min-width: 130px;">Ações</th>
                 </tr>
               </thead>
@@ -4813,7 +4855,8 @@
           </div>
         </section>
 
-      </div>
+        </div> <!-- fim grid-configuracoes-cards -->
+      </div> <!-- fim erp-scrollable-area -->
     </main>
   </div>
 
@@ -6150,6 +6193,113 @@
       <div class="modal-footer">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalUsuarioRbac()">Cancelar</button>
         <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-usuario-rbac').requestSubmit()">💾 Salvar Operador</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE GESTÃO E CRIAÇÃO DE PERFIS RBAC (PERFIS & PERMISSÕES) -->
+  <div class="modal-overlay" id="modal-gerenciar-perfis">
+    <div class="modal-container" style="max-width: 800px; width: 95%; max-height: 90vh;">
+      <div class="modal-resize-handle" data-modal="modal-gerenciar-perfis" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
+      <div class="modal-header" style="padding: 14px 20px;">
+        <div class="modal-title">
+          <span>🛡️</span>
+          <span>Perfis de Acesso & Permissões (RBAC)</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalGerenciarPerfis()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 20px; overflow-y: auto;">
+        <!-- LISTA DE PERFIS EXISTENTES -->
+        <div style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <strong style="color: #fff; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">📋 Perfis Ativos no Sistema</strong>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Selecione um perfil para editar permissões ou crie um novo perfil customizado.</div>
+            </div>
+            <button type="button" class="btn-top btn-emerald-glow" onclick="alternarFormNovoPerfil(true)" style="padding: 5px 12px; font-size: 11.5px;">
+              ➕ Criar Novo Perfil
+            </button>
+          </div>
+          <div id="lista-perfis-rbac-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px;">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO DE CRIAÇÃO / EDIÇÃO DE PERFIL -->
+        <div id="form-novo-perfil-container" style="display: none; background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 16px; margin-top: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <strong style="color: #38bdf8; font-size: 13px;" id="titulo-form-perfil">✨ Novo Perfil de Acesso</strong>
+            <button type="button" onclick="alternarFormNovoPerfil(false)" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px;">✕</button>
+          </div>
+
+          <form id="form-criar-perfil-rbac" onsubmit="salvarNovoPerfilRbac(event)">
+            <input type="hidden" id="novo-perfil-id-edicao">
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label class="form-label">Identificador / Chave *</label>
+                <input type="text" class="form-input" id="novo-perfil-chave" required placeholder="ex: SUPERVISOR, ESTOQUE" style="text-transform: uppercase;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nome de Exibição *</label>
+                <input type="text" class="form-input" id="novo-perfil-nome" required placeholder="ex: Supervisor de Operações">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cor do Badge</label>
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 4px;">
+                  <input type="color" id="novo-perfil-cor" value="#38bdf8" oninput="document.getElementById('novo-perfil-cor-hex').textContent = this.value.toUpperCase()" style="width: 44px; height: 34px; padding: 0; border: none; border-radius: 6px; cursor: pointer; background: transparent;">
+                  <span id="novo-perfil-cor-hex" style="font-size: 12px; color: #cbd5e1; font-weight: 700;">#38BDF8</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+              <label class="form-label" style="margin-bottom: 10px; display: block;">🔒 Permissões Granulares Deste Perfil:</label>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; font-size: 12px; color: #cbd5e1;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-admin"> 👑 Administrador Total
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-clientes-ver" checked> 👥 Ver Clientes & CRM
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-clientes-criar" checked> ✏️ Cadastrar/Editar Clientes
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-pedidos-ver" checked> 📦 Ver Pedidos & Vendas
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-pedidos-criar" checked> ➕ Criar Novos Pedidos
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-produtos-ver" checked> 🏷️ Ver Catálogo de Produtos
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-produtos-custo"> 💰 Ver Preços de Custo
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-fiscal-emitir"> 🧾 Emitir NF-e / Central Fiscal
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-configuracoes"> ⚙️ Acessar Configurações
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                  <input type="checkbox" id="novo-perm-usuarios-gerenciar"> 🛡️ Gerenciar Operadores & RBAC
+                </label>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+              <button type="button" class="btn-top btn-row-action" onclick="alternarFormNovoPerfil(false)">Cancelar</button>
+              <button type="submit" class="btn-top btn-emerald-glow" id="btn-salvar-perfil-submit">💾 Salvar Perfil</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 20px;">
+        <span style="font-size: 11px; color: var(--text-muted);">💡 Dica: Você também pode alterar o perfil de qualquer operador clicando com o <strong>botão direito do mouse</strong> no badge de perfil dele na tabela.</span>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalGerenciarPerfis()" style="margin-left: auto;">Fechar</button>
       </div>
     </div>
   </div>
@@ -12828,9 +12978,14 @@
 
     function obterTokenAtivo() {
       const cfg = obterConfigSeguranca();
-      const token = cfg.sessao === 'fechou'
+      let token = cfg.sessao === 'fechou'
         ? sessionStorage.getItem('missuenos_token')
         : localStorage.getItem('missuenos_token');
+
+      // Fallback seguro: se não encontrar no storage preferencial, verifica o alternativo
+      if (!token) {
+        token = localStorage.getItem('missuenos_token') || sessionStorage.getItem('missuenos_token');
+      }
 
       if (!token) return null;
 
@@ -13420,6 +13575,31 @@
     // GESTÃO DE OPERADORES RBAC, REDEFINIÇÃO PELO GUSTAVO & ALTERAÇÃO 1X POR MÊS
     // =========================================================================
     let listaUsuariosRbacCache = [];
+    let papeisDisponiveisCache = {
+      ADMIN: { nome: 'Administrador Geral', cor: '#00d4ff', icone: '👑' },
+      VENDAS: { nome: 'Vendas & Atendimento', cor: '#10b981', icone: '💼' },
+      EXPEDICAO: { nome: 'Expedição & Logística', cor: '#f59e0b', icone: '📦' },
+      FINANCEIRO: { nome: 'Financeiro & Fiscal', cor: '#a855f7', icone: '💰' },
+      CLIENTE: { nome: 'Portal do Cliente (Externo)', cor: '#38bdf8', icone: '🌐' }
+    };
+
+    function popularSelectPapeisRbac(papeis) {
+      if (!papeis || typeof papeis !== 'object') return;
+      papeisDisponiveisCache = papeis;
+
+      const select = document.getElementById('rbac-papel');
+      if (!select) return;
+
+      const valorAtual = select.value;
+      select.innerHTML = Object.entries(papeis).map(([chave, info]) => {
+        const icone = info.icone || (chave === 'ADMIN' ? '👑' : chave === 'VENDAS' ? '💼' : chave === 'EXPEDICAO' ? '📦' : chave === 'FINANCEIRO' ? '💰' : '🛡️');
+        return `<option value="${chave}">${icone} ${info.nome || chave}</option>`;
+      }).join('');
+
+      if (valorAtual && papeis[valorAtual]) {
+        select.value = valorAtual;
+      }
+    }
 
     async function carregarUsuariosRbacApi() {
       const tbody = document.getElementById('erp-usuarios-rbac-body');
@@ -13437,6 +13617,10 @@
         if (!res.ok || !data.success) {
           tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #f87171;">Falha ao carregar operadores do sistema.</td></tr>';
           return;
+        }
+
+        if (data.papeisDisponiveis) {
+          popularSelectPapeisRbac(data.papeisDisponiveis);
         }
 
         listaUsuariosRbacCache = data.usuarios || [];
@@ -13467,14 +13651,21 @@
         if (perms.pedidos_criar) permsTxt.push('Pedidos');
         if (perms.configuracoes) permsTxt.push('Config');
 
-        const badgePapel = `<span style="background: ${u.papelCor}22; color: ${u.papelCor}; border: 1px solid ${u.papelCor}44; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;">${u.papelNome || u.papel}</span>`;
+        const badgePapel = `<span class="badge-rbac-papel" style="background: ${u.papelCor}22; color: ${u.papelCor}; border: 1px solid ${u.papelCor}55;" onclick="abrirMenuContextoPerfil(event, ${u.id}, '${u.login}', '${u.papel}'); return false;" oncontextmenu="abrirMenuContextoPerfil(event, ${u.id}, '${u.login}', '${u.papel}'); return false;" title="💡 Botão Direito 🖱️ ou Clique: Alterar Perfil Imediato ou Gerenciar Permissões"><span>${u.papelNome || u.papel}</span> <span style="font-size: 9px; opacity: 0.7;">▾</span></span>`;
         
         let botaoRedefinir = '';
         if (ehGustavoOuAdmin) {
-          botaoRedefinir = `<button type="button" class="btn-top" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 4px 10px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;" onclick="abrirModalAdminResetSenha(${u.id}, '${u.nome.replace(/'/g, "\\'")}', '${u.login}')" title="Redefinir a senha deste operador como Super Admin">
-            ⚡ Redefinir Senha
+          botaoRedefinir = `<button type="button" class="btn-top" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); padding: 4px 8px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;" onclick="abrirModalAdminResetSenha(${u.id}, '${u.nome.replace(/'/g, "\\'")}', '${u.login}')" title="Redefinir a senha deste operador como Super Admin">
+            ⚡ Senha
           </button>`;
         }
+
+        let botoesAcoes = `<div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">`;
+        if (ehGustavoOuAdmin) {
+          botoesAcoes += `<button type="button" class="btn-top btn-row-action" style="padding: 4px 8px; font-size: 11px; font-weight: 700;" onclick="abrirModalEditarUsuarioRbac(${u.id})" title="Editar cadastro e permissões deste operador">✏️ Editar</button>`;
+          botoesAcoes += botaoRedefinir;
+        }
+        botoesAcoes += `</div>`;
 
         const dataTrocaTxt = u.data_atualizacao_senha ? new Date(u.data_atualizacao_senha).toLocaleDateString('pt-BR') : 'Padrão';
 
@@ -13488,12 +13679,381 @@
               <div style="font-size: 10px; color: #64748b; margin-top: 2px;">Última troca de senha: ${dataTrocaTxt}</div>
             </td>
             <td style="text-align: right; white-space: nowrap;">
-              ${botaoRedefinir}
+              ${botoesAcoes}
             </td>
           </tr>
         `;
       }).join('');
     }
+
+    // MENU DE CONTEXTO RÁPIDO DO PERFIL RBAC (CLIQUE OU BOTÃO DIREITO NO BADGE)
+    function abrirMenuContextoPerfil(e, userId, login, papelAtual) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+
+      const u = (listaUsuariosRbacCache || []).find(item => String(item.id) === String(userId)) || { id: userId, login, papel: papelAtual };
+      const papeis = papeisDisponiveisCache || {};
+
+      let htmlPapeis = '';
+      for (const [chave, info] of Object.entries(papeis)) {
+        if (chave === 'CLIENTE') continue; // perfil externo de portal
+        const isSelected = chave === papelAtual;
+        const icone = chave === 'ADMIN' ? '👑' : chave === 'VENDAS' ? '💼' : chave === 'EXPEDICAO' ? '📦' : chave === 'FINANCEIRO' ? '💰' : '🛡️';
+        const cor = info.cor || '#38bdf8';
+        
+        htmlPapeis += `
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); alterarPerfilOperadorRapido(${userId}, '${chave}', '${login}', '${(info.nome || chave).replace(/'/g, "\\'")}')" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; ${isSelected ? 'background: rgba(0, 212, 255, 0.12); font-weight: 800;' : ''}">
+            <span style="display: flex; align-items: center; gap: 7px;">
+              <span>${icone}</span>
+              <span style="color: ${cor};">${info.nome || chave}</span>
+            </span>
+            ${isSelected ? '<span style="color: #00d4ff; font-size: 10px; font-weight: 800; background: rgba(0,212,255,0.2); padding: 1px 5px; border-radius: 4px;">✓ Ativo</span>' : ''}
+          </button>
+        `;
+      }
+
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 7px 12px 5px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <span>👤 Operador @${login}</span>
+          <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">ID #${userId}</span>
+        </div>
+        <div style="font-size: 10px; font-weight: 800; color: #94a3b8; padding: 6px 12px 3px 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+          ⚡ Alterar Perfil Rápido:
+        </div>
+        ${htmlPapeis}
+        <div class="erp-context-divider"></div>
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalEditarUsuarioRbac(${userId});" style="color: #cbd5e1;">
+          <span>✏️</span> <span>Editar Operador & Permissões</span>
+        </button>
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalGerenciarPerfis();" style="color: #38bdf8; font-weight: 700;">
+          <span>🛡️</span> <span>Gerenciar / Criar Perfis (RBAC)</span>
+        </button>
+      `;
+
+      posicionarContextMenu(e, itens);
+    }
+
+    async function alterarPerfilOperadorRapido(userId, novoPapel, login, papelNome) {
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : (localStorage.getItem('missuenos_token') || '');
+      if (!token) {
+        alert('Sessão expirada. Faça login novamente.');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/usuarios?id=${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ papel: novoPapel })
+        });
+        const data = await res.json();
+        if (!res.ok || (!data.success && !data.id)) {
+          alert(data.error || 'Falha ao alterar perfil do operador.');
+          return;
+        }
+
+        if (typeof tocarEfeitoAudio === 'function') tocarEfeitoAudio('sucesso');
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Perfil de @${login} alterado para "${papelNome}"!`, 'sucesso');
+        } else {
+          alert(`Perfil de @${login} alterado para "${papelNome}"!`);
+        }
+
+        await carregarUsuariosRbacApi();
+      } catch (err) {
+        console.error('Erro ao alterar perfil rápido:', err);
+        alert('Erro de conexão ao alterar perfil.');
+      }
+    }
+
+    function abrirModalEditarUsuarioRbac(id) {
+      aplicarTamanhoSalvoModal('modal-usuario-rbac');
+      const u = (listaUsuariosRbacCache || []).find(item => String(item.id) === String(id));
+      if (!u) {
+        alert('Operador não encontrado.');
+        return;
+      }
+      const modal = document.getElementById('modal-usuario-rbac');
+      const form = document.getElementById('form-usuario-rbac');
+      if (form) form.reset();
+
+      const titulo = document.getElementById('modal-rbac-titulo');
+      const inputId = document.getElementById('rbac-user-id');
+      const inputLogin = document.getElementById('rbac-login');
+      const inputNome = document.getElementById('rbac-nome');
+      const hintSenha = document.getElementById('rbac-senha-hint');
+      const papelSel = document.getElementById('rbac-papel');
+
+      if (inputId) inputId.value = u.id;
+      if (inputLogin) { inputLogin.value = u.login; inputLogin.disabled = true; }
+      if (inputNome) inputNome.value = u.nome;
+      if (hintSenha) hintSenha.textContent = '(Deixe em branco para não alterar)';
+      if (titulo) titulo.textContent = `Editar Operador: @${u.login}`;
+
+      if (papelSel) {
+        papelSel.value = u.papel;
+      }
+
+      const perms = u.permissoes || {};
+      const chkClientes = document.getElementById('perm-clientes-criar');
+      const chkFiscal = document.getElementById('perm-fiscal-emitir');
+      const chkCusto = document.getElementById('perm-produtos-custo');
+      const chkConfig = document.getElementById('perm-configuracoes');
+
+      if (chkClientes) chkClientes.checked = !!perms.clientes_criar;
+      if (chkFiscal) chkFiscal.checked = !!perms.fiscal_emitir;
+      if (chkCusto) chkCusto.checked = !!perms.produtos_custo;
+      if (chkConfig) chkConfig.checked = !!perms.configuracoes;
+
+      if (modal) {
+        const _cnt = modal.querySelector('.modal-container');
+        if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
+        modal.classList.add('active');
+      }
+    }
+
+    // MODAL DE GERENCIAMENTO DE PERFIS E PERMISSÕES (RBAC)
+    function abrirModalGerenciarPerfis() {
+      aplicarTamanhoSalvoModal('modal-gerenciar-perfis');
+      renderizarListaPerfisModal();
+      alternarFormNovoPerfil(false);
+      const modal = document.getElementById('modal-gerenciar-perfis');
+      if (modal) modal.classList.add('active');
+    }
+
+    function fecharModalGerenciarPerfis() {
+      const modal = document.getElementById('modal-gerenciar-perfis');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function alternarFormNovoPerfil(exibir, chaveEdicao = null) {
+      const container = document.getElementById('form-novo-perfil-container');
+      const form = document.getElementById('form-criar-perfil-rbac');
+      if (!container || !form) return;
+
+      if (!exibir) {
+        container.style.display = 'none';
+        form.reset();
+        return;
+      }
+
+      form.reset();
+      container.style.display = 'block';
+
+      const titulo = document.getElementById('titulo-form-perfil');
+      const inputChave = document.getElementById('novo-perfil-chave');
+      const inputNome = document.getElementById('novo-perfil-nome');
+      const inputCor = document.getElementById('novo-perfil-cor');
+      const corHex = document.getElementById('novo-perfil-cor-hex');
+      const btnSubmit = document.getElementById('btn-salvar-perfil-submit');
+
+      if (chaveEdicao && papeisDisponiveisCache[chaveEdicao]) {
+        const p = papeisDisponiveisCache[chaveEdicao];
+        if (titulo) titulo.textContent = `✏️ Editar Perfil: ${p.nome}`;
+        if (inputChave) { inputChave.value = chaveEdicao; inputChave.disabled = true; }
+        if (inputNome) inputNome.value = p.nome;
+        if (inputCor) { inputCor.value = p.cor || '#38bdf8'; if (corHex) corHex.textContent = (p.cor || '#38BDF8').toUpperCase(); }
+        if (btnSubmit) btnSubmit.textContent = '💾 Atualizar Perfil';
+
+        const perms = p.permissoes || {};
+        document.getElementById('novo-perm-admin').checked = !!perms.admin;
+        document.getElementById('novo-perm-clientes-ver').checked = perms.clientes_ver !== false;
+        document.getElementById('novo-perm-clientes-criar').checked = !!perms.clientes_criar;
+        document.getElementById('novo-perm-pedidos-ver').checked = perms.pedidos_ver !== false;
+        document.getElementById('novo-perm-pedidos-criar').checked = !!perms.pedidos_criar;
+        document.getElementById('novo-perm-produtos-ver').checked = perms.produtos_ver !== false;
+        document.getElementById('novo-perm-produtos-custo').checked = !!perms.produtos_custo;
+        document.getElementById('novo-perm-fiscal-emitir').checked = !!perms.fiscal_emitir;
+        document.getElementById('novo-perm-configuracoes').checked = !!perms.configuracoes;
+        document.getElementById('novo-perm-usuarios-gerenciar').checked = !!perms.usuarios_gerenciar;
+      } else {
+        if (titulo) titulo.textContent = '✨ Novo Perfil de Acesso';
+        if (inputChave) { inputChave.value = ''; inputChave.disabled = false; }
+        if (inputCor) { inputCor.value = '#38bdf8'; if (corHex) corHex.textContent = '#38BDF8'; }
+        if (btnSubmit) btnSubmit.textContent = '💾 Salvar Perfil';
+      }
+
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderizarListaPerfisModal() {
+      const container = document.getElementById('lista-perfis-rbac-cards');
+      if (!container) return;
+
+      const papeis = papeisDisponiveisCache || {};
+      const nativos = ['ADMIN', 'VENDAS', 'EXPEDICAO', 'FINANCEIRO', 'CLIENTE'];
+
+      container.innerHTML = Object.entries(papeis).map(([chave, info]) => {
+        const ehNativo = nativos.includes(chave);
+        const perms = info.permissoes || {};
+        const listaPerms = [];
+        if (perms.admin) listaPerms.push('Admin Total');
+        if (perms.clientes_criar) listaPerms.push('Clientes');
+        if (perms.pedidos_criar) listaPerms.push('Pedidos');
+        if (perms.fiscal_emitir) listaPerms.push('NF-e');
+        if (perms.produtos_custo) listaPerms.push('Preço Custo');
+        if (perms.configuracoes) listaPerms.push('Config');
+
+        const icone = chave === 'ADMIN' ? '👑' : chave === 'VENDAS' ? '💼' : chave === 'EXPEDICAO' ? '📦' : chave === 'FINANCEIRO' ? '💰' : '🛡️';
+
+        let acoesPerfil = '';
+        if (ehNativo) {
+          acoesPerfil = `<span style="font-size: 10px; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">Nativo</span>`;
+        } else {
+          acoesPerfil = `
+            <div style="display: flex; gap: 4px;">
+              <button type="button" class="btn-top btn-row-action" style="padding: 2px 7px; font-size: 10.5px;" onclick="alternarFormNovoPerfil(true, '${chave}')">✏️</button>
+              <button type="button" class="btn-top" style="padding: 2px 7px; font-size: 10.5px; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.35);" onclick="excluirPerfilCustomizado('${chave}', '${(info.nome || chave).replace(/'/g, "\\'")}')">🗑️</button>
+            </div>
+          `;
+        }
+
+        return `
+          <div style="background: rgba(11, 16, 25, 0.7); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;">
+              <div>
+                <span style="background: ${info.cor || '#38bdf8'}22; color: ${info.cor || '#38bdf8'}; border: 1px solid ${info.cor || '#38bdf8'}55; font-size: 11.5px; font-weight: 800; padding: 3px 8px; border-radius: 5px; display: inline-flex; align-items: center; gap: 5px;">
+                  <span>${icone}</span>
+                  <span>${info.nome || chave}</span>
+                </span>
+                <div style="font-size: 10px; color: #64748b; margin-top: 4px; font-weight: 700; text-transform: uppercase;">
+                  CHAVE: ${chave}
+                </div>
+              </div>
+              ${acoesPerfil}
+            </div>
+
+            <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
+              <strong>Permissões:</strong> ${listaPerms.join(', ') || 'Acesso básico / leitura'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function salvarNovoPerfilRbac(e) {
+      if (e) e.preventDefault();
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : (localStorage.getItem('missuenos_token') || '');
+      if (!token) {
+        alert('Sessão expirada. Faça login novamente.');
+        return;
+      }
+
+      const chave = document.getElementById('novo-perfil-chave').value.trim();
+      const nome = document.getElementById('novo-perfil-nome').value.trim();
+      const cor = document.getElementById('novo-perfil-cor').value;
+
+      if (!chave || !nome) {
+        alert('Por favor, preencha o identificador (chave) e o nome do perfil.');
+        return;
+      }
+
+      const permissoes = {
+        admin: document.getElementById('novo-perm-admin').checked,
+        clientes_ver: document.getElementById('novo-perm-clientes-ver').checked,
+        clientes_criar: document.getElementById('novo-perm-clientes-criar').checked,
+        clientes_editar: document.getElementById('novo-perm-clientes-criar').checked,
+        clientes_excluir: document.getElementById('novo-perm-admin').checked,
+        pedidos_ver: document.getElementById('novo-perm-pedidos-ver').checked,
+        pedidos_criar: document.getElementById('novo-perm-pedidos-criar').checked,
+        pedidos_editar: document.getElementById('novo-perm-pedidos-criar').checked,
+        pedidos_excluir: document.getElementById('novo-perm-admin').checked,
+        produtos_ver: document.getElementById('novo-perm-produtos-ver').checked,
+        produtos_editar: document.getElementById('novo-perm-admin').checked,
+        produtos_custo: document.getElementById('novo-perm-produtos-custo').checked,
+        fiscal_emitir: document.getElementById('novo-perm-fiscal-emitir').checked,
+        configuracoes: document.getElementById('novo-perm-configuracoes').checked,
+        usuarios_gerenciar: document.getElementById('novo-perm-usuarios-gerenciar').checked
+      };
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            acao: 'salvar_perfil',
+            chave,
+            nome,
+            cor,
+            permissoes
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          alert(data.error || 'Falha ao salvar perfil.');
+          return;
+        }
+
+        if (typeof tocarEfeitoAudio === 'function') tocarEfeitoAudio('sucesso');
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Perfil "${nome}" salvo com sucesso!`, 'sucesso');
+        }
+
+        if (data.papeisDisponiveis) {
+          papeisDisponiveisCache = data.papeisDisponiveis;
+          popularSelectPapeisRbac(data.papeisDisponiveis);
+        }
+
+        alternarFormNovoPerfil(false);
+        renderizarListaPerfisModal();
+        await carregarUsuariosRbacApi();
+      } catch (err) {
+        console.error('Erro ao salvar perfil:', err);
+        alert('Erro de conexão ao salvar perfil.');
+      }
+    }
+
+    async function excluirPerfilCustomizado(chave, nome) {
+      if (!confirm(`Deseja realmente excluir o perfil "${nome}" (${chave})?`)) return;
+
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : (localStorage.getItem('missuenos_token') || '');
+      if (!token) return;
+
+      try {
+        const res = await fetch('/api/usuarios', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({
+            acao: 'excluir_perfil',
+            chave
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          alert(data.error || 'Falha ao excluir perfil.');
+          return;
+        }
+
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Perfil "${nome}" excluído com sucesso!`, 'sucesso');
+        }
+
+        if (data.papeisDisponiveis) {
+          papeisDisponiveisCache = data.papeisDisponiveis;
+          popularSelectPapeisRbac(data.papeisDisponiveis);
+        }
+
+        renderizarListaPerfisModal();
+        await carregarUsuariosRbacApi();
+      } catch (err) {
+        console.error('Erro ao excluir perfil:', err);
+        alert('Erro de conexão ao excluir perfil.');
+      }
+    }
+    window.abrirModalGerenciarPerfis = abrirModalGerenciarPerfis;
+    window.fecharModalGerenciarPerfis = fecharModalGerenciarPerfis;
+    window.abrirMenuContextoPerfil = abrirMenuContextoPerfil;
+    window.alterarPerfilOperadorRapido = alterarPerfilOperadorRapido;
+    window.abrirModalEditarUsuarioRbac = abrirModalEditarUsuarioRbac;
 
     // Modal de Redefinição Administrativa (Gustavo Rosa)
     function abrirModalAdminResetSenha(id, nome, login) {

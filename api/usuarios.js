@@ -7,6 +7,15 @@
 import { query, get, run, registrarLog } from '../lib/db.js';
 import { gerarHashSenha, validarTokenSessao, PAPEIS_SISTEMA } from '../lib/auth.js';
 
+async function obterTodosPapeis() {
+  const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
+  let custom = {};
+  if (row && row.valor) {
+    try { custom = JSON.parse(row.valor); } catch {}
+  }
+  return { ...PAPEIS_SISTEMA, ...custom };
+}
+
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
     return res.status(status).json(data);
@@ -115,8 +124,67 @@ export default async function handler(req, res) {
       });
     }
 
+    // AÇÕES DE GESTÃO DE PERFIS PERSONALIZADOS (RBAC)
+    if (bodyRequisicao.acao === 'salvar_perfil') {
+      const { chave, nome, cor, permissoes } = bodyRequisicao;
+      if (!chave || !nome) {
+        return responder(res, 400, { error: 'Identificador (chave) e Nome do perfil são obrigatórios.' });
+      }
+      const chaveFormatada = chave.trim().toUpperCase().replace(/[^A-Z0-9_]/g, '_');
+      const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
+      let custom = {};
+      if (row && row.valor) {
+        try { custom = JSON.parse(row.valor); } catch {}
+      }
+      custom[chaveFormatada] = {
+        nome: nome.trim(),
+        cor: cor || '#38bdf8',
+        permissoes: permissoes || {}
+      };
+      const agora = new Date().toISOString();
+      await run(`
+        INSERT INTO configuracoes_sistema (chave, valor, data_atualizacao)
+        VALUES ('papeis_customizados', ?, ?)
+        ON CONFLICT(chave) DO UPDATE SET valor = excluded.valor, data_atualizacao = excluded.data_atualizacao
+      `, [JSON.stringify(custom), agora]);
+
+      registrarLog({
+        clienteId: operador.id,
+        tipoAcao: 'PERFIL_RBAC_SALVO',
+        detalhes: `Perfil ${nome} (${chaveFormatada}) configurado pelo Administrador @${operador.login}`,
+        req
+      }).catch(() => {});
+
+      const todosPapeis = { ...PAPEIS_SISTEMA, ...custom };
+      return responder(res, 200, { success: true, papeisDisponiveis: todosPapeis, mensagem: `Perfil "${nome}" salvo com sucesso!` });
+    }
+
+    if (bodyRequisicao.acao === 'excluir_perfil') {
+      const { chave } = bodyRequisicao;
+      if (!chave) return responder(res, 400, { error: 'Chave do perfil não informada.' });
+      if (PAPEIS_SISTEMA[chave]) {
+        return responder(res, 400, { error: 'Perfis padrão do sistema não podem ser excluídos.' });
+      }
+      const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
+      let custom = {};
+      if (row && row.valor) {
+        try { custom = JSON.parse(row.valor); } catch {}
+      }
+      delete custom[chave];
+      const agora = new Date().toISOString();
+      await run(`
+        INSERT INTO configuracoes_sistema (chave, valor, data_atualizacao)
+        VALUES ('papeis_customizados', ?, ?)
+        ON CONFLICT(chave) DO UPDATE SET valor = excluded.valor, data_atualizacao = excluded.data_atualizacao
+      `, [JSON.stringify(custom), agora]);
+
+      const todosPapeis = { ...PAPEIS_SISTEMA, ...custom };
+      return responder(res, 200, { success: true, papeisDisponiveis: todosPapeis, mensagem: 'Perfil removido com sucesso!' });
+    }
+
     // 1. GET: Listar usuários
     if (req.method === 'GET') {
+      const todosPapeis = await obterTodosPapeis();
       const rows = await query(`
         SELECT id, nome, login, papel, permissoes, cliente_id, ativo, ultimo_login, data_cadastro, data_atualizacao_senha, exigir_troca_senha
         FROM usuarios
@@ -124,7 +192,7 @@ export default async function handler(req, res) {
       `);
 
       const lista = rows.map(u => {
-        const papelInfo = PAPEIS_SISTEMA[u.papel] || {};
+        const papelInfo = todosPapeis[u.papel] || { nome: u.papel, cor: '#38bdf8' };
         let perms = {};
         try { perms = typeof u.permissoes === 'string' ? JSON.parse(u.permissoes || '{}') : u.permissoes; } catch {}
         return {
@@ -143,7 +211,7 @@ export default async function handler(req, res) {
         };
       });
 
-      return responder(res, 200, { success: true, usuarios: lista, papeisDisponiveis: PAPEIS_SISTEMA });
+      return responder(res, 200, { success: true, usuarios: lista, papeisDisponiveis: todosPapeis });
     }
 
     // 2. POST: Criar novo usuário
@@ -163,8 +231,33 @@ export default async function handler(req, res) {
         return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres' });
       }
 
-      const existe = await get('SELECT id FROM usuarios WHERE LOWER(login) = ?', [login]);
+      const existe = await get('SELECT id, ativo FROM usuarios WHERE LOWER(login) = ?', [login]);
       if (existe) {
+        if (existe.ativo === 0) {
+          // Reativação de operador previamente desativado
+          const hash = gerarHashSenha(senha);
+          const agora = new Date().toISOString();
+          await run(`
+            UPDATE usuarios
+            SET nome = ?, senha_hash = ?, papel = ?, permissoes = ?, ativo = 1, data_atualizacao = ?, exigir_troca_senha = 0
+            WHERE id = ?
+          `, [nome, hash, papel, permissoes, agora, existe.id]);
+
+          registrarLog({
+            tipoAcao: 'USUARIO_REATIVADO',
+            detalhes: `Usuário reativado pelo administrador: ${nome} (@${login}) | Papel: ${papel}`,
+            req
+          }).catch(() => {});
+
+          return responder(res, 200, {
+            success: true,
+            id: existe.id,
+            nome,
+            login,
+            papel,
+            message: 'Usuário reativado e atualizado com sucesso'
+          });
+        }
         return responder(res, 409, { error: 'Este login já está em uso por outro usuário' });
       }
 
@@ -205,10 +298,18 @@ export default async function handler(req, res) {
         return responder(res, 404, { error: 'Usuário não encontrado' });
       }
 
+      const todosPapeis = await obterTodosPapeis();
       const nome = body.nome !== undefined ? body.nome.trim() : usuarioAtual.nome;
       const papel = body.papel !== undefined ? body.papel.toUpperCase() : usuarioAtual.papel;
       const ativo = body.ativo !== undefined ? (body.ativo ? 1 : 0) : usuarioAtual.ativo;
-      const permissoes = body.permissoes !== undefined ? JSON.stringify(body.permissoes) : usuarioAtual.permissoes;
+      
+      let permissoes = usuarioAtual.permissoes;
+      if (body.permissoes !== undefined) {
+        permissoes = JSON.stringify(body.permissoes);
+      } else if (body.papel !== undefined && todosPapeis[papel]?.permissoes) {
+        permissoes = JSON.stringify(todosPapeis[papel].permissoes);
+      }
+
       const agora = new Date().toISOString();
 
       let novoHash = usuarioAtual.senha_hash;
@@ -222,13 +323,21 @@ export default async function handler(req, res) {
         WHERE id = ?
       `, [nome, papel, ativo, permissoes, novoHash, agora, targetId]);
 
+      const papelInfo = todosPapeis[papel] || {};
       registrarLog({
         tipoAcao: 'USUARIO_ALTERADO',
-        detalhes: `Usuário atualizado: ${nome} (ID: ${targetId})`,
+        detalhes: `Usuário atualizado: ${nome} (@${usuarioAtual.login}) | Perfil: ${papelInfo.nome || papel}`,
         req
       }).catch(() => {});
 
-      return responder(res, 200, { success: true, message: 'Usuário atualizado com sucesso' });
+      return responder(res, 200, {
+        success: true,
+        message: `Usuário ${usuarioAtual.login} atualizado com sucesso!`,
+        papel,
+        papelNome: papelInfo.nome || papel,
+        papelCor: papelInfo.cor || '#00d4ff',
+        papeisDisponiveis: todosPapeis
+      });
     }
 
     // 4. DELETE: Desativar ou excluir usuário
