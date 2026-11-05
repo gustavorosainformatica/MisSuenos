@@ -3901,6 +3901,132 @@
       }
     }
 
+  
+    /* =========================================================
+       SUÍTE DE NAVEGAÇÃO ESTILO WINDOWS 11 (HISTÓRICO + BREADCRUMB)
+       ========================================================= */
+    .nav-windows-suite {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      user-select: none !important;
+    }
+
+    /* BOTÕES DE HISTÓRICO: VOLTAR [←], AVANÇAR [→], SUBIR [↑] */
+    .nav-history-buttons {
+      display: inline-flex !important;
+      align-items: center !important;
+      background: rgba(255, 255, 255, 0.04) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 8px !important;
+      padding: 2px !important;
+      gap: 2px !important;
+    }
+    [data-theme="light"] .nav-history-buttons {
+      background: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    .btn-nav-history {
+      background: transparent !important;
+      border: none !important;
+      color: #f8fafc !important;
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 13.5px !important;
+      font-weight: 800 !important;
+      cursor: pointer !important;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    [data-theme="light"] .btn-nav-history {
+      color: #0f172a !important;
+    }
+    .btn-nav-history:hover:not(:disabled) {
+      background: rgba(0, 212, 255, 0.18) !important;
+      color: #38bdf8 !important;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.3) !important;
+      transform: translateY(-1px) !important;
+    }
+    .btn-nav-history:active:not(:disabled) {
+      transform: scale(0.92) !important;
+    }
+    .btn-nav-history:disabled {
+      opacity: 0.25 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+    }
+
+    /* BARRA DE ENDEREÇO / CAMINHO CLICÁVEL (BREADCRUMB WINDOWS 11) */
+    .nav-address-bar {
+      display: inline-flex !important;
+      align-items: center !important;
+      background: rgba(15, 23, 42, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 8px !important;
+      padding: 3px 8px !important;
+      gap: 4px !important;
+      font-size: 12px !important;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+      max-width: 440px !important;
+      overflow-x: auto !important;
+      white-space: nowrap !important;
+      scrollbar-width: none !important;
+    }
+    .nav-address-bar::-webkit-scrollbar {
+      display: none !important;
+    }
+    [data-theme="light"] .nav-address-bar {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.06) !important;
+    }
+
+    .address-crumb-item {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 3px 8px !important;
+      border-radius: 5px !important;
+      color: #94a3b8 !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.16s ease !important;
+    }
+    .address-crumb-item:hover {
+      background: rgba(0, 212, 255, 0.12) !important;
+      color: #38bdf8 !important;
+    }
+    .address-crumb-item.current {
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      background: rgba(255, 255, 255, 0.06) !important;
+    }
+    [data-theme="light"] .address-crumb-item {
+      color: #64748b !important;
+    }
+    [data-theme="light"] .address-crumb-item:hover {
+      background: #e0f2fe !important;
+      color: #0284c7 !important;
+    }
+    [data-theme="light"] .address-crumb-item.current {
+      color: #0f172a !important;
+      background: #e2e8f0 !important;
+    }
+
+    .address-crumb-sep {
+      color: rgba(255, 255, 255, 0.3) !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      padding: 0 1px !important;
+    }
+    [data-theme="light"] .address-crumb-sep {
+      color: #94a3b8 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -3995,13 +4121,39 @@
           </div>
           <span class="topbar-menu-indicator" title="Menu Lateral">☰</span>
         </div>
-        <!-- SEPARADOR E INDICADOR DE CONTEXTO ATIVO -->
-        <span class="topbar-breadcrumb-sep" id="topbar-breadcrumb-sep">/</span>
-        <div class="topbar-module-badge" id="topbar-module-badge" title="Módulo Ativo no ERP">
+        <!-- SUÍTE DE NAVEGAÇÃO HISTÓRICA & BREADCRUMB ESTILO WINDOWS 11 -->
+        <div class="nav-windows-suite" id="topbar-windows-nav">
+          <!-- BOTÕES DE HISTÓRICO: VOLTAR [←], AVANÇAR [→], SUBIR [↑] -->
+          <div class="nav-history-buttons">
+            <button type="button" class="btn-nav-history" id="btn-nav-voltar" title="Voltar para a tela anterior (Alt + ←)" onclick="voltarHistoricoERP()" disabled>
+              ←
+            </button>
+            <button type="button" class="btn-nav-history" id="btn-nav-avancar" title="Avançar para a próxima tela (Alt + →)" onclick="avancarHistoricoERP()" disabled>
+              →
+            </button>
+            <button type="button" class="btn-nav-history" id="btn-nav-subir" title="Subir um nível (Ir para o Painel Inicial)" onclick="subirNivelERP()">
+              ↑
+            </button>
+          </div>
+
+          <!-- BARRA DE ENDEREÇO / CAMINHO CLICÁVEL (BREADCRUMB WINDOWS 11) -->
+          <nav class="nav-address-bar" id="topbar-address-bar" aria-label="Localização atual no ERP">
+            <span class="address-crumb-item current" onclick="trocarModulo('painel')" title="Você está no Painel Inicial">
+              <span>🏢</span> <span>Mis Sueños</span>
+            </span>
+            <span class="address-crumb-sep">›</span>
+            <span class="address-crumb-item current" title="Painel & Indicadores">
+              <span>📊</span> <span>Painel</span>
+            </span>
+          </nav>
+        </div>
+
+        <!-- Elementos invisíveis para manter compatibilidade retroativa -->
+        <span class="topbar-breadcrumb-sep" id="topbar-breadcrumb-sep" style="display: none;">/</span>
+        <div class="topbar-module-badge" id="topbar-module-badge" style="display: none;" title="Módulo Ativo no ERP">
           <span class="topbar-module-icon" id="topbar-module-icon">📊</span>
           <span class="topbar-module-name" id="breadcrumb-modulo">Painel & Indicadores</span>
         </div>
-        <!-- Elementos para manter compatibilidade com scripts do sistema -->
         <span id="app-breadcrumb-name" style="display: none;"></span>
       </div>
 
@@ -5223,7 +5375,7 @@
           <!-- SUB-SELETORES DINÂMICOS -->
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.4px;">Visão:</span>
-            <select class="form-input" id="sel-sub-relatorio" onchange="selecionarSubRelatorio(this.value)" style="padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; width: auto; max-width: 280px; height: 32px; background: var(--bg-card); color: var(--text-main);">
+            <select class="form-input" id="sel-sub-relatorio" onchange="selecionarSubRelatorio(this.value)" style="padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; min-width: 260px; max-width: 360px; flex-shrink: 0; height: 32px; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color);">
               <!-- Opções preenchidas dinamicamente via JS -->
             </select>
           </div>
@@ -7083,7 +7235,138 @@
     window.atualizarCotacoesMercado = atualizarCotacoesMercado;
 
     // Troca de módulos do ERP
-    function trocarModulo(modulo, el) {
+    
+  // ==========================================================
+  // SUÍTE DE NAVEGAÇÃO HISTÓRICA ESTILO WINDOWS 11
+  // ==========================================================
+  const HISTORICO_NAVEGACAO_ERP = {
+    pilha: ['painel'],
+    indiceAtual: 0
+  };
+
+  function registrarNavegacaoHistorico(modulo) {
+    if (!modulo) return;
+    const atual = HISTORICO_NAVEGACAO_ERP.pilha[HISTORICO_NAVEGACAO_ERP.indiceAtual];
+    if (atual !== modulo) {
+      HISTORICO_NAVEGACAO_ERP.pilha = HISTORICO_NAVEGACAO_ERP.pilha.slice(0, HISTORICO_NAVEGACAO_ERP.indiceAtual + 1);
+      HISTORICO_NAVEGACAO_ERP.pilha.push(modulo);
+      HISTORICO_NAVEGACAO_ERP.indiceAtual = HISTORICO_NAVEGACAO_ERP.pilha.length - 1;
+    }
+    atualizarBotoesHistoricoWindows();
+    renderizarBreadcrumbWindows11(modulo);
+  }
+
+  function atualizarBotoesHistoricoWindows() {
+    const btnVoltar = document.getElementById('btn-nav-voltar');
+    const btnAvancar = document.getElementById('btn-nav-avancar');
+    if (btnVoltar) {
+      btnVoltar.disabled = HISTORICO_NAVEGACAO_ERP.indiceAtual <= 0;
+    }
+    if (btnAvancar) {
+      btnAvancar.disabled = HISTORICO_NAVEGACAO_ERP.indiceAtual >= HISTORICO_NAVEGACAO_ERP.pilha.length - 1;
+    }
+  }
+
+  function voltarHistoricoERP() {
+    if (HISTORICO_NAVEGACAO_ERP.indiceAtual > 0) {
+      HISTORICO_NAVEGACAO_ERP.indiceAtual--;
+      const mod = HISTORICO_NAVEGACAO_ERP.pilha[HISTORICO_NAVEGACAO_ERP.indiceAtual];
+      const navEl = document.getElementById('nav-item-' + mod);
+      trocarModulo(mod, navEl, false);
+      atualizarBotoesHistoricoWindows();
+      renderizarBreadcrumbWindows11(mod);
+    }
+  }
+
+  function avancarHistoricoERP() {
+    if (HISTORICO_NAVEGACAO_ERP.indiceAtual < HISTORICO_NAVEGACAO_ERP.pilha.length - 1) {
+      HISTORICO_NAVEGACAO_ERP.indiceAtual++;
+      const mod = HISTORICO_NAVEGACAO_ERP.pilha[HISTORICO_NAVEGACAO_ERP.indiceAtual];
+      const navEl = document.getElementById('nav-item-' + mod);
+      trocarModulo(mod, navEl, false);
+      atualizarBotoesHistoricoWindows();
+      renderizarBreadcrumbWindows11(mod);
+    }
+  }
+
+  function subirNivelERP() {
+    const navPainel = document.getElementById('nav-item-painel');
+    trocarModulo('painel', navPainel);
+  }
+
+  function renderizarBreadcrumbWindows11(modulo) {
+    const bar = document.getElementById('topbar-address-bar');
+    if (!bar) return;
+
+    const MAPA_MODULOS_TITULO = {
+      painel: { nome: 'Painel & Indicadores', icone: '📊' },
+      clientes: { nome: 'Clientes & CRM', icone: '👥' },
+      pedidos: { nome: 'Pedidos de Venda', icone: '📦' },
+      produtos: { nome: 'Estoque de Couros', icone: '🪵' },
+      fiscal: { nome: 'Central Fiscal (NF-e)', icone: '🧾' },
+      financeiro: { nome: 'Financeiro & Caixa', icone: '💰' },
+      configuracoes: { nome: 'Configurações', icone: '⚙️' },
+      relatorios: { nome: 'Central de Relatórios', icone: '📑' },
+      mapa: { nome: 'Distribuição Brasil', icone: '🗺️' }
+    };
+
+    const info = MAPA_MODULOS_TITULO[modulo] || { nome: modulo, icone: '📍' };
+
+    if (modulo === 'painel') {
+      bar.innerHTML = `
+        <span class="address-crumb-item current" onclick="subirNivelERP()" title="Você está no Painel Inicial">
+          <span>🏢</span> <span>Mis Sueños</span>
+        </span>
+        <span class="address-crumb-sep">›</span>
+        <span class="address-crumb-item current" title="Painel & Indicadores">
+          <span>📊</span> <span>Painel</span>
+        </span>
+      `;
+    } else {
+      let subHtml = '';
+      if (modulo === 'relatorios' && typeof ESTADO_RELATORIOS !== 'undefined') {
+        const cat = ESTADO_RELATORIOS.categoriaAtiva;
+        const mapaCats = {
+          vendas: { nome: 'Comercial & Vendas', icone: '📈' },
+          financeiro: { nome: 'Financeiro & DRE', icone: '💰' },
+          estoque: { nome: 'Estoque & Suprimentos', icone: '📦' },
+          fiscal: { nome: 'Fiscal & Fechamento', icone: '🧾' },
+          crm: { nome: 'Clientes & CRM', icone: '👥' }
+        };
+        const infoCat = mapaCats[cat] || { nome: 'Geral', icone: '📊' };
+        subHtml = `
+          <span class="address-crumb-sep">›</span>
+          <span class="address-crumb-item current" title="Sub-área ativa: ${infoCat.nome}">
+            <span>${infoCat.icone}</span> <span>${infoCat.nome}</span>
+          </span>
+        `;
+      }
+
+      bar.innerHTML = `
+        <span class="address-crumb-item" onclick="subirNivelERP()" title="Clique para voltar ao Painel">
+          <span>🏢</span> <span>Mis Sueños</span>
+        </span>
+        <span class="address-crumb-sep">›</span>
+        <span class="address-crumb-item ${!subHtml ? 'current' : ''}" onclick="trocarModulo('${modulo}', document.getElementById('nav-item-${modulo}'))" title="Clique para ir à raiz de ${info.nome}">
+          <span>${info.icone}</span> <span>${info.nome}</span>
+        </span>
+        ${subHtml}
+      `;
+    }
+  }
+
+  // Atalhos de teclado no padrão Windows: Alt + Seta Esquerda (Voltar) e Alt + Seta Direita (Avançar)
+  window.addEventListener('keydown', (e) => {
+    if (e.altKey && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      voltarHistoricoERP();
+    } else if (e.altKey && e.key === 'ArrowRight') {
+      e.preventDefault();
+      avancarHistoricoERP();
+    }
+  });
+
+function trocarModulo(modulo, el, registrarHistorico = true) {
       fecharMenuHoverSidebar();
       document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
       const btnTopCfg = document.getElementById('btn-top-configuracoes');
@@ -7118,6 +7401,12 @@
         elBadge.classList.remove('badge-bump');
         void elBadge.offsetWidth;
         elBadge.classList.add('badge-bump');
+      }
+
+      if (registrarHistorico !== false) {
+        registrarNavegacaoHistorico(modulo);
+      } else {
+        renderizarBreadcrumbWindows11(modulo);
       }
 
       // Oculta todas as seções de conteúdo do ERP
@@ -15271,6 +15560,9 @@
 
   function selecionarCategoriaRelatorio(categoria, recarregar = true) {
     ESTADO_RELATORIOS.categoriaAtiva = categoria;
+    if (typeof renderizarBreadcrumbWindows11 === 'function') {
+      renderizarBreadcrumbWindows11('relatorios');
+    }
     
     document.querySelectorAll('.rel-tab-btn').forEach(btn => btn.classList.remove('active'));
     const btnAtivo = document.getElementById('btn-cat-rel-' + categoria);
