@@ -3580,6 +3580,327 @@
       transform: translateY(0) !important;
     }
 
+  
+    /* ========================================================
+       CENTRAL DE RELATÓRIOS EXECUTIVOS & BI (COCKPIT ANALÍTICO)
+       ======================================================== */
+    .relatorios-fixed-header {
+      flex-shrink: 0 !important;
+      padding: 12px 24px 10px 24px !important;
+      border-bottom: 1px solid var(--border-color) !important;
+      background: rgba(11, 16, 25, 0.96) !important;
+      backdrop-filter: blur(10px) !important;
+      z-index: 10 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    [data-theme="light"] .relatorios-fixed-header {
+      background: #ffffff !important;
+      border-bottom-color: #e2e8f0 !important;
+    }
+
+    .rel-nav-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .rel-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border-radius: var(--radius-md);
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .rel-tab-btn:hover {
+      background: rgba(0, 212, 255, 0.1);
+      color: var(--text-main);
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+    .rel-tab-btn.active {
+      background: rgba(0, 212, 255, 0.18);
+      color: #38bdf8;
+      border-color: #00d4ff;
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.25);
+    }
+    [data-theme="light"] .rel-tab-btn {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #475569;
+    }
+    [data-theme="light"] .rel-tab-btn.active {
+      background: #e0f2fe;
+      color: #0284c7;
+      border-color: #0284c7;
+    }
+
+    .rel-controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: 6px 12px;
+    }
+    [data-theme="light"] .rel-controls-bar {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+
+    .rel-periodos-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .rel-periodo-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .rel-periodo-pill:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+    }
+    .rel-periodo-pill.active {
+      background: #00d4ff;
+      color: #050b14;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+    }
+    [data-theme="light"] .rel-periodo-pill.active {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    /* CARDS DE TOTALIZADORES KPI DA CENTRAL DE RELATÓRIOS */
+    .rel-kpis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .rel-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .rel-kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+    .rel-kpi-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .rel-kpi-val {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .rel-kpi-desc {
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    /* TABELA ANALÍTICA DE ALTA DENSIDADE */
+    .rel-table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .tabela-relatorios-moderna {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .tabela-relatorios-moderna th {
+      background: rgba(15, 23, 42, 0.95);
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+      padding: 10px 14px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    [data-theme="light"] .tabela-relatorios-moderna th {
+      background: #f1f5f9;
+      color: #475569;
+      border-bottom-color: #cbd5e1;
+    }
+    .tabela-relatorios-moderna td {
+      padding: 8px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+    [data-theme="light"] .tabela-relatorios-moderna td {
+      border-bottom-color: #f1f5f9;
+    }
+    .tabela-relatorios-moderna tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.015);
+    }
+    [data-theme="light"] .tabela-relatorios-moderna tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .tabela-relatorios-moderna tr:hover td {
+      background: rgba(0, 212, 255, 0.05);
+    }
+    .tabela-relatorios-moderna tfoot td {
+      background: rgba(15, 23, 42, 0.98);
+      font-weight: 800;
+      font-size: 12px;
+      border-top: 2px solid rgba(0, 212, 255, 0.3);
+      padding: 11px 14px;
+      color: #38bdf8;
+    }
+    [data-theme="light"] .tabela-relatorios-moderna tfoot td {
+      background: #e2e8f0;
+      color: #0369a1;
+      border-top-color: #0284c7;
+    }
+
+    /* FORMATAÇÃO MONETÁRIA E NUMÉRICA */
+    .col-num {
+      text-align: right !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+    .col-center {
+      text-align: center !important;
+    }
+
+    /* BADGES DE CLASSIFICAÇÃO ABC */
+    .badge-abc {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 11px;
+    }
+    .badge-abc-a {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .badge-abc-b {
+      background: rgba(0, 212, 255, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(0, 212, 255, 0.4);
+    }
+    .badge-abc-c {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    /* LINHAS ESPECIAIS DRE */
+    .dre-linha-receita-bruta td {
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(0, 212, 255, 0.06) !important;
+    }
+    .dre-linha-subtotal td {
+      font-weight: 700;
+      border-top: 1px dashed rgba(255,255,255,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .dre-linha-lucro-liquido td {
+      font-weight: 900;
+      font-size: 13.5px;
+      background: rgba(16, 185, 129, 0.12) !important;
+      color: #34d399;
+      border-top: 2px solid #10b981 !important;
+      border-bottom: 2px solid #10b981 !important;
+    }
+    .dre-linha-prejuizo td {
+      font-weight: 900;
+      font-size: 13.5px;
+      background: rgba(239, 68, 68, 0.12) !important;
+      color: #f87171;
+      border-top: 2px solid #ef4444 !important;
+      border-bottom: 2px solid #ef4444 !important;
+    }
+
+    /* ESTILOS DE IMPRESSÃO A4 EXECUTIVA TIMBRADA */
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #area-impressao-timbrada, #area-impressao-timbrada * {
+        visibility: visible !important;
+      }
+      #area-impressao-timbrada {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      @page {
+        margin: 10mm;
+        size: auto;
+      }
+      .tabela-relatorios-moderna th {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+        border-bottom: 1px solid #94a3b8 !important;
+      }
+      .tabela-relatorios-moderna td {
+        color: #0f172a !important;
+        border-bottom: 1px solid #cbd5e1 !important;
+      }
+      .tabela-relatorios-moderna tfoot td {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        border-top: 2px solid #0f172a !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3631,6 +3952,13 @@
       <a class="nav-item" id="nav-item-fiscal" onclick="trocarModulo('fiscal', this)" title="Emissão de notas fiscais, DANFE e integração SEFAZ">
         <span class="nav-icon">🧾</span>
         <span>Central Fiscal (NF-e)</span>
+      </a>
+
+      <!-- 6. INTELIGÊNCIA & GESTÃO -->
+      <div class="nav-section-title">INTELIGÊNCIA & GESTÃO</div>
+      <a class="nav-item" id="nav-item-relatorios" onclick="trocarModulo('relatorios', this)" title="Central de relatórios executivos, DRE, curva ABC, fiscal e exportação">
+        <span class="nav-icon">📑</span>
+        <span>Central de Relatórios</span>
       </a>
 
       
@@ -4859,6 +5187,179 @@
       </div> <!-- fim erp-scrollable-area -->
     </main>
   </div>
+
+  
+    <!-- MÓDULO: CENTRAL DE RELATÓRIOS EXECUTIVOS & BI (COCKPIT ANALÍTICO) -->
+    <main class="erp-content" id="modulo-relatorios-conteudo" style="display: none; flex-direction: column; height: calc(100vh - var(--topbar-height)); overflow: hidden;">
+      <!-- CABEÇALHO FIXO COM ABAS E CONTROLES (SEM ROLAGEM) -->
+      <div class="relatorios-fixed-header">
+        <!-- LINHA 1: ABAS POR CATEGORIA ESTRATÉGICA -->
+        <div class="rel-nav-tabs">
+          <button type="button" class="rel-tab-btn active" id="btn-cat-rel-vendas" onclick="selecionarCategoriaRelatorio('vendas')">
+            <span>📈</span> <span>Comercial & Vendas</span>
+          </button>
+          <button type="button" class="rel-tab-btn" id="btn-cat-rel-financeiro" onclick="selecionarCategoriaRelatorio('financeiro')">
+            <span>💰</span> <span>Financeiro & DRE</span>
+          </button>
+          <button type="button" class="rel-tab-btn" id="btn-cat-rel-estoque" onclick="selecionarCategoriaRelatorio('estoque')">
+            <span>📦</span> <span>Estoque & Suprimentos</span>
+          </button>
+          <button type="button" class="rel-tab-btn" id="btn-cat-rel-fiscal" onclick="selecionarCategoriaRelatorio('fiscal')">
+            <span>🧾</span> <span>Fiscal & Fechamento</span>
+          </button>
+          <button type="button" class="rel-tab-btn" id="btn-cat-rel-crm" onclick="selecionarCategoriaRelatorio('crm')">
+            <span>👥</span> <span>Clientes & CRM</span>
+          </button>
+        </div>
+
+        <!-- LINHA 2: CONTROLES DE SUB-RELATÓRIO, PERÍODO RÁPIDO E AÇÕES -->
+        <div class="rel-controls-bar">
+          <!-- SUB-SELETORES DINÂMICOS -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.4px;">Visão:</span>
+            <select class="form-input" id="sel-sub-relatorio" onchange="selecionarSubRelatorio(this.value)" style="padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; width: auto; max-width: 280px; height: 32px; background: var(--bg-card); color: var(--text-main);">
+              <!-- Opções preenchidas dinamicamente via JS -->
+            </select>
+          </div>
+
+          <!-- BOTÕES DE PERÍODO RÁPIDO -->
+          <div class="rel-periodos-group" id="grupo-periodos-relatorio">
+            <button type="button" class="rel-periodo-pill" data-periodo="hoje" onclick="selecionarPeriodoRelatorio('hoje')">Hoje</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="7dias" onclick="selecionarPeriodoRelatorio('7dias')">7 Dias</button>
+            <button type="button" class="rel-periodo-pill active" data-periodo="mes_atual" onclick="selecionarPeriodoRelatorio('mes_atual')">Mês Atual</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="mes_anterior" onclick="selecionarPeriodoRelatorio('mes_anterior')">Mês Anterior</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="trimestre" onclick="selecionarPeriodoRelatorio('trimestre')">Trimestre</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="ano" onclick="selecionarPeriodoRelatorio('ano')">Ano</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="todos" onclick="selecionarPeriodoRelatorio('todos')">Todos</button>
+            <button type="button" class="rel-periodo-pill" data-periodo="custom" onclick="selecionarPeriodoRelatorio('custom')">Personalizado</button>
+          </div>
+
+          <!-- CAMPOS DE DATA PERSONALIZADA (INLINE QUANDO ATIVO) -->
+          <div id="container-datas-custom" style="display: none; align-items: center; gap: 6px;">
+            <input type="date" id="rel-dt-inicio" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;">
+            <span style="font-size: 11px; color: var(--text-muted);">até</span>
+            <input type="date" id="rel-dt-fim" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;">
+            <button type="button" class="btn-top" onclick="carregarRelatorioSelecionado()" style="padding: 4px 10px; font-size: 11px; height: 30px;">Filtrar</button>
+          </div>
+
+          <!-- BOTÕES DE AÇÃO: EXPORTAR, IMPRIMIR E RECARREGAR -->
+          <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+            <button type="button" class="btn-top btn-emerald-glow" id="btn-pacote-contador-rapido" onclick="abrirModalPacoteContador()" style="display: none; padding: 5px 12px; font-size: 11px; font-weight: 700;" title="Consolidação fiscal mensal para o escritório de contabilidade">
+              📦 Pacote do Contador
+            </button>
+            <button type="button" class="btn-top" onclick="exportarRelatorioAtualCsv()" style="padding: 5px 12px; font-size: 11px; font-weight: 700; background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.4);" title="Exportar dados tabulados em formato Excel / CSV com UTF-8 BOM">
+              📥 Exportar Excel (CSV)
+            </button>
+            <button type="button" class="btn-top" onclick="imprimirRelatorioTimbrado()" style="padding: 5px 12px; font-size: 11px; font-weight: 700; background: rgba(0, 212, 255, 0.12); color: #38bdf8; border-color: rgba(0, 212, 255, 0.35);" title="Imprimir ou gerar PDF timbrado corporativo em formato A4">
+              🖨️ Imprimir / PDF
+            </button>
+            <button type="button" class="btn-top" onclick="carregarRelatorioSelecionado()" style="padding: 5px 10px; font-size: 12px;" title="Atualizar dados agora">
+              🔄
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÁREA DE ROLAGEM EXCLUSIVA DOS DADOS ANALÍTICOS -->
+      <div class="erp-scrollable-area" id="relatorios-scrollable-area" style="padding: 18px 24px; flex: 1; overflow-y: auto;">
+        <!-- LINHA DE CARDS KPIS TOTALIZADORES DINÂMICOS -->
+        <div class="rel-kpis-grid" id="relatorios-kpis-container">
+          <!-- Injetado dinamicamente -->
+        </div>
+
+        <!-- BARRA DE PESQUISA RÁPIDA E STATUS DOS DADOS -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex: 1; max-width: 480px;">
+            <div style="position: relative; width: 100%;">
+              <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted);">🔍</span>
+              <input type="text" id="rel-busca-filtro" oninput="filtrarTabelaRelatorioAoDigitar(this.value)" placeholder="Filtrar dados da tabela instantaneamente..." class="form-input" style="padding-left: 32px; font-size: 12px; height: 34px; border-radius: 8px;">
+            </div>
+            <button type="button" onclick="limparBuscaRelatorio()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px;" title="Limpar busca">✕</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span id="rel-contador-linhas" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Carregando registros...</span>
+            <span id="rel-badge-periodo" style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(0, 212, 255, 0.1); color: #38bdf8; font-weight: 700; border: 1px solid rgba(0, 212, 255, 0.3);">Mês Atual</span>
+          </div>
+        </div>
+
+        <!-- CONTAINER DA TABELA ANALÍTICA -->
+        <div class="rel-table-container">
+          <div style="max-height: calc(100vh - 350px); overflow-y: auto; overflow-x: auto;" id="rel-tabela-scroll-box">
+            <table class="tabela-relatorios-moderna" id="tabela-relatorios-dados">
+              <thead id="rel-tabela-thead">
+                <!-- Cabeçalhos das colunas -->
+              </thead>
+              <tbody id="rel-tabela-tbody">
+                <!-- Linhas dos dados -->
+              </tbody>
+              <tfoot id="rel-tabela-tfoot">
+                <!-- Linha de totais -->
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ÁREA DE IMPRESSÃO TIMBRADA A4 (OCULTA NA TELA, VISÍVEL SOMENTE NO PRINT) -->
+    <div id="area-impressao-timbrada" style="display: none;">
+      <div style="border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-start;">
+        <div>
+          <div style="font-size: 18px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px;">MIS SUEÑOS ERP · RELATÓRIO EXECUTIVO</div>
+          <div style="font-size: 12px; color: #475569;" id="print-empresa-razao">MIS SUEÑOS INDÚSTRIA E COMÉRCIO DE COUROS LTDA</div>
+          <div style="font-size: 11px; color: #64748b;" id="print-empresa-doc">CNPJ: 12.345.678/0001-90 · I.E: ISENTO</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 13px; font-weight: 800; color: #0f172a;" id="print-titulo-relatorio">RELATÓRIO GERENCIAL</div>
+          <div style="font-size: 11px; color: #475569;" id="print-periodo-relatorio">Período: Mês Atual</div>
+          <div style="font-size: 10px; color: #64748b;" id="print-data-emissao">Emissão: 05/11/2026 12:00</div>
+        </div>
+      </div>
+      <div id="print-conteudo-tabela">
+        <!-- Tabela replicada para impressão limpa -->
+      </div>
+      <div style="margin-top: 20px; border-top: 1px solid #cbd5e1; padding-top: 8px; display: flex; justify-content: space-between; font-size: 10px; color: #64748b;">
+        <span>Documento gerado automaticamente pelo Sistema Mis Sueños ERP v3.0 Corporativo.</span>
+        <span>Página 1 de 1</span>
+      </div>
+    </div>
+
+    <!-- MODAL ESPECÍFICO: PACOTE DO CONTADOR (FECHAMENTO MENSAL FISCAL) -->
+    <div class="modal-overlay" id="modal-pacote-contador" style="display: none;">
+      <div class="modal-container" style="max-width: 640px; width: 95%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 20px;">📦</span>
+            <div>
+              <div style="font-size: 15px; font-weight: 800; color: #38bdf8;">Pacote de Fechamento Fiscal para Contabilidade</div>
+              <div style="font-size: 11px; color: var(--text-muted);">Consolidação de notas fiscais, tributos e conferência mensal</div>
+            </div>
+          </div>
+          <button type="button" onclick="fecharModalPacoteContador()" style="background: none; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer;">✕</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 8px;">
+            <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px;">Resumo Fiscal Consolidado</div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;" id="pacote-contador-grid-resumo">
+              <!-- Preenchido via JS com totais de notas e impostos -->
+            </div>
+          </div>
+
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 12px; border-radius: 8px; font-size: 12px; color: #34d399;">
+            ✅ <strong>Pronto para Envio:</strong> Todas as 199 notas e cupons fiscais do período já foram apurados e conferidos de acordo com as regras da SEFAZ.
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
+            <button type="button" class="btn-top" onclick="fecharModalPacoteContador()" style="padding: 8px 16px;">Fechar</button>
+            <button type="button" class="btn-top btn-emerald-glow" onclick="baixarPlanilhaPacoteContador()" style="padding: 8px 18px; font-weight: 700;">
+              📥 Baixar Planilha para o Contador (.CSV)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   <!-- MODAL DE EDICAO / NOVO CLIENTE (EXPANDIDO SEM ROLAGEM) -->
   <div class="modal-overlay" id="modal-cliente">
@@ -6593,7 +7094,8 @@
         financeiro: { nome: 'Financeiro & Caixa', icone: '💰' },
         compras: { nome: 'Compras & XML', icone: '📥' },
         configuracoes: { nome: 'Configurações', icone: '⚙️' },
-        mapa: { nome: 'Distribuição Brasil', icone: '🗺️' }
+        mapa: { nome: 'Distribuição Brasil', icone: '🗺️' },
+        relatorios: { nome: 'Central de Relatórios Executivos & BI', icone: '📑' }
       };
 
       const tituloFallback = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
@@ -6625,7 +7127,8 @@
         painel: document.getElementById('modulo-painel-conteudo'),
         financeiro: document.getElementById('modulo-financeiro-conteudo'),
         configuracoes: document.getElementById('modulo-configuracoes-conteudo'),
-        mapa: document.getElementById('modulo-mapa-conteudo')
+        mapa: document.getElementById('modulo-mapa-conteudo'),
+        relatorios: document.getElementById('modulo-relatorios-conteudo')
       };
 
       const modAtivo = mapaModulosEl[modulo];
@@ -14716,6 +15219,552 @@
         atualizarCotacoesMercado(true);
       }
     }, 300000);
+
+
+  // ==========================================================
+  // CONTROLLER DA CENTRAL DE RELATÓRIOS EXECUTIVOS & BI (UNIVERSAL)
+  // ==========================================================
+  const ESTADO_RELATORIOS = {
+    categoriaAtiva: 'vendas',
+    subTipoAtivo: 'vendas_curva_abc',
+    periodoAtivo: 'todos', // Abre já com todo o histórico consolidado
+    dataInicioCustom: '',
+    dataFimCustom: '',
+    termoBusca: '',
+    dadosCarregados: null
+  };
+
+  const MAPA_SUB_RELATORIOS = {
+    vendas: [
+      { id: 'vendas_curva_abc', rotulo: 'Curva ABC de Vendas por Cliente (Pareto 80/15/5)' },
+      { id: 'vendas_uf', rotulo: 'Vendas e Faturamento por Estado (UF)' }
+    ],
+    financeiro: [
+      { id: 'dre_gerencial', rotulo: 'DRE Gerencial (Demonstração do Resultado)' }
+    ],
+    estoque: [
+      { id: 'estoque_posicao', rotulo: 'Posição e Valorização do Patrimônio de Estoque' }
+    ],
+    fiscal: [
+      { id: 'fiscal_saidas', rotulo: 'Livro de Saídas Fiscais (SEFAZ NF-e & NFS-e)' }
+    ],
+    crm: [
+      { id: 'clientes_inativos', rotulo: 'Clientes Inativos & Oportunidades (+60 Dias)' }
+    ]
+  };
+
+  function inicializarCentralRelatorios() {
+    selecionarCategoriaRelatorio(ESTADO_RELATORIOS.categoriaAtiva, false);
+    // Marca botão de período 'todos' como ativo
+    document.querySelectorAll('.rel-periodo-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-periodo') === ESTADO_RELATORIOS.periodoAtivo);
+    });
+    carregarRelatorioSelecionado();
+  }
+
+  function selecionarCategoriaRelatorio(categoria, recarregar = true) {
+    ESTADO_RELATORIOS.categoriaAtiva = categoria;
+    
+    document.querySelectorAll('.rel-tab-btn').forEach(btn => btn.classList.remove('active'));
+    const btnAtivo = document.getElementById('btn-cat-rel-' + categoria);
+    if (btnAtivo) btnAtivo.classList.add('active');
+
+    const btnPacote = document.getElementById('btn-pacote-contador-rapido');
+    if (btnPacote) {
+      btnPacote.style.display = categoria === 'fiscal' ? 'inline-flex' : 'none';
+    }
+
+    const subLista = MAPA_SUB_RELATORIOS[categoria] || [];
+    const sel = document.getElementById('sel-sub-relatorio');
+    if (sel) {
+      sel.innerHTML = subLista.map(item => `<option value="${item.id}">${item.rotulo}</option>`).join('');
+      ESTADO_RELATORIOS.subTipoAtivo = subLista[0] ? subLista[0].id : '';
+    }
+
+    if (recarregar) {
+      carregarRelatorioSelecionado();
+    }
+  }
+
+  function selecionarSubRelatorio(subTipo) {
+    ESTADO_RELATORIOS.subTipoAtivo = subTipo;
+    carregarRelatorioSelecionado();
+  }
+
+  function selecionarPeriodoRelatorio(periodo) {
+    ESTADO_RELATORIOS.periodoAtivo = periodo;
+    document.querySelectorAll('.rel-periodo-pill').forEach(pill => {
+      pill.classList.toggle('active', pill.getAttribute('data-periodo') === periodo);
+    });
+
+    const boxCustom = document.getElementById('container-datas-custom');
+    if (boxCustom) {
+      boxCustom.style.display = periodo === 'custom' ? 'inline-flex' : 'none';
+    }
+
+    if (periodo !== 'custom') {
+      carregarRelatorioSelecionado();
+    }
+  }
+
+  function formatarMoedaRel(valor) {
+    const num = parseFloat(valor) || 0;
+    return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  function formatarNumeroRel(valor, decimais = 0) {
+    const num = parseFloat(valor) || 0;
+    return num.toLocaleString('pt-BR', { minimumFractionDigits: decimais, maximumFractionDigits: decimais });
+  }
+
+  async function carregarRelatorioSelecionado() {
+    const tbody = document.getElementById('rel-tabela-tbody');
+    const thead = document.getElementById('rel-tabela-thead');
+    const tfoot = document.getElementById('rel-tabela-tfoot');
+    const kpiBox = document.getElementById('relatorios-kpis-container');
+    const contBox = document.getElementById('rel-contador-linhas');
+    const badgePer = document.getElementById('rel-badge-periodo');
+
+    if (contBox) contBox.textContent = 'Processando agregações corporativas...';
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; padding: 40px; color: var(--text-muted);"><span style="font-size: 22px;">🔄</span><br>Processando métricas em tempo real...</td></tr>';
+    }
+
+    let url = `/api/relatorios?tipo=${encodeURIComponent(ESTADO_RELATORIOS.subTipoAtivo)}&periodo=${encodeURIComponent(ESTADO_RELATORIOS.periodoAtivo)}`;
+    if (ESTADO_RELATORIOS.periodoAtivo === 'custom') {
+      const dtIni = document.getElementById('rel-dt-inicio')?.value || '';
+      const dtFim = document.getElementById('rel-dt-fim')?.value || '';
+      if (dtIni) url += `&inicio=${encodeURIComponent(dtIni)}`;
+      if (dtFim) url += `&fim=${encodeURIComponent(dtFim)}`;
+    }
+
+    try {
+      const headers = {};
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : null;
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      const resp = await fetch(url, { headers });
+      const res = await resp.json();
+
+      if (!res.success && !res.sucesso) {
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="12" style="text-align: center; padding: 30px; color: #ef4444;">⚠️ ${res.error || res.erro || 'Falha ao processar relatório'}</td></tr>`;
+        }
+        return;
+      }
+
+      ESTADO_RELATORIOS.dadosCarregados = res;
+
+      // Badge de período
+      if (badgePer) {
+        badgePer.textContent = (res.periodo && res.periodo.descricao) ? res.periodo.descricao : (ESTADO_RELATORIOS.periodoAtivo === 'todos' ? 'Histórico Completo' : ESTADO_RELATORIOS.periodoAtivo);
+      }
+
+      renderizarKpisRelatorio(res.kpis, res.tipo);
+      renderizarTabelaRelatorio(res);
+
+    } catch (err) {
+      console.error('Erro ao buscar relatório:', err);
+      if (tbody) {
+        tbody.innerHTML = `<tr><td colspan="12" style="text-align: center; padding: 30px; color: #ef4444;">❌ Erro de conexão com o servidor da API.</td></tr>`;
+      }
+    }
+  }
+
+  function renderizarKpisRelatorio(kpis, tipo) {
+    const kpiBox = document.getElementById('relatorios-kpis-container');
+    if (!kpiBox || !kpis) return;
+
+    let html = '';
+
+    if (tipo === 'vendas_curva_abc') {
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Faturamento Total</span> <span>💰</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoTotal)}</div>
+          <div class="rel-kpi-desc">${kpis.totalClientesAtivos} clientes ativos na carteira</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Ticket Médio Geral</span> <span>🎯</span></div>
+          <div class="rel-kpi-val" style="color: #34d399;">${formatarMoedaRel(kpis.ticketMedioGeral)}</div>
+          <div class="rel-kpi-desc">Média ponderada por cliente</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Distribuição de Pareto</span> <span>📊</span></div>
+          <div class="rel-kpi-val" style="color: #fbbf24; font-size: 15px; font-weight: 700;">${kpis.distribuicaoClasses}</div>
+          <div class="rel-kpi-desc">Classificação A (80%), B (15%), C (5%)</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Maior Cliente (Top 1)</span> <span>🥇</span></div>
+          <div class="rel-kpi-val" style="color: #a78bfa; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${kpis.destaque}">${kpis.destaque}</div>
+          <div class="rel-kpi-desc">Líder do ranking da carteira</div>
+        </div>
+      `;
+    } else if (tipo === 'vendas_uf') {
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Receita Nacional</span> <span>🇧🇷</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoTotal)}</div>
+          <div class="rel-kpi-desc">${kpis.totalPedidos} pedidos de venda faturados</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Estados Atendidos</span> <span>🗺️</span></div>
+          <div class="rel-kpi-val" style="color: #34d399;">${kpis.estadosAtendidos} UFs</div>
+          <div class="rel-kpi-desc">Capilaridade de distribuição</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Estado Líder</span> <span>🥇</span></div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${kpis.ufLider || '-'}</div>
+          <div class="rel-kpi-desc">Maior volume faturado</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Ticket Médio por UF</span> <span>📈</span></div>
+          <div class="rel-kpi-val" style="color: #a78bfa;">${formatarMoedaRel(kpis.faturamentoTotal / (kpis.estadosAtendidos || 1))}</div>
+          <div class="rel-kpi-desc">Faturamento médio por estado</div>
+        </div>
+      `;
+    } else if (tipo === 'dre_gerencial') {
+      const corLucro = kpis.lucroLiquido >= 0 ? '#34d399' : '#f87171';
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Receita Líquida</span> <span>📈</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.receitaLiquida)}</div>
+          <div class="rel-kpi-desc">Base operacional líquida</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Resultado Líquido</span> <span>💎</span></div>
+          <div class="rel-kpi-val" style="color: ${corLucro};">${formatarMoedaRel(kpis.lucroLiquido)}</div>
+          <div class="rel-kpi-desc">Margem Líquida de ${kpis.margemLiquida}</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Margem Líquida</span> <span>🎯</span></div>
+          <div class="rel-kpi-val" style="color: #34d399;">${kpis.margemLiquida}</div>
+          <div class="rel-kpi-desc">Rentabilidade final do período</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Ponto de Equilíbrio</span> <span>⚖️</span></div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${formatarMoedaRel(kpis.pontoEquilibrio)}</div>
+          <div class="rel-kpi-desc">Faturamento mínimo para cobrir custos</div>
+        </div>
+      `;
+    } else if (tipo === 'estoque_posicao') {
+      const lucroPotencial = (kpis.patrimonioVenda || 0) - (kpis.patrimonioCusto || 0);
+      const margemPotencial = kpis.patrimonioVenda > 0 ? ((lucroPotencial / kpis.patrimonioVenda) * 100).toFixed(1) + '%' : '0%';
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Patrimônio a Custo</span> <span>🪵</span></div>
+          <div class="rel-kpi-val" style="color: #f59e0b;">${formatarMoedaRel(kpis.patrimonioCusto)}</div>
+          <div class="rel-kpi-desc">${formatarNumeroRel(kpis.totalPecas)} peças em ${kpis.totalSkus} SKUs</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Patrimônio a Venda</span> <span>🏷️</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.patrimonioVenda)}</div>
+          <div class="rel-kpi-desc">Valor projetado na tabela de venda</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Lucro Potencial</span> <span>✨</span></div>
+          <div class="rel-kpi-val" style="color: #34d399;">${formatarMoedaRel(lucroPotencial)}</div>
+          <div class="rel-kpi-desc">Margem bruta projetada de ${margemPotencial}</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Itens Críticos</span> <span>⚠️</span></div>
+          <div class="rel-kpi-val" style="color: ${kpis.itensCriticos > 0 ? '#f87171' : '#34d399'};">${kpis.itensCriticos} itens</div>
+          <div class="rel-kpi-desc">Abaixo do estoque mínimo de segurança</div>
+        </div>
+      `;
+    } else if (tipo === 'fiscal_saidas') {
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Faturamento Fiscal Total</span> <span>🧾</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoFiscalTotal)}</div>
+          <div class="rel-kpi-desc">${kpis.totalDocumentos} documentos fiscais emitidos</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>ICMS Estimado</span> <span>🏛️</span></div>
+          <div class="rel-kpi-val" style="color: #a78bfa;">${formatarMoedaRel(kpis.icmsEstimado)}</div>
+          <div class="rel-kpi-desc">Tributo estadual incidente</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Regime Tributário</span> <span>📑</span></div>
+          <div class="rel-kpi-val" style="color: #34d399; font-size: 15px; font-weight: 700;">${kpis.regimeTributario}</div>
+          <div class="rel-kpi-desc">Enquadramento fiscal ativo</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Status SEFAZ</span> <span>🟢</span></div>
+          <div class="rel-kpi-val" style="color: #34d399;">100% Ok</div>
+          <div class="rel-kpi-desc">Autorizadas e conferidas</div>
+        </div>
+      `;
+    } else if (tipo === 'clientes_inativos') {
+      html = `
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Contas Inativas</span> <span>👥</span></div>
+          <div class="rel-kpi-val" style="color: #f87171;">${formatarNumeroRel(kpis.totalInativos)} contas</div>
+          <div class="rel-kpi-desc">+60 dias sem registrar compras</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Patrimônio Histórico</span> <span>📉</span></div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${formatarMoedaRel(kpis.patrimonioHistoricoInativo)}</div>
+          <div class="rel-kpi-desc">Total já faturado por essa carteira</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Contatos com Telefone</span> <span>📱</span></div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${kpis.comTelefone} contatos</div>
+          <div class="rel-kpi-desc">Prontos para contato imediato</div>
+        </div>
+        <div class="rel-kpi-card">
+          <div class="rel-kpi-title"><span>Ação Estratégica</span> <span>💬</span></div>
+          <div class="rel-kpi-val" style="color: #34d399; font-size: 13.5px; font-weight: 700;">Reativação WhatsApp</div>
+          <div class="rel-kpi-desc">${kpis.acaoSugerida}</div>
+        </div>
+      `;
+    }
+
+    kpiBox.innerHTML = html;
+  }
+
+  function renderizarTabelaRelatorio(res) {
+    const thead = document.getElementById('rel-tabela-thead');
+    const tbody = document.getElementById('rel-tabela-tbody');
+    const tfoot = document.getElementById('rel-tabela-tfoot');
+    const contBox = document.getElementById('rel-contador-linhas');
+
+    if (!tbody || !res) return;
+
+    const colunas = res.colunas || [];
+    const dados = res.dados || [];
+
+    // Renderiza THEAD
+    if (thead) {
+      thead.innerHTML = '<tr>' + colunas.map(col => {
+        const isNum = col.tipo === 'numero' || col.tipo === 'moeda' || col.tipo === 'moeda_dre';
+        const isCenter = col.tipo === 'badge_abc' || col.tipo === 'badge_estoque' || col.tipo === 'badge_fiscal' || col.tipo === 'badge_inativo' || col.tipo === 'telefone';
+        const styleWidth = col.width ? `style="width: ${col.width};"` : '';
+        return `<th class="${isNum ? 'col-num' : (isCenter ? 'col-center' : '')}" ${styleWidth}>${col.titulo}</th>`;
+      }).join('') + '</tr>';
+    }
+
+    if (contBox) {
+      contBox.textContent = `Exibindo ${dados.length} registro${dados.length === 1 ? '' : 's'}`;
+    }
+
+    if (dados.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; padding: 30px; color: var(--text-muted);">Nenhum registro encontrado para o filtro e período selecionados.</td></tr>';
+      if (tfoot) tfoot.innerHTML = '';
+      return;
+    }
+
+    // Renderiza TBODY usando os tipos de colunas
+    const rowsHtml = dados.map(item => {
+      let trClasses = [];
+      if (item.tipoLinha === 'destaque_verde') trClasses.push('dre-linha-receita-bruta');
+      else if (item.tipoLinha === 'subtotal') trClasses.push('dre-linha-subtotal');
+      else if (item.tipoLinha === 'lucro_liquido') trClasses.push('dre-linha-lucro-liquido');
+
+      const cells = colunas.map(col => {
+        const val = item[col.chave];
+        const isNum = col.tipo === 'numero' || col.tipo === 'moeda' || col.tipo === 'moeda_dre';
+        const isCenter = col.tipo === 'badge_abc' || col.tipo === 'badge_estoque' || col.tipo === 'badge_fiscal' || col.tipo === 'badge_inativo' || col.tipo === 'telefone';
+
+        let cellContent = val !== undefined && val !== null ? val : '-';
+
+        if (col.tipo === 'moeda') {
+          cellContent = formatarMoedaRel(val);
+        } else if (col.tipo === 'moeda_dre') {
+          const num = parseFloat(val) || 0;
+          const cor = num < 0 ? '#f87171' : 'inherit';
+          cellContent = `<span style="color: ${cor};">${formatarMoedaRel(val)}</span>`;
+        } else if (col.tipo === 'numero') {
+          cellContent = formatarNumeroRel(val);
+        } else if (col.tipo === 'badge_abc') {
+          const badgeClasse = val === 'A' ? 'badge-abc-a' : (val === 'B' ? 'badge-abc-b' : 'badge-abc-c');
+          cellContent = `<span class="badge-abc ${badgeClasse}">${val}</span>`;
+        } else if (col.tipo === 'badge_estoque') {
+          const isCritico = val === 'CRÍTICO' || val === 'BAIXO';
+          cellContent = `<span style="padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; ${isCritico ? 'background: rgba(239, 68, 68, 0.2); color: #f87171;' : 'background: rgba(16, 185, 129, 0.2); color: #34d399;'}">${val}</span>`;
+        } else if (col.tipo === 'badge_fiscal') {
+          cellContent = `<span style="padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">${val}</span>`;
+        } else if (col.tipo === 'badge_inativo') {
+          cellContent = `<span style="padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; background: rgba(245, 158, 11, 0.2); color: #fbbf24;">${val}</span>`;
+        } else if (col.tipo === 'telefone') {
+          if (item.telefone_limpo) {
+            const linkWhats = `https://wa.me/55${item.telefone_limpo}?text=Ol%C3%A1%20${encodeURIComponent(item.nome || 'Cliente')}%2C%20tudo%20bem%3F%20Somos%20da%20Mis%20Sue%C3%B1os%20e%20gostar%C3%ADamos%20de%20apresentar%20nossas%20novidades%20em%20couros.`;
+            cellContent = `<a href="${linkWhats}" target="_blank" class="btn-top btn-emerald-glow" style="padding: 3px 8px; font-size: 11px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;"><span>💬</span> <span>WhatsApp</span></a>`;
+          } else {
+            cellContent = '<span style="color: var(--text-faint); font-size: 11px;">Sem WhatsApp</span>';
+          }
+        }
+
+        return `<td class="${isNum ? 'col-num' : (isCenter ? 'col-center' : '')}">${cellContent}</td>`;
+      }).join('');
+
+      return `<tr class="${trClasses.join(' ')}">${cells}</tr>`;
+    }).join('');
+
+    tbody.innerHTML = rowsHtml;
+
+    // TFOOT dinâmico com somatório de colunas monetárias
+    if (tfoot) {
+      if (res.tipo === 'vendas_curva_abc' && res.kpis) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="3">TOTAL GERAL DA CARTEIRA</td>
+            <td class="col-num">${formatarNumeroRel(dados.reduce((acc, d) => acc + (d.total_pedidos || 0), 0))}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.faturamentoTotal)}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.ticketMedioGeral)}</td>
+            <td class="col-num">100.0%</td>
+            <td class="col-center">A / B / C</td>
+          </tr>
+        `;
+      } else if (res.tipo === 'vendas_uf' && res.kpis) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="2">TOTAL NACIONAL (${res.kpis.estadosAtendidos} UFs)</td>
+            <td class="col-num">${formatarNumeroRel(res.kpis.totalPedidos)}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.faturamentoTotal)}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.faturamentoTotal / (res.kpis.totalPedidos || 1))}</td>
+            <td class="col-num">100.0%</td>
+          </tr>
+        `;
+      } else if (res.tipo === 'estoque_posicao' && res.kpis) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="5">TOTAL DO PATRIMÔNIO DE ESTOQUE (${res.kpis.totalSkus} SKUs)</td>
+            <td class="col-num">${formatarNumeroRel(res.kpis.totalPecas)}</td>
+            <td class="col-num">-</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.patrimonioCusto)}</td>
+            <td class="col-num">-</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.patrimonioVenda)}</td>
+            <td class="col-center">${res.kpis.itensCriticos} críticos</td>
+          </tr>
+        `;
+      } else if (res.tipo === 'fiscal_saidas' && res.kpis) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="7">CONSOLIDAÇÃO FISCAL TOTAL (${res.kpis.totalDocumentos} NOTAS)</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.faturamentoFiscalTotal)}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.icmsEstimado)}</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.faturamentoFiscalTotal)}</td>
+            <td class="col-center">100% Ok</td>
+          </tr>
+        `;
+      } else if (res.tipo === 'clientes_inativos' && res.kpis) {
+        tfoot.innerHTML = `
+          <tr>
+            <td colspan="6">PATRIMÔNIO HISTÓRICO ACUMULADO DA BASE INATIVA</td>
+            <td class="col-center">${formatarNumeroRel(res.kpis.totalInativos)} contas</td>
+            <td class="col-num">${formatarMoedaRel(res.kpis.patrimonioHistoricoInativo)}</td>
+          </tr>
+        `;
+      } else {
+        tfoot.innerHTML = '';
+      }
+    }
+  }
+
+  function filtrarTabelaRelatorioAoDigitar(termo) {
+    const termoMin = (termo || '').toLowerCase().trim();
+    const tbody = document.getElementById('rel-tabela-tbody');
+    const contBox = document.getElementById('rel-contador-linhas');
+    if (!tbody) return;
+
+    const rows = tbody.querySelectorAll('tr');
+    let visiveis = 0;
+
+    rows.forEach(tr => {
+      const texto = tr.textContent.toLowerCase();
+      const match = !termoMin || texto.includes(termoMin);
+      tr.style.display = match ? '' : 'none';
+      if (match) visiveis++;
+    });
+
+    if (contBox) {
+      contBox.textContent = termoMin ? `Filtrando ${visiveis} de ${rows.length} registros` : `Exibindo ${visiveis} registro${visiveis === 1 ? '' : 's'}`;
+    }
+  }
+
+  function limparBuscaRelatorio() {
+    const input = document.getElementById('rel-busca-filtro');
+    if (input) {
+      input.value = '';
+      filtrarTabelaRelatorioAoDigitar('');
+    }
+  }
+
+  function exportarRelatorioAtualCsv() {
+    const tipo = ESTADO_RELATORIOS.subTipoAtivo;
+    const periodo = ESTADO_RELATORIOS.periodoAtivo;
+    let url = `/api/relatorios?tipo=${encodeURIComponent(tipo)}&periodo=${encodeURIComponent(periodo)}&formato=csv`;
+
+    if (periodo === 'custom') {
+      const dtIni = document.getElementById('rel-dt-inicio')?.value || '';
+      const dtFim = document.getElementById('rel-dt-fim')?.value || '';
+      if (dtIni) url += `&inicio=${encodeURIComponent(dtIni)}`;
+      if (dtFim) url += `&fim=${encodeURIComponent(dtFim)}`;
+    }
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `MisSuenos_Relatorio_${tipo}_${periodo}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  function imprimirRelatorioTimbrado() {
+    const dados = ESTADO_RELATORIOS.dadosCarregados;
+    if (!dados) {
+      alert('Aguarde os dados serem carregados antes de imprimir.');
+      return;
+    }
+
+    const titRel = document.getElementById('print-titulo-relatorio');
+    const perRel = document.getElementById('print-periodo-relatorio');
+    const dtRel = document.getElementById('print-data-emissao');
+    const boxTabela = document.getElementById('print-conteudo-tabela');
+
+    if (titRel) titRel.textContent = (dados.titulo || 'RELATÓRIO EXECUTIVO').toUpperCase();
+    if (perRel) perRel.textContent = 'Período: ' + (dados.periodo && dados.periodo.descricao ? dados.periodo.descricao : (ESTADO_RELATORIOS.periodoAtivo === 'todos' ? 'Histórico Completo' : ESTADO_RELATORIOS.periodoAtivo));
+    if (dtRel) {
+      const agora = new Date();
+      dtRel.textContent = 'Emissão: ' + agora.toLocaleDateString('pt-BR') + ' ' + agora.toLocaleTimeString('pt-BR');
+    }
+
+    // Copia a tabela atual para a área de impressão
+    const tabOrig = document.getElementById('tabela-relatorios-dados');
+    if (tabOrig && boxTabela) {
+      boxTabela.innerHTML = tabOrig.outerHTML;
+    }
+
+    window.print();
+  }
+
+  function abrirModalPacoteContador() {
+    const modal = document.getElementById('modal-pacote-contador');
+    const gridResumo = document.getElementById('pacote-contador-grid-resumo');
+    const dados = ESTADO_RELATORIOS.dadosCarregados;
+
+    if (modal) modal.style.display = 'flex';
+
+    if (gridResumo && dados && dados.kpis) {
+      gridResumo.innerHTML = `
+        <div><span style="color: var(--text-muted); font-size: 11px;">Total de Notas Saída:</span><br><strong style="color: #38bdf8;">${dados.kpis.totalDocumentos || 0} notas</strong></div>
+        <div><span style="color: var(--text-muted); font-size: 11px;">Faturamento Fiscal:</span><br><strong style="color: #34d399;">${formatarMoedaRel(dados.kpis.faturamentoFiscalTotal)}</strong></div>
+        <div><span style="color: var(--text-muted); font-size: 11px;">ICMS Estimado:</span><br><strong style="color: #a78bfa;">${formatarMoedaRel(dados.kpis.icmsEstimado)}</strong></div>
+        <div><span style="color: var(--text-muted); font-size: 11px;">Regime Tributário:</span><br><strong style="color: var(--text-main);">${dados.kpis.regimeTributario}</strong></div>
+      `;
+    }
+  }
+
+  function fecharModalPacoteContador() {
+    const modal = document.getElementById('modal-pacote-contador');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function baixarPlanilhaPacoteContador() {
+    exportarRelatorioAtualCsv();
+    fecharModalPacoteContador();
+  }
 
 </script>
 
