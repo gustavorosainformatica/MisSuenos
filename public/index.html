@@ -139,14 +139,24 @@
 
     
     /* ========================================================
-       OPÇÃO 1: CARD ESTILO BLING / GLASSMORPHISM (APLICADA)
+       CABEÇALHO FIXO SUPERIOR: BARRA DE KPIS SEM ROLAGEM
+       (PERMANECE 100% FIXA NO TOPO - ACIMA DA LINHA DIVISÓRIA)
        ======================================================== */
     .kpis-com-mapa-wrapper {
       display: grid !important;
       grid-template-columns: 1fr auto !important;
       gap: 14px !important;
       align-items: stretch !important;
-      margin-bottom: 18px !important;
+      position: static !important;
+      flex-shrink: 0 !important;
+      z-index: 40 !important;
+      background: var(--bg-app) !important;
+      padding: 12px 24px !important;
+      margin: 0 !important;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
     }
     @media (max-width: 1200px) {
       .kpis-com-mapa-wrapper {
@@ -156,7 +166,20 @@
     @media (max-width: 768px) {
       .kpis-com-mapa-wrapper {
         grid-template-columns: 1fr !important;
+        position: static !important;
+        top: auto !important;
+        box-shadow: none !important;
+        border-bottom: none !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
       }
+    }
+
+    [data-theme="light"] .kpis-com-mapa-wrapper {
+      background: #f4f6f8 !important;
+      border-bottom-color: #e2e8f0 !important;
+      box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.08) !important;
     }
 
     .btn-mini-mapa-brasil {
@@ -186,6 +209,12 @@
       background: linear-gradient(145deg, #18253b, #0e1624) !important;
     }
 
+    .btn-mini-mapa-brasil, .btn-mini-mapa-brasil * {
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      -webkit-user-drag: none !important;
+    }
+
     .btn-mini-mapa-brasil .img-mapa-brasil {
       width: 100% !important;
       height: 100% !important;
@@ -196,6 +225,7 @@
       display: block !important;
       border: none !important;
       border-radius: 4px !important;
+      pointer-events: none !important;
     }
 
     .btn-mini-mapa-brasil:hover .img-mapa-brasil {
@@ -604,9 +634,27 @@
       color: #34d399;
       border: 1px solid rgba(52, 211, 153, 0.35);
     }
+    .gear-dd-badge.badge-blue {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
     .gear-dd-badge.badge-green {
       background: rgba(16, 185, 129, 0.2);
       color: #10b981;
+    }
+
+    /* DESTAQUE SUAVE AO CLICAR EM SEÇÕES DE CONFIGURAÇÃO (EMPRESA / WHITE-LABEL) */
+    @keyframes destaqueCardPulso {
+      0% { box-shadow: 0 0 0 rgba(0, 212, 255, 0); border-color: rgba(0, 212, 255, 0.2); }
+      25% { box-shadow: 0 0 25px rgba(0, 212, 255, 0.55); border-color: #00d4ff; }
+      70% { box-shadow: 0 0 18px rgba(0, 212, 255, 0.35); border-color: #00d4ff; }
+      100% { box-shadow: 0 0 0 rgba(0, 212, 255, 0); border-color: var(--border-color); }
+    }
+    .card-destaque-glow {
+      animation: destaqueCardPulso 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      position: relative;
+      z-index: 5;
     }
     .gear-dd-subtext {
       font-size: 11px;
@@ -727,13 +775,31 @@
       padding: 0;
     }
 
+    /* CONTROLE ESTRUTURAL DE ROLAGEM: WINDOWS / DESKTOP / PWA */
+    html, body {
+      height: 100% !important;
+      max-height: 100vh !important;
+      overflow: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    .erp-main-wrapper::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-app);
       color: var(--text-main);
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
-      overflow-x: hidden;
+      overflow: hidden !important;
       font-size: 13px;
     }
 
@@ -975,6 +1041,71 @@
       align-items: center;
       gap: 12px;
       min-width: 44px;
+    }
+
+    /* SEPARADOR E BADGE INDICADOR DE MÓDULO ATIVO NA TOPBAR */
+    .topbar-breadcrumb-sep {
+      color: rgba(255, 255, 255, 0.22);
+      font-size: 15px;
+      font-weight: 300;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    .topbar-module-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px solid rgba(0, 212, 255, 0.32);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.12);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .topbar-module-badge:hover {
+      background: rgba(0, 212, 255, 0.14);
+      border-color: rgba(0, 212, 255, 0.5);
+      box-shadow: 0 0 16px rgba(0, 212, 255, 0.22);
+    }
+    .topbar-module-icon {
+      font-size: 14px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+    }
+    .topbar-module-name {
+      font-size: 12.5px;
+      letter-spacing: -0.1px;
+      color: #f0f9ff;
+    }
+
+    @keyframes badgeBump {
+      0% { transform: scale(0.96); opacity: 0.7; }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .topbar-module-badge.badge-bump {
+      animation: badgeBump 0.24s ease-out;
+    }
+
+    /* Ajustes Tema Claro */
+    [data-theme="light"] .topbar-breadcrumb-sep {
+      color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .topbar-module-badge {
+      background: #f0f9ff !important;
+      border-color: #bae6fd !important;
+      color: #0284c7 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+    [data-theme="light"] .topbar-module-name {
+      color: #0f172a !important;
     }
 
     .topbar-center {
@@ -2894,6 +3025,10 @@
       .breadcrumbs {
         display: none !important;
       }
+      .topbar-breadcrumb-sep,
+      .topbar-module-badge {
+        display: none !important;
+      }
       .topbar-search-box {
         max-width: 100% !important;
         flex: 1 !important;
@@ -3213,14 +3348,185 @@
       pointer-events: auto;
     }
 
-    /* ÁREA PRINCIPAL DO ERP EM TELA CHEIA (100%) */
+    /* ÁREA PRINCIPAL DO ERP EM TELA CHEIA (100% VIEWPORT) */
     .erp-main-wrapper {
       flex: 1 !important;
       width: 100% !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
       min-width: 0 !important;
       display: flex !important;
       flex-direction: column !important;
       background-color: var(--bg-app) !important;
+      overflow: hidden !important;
+    }
+
+    .erp-topbar {
+      flex-shrink: 0 !important;
+      position: static !important;
+    }
+
+    .erp-content {
+      display: none;
+    }
+
+    .erp-content:not(.modulo-ativo) {
+      display: none !important;
+    }
+
+    .erp-content.modulo-ativo {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      height: calc(100vh - var(--topbar-height)) !important;
+      max-height: calc(100vh - var(--topbar-height)) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      gap: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ========================================================
+       ÁREA ROLÁVEL COM BARRA DE ROLAGEM VISÍVEL À DIREITA
+       (FUNCIONA SOMENTE ABAIXO DA LINHA DOS KPIS)
+       ======================================================== */
+    .erp-scrollable-area {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-y: scroll !important; /* Força scrollbar visível e interativa à direita */
+      overflow-x: hidden !important;
+      padding: 16px 24px 28px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 18px !important;
+      scrollbar-width: thin !important;
+      scrollbar-color: rgba(255, 255, 255, 0.35) rgba(11, 16, 25, 0.6) !important;
+    }
+
+    .erp-scrollable-area > * {
+      flex-shrink: 0 !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar {
+      display: block !important;
+      width: 10px !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-track {
+      background: rgba(11, 16, 25, 0.6) !important;
+      border-left: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.28) !important;
+      border-radius: 6px !important;
+      border: 2px solid rgba(11, 16, 25, 0.6) !important;
+      transition: background 0.2s ease !important;
+    }
+
+    .erp-scrollable-area::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 212, 255, 0.6) !important;
+    }
+
+    [data-theme="light"] .erp-scrollable-area {
+      scrollbar-color: #94a3b8 #f8fafc !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-track {
+      background: #f8fafc !important;
+      border-left: 1px solid #e2e8f0 !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-thumb {
+      background: #94a3b8 !important;
+      border: 2px solid #f8fafc !important;
+    }
+    [data-theme="light"] .erp-scrollable-area::-webkit-scrollbar-thumb:hover {
+      background: #64748b !important;
+    }
+
+    /* ========================================================
+       PAINEL & INDICADORES: MÓDULO EXECUTIVO SEM BARRA DE ROLAGEM
+       (SOMENTE NESSA TELA, CONFORME SOLICITAÇÃO ESPECÍFICA DO USUÁRIO)
+       ======================================================== */
+    #modulo-painel-conteudo .erp-scrollable-area {
+      overflow-y: hidden !important;
+      overflow-x: hidden !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+      padding: 10px 24px 14px 24px !important;
+      gap: 10px !important;
+    }
+
+    #modulo-painel-conteudo .erp-scrollable-area::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      background: transparent !important;
+    }
+
+    /* Calibração equilibrada de ícones e compactação do painel executivo */
+    #modulo-painel-conteudo .kpis-com-mapa-wrapper {
+      padding: 10px 24px !important;
+    }
+
+    #modulo-painel-conteudo .erp-kpi-card {
+      padding: 10px 14px !important;
+    }
+
+    #modulo-painel-conteudo .kpi-number {
+      font-size: 20px !important;
+    }
+
+    #modulo-painel-conteudo .kpi-icon-pill {
+      width: 24px !important;
+      height: 24px !important;
+      font-size: 12px !important;
+    }
+
+    #modulo-painel-conteudo .btn-mini-mapa-brasil {
+      min-height: 74px !important;
+      height: 74px !important;
+      width: 84px !important;
+      min-width: 84px !important;
+    }
+
+    #modulo-painel-conteudo .btn-mini-mapa-brasil .img-mapa-brasil {
+      max-width: 64px !important;
+      max-height: 64px !important;
+    }
+
+    #modulo-painel-conteudo .painel-secao-cambio {
+      padding: 10px 18px !important;
+    }
+
+    #modulo-painel-conteudo .painel-card-moeda {
+      padding: 9px 12px !important;
+    }
+
+    #modulo-painel-conteudo .painel-moeda-num {
+      font-size: 20px !important;
+      margin: 4px 0 !important;
+    }
+
+    #modulo-painel-conteudo .painel-secao-metas {
+      padding: 10px 18px !important;
+    }
+
+    #modulo-painel-conteudo .painel-secao-acoes {
+      padding: 10px 18px !important;
+    }
+
+    #modulo-painel-conteudo .painel-secao-acoes h3 {
+      font-size: 13px !important;
+      margin-bottom: 8px !important;
+    }
+
+    #modulo-painel-conteudo .painel-secao-acoes button {
+      padding: 9px 12px !important;
+      font-size: 12px !important;
     }
 
   </style>
@@ -3310,9 +3616,14 @@
           </div>
           <span class="topbar-menu-indicator" title="Menu Lateral">☰</span>
         </div>
-        <!-- Elementos ocultos para manter compatibilidade com scripts do sistema -->
+        <!-- SEPARADOR E INDICADOR DE CONTEXTO ATIVO -->
+        <span class="topbar-breadcrumb-sep" id="topbar-breadcrumb-sep">/</span>
+        <div class="topbar-module-badge" id="topbar-module-badge" title="Módulo Ativo no ERP">
+          <span class="topbar-module-icon" id="topbar-module-icon">📊</span>
+          <span class="topbar-module-name" id="breadcrumb-modulo">Painel & Indicadores</span>
+        </div>
+        <!-- Elementos para manter compatibilidade com scripts do sistema -->
         <span id="app-breadcrumb-name" style="display: none;"></span>
-        <span id="breadcrumb-modulo" style="display: none;"></span>
       </div>
 
       <!-- CENTRO: OMNIBAR CENTRAL FLUTUANTE (PADRÃO LINEAR.APP) -->
@@ -3371,8 +3682,12 @@
 
             <div class="gear-dd-divider"></div>
 
-            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));">
-              <span class="gear-dd-left"><span>🏢</span> <span>Empresa & White-Label</span></span>
+            <button type="button" class="gear-dd-item" id="btn-gear-empresa" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('empresa');">
+              <span class="gear-dd-left"><span>🏢</span> <span>Empresa</span></span>
+            </button>
+
+            <button type="button" class="gear-dd-item" id="btn-gear-whitelabel" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('whitelabel');">
+              <span class="gear-dd-left"><span>🎨</span> <span>White-Label</span></span>
             </button>
 
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalUsuarioRbac();">
@@ -3467,7 +3782,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3475,8 +3790,9 @@
 
       
 
-      <!-- DATA GRID CORPORATIVA -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- DATA GRID CORPORATIVA -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>📋 Clientes & Destinatários de Encomendas</span>
@@ -3519,10 +3835,12 @@
           </div>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area clientes -->
     </main>
 
     <!-- MÓDULO MAPA DE CALOR INTERATIVO DO BRASIL -->
-    <main class="erp-content" id="modulo-mapa-conteudo" style="display: none; flex-direction: column; gap: 20px;">
+    <main class="erp-content" id="modulo-mapa-conteudo" style="display: none;">
+      <div class="erp-scrollable-area">
       <section class="mapa-section" id="mapa-calor-section">
         <div class="mapa-header">
           <div class="mapa-header-title">
@@ -3588,6 +3906,7 @@
           </div>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area mapa -->
     </main>
 
     <!-- MÓDULO DE PRODUTOS & ESTOQUE DE COUROS (ERP) -->
@@ -3643,7 +3962,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3651,8 +3970,9 @@
 
       
 
-      <!-- DATA GRID DE PRODUTOS -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- DATA GRID DE PRODUTOS -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>🪵 Tabela de Produtos & Controle de Estoque (Mis Sueños)</span>
@@ -3685,6 +4005,7 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area produtos -->
     </main>
 
     <!-- MÓDULO DE VENDAS & PEDIDOS (ERP) -->
@@ -3742,7 +4063,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3856,7 +4177,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3865,8 +4186,9 @@
       <!-- BARRA DE FILTROS FINANCEIROS -->
       
 
-      <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- TABELA DE LANÇAMENTOS FINANCEIROS -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>💰 Lançamentos de Contas a Pagar e a Receber</span>
@@ -3897,6 +4219,7 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area financeiro -->
     </main>
 
     <!-- MÓDULO CENTRAL FISCAL (NF-E & NFS-E) -->
@@ -3954,7 +4277,7 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
           
         </button>
@@ -3963,8 +4286,9 @@
       <!-- BARRA DE AÇÕES FISCAIS -->
       
 
-      <!-- TABELA FISCAL -->
-      <section class="erp-table-card">
+      <div class="erp-scrollable-area">
+        <!-- TABELA FISCAL -->
+        <section class="erp-table-card">
         <div class="table-top-actions">
           <div class="table-title">
             <span>🧾 Registro de Notas Fiscais Eletrônicas Emitidas</span>
@@ -3996,10 +4320,11 @@
           </table>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area fiscal -->
     </main>
 
     <!-- MÓDULO PAINEL GERAL (DASHBOARD EXECUTIVO) -->
-    <main class="erp-content" id="modulo-painel-conteudo" style="display: flex; flex-direction: column; gap: 20px;">
+    <main class="erp-content" id="modulo-painel-conteudo" style="display: flex; flex-direction: column;">
       <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
         <div class="erp-kpi-card" id="card-kpi-painel-clientes" style="cursor: pointer;" onclick="trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'clientes', this)" title="💡 Botão Esquerdo: Abrir CRM · Botão Direito (🖱️): Atalhos Rápidos & Filtros de Clientes">
@@ -4040,81 +4365,81 @@
       </section>
 
         <!-- BOTÃO NO FORMATO DO MINI MAPA DO BRASIL -->
-        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" title="Clique para abrir a Distribuição Geográfica nas 27 UFs do Brasil">
+        <button type="button" class="btn-mini-mapa-brasil" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))" oncontextmenu="abrirMenuContextoKpi(event, 'mapa', 'mini-mapa', this)" title="💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs">
           <img src="mapa_brasil_btn.png?v=2" alt="Mapa do Brasil" class="img-mapa-brasil">
         </button>
       </div>
 
-      <!-- SEÇÃO: COTAÇÕES & INDICADORES DE MERCADO EM TEMPO REAL (AWESOMEAPI) -->
-      <section style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 16px;">📈</span>
-            <span style="font-size: 13px; font-weight: 800; color: #f8fafc; letter-spacing: 0.3px; text-transform: uppercase;">Mercado Financeiro & Câmbio em Tempo Real</span>
-            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399;" title="Conectado à API de Cotações"></span>
+      <div class="erp-scrollable-area painel-scroll-area">
+        <!-- SEÇÃO: COTAÇÕES & INDICADORES DE MERCADO EM TEMPO REAL (AWESOMEAPI) -->
+      <section class="painel-secao-cambio" style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 10px 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 14px;">📈</span>
+            <span style="font-size: 11.5px; font-weight: 800; color: #f8fafc; letter-spacing: 0.3px; text-transform: uppercase;">Mercado Financeiro & Câmbio em Tempo Real</span>
+            <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 8px #34d399;" title="Conectado à API de Cotações"></span>
           </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span id="market-timestamp" style="font-size: 11px; color: var(--text-muted);">Consultando cotações ao vivo...</span>
-            <button type="button" onclick="atualizarCotacoesMercado(true)" title="Atualizar Cotações Agora" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #38bdf8; border-radius: 6px; padding: 4px 10px; font-size: 11.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span id="market-timestamp" style="font-size: 10.5px; color: var(--text-muted);">Consultando cotações ao vivo...</span>
+            <button type="button" onclick="atualizarCotacoesMercado(true)" title="Atualizar Cotações Agora" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #38bdf8; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: 0.2s;">
               <span>🔄</span> <span>Atualizar</span>
             </button>
-
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
           <!-- CARD DÓLAR -->
-          <div class="erp-kpi-card" id="card-market-usd" style="background: linear-gradient(135deg, rgba(14, 27, 49, 0.95), rgba(8, 16, 30, 0.95)); border: 1px solid rgba(56, 189, 248, 0.35); position: relative; overflow: hidden; padding: 16px;">
+          <div class="erp-kpi-card painel-card-moeda" id="card-market-usd" style="background: linear-gradient(135deg, rgba(14, 27, 49, 0.95), rgba(8, 16, 30, 0.95)); border: 1px solid rgba(56, 189, 248, 0.35); position: relative; overflow: hidden; padding: 10px 14px;">
             <div class="kpi-top-row">
-              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 15px;">🇺🇸</span> <strong style="color: #38bdf8;">Dólar Comercial</strong> (USD/BRL)
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 5px; font-size: 11px;">
+                <span style="font-size: 13px;">🇺🇸</span> <strong style="color: #38bdf8;">Dólar Comercial</strong> (USD/BRL)
               </span>
-              <span id="usd-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+              <span id="usd-var-badge" style="font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
                 --
               </span>
             </div>
-            <div class="kpi-number" id="usd-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+            <div class="kpi-number painel-moeda-num" id="usd-val-bid" style="color: #fff; font-size: 20px; margin: 4px 0; font-weight: 900;">
               R$ 0,00
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+            <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 5px; margin-top: 3px;">
               <span>Mín: <strong id="usd-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
               <span>Máx: <strong id="usd-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
             </div>
           </div>
 
           <!-- CARD EURO -->
-          <div class="erp-kpi-card" id="card-market-eur" style="background: linear-gradient(135deg, rgba(20, 24, 53, 0.95), rgba(10, 14, 34, 0.95)); border: 1px solid rgba(129, 140, 248, 0.35); position: relative; overflow: hidden; padding: 16px;">
+          <div class="erp-kpi-card painel-card-moeda" id="card-market-eur" style="background: linear-gradient(135deg, rgba(20, 24, 53, 0.95), rgba(10, 14, 34, 0.95)); border: 1px solid rgba(129, 140, 248, 0.35); position: relative; overflow: hidden; padding: 10px 14px;">
             <div class="kpi-top-row">
-              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 15px;">🇪🇺</span> <strong style="color: #818cf8;">Euro Comercial</strong> (EUR/BRL)
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 5px; font-size: 11px;">
+                <span style="font-size: 13px;">🇪🇺</span> <strong style="color: #818cf8;">Euro Comercial</strong> (EUR/BRL)
               </span>
-              <span id="eur-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+              <span id="eur-var-badge" style="font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
                 --
               </span>
             </div>
-            <div class="kpi-number" id="eur-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+            <div class="kpi-number painel-moeda-num" id="eur-val-bid" style="color: #fff; font-size: 20px; margin: 4px 0; font-weight: 900;">
               R$ 0,00
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+            <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 5px; margin-top: 3px;">
               <span>Mín: <strong id="eur-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
               <span>Máx: <strong id="eur-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
             </div>
           </div>
 
           <!-- CARD BITCOIN -->
-          <div class="erp-kpi-card" id="card-market-btc" style="background: linear-gradient(135deg, rgba(35, 26, 10, 0.95), rgba(18, 14, 6, 0.95)); border: 1px solid rgba(245, 158, 11, 0.35); position: relative; overflow: hidden; padding: 16px;">
+          <div class="erp-kpi-card painel-card-moeda" id="card-market-btc" style="background: linear-gradient(135deg, rgba(35, 26, 10, 0.95), rgba(18, 14, 6, 0.95)); border: 1px solid rgba(245, 158, 11, 0.35); position: relative; overflow: hidden; padding: 10px 14px;">
             <div class="kpi-top-row">
-              <span class="kpi-label" style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 15px;">₿</span> <strong style="color: #fbbf24;">Bitcoin Brasil</strong> (BTC/BRL)
+              <span class="kpi-label" style="display: flex; align-items: center; gap: 5px; font-size: 11px;">
+                <span style="font-size: 13px;">₿</span> <strong style="color: #fbbf24;">Bitcoin Brasil</strong> (BTC/BRL)
               </span>
-              <span id="btc-var-badge" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+              <span id="btc-var-badge" style="font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
                 --
               </span>
             </div>
-            <div class="kpi-number" id="btc-val-bid" style="color: #fff; font-size: 26px; margin: 8px 0; font-weight: 900;">
+            <div class="kpi-number painel-moeda-num" id="btc-val-bid" style="color: #fff; font-size: 20px; margin: 4px 0; font-weight: 900;">
               R$ 0,00
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; margin-top: 4px;">
+            <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 5px; margin-top: 3px;">
               <span>Mín: <strong id="btc-val-low" style="color: #cbd5e1;">R$ 0,00</strong></span>
               <span>Máx: <strong id="btc-val-high" style="color: #cbd5e1;">R$ 0,00</strong></span>
             </div>
@@ -4123,27 +4448,27 @@
       </section>
 
       <!-- SEÇÃO: PERFORMANCE & METAS MENSAIS -->
-      <section class="erp-table-card" style="padding: 20px 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+      <section class="erp-table-card painel-secao-metas" style="padding: 10px 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
           <div>
-            <h3 style="color: #fff; font-size: 14px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;">
+            <h3 style="color: #fff; font-size: 12.5px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px;">
               <span>🎯</span> Metas de Faturamento & Desempenho Mensal
             </h3>
-            <span style="font-size: 11px; color: var(--text-muted);">Acompanhamento da meta de vendas da Mis Sueños para o mês corrente</span>
+            <span style="font-size: 10.5px; color: var(--text-muted);">Acompanhamento da meta de vendas da Mis Sueños para o mês corrente</span>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span id="meta-percentual-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 6px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span id="meta-percentual-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 5px;">
               82% Atingido
             </span>
           </div>
         </div>
 
         <!-- BARRA DE PROGRESSO COM GRADIENTE -->
-        <div style="width: 100%; height: 12px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px;">
+        <div style="width: 100%; height: 9px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 6px;">
           <div id="meta-progress-bar" style="height: 100%; width: 82%; background: linear-gradient(90deg, #0ea5e9, #10b981); border-radius: 10px; transition: width 0.6s ease;"></div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); flex-wrap: wrap; gap: 6px;">
           <span>Realizado no Mês: <strong id="meta-val-realizado" style="color: #38bdf8;">R$ 18.450,00</strong></span>
           <span>Meta Estipulada: <strong id="meta-val-estipulada" style="color: #f8fafc;">R$ 22.500,00</strong></span>
           <span>Restante para a Meta: <strong id="meta-val-restante" style="color: #fbbf24;">R$ 4.050,00</strong></span>
@@ -4151,43 +4476,113 @@
       </section>
 
       <!-- ATALHOS RAPIDOS DO ERP -->
-      <section class="erp-table-card" style="padding: 24px;">
-        <h3 style="color: #fff; font-size: 15px; margin-bottom: 14px;">⚡ Ações Rápidas de Operação Diária</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;">
-          <button class="btn-top btn-primary-glow" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalNovoCliente()">
+      <section class="erp-table-card painel-secao-acoes" style="padding: 10px 18px;">
+        <h3 style="color: #fff; font-size: 13px; margin-bottom: 8px;">⚡ Ações Rápidas de Operação Diária</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <button class="btn-top btn-primary-glow" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalNovoCliente()">
             ➕ Novo Cadastro de Cliente
           </button>
-          <button class="btn-top btn-emerald-glow" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalNovoPedido()">
+          <button class="btn-top btn-emerald-glow" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalNovoPedido()">
             📦 Cadastrar Novo Pedido
           </button>
-          <button class="btn-top" style="background: #a855f7; color: #fff; padding: 14px; justify-content: center; font-size: 13px;" onclick="abrirModalFiscal()">
+          <button class="btn-top" style="background: #a855f7; color: #fff; padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalFiscal()">
             🧾 Emitir Nota Fiscal (NF-e)
           </button>
-          <button class="btn-top btn-row-action" style="padding: 14px; justify-content: center; font-size: 13px;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
+          <button class="btn-top btn-row-action" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
             🪵 Consultar Estoque de Couros
           </button>
-          <button class="btn-top btn-row-action" style="padding: 14px; justify-content: center; font-size: 13px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+          <button class="btn-top btn-row-action" style="padding: 9px 12px; justify-content: center; font-size: 12px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
             🗺️ Visualizar Mapa de Clientes (Calor)
           </button>
         </div>
       </section>
+      </div> <!-- fim erp-scrollable-area painel -->
     </main>
 
     <!-- MÓDULO CONFIGURAÇÕES (WHITE-LABEL + USUÁRIOS RBAC - TICKET 6) -->
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
+      <div class="erp-scrollable-area">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
         
-        <!-- CARD 1: MOTOR WHITE-LABEL DE DUPLA CAMADA & EMITENTE -->
-        <section class="erp-table-card" style="padding: 24px;">
+        <!-- CARD 1: DADOS DA EMPRESA & EMITENTE FISCAL -->
+        <section class="erp-table-card" id="card-config-empresa" style="padding: 24px; transition: all 0.3s ease;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🏢 Dados da Empresa & Emitente Fiscal</h3>
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="app-config-company-name">
+                Informações cadastrais e fiscais da empresa emitente (NF-e, etiquetas e relatórios).
+              </p>
+            </div>
+            <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              Emitente Oficial
+            </span>
+          </div>
+
+          <form id="form-config-empresa" onsubmit="salvarDadosEmpresa(event)" style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Razão Social Emitente (NF-e) *</label>
+                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">CNPJ / CPF do Emitente *</label>
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Responsável Operacional *</label>
+                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Nunes Machado" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Inscrição Estadual (IE)</label>
+                <input type="text" class="form-input" id="cfg-ie-emitente" value="ISENTO">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Cidade / Estado (Origem)</label>
+                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="Santo Antônio da Patrulha - RS">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CEP de Postagem</label>
+                <input type="text" class="form-input" id="cfg-cep-emitente" value="95500-000">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Endereço da Sede / Remetente</label>
+                <input type="text" class="form-input" id="cfg-endereco-emitente" value="Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone / WhatsApp Comercial</label>
+                <input type="text" class="form-input" id="cfg-telefone-emitente" value="(51) 99719-9204">
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div style="font-size: 11px; color: var(--text-muted);">
+                Vinculado a emissão de NF-e, DANFE e Etiquetas de Envio
+              </div>
+              <button type="submit" id="btn-salvar-empresa" class="btn-top btn-primary-glow">💾 Salvar Dados da Empresa</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- CARD 2: PARAMETRIZAÇÃO WHITE-LABEL & RAMO -->
+        <section class="erp-table-card" id="card-config-whitelabel" style="padding: 24px; transition: all 0.3s ease;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🎨 Parametrização White-Label & Ramo</h3>
-              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="app-config-company-name">
-                Personalize nomenclaturas dos módulos, categorias e dados fiscais da empresa.
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;">
+                Personalize nomenclaturas dos módulos, categorias, unidades e presets de ramo de atividade.
               </p>
             </div>
-            <span style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
-              Template ERP Base
+            <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+              Personalização Visual
             </span>
           </div>
 
@@ -4220,17 +4615,6 @@
               </div>
             </div>
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label class="form-label">Razão Social Emitente (NF-e)</label>
-                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES">
-              </div>
-              <div class="form-group">
-                <label class="form-label">CNPJ / CPF do Emitente</label>
-                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91">
-              </div>
-            </div>
-
             <div class="form-grid-3">
               <div class="form-group">
                 <label class="form-label">Nome Menu Pedidos</label>
@@ -4251,22 +4635,16 @@
               <input type="text" class="form-input" id="cfg-categorias-padrao" value="Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria">
             </div>
 
-            <div class="form-grid-2">
-              <div class="form-group">
-                <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
-                <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Responsável Operacional</label>
-                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Machado">
-              </div>
+            <div class="form-group">
+              <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
+              <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
             </div>
 
-            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+            <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
               <div style="font-size: 11px; color: var(--text-muted);">
-                Banco isolado Turso Cloud • <strong>Gustavo Rosa Informática</strong>
+                Motor White-Label Dupla Camada • <strong>Mis Sueños ERP</strong>
               </div>
-              <button type="submit" class="btn-top btn-primary-glow">💾 Salvar Configurações</button>
+              <button type="submit" id="btn-salvar-whitelabel" class="btn-top btn-emerald-glow">💾 Salvar White-Label</button>
             </div>
           </form>
         </section>
@@ -5935,6 +6313,90 @@
       }
     }
 
+    // =========================================================================
+    // COTAÇÕES DE MERCADO FINANCEIRO EM TEMPO REAL (AWESOMEAPI) - MIS SUEÑOS ERP
+    // =========================================================================
+    async function atualizarCotacoesMercado(forcar = false) {
+      const tsEl = document.getElementById('market-timestamp');
+      const btcValEl = document.getElementById('btc-val-bid');
+      if (!btcValEl) return;
+
+      try {
+        if (tsEl) tsEl.textContent = 'Atualizando cotações...';
+        
+        const cacheKey = 'missuenos_market_cache';
+        const cacheTimeKey = 'missuenos_market_cache_ts';
+        const now = Date.now();
+        const cachedData = localStorage.getItem(cacheKey);
+        const cachedTs = Number(localStorage.getItem(cacheTimeKey) || 0);
+
+        let data = null;
+        if (!forcar && cachedData && (now - cachedTs < 180000)) {
+          data = JSON.parse(cachedData);
+        } else {
+          const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL');
+          if (!res.ok) throw new Error('Falha ao consultar API de cotações');
+          data = await res.json();
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+          localStorage.setItem(cacheTimeKey, String(now));
+        }
+
+        const formatarBRL = (val) => Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const formatarBadge = (elId, pct) => {
+          const badge = document.getElementById(elId);
+          if (!badge) return;
+          const num = parseFloat(pct);
+          const isPos = num >= 0;
+          badge.textContent = `${isPos ? '↑ +' : '↓ '}${num.toFixed(2)}%`;
+          badge.style.background = isPos ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)';
+          badge.style.color = isPos ? '#34d399' : '#fb7185';
+          badge.style.borderColor = isPos ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
+        };
+
+        // 1. Dólar Comercial (USD)
+        if (data.USDBRL) {
+          const usdVal = document.getElementById('usd-val-bid');
+          const usdLow = document.getElementById('usd-val-low');
+          const usdHigh = document.getElementById('usd-val-high');
+          if (usdVal) usdVal.textContent = formatarBRL(data.USDBRL.bid);
+          if (usdLow) usdLow.textContent = formatarBRL(data.USDBRL.low);
+          if (usdHigh) usdHigh.textContent = formatarBRL(data.USDBRL.high);
+          formatarBadge('usd-var-badge', data.USDBRL.pctChange);
+        }
+
+        // 2. Euro Comercial (EUR)
+        if (data.EURBRL) {
+          const eurVal = document.getElementById('eur-val-bid');
+          const eurLow = document.getElementById('eur-val-low');
+          const eurHigh = document.getElementById('eur-val-high');
+          if (eurVal) eurVal.textContent = formatarBRL(data.EURBRL.bid);
+          if (eurLow) eurLow.textContent = formatarBRL(data.EURBRL.low);
+          if (eurHigh) eurHigh.textContent = formatarBRL(data.EURBRL.high);
+          formatarBadge('eur-var-badge', data.EURBRL.pctChange);
+        }
+
+        // 3. Bitcoin (BTC)
+        if (data.BTCBRL) {
+          const btcVal = document.getElementById('btc-val-bid');
+          const btcLow = document.getElementById('btc-val-low');
+          const btcHigh = document.getElementById('btc-val-high');
+          if (btcVal) btcVal.textContent = formatarBRL(data.BTCBRL.bid);
+          if (btcLow) btcLow.textContent = formatarBRL(data.BTCBRL.low);
+          if (btcHigh) btcHigh.textContent = formatarBRL(data.BTCBRL.high);
+          formatarBadge('btc-var-badge', data.BTCBRL.pctChange);
+        }
+
+        if (tsEl) {
+          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          tsEl.textContent = `Atualizado às ${hora}`;
+        }
+      } catch (err) {
+        console.warn('Cotações de mercado:', err.message);
+        if (tsEl) tsEl.textContent = 'Cotações em modo offline (cache)';
+      }
+    }
+    window.atualizarCotacoesMercado = atualizarCotacoesMercado;
+
     // Troca de módulos do ERP
     function trocarModulo(modulo, el) {
       fecharMenuHoverSidebar();
@@ -5945,36 +6407,75 @@
       if (el) el.classList.add('active');
       if (modulo === 'configuracoes' && btnTopCfg) btnTopCfg.classList.add('active');
 
-      const titulo = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
-      document.getElementById('breadcrumb-modulo').textContent = titulo;
+      const MAPA_MODULOS_TITULO = {
+        painel: { nome: 'Painel & Indicadores', icone: '📊' },
+        clientes: { nome: 'Clientes & CRM', icone: '👥' },
+        pedidos: { nome: 'Pedidos de Venda', icone: '📦' },
+        produtos: { nome: 'Estoque de Couros', icone: '🪵' },
+        fiscal: { nome: 'Central Fiscal', icone: '🧾' },
+        financeiro: { nome: 'Financeiro & Caixa', icone: '💰' },
+        compras: { nome: 'Compras & XML', icone: '📥' },
+        configuracoes: { nome: 'Configurações', icone: '⚙️' },
+        mapa: { nome: 'Distribuição Brasil', icone: '🗺️' }
+      };
+
+      const tituloFallback = modulo === 'configuracoes' ? 'Configurações' : (el ? (el.querySelector('span:not(.nav-icon):not(.nav-badge)')?.textContent || modulo) : modulo);
+      const infoMod = MAPA_MODULOS_TITULO[modulo] || { nome: tituloFallback, icone: '📍' };
+
+      const elBread = document.getElementById('breadcrumb-modulo');
+      if (elBread) elBread.textContent = infoMod.nome;
+      const elIcon = document.getElementById('topbar-module-icon');
+      if (elIcon) elIcon.textContent = infoMod.icone;
+
+      const elBadge = document.getElementById('topbar-module-badge');
+      if (elBadge) {
+        elBadge.classList.remove('badge-bump');
+        void elBadge.offsetWidth;
+        elBadge.classList.add('badge-bump');
+      }
 
       // Oculta todas as seções de conteúdo do ERP
-      document.querySelectorAll('.erp-content').forEach(m => m.style.display = 'none');
+      document.querySelectorAll('.erp-content').forEach(m => {
+        m.classList.remove('modulo-ativo');
+        m.style.display = 'none';
+      });
+
+      const mapaModulosEl = {
+        produtos: document.getElementById('modulo-produtos-conteudo'),
+        clientes: document.getElementById('modulo-clientes-conteudo'),
+        pedidos: document.getElementById('modulo-pedidos-conteudo'),
+        fiscal: document.getElementById('modulo-fiscal-conteudo'),
+        painel: document.getElementById('modulo-painel-conteudo'),
+        financeiro: document.getElementById('modulo-financeiro-conteudo'),
+        configuracoes: document.getElementById('modulo-configuracoes-conteudo'),
+        mapa: document.getElementById('modulo-mapa-conteudo')
+      };
+
+      const modAtivo = mapaModulosEl[modulo];
+      if (modAtivo) {
+        modAtivo.classList.add('modulo-ativo');
+        modAtivo.style.display = 'flex';
+      }
 
       if (modulo === 'produtos') {
-        document.getElementById('modulo-produtos-conteudo').style.display = 'flex';
         carregarProdutosApi();
       } else if (modulo === 'clientes') {
-        document.getElementById('modulo-clientes-conteudo').style.display = 'flex';
+        if (typeof renderTabela === 'function') renderTabela();
       } else if (modulo === 'pedidos') {
-        document.getElementById('modulo-pedidos-conteudo').style.display = 'flex';
         atualizarKpisPedidos();
         renderTabelaPedidos();
       } else if (modulo === 'fiscal') {
-        document.getElementById('modulo-fiscal-conteudo').style.display = 'flex';
         renderTabelaFiscal();
       } else if (modulo === 'painel') {
-        document.getElementById('modulo-painel-conteudo').style.display = 'flex';
-        atualizarCotacoesMercado();
+        if (typeof atualizarCotacoesMercado === 'function') {
+          atualizarCotacoesMercado();
+        }
       } else if (modulo === 'financeiro') {
-        document.getElementById('modulo-financeiro-conteudo').style.display = 'flex';
-        carregarFinanceiroApi();
+        if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
       } else if (modulo === 'configuracoes') {
-        document.getElementById('modulo-configuracoes-conteudo').style.display = 'flex';
-        carregarConfiguracoesSistemaApi();
-        carregarUsuariosRbacApi();
+        if (typeof carregarConfiguracoesSistemaApi === 'function') carregarConfiguracoesSistemaApi();
+        if (typeof carregarUsuariosRbacApi === 'function') carregarUsuariosRbacApi();
       } else if (modulo === 'mapa') {
-        document.getElementById('modulo-mapa-conteudo').style.display = 'flex';
         if (typeof renderizarMapaCalor === 'function') {
           renderizarMapaCalor(clientes);
         }
@@ -8962,15 +9463,155 @@
       if (modal) modal.classList.remove('active');
     }
 
-    function abrirModalUsuarioRbac() {
+    function aoMudarPapelRbac(papel) {
+      const chkClientes = document.getElementById('perm-clientes-criar');
+      const chkFiscal = document.getElementById('perm-fiscal-emitir');
+      const chkCusto = document.getElementById('perm-produtos-custo');
+      const chkConfig = document.getElementById('perm-configuracoes');
+
+      if (!chkClientes || !chkFiscal || !chkCusto || !chkConfig) return;
+
+      if (papel === 'ADMIN') {
+        chkClientes.checked = true;
+        chkFiscal.checked = true;
+        chkCusto.checked = true;
+        chkConfig.checked = true;
+      } else if (papel === 'VENDAS') {
+        chkClientes.checked = true;
+        chkFiscal.checked = true;
+        chkCusto.checked = false;
+        chkConfig.checked = false;
+      } else if (papel === 'EXPEDICAO') {
+        chkClientes.checked = false;
+        chkFiscal.checked = false;
+        chkCusto.checked = false;
+        chkConfig.checked = false;
+      } else if (papel === 'FINANCEIRO') {
+        chkClientes.checked = false;
+        chkFiscal.checked = true;
+        chkCusto.checked = true;
+        chkConfig.checked = false;
+      }
+    }
+
+    function abrirModalUsuarioRbac(id) {
       aplicarTamanhoSalvoModal('modal-usuario-rbac');
       const modal = document.getElementById('modal-usuario-rbac');
+      const form = document.getElementById('form-usuario-rbac');
+      if (form) form.reset();
+
+      const titulo = document.getElementById('modal-rbac-titulo');
+      const inputId = document.getElementById('rbac-user-id');
+      const inputLogin = document.getElementById('rbac-login');
+      const hintSenha = document.getElementById('rbac-senha-hint');
+
+      if (inputId) inputId.value = '';
+      if (inputLogin) inputLogin.disabled = false;
+      if (titulo) titulo.textContent = 'Novo Operador do Sistema';
+      if (hintSenha) hintSenha.textContent = '(Obrigatória)';
+
+      const papelSel = document.getElementById('rbac-papel');
+      if (papelSel) papelSel.value = 'ADMIN';
+      aoMudarPapelRbac('ADMIN');
+
       if (modal) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
       }
     }
+
+    async function salvarUsuarioRbac(event) {
+      if (event) event.preventDefault();
+      const token = typeof obterTokenAtivo === 'function' ? obterTokenAtivo() : (localStorage.getItem('missuenos_token') || '');
+      if (!token) {
+        alert('Sessão expirada. Faça login novamente.');
+        return;
+      }
+
+      const id = (document.getElementById('rbac-user-id')?.value || '').trim();
+      const login = (document.getElementById('rbac-login')?.value || '').trim().toLowerCase();
+      const nome = (document.getElementById('rbac-nome')?.value || '').trim();
+      const senha = document.getElementById('rbac-senha')?.value || '';
+      const papel = document.getElementById('rbac-papel')?.value || 'VENDAS';
+
+      const permClientes = document.getElementById('perm-clientes-criar')?.checked || false;
+      const permFiscal = document.getElementById('perm-fiscal-emitir')?.checked || false;
+      const permCusto = document.getElementById('perm-produtos-custo')?.checked || false;
+      const permConfig = document.getElementById('perm-configuracoes')?.checked || false;
+
+      if (!login || !nome) {
+        alert('Por favor, preencha o login e o nome completo.');
+        return;
+      }
+
+      if (!id && (!senha || senha.length < 4)) {
+        alert('A senha inicial é obrigatória e deve ter no mínimo 4 caracteres.');
+        return;
+      }
+
+      const permissoes = {
+        admin: papel === 'ADMIN',
+        clientes_ver: true,
+        clientes_criar: permClientes,
+        clientes_editar: permClientes,
+        clientes_excluir: papel === 'ADMIN',
+        pedidos_ver: true,
+        pedidos_criar: papel === 'ADMIN' || papel === 'VENDAS',
+        pedidos_editar: papel === 'ADMIN' || papel === 'VENDAS' || papel === 'EXPEDICAO',
+        pedidos_excluir: papel === 'ADMIN',
+        produtos_ver: true,
+        produtos_editar: papel === 'ADMIN' || papel === 'EXPEDICAO',
+        produtos_custo: permCusto,
+        fiscal_emitir: permFiscal,
+        configuracoes: permConfig,
+        usuarios_gerenciar: papel === 'ADMIN'
+      };
+
+      const payload = {
+        login,
+        nome,
+        papel,
+        permissoes,
+        ativo: true
+      };
+      if (senha && senha.trim().length >= 4) {
+        payload.senha = senha.trim();
+      }
+
+      try {
+        const metodo = id ? 'PUT' : 'POST';
+        const url = id ? `/api/usuarios?id=${id}` : '/api/usuarios';
+        const res = await fetch(url, {
+          method: metodo,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok || (!data.success && !data.id)) {
+          alert(data.error || 'Falha ao salvar operador.');
+          return;
+        }
+
+        fecharModalUsuarioRbac();
+        if (typeof carregarUsuariosRbacApi === 'function') {
+          carregarUsuariosRbacApi();
+        }
+        if (typeof exibirToast === 'function') {
+          exibirToast(`Operador ${nome} (@${login}) salvo com sucesso!`, 'sucesso');
+        } else {
+          alert(`Operador ${nome} (@${login}) salvo com sucesso!`);
+        }
+      } catch (err) {
+        console.error('Erro ao salvar operador:', err);
+        alert('Erro de conexão ao salvar operador.');
+      }
+    }
+
     function fecharModalUsuarioRbac() {
       const modal = document.getElementById('modal-usuario-rbac');
       if (modal) modal.classList.remove('active');
@@ -10005,8 +10646,34 @@
 
       let html = '';
 
-      // --- MÓDULO: CLIENTES ---
-      if (modulo === 'clientes') {
+      // --- MÓDULO / ATALHO: MINI MAPA DO BRASIL ---
+      if (modulo === 'mapa' || cardKey === 'mini-mapa') {
+        html = `
+          <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <span>🗺️</span> <span>Distribuição Territorial & UFs</span>
+          </div>
+          <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
+            <span>🗺️</span> <span>Abrir Mapa Interativo Completo</span>
+          </button>
+          <div class="erp-context-divider"></div>
+          <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarRegiaoSul('card-kpi-cli-rs'), 120)">
+            <span>📍</span> <span>Filtrar Região Sul (RS, SC, PR)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs'), 120)">
+            <span>🥇</span> <span>Filtrar Rio Grande do Sul (693)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('SP', 'card-kpi-cli-ufs'), 120)">
+            <span>🥈</span> <span>Filtrar São Paulo (108)</span>
+          </button>
+          <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('PR', 'card-kpi-cli-ufs'), 120)">
+            <span>🥉</span> <span>Filtrar Paraná (91)</span>
+          </button>
+          <div class="erp-context-divider"></div>
+          <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); trocarModulo('clientes', document.getElementById('nav-item-clientes')); setTimeout(() => filtrarClientesPorUfEToast('TODOS', 'card-kpi-cli-total'), 120)">
+            <span>👥</span> <span>Exibir Todos os Clientes (${totalClientes})</span>
+          </button>
+        `;
+      } else if (modulo === 'clientes') {
         if (cardKey === 'base') {
           html = `
             <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
@@ -11260,6 +11927,284 @@
         }
       }
     });
+
+    // ========================================================
+    // MOTOR DE CONFIGURAÇÕES: EMPRESA FISCAL & WHITE-LABEL
+    // ========================================================
+    const PRESETS_RAMO_CLIENTE = {
+      couros: {
+        ramo_preset: 'couros',
+        nome_fantasia: 'Mis Sueños',
+        subtitulo_sistema: 'Couros & Insumos • Sapiranga/RS',
+        cor_primaria: '#c9a96e',
+        label_pedidos: 'Pedidos & Vendas',
+        label_produtos: 'Catálogo & Estoque',
+        label_clientes: 'Clientes & CRM',
+        categorias_padrao: 'Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria',
+        unidades_padrao: 'UN,PAR,M2,KG,KIT,RL,Peça'
+      },
+      informatica: {
+        ramo_preset: 'informatica',
+        nome_fantasia: 'Gustavo Informática',
+        subtitulo_sistema: 'Assistência Técnica & TI • Gestão Comercial',
+        cor_primaria: '#3b82f6',
+        label_pedidos: 'Ordens de Serviço & Vendas',
+        label_produtos: 'Peças & Serviços',
+        label_clientes: 'Clientes & Empresas',
+        categorias_padrao: 'Hardware & Peças,Periféricos,Serviços de Manutenção,Redes & Infraestrutura,Licenças & Software,Cabos & Adaptadores',
+        unidades_padrao: 'UN,SERV,HR,KIT,MT,CX'
+      },
+      comercio: {
+        ramo_preset: 'comercio',
+        nome_fantasia: 'ERP Comercial',
+        subtitulo_sistema: 'Gestão de Vendas, Estoque & Faturamento',
+        cor_primaria: '#10b981',
+        label_pedidos: 'Vendas & Orçamentos',
+        label_produtos: 'Produtos & Estoque',
+        label_clientes: 'Clientes',
+        categorias_padrao: 'Geral,Lançamentos,Promoções,Acessórios,Kits,Insumos',
+        unidades_padrao: 'UN,CX,KG,LT,KIT,PAR'
+      },
+      oficina: {
+        ramo_preset: 'oficina',
+        nome_fantasia: 'ERP Oficina & Serviços',
+        subtitulo_sistema: 'Controle de Ordens de Serviço, Peças & Caixa',
+        cor_primaria: '#f59e0b',
+        label_pedidos: 'Ordens de Serviço (OS)',
+        label_produtos: 'Peças, Insumos & Mão de Obra',
+        label_clientes: 'Clientes & Veículos/Equipamentos',
+        categorias_padrao: 'Peças de Reposição,Mão de Obra / Serviços,Fluidos & Lubrificantes,Elétrica,Acessórios,Revisão Preventiva',
+        unidades_padrao: 'UN,SERV,LT,HR,KIT,PAR'
+      }
+    };
+
+    function abrirConfiguracoesSecao(secao) {
+      fecharMenuEngrenagem();
+      trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));
+
+      setTimeout(() => {
+        let targetCard = null;
+        if (secao === 'empresa') {
+          targetCard = document.getElementById('card-config-empresa');
+        } else if (secao === 'whitelabel') {
+          targetCard = document.getElementById('card-config-whitelabel');
+        }
+
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          targetCard.classList.remove('card-destaque-glow');
+          void targetCard.offsetWidth;
+          targetCard.classList.add('card-destaque-glow');
+          setTimeout(() => {
+            targetCard.classList.remove('card-destaque-glow');
+          }, 2400);
+        }
+      }, 90);
+    }
+    window.abrirConfiguracoesSecao = abrirConfiguracoesSecao;
+
+    async function salvarDadosEmpresa(e) {
+      if (e) e.preventDefault();
+      const btn = document.getElementById('btn-salvar-empresa');
+      if (btn) { btn.disabled = true; btn.textContent = 'Gravando dados...'; }
+
+      const dadosEmpresa = {
+        companyRazaoSocial: (document.getElementById('app-config-razao-social')?.value || '').trim(),
+        companyCnpj: (document.getElementById('cfg-cnpj-emitente')?.value || '').trim(),
+        userName: (document.getElementById('app-config-user-name')?.value || '').trim(),
+        companyIe: (document.getElementById('cfg-ie-emitente')?.value || '').trim(),
+        companyCityState: (document.getElementById('cfg-cidade-uf-emitente')?.value || '').trim(),
+        companyCep: (document.getElementById('cfg-cep-emitente')?.value || '').trim(),
+        companyAddress: (document.getElementById('cfg-endereco-emitente')?.value || '').trim(),
+        companyPhone: (document.getElementById('cfg-telefone-emitente')?.value || '').trim()
+      };
+
+      try {
+        localStorage.setItem('missuenos_empresa_config', JSON.stringify(dadosEmpresa));
+        if (!window.APP_CONFIG) window.APP_CONFIG = {};
+        Object.assign(window.APP_CONFIG, dadosEmpresa);
+        if (typeof aplicarConfiguracaoApp === 'function') aplicarConfiguracaoApp();
+
+        // Envia para API
+        const token = (typeof obterTokenAtivo === 'function') ? obterTokenAtivo() : null;
+        if (token) {
+          fetch('/api/configuracoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              configuracoes: {
+                razao_social: dadosEmpresa.companyRazaoSocial,
+                cnpj_emitente: dadosEmpresa.companyCnpj,
+                responsavel: dadosEmpresa.userName,
+                ie_emitente: dadosEmpresa.companyIe,
+                cidade_uf_emitente: dadosEmpresa.companyCityState,
+                cep_emitente: dadosEmpresa.companyCep,
+                endereco_emitente: dadosEmpresa.companyAddress,
+                telefone_emitente: dadosEmpresa.companyPhone
+              }
+            })
+          }).catch(() => {});
+        }
+
+        mostrarToast('🏢 Dados da Empresa & Emitente salvos com sucesso!');
+      } catch (err) {
+        console.error('Erro ao salvar dados da empresa:', err);
+        mostrarToast('Erro ao salvar dados da empresa.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar Dados da Empresa'; }
+      }
+    }
+    window.salvarDadosEmpresa = salvarDadosEmpresa;
+
+    async function salvarConfiguracoesSistema(e) {
+      if (e) e.preventDefault();
+      const btn = document.getElementById('btn-salvar-whitelabel');
+      if (btn) { btn.disabled = true; btn.textContent = 'Gravando White-Label...'; }
+
+      const dadosWhiteLabel = {
+        shortName: (document.getElementById('cfg-nome-fantasia')?.value || '').trim(),
+        tagline: (document.getElementById('cfg-subtitulo')?.value || '').trim(),
+        label_pedidos: (document.getElementById('cfg-label-pedidos')?.value || '').trim(),
+        label_produtos: (document.getElementById('cfg-label-produtos')?.value || '').trim(),
+        label_clientes: (document.getElementById('cfg-label-clientes')?.value || '').trim(),
+        categorias_padrao: (document.getElementById('cfg-categorias-padrao')?.value || '').trim(),
+        unidades_padrao: (document.getElementById('cfg-unidades-padrao')?.value || '').trim(),
+        ramo_preset: (document.getElementById('cfg-ramo-preset')?.value || 'couros')
+      };
+
+      try {
+        localStorage.setItem('missuenos_whitelabel_config', JSON.stringify(dadosWhiteLabel));
+        if (!window.APP_CONFIG) window.APP_CONFIG = {};
+        window.APP_CONFIG.shortName = dadosWhiteLabel.shortName;
+        window.APP_CONFIG.tagline = dadosWhiteLabel.tagline;
+
+        // Atualiza textos visíveis na interface
+        const elShort = document.getElementById('app-short-name');
+        if (elShort && dadosWhiteLabel.shortName) elShort.textContent = dadosWhiteLabel.shortName;
+        const elTagline = document.getElementById('app-tagline');
+        if (elTagline && dadosWhiteLabel.tagline) elTagline.textContent = dadosWhiteLabel.tagline;
+
+        const navPedidos = document.querySelector('#nav-item-pedidos span:not(.nav-icon):not(.nav-badge)');
+        if (navPedidos && dadosWhiteLabel.label_pedidos) navPedidos.textContent = dadosWhiteLabel.label_pedidos;
+        const navProdutos = document.querySelector('#nav-item-produtos span:not(.nav-icon):not(.nav-badge)');
+        if (navProdutos && dadosWhiteLabel.label_produtos) navProdutos.textContent = dadosWhiteLabel.label_produtos;
+        const navClientes = document.querySelector('#nav-item-clientes span:not(.nav-icon):not(.nav-badge)');
+        if (navClientes && dadosWhiteLabel.label_clientes) navClientes.textContent = dadosWhiteLabel.label_clientes;
+
+        // Envia para API
+        const token = (typeof obterTokenAtivo === 'function') ? obterTokenAtivo() : null;
+        if (token) {
+          fetch('/api/configuracoes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              configuracoes: {
+                nome_fantasia: dadosWhiteLabel.shortName,
+                subtitulo_sistema: dadosWhiteLabel.tagline,
+                label_pedidos: dadosWhiteLabel.label_pedidos,
+                label_produtos: dadosWhiteLabel.label_produtos,
+                label_clientes: dadosWhiteLabel.label_clientes,
+                categorias_padrao: dadosWhiteLabel.categorias_padrao,
+                unidades_padrao: dadosWhiteLabel.unidades_padrao,
+                ramo_preset: dadosWhiteLabel.ramo_preset
+              }
+            })
+          }).catch(() => {});
+        }
+
+        mostrarToast('🎨 Parametrização White-Label salva com sucesso!');
+      } catch (err) {
+        console.error('Erro ao salvar White-Label:', err);
+        mostrarToast('Erro ao salvar parametrizações White-Label.');
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = '💾 Salvar White-Label'; }
+      }
+    }
+    window.salvarConfiguracoesSistema = salvarConfiguracoesSistema;
+
+    function aplicarPresetRamoWeb() {
+      const select = document.getElementById('cfg-ramo-preset');
+      const ramo = select ? select.value : 'couros';
+      const preset = PRESETS_RAMO_CLIENTE[ramo];
+      if (!preset) return;
+
+      const inpNome = document.getElementById('cfg-nome-fantasia');
+      if (inpNome) inpNome.value = preset.nome_fantasia;
+      const inpSub = document.getElementById('cfg-subtitulo');
+      if (inpSub) inpSub.value = preset.subtitulo_sistema;
+      const inpPed = document.getElementById('cfg-label-pedidos');
+      if (inpPed) inpPed.value = preset.label_pedidos;
+      const inpProd = document.getElementById('cfg-label-produtos');
+      if (inpProd) inpProd.value = preset.label_produtos;
+      const inpCli = document.getElementById('cfg-label-clientes');
+      if (inpCli) inpCli.value = preset.label_clientes;
+      const inpCat = document.getElementById('cfg-categorias-padrao');
+      if (inpCat) inpCat.value = preset.categorias_padrao;
+      const inpUni = document.getElementById('cfg-unidades-padrao');
+      if (inpUni) inpUni.value = preset.unidades_padrao;
+
+      salvarConfiguracoesSistema();
+      mostrarToast(`⚡ Preset "${preset.nome_fantasia}" carregado com sucesso!`);
+    }
+    window.aplicarPresetRamoWeb = aplicarPresetRamoWeb;
+
+    function carregarConfiguracoesSistemaApi() {
+      // Carrega dados da empresa salvos localmente
+      try {
+        const empRaw = localStorage.getItem('missuenos_empresa_config');
+        if (empRaw) {
+          const emp = JSON.parse(empRaw);
+          if (emp.companyRazaoSocial && document.getElementById('app-config-razao-social')) document.getElementById('app-config-razao-social').value = emp.companyRazaoSocial;
+          if (emp.companyCnpj && document.getElementById('cfg-cnpj-emitente')) document.getElementById('cfg-cnpj-emitente').value = emp.companyCnpj;
+          if (emp.userName && document.getElementById('app-config-user-name')) document.getElementById('app-config-user-name').value = emp.userName;
+          if (emp.companyIe && document.getElementById('cfg-ie-emitente')) document.getElementById('cfg-ie-emitente').value = emp.companyIe;
+          if (emp.companyCityState && document.getElementById('cfg-cidade-uf-emitente')) document.getElementById('cfg-cidade-uf-emitente').value = emp.companyCityState;
+          if (emp.companyCep && document.getElementById('cfg-cep-emitente')) document.getElementById('cfg-cep-emitente').value = emp.companyCep;
+          if (emp.companyAddress && document.getElementById('cfg-endereco-emitente')) document.getElementById('cfg-endereco-emitente').value = emp.companyAddress;
+          if (emp.companyPhone && document.getElementById('cfg-telefone-emitente')) document.getElementById('cfg-telefone-emitente').value = emp.companyPhone;
+        }
+
+        const wlRaw = localStorage.getItem('missuenos_whitelabel_config');
+        if (wlRaw) {
+          const wl = JSON.parse(wlRaw);
+          if (wl.shortName && document.getElementById('cfg-nome-fantasia')) document.getElementById('cfg-nome-fantasia').value = wl.shortName;
+          if (wl.tagline && document.getElementById('cfg-subtitulo')) document.getElementById('cfg-subtitulo').value = wl.tagline;
+          if (wl.label_pedidos && document.getElementById('cfg-label-pedidos')) document.getElementById('cfg-label-pedidos').value = wl.label_pedidos;
+          if (wl.label_produtos && document.getElementById('cfg-label-produtos')) document.getElementById('cfg-label-produtos').value = wl.label_produtos;
+          if (wl.label_clientes && document.getElementById('cfg-label-clientes')) document.getElementById('cfg-label-clientes').value = wl.label_clientes;
+          if (wl.categorias_padrao && document.getElementById('cfg-categorias-padrao')) document.getElementById('cfg-categorias-padrao').value = wl.categorias_padrao;
+          if (wl.unidades_padrao && document.getElementById('cfg-unidades-padrao')) document.getElementById('cfg-unidades-padrao').value = wl.unidades_padrao;
+          if (wl.ramo_preset && document.getElementById('cfg-ramo-preset')) document.getElementById('cfg-ramo-preset').value = wl.ramo_preset;
+        }
+      } catch (e) {}
+
+      // Tenta buscar da API
+      fetch('/api/configuracoes')
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.configuracoes) {
+            const c = d.configuracoes;
+            if (c.nome_fantasia && document.getElementById('cfg-nome-fantasia')) document.getElementById('cfg-nome-fantasia').value = c.nome_fantasia;
+            if (c.subtitulo_sistema && document.getElementById('cfg-subtitulo')) document.getElementById('cfg-subtitulo').value = c.subtitulo_sistema;
+            if (c.razao_social && document.getElementById('app-config-razao-social')) document.getElementById('app-config-razao-social').value = c.razao_social;
+            if (c.cnpj_emitente && document.getElementById('cfg-cnpj-emitente')) document.getElementById('cfg-cnpj-emitente').value = c.cnpj_emitente;
+            if (c.responsavel && document.getElementById('app-config-user-name')) document.getElementById('app-config-user-name').value = c.responsavel;
+            if (c.ie_emitente && document.getElementById('cfg-ie-emitente')) document.getElementById('cfg-ie-emitente').value = c.ie_emitente;
+            if (c.cidade_uf_emitente && document.getElementById('cfg-cidade-uf-emitente')) document.getElementById('cfg-cidade-uf-emitente').value = c.cidade_uf_emitente;
+            if (c.cep_emitente && document.getElementById('cfg-cep-emitente')) document.getElementById('cfg-cep-emitente').value = c.cep_emitente;
+            if (c.endereco_emitente && document.getElementById('cfg-endereco-emitente')) document.getElementById('cfg-endereco-emitente').value = c.endereco_emitente;
+            if (c.telefone_emitente && document.getElementById('cfg-telefone-emitente')) document.getElementById('cfg-telefone-emitente').value = c.telefone_emitente;
+            if (c.label_pedidos && document.getElementById('cfg-label-pedidos')) document.getElementById('cfg-label-pedidos').value = c.label_pedidos;
+            if (c.label_produtos && document.getElementById('cfg-label-produtos')) document.getElementById('cfg-label-produtos').value = c.label_produtos;
+            if (c.label_clientes && document.getElementById('cfg-label-clientes')) document.getElementById('cfg-label-clientes').value = c.label_clientes;
+            if (c.categorias_padrao && document.getElementById('cfg-categorias-padrao')) document.getElementById('cfg-categorias-padrao').value = c.categorias_padrao;
+            if (c.unidades_padrao && document.getElementById('cfg-unidades-padrao')) document.getElementById('cfg-unidades-padrao').value = c.unidades_padrao;
+            if (c.ramo_preset && document.getElementById('cfg-ramo-preset')) document.getElementById('cfg-ramo-preset').value = c.ramo_preset;
+          }
+        })
+        .catch(() => {});
+    }
+    window.carregarConfiguracoesSistemaApi = carregarConfiguracoesSistemaApi;
 
     // MODAL CONFIRMAÇÃO DE NOVA JANELA INDEPENDENTE (INSTÂNCIA)
     function confirmarAbrirNovaJanela() {
@@ -13065,6 +14010,9 @@
 
     // Dispara checagem de autenticação imediatamente
     checarAutenticacao();
+    if (typeof carregarConfiguracoesSistemaApi === 'function') {
+      carregarConfiguracoesSistemaApi();
+    }
 
     // Consulta telemetria de armazenamento em segundo plano e monitora quotas
     setTimeout(() => {
@@ -13073,95 +14021,17 @@
       }
     }, 1500);
   
-    // =========================================================================
-    // COTAÇÕES DE MERCADO FINANCEIRO EM TEMPO REAL (AWESOMEAPI) - MIS SUEÑOS ERP
-    // =========================================================================
-    async function atualizarCotacoesMercado(forcar = false) {
-      const tsEl = document.getElementById('market-timestamp');
-      const btcValEl = document.getElementById('btc-val-bid');
-      if (!btcValEl) return;
-
-      try {
-        if (tsEl) tsEl.textContent = 'Atualizando cotações...';
-        
-        const cacheKey = 'missuenos_market_cache';
-        const cacheTimeKey = 'missuenos_market_cache_ts';
-        const now = Date.now();
-        const cachedData = localStorage.getItem(cacheKey);
-        const cachedTs = Number(localStorage.getItem(cacheTimeKey) || 0);
-
-        let data = null;
-        if (!forcar && cachedData && (now - cachedTs < 180000)) {
-          data = JSON.parse(cachedData);
-        } else {
-          const res = await fetch('https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL');
-          if (!res.ok) throw new Error('Falha ao consultar API de cotações');
-          data = await res.json();
-          localStorage.setItem(cacheKey, JSON.stringify(data));
-          localStorage.setItem(cacheTimeKey, String(now));
-        }
-
-        const formatarBRL = (val) => Number(val).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const formatarBadge = (elId, pct) => {
-          const badge = document.getElementById(elId);
-          if (!badge) return;
-          const num = parseFloat(pct);
-          const isPos = num >= 0;
-          badge.textContent = `${isPos ? '↑ +' : '↓ '}${num.toFixed(2)}%`;
-          badge.style.background = isPos ? 'rgba(16, 185, 129, 0.2)' : 'rgba(244, 63, 94, 0.2)';
-          badge.style.color = isPos ? '#34d399' : '#fb7185';
-          badge.style.borderColor = isPos ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
-        };
-
-        // 1. Dólar Comercial (USD)
-        if (data.USDBRL) {
-          const usdVal = document.getElementById('usd-val-bid');
-          const usdLow = document.getElementById('usd-val-low');
-          const usdHigh = document.getElementById('usd-val-high');
-          if (usdVal) usdVal.textContent = formatarBRL(data.USDBRL.bid);
-          if (usdLow) usdLow.textContent = formatarBRL(data.USDBRL.low);
-          if (usdHigh) usdHigh.textContent = formatarBRL(data.USDBRL.high);
-          formatarBadge('usd-var-badge', data.USDBRL.pctChange);
-        }
-
-        // 2. Euro Comercial (EUR)
-        if (data.EURBRL) {
-          const eurVal = document.getElementById('eur-val-bid');
-          const eurLow = document.getElementById('eur-val-low');
-          const eurHigh = document.getElementById('eur-val-high');
-          if (eurVal) eurVal.textContent = formatarBRL(data.EURBRL.bid);
-          if (eurLow) eurLow.textContent = formatarBRL(data.EURBRL.low);
-          if (eurHigh) eurHigh.textContent = formatarBRL(data.EURBRL.high);
-          formatarBadge('eur-var-badge', data.EURBRL.pctChange);
-        }
-
-        // 3. Bitcoin (BTC)
-        if (data.BTCBRL) {
-          const btcVal = document.getElementById('btc-val-bid');
-          const btcLow = document.getElementById('btc-val-low');
-          const btcHigh = document.getElementById('btc-val-high');
-          if (btcVal) btcVal.textContent = formatarBRL(data.BTCBRL.bid);
-          if (btcLow) btcLow.textContent = formatarBRL(data.BTCBRL.low);
-          if (btcHigh) btcHigh.textContent = formatarBRL(data.BTCBRL.high);
-          formatarBadge('btc-var-badge', data.BTCBRL.pctChange);
-        }
-
-        if (tsEl) {
-          const hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          tsEl.textContent = `Atualizado às ${hora}`;
-        }
-      } catch (err) {
-        console.warn('Cotações de mercado:', err.message);
-        if (tsEl) tsEl.textContent = 'Cotações em modo offline (cache)';
-      }
-    }
-
-
     // Inicia cotações do painel
-    setTimeout(() => atualizarCotacoesMercado(), 800);
+    setTimeout(() => {
+      if (typeof atualizarCotacoesMercado === 'function') {
+        atualizarCotacoesMercado();
+      }
+    }, 800);
     setInterval(() => {
       const p = document.getElementById('modulo-painel-conteudo');
-      if (p && p.style.display !== 'none') atualizarCotacoesMercado(true);
+      if (p && p.style.display !== 'none' && typeof atualizarCotacoesMercado === 'function') {
+        atualizarCotacoesMercado(true);
+      }
     }, 300000);
 
 </script>
