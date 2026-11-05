@@ -4513,7 +4513,23 @@
     <!-- MÓDULO CONFIGURAÇÕES (WHITE-LABEL + USUÁRIOS RBAC - TICKET 6) -->
     <main class="erp-content" id="modulo-configuracoes-conteudo" style="display: none;">
       <div class="erp-scrollable-area">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
+        <!-- BARRA DE SELEÇÃO RÁPIDA / ABAS DE CONFIGURAÇÃO (SEM REDUNDÂNCIA) -->
+        <div class="config-tabs-nav" style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 14px; width: 100%;">
+          <button type="button" class="btn-top" id="btn-tab-cfg-empresa" onclick="filtrarSecaoConfiguracoes('empresa')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
+            🏢 Empresa
+          </button>
+          <button type="button" class="btn-top" id="btn-tab-cfg-whitelabel" onclick="filtrarSecaoConfiguracoes('whitelabel')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
+            🎨 White-Label
+          </button>
+          <button type="button" class="btn-top" id="btn-tab-cfg-rbac" onclick="filtrarSecaoConfiguracoes('rbac')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
+            👥 Operadores & RBAC
+          </button>
+          <button type="button" class="btn-top btn-row-action" id="btn-tab-cfg-todos" onclick="filtrarSecaoConfiguracoes('todos')" style="padding: 7px 16px; font-size: 12px; margin-left: auto;">
+            🌐 Ver Todas as Seções
+          </button>
+        </div>
+
+        <div id="grid-configuracoes-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; width: 100%;">
         
         <!-- CARD 1: DADOS DA EMPRESA & EMITENTE FISCAL -->
         <section class="erp-table-card" id="card-config-empresa" style="padding: 24px; transition: all 0.3s ease;">
@@ -4738,8 +4754,8 @@
           </form>
         </section>
 
-        <!-- CARD 3: POLÍTICAS DE SESSÃO & SEGURANÇA DO TERMINAL -->
-        <section class="erp-table-card" style="padding: 24px; grid-column: 1 / -1;">
+        <!-- CARD 5: POLÍTICAS DE SESSÃO & SEGURANÇA DO TERMINAL -->
+        <section class="erp-table-card" id="card-config-politicas" style="padding: 24px; grid-column: 1 / -1; transition: all 0.3s ease;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🛡️ Políticas de Acesso & Segurança deste Terminal</h3>
@@ -6484,6 +6500,9 @@
       } else if (modulo === 'financeiro') {
         if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
       } else if (modulo === 'configuracoes') {
+        if (!document.querySelector('.config-tabs-nav button.active') && typeof filtrarSecaoConfiguracoes === 'function') {
+          filtrarSecaoConfiguracoes('todos');
+        }
         if (typeof carregarConfiguracoesSistemaApi === 'function') carregarConfiguracoesSistemaApi();
         if (typeof carregarUsuariosRbacApi === 'function') carregarUsuariosRbacApi();
       } else if (modulo === 'mapa') {
@@ -11989,9 +12008,100 @@
       }
     };
 
+    function filtrarSecaoConfiguracoes(secao) {
+      const cardEmpresa = document.getElementById('card-config-empresa');
+      const cardWl = document.getElementById('card-config-whitelabel');
+      const cardRbac = document.getElementById('card-config-rbac');
+      const cardSenha = document.getElementById('card-seguranca-minha-senha');
+      const cardPoliticas = document.getElementById('card-config-politicas');
+
+      const btnEmpresa = document.getElementById('btn-tab-cfg-empresa');
+      const btnWl = document.getElementById('btn-tab-cfg-whitelabel');
+      const btnRbac = document.getElementById('btn-tab-cfg-rbac');
+      const btnTodos = document.getElementById('btn-tab-cfg-todos');
+
+      // Reseta estilo dos botões da aba
+      [btnEmpresa, btnWl, btnRbac, btnTodos].forEach(b => {
+        if (b) {
+          b.classList.remove('btn-primary-glow', 'active');
+          b.style.background = 'var(--bg-card-elevated)';
+          b.style.borderColor = 'var(--border-color)';
+          b.style.color = 'var(--text-muted)';
+        }
+      });
+
+      const marcarAtivo = (btn) => {
+        if (btn) {
+          btn.classList.add('btn-primary-glow', 'active');
+          btn.style.background = 'rgba(0, 212, 255, 0.18)';
+          btn.style.borderColor = '#00d4ff';
+          btn.style.color = '#38bdf8';
+        }
+      };
+
+      const breadcrumb = document.getElementById('breadcrumb-modulo');
+      const topIcon = document.getElementById('topbar-module-icon');
+
+      if (secao === 'rbac') {
+        // Exibe ESTRITAMENTE o escopo solicitado pelo usuário na imagem media_1793846169704_9975f458.png:
+        // 1. Operadores e Permissões (RBAC)
+        // 2. Minha Conta & Alteração de Senha
+        // 3. Políticas de Acesso & Segurança deste Terminal
+        if (cardEmpresa) cardEmpresa.style.display = 'none';
+        if (cardWl) cardWl.style.display = 'none';
+
+        if (cardRbac) { cardRbac.style.display = 'block'; cardRbac.style.gridColumn = '1 / -1'; }
+        if (cardSenha) { cardSenha.style.display = 'block'; cardSenha.style.gridColumn = '1 / -1'; }
+        if (cardPoliticas) { cardPoliticas.style.display = 'block'; cardPoliticas.style.gridColumn = '1 / -1'; }
+
+        marcarAtivo(btnRbac);
+        if (breadcrumb) breadcrumb.textContent = 'Operadores & RBAC';
+        if (topIcon) topIcon.textContent = '👥';
+
+        if (typeof carregarUsuariosRbacApi === 'function') carregarUsuariosRbacApi();
+      } else if (secao === 'empresa') {
+        // Exibe ESTRITAMENTE os dados cadastrais e fiscais da Empresa
+        if (cardEmpresa) { cardEmpresa.style.display = 'block'; cardEmpresa.style.gridColumn = '1 / -1'; }
+        if (cardWl) cardWl.style.display = 'none';
+        if (cardRbac) cardRbac.style.display = 'none';
+        if (cardSenha) cardSenha.style.display = 'none';
+        if (cardPoliticas) cardPoliticas.style.display = 'none';
+
+        marcarAtivo(btnEmpresa);
+        if (breadcrumb) breadcrumb.textContent = 'Dados da Empresa & Emitente';
+        if (topIcon) topIcon.textContent = '🏢';
+      } else if (secao === 'whitelabel') {
+        // Exibe ESTRITAMENTE a personalização White-Label & Ramo
+        if (cardEmpresa) cardEmpresa.style.display = 'none';
+        if (cardWl) { cardWl.style.display = 'block'; cardWl.style.gridColumn = '1 / -1'; }
+        if (cardRbac) cardRbac.style.display = 'none';
+        if (cardSenha) cardSenha.style.display = 'none';
+        if (cardPoliticas) cardPoliticas.style.display = 'none';
+
+        marcarAtivo(btnWl);
+        if (breadcrumb) breadcrumb.textContent = 'Parametrização White-Label & Ramo';
+        if (topIcon) topIcon.textContent = '🎨';
+      } else {
+        // 'todos' - Mostra todas as seções
+        if (cardEmpresa) { cardEmpresa.style.display = 'block'; cardEmpresa.style.gridColumn = ''; }
+        if (cardWl) { cardWl.style.display = 'block'; cardWl.style.gridColumn = ''; }
+        if (cardRbac) { cardRbac.style.display = 'block'; cardRbac.style.gridColumn = '1 / -1'; }
+        if (cardSenha) { cardSenha.style.display = 'block'; cardSenha.style.gridColumn = '1 / -1'; }
+        if (cardPoliticas) { cardPoliticas.style.display = 'block'; cardPoliticas.style.gridColumn = '1 / -1'; }
+
+        marcarAtivo(btnTodos);
+        if (breadcrumb) breadcrumb.textContent = 'Configurações do Sistema';
+        if (topIcon) topIcon.textContent = '⚙️';
+      }
+    }
+    window.filtrarSecaoConfiguracoes = filtrarSecaoConfiguracoes;
+
     function abrirConfiguracoesSecao(secao) {
       fecharMenuEngrenagem();
       trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));
+
+      // Filtra de imediato a visão específica solicitada sem redundância
+      filtrarSecaoConfiguracoes(secao);
 
       setTimeout(() => {
         let targetCard = null;
@@ -12012,7 +12122,7 @@
             targetCard.classList.remove('card-destaque-glow');
           }, 2400);
         }
-      }, 90);
+      }, 70);
     }
     window.abrirConfiguracoesSecao = abrirConfiguracoesSecao;
 
