@@ -656,6 +656,17 @@
       position: relative;
       z-index: 5;
     }
+
+    /* TABELA DE OPERADORES & RBAC LIMPA SEM BARRAS DE ROLAGEM */
+    .rbac-table-wrapper {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    .rbac-table-wrapper::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
     .gear-dd-subtext {
       font-size: 11px;
       color: var(--text-muted);
@@ -3690,7 +3701,7 @@
               <span class="gear-dd-left"><span>🎨</span> <span>White-Label</span></span>
             </button>
 
-            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalUsuarioRbac();">
+            <button type="button" class="gear-dd-item" id="btn-gear-rbac" onclick="fecharMenuEngrenagem(); abrirConfiguracoesSecao('rbac');">
               <span class="gear-dd-left"><span>👥</span> <span>Operadores & RBAC</span></span>
             </button>
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirWizardSeguranca();">
@@ -4649,8 +4660,8 @@
           </form>
         </section>
 
-        <!-- CARD 2: GESTÃO DE OPERADORES E PERMISSÕES (RBAC) -->
-        <section class="erp-table-card" style="padding: 24px;">
+        <!-- CARD 3: GESTÃO DE OPERADORES E PERMISSÕES (RBAC) -->
+        <section class="erp-table-card" id="card-config-rbac" style="padding: 24px; grid-column: 1 / -1; transition: all 0.3s ease;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">👥 Operadores e Permissões (RBAC)</h3>
@@ -4663,15 +4674,15 @@
             </button>
           </div>
 
-          <div class="erp-table-wrapper" style="max-height: 420px; overflow-y: auto;">
-            <table class="erp-table">
+          <div class="erp-table-wrapper rbac-table-wrapper" style="max-height: none; overflow-x: auto; overflow-y: visible; width: 100%;">
+            <table class="erp-table" style="width: 100%; table-layout: auto;">
               <thead>
                 <tr>
-                  <th>Usuário / Login</th>
-                  <th>Nome Completo</th>
-                  <th>Perfil</th>
-                  <th>Permissões Ativas</th>
-                  <th style="text-align: right;">Ações</th>
+                  <th style="width: 15%; min-width: 120px;">Usuário / Login</th>
+                  <th style="width: 20%; min-width: 160px;">Nome Completo</th>
+                  <th style="width: 18%; min-width: 140px;">Perfil</th>
+                  <th style="width: 32%;">Permissões Ativas</th>
+                  <th style="text-align: right; width: 15%; min-width: 130px;">Ações</th>
                 </tr>
               </thead>
               <tbody id="erp-usuarios-rbac-body">
@@ -4685,7 +4696,7 @@
 
 
         <!-- CARD 4: SEGURANÇA DA MINHA CONTA & ALTERAÇÃO DE SENHA -->
-        <section class="erp-table-card" style="padding: 24px;" id="card-seguranca-minha-senha">
+        <section class="erp-table-card" style="padding: 24px; grid-column: 1 / -1;" id="card-seguranca-minha-senha">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🔑 Minha Conta & Alteração de Senha</h3>
@@ -11988,6 +11999,8 @@
           targetCard = document.getElementById('card-config-empresa');
         } else if (secao === 'whitelabel') {
           targetCard = document.getElementById('card-config-whitelabel');
+        } else if (secao === 'rbac') {
+          targetCard = document.getElementById('card-config-rbac');
         }
 
         if (targetCard) {
