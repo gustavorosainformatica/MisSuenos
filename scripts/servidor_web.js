@@ -43,6 +43,7 @@ const { default: handlerCompras } = await import('../api/compras.js');
 const { default: handlerConfiguracoes } = await import('../api/configuracoes.js');
 const { default: handlerNfe } = await import('../api/nfe.js');
 const { default: handlerSistema } = await import('../api/sistema.js');
+const { default: handlerRelatorios } = await import('../api/relatorios.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -313,6 +314,9 @@ async function tratarRequisicao(req, res) {
   }
   if (pathname === '/api/nfe' || pathname.startsWith('/api/nfe/')) {
     return handlerNfe(req, res);
+  }
+  if (pathname === '/api/relatorios' || pathname.startsWith('/api/relatorios/')) {
+    return handlerRelatorios(req, res);
   }
   // ROTA ESPECIAL: Abrir Nova Janela Nativa no Desktop (sem barra de URL)
   if ((pathname === '/api/sistema/abrir-janela' || pathname === '/api/sistema/nova-janela') && (method === 'POST' || method === 'GET')) {
