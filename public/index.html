@@ -5564,12 +5564,10 @@
 
         <!-- BARRA DE PESQUISA RÁPIDA E STATUS DOS DADOS -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
-          <div style="display: flex; align-items: center; gap: 10px; flex: 1; max-width: 480px;">
-            <div style="position: relative; width: 100%;">
-              <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted);">🔍</span>
-              <input type="text" id="rel-busca-filtro" oninput="filtrarTabelaRelatorioAoDigitar(this.value)" placeholder="Filtrar dados da tabela instantaneamente..." class="form-input" style="padding-left: 32px; font-size: 12px; height: 34px; border-radius: 8px;">
-            </div>
-            <button type="button" onclick="limparBuscaRelatorio()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 12px;" title="Limpar busca">✕</button>
+          <div style="position: relative; width: 100%; max-width: 420px; display: flex; align-items: center;">
+            <span style="position: absolute; left: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">🔍</span>
+            <input type="text" id="rel-busca-filtro" oninput="filtrarTabelaRelatorioAoDigitar(this.value)" placeholder="Filtrar lançamentos, contas ou categorias da DRE..." class="form-input" style="width: 100%; box-sizing: border-box; padding-left: 36px; padding-right: 32px; font-size: 12px; height: 36px; border-radius: 8px;">
+            <button type="button" id="rel-btn-limpar-busca" onclick="limparBuscaRelatorio()" style="display: none; position: absolute; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s ease;" title="Limpar busca" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--text-muted)'">✕</button>
           </div>
           <div style="display: flex; align-items: center; gap: 12px;">
             <span id="rel-contador-linhas" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Carregando registros...</span>
@@ -16436,6 +16434,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
   function filtrarTabelaRelatorioAoDigitar(termo) {
     const termoMin = (termo || '').toLowerCase().trim();
+    const btnLimpar = document.getElementById('rel-btn-limpar-busca');
+    if (btnLimpar) {
+      btnLimpar.style.display = termoMin.length > 0 ? 'inline-block' : 'none';
+    }
     const tbody = document.getElementById('rel-tabela-tbody');
     const contBox = document.getElementById('rel-contador-linhas');
     if (!tbody) return;
@@ -16459,6 +16461,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     const input = document.getElementById('rel-busca-filtro');
     if (input) {
       input.value = '';
+      input.focus();
       filtrarTabelaRelatorioAoDigitar('');
     }
   }
