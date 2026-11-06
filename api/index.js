@@ -23,6 +23,7 @@ import handlerLogs from './logs.js';
 import handlerNfe from './nfe.js';
 import handlerSistema from './sistema.js';
 import handlerRelatorios from './relatorios.js';
+import handlerEstoque from './estoque.js';
 
 export default async function handler(req, res) {
   // CORS Preflight Global
@@ -85,6 +86,9 @@ export default async function handler(req, res) {
     if (pathname === '/api/relatorios' || pathname.startsWith('/api/relatorios/')) {
       return await handlerRelatorios(req, res);
     }
+    if (pathname === '/api/estoque' || pathname.startsWith('/api/estoque/')) {
+      return await handlerEstoque(req, res);
+    }
 
     // Rota não encontrada
     if (typeof res.status === 'function') {
@@ -115,3 +119,4 @@ export default async function handler(req, res) {
     return res.end(JSON.stringify({ error: 'Erro interno ao processar requisição na API', detalhes: erro.message }));
   }
 }
+

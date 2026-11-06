@@ -5877,6 +5877,172 @@
     </div>
   </div>
 
+  
+  <!-- =========================================================================
+       MODAL 1: AJUSTE RÁPIDO DE ESTOQUE & MOVIMENTAÇÃO PATRIMONIAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-ajuste-estoque">
+    <div class="modal-container" style="max-width: 640px; width: 95%; max-height: 92vh;">
+      <div class="modal-resize-handle" data-modal="modal-ajuste-estoque" title="Arraste para redimensionar">◢</div>
+      <div class="modal-header" style="padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">⚡</span>
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff;">Ajuste Rápido de Estoque</div>
+            <div id="ajuste-prod-subtitulo" style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando produto...</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="fecharModalAjusteEstoque()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px;">
+        <form id="form-ajuste-estoque" onsubmit="confirmarAjusteEstoque(event)">
+          <input type="hidden" id="ajuste-prod-id">
+          <input type="hidden" id="ajuste-saldo-atual" value="0">
+          <input type="hidden" id="ajuste-tipo" value="ENTRADA">
+
+          <!-- SELETOR DE TIPO (ENTRADA VS SAIDA) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+            <button type="button" id="btn-tipo-entrada" class="btn-tipo-ajuste" onclick="aoMudarTipoAjuste('ENTRADA')" style="padding: 12px; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #10b981; background: rgba(16, 185, 129, 0.16); color: #34d399; transition: all 0.2s;">
+              <span style="font-size: 16px;">🟢</span> ENTRADA (+ Aumentar)
+            </button>
+            <button type="button" id="btn-tipo-saida" class="btn-tipo-ajuste" onclick="aoMudarTipoAjuste('SAIDA')" style="padding: 12px; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.04); color: var(--text-muted); transition: all 0.2s;">
+              <span style="font-size: 16px;">🔴</span> SAÍDA (- Baixar)
+            </button>
+          </div>
+
+          <!-- MOTIVO DA MOVIMENTAÇÃO -->
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Motivo / Justificativa da Movimentação *</label>
+            <select class="form-input" id="ajuste-motivo" required style="font-weight: 600; background: #0f172a;">
+              <option value="">Selecione o motivo...</option>
+            </select>
+          </div>
+
+          <!-- QUANTIDADE E DOCUMENTO DE REFERÊNCIA -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+            <div class="form-group">
+              <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Quantidade a Movimentar *</label>
+              <input type="number" step="any" min="0.001" class="form-input" id="ajuste-quantidade" required placeholder="Ex: 5" style="font-size: 16px; font-weight: 800; font-family: 'JetBrains Mono', monospace;" oninput="aoAlterarQtdAjuste()">
+            </div>
+            <div class="form-group">
+              <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Doc. Referência (NF, Pedido, Recibo)</label>
+              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1420 / Pedido 105">
+            </div>
+          </div>
+
+          <!-- CARD PREVIEW DE CÁLCULO DE SALDO -->
+          <div id="ajuste-card-preview" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+            <div style="font-size: 12px; color: var(--text-muted);">
+              Saldo Atual: <strong id="preview-saldo-atual" style="color: #fff; font-family: monospace;">-</strong>
+            </div>
+            <div style="font-size: 12px; font-weight: 700;">
+              Movimento: <strong id="preview-qtd-mov" style="color: #34d399; font-family: monospace;">+0</strong>
+            </div>
+            <div style="font-size: 13px; font-weight: 800;">
+              👉 Novo Saldo: <strong id="preview-saldo-resultante" style="color: #38bdf8; font-family: monospace; font-size: 15px;">-</strong>
+            </div>
+          </div>
+          <div id="ajuste-alerta-insuficiente" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 12px; font-weight: 700; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;">
+            ⚠️ Atenção: A quantidade informada excede o saldo físico atual em estoque.
+          </div>
+
+          <!-- OBSERVAÇÕES OPCIONAIS -->
+          <div class="form-group">
+            <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Observações Técnicas / Detalhes (Opcional)</label>
+            <textarea class="form-input" id="ajuste-observacoes" rows="2" placeholder="Detalhes da avaria, lote do couro, cliente da amostra ou contrato de locação..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalAjusteEstoque()">Cancelar</button>
+        <button type="button" class="btn-top btn-primary-glow" id="btn-salvar-ajuste-estoque" onclick="document.getElementById('form-ajuste-estoque').requestSubmit()" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); font-weight: 800; font-size: 13px; padding: 10px 20px;">
+          💾 Confirmar Movimentação
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: FICHA KARDEX & EXTRATO HISTÓRICO DE ESTOQUE
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-ficha-kardex">
+    <div class="modal-container" style="max-width: 1020px; width: 95%; max-height: 94vh;">
+      <div class="modal-resize-handle" data-modal="modal-ficha-kardex" title="Arraste para redimensionar">◢</div>
+      <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">📑</span>
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff;">Ficha Kardex do Produto</div>
+            <div id="kardex-prod-subtitulo" style="font-size: 12px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando histórico...</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button type="button" class="btn-top btn-row-action" onclick="exportarKardexCsv()" style="font-size: 12px; padding: 6px 12px; display: flex; align-items: center; gap: 6px;" title="Exportar Extrato para Planilha Excel (CSV com UTF-8 BOM)">
+            📊 Exportar CSV
+          </button>
+          <button class="modal-close-btn" type="button" onclick="fecharModalFichaKardex()">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body" style="padding: 20px;">
+        <!-- CARDS DE RESUMO DO PRODUTO (SALDO ATUAL, ENTRADAS, SAÍDAS) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px;">
+          <div style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; padding: 12px 16px;">
+            <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Saldo Físico Atual</div>
+            <div id="kardex-card-saldo" style="font-size: 22px; font-weight: 800; color: #38bdf8; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 12px 16px;">
+            <div style="font-size: 11px; color: #34d399; font-weight: 700; text-transform: uppercase;">Total de Entradas</div>
+            <div id="kardex-card-entradas" style="font-size: 22px; font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          </div>
+          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 10px; padding: 12px 16px;">
+            <div style="font-size: 11px; color: #f87171; font-weight: 700; text-transform: uppercase;">Total de Saídas / Baixas</div>
+            <div id="kardex-card-saidas" style="font-size: 22px; font-weight: 800; color: #f87171; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          </div>
+          <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 10px; padding: 12px 16px;">
+            <div style="font-size: 11px; color: #c084fc; font-weight: 700; text-transform: uppercase;">Total de Movimentações</div>
+            <div id="kardex-card-total" style="font-size: 22px; font-weight: 800; color: #c084fc; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          </div>
+        </div>
+
+        <!-- BARRA DE FILTROS E AÇÃO RÁPIDA -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
+          <input type="text" id="kardex-busca-filtro" class="form-input" placeholder="🔍 Filtrar por motivo, doc ou operador..." style="width: 280px; padding: 8px 12px; font-size: 12px;" oninput="filtrarLinhasKardex()">
+          <button type="button" class="btn-top btn-row-action" onclick="if(kardexProdutoAtivoId) { abrirModalAjusteEstoque(kardexProdutoAtivoId); fecharModalFichaKardex(); }" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-weight: 800; padding: 8px 16px;">
+            ⚡ Novo Ajuste Neste Item
+          </button>
+        </div>
+
+        <!-- TABELA DO KARDEX -->
+        <div class="erp-table-wrapper" style="max-height: 48vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
+          <table class="erp-table" id="tabela-kardex" style="width: 100%;">
+            <thead>
+              <tr>
+                <th style="width: 135px;">Data / Hora</th>
+                <th style="width: 90px; text-align: center;">Tipo</th>
+                <th>Motivo / Justificativa</th>
+                <th style="width: 95px; text-align: right;">Quantidade</th>
+                <th style="width: 85px; text-align: right;">Saldo Ant.</th>
+                <th style="width: 95px; text-align: right;">Saldo Result.</th>
+                <th style="width: 130px;">Documento</th>
+                <th style="width: 140px;">Operador</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-kardex">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                  Carregando extrato de movimentações...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: CONFIRMAR ABERTURA DE NOVA JANELA INDEPENDENTE (INSTÂNCIA) -->
   <div class="modal-overlay" id="modal-confirmar-nova-janela">
     <div class="modal-container" style="max-width: 520px; width: 95%;">
@@ -8157,7 +8323,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
               ${reservadoBadge}
             </td>
             <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" onclick="abrirMenuAcoesProduto(event, ${p.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações do Produto">⋮</button>
+              <button class="btn-row-action" onclick="abrirModalAjusteEstoque(${p.id})" style="padding: 3px 8px; color: #38bdf8; font-weight: 800; font-size: 11px; margin-right: 3px;" title="⚡ Ajuste Rápido de Estoque">⚡</button>
+              <button class="btn-row-action" onclick="abrirModalFichaKardex(${p.id})" style="padding: 3px 8px; color: #fbbf24; font-weight: 800; font-size: 11px; margin-right: 3px;" title="📑 Ver Ficha Kardex">📑</button>
+              <button class="btn-row-action" onclick="abrirMenuAcoesProduto(event, ${p.id})" style="padding: 3px 8px; font-weight: bold; font-size: 13px;" title="Mais Ações do Produto">⋮</button>
             </td>
           </tr>
         `;
@@ -11191,7 +11359,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
           🪵 ${(p.nome || 'Produto').substring(0, 20)}
         </div>
-        <button class="erp-context-item" onclick="abrirModalEditarProduto(${p.id}); fecharContextMenu();">✏️ Editar Produto / Estoque</button>
+        <button class="erp-context-item" onclick="abrirModalAjusteEstoque(${p.id}); fecharContextMenu();" style="color: #38bdf8; font-weight: 800;">⚡ Ajuste de Estoque</button>
+        <button class="erp-context-item" onclick="abrirModalFichaKardex(${p.id}); fecharContextMenu();" style="color: #fbbf24; font-weight: 700;">📑 Ver Ficha Kardex</button>
+        <button class="erp-context-item" onclick="abrirModalEditarProduto(${p.id}); fecharContextMenu();">✏️ Editar Cadastro</button>
         <button class="erp-context-item" style="color: #ef4444;" onclick="deletarProduto(${p.id}, '${(p.nome || '').replace(/'/g, '')}'); fecharContextMenu();">🗑️ Inativar do Catálogo</button>
       `;
       posicionarContextMenu(e, itens);
@@ -16169,7 +16339,406 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     fecharModalPacoteContador();
   }
 
-</script>
+
+    // =========================================================================
+    // MÓDULO UNIVERSAL DE ESTOQUE & FICHA KARDEX (AUDITORIA PATRIMONIAL)
+    // =========================================================================
+    let motivosEstoqueCache = null;
+    let produtoAjusteAtivo = null;
+    let kardexProdutoAtivoId = null;
+    let kardexProdutoAtivo = null;
+    let kardexLinhasCache = [];
+
+    async function carregarMotivosEstoque() {
+      if (motivosEstoqueCache) return motivosEstoqueCache;
+      try {
+        const res = await fetch('/api/estoque/motivos');
+        const data = await res.json();
+        if (data && data.success && data.motivos) {
+          motivosEstoqueCache = data.motivos;
+          return motivosEstoqueCache;
+        }
+      } catch (e) {
+        console.warn('[ESTOQUE] Falha ao buscar motivos na API, usando fallback:', e);
+      }
+      motivosEstoqueCache = {
+        ENTRADA: [
+          { id: 'COMPRA_FORNECEDOR', label: 'Compra de Fornecedor / NF-e' },
+          { id: 'INVENTARIO_INICIAL', label: 'Inventário Inicial / Balanço Positivo' },
+          { id: 'DEVOLUCAO_CLIENTE', label: 'Devolução de Cliente / Estorno' },
+          { id: 'APROVEITAMENTO_CORTE', label: 'Aproveitamento de Sobras / Retalhos' },
+          { id: 'OUTRA_ENTRADA', label: 'Outra Entrada Justificada' }
+        ],
+        SAIDA: [
+          { id: 'VENDA_PEDIDO', label: 'Venda Faturada / Saída por Pedido' },
+          { id: 'AVARIA_DESCARTE', label: 'Avaria / Pele Danificada / Descarte' },
+          { id: 'SAIDA_LOCACAO', label: 'Saída para Locação / Comodato' },
+          { id: 'AMOSTRA_DEMONSTRACAO', label: 'Amostra Grátis / Demonstração' },
+          { id: 'USO_CONSUMO_INTERNO', label: 'Uso e Consumo Interno / Oficina' },
+          { id: 'AJUSTE_BALANCO_NEGATIVO', label: 'Ajuste de Balanço Negativo (Perda/Quebra)' },
+          { id: 'OUTRA_SAIDA', label: 'Outra Saída Justificada' }
+        ]
+      };
+      return motivosEstoqueCache;
+    }
+
+    async function abrirModalAjusteEstoque(produtoId) {
+      const p = (typeof produtos !== 'undefined' && Array.isArray(produtos)) 
+        ? produtos.find(item => String(item.id) === String(produtoId)) 
+        : null;
+
+      if (!p) {
+        mostrarNotificacaoToast('Produto não localizado no catálogo.', 'erro');
+        return;
+      }
+
+      produtoAjusteAtivo = p;
+      document.getElementById('ajuste-prod-id').value = p.id;
+      const saldoAtual = Number(p.estoque_atual) || 0;
+      document.getElementById('ajuste-saldo-atual').value = saldoAtual;
+
+      const un = p.unidade_medida || 'UN';
+      document.getElementById('ajuste-prod-subtitulo').innerHTML = `
+        <span style="font-family: monospace; color: #fff; background: rgba(56, 189, 248, 0.2); padding: 1px 6px; border-radius: 4px;">${p.codigo_sku || '-'}</span>
+        <strong style="color: #fff; margin-left: 6px;">${p.nome}</strong> 
+        <span style="margin-left: 8px; color: #94a3b8;">(Saldo Físico Atual: <strong style="color: #38bdf8;">${saldoAtual} ${un}</strong>)</span>
+      `;
+
+      document.getElementById('ajuste-quantidade').value = '';
+      document.getElementById('ajuste-doc-ref').value = '';
+      document.getElementById('ajuste-observacoes').value = '';
+      document.getElementById('ajuste-alerta-insuficiente').style.display = 'none';
+
+      await carregarMotivosEstoque();
+      aoMudarTipoAjuste('ENTRADA');
+
+      const modal = document.getElementById('modal-ajuste-estoque');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+        setTimeout(() => document.getElementById('ajuste-quantidade')?.focus(), 80);
+      }
+    }
+
+    function fecharModalAjusteEstoque() {
+      const modal = document.getElementById('modal-ajuste-estoque');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
+      produtoAjusteAtivo = null;
+    }
+
+    function aoMudarTipoAjuste(tipo) {
+      document.getElementById('ajuste-tipo').value = tipo;
+      const btnEntrada = document.getElementById('btn-tipo-entrada');
+      const btnSaida = document.getElementById('btn-tipo-saida');
+      const selectMotivo = document.getElementById('ajuste-motivo');
+
+      if (tipo === 'ENTRADA') {
+        btnEntrada.style.border = '2px solid #10b981';
+        btnEntrada.style.background = 'rgba(16, 185, 129, 0.16)';
+        btnEntrada.style.color = '#34d399';
+
+        btnSaida.style.border = '1px solid rgba(255, 255, 255, 0.12)';
+        btnSaida.style.background = 'rgba(255, 255, 255, 0.04)';
+        btnSaida.style.color = 'var(--text-muted)';
+      } else {
+        btnSaida.style.border = '2px solid #ef4444';
+        btnSaida.style.background = 'rgba(239, 68, 68, 0.16)';
+        btnSaida.style.color = '#f87171';
+
+        btnEntrada.style.border = '1px solid rgba(255, 255, 255, 0.12)';
+        btnEntrada.style.background = 'rgba(255, 255, 255, 0.04)';
+        btnEntrada.style.color = 'var(--text-muted)';
+      }
+
+      // Preenche os motivos dinâmicos
+      const lista = (motivosEstoqueCache && motivosEstoqueCache[tipo]) ? motivosEstoqueCache[tipo] : [];
+      selectMotivo.innerHTML = '<option value="">Selecione o motivo...</option>' + 
+        lista.map(m => `<option value="${m.id}">${m.label}</option>`).join('');
+
+      aoAlterarQtdAjuste();
+    }
+
+    function aoAlterarQtdAjuste() {
+      const saldoAtual = Number(document.getElementById('ajuste-saldo-atual').value) || 0;
+      const tipo = document.getElementById('ajuste-tipo').value;
+      const qtd = Number(document.getElementById('ajuste-quantidade').value) || 0;
+      const un = produtoAjusteAtivo?.unidade_medida || 'UN';
+
+      const unStr = ` ${un}`;
+      document.getElementById('preview-saldo-atual').textContent = `${saldoAtual}${unStr}`;
+
+      let saldoResultante = saldoAtual;
+      const previewQtd = document.getElementById('preview-qtd-mov');
+      const previewResult = document.getElementById('preview-saldo-resultante');
+      const alertaInsuficiente = document.getElementById('ajuste-alerta-insuficiente');
+      const btnSalvar = document.getElementById('btn-salvar-ajuste-estoque');
+
+      if (tipo === 'ENTRADA') {
+        saldoResultante = saldoAtual + qtd;
+        previewQtd.style.color = '#34d399';
+        previewQtd.textContent = `+${qtd}${unStr}`;
+        alertaInsuficiente.style.display = 'none';
+        btnSalvar.disabled = false;
+        btnSalvar.style.opacity = '1';
+      } else {
+        saldoResultante = saldoAtual - qtd;
+        previewQtd.style.color = '#f87171';
+        previewQtd.textContent = `-${qtd}${unStr}`;
+
+        if (qtd > saldoAtual) {
+          alertaInsuficiente.style.display = 'block';
+          alertaInsuficiente.textContent = `⚠️ Atenção: Tentativa de baixar ${qtd} ${un}, mas o saldo físico disponível é de apenas ${saldoAtual} ${un}.`;
+          btnSalvar.disabled = true;
+          btnSalvar.style.opacity = '0.5';
+        } else {
+          alertaInsuficiente.style.display = 'none';
+          btnSalvar.disabled = false;
+          btnSalvar.style.opacity = '1';
+        }
+      }
+
+      previewResult.textContent = `${saldoResultante}${unStr}`;
+      previewResult.style.color = saldoResultante < 0 ? '#f87171' : '#38bdf8';
+    }
+
+    async function confirmarAjusteEstoque(e) {
+      if (e && e.preventDefault) e.preventDefault();
+
+      const produtoId = Number(document.getElementById('ajuste-prod-id').value);
+      const tipo = document.getElementById('ajuste-tipo').value;
+      const motivo = document.getElementById('ajuste-motivo').value;
+      const quantidade = Number(document.getElementById('ajuste-quantidade').value);
+      const docRef = document.getElementById('ajuste-doc-ref').value.trim();
+      const obs = document.getElementById('ajuste-observacoes').value.trim();
+
+      if (!motivo) {
+        mostrarNotificacaoToast('Por favor, selecione o motivo da movimentação.', 'aviso');
+        return;
+      }
+      if (!quantidade || quantidade <= 0) {
+        mostrarNotificacaoToast('Informe uma quantidade válida maior que zero.', 'aviso');
+        return;
+      }
+
+      const btnSalvar = document.getElementById('btn-salvar-ajuste-estoque');
+      btnSalvar.disabled = true;
+      btnSalvar.textContent = 'Salvando...';
+
+      try {
+        const res = await fetch('/api/estoque/movimentar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (sessionStorage.getItem('token_sessao') || localStorage.getItem('token_sessao') || '')
+          },
+          body: JSON.stringify({
+            produto_id: produtoId,
+            tipo,
+            motivo,
+            quantidade,
+            documento_referencia: docRef,
+            observacoes: obs
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Falha ao registrar movimentação no servidor.');
+        }
+
+        // Atualiza o produto na memória local
+        if (typeof produtos !== 'undefined' && Array.isArray(produtos)) {
+          const idx = produtos.findIndex(item => String(item.id) === String(produtoId));
+          if (idx !== -1) {
+            produtos[idx].estoque_atual = data.movimentacao.saldo_posterior;
+            if (produtos[idx].estoque_disponivel !== undefined) {
+              const resv = Number(produtos[idx].estoque_reservado) || 0;
+              produtos[idx].estoque_disponivel = Math.max(0, data.movimentacao.saldo_posterior - resv);
+            }
+          }
+        }
+
+        fecharModalAjusteEstoque();
+        if (typeof renderTabelaProdutos === 'function') renderTabelaProdutos();
+        if (typeof atualizarMetricasProdutos === 'function') atualizarMetricasProdutos();
+
+        const un = produtoAjusteAtivo?.unidade_medida || 'UN';
+        mostrarNotificacaoToast(`✔ Movimentação registrada! Novo saldo de ${data.produto.nome}: ${data.movimentacao.saldo_posterior} ${un}`, 'sucesso');
+
+      } catch (err) {
+        console.error('[ERRO AJUSTE ESTOQUE]', err);
+        mostrarNotificacaoToast(err.message, 'erro');
+      } finally {
+        btnSalvar.disabled = false;
+        btnSalvar.textContent = '💾 Confirmar Movimentação';
+      }
+    }
+
+    // =========================================================================
+    // FICHA KARDEX (EXTRATO HISTÓRICO)
+    // =========================================================================
+    async function abrirModalFichaKardex(produtoId) {
+      kardexProdutoAtivoId = produtoId;
+      const modal = document.getElementById('modal-ficha-kardex');
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+      }
+      await carregarKardexProduto(produtoId);
+    }
+
+    function fecharModalFichaKardex() {
+      const modal = document.getElementById('modal-ficha-kardex');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
+      kardexProdutoAtivoId = null;
+      kardexProdutoAtivo = null;
+      kardexLinhasCache = [];
+    }
+
+    async function carregarKardexProduto(produtoId) {
+      const tbody = document.getElementById('tbody-kardex');
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">Carregando extrato de movimentações...</td></tr>';
+
+      try {
+        const res = await fetch(`/api/estoque/kardex/${produtoId}`);
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Erro ao carregar Ficha Kardex.');
+        }
+
+        kardexProdutoAtivo = data.produto;
+        kardexLinhasCache = data.movimentacoes || [];
+
+        const p = data.produto;
+        const un = p.unidade_medida || 'UN';
+        document.getElementById('kardex-prod-subtitulo').innerHTML = `
+          <span style="font-family: monospace; color: #fff; background: rgba(56, 189, 248, 0.2); padding: 1px 6px; border-radius: 4px;">${p.codigo_sku || '-'}</span>
+          <strong style="color: #fff; margin-left: 6px;">${p.nome}</strong> 
+          <span style="margin-left: 8px; color: #94a3b8;">Categoria: <strong style="color: #cbd5e1;">${p.categoria || '-'}</strong> | NCM: <strong style="color: #fbbf24;">${p.ncm || '-'}</strong></span>
+        `;
+
+        document.getElementById('kardex-card-saldo').textContent = `${p.estoque_atual} ${un}`;
+        document.getElementById('kardex-card-entradas').textContent = `+${data.totais.total_entradas} ${un}`;
+        document.getElementById('kardex-card-saidas').textContent = `-${data.totais.total_saidas} ${un}`;
+        document.getElementById('kardex-card-total').textContent = `${data.totais.total_registros} reg.`;
+
+        document.getElementById('kardex-busca-filtro').value = '';
+        renderizarLinhasKardex(kardexLinhasCache);
+
+      } catch (err) {
+        console.error('[ERRO KARDEX]', err);
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 30px; color: #f87171;">Falha ao carregar dados: ${err.message}</td></tr>`;
+      }
+    }
+
+    function renderizarLinhasKardex(linhas) {
+      const tbody = document.getElementById('tbody-kardex');
+      if (!linhas || linhas.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">Nenhuma movimentação localizada para este item.</td></tr>';
+        return;
+      }
+
+      const un = kardexProdutoAtivo?.unidade_medida || 'UN';
+
+      tbody.innerHTML = linhas.map(m => {
+        const isEntrada = m.tipo === 'ENTRADA';
+        const badgeTipo = isEntrada
+          ? '<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-size: 10.5px;">🟢 ENTRADA</span>'
+          : '<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-size: 10.5px;">🔴 SAÍDA</span>';
+
+        const qtdFormatada = isEntrada
+          ? `<span style="color: #34d399; font-weight: 800; font-family: monospace;">+${m.quantidade} ${un}</span>`
+          : `<span style="color: #f87171; font-weight: 800; font-family: monospace;">-${m.quantidade} ${un}</span>`;
+
+        // Formatação amigável do motivo
+        const motivoNome = (m.motivo || '').replace(/_/g, ' ');
+
+        return `
+          <tr>
+            <td style="font-family: monospace; font-size: 11px; color: var(--text-muted); white-space: nowrap;">
+              ${m.data_movimentacao || '-'}
+            </td>
+            <td style="text-align: center;">${badgeTipo}</td>
+            <td>
+              <div style="font-weight: 700; color: #fff;">${motivoNome}</div>
+              ${m.observacoes ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${m.observacoes}</div>` : ''}
+            </td>
+            <td style="text-align: right;">${qtdFormatada}</td>
+            <td style="text-align: right; font-family: monospace; color: var(--text-muted);">${m.saldo_anterior}</td>
+            <td style="text-align: right; font-family: monospace; font-weight: 800; color: #38bdf8;">${m.saldo_posterior}</td>
+            <td style="font-family: monospace; font-size: 11px; color: #cbd5e1;">${m.documento_referencia || '-'}</td>
+            <td style="font-size: 11.5px; color: var(--text-muted); white-space: nowrap;">${m.operador_nome || 'Sistema'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filtrarLinhasKardex() {
+      const termo = (document.getElementById('kardex-busca-filtro')?.value || '').toLowerCase().trim();
+      if (!termo) {
+        renderizarLinhasKardex(kardexLinhasCache);
+        return;
+      }
+      const filtradas = kardexLinhasCache.filter(m => {
+        return (m.motivo || '').toLowerCase().includes(termo) ||
+               (m.documento_referencia || '').toLowerCase().includes(termo) ||
+               (m.operador_nome || '').toLowerCase().includes(termo) ||
+               (m.observacoes || '').toLowerCase().includes(termo);
+      });
+      renderizarLinhasKardex(filtradas);
+    }
+
+    function exportarKardexCsv() {
+      if (!kardexLinhasCache || kardexLinhasCache.length === 0) {
+        mostrarNotificacaoToast('Não há movimentações para exportar.', 'aviso');
+        return;
+      }
+
+      const p = kardexProdutoAtivo;
+      const un = p?.unidade_medida || 'UN';
+      const escapeCsv = (str) => `"${String(str || '').replace(/"/g, '""')}"`;
+
+      const linhas = [];
+      linhas.push(escapeCsv(`MIS SUEÑOS ERP - FICHA KARDEX DE ESTOQUE`));
+      linhas.push(escapeCsv(`PRODUTO: [${p?.codigo_sku || '-'}] ${p?.nome || 'N/A'}`));
+      linhas.push(escapeCsv(`SALDO ATUAL: ${p?.estoque_atual || 0} ${un} | EMISSÃO: ${new Date().toLocaleString('pt-BR')}`));
+      linhas.push('');
+      linhas.push(['Data/Hora', 'Tipo', 'Origem', 'Motivo', 'Quantidade', 'Saldo Anterior', 'Saldo Resultante', 'Documento Ref', 'Operador', 'Observações'].map(escapeCsv).join(';'));
+
+      kardexLinhasCache.forEach(m => {
+        linhas.push([
+          m.data_movimentacao,
+          m.tipo,
+          m.origem,
+          m.motivo,
+          m.quantidade,
+          m.saldo_anterior,
+          m.saldo_posterior,
+          m.documento_referencia || '',
+          m.operador_nome || '',
+          m.observacoes || ''
+        ].map(escapeCsv).join(';'));
+      });
+
+      const csvContent = '\uFEFF' + linhas.join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `kardex_${p?.codigo_sku || 'produto'}-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      mostrarNotificacaoToast('Ficha Kardex exportada em CSV com sucesso!', 'sucesso');
+    }
+
+  </script>
 
 
   <!-- BACKDROP DA SIDEBAR MOBILE -->
