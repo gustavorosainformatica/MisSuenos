@@ -68,7 +68,60 @@ async function parseBody(req) {
   });
 }
 
+let tabelaGarantida = false;
+
+async function garantirTabelaEstoque() {
+  if (tabelaGarantida) return;
+  try {
+    await run(`
+      CREATE TABLE IF NOT EXISTS estoque_movimentacoes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        produto_id INTEGER NOT NULL,
+        tipo TEXT NOT NULL CHECK(tipo IN ('ENTRADA', 'SAIDA')),
+        origem TEXT NOT NULL CHECK(origem IN ('COMPRA', 'VENDA', 'AJUSTE_MANUAL', 'INVENTARIO', 'PRODUCAO', 'LOCACAO')),
+        motivo TEXT NOT NULL,
+        quantidade REAL NOT NULL CHECK(quantidade > 0),
+        saldo_anterior REAL NOT NULL,
+        saldo_posterior REAL NOT NULL,
+        custo_unitario REAL DEFAULT 0,
+        documento_referencia TEXT,
+        observacoes TEXT,
+        operador_id INTEGER,
+        operador_nome TEXT,
+        data_movimentacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (produto_id) REFERENCES produtos(id)
+      );
+    `);
+    await run(`
+      CREATE INDEX IF NOT EXISTS idx_estoque_mov_prod ON estoque_movimentacoes(produto_id, data_movimentacao DESC);
+    `);
+
+    // Carga de saldo inicial caso o banco não tenha movimentações
+    const countRes = await get('SELECT count(*) as total FROM estoque_movimentacoes');
+    const totalMovs = countRes ? (Number(countRes.total) || 0) : 0;
+    if (totalMovs === 0) {
+      const prods = await query('SELECT id, estoque_atual, preco_custo FROM produtos WHERE estoque_atual > 0');
+      for (const p of prods) {
+        const saldo = Number(p.estoque_atual) || 0;
+        if (saldo > 0) {
+          await run(`
+            INSERT INTO estoque_movimentacoes (
+              produto_id, tipo, origem, motivo, quantidade,
+              saldo_anterior, saldo_posterior, custo_unitario,
+              documento_referencia, observacoes, operador_nome, data_movimentacao
+            ) VALUES (?, 'ENTRADA', 'INVENTARIO', 'INVENTARIO_INICIAL', ?, 0, ?, ?, 'BALANCO-INICIAL', 'Carga inicial de saldo patrimonial do sistema', 'Administrador (Sistema)', datetime('now', 'localtime'))
+          `, [p.id, saldo, saldo, p.preco_custo || 0]);
+        }
+      }
+    }
+    tabelaGarantida = true;
+  } catch (err) {
+    console.warn('[ESTOQUE] Aviso ao garantir tabela:', err.message);
+  }
+}
+
 export default async function handler(req, res) {
+  await garantirTabelaEstoque();
   // CORS Preflight
   if (req.method === 'OPTIONS') {
     if (typeof res.status === 'function') {
