@@ -11437,7 +11437,12 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     });
 
     document.addEventListener('contextmenu', (e) => {
-      if (!e.target.closest('#erp-context-menu') && !e.target.closest('tr') && !e.target.closest('.card-kpi-custom') && !e.target.closest('table.erp-table thead th')) {
+      if (!e.target.closest('#erp-context-menu') &&
+          !e.target.closest('tr') &&
+          !e.target.closest('.card-kpi-custom') &&
+          !e.target.closest('.rel-kpi-card') &&
+          !e.target.closest('table.erp-table thead th') &&
+          !e.target.closest('table.tabela-relatorios-moderna thead th')) {
         fecharContextMenu();
       }
     });
@@ -16141,6 +16146,178 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
   }
 
+  
+  // =========================================================================
+  // MENUS DE CONTEXTO (BOTÃO DIREITO 🖱️) DA CENTRAL DE RELATÓRIOS & DRE
+  // =========================================================================
+  function abrirMenuContextoKpiRelatorio(e, kpiKey, titulo, valor) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    const periodoAtual = ESTADO_RELATORIOS.periodoAtivo;
+    const subTipo = ESTADO_RELATORIOS.subTipoAtivo;
+
+    const periodos = [
+      { id: 'hoje', label: 'Hoje' },
+      { id: '7d', label: 'Últimos 7 Dias' },
+      { id: 'mes_atual', label: 'Mês Atual' },
+      { id: 'mes_anterior', label: 'Mês Anterior' },
+      { id: 'trimestre', label: 'Trimestre' },
+      { id: 'ano', label: 'Ano Corrente' },
+      { id: 'todos', label: 'Histórico Completo' }
+    ];
+
+    const periodosHtml = periodos.map(p => {
+      const isAtivo = periodoAtual === p.id;
+      return `
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); selecionarPeriodoRelatorio('${p.id}')" style="display: flex; justify-content: space-between; align-items: center; ${isAtivo ? 'background: rgba(0, 212, 255, 0.12); color: #38bdf8; font-weight: 800;' : ''}">
+          <span>📅 ${p.label}</span>
+          ${isAtivo ? '<span style="font-size: 10px; background: rgba(0,212,255,0.2); padding: 1px 5px; border-radius: 4px;">✓ Ativo</span>' : ''}
+        </button>
+      `;
+    }).join('');
+
+    const itensHtml = `
+      <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; padding: 6px 12px 4px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+        <span>📊 ${titulo}</span>
+        <span style="font-family: monospace; color: #fff;">${valor}</span>
+      </div>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); navigator.clipboard.writeText('${valor.replace(/'/g, "\\\'")}'); mostrarToast('📋 Valor copiado: ${valor.replace(/'/g, "\\\'")}');" style="color: #34d399; font-weight: 700;">
+        <span>📋</span> <span>Copiar Valor (${valor})</span>
+      </button>
+      <div class="erp-context-divider"></div>
+      <div style="font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding: 4px 12px 2px 12px;">
+        Filtrar Período Rápido
+      </div>
+      ${periodosHtml}
+      <div class="erp-context-divider"></div>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarRelatorioAtualCsv();" style="color: #38bdf8;">
+        <span>📥</span> <span>Exportar Relatório em Excel (CSV)</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); imprimirRelatorioTimbrado();">
+        <span>🖨️</span> <span>Imprimir / Gerar PDF Timbrado</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); carregarRelatorioSelecionado();">
+        <span>🔄</span> <span>Recarregar Métricas Agora</span>
+      </button>
+    `;
+
+    posicionarContextMenu(e, itensHtml);
+  }
+
+  function abrirMenuContextoLinhaRelatorio(e, rowIdx) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    const res = ESTADO_RELATORIOS.dadosCarregados;
+    if (!res || !res.dados || !res.dados[rowIdx]) return;
+    const item = res.dados[rowIdx];
+    const tipo = res.tipo;
+
+    // Detecta rótulo e valor principal
+    const rotuloPrincipal = item.conta || item.nome || item.descricao || item.uf || item.documento || `Registro #${rowIdx + 1}`;
+    const valorPrincipal = item.acumulado !== undefined ? formatarMoedaRel(item.acumulado) :
+                           (item.total_valor !== undefined ? formatarMoedaRel(item.total_valor) :
+                           (item.patrimonio_venda !== undefined ? formatarMoedaRel(item.patrimonio_venda) :
+                           (item.faturamento !== undefined ? formatarMoedaRel(item.faturamento) : '')));
+
+    let acoesExtras = '';
+
+    // Se for DRE ou financeiro: filtrar conta ou copiar
+    if (tipo === 'dre_gerencial' && item.conta) {
+      acoesExtras += `
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); document.getElementById('rel-busca-filtro').value = '${item.conta.replace(/'/g, "\\\'")}'; filtrarTabelaRelatorioAoDigitar('${item.conta.replace(/'/g, "\\\'")}');" style="color: #38bdf8;">
+          <span>🔍</span> <span>Filtrar Apenas Esta Conta</span>
+        </button>
+      `;
+    }
+
+    // Se for relatório de clientes / Curva ABC / Inativos:
+    if (item.cliente_id || (item.id && (tipo === 'vendas_curva_abc' || tipo === 'clientes_inativos'))) {
+      const cliId = item.cliente_id || item.id;
+      acoesExtras += `
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalEditarCliente(${cliId});" style="color: #38bdf8; font-weight: 700;">
+          <span>👤</span> <span>Abrir Cadastro do Cliente</span>
+        </button>
+      `;
+      if (item.telefone_limpo) {
+        const linkWhats = `https://wa.me/55${item.telefone_limpo}?text=Ol%C3%A1%20${encodeURIComponent(item.nome || 'Cliente')}%2C%20tudo%20bem%3F%20Somos%20da%20Mis%20Sue%C3%B1os.`;
+        acoesExtras += `
+          <a href="${linkWhats}" target="_blank" class="erp-context-item" onclick="fecharContextMenu();" style="text-decoration: none; color: #34d399;">
+            <span>💬</span> <span>Conversar no WhatsApp</span>
+          </a>
+        `;
+      }
+    }
+
+    // Se for relatório de produtos / estoque:
+    if (item.produto_id || (item.id && tipo === 'estoque_posicao')) {
+      const prodId = item.produto_id || item.id;
+      acoesExtras += `
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalFichaKardex(${prodId});" style="color: #38bdf8; font-weight: 700;">
+          <span>📑</span> <span>Ver Ficha Kardex do Item</span>
+        </button>
+        <button type="button" class="erp-context-item" onclick="fecharContextMenu(); abrirModalAjusteEstoque(${prodId});" style="color: #34d399;">
+          <span>⚡</span> <span>Novo Ajuste de Estoque</span>
+        </button>
+      `;
+    }
+
+    // Monta texto formatado para cópia completa
+    const textoCopia = Object.entries(item)
+      .filter(([k]) => !['tipoLinha', 'telefone_limpo'].includes(k))
+      .map(([k, v]) => `${k}: ${v}`).join(' | ');
+
+    const itensHtml = `
+      <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; padding: 6px 12px 4px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+        <span style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">📌 ${rotuloPrincipal}</span>
+        ${valorPrincipal ? `<span style="font-family: monospace; color: #fff;">${valorPrincipal}</span>` : ''}
+      </div>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); navigator.clipboard.writeText('${(valorPrincipal || rotuloPrincipal).replace(/'/g, "\\\'")}'); mostrarToast('📋 Copiado: ${(valorPrincipal || rotuloPrincipal).replace(/'/g, "\\\'")}');" style="color: #34d399; font-weight: 700;">
+        <span>📋</span> <span>Copiar Valor (${valorPrincipal || rotuloPrincipal})</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); navigator.clipboard.writeText('${textoCopia.replace(/'/g, "\\\'")}'); mostrarToast('📋 Linha inteira copiada para a área de transferência');">
+        <span>📄</span> <span>Copiar Linha Completa</span>
+      </button>
+      ${acoesExtras ? `<div class="erp-context-divider"></div>${acoesExtras}` : ''}
+      <div class="erp-context-divider"></div>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarRelatorioAtualCsv();" style="color: #38bdf8;">
+        <span>📥</span> <span>Exportar Tabela em Excel (CSV)</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); imprimirRelatorioTimbrado();">
+        <span>🖨️</span> <span>Imprimir / Gerar PDF</span>
+      </button>
+    `;
+
+    posicionarContextMenu(e, itensHtml);
+  }
+
+  function abrirMenuContextoHeaderRelatorio(e, titulo) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const itensHtml = `
+      <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; padding: 6px 12px 4px 12px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+        🏛️ Coluna: ${titulo}
+      </div>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); exportarRelatorioAtualCsv();" style="color: #38bdf8;">
+        <span>📥</span> <span>Exportar Planilha Excel (CSV)</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); imprimirRelatorioTimbrado();">
+        <span>🖨️</span> <span>Imprimir / Gerar PDF</span>
+      </button>
+      <button type="button" class="erp-context-item" onclick="fecharContextMenu(); carregarRelatorioSelecionado();">
+        <span>🔄</span> <span>Recarregar Dados</span>
+      </button>
+    `;
+    posicionarContextMenu(e, itensHtml);
+  }
+
   function renderizarKpisRelatorio(kpis, tipo) {
     const kpiBox = document.getElementById('relatorios-kpis-container');
     if (!kpiBox || !kpis) return;
@@ -16148,141 +16325,163 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     let html = '';
 
     if (tipo === 'vendas_curva_abc') {
+      const vFat = formatarMoedaRel(kpis.faturamentoTotal);
+      const vTicket = formatarMoedaRel(kpis.ticketMedioGeral);
+      const vPareto = kpis.distribuicaoClasses;
+      const vTop1 = kpis.destaque;
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'faturamento', 'Faturamento Total', '${vFat}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Faturamento Total</span> <span>💰</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoTotal)}</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vFat}</div>
           <div class="rel-kpi-desc">${kpis.totalClientesAtivos} clientes ativos na carteira</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'ticket', 'Ticket Médio Geral', '${vTicket}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Ticket Médio Geral</span> <span>🎯</span></div>
-          <div class="rel-kpi-val" style="color: #34d399;">${formatarMoedaRel(kpis.ticketMedioGeral)}</div>
+          <div class="rel-kpi-val" style="color: #34d399;">${vTicket}</div>
           <div class="rel-kpi-desc">Média ponderada por cliente</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'pareto', 'Distribuição de Pareto', '${vPareto}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Distribuição de Pareto</span> <span>📊</span></div>
-          <div class="rel-kpi-val" style="color: #fbbf24; font-size: 15px; font-weight: 700;">${kpis.distribuicaoClasses}</div>
+          <div class="rel-kpi-val" style="color: #fbbf24; font-size: 15px; font-weight: 700;">${vPareto}</div>
           <div class="rel-kpi-desc">Classificação A (80%), B (15%), C (5%)</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'top1', 'Maior Cliente (Top 1)', '${vTop1}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Maior Cliente (Top 1)</span> <span>🥇</span></div>
-          <div class="rel-kpi-val" style="color: #a78bfa; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${kpis.destaque}">${kpis.destaque}</div>
+          <div class="rel-kpi-val" style="color: #a78bfa; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${vTop1}">${vTop1}</div>
           <div class="rel-kpi-desc">Líder do ranking da carteira</div>
         </div>
       `;
     } else if (tipo === 'vendas_uf') {
+      const vNac = formatarMoedaRel(kpis.faturamentoTotal);
+      const vUfs = `${kpis.estadosAtendidos} UFs`;
+      const vLider = kpis.ufLider || '-';
+      const vTicketUf = formatarMoedaRel(kpis.faturamentoTotal / (kpis.estadosAtendidos || 1));
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'receita_nacional', 'Receita Nacional', '${vNac}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Receita Nacional</span> <span>🇧🇷</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoTotal)}</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vNac}</div>
           <div class="rel-kpi-desc">${kpis.totalPedidos} pedidos de venda faturados</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'estados', 'Estados Atendidos', '${vUfs}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Estados Atendidos</span> <span>🗺️</span></div>
-          <div class="rel-kpi-val" style="color: #34d399;">${kpis.estadosAtendidos} UFs</div>
+          <div class="rel-kpi-val" style="color: #34d399;">${vUfs}</div>
           <div class="rel-kpi-desc">Capilaridade de distribuição</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'uf_lider', 'Estado Líder', '${vLider}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Estado Líder</span> <span>🥇</span></div>
-          <div class="rel-kpi-val" style="color: #fbbf24;">${kpis.ufLider || '-'}</div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${vLider}</div>
           <div class="rel-kpi-desc">Maior volume faturado</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'ticket_uf', 'Ticket Médio por UF', '${vTicketUf}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Ticket Médio por UF</span> <span>📈</span></div>
-          <div class="rel-kpi-val" style="color: #a78bfa;">${formatarMoedaRel(kpis.faturamentoTotal / (kpis.estadosAtendidos || 1))}</div>
+          <div class="rel-kpi-val" style="color: #a78bfa;">${vTicketUf}</div>
           <div class="rel-kpi-desc">Faturamento médio por estado</div>
         </div>
       `;
     } else if (tipo === 'dre_gerencial') {
       const corLucro = kpis.lucroLiquido >= 0 ? '#34d399' : '#f87171';
+      const vRecLiq = formatarMoedaRel(kpis.receitaLiquida);
+      const vResLiq = formatarMoedaRel(kpis.lucroLiquido);
+      const vMargem = kpis.margemLiquida;
+      const vPontoEq = formatarMoedaRel(kpis.pontoEquilibrio);
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'receita_liquida', 'Receita Líquida', '${vRecLiq}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Receita Líquida</span> <span>📈</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.receitaLiquida)}</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vRecLiq}</div>
           <div class="rel-kpi-desc">Base operacional líquida</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'resultado_liquido', 'Resultado Líquido', '${vResLiq}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Resultado Líquido</span> <span>💎</span></div>
-          <div class="rel-kpi-val" style="color: ${corLucro};">${formatarMoedaRel(kpis.lucroLiquido)}</div>
-          <div class="rel-kpi-desc">Margem Líquida de ${kpis.margemLiquida}</div>
+          <div class="rel-kpi-val" style="color: ${corLucro};">${vResLiq}</div>
+          <div class="rel-kpi-desc">Margem Líquida de ${vMargem}</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'margem_liquida', 'Margem Líquida', '${vMargem}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Margem Líquida</span> <span>🎯</span></div>
-          <div class="rel-kpi-val" style="color: #34d399;">${kpis.margemLiquida}</div>
+          <div class="rel-kpi-val" style="color: #34d399;">${vMargem}</div>
           <div class="rel-kpi-desc">Rentabilidade final do período</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'ponto_equilibrio', 'Ponto de Equilíbrio', '${vPontoEq}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Ponto de Equilíbrio</span> <span>⚖️</span></div>
-          <div class="rel-kpi-val" style="color: #fbbf24;">${formatarMoedaRel(kpis.pontoEquilibrio)}</div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${vPontoEq}</div>
           <div class="rel-kpi-desc">Faturamento mínimo para cobrir custos</div>
         </div>
       `;
     } else if (tipo === 'estoque_posicao') {
       const lucroPotencial = (kpis.patrimonioVenda || 0) - (kpis.patrimonioCusto || 0);
       const margemPotencial = kpis.patrimonioVenda > 0 ? ((lucroPotencial / kpis.patrimonioVenda) * 100).toFixed(1) + '%' : '0%';
+      const vCusto = formatarMoedaRel(kpis.patrimonioCusto);
+      const vVenda = formatarMoedaRel(kpis.patrimonioVenda);
+      const vLucro = formatarMoedaRel(lucroPotencial);
+      const vCriticos = `${kpis.itensCriticos} itens`;
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'patrimonio_custo', 'Patrimônio a Custo', '${vCusto}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Patrimônio a Custo</span> <span>🪵</span></div>
-          <div class="rel-kpi-val" style="color: #f59e0b;">${formatarMoedaRel(kpis.patrimonioCusto)}</div>
+          <div class="rel-kpi-val" style="color: #f59e0b;">${vCusto}</div>
           <div class="rel-kpi-desc">${formatarNumeroRel(kpis.totalPecas)} peças em ${kpis.totalSkus} SKUs</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'patrimonio_venda', 'Patrimônio a Venda', '${vVenda}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Patrimônio a Venda</span> <span>🏷️</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.patrimonioVenda)}</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vVenda}</div>
           <div class="rel-kpi-desc">Valor projetado na tabela de venda</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'lucro_potencial', 'Lucro Potencial', '${vLucro}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Lucro Potencial</span> <span>✨</span></div>
-          <div class="rel-kpi-val" style="color: #34d399;">${formatarMoedaRel(lucroPotencial)}</div>
+          <div class="rel-kpi-val" style="color: #34d399;">${vLucro}</div>
           <div class="rel-kpi-desc">Margem bruta projetada de ${margemPotencial}</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'itens_criticos', 'Itens Críticos', '${vCriticos}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Itens Críticos</span> <span>⚠️</span></div>
-          <div class="rel-kpi-val" style="color: ${kpis.itensCriticos > 0 ? '#f87171' : '#34d399'};">${kpis.itensCriticos} itens</div>
+          <div class="rel-kpi-val" style="color: ${kpis.itensCriticos > 0 ? '#f87171' : '#34d399'};">${vCriticos}</div>
           <div class="rel-kpi-desc">Abaixo do estoque mínimo de segurança</div>
         </div>
       `;
     } else if (tipo === 'fiscal_saidas') {
+      const vFatFisc = formatarMoedaRel(kpis.faturamentoFiscalTotal);
+      const vIcms = formatarMoedaRel(kpis.icmsEstimado);
+      const vRegime = kpis.regimeTributario;
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'fiscal_total', 'Faturamento Fiscal', '${vFatFisc}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Faturamento Fiscal Total</span> <span>🧾</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${formatarMoedaRel(kpis.faturamentoFiscalTotal)}</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vFatFisc}</div>
           <div class="rel-kpi-desc">${kpis.totalDocumentos} documentos fiscais emitidos</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'icms', 'ICMS Estimado', '${vIcms}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>ICMS Estimado</span> <span>🏛️</span></div>
-          <div class="rel-kpi-val" style="color: #a78bfa;">${formatarMoedaRel(kpis.icmsEstimado)}</div>
+          <div class="rel-kpi-val" style="color: #a78bfa;">${vIcms}</div>
           <div class="rel-kpi-desc">Tributo estadual incidente</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'regime', 'Regime Tributário', '${vRegime}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Regime Tributário</span> <span>📑</span></div>
-          <div class="rel-kpi-val" style="color: #34d399; font-size: 15px; font-weight: 700;">${kpis.regimeTributario}</div>
+          <div class="rel-kpi-val" style="color: #34d399; font-size: 15px; font-weight: 700;">${vRegime}</div>
           <div class="rel-kpi-desc">Enquadramento fiscal ativo</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'sefaz', 'Status SEFAZ', '100% Ok')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Status SEFAZ</span> <span>🟢</span></div>
           <div class="rel-kpi-val" style="color: #34d399;">100% Ok</div>
           <div class="rel-kpi-desc">Autorizadas e conferidas</div>
         </div>
       `;
     } else if (tipo === 'clientes_inativos') {
+      const vInativos = `${formatarNumeroRel(kpis.totalInativos)} contas`;
+      const vPatHist = formatarMoedaRel(kpis.patrimonioHistoricoInativo);
+      const vComTel = `${kpis.comTelefone} contatos`;
       html = `
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'inativos_contas', 'Contas Inativas', '${vInativos}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Contas Inativas</span> <span>👥</span></div>
-          <div class="rel-kpi-val" style="color: #f87171;">${formatarNumeroRel(kpis.totalInativos)} contas</div>
+          <div class="rel-kpi-val" style="color: #f87171;">${vInativos}</div>
           <div class="rel-kpi-desc">+60 dias sem registrar compras</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'patrimonio_inativo', 'Patrimônio Histórico', '${vPatHist}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Patrimônio Histórico</span> <span>📉</span></div>
-          <div class="rel-kpi-val" style="color: #fbbf24;">${formatarMoedaRel(kpis.patrimonioHistoricoInativo)}</div>
+          <div class="rel-kpi-val" style="color: #fbbf24;">${vPatHist}</div>
           <div class="rel-kpi-desc">Total já faturado por essa carteira</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'com_telefone', 'Contatos com Telefone', '${vComTel}')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Contatos com Telefone</span> <span>📱</span></div>
-          <div class="rel-kpi-val" style="color: #38bdf8;">${kpis.comTelefone} contatos</div>
+          <div class="rel-kpi-val" style="color: #38bdf8;">${vComTel}</div>
           <div class="rel-kpi-desc">Prontos para contato imediato</div>
         </div>
-        <div class="rel-kpi-card">
+        <div class="rel-kpi-card" style="cursor: context-menu;" oncontextmenu="abrirMenuContextoKpiRelatorio(event, 'reativacao', 'Ação Estratégica', 'Reativação WhatsApp')" title="💡 Botão Direito (🖱️): Menu de Ações Rápidas & Períodos">
           <div class="rel-kpi-title"><span>Ação Estratégica</span> <span>💬</span></div>
           <div class="rel-kpi-val" style="color: #34d399; font-size: 13.5px; font-weight: 700;">Reativação WhatsApp</div>
           <div class="rel-kpi-desc">${kpis.acaoSugerida}</div>
@@ -16310,7 +16509,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const isNum = col.tipo === 'numero' || col.tipo === 'moeda' || col.tipo === 'moeda_dre';
         const isCenter = col.tipo === 'badge_abc' || col.tipo === 'badge_estoque' || col.tipo === 'badge_fiscal' || col.tipo === 'badge_inativo' || col.tipo === 'telefone';
         const styleWidth = col.width ? `style="width: ${col.width};"` : '';
-        return `<th class="${isNum ? 'col-num' : (isCenter ? 'col-center' : '')}" ${styleWidth}>${col.titulo}</th>`;
+        return `<th class="${isNum ? 'col-num' : (isCenter ? 'col-center' : '')}" ${styleWidth} oncontextmenu="abrirMenuContextoHeaderRelatorio(event, '${col.titulo}')" style="cursor: context-menu;" title="💡 Botão Direito (🖱️): Menu da Coluna">${col.titulo}</th>`;
       }).join('') + '</tr>';
     }
 
@@ -16325,7 +16524,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     // Renderiza TBODY usando os tipos de colunas
-    const rowsHtml = dados.map(item => {
+    const rowsHtml = dados.map((item, index) => {
       let trClasses = [];
       if (item.tipoLinha === 'destaque_verde') trClasses.push('dre-linha-receita-bruta');
       else if (item.tipoLinha === 'subtotal') trClasses.push('dre-linha-subtotal');
@@ -16368,7 +16567,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         return `<td class="${isNum ? 'col-num' : (isCenter ? 'col-center' : '')}">${cellContent}</td>`;
       }).join('');
 
-      return `<tr class="${trClasses.join(' ')}">${cells}</tr>`;
+      return `<tr class="${trClasses.join(' ')}" oncontextmenu="abrirMenuContextoLinhaRelatorio(event, ${index})" style="cursor: context-menu;" title="💡 Botão Direito (🖱️): Ações Rápidas da Linha">${cells}</tr>`;
     }).join('');
 
     tbody.innerHTML = rowsHtml;
