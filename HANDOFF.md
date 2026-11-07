@@ -53,6 +53,15 @@
 
 ---
 
+### 🎨 F. Reorganização Ergonômica da Tela de Pedidos & Encomendas (Diretrizes dos Áudios)
+- **Nº do Pedido Fixo na Barra de Título:** O identificador (ex: `#PED-1044`) foi embutido como badge estilizado em JetBrains Mono na barra superior, eliminando o campo duplicado do formulário.
+- **Linha 1 Focada em Contato com Auto-Salvamento:** Campo do Cliente (~65%) posicionado no topo absoluto e Telefone/WhatsApp (~35%) posicionado ao lado. Quando o telefone é digitado ou alterado, a ficha principal do cliente na tabela `clientes` é atualizada automaticamente no banco.
+- **Linha 2 de Entrega Proporcional:** Cidade de entrega, UF compactado para exatos 70px (sem desperdício de espaço) e Data do Pedido.
+- **Campo QTD sem Setas e Limpo:** Removidas as setas nativas de incremento (spinners) via CSS e configurado para iniciar vazio (`value=""`), permitindo digitação imediata.
+- **Alinhamento Contábil à Direita com Campo de Frete:** O `Valor Total do Pedido` foi reposicionado na extrema direita (abaixo das colunas financeiras da tabela de itens). Criado o campo dedicado `Frete (R$)` com cálculo automático (`Itens + Frete = Total`).
+- **Observações Multilinhas com Enter:** Substituído o input de linha única por um `<textarea>` com suporte à tecla Enter, permitindo listar número e espessura de cada pele linha por linha.
+- **PWA Service Worker v32:** Cache atualizado para forçar atualização imediata em produção.
+
 ## 2. Arquivos Modificados / Criados
 
 - `SPEC_ESTOQUE_KARDEX.md` - Especificação formal da arquitetura e regras de negócio do estoque.
@@ -71,12 +80,12 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`f249054`](https://github.com/gustavorosainformatica/MisSuenos/commit/f249054).
+  - Commit oficial: [`c1c0965`](https://github.com/gustavorosainformatica/MisSuenos/commit/f249054).
   - Status HTTP: `200 OK` (auditado com sucesso via inspeção direta de headers e ETag).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `f249054` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `971e502` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `40f9df0` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `c1c0965` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `04320bc` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `d334009` na branch `main`).
 - **Banco de Dados Híbrido:**
   - Banco local SQLite operacional na porta 3000.
   - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
