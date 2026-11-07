@@ -138,15 +138,17 @@ async function consultarRastreio(codigo) {
   }
 
   // Tenta consultar serviço de rastreamento aberto com timeout
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 4000);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 4000);
 
-    const resp = await fetch(`https://api.linkentrack.com/v1/traces?user=teste&token=1abcd00b2731640e886fb41a8a9671ad143c57b304e1e7fc79340e24e7699f22&codigo=${codLimpo}`, {
+  try {
+    const user = process.env.LINKENTRACK_USER || 'teste';
+    const token = process.env.LINKENTRACK_TOKEN || '1abcd00b2731640e886fb41a8a9671ad143c57b304e1e7fc79340e24e7699f22';
+
+    const resp = await fetch(`https://api.linkentrack.com/v1/traces?user=${encodeURIComponent(user)}&token=${encodeURIComponent(token)}&codigo=${encodeURIComponent(codLimpo)}`, {
       signal: controller.signal,
       headers: { 'Accept': 'application/json' }
     });
-    clearTimeout(timeout);
 
     if (resp.ok) {
       const data = await resp.json();
@@ -195,6 +197,8 @@ async function consultarRastreio(codigo) {
     }
   } catch (err) {
     console.warn(`[LOGISTICA] Consulta externa não indexada ou indisponível para ${codLimpo}:`, err.message);
+  } finally {
+    clearTimeout(timeout);
   }
 
   // Fallback Gracioso: Objeto postado / aguardando indexação na base
