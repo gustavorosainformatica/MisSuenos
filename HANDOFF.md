@@ -1,76 +1,96 @@
-# HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
+# Registro de Transição de Contexto (Handoff)
 
-> **Data de Atualização:** 07 de Novembro de 2026  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1, #2, #3, #4 e Pedido)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
-
----
-
-## 1. O Que Foi Realizado Recentemente
-
-### A. Modernização da Ficha de Pedido (`modal-pedido`) - Janela Universal de Vendas
-- **Imersão Total:** Janela expandida para `99vw x 96vh` aproveitando todo o monitor.
-- **Linha 1 Blindada com CSS Grid:** 5 campos integrados lado a lado na mesma linha sem quebras horizontais (`Cliente / Destinatário`, `Telefone / Whats`, `Cidade de Entrega`, `UF` com 60px e `Data do Pedido` com 115px).
-- **Sub-Modais no Rodapé:**
-  - `[ 📝 Observações do Pedido ]`: Sub-modal `#submodal-ped-obs` para instruções de fabricação e despacho.
-  - `[ ⭐ Preferências do Cliente ]`: Sub-modal `#submodal-ped-pref` com gravação direta na ficha cadastral do cliente (`clientes.preferencias`).
-
-### B. Modernização da Ficha do Cliente (`modal-cliente`) - Janela #1
-- **Proporcionalidade Perfeita:** Linha 1 com Nome Comercial (60%) e Nome Curto/Apelido (40%). Linha 2 com CPF/CNPJ (175px), Inscrição Estadual (135px), Telefone/WhatsApp (175px) e novo campo oficial de E-mail para Faturas/XML.
-- **Endereço Compacto:** CEP (115px) integrado ao Logradouro e Bairro/Cidade/UF em 2 linhas fluidas.
-- **Rodapé com Botões de Ação Rápida:** `[ 🏷️ Gerar Etiqueta ]`, `[ 🧾 Emitir NF-e ]`, `[ 💬 WhatsApp ]`, `[ 📝 Obs. Entrega ]` e `[ ⭐ Preferências CRM ]`.
-
-### C. Modernização da Ficha do Produto (`modal-produto`) - Janela #2
-- **Nome Comercial Expandido:** `flex: 2.2` ocupando mais de 60% da primeira linha, com SKU compacto (170px com gerador `⚡`) e NCM (130px).
-- **Classificação:** Categoria, Unidade (130px), Estoque Atual (140px com fonte JetBrains Mono) e Estoque Mínimo (140px).
-- **Card de Formação de Preço & Rentabilidade:** Card visual em tempo real calculando Margem Bruta em R$ e % (`#card-prod-margem`).
-- **Rodapé com Ações de Estoque:** `[ 📑 Ficha Kardex ]`, `[ ⚡ Ajuste Rápido ]` e `[ 📝 Detalhes & Notas ]`.
-
-### D. Modernização do Lançamento Financeiro (`modal-lancamento-financeiro`) - Janela #3
-- **3 Linhas Fluidas e Intuitivas:** Linha 1 (Tipo, Descrição, Categoria), Linha 2 (Valor R$, Vencimento, Forma Pagamento, Status), Linha 3 (Cliente/Fornecedor, Obs/PIX/Recibo).
-- **Badge Dinâmico no Cabeçalho:** Alternância semântica em tempo real entre `🟢 CONTA A RECEBER` e `🔴 CONTA A PAGAR` recalculando cor do input de valor.
-- **Persistência Completa:** Integração com a API REST `POST /api/financeiro` e atualização dinâmica do painel financeiro.
-- **Rodapé:** Botão `[ 📎 Anexar Comprovante ]` para upload direto de recibos.
-
-### E. Modernização da Etiqueta de Envio & Logística (`modal-etiqueta`) - Janela #4
-- **Ergonomia e Proporções 2 Colunas:** Painel operacional à esquerda + Pré-visualização em tempo real à direita.
-- **Linha 1:** Serviço de Frete / Transportadora (Superfrete, Sedex, PAC, Jadlog, Melhor Envio) + Formato (Térmica 100x150 mm vs Folha A4).
-- **Linha 2:** Declaração de Conteúdo / Mercadoria + Nº do Pedido centralizado em JetBrains Mono.
-- **Linha 3 (Inovação Logística):** Peso Estimado (105px) + Dimensões da Caixa A x L x C cm (155px) + Valor Declarado R$ (em esmeralda formatado).
-- **Integração Logística:** Função `copiarDadosSuperfrete()` atualizada para incluir dimensões e valor declarado formatados para colagem com 1 clique no app/site do Superfrete.
-- **Pré-visualização e Impressão:** Exibição dinâmica de dimensões e valor declarado na etiqueta térmica/A4 e impressão sem cortes.
-- **Rodapé Limpo:** Botões indevidos de 'Personalizar Colunas' removidos, deixando fechamento e impressão rápida.
-- **Service Worker v38:** Cache atualizado para `missuenos-pwa-v38` e deploy validado na nuvem.
+**Data / Hora:** 07 de Novembro de 2026 - 20:15 (BRT)  
+**Objetivo da Sessão:** Modernização visual contínua das janelas do Mis Sueños ERP seguindo normas modernas de UX/UI, blindagem da linha única no modal de pedidos, implantação das Janelas #1, #2, #3 e #4, auditoria rigorosa de deploy na Vercel e sincronização tríplice com `MisSuenos-Dev` e `erp-base`.
 
 ---
 
-## 2. Estado Atual e Decisões Críticas
+## 1. O que foi Concluído
+
+1. **Janela de Pedidos (`modal-pedido`) - Janela Universal de Vendas:**
+   - Tela cheia imersiva (`99vw x 96vh`) aproveitando todo o monitor do usuário.
+   - **Linha 1 Blindada com CSS Grid Estrito:** 5 campos travados na mesma linha horizontal (`Cliente`, `Telefone / Whats`, `Cidade de Entrega`, `UF` [60px] e `Data do Pedido` [115px]) eliminando quebras em qualquer resolução de tela desktop.
+   - **Sub-Modais no Rodapé:** Botões `[ 📝 Observações do Pedido ]` (especificações de corte/lote) e `[ ⭐ Preferências do Cliente ]` (com persistência automática na ficha do cliente).
+
+2. **Janela #1: Ficha do Cliente (`modal-cliente`):**
+   - Proporcionalidade ergonômica (Nome 60%, Apelido 40%, CPF/CNPJ, IE, Telefone e novo campo oficial de E-mail de Faturas/XML NF-e).
+   - Endereço compacto unificado em 2 linhas com integração ViaCEP.
+   - Botões de ação rápida no rodapé (`🏷️ Etiqueta`, `🧾 NF-e`, `💬 WhatsApp`, `📝 Obs. Entrega` e `⭐ CRM`).
+
+3. **Janela #2: Ficha do Produto (`modal-produto`):**
+   - Nome comercial expandido (>60% da largura), SKU compacto com gerador automático `⚡` e NCM.
+   - Classificação com estoque atual em fonte JetBrains Mono e estoque mínimo em alerta âmbar.
+   - Card em tempo real de Formação de Preço calculando Margem Bruta em R$ e %.
+   - Botões de atalho no rodapé: `[ 📑 Ficha Kardex ]`, `[ ⚡ Ajuste Rápido ]` e `[ 📝 Detalhes & Notas ]`.
+
+4. **Janela #3: Lançamento Financeiro (`modal-lancamento-financeiro`):**
+   - Reestruturado em 3 linhas fluidas (Tipo, Descrição, Categoria / Valor, Vencimento, Forma Pagamento, Status / Cliente-Fornecedor, Detalhes).
+   - Badge semântico dinâmico alternando `🟢 CONTA A RECEBER` e `🔴 CONTA A PAGAR` e recolorindo o input de valor.
+   - Botão para upload de recibo `[ 📎 Anexar Comprovante ]`.
+   - Conectado à API REST `POST /api/financeiro` com recarga automática de extratos e DRE.
+
+5. **Janela #4: Etiqueta de Envio & Logística (`modal-etiqueta`):**
+   - Layout moderno de 2 colunas: Controles e configurações à esquerda + Pré-visualização em tempo real à direita.
+   - Linha com medidas da embalagem: **`Peso Estimado`** (105px) + **`Dimensões A x L x C (cm)`** (155px) + **`Valor Declarado (R$)`**.
+   - Integração com Superfrete: Botão `⚡ Copiar p/ Superfrete` atualizado para formatar as medidas e valor do pacote prontos para colagem.
+   - Pré-visualização com dados dinâmicos na etiqueta e rodapé limpo com impressão térmica (100x150 mm) ou A4.
+
+6. **Diagnóstico do PWA e Atualização de Cache:**
+   - Identificada a causa da exibição da versão antiga (retenção de cache pelo Chrome/Edge no aplicativo PWA do Windows).
+   - Documentado procedimento de recarga forçada (`Ctrl + F5` ou pelo menu `⚙️ Configurações` -> `🔄 Atualizar Sistema`).
+
+---
+
+## 2. Arquivos Modificados / Criados
+
+- `public/index.html` - Modais de Pedido, Cliente, Produto, Lançamento Financeiro e Etiqueta de Envio modernizados.
+- `public/sw.js` - Service Worker bumpado para a versão `missuenos-pwa-v38` com expurgo agressivo de caches legados.
+- `HANDOFF.md` - Documento de transferência de bastão e histórico técnico atualizado.
+- `proposta_modernizacao_ajuste_estoque.html` - Artefato visual interativo com a proposta para a Janela #5 (`modal-ajuste-estoque`).
+
+---
+
+## 3. Estado Atual e Decisões Críticas
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`8f674b6`](https://github.com/gustavorosainformatica/MisSuenos/commit/8f674b6)
-  - Service Worker: `missuenos-pwa-v38` ativo.
-  - ETag da Produção: `"6d28aee147231164cb6d67c037204799"` (Status 200 OK, auditado com sucesso).
-- **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `8f674b6` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `d3c25c6` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `91f44bd` na branch `main`).
-- **Fila de Modernização de Janelas Restantes:**
+  - Commit Oficial: [`8f674b6`](https://github.com/gustavorosainformatica/MisSuenos/commit/8f674b6) (e `39d51c8` no HANDOFF).
+  - Service Worker: `missuenos-pwa-v38` ativo e auditado com Status 200 OK (ETag: `"cfccbad62746de229667c4b1df75a9b1"`).
+- **Paridade Tríplice 100% Sincronizada:**
+  - Repositório Principal de Produção: `d:\projetos-agy\MisSuenos` (branch `main`).
+  - Repositório de Desenvolvimento: `d:\projetos-agy\MisSuenos-Dev` (branch `dev`).
+  - Matriz Template Neutra: `d:\projetos-agy\erp-base` (branch `main`).
+- **Fila de Modernização de Janelas:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
   - [x] #3: `modal-lancamento-financeiro` (Concluído)
   - [x] #4: `modal-etiqueta` (Concluído)
-  - [ ] #5: `modal-ajuste-estoque` (Ajuste Rápido de Estoque)
-  - [ ] #6: `modal-ficha-kardex` (Extrato Kardex de Movimentações)
+  - [ ] **#5: `modal-ajuste-estoque` (Próxima tarefa imediata - Proposta pronta)**
+  - [ ] #6: `modal-ficha-kardex` (Extrato Kardex)
   - [ ] #7: `modal-rastreamento-pedido` (Rastreamento Logístico)
-  - [ ] #8: `modal-fiscal` (Emissão NF-e Portal Nacional)
+  - [ ] #8: `modal-fiscal` (Emissão NF-e)
   - [ ] #9: `modal-pacote-contador` (Fechamento Fiscal)
   - [ ] #10: `modal-importar-xml` (Importação NF-e XML)
-  - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
+  - [ ] #11-17: Modais de Sistema e Segurança (RBAC, Backup, Quotas, Sobre).
 
 ---
 
-## 3. Próximos Passos Imediatos
+## 4. Próximos Passos Imediatos (Ao Ligar o Computador)
 
-- [ ] **1. Janela #5 - Ajuste Rápido de Estoque (`modal-ajuste-estoque`):**
-  - Apresentar protótipo visual interativo com proporções modernas, badge semântico de tipo de ajuste (Entrada / Saída / Balanço Inventário), cálculo automático do novo saldo e motivo padronizado.
+1. **Reabertura e Validação Visual do PWA:**
+   - Abrir o PWA do Mis Sueños ERP.
+   - Pressionar <kbd>Ctrl</kbd> + <kbd>F5</kbd> para garantir o carregamento do Service Worker `v38`.
+   - Abrir o modal de pedidos e conferir os 5 campos alinhados na mesma linha e os botões de observações no rodapé.
+2. **Executar a Janela #5: Ajuste Rápido de Estoque (`modal-ajuste-estoque`):**
+   - Proposta já desenhada no artefato `proposta_modernizacao_ajuste_estoque.html`.
+   - Implementar o seletor triplo de movimentação (Entrada, Saída e **`⚖️ INVENTÁRIO (Contagem)`**), proporções ergonômicas dos campos de quantidade/doc e card de saldo dinâmico.
+   - Auditar deploy na Vercel (SW v39) e sincronizar tríplice (`MisSuenos`, `MisSuenos-Dev`, `erp-base`).
+3. **Avançar para a Janela #6: Ficha Kardex (`modal-ficha-kardex`).**
+
+---
+
+## 5. Cuidados e Observações Técnicas
+
+- **Ambiente Limpo:** Todos os repositórios locais (`MisSuenos`, `MisSuenos-Dev` e `erp-base`) estão com working tree limpa e sincronizados com seus remotes no GitHub.
+- **Cota Serverless Vercel (Hobby):** Permanecemos consumindo apenas 1 Serverless Function (`api/index.js`), garantindo conformidade com o plano gratuito.
+- **Protocolos Globais:** Diretrizes de Português do Brasil e modo de execução direta ativas.
