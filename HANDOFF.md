@@ -71,12 +71,12 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`b6d1ed0`](https://github.com/gustavorosainformatica/MisSuenos/commit/b6d1ed0).
+  - Commit oficial: [`f249054`](https://github.com/gustavorosainformatica/MisSuenos/commit/f249054).
   - Status HTTP: `200 OK` (auditado com sucesso via inspeção direta de headers e ETag).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `b6d1ed0` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `1c6405a` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `1a49e30` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `f249054` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `971e502` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `40f9df0` na branch `main`).
 - **Banco de Dados Híbrido:**
   - Banco local SQLite operacional na porta 3000.
   - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
