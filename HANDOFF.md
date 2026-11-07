@@ -1,142 +1,72 @@
-# Registro de Transição de Contexto (Handoff)
+# HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-**Data / Hora:** 06/11/2026 às 02:32 (Horário de Brasília)  
-**Projeto:** Mis Sueños ERP (`d:\projetos-agy\MisSuenos`)  
-**Repositório Oficial:** [github.com/gustavorosainformatica/MisSuenos](https://github.com/gustavorosainformatica/MisSuenos) (`main` / `dev`)  
-**Produção Oficial na Nuvem:** [https://missuenos.vercel.app](https://missuenos.vercel.app)  
-**Template Base White-Label:** `d:\projetos-agy\erp-base`  
-**Objetivo da Sessão:** Ciclo completo (Idea-to-Ship) do Módulo Universal de Estoque & Ficha Kardex, Maximização e redimensionamento universal de janelas modais, correção e alinhamento visual da barra de pesquisa da DRE, suíte completa de menus de contexto (botão direito) na Central de Relatórios e consolidação de regras globais de sincronização com a matriz neutra ERP BASE.
+> **Data de Atualização:** 07 de Novembro de 2026  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1, #2, #3 e Pedido)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
 
 ---
 
-## 1. O que foi Concluído
+## 1. O Que Foi Realizado Recentemente
 
-### 📦 A. Módulo Universal de Estoque & Ficha Kardex (Idea-to-Ship Completo)
-- **Engenharia Inicial (Validação e Planejamento):**
-  - Sabatina `/grill-me` validando o modelo multi-empresa neutro (couros, móveis, locação de TI, artesanato).
-  - Criação da especificação formal [`SPEC_ESTOQUE_KARDEX.md`](file:///d:/projetos-agy/MisSuenos/SPEC_ESTOQUE_KARDEX.md) via `/to-spec`.
-  - Fatiamento em 7 tickets atômicos e testáveis via `/to-tickets`.
-- **Implementação e Backend (`api/estoque.js`):**
-  - Tabela `estoque_movimentacoes` criada com índices de performance para consultas por data e produto.
-  - Endpoints REST `/api/estoque/movimentar`, `/api/estoque/kardex/:produto_id` e `/api/estoque/motivos`.
-  - Mecanismo de **recálculo retroativo de saldo** e **auto-provisionamento automático** para banco de dados Turso Cloud em ambientes serverless da Vercel.
-  - Centralizado no Dispatcher único (`api/index.js`), mantendo o consumo de apenas **1 Serverless Function** na Vercel (respeitando a cota de 12 do plano Hobby).
-- **Interface e Usabilidade:**
-  - `modal-ajuste-estoque`: Formulário ágil com alertas inteligentes de saldo insuficiente e motivos categorizados.
-  - `modal-ficha-kardex`: Extrato histórico em tempo real com cards de saldo, total de entradas, baixas, tabela analítica e exportação CSV com UTF-8 BOM.
-  - Atalhos diretos de ajuste (`⚡`) e extrato (`📑`) na tabela do catálogo e menu de contexto.
-  - Revisão rigorosa de código `/code-review` aprovada com pontuação 100%.
+### A. Modernização da Ficha de Pedido (`modal-pedido`) - Janela Universal de Vendas
+- **Imersão Total:** Janela expandida para `99vw x 96vh` aproveitando todo o monitor.
+- **Linha 1 Blindada com CSS Grid:** 5 campos integrados lado a lado na mesma linha sem quebras horizontais (`Cliente / Destinatário`, `Telefone / Whats`, `Cidade de Entrega`, `UF` com 60px e `Data do Pedido` com 115px).
+- **Sub-Modais no Rodapé:**
+  - `[ 📝 Observações do Pedido ]`: Sub-modal `#submodal-ped-obs` para instruções de fabricação e despacho.
+  - `[ ⭐ Preferências do Cliente ]`: Sub-modal `#submodal-ped-pref` com gravação direta na ficha cadastral do cliente (`clientes.preferencias`).
 
-### 🗖 B. Maximização & Redimensionamento Universal de Janelas Modais
-- Diagnóstico e resolução das travas estáticas de largura (`max-width: 780px` a `1020px`) e altura de tabelas (`max-height: 48vh`).
-- Injeção dinâmica do **Botão de Maximizar / Restaurar (`🗖` / `🗗`)** no cabeçalho de **todos os modais do sistema**.
-- Suporte a **duplo clique na barra de título** da janela (comportamento nativo do Windows).
-- Expansão responsiva para **98vw de largura e 96vh de altura**, aproveitando 100% de monitores Full HD, 2K ou 4K com flexibilidade vertical (`flex: 1`).
-- Liberação do teto máximo da alça triangular de arraste livre (`◢`) até a borda física da tela.
+### B. Modernização da Ficha do Cliente (`modal-cliente`) - Janela #1
+- **Proporcionalidade Perfeita:** Linha 1 com Nome Comercial (60%) e Nome Curto/Apelido (40%). Linha 2 com CPF/CNPJ (175px), Inscrição Estadual (135px), Telefone/WhatsApp (175px) e novo campo oficial de E-mail para Faturas/XML.
+- **Endereço Compacto:** CEP (115px) integrado ao Logradouro e Bairro/Cidade/UF em 2 linhas fluidas.
+- **Rodapé com Botões de Ação Rápida:** `[ 🏷️ Gerar Etiqueta ]`, `[ 🧾 Emitir NF-e ]`, `[ 💬 WhatsApp ]`, `[ 📝 Obs. Entrega ]` e `[ ⭐ Preferências CRM ]`.
 
-### 🔍 C. Correção e Alinhamento Visual da Barra de Busca da DRE
-- Diagnóstico da causa do botão `✕` com legenda *"Limpar busca"* flutuando solto no meio da tela na Central de Relatórios.
-- Correção de largura do input (`width: 100%`) com preenchimento limpo e expansão visual.
-- Botão `✕` embutido discretamente **dentro** do próprio campo de texto no canto direito, com comportamento inteligente: 100% invisível quando o campo está vazio, surgindo suavemente apenas ao digitar.
+### C. Modernização da Ficha do Produto (`modal-produto`) - Janela #2
+- **Nome Comercial Expandido:** `flex: 2.2` ocupando mais de 60% da primeira linha, com SKU compacto (170px com gerador `⚡`) e NCM (130px).
+- **Classificação:** Categoria, Unidade (130px), Estoque Atual (140px com fonte JetBrains Mono) e Estoque Mínimo (140px).
+- **Card de Formação de Preço & Rentabilidade:** Card visual em tempo real calculando Margem Bruta em R$ e % (`#card-prod-margem`).
+- **Rodapé com Ações de Estoque:** `[ 📑 Ficha Kardex ]`, `[ ⚡ Ajuste Rápido ]` e `[ 📝 Detalhes & Notas ]`.
 
-### 🖱️ D. Suíte Completa de Menus de Contexto (Botão Direito) na Central de Relatórios
-- Diagnóstico de ausência de manipuladores `contextmenu` no módulo de Relatórios.
-- **Botão Direito nos Cards de KPIs (Receita, Margem, Resultado, Ponto de Equilíbrio, etc.):** Copiar valor formatado, alternar período rápido (*Hoje, 7 Dias, Mês Atual, Mês Anterior, Trimestre, Ano, Todos*), exportar CSV e imprimir/gerar PDF timbrado.
-- **Botão Direito nas Linhas da Tabela (DRE, Curva ABC, Estoque, Fiscal e CRM):** Copiar valor, copiar linha inteira formatada, filtrar busca instantaneamente pela conta clicada, ações diretas de cliente (WhatsApp) e produto (Ficha Kardex e Ajuste de Estoque).
-- **Botão Direito nos Cabeçalhos:** Ações rápidas de exportação e impressão a partir de qualquer coluna.
-
-### 📜 E. Consolidação das Regras Globais do Antigravity
-- Criação e ativação da regra global permanente:
-  - [`C:\Users\Usuario\.gemini\config\rules\sincronizacao-matriz-erp-base.md`](file:///C:/Users/Usuario/.gemini/config/rules/sincronizacao-matriz-erp-base.md)
-  - Registro na Memória Global: [`C:\Users\Usuario\.gemini\GEMINI.md`](file:///C:/Users/Usuario/.gemini/GEMINI.md#L35)
-- Garantia de **Sincronização Tríplice Obrigatória**: Qualquer novo módulo universal ou melhoria de UI desenvolvido em projetos clientes é automaticamente replicado para a matriz limpa e neutra `d:\projetos-agy\erp-base`.
+### D. Modernização do Lançamento Financeiro (`modal-lancamento-financeiro`) - Janela #3
+- **3 Linhas Fluidas e Intuitivas:**
+  - **Linha 1:** Tipo de Lançamento (210px), Descrição Comercial (`flex: 1`) e Categoria (210px).
+  - **Linha 2:** Valor do Título (R$ destacado em verde/vermelho), Data de Vencimento, Forma de Pagamento e Status.
+  - **Linha 3:** Cliente ou Fornecedor (`flex: 1.2`) e Observações / Chave PIX / Recibo (`flex: 1.6`).
+- **Badge Dinâmico no Cabeçalho:** Alternância semântica em tempo real entre `🟢 CONTA A RECEBER` e `🔴 CONTA A PAGAR` recalculando cor do input de valor.
+- **Persistência Completa:** Integração com a API REST `POST /api/financeiro` e atualização dinâmica do painel financeiro.
+- **Rodapé:** Botão `[ 📎 Anexar Comprovante ]` para upload direto de recibos.
+- **Service Worker v37:** Cache atualizado para `missuenos-pwa-v37` e deploy validado na nuvem.
 
 ---
 
-### 🎨 F. Reorganização Ergonômica da Tela de Pedidos & Encomendas (Diretrizes dos Áudios)
-- **Nº do Pedido Fixo na Barra de Título:** O identificador (ex: `#PED-1044`) foi embutido como badge estilizado em JetBrains Mono na barra superior, eliminando o campo duplicado do formulário.
-- **Auto-Salvamento do Telefone:** Quando o telefone é digitado ou alterado no pedido, a ficha principal do cliente na tabela `clientes` é atualizada automaticamente no banco.
-- **Campo QTD sem Setas e Limpo:** Removidas as setas nativas de incremento (spinners) via CSS e configurado para iniciar vazio (`value=""`), permitindo digitação imediata.
-- **Alinhamento Contábil à Direita com Campo de Frete:** O `Valor Total do Pedido` foi reposicionado na extrema direita (abaixo das colunas financeiras da tabela de itens). Criado o campo dedicado `Frete (R$)` com cálculo automático (`Itens + Frete = Total`).
-- **Observações Multilinhas com Enter:** Substituído o input de linha única por um `<textarea>` com suporte à tecla Enter, permitindo listar número e espessura de cada pele linha por linha.
-
-### 🖥️ G. Modal em Tela Cheia & Agrupamento dos 5 Campos em Linha Única
-- **Janela Imersiva em Tela Cheia (99vw x 96vh):** O modal de pedidos (`#modal-pedido`) agora sobrepõe praticamente todo o ERP (`width: 99vw; height: 96vh; padding: 8px`), eliminando espaços ociosos nas laterais e maximizando a área útil para a tabela de itens.
-- **5 Campos Integrados na Mesma Linha Horizontal:** Cliente, Telefone/Whats, Cidade, UF e Data.
-
-### 🌟 H. Botões no Rodapé com Sub-Modais de Observações e Preferências do Cliente (CRM)
-- **Eliminação do Textarea Fixo:** O campo estático de observações foi substituído por canal de sincronização oculto, liberando mais de 110px de altura vertical para a tabela de mercadorias.
-- **Botões Dinâmicos no Rodapé:** `📝 Observações do Pedido` e `⭐ Preferências do Cliente` com sub-modais dedicados e badges em tempo real.
-
-### 👤 I. Modernização da Ficha do Cliente (modal-cliente - Janela #1 da Fila)
-- **Dimensões Proporcionais & Eliminação de Quebras Desnecessárias:**
-  - Nome / Razão Social (60%) e Apelido / Fantasia (40%) unificados na Linha 1.
-  - Linha 2 de Contato & Fiscal: CPF/CNPJ (175px), Inscrição Estadual (135px), Telefone/WhatsApp (175px) e novo campo dedicado **E-mail para Faturas / XML NF-e** (com migração de coluna no banco Turso e SQLite).
-  - Endereço de Envio compacto em apenas **2 linhas coesas**:
-    - Linha 3: CEP (115px com busca ViaCEP) + Logradouro (flex) + Número (90px) + Complemento (160px).
-    - Linha 4: Bairro (flex) + Cidade (flex) + UF compacto (65px, caixa alta, centralizado).
-- **Sub-Modais Ergonômicos no Rodapé da Ficha:** `📝 Obs. Entrega` e `⭐ Preferências CRM`.
-
-### 🪵 J. Modernização da Ficha do Produto & Estoque (modal-produto - Janela #2 da Fila)
-- **Nome Comercial com Destaque Amplo (flex: 2.2):** O nome do produto agora ocupa a posição nobre da Linha 1 (mais de 60% da largura), deixando de ficar espremido em 1/3 da janela.
-- **Códigos Compactos:** Código / SKU (170px com gerador automático `⚡`) e NCM Fiscal (130px com validação de 8 dígitos).
-- **Classificação e Saldos (Linha 2):** Categoria (flex), Unidade de Medida (130px), Saldo em Estoque (140px, tipografia Mono destacada) e Estoque Mínimo (140px, cor âmbar).
-- **Card de Formação de Preço & Rentabilidade:**
-  - Preço de Custo e Preço de Venda integrados com cálculo automático em tempo real da **Margem Bruta (R$ e %)**.
-  - Badge dinâmico de rentabilidade (`#badge-prod-margem-val`) com cores semânticas (verde para margens positivas e vermelho para prejuízos).
-- **Rodapé com Ações Diretas & Sub-Modal:**
-  - `[ 📑 Ficha Kardex ]`: Atalho direto para consultar o extrato de movimentações do produto.
-  - `[ ⚡ Ajuste Rápido ]`: Atalho para movimentação imediata de estoque (entrada, saída, balanço).
-  - `[ 📝 Detalhes & Notas ]`: Sub-modal dedicado para especificações técnicas de curtimento, espessura e acabamento.
-- **PWA Service Worker v36:** Cache atualizado para propagação imediata em produção.
-
-## 2. Arquivos Modificados / Criados
-
-- `SPEC_ESTOQUE_KARDEX.md` - Especificação formal da arquitetura e regras de negócio do estoque.
-- `scripts/migrar_schema_estoque.js` - Script de migração local com criação da tabela e índices.
-- `api/estoque.js` - API REST completa com auto-provisionamento para Turso Cloud.
-- `api/index.js` - Centralização da rota `/api/estoque` no Dispatcher único da Vercel.
-- `scripts/servidor_web.js` - Mapeamento da rota local no servidor Express.
-- `public/index.html` - Modais de Estoque/Kardex, sistema universal de janelas maximizáveis (`🗖`), barra de busca da DRE corrigida e suíte de botão direito.
-- `HANDOFF.md` - Este documento oficial de transferência de bastão e histórico técnico.
-- `C:\Users\Usuario\.gemini\config\rules\sincronizacao-matriz-erp-base.md` - Nova regra global de sincronização.
-- `C:\Users\Usuario\.gemini\GEMINI.md` - Memória pessoal global atualizada.
-
----
-
-## 3. Estado Atual e Decisões Críticas
+## 2. Estado Atual e Decisões Críticas
 
 - **Deploy em Produção Auditado e Operacional:**
-  - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`23b436a`](https://github.com/gustavorosainformatica/MisSuenos/commit/23b436a).
-  - Service Worker: `missuenos-pwa-v36` ativo.
-  - Status HTTP: `200 OK` (ETag: `"96e0cd44b437815169408a1cdacff407"`, auditado com sucesso).
+  - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
+  - Commit Oficial: [`2f29e54`](https://github.com/gustavorosainformatica/MisSuenos/commit/2f29e54)
+  - Service Worker: `missuenos-pwa-v37` ativo.
+  - ETag da Produção: `"0af76814794905a00ebb86ed10c53208"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `23b436a` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `c1a45a4` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `efded95` na branch `main`).
-- **Banco de Dados Híbrido:**
-  - Banco local SQLite operacional na porta 3000.
-  - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
+  - Repositório de Produção (`MisSuenos` - commit `2f29e54` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `2cd7923` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `d12a8aa` na branch `main`).
+- **Fila de Modernização de Janelas Restantes:**
+  - [x] #1: `modal-cliente` (Concluído)
+  - [x] #2: `modal-produto` (Concluído)
+  - [x] #3: `modal-lancamento-financeiro` (Concluído)
+  - [ ] #4: `modal-etiqueta` (Etiqueta de Envio & Logística Superfrete/Correios/Jadlog)
+  - [ ] #5: `modal-ajuste-estoque` (Ajuste Rápido de Estoque)
+  - [ ] #6: `modal-ficha-kardex` (Extrato Kardex de Movimentações)
+  - [ ] #7: `modal-rastreamento-pedido` (Rastreamento Logístico)
+  - [ ] #8: `modal-fiscal` (Emissão NF-e Portal Nacional)
+  - [ ] #9: `modal-pacote-contador` (Fechamento Fiscal)
+  - [ ] #10: `modal-importar-xml` (Importação NF-e XML)
+  - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
 
 ---
 
-## 4. Próximos Passos Imediatos (Para Retomar na Próxima Sessão)
+## 3. Próximos Passos Imediatos
 
-- [ ] **1. Publicação do ERP BASE no GitHub e Nuvem (Tríade Opções 1, 2 e 3):**
-  - Criar o repositório vazio `erp-base` no GitHub ([github.com/new](https://github.com/new)).
-  - Conectar o remote `origin` na pasta local `d:\projetos-agy\erp-base` e executar `git push -u origin main`.
-  - Configurar o projeto de demonstração neutro na Vercel (`erp-base.vercel.app`).
-  - Marcar o repositório no GitHub como **"Template Repository"** para criação de novas empresas com 1 clique.
-- [ ] **2. Fase 4 do Roadmap - Logística & Rastreio dos Correios / Transportadoras:**
-  - Implementar consulta automática de status de entrega de pedidos.
-- [ ] **3. Relatórios com Filtro por Grupo/Empresa:**
-  - Evolução dos relatórios analíticos para múltiplos centros de custo ou novos ramos de negócio derivados.
-
----
-
-## 5. Cuidados e Observações Técnicas
-
-- **Cota Serverless da Vercel (Hobby Tier):** O projeto permanece blindado com apenas **1 Serverless Function** compilada (`api/index.js`). Qualquer rota REST futura **deve** ser incluída no Dispatcher central.
-- **Regra de Sincronização do ERP BASE:** Sempre que efetuar alterações no `MisSuenos`, commitar também no `MisSuenos-Dev` e `erp-base`, mantendo os repositórios alinhados.
-- **Protocolos Globais:** Lembre-se de que comandos iniciados com `?` são exclusivamente dúvidas (não mutar código antes de responder), e comandos de voz exigem confirmação explícita prévia antes de qualquer alteração.
+- [ ] **1. Janela #4 - Etiqueta de Envio (`modal-etiqueta`):**
+  - Apresentar protótipo visual interativo com proporções ergonômicas para dimensões da caixa (A x L x C cm), peso (kg) e serviços de frete.
+- [ ] **2. Orientação de Atualização de Cache do PWA:**
+  - Orientar o usuário a pressionar `Ctrl + F5` ou clicar na engrenagem -> "Atualizar Sistema" para descarregar a versão antiga em memória do PWA instalado.
