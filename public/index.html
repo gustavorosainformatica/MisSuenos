@@ -2467,7 +2467,7 @@
       min-height: 140px;
     }
     #modal-produto .modal-container {
-      width: min(780px, 95vw);
+      width: min(960px, 96vw);
       max-width: 98vw;
       max-height: 92vh;
     }
@@ -6024,97 +6024,169 @@
 
   <!-- MODAL DE CADASTRO / EDICAO DE PRODUTO -->
   <div class="modal-overlay" id="modal-produto">
-    <div class="modal-container" style="max-width: 780px; width: 95%; max-height: 92vh;">
+    <div class="modal-container" style="max-width: 960px; width: 96%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-produto" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header">
-        <div class="modal-title">
+      <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
           <span id="modal-prod-icone">🪵</span>
           <span id="modal-prod-titulo">Ficha do Produto & Estoque</span>
+          <span id="modal-prod-badge-sku" class="badge-ped" style="font-size: 11px;">NOVO PRODUTO</span>
         </div>
         <button class="modal-close-btn" onclick="fecharModalProduto()">✕</button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
         <form id="form-produto" onsubmit="salvarProduto(event)">
           <input type="hidden" id="form-prod-id">
 
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">Código / SKU *</label>
+          <!-- LINHA 1: NOME COMERCIAL (flex: 2.2) + SKU (170px) + NCM (130px) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="flex: 2.2; min-width: 320px;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                  <span>📦</span> Nome / Descrição Comercial *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Catálogo & Vendas</span>
+              </label>
+              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Selecionada Flor Limpa" style="font-weight: 600;">
+            </div>
+
+            <div class="form-group" style="width: 170px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Código / SKU *</label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" class="form-input" id="form-prod-sku" required placeholder="SKU-LON-001" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase;">
-                <button type="button" class="btn-top btn-row-action" title="Gerar Código Automático" onclick="gerarSkuAuto()">⚡</button>
+                <input type="text" class="form-input" id="form-prod-sku" required placeholder="SKU-LON-001" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; width: 100%;">
+                <button type="button" class="btn-top btn-row-action" title="Gerar Código Automático" onclick="gerarSkuAuto()" style="padding: 6px 9px;">⚡</button>
               </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">NCM Fiscal (8 dígitos) *</label>
-              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24;">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Nome / Descrição Comercial *</label>
-              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Legítima Selecionada">
+
+            <div class="form-group" style="width: 130px; flex-shrink: 0;">
+              <label class="form-label" style="color: #fbbf24; margin-bottom: 3px;">NCM Fiscal *</label>
+              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; text-align: center;">
             </div>
           </div>
 
-          <div class="form-grid-3" style="margin-top: 14px;">
-            <div class="form-group">
-              <label class="form-label">Categoria *</label>
+          <!-- LINHA 2: CATEGORIA (flex: 1.5) + UNIDADE (130px) + ESTOQUE ATUAL (140px) + ESTOQUE MÍNIMO (140px) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
+            <div class="form-group" style="flex: 1.5; min-width: 180px;">
+              <label class="form-label" style="margin-bottom: 3px;">Categoria do Produto *</label>
               <select class="form-input" id="form-prod-cat" required>
-                <option value="Loncas">Loncas</option>
-                <option value="Couros & Peles">Couros & Peles</option>
-                <option value="Tentos">Tentos</option>
-                <option value="Ferramentas">Ferramentas</option>
-                <option value="Outros">Outros</option>
+                <option value="Loncas">Loncas & Peles Curtidas</option>
+                <option value="Couros & Peles">Couros & Peles Bovinas</option>
+                <option value="Tentos">Tentos & Tiras</option>
+                <option value="Ferramentas">Ferramentas & Acessórios</option>
+                <option value="Outros">Outros Artigos</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="form-label">Unidade de Medida *</label>
+
+            <div class="form-group" style="width: 130px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Unid. Medida *</label>
               <select class="form-input" id="form-prod-un" required>
-                <option value="Peça">Peça</option>
-                <option value="Metro">Metro</option>
-                <option value="Rolo">Rolo</option>
-                <option value="Kg">Kg</option>
-                <option value="Unidade">Unidade</option>
+                <option value="Peça">Peça (UN)</option>
+                <option value="Metro">Metro (M)</option>
+                <option value="Rolo">Rolo (RL)</option>
+                <option value="Kg">Quilo (KG)</option>
+                <option value="Unidade">Unidade (UN)</option>
                 <option value="Jogo">Jogo</option>
                 <option value="Par">Par</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="form-label">Estoque Mínimo (Alerta)</label>
-              <input type="number" step="1" class="form-input" id="form-prod-min" required value="5" placeholder="5">
+
+            <div class="form-group" style="width: 140px; flex-shrink: 0;">
+              <label class="form-label" style="color: #38bdf8; margin-bottom: 3px;">Saldo em Estoque *</label>
+              <input type="number" step="any" class="form-input" id="form-prod-est" required placeholder="0" style="color: #38bdf8; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center;">
+            </div>
+
+            <div class="form-group" style="width: 140px; flex-shrink: 0;">
+              <label class="form-label" style="color: #f59e0b; margin-bottom: 3px;">Estoque Mínimo</label>
+              <input type="number" step="any" class="form-input" id="form-prod-min" required value="5" placeholder="5" style="color: #fbbf24; font-weight: 700; font-family: 'JetBrains Mono', monospace; text-align: center;">
             </div>
           </div>
 
-          <div class="form-grid-3" style="margin-top: 14px;">
-            <div class="form-group">
-              <label class="form-label">Preço de Custo (R$)</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" onblur="this.value = formatarMoedaPtBr(this.value)">
+          <!-- SEÇÃO FORMAÇÃO DE PREÇO & RENTABILIDADE (CARD DESTACADO) -->
+          <div style="border-top: 1px solid var(--border-color); margin: 12px 0 6px 0; padding-top: 10px;">
+            <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+              <span>💰</span> <span>Formação de Preço & Rentabilidade</span>
             </div>
-            <div class="form-group">
-              <label class="form-label">Preço de Venda (R$) *</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" style="color: #34d399; font-weight: 700; font-family: 'JetBrains Mono', monospace;" onblur="this.value = formatarMoedaPtBr(this.value)">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Quantidade em Estoque *</label>
-              <input type="number" step="1" class="form-input" id="form-prod-est" required placeholder="0" style="color: #38bdf8; font-weight: 700; font-family: 'JetBrains Mono', monospace;">
+
+            <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+              <div class="form-group" style="flex: 1; min-width: 150px;">
+                <label class="form-label" style="margin-bottom: 3px;">Preço de Custo (R$)</label>
+                <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+              </div>
+
+              <div class="form-group" style="flex: 1; min-width: 150px;">
+                <label class="form-label" style="color: #34d399; margin-bottom: 3px;">Preço de Venda (R$) *</label>
+                <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="color: #34d399; font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4);">
+              </div>
+
+              <!-- BADGE DINÂMICO DE MARGEM BRUTA -->
+              <div id="card-prod-margem" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 7px 14px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 140px; height: 38px;">
+                <span style="font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Margem Bruta</span>
+                <span id="badge-prod-margem-val" style="font-size: 13.5px; font-weight: 800; font-family: 'JetBrains Mono', monospace;">+0,0% (R$ 0,00)</span>
+              </div>
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 14px;">
-            <label class="form-label">Detalhes Técnicos / Observações do Couro</label>
-            <textarea class="form-input" id="form-prod-desc" rows="2" placeholder="Especificações do produto, espessura, acabamento, tipo de artesanato ou sogueiro..."></textarea>
-          </div>
+          <!-- CAMPO OCULTO DE OBSERVAÇÕES / DETALHES TÉCNICOS -->
+          <textarea id="form-prod-desc" style="display: none;"></textarea>
         </form>
       </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalProduto()">Cancelar</button>
-        <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-produto').requestSubmit()">💾 Salvar Produto</button>
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px; padding: 12px 22px;">
+        <!-- LADO ESQUERDO: AÇÕES RÁPIDAS DE ESTOQUE E KARDEX -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" onclick="abrirKardexDoProdutoAtual()" style="border-color: rgba(0, 212, 255, 0.4); color: #38bdf8;" title="Ver extrato completo de movimentações">
+            <span>📑</span> Ficha Kardex
+          </button>
+          <button type="button" class="btn-top btn-row-action" onclick="abrirAjusteDoProdutoAtual()" style="border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="Dar entrada, saída ou balanço imediato">
+            <span>⚡</span> Ajuste Rápido
+          </button>
+          <span style="color: #334155; margin: 0 2px;">|</span>
+          <button type="button" class="btn-ped-obs-action" id="btn-prod-abrir-desc" onclick="abrirSubmodalDescProduto()" title="Detalhes técnicos de curtimento, espessura e acabamento">
+            <span>📝</span>
+            <span>Detalhes & Notas</span>
+            <span class="btn-ped-badge-count" id="badge-prod-desc">Vazio</span>
+          </button>
+        </div>
+
+        <!-- LADO DIREITO: CANCELAR E SALVAR -->
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalProduto()">Cancelar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-produto').requestSubmit()">
+            💾 Salvar Produto
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  
+  <!-- SUB-MODAL: DETALHES TÉCNICOS & NOTAS DO PRODUTO -->
+  <div class="submodal-overlay" id="submodal-prod-desc">
+    <div class="submodal-container">
+      <div class="modal-header" style="padding: 14px 18px; border-bottom: 1px solid #1e293b;">
+        <div class="modal-title" style="font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <span>📝</span>
+          <span>Detalhes Técnicos: <strong id="submodal-desc-prod-nome" style="color: #38bdf8;">Produto</strong></span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharSubmodalDescProduto()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #7dd3fc; display: flex; align-items: center; gap: 8px;">
+          <span>💡</span>
+          <span>Descreva especificações de matéria-prima, espessura (mm), tipo de curtimento (vegetal/cromo), acabamento ou recomendações ao cliente.</span>
+        </div>
+        <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
+          Especificações e observações técnicas:
+        </label>
+        <textarea class="form-input" id="submodal-prod-desc-textarea" rows="6" placeholder="Exemplo:&#10;• Lonca de cabrito seleccionada, flor lisa sem marcas de ferro&#10;• Espessura calibrada: 1.2mm a 1.4mm&#10;• Curtimento 100% vegetal artesanal&#10;• Indicado para encordoamento e selaria fina" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;"></textarea>
+      </div>
+      <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalDescProduto()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="concluirSubmodalDescProduto()">✓ Concluir Detalhes</button>
+      </div>
+    </div>
+  </div>
+
   <!-- =========================================================================
        MODAL 1: AJUSTE RÁPIDO DE ESTOQUE & MOVIMENTAÇÃO PATRIMONIAL
        ========================================================================= -->
@@ -8806,6 +8878,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const ncmEl = document.getElementById('form-prod-ncm');
       if (ncmEl) ncmEl.value = '42050000';
       gerarSkuAuto();
+      const bSku = document.getElementById('modal-prod-badge-sku');
+      if (bSku) bSku.textContent = 'NOVO PRODUTO';
+      atualizarMargemProduto();
+      atualizarBadgeDescProduto();
       document.getElementById('modal-produto').classList.add('active');
       document.getElementById('form-prod-nome').focus();
     }
@@ -8831,12 +8907,115 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-prod-venda').value = formatarMoedaPtBr(prod.preco_venda || 0);
       document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
       document.getElementById('form-prod-desc').value = prod.descricao || '';
+      const bSku = document.getElementById('modal-prod-badge-sku');
+      if (bSku) bSku.textContent = `${prod.codigo_sku || 'SKU'} · ATIVO`;
+      atualizarMargemProduto();
+      atualizarBadgeDescProduto();
 
       document.getElementById('modal-produto').classList.add('active');
     }
 
     function fecharModalProduto() {
       document.getElementById('modal-produto').classList.remove('active');
+    }
+
+    
+    // ========================================================
+    // CONTROLE DE MARGEM, SUB-MODAL E AÇÕES DA FICHA DO PRODUTO
+    // ========================================================
+    function atualizarMargemProduto() {
+      const custoStr = document.getElementById('form-prod-custo')?.value || '0';
+      const vendaStr = document.getElementById('form-prod-venda')?.value || '0';
+      const custo = typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(custoStr) : parseFloat(custoStr.replace(/\./g, '').replace(',', '.')) || 0;
+      const venda = typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(vendaStr) : parseFloat(vendaStr.replace(/\./g, '').replace(',', '.')) || 0;
+      
+      const badge = document.getElementById('badge-prod-margem-val');
+      const card = document.getElementById('card-prod-margem');
+      if (!badge || !card) return;
+
+      const lucro = venda - custo;
+      if (venda <= 0 && custo <= 0) {
+        badge.textContent = '+0,0% (R$ 0,00)';
+        card.style.background = 'rgba(16, 185, 129, 0.12)';
+        card.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        card.style.color = '#34d399';
+        return;
+      }
+
+      const perc = custo > 0 ? ((lucro / custo) * 100).toFixed(1) : (venda > 0 ? '100.0' : '0.0');
+      const lucroFmt = typeof formatarMoedaPtBr === 'function' ? formatarMoedaPtBr(Math.abs(lucro)) : Math.abs(lucro).toFixed(2).replace('.', ',');
+
+      if (lucro >= 0) {
+        badge.textContent = `+${perc.replace('.', ',')} % (R$ ${lucroFmt})`;
+        card.style.background = 'rgba(16, 185, 129, 0.12)';
+        card.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        card.style.color = '#34d399';
+      } else {
+        badge.textContent = `-${Math.abs(parseFloat(perc)).toFixed(1).replace('.', ',')} % (-R$ ${lucroFmt})`;
+        card.style.background = 'rgba(239, 68, 68, 0.12)';
+        card.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        card.style.color = '#f87171';
+      }
+    }
+
+    function abrirSubmodalDescProduto() {
+      const nome = document.getElementById('form-prod-nome')?.value.trim() || 'Produto';
+      const desc = document.getElementById('form-prod-desc')?.value || '';
+      const bNome = document.getElementById('submodal-desc-prod-nome');
+      if (bNome) bNome.textContent = nome;
+      const txt = document.getElementById('submodal-prod-desc-textarea');
+      if (txt) txt.value = desc;
+      const m = document.getElementById('submodal-prod-desc');
+      if (m) m.classList.add('active');
+    }
+
+    function fecharSubmodalDescProduto() {
+      const m = document.getElementById('submodal-prod-desc');
+      if (m) m.classList.remove('active');
+    }
+
+    function concluirSubmodalDescProduto() {
+      const txt = document.getElementById('submodal-prod-desc-textarea');
+      const descEl = document.getElementById('form-prod-desc');
+      if (txt && descEl) {
+        descEl.value = txt.value.trim();
+        atualizarBadgeDescProduto();
+      }
+      fecharSubmodalDescProduto();
+    }
+
+    function atualizarBadgeDescProduto() {
+      const descVal = document.getElementById('form-prod-desc')?.value.trim() || '';
+      const badge = document.getElementById('badge-prod-desc');
+      const btn = document.getElementById('btn-prod-abrir-desc');
+      if (badge && btn) {
+        if (descVal) {
+          const linhas = descVal.split('\n').filter(l => l.trim()).length;
+          badge.textContent = linhas + (linhas === 1 ? ' nota' : ' notas');
+          btn.classList.add('has-content');
+        } else {
+          badge.textContent = 'Vazio';
+          btn.classList.remove('has-content');
+        }
+      }
+    }
+
+    function abrirKardexDoProdutoAtual() {
+      const id = document.getElementById('form-prod-id')?.value;
+      if (id && typeof abrirModalFichaKardex === 'function') {
+        abrirModalFichaKardex(id);
+      } else {
+        mostrarNotificacaoToast('⚠️ Salve o produto primeiro para visualizar o extrato da Ficha Kardex.');
+      }
+    }
+
+    function abrirAjusteDoProdutoAtual() {
+      const id = document.getElementById('form-prod-id')?.value;
+      if (id && typeof abrirModalAjusteEstoque === 'function') {
+        abrirModalAjusteEstoque(id);
+      } else {
+        mostrarNotificacaoToast('⚠️ Salve o produto primeiro para realizar ajustes de estoque.');
+      }
     }
 
     function gerarSkuAuto() {
