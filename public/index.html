@@ -6856,15 +6856,15 @@
     <div class="modal-container" style="max-width: 1140px; width: 96%; max-height: 96vh;">
       <div class="modal-resize-handle" data-modal="modal-etiqueta" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
       <div class="modal-header" style="padding: 12px 22px;">
-        <div class="modal-title">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
           <span>🏷️</span>
           <span>Etiqueta de Envio & Logística de Encomenda</span>
-          <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: var(--primary); border: 1px solid rgba(0, 212, 255, 0.3); margin-left: 8px;">Superfrete · Correios · Jadlog · Melhor Envio</span>
+          <span class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.3);">Superfrete · Correios · Jadlog · Melhor Envio</span>
         </div>
         <button class="modal-close-btn" onclick="fecharModalEtiqueta()">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 12px 20px;">
+      <div class="modal-body" style="padding: 14px 20px;">
         <!-- GRID EM DUAS COLUNAS: OPÇÕES À ESQUERDA, PRÉ-VISUALIZAÇÃO À DIREITA -->
         <div class="etiqueta-modal-grid">
           <!-- COLUNA DE CONTROLES E CONFIGURAÇÕES -->
@@ -6874,64 +6874,75 @@
                 ⚡ Integração Logística Rápida
               </div>
               <div style="font-size: 11px; color: var(--text-muted); line-height: 1.35;">
-                Visualize a etiqueta para impressão térmica ou A4, ou copie os dados formatados diretamente para o <strong>Superfrete</strong> e <strong>Correios</strong>.
+                Gere e imprima etiquetas térmicas ou A4 e copie os dados formatados diretamente para o <strong>Superfrete</strong>, <strong>Correios</strong> ou <strong>Melhor Envio</strong>.
               </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 6px;">
-              <label class="form-label">Serviço de Frete / Transportadora</label>
-              <select class="form-input erp-select" id="etiqueta-servico" onchange="atualizarPreviewEtiqueta()" style="width: 100%; padding: 7px 10px; font-size: 12px;">
-                <option value="SUPERFRETE / CORREIOS">🚚 Superfrete / Correios (PAC / Sedex com Desconto)</option>
-                <option value="CORREIOS PAC">📦 Correios PAC (Econômico)</option>
-                <option value="CORREIOS SEDEX">⚡ Correios SEDEX (Expresso)</option>
-                <option value="JADLOG / TRANSPORTADORA">🚛 Jadlog / Transportadora (.Package)</option>
-                <option value="MELHOR ENVIO">🏷️ Melhor Envio (Multi-transportadoras)</option>
-              </select>
-            </div>
+            <!-- LINHA 1: SERVIÇO DE FRETE + FORMATO DA ETIQUETA -->
+            <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 8px;">
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px;">Serviço de Frete / Transportadora</label>
+                <select class="form-input erp-select" id="etiqueta-servico" onchange="atualizarPreviewEtiqueta()" style="width: 100%; padding: 7px 10px; font-size: 12px; font-weight: 600;">
+                  <option value="SUPERFRETE / CORREIOS" selected>🚚 Superfrete / Correios (c/ Desconto)</option>
+                  <option value="CORREIOS SEDEX">⚡ Correios SEDEX (Expresso)</option>
+                  <option value="CORREIOS PAC">📦 Correios PAC (Econômico)</option>
+                  <option value="JADLOG / TRANSPORTADORA">🚛 Jadlog (.Package)</option>
+                  <option value="MELHOR ENVIO">🏷️ Melhor Envio (Multi-transportadoras)</option>
+                </select>
+              </div>
 
-            <div class="form-grid-2" style="margin-bottom: 6px;">
-              <div class="form-group">
-                <label class="form-label">Formato da Etiqueta</label>
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px;">Formato da Etiqueta</label>
                 <select class="form-input erp-select" id="etiqueta-formato" onchange="atualizarFormatoImpressao(this.value)" style="width: 100%; padding: 7px 10px; font-size: 12px;">
-                  <option value="termica">🏷️ Térmica (100x150 mm)</option>
+                  <option value="termica" selected>🏷️ Térmica (100x150 mm)</option>
                   <option value="a4">📄 Folha A4 (Com guia de corte)</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label class="form-label">Nº Pedido</label>
-                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="Ex: #PED-1035" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
+            </div>
+
+            <!-- LINHA 2: DECLARAÇÃO DE CONTEÚDO + Nº DO PEDIDO -->
+            <div style="display: grid; grid-template-columns: 1fr 130px; gap: 8px; margin-bottom: 8px;">
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px;">Declaração de Conteúdo / Mercadoria</label>
+                <input type="text" class="form-input" id="etiqueta-conteudo" placeholder="Ex: Artigos em Couro Legítimo / Insumos" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px; text-align: center;">Nº Pedido</label>
+                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="#PED-1044" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; text-align: center;">
               </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 6px;">
-              <label class="form-label">Declaração de Conteúdo / Mercadoria</label>
-              <input type="text" class="form-input" id="etiqueta-conteudo" placeholder="Ex: Artigos em Couro Legítimo / Insumos" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
-            </div>
-
-            <div class="form-grid-2" style="margin-bottom: 8px;">
-              <div class="form-group">
-                <label class="form-label">Peso Estimado</label>
-                <input type="text" class="form-input" id="etiqueta-peso" placeholder="Ex: 2.0 kg" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
+            <!-- LINHA 3: MEDIDAS DA EMBALAGEM (PESO + DIMENSÕES A x L x C + VALOR DECLARADO) -->
+            <div style="display: grid; grid-template-columns: 105px 155px 1fr; gap: 8px; align-items: flex-end; margin-bottom: 12px;">
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px; text-align: center;">Peso Estimado</label>
+                <input type="text" class="form-input" id="etiqueta-peso" placeholder="Ex: 2.5 kg" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;">
               </div>
-              <div class="form-group">
-                <label class="form-label">Valor Declarado (R$)</label>
-                <input type="text" class="form-input" id="etiqueta-valor" placeholder="Ex: R$ 350,00" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px; text-align: center;" title="Altura x Largura x Comprimento da caixa em centímetros">Dimensões (A x L x C)</label>
+                <input type="text" class="form-input" id="etiqueta-dimensoes" placeholder="12 x 25 x 35 cm" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;">
+              </div>
+              <div class="form-group" style="margin: 0;">
+                <label class="form-label" style="margin-bottom: 3px; text-align: right; color: #34d399;">Valor Declarado (R$)</label>
+                <input type="text" class="form-input" id="etiqueta-valor" placeholder="R$ 0,00" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; text-align: right;">
               </div>
             </div>
 
             <!-- BOTÕES DE AÇÃO RÁPIDA -->
-            <div style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; flex-direction: column; gap: 7px;">
               <button type="button" class="btn-top btn-emerald-glow" style="width: 100%; justify-content: center; padding: 10px; font-size: 12.5px; font-weight: 700;" onclick="imprimirEtiquetaModal()">
-                🖨️ Imprimir Etiqueta Agora
+                🖨️ Imprimir Etiqueta Agora (Térmica ou A4)
               </button>
 
-              <button type="button" class="btn-top" style="width: 100%; justify-content: center; padding: 8px 10px; font-size: 11.5px; background: #0284c7; color: #fff; border: 1px solid #38bdf8;" onclick="copiarDadosSuperfrete()">
-                ⚡ Copiar Dados p/ Superfrete
-              </button>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
+                <button type="button" class="btn-top" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: #0284c7; color: #fff; border: 1px solid #38bdf8;" onclick="copiarDadosSuperfrete()">
+                  ⚡ Copiar p/ Superfrete
+                </button>
 
-              <button type="button" class="btn-top btn-row-action" style="width: 100%; justify-content: center; padding: 8px 10px; font-size: 11.5px;" onclick="copiarEtiquetaTextoCompleto()">
-                📋 Copiar Etiqueta Completa (Texto)
-              </button>
+                <button type="button" class="btn-top btn-row-action" style="justify-content: center; padding: 8px 10px; font-size: 11.5px;" onclick="copiarEtiquetaTextoCompleto()">
+                  📋 Copiar Texto Completo
+                </button>
+              </div>
 
               <button type="button" class="btn-top btn-row-action" style="width: 100%; justify-content: center; padding: 8px 10px; font-size: 11.5px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" onclick="abrirSuperfreteWeb()">
                 🚀 Abrir Superfrete Web (superfrete.com/app) ↗
@@ -7023,14 +7034,16 @@
                 </div>
               </div>
 
-              <!-- DECLARAÇÃO SIMPLIFICADA DE CONTEÚDO -->
+              <!-- DECLARAÇÃO SIMPLIFICADA DE CONTEÚDO E MEDIDAS LOGÍSTICAS -->
               <div class="etq-declaracao-conteudo">
                 <div class="etq-decl-row">
                   <span><strong>Nº Pedido:</strong> <span id="etq-info-pedido">#PED-1035</span></span>
-                  <span><strong>Peso:</strong> <span id="etq-info-peso">2.0 kg</span></span>
+                  <span><strong>Peso:</strong> <span id="etq-info-peso">2.5 kg</span></span>
+                  <span><strong>Dimensões:</strong> <span id="etq-info-dimensoes">12x25x35 cm</span></span>
                 </div>
-                <div class="etq-decl-conteudo">
-                  <strong>Conteúdo:</strong> <span id="etq-info-conteudo">Artigos em Couro / Insumos</span>
+                <div class="etq-decl-conteudo" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px;">
+                  <span><strong>Conteúdo:</strong> <span id="etq-info-conteudo">Artigos em Couro / Insumos</span></span>
+                  <span id="etq-info-valor-wrap" style="display: none;"><strong>Val. Decl.:</strong> <span id="etq-info-valor">R$ 0,00</span></span>
                 </div>
               </div>
             </div>
@@ -7039,14 +7052,15 @@
       </div>
 
       <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="btn-top btn-row-action" style="color: #f87171; font-size: 11px; padding: 5px 9px;" onclick="restaurarPadraoModalCustomizar()" title="Restaurar padrão original de fábrica do sistema">🏭 Padrão Fábrica</button>
-          <button type="button" class="btn-top btn-row-action" style="color: #fde047; border-color: rgba(250, 204, 21, 0.4); font-size: 11px; padding: 5px 9px;" onclick="definirComoMeuPadraoModal()" title="Salvar o layout e ordem atual como seu padrão favorito de trabalho">⭐ Salvar Meu Padrão</button>
-          <button type="button" class="btn-top btn-row-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); font-size: 11px; padding: 5px 9px;" onclick="restaurarMeuPadraoModal()" title="Carregar a sua configuração favorita salva">🔄 Meu Padrão</button>
+        <div style="font-size: 11.5px; color: #94a3b8; display: flex; align-items: center; gap: 8px;">
+          <span>📦</span>
+          <span>Formato homologado para impressoras térmicas (100x150 mm) e folhas A4 tradicionais.</span>
         </div>
-        <div style="display: flex; gap: 8px;">
-          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPersonalizarColunas()">Cancelar</button>
-          <button type="button" class="btn-top btn-primary-glow" onclick="salvarPersonalizacaoColunas()">💾 Salvar & Aplicar</button>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalEtiqueta()">Fechar Janela</button>
+          <button type="button" class="btn-top btn-emerald-glow" onclick="imprimirEtiquetaModal()">
+            🖨️ Imprimir Etiqueta
+          </button>
         </div>
       </div>
     </div>
@@ -10558,7 +10572,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const cli = dados.cliente;
       document.getElementById('etiqueta-num-pedido').value = dados.pedidoRef || '';
       document.getElementById('etiqueta-conteudo').value = dados.itens || 'Artigos em Couro / Sola / Insumos';
-      document.getElementById('etiqueta-peso').value = dados.peso || '2.0 kg';
+      document.getElementById('etiqueta-peso').value = dados.peso || '2.5 kg';
+      
+      const dimEl = document.getElementById('etiqueta-dimensoes');
+      if (dimEl) dimEl.value = dados.dimensoes || '12 x 25 x 35 cm';
+
       document.getElementById('etiqueta-valor').value = dados.valor || '';
       
       atualizarPreviewEtiqueta();
@@ -10630,6 +10648,22 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('etq-info-pedido').textContent = pedido;
       document.getElementById('etq-info-conteudo').textContent = conteudo;
       document.getElementById('etq-info-peso').textContent = peso;
+
+      const dimVal = document.getElementById('etiqueta-dimensoes')?.value.trim() || '12x25x35 cm';
+      const elDimInfo = document.getElementById('etq-info-dimensoes');
+      if (elDimInfo) elDimInfo.textContent = dimVal;
+
+      const valDecl = document.getElementById('etiqueta-valor')?.value.trim();
+      const elValWrap = document.getElementById('etq-info-valor-wrap');
+      const elValInfo = document.getElementById('etq-info-valor');
+      if (elValWrap && elValInfo) {
+        if (valDecl) {
+          elValInfo.textContent = valDecl;
+          elValWrap.style.display = 'inline';
+        } else {
+          elValWrap.style.display = 'none';
+        }
+      }
     }
 
     function imprimirEtiquetaModal() {
@@ -10666,6 +10700,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         pedido ? `Pedido / Ref: ${pedido}` : '',
         `Conteúdo Declarado: ${conteudo}`,
         `Peso Estimado: ${peso}`,
+        `Dimensões (A x L x C cm): ${document.getElementById('etiqueta-dimensoes')?.value.trim() || '12 x 25 x 35 cm'}`,
+        document.getElementById('etiqueta-valor')?.value.trim() ? `Valor Declarado: ${document.getElementById('etiqueta-valor').value.trim()}` : '',
         `Serviço Solicitado: ${servico}`
       ].filter(Boolean).join('\n');
 
