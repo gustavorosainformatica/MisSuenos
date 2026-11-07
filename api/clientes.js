@@ -114,7 +114,7 @@ export default async function handler(req, res) {
       // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
       const monitorados = [
         'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
-        'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias'
+        'telefone', 'email', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias'
       ];
       const dados = {};
       monitorados.forEach(c => {
@@ -155,6 +155,7 @@ export default async function handler(req, res) {
           ie = ?,
           telefone = ?,
           telefone_limpo = ?,
+          email = ?,
           logradouro = ?,
           numero = ?,
           complemento = ?,
@@ -180,6 +181,7 @@ export default async function handler(req, res) {
         dados.ie,
         dados.telefone,
         dados.telefone.replace(/\D/g, ''),
+        dados.email || '',
         dados.logradouro,
         dados.numero,
         dados.complemento,
@@ -251,7 +253,7 @@ export default async function handler(req, res) {
         INSERT INTO clientes (
           nome, apelido_referencia, razao_social,
           cpf, cpf_limpo, cnpj, cnpj_limpo, ie,
-          telefone, telefone_limpo,
+          telefone, telefone_limpo, email,
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
           endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias
@@ -269,6 +271,7 @@ export default async function handler(req, res) {
         payload.ie || '',
         payload.telefone || '',
         telefoneLimpo,
+        payload.email || '',
         payload.logradouro || '',
         payload.numero || '',
         payload.complemento || '',

@@ -2339,7 +2339,7 @@
     }
 
     #modal-cliente .modal-container {
-      width: min(900px, 95vw);
+      width: min(960px, 96vw);
       max-width: 98vw;
       max-height: 96vh;
     }
@@ -5788,98 +5788,114 @@
 
   <!-- MODAL DE EDICAO / NOVO CLIENTE (EXPANDIDO SEM ROLAGEM) -->
   <div class="modal-overlay" id="modal-cliente">
-    <div class="modal-container" style="max-width: 900px; width: 95%; max-height: 96vh;">
+    <div class="modal-container" style="max-width: 960px; width: 96%; max-height: 96vh;">
       <div class="modal-resize-handle" data-modal="modal-cliente" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header" style="padding: 14px 24px;">
-        <div class="modal-title">
+      <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
           <span id="modal-cliente-icone">✏️</span>
           <span id="modal-cliente-titulo">Ficha do Cliente & Endereço</span>
+          <span id="modal-cli-badge-id" class="badge-ped" style="font-size: 11px;">NOVO</span>
         </div>
         <button class="modal-close-btn" onclick="fecharModalCliente()">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 16px 24px 12px 24px; gap: 10px;">
+      <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
         <form id="form-cliente" onsubmit="salvarCliente(event)">
           <input type="hidden" id="form-id">
+          <input type="hidden" id="form-pref">
 
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Nome / Razão Social *</label>
-              <input type="text" class="form-input" id="form-nome" required placeholder="Nome completo ou empresa">
+          <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="flex: 2; min-width: 320px;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                  <span>👤</span> Nome / Razão Social *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Empresa ou Pessoa</span>
+              </label>
+              <input type="text" class="form-input" id="form-nome" required placeholder="Nome completo ou razão social da empresa">
             </div>
-            <div class="form-group">
-              <label class="form-label">Apelido / Referência</label>
+            <div class="form-group" style="flex: 1.2; min-width: 220px;">
+              <label class="form-label" style="margin-bottom: 3px;">Apelido / Fantasia / Referência</label>
               <input type="text" class="form-input" id="form-apelido" placeholder="Ex: Chico Selaria, Agropecuária...">
             </div>
           </div>
 
-          <div class="form-grid-3" style="margin-top: 10px;">
-            <div class="form-group">
-              <label class="form-label">CPF ou CNPJ</label>
-              <input type="text" class="form-input" id="form-doc" placeholder="000.000.000-00" onblur="formatarEValidarDoc(this)">
+          <!-- LINHA 2: CPF/CNPJ (175px) + IE (135px) + TELEFONE/WHATS (175px) + EMAIL/XML (flex: 1) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
+            <div class="form-group" style="width: 175px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">CPF ou CNPJ</label>
+              <input type="text" class="form-input" id="form-doc" placeholder="000.000.000-00" onblur="formatarEValidarDoc(this)" style="font-family: 'JetBrains Mono', monospace;">
             </div>
-            <div class="form-group">
-              <label class="form-label">Inscrição Estadual (IE)</label>
-              <input type="text" class="form-input" id="form-ie" placeholder="Opcional">
+            <div class="form-group" style="width: 135px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Inscrição Est. (IE)</label>
+              <input type="text" class="form-input" id="form-ie" placeholder="Opcional" style="font-family: 'JetBrains Mono', monospace;">
             </div>
-            <div class="form-group">
-              <label class="form-label">Telefone / WhatsApp</label>
-              <input type="text" class="form-input" id="form-telefone" placeholder="(00) 00000-0000">
+            <div class="form-group" style="width: 175px; flex-shrink: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
+                  <span>📱</span> Telefone / Whats
+                </span>
+              </label>
+              <input type="text" class="form-input" id="form-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+            </div>
+            <div class="form-group" style="flex: 1; min-width: 200px;">
+              <label class="form-label" style="margin-bottom: 3px;">E-mail para Faturas / XML NF-e</label>
+              <input type="email" class="form-input" id="form-email" placeholder="financeiro@empresa.com">
             </div>
           </div>
 
-          <div style="border-top: 1px solid var(--border-color); margin: 10px 0 8px 0; padding-top: 8px;">
-            <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px;">
-              📍 Endereço de Envio de Encomendas
+          <!-- SEÇÃO ENDEREÇO DE ENTREGA (2 LINHAS COESAS!) -->
+          <div style="border-top: 1px solid var(--border-color); margin: 12px 0 6px 0; padding-top: 10px;">
+            <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+              <span>📍</span> <span>Endereço de Entrega & Despacho de Encomendas</span>
             </div>
 
-            <div class="form-grid-3">
-              <div class="form-group">
-                <label class="form-label">CEP</label>
-                <input type="text" class="form-input" id="form-cep" placeholder="90000-000" onblur="buscarCep(this.value)">
+            <!-- LINHA 3: CEP (115px) + RUA (flex: 1) + NÚMERO (90px) + COMPLEMENTO (160px) -->
+            <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+              <div class="form-group" style="width: 115px; flex-shrink: 0;">
+                <label class="form-label" style="color: #38bdf8; margin-bottom: 3px;">CEP 🔍</label>
+                <input type="text" class="form-input" id="form-cep" placeholder="90000-000" onblur="buscarCep(this.value)" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
               </div>
-              <div class="form-group" style="grid-column: span 2;">
-                <label class="form-label">Logradouro / Rua</label>
+              <div class="form-group" style="flex: 1; min-width: 260px;">
+                <label class="form-label" style="margin-bottom: 3px;">Logradouro / Rua</label>
                 <input type="text" class="form-input" id="form-logradouro" placeholder="Rua, Avenida, Linha...">
               </div>
-            </div>
-
-            <div class="form-grid-3" style="margin-top: 10px;">
-              <div class="form-group">
-                <label class="form-label">Número</label>
-                <input type="text" class="form-input" id="form-numero" placeholder="123 ou S/N">
+              <div class="form-group" style="width: 90px; flex-shrink: 0;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px;">Número</label>
+                <input type="text" class="form-input" id="form-numero" placeholder="123 ou S/N" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
               </div>
-              <div class="form-group">
-                <label class="form-label">Complemento</label>
-                <input type="text" class="form-input" id="form-complemento" placeholder="Apto, Galpão...">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Bairro</label>
-                <input type="text" class="form-input" id="form-bairro" placeholder="Centro, Interior...">
+              <div class="form-group" style="width: 160px; flex-shrink: 0;">
+                <label class="form-label" style="margin-bottom: 3px;">Complemento</label>
+                <input type="text" class="form-input" id="form-complemento" placeholder="Apto, Galpão, Pavilhão...">
               </div>
             </div>
 
-            <div class="form-grid-2" style="margin-top: 10px;">
-              <div class="form-group">
-                <label class="form-label">Cidade *</label>
+            <!-- LINHA 4: BAIRRO (flex: 1.2) + CIDADE (flex: 1.6) + UF (65px) -->
+            <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
+              <div class="form-group" style="flex: 1.2; min-width: 180px;">
+                <label class="form-label" style="margin-bottom: 3px;">Bairro</label>
+                <input type="text" class="form-input" id="form-bairro" placeholder="Bairro, Distrito ou Interior">
+              </div>
+              <div class="form-group" style="flex: 1.6; min-width: 220px;">
+                <label class="form-label" style="margin-bottom: 3px;">Cidade *</label>
                 <input type="text" class="form-input" id="form-cidade" required placeholder="Cidade">
               </div>
-              <div class="form-group">
-                <label class="form-label">Estado (UF) *</label>
-                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" style="text-transform: uppercase;">
+              <div class="form-group" style="width: 65px; flex-shrink: 0;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF *</label>
+                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;">
               </div>
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 2px;">
-            <label class="form-label">Observações Internas</label>
-            <textarea class="form-input" id="form-obs" rows="2" style="height: 46px; min-height: 46px;" placeholder="Preferência de envio, transportadora ou notas de encomenda..."></textarea>
-          </div>
+          <!-- CAMPO OCULTO DE OBSERVAÇÕES (GERENCIADO VIA SUB-MODAL) -->
+          <textarea id="form-obs" style="display: none;"></textarea>
         </form>
       </div>
 
-      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px; padding: 12px 22px;">
+        <!-- LADO ESQUERDO: AÇÕES RÁPIDAS + OBS + PREFERÊNCIAS CRM -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
           <button type="button" class="btn-top btn-row-action" onclick="abrirEtiquetaDoClienteModal()" style="border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" title="Gerar Etiqueta de Envio">
             🏷️ Gerar Etiqueta
           </button>
@@ -5889,11 +5905,58 @@
           <button type="button" class="btn-top btn-row-action" onclick="abrirWhatsappDoClienteModal()" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" title="Chamar no WhatsApp">
             💬 WhatsApp
           </button>
+
+          <span style="color: #334155; margin: 0 2px;">|</span>
+
+          <!-- BOTÃO OBSERVAÇÕES DE ENTREGA -->
+          <button type="button" class="btn-ped-obs-action" id="btn-cli-abrir-obs" onclick="abrirSubmodalObsCliente()" title="Instruções de envio, embalagem e transportadora">
+            <span>📝</span>
+            <span>Obs. Entrega</span>
+            <span class="btn-ped-badge-count" id="badge-cli-obs">Vazio</span>
+          </button>
+
+          <!-- BOTÃO PREFERÊNCIAS CRM -->
+          <button type="button" class="btn-ped-pref-action" id="btn-cli-abrir-pref" onclick="abrirSubmodalPrefDoClienteAtual()" title="Preferências permanentes de compra deste cliente no banco de dados">
+            <span>⭐</span>
+            <span>Preferências CRM</span>
+            <span class="btn-ped-badge-count" id="badge-cli-pref">Sem notas</span>
+          </button>
         </div>
-        <div style="display: flex; gap: 8px;">
+
+        <!-- LADO DIREITO: CANCELAR E SALVAR -->
+        <div style="display: flex; gap: 8px; align-items: center;">
           <button type="button" class="btn-top btn-row-action" onclick="fecharModalCliente()">Cancelar</button>
-          <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-cliente').requestSubmit()">💾 Salvar no Banco</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="document.getElementById('form-cliente').requestSubmit()">
+            💾 Salvar no Banco
+          </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB-MODAL: OBSERVAÇÕES DE ENTREGA DO CLIENTE -->
+  <div class="submodal-overlay" id="submodal-cli-obs">
+    <div class="submodal-container">
+      <div class="modal-header" style="padding: 14px 18px; border-bottom: 1px solid #1e293b;">
+        <div class="modal-title" style="font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <span>📝</span>
+          <span>Observações de Entrega: <strong id="submodal-obs-cli-nome" style="color: #38bdf8;">Cliente</strong></span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharSubmodalObsCliente()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+        <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 6px; padding: 10px 14px; font-size: 12px; color: #7dd3fc; display: flex; align-items: center; gap: 8px;">
+          <span>💡</span>
+          <span>Estas notas são gravadas no cadastro e orientam a <strong>logística de entrega</strong> (transportadora preferencial, horários e embalagem).</span>
+        </div>
+        <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
+          Digite as instruções de entrega e logística:
+        </label>
+        <textarea class="form-input" id="submodal-cli-obs-textarea" rows="6" placeholder="Exemplo:&#10;• Enviar via Transportadora Bauer ou Jadlog&#10;• Embalagem em rolo duplo impermeável&#10;• Recebimento no portão de fundos" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;"></textarea>
+      </div>
+      <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalObsCliente()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" onclick="concluirSubmodalObsCliente()">✓ Concluir Instruções</button>
       </div>
     </div>
   </div>
@@ -8318,9 +8381,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       clienteAtualEditando = null;
       document.getElementById('modal-cliente-icone').textContent = '➕';
       document.getElementById('modal-cliente-titulo').textContent = 'Novo Cliente';
+      const bId = document.getElementById('modal-cli-badge-id');
+      if (bId) bId.textContent = 'NOVO CADASTRO';
       document.getElementById('form-cliente').reset();
       document.getElementById('form-id').value = '';
+      if (document.getElementById('form-email')) document.getElementById('form-email').value = '';
+      if (document.getElementById('form-pref')) document.getElementById('form-pref').value = '';
+      if (document.getElementById('form-obs')) document.getElementById('form-obs').value = '';
       document.getElementById('form-doc').style.borderColor = '';
+      atualizarBadgesFichaCliente();
       document.getElementById('modal-cliente').classList.add('active');
       document.getElementById('form-nome').focus();
     }
@@ -8348,6 +8417,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-cidade').value = cliente.cidade || '';
       document.getElementById('form-uf').value = (cliente.uf || 'RS').toUpperCase();
       document.getElementById('form-obs').value = cliente.observacoes || '';
+      if (document.getElementById('form-email')) document.getElementById('form-email').value = cliente.email || '';
+      if (document.getElementById('form-pref')) document.getElementById('form-pref').value = cliente.preferencias || '';
+      const bId = document.getElementById('modal-cli-badge-id');
+      if (bId) bId.textContent = `CLI #${cliente.id} · ATIVO`;
+      atualizarBadgesFichaCliente();
 
       document.getElementById('modal-cliente').classList.add('active');
     }
@@ -8392,7 +8466,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         bairro: document.getElementById('form-bairro').value.trim(),
         cidade: document.getElementById('form-cidade').value.trim(),
         uf: document.getElementById('form-uf').value.trim().toUpperCase(),
-        observacoes: document.getElementById('form-obs').value.trim()
+        email: document.getElementById('form-email') ? document.getElementById('form-email').value.trim() : '',
+        observacoes: document.getElementById('form-obs').value.trim(),
+        preferencias: document.getElementById('form-pref') ? document.getElementById('form-pref').value.trim() : (clienteAtualEditando?.preferencias || '')
       };
 
       try {
@@ -9755,19 +9831,101 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (modal) modal.classList.remove('active');
     }
 
+    
+    // ========================================================
+    // CONTROLE DE OBSERVAÇÕES E PREFERÊNCIAS CRM NA FICHA DO CLIENTE
+    // ========================================================
+    function atualizarBadgesFichaCliente() {
+      // 1. Observações de Entrega
+      const obsInp = document.getElementById('form-obs');
+      const obsVal = obsInp ? obsInp.value.trim() : '';
+      const btnObs = document.getElementById('btn-cli-abrir-obs');
+      const badgeObs = document.getElementById('badge-cli-obs');
+      if (btnObs && badgeObs) {
+        if (obsVal) {
+          const linhas = obsVal.split('\n').filter(l => l.trim()).length;
+          badgeObs.textContent = linhas + (linhas === 1 ? ' nota' : ' notas');
+          btnObs.classList.add('has-content');
+        } else {
+          badgeObs.textContent = 'Vazio';
+          btnObs.classList.remove('has-content');
+        }
+      }
+
+      // 2. Preferências do Cliente (CRM)
+      const prefInp = document.getElementById('form-pref');
+      const prefVal = prefInp && prefInp.value ? prefInp.value.trim() : (clienteAtualEditando?.preferencias || '');
+      const btnPref = document.getElementById('btn-cli-abrir-pref');
+      const badgePref = document.getElementById('badge-cli-pref');
+      if (btnPref && badgePref) {
+        if (prefVal) {
+          const linhas = prefVal.split('\n').filter(l => l.trim()).length;
+          badgePref.textContent = linhas > 0 ? (linhas + (linhas === 1 ? ' nota' : ' notas')) : 'Ativas';
+          btnPref.classList.add('has-content');
+        } else {
+          badgePref.textContent = 'Sem notas';
+          btnPref.classList.remove('has-content');
+        }
+      }
+    }
+
+    function abrirSubmodalObsCliente() {
+      const nome = document.getElementById('form-nome')?.value.trim() || (clienteAtualEditando?.nome || 'Cliente');
+      const obsAtual = document.getElementById('form-obs')?.value || '';
+      const nomeBadge = document.getElementById('submodal-obs-cli-nome');
+      if (nomeBadge) nomeBadge.textContent = nome;
+      const txtArea = document.getElementById('submodal-cli-obs-textarea');
+      if (txtArea) txtArea.value = obsAtual;
+      const modal = document.getElementById('submodal-cli-obs');
+      if (modal) modal.classList.add('active');
+    }
+
+    function fecharSubmodalObsCliente() {
+      const modal = document.getElementById('submodal-cli-obs');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function concluirSubmodalObsCliente() {
+      const txtArea = document.getElementById('submodal-cli-obs-textarea');
+      const obsInp = document.getElementById('form-obs');
+      if (txtArea && obsInp) {
+        obsInp.value = txtArea.value.trim();
+        atualizarBadgesFichaCliente();
+      }
+      fecharSubmodalObsCliente();
+    }
+
+    function abrirSubmodalPrefDoClienteAtual() {
+      const nome = document.getElementById('form-nome')?.value.trim() || (clienteAtualEditando?.nome || 'Cliente');
+      const prefAtual = document.getElementById('form-pref')?.value || (clienteAtualEditando?.preferencias || '');
+      const nomeBadge = document.getElementById('submodal-pref-cliente-nome');
+      if (nomeBadge) nomeBadge.textContent = nome;
+      const txtArea = document.getElementById('submodal-pref-textarea');
+      if (txtArea) txtArea.value = prefAtual;
+      const modal = document.getElementById('submodal-ped-pref');
+      if (modal) modal.classList.add('active');
+    }
+
     async function salvarSubmodalPrefCliente() {
       const cliNomeInp = document.getElementById('form-ped-cliente-nome');
-      const cliNome = cliNomeInp ? cliNomeInp.value.trim() : '';
-      if (!cliNome) return;
-
-      const norm = normalizarTextoBusca(cliNome);
-      const cli = (Array.isArray(clientes) ? clientes : []).find(c => {
-        if (!c) return false;
-        return normalizarTextoBusca(c.nome) === norm || normalizarTextoBusca(c.razao_social) === norm;
-      });
-
+      const cliNome = cliNomeInp ? cliNomeInp.value.trim() : (clienteAtualEditando?.nome || document.getElementById('form-nome')?.value.trim() || '');
       const txtArea = document.getElementById('submodal-pref-textarea');
       const novoTexto = txtArea ? txtArea.value.trim() : '';
+
+      // Atualiza input oculto da ficha de cliente se estiver aberto
+      const formPrefEl = document.getElementById('form-pref');
+      if (formPrefEl) formPrefEl.value = novoTexto;
+
+      let cli = null;
+      if (clienteAtualEditando) {
+        cli = clienteAtualEditando;
+      } else if (cliNome) {
+        const norm = normalizarTextoBusca(cliNome);
+        cli = (Array.isArray(clientes) ? clientes : []).find(c => {
+          if (!c) return false;
+          return normalizarTextoBusca(c.nome) === norm || normalizarTextoBusca(c.razao_social) === norm;
+        });
+      }
 
       if (cli && cli.id) {
         try {
@@ -9787,6 +9945,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         }
       }
       atualizarBadgesObsEPreferencias();
+      atualizarBadgesFichaCliente();
       fecharSubmodalPrefCliente();
     }
 
