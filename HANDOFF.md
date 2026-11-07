@@ -1,7 +1,7 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
 > **Data de Atualização:** 07 de Novembro de 2026  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1, #2, #3 e Pedido)  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1, #2, #3, #4 e Pedido)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
 
 ---
@@ -27,14 +27,20 @@
 - **Rodapé com Ações de Estoque:** `[ 📑 Ficha Kardex ]`, `[ ⚡ Ajuste Rápido ]` e `[ 📝 Detalhes & Notas ]`.
 
 ### D. Modernização do Lançamento Financeiro (`modal-lancamento-financeiro`) - Janela #3
-- **3 Linhas Fluidas e Intuitivas:**
-  - **Linha 1:** Tipo de Lançamento (210px), Descrição Comercial (`flex: 1`) e Categoria (210px).
-  - **Linha 2:** Valor do Título (R$ destacado em verde/vermelho), Data de Vencimento, Forma de Pagamento e Status.
-  - **Linha 3:** Cliente ou Fornecedor (`flex: 1.2`) e Observações / Chave PIX / Recibo (`flex: 1.6`).
+- **3 Linhas Fluidas e Intuitivas:** Linha 1 (Tipo, Descrição, Categoria), Linha 2 (Valor R$, Vencimento, Forma Pagamento, Status), Linha 3 (Cliente/Fornecedor, Obs/PIX/Recibo).
 - **Badge Dinâmico no Cabeçalho:** Alternância semântica em tempo real entre `🟢 CONTA A RECEBER` e `🔴 CONTA A PAGAR` recalculando cor do input de valor.
 - **Persistência Completa:** Integração com a API REST `POST /api/financeiro` e atualização dinâmica do painel financeiro.
 - **Rodapé:** Botão `[ 📎 Anexar Comprovante ]` para upload direto de recibos.
-- **Service Worker v37:** Cache atualizado para `missuenos-pwa-v37` e deploy validado na nuvem.
+
+### E. Modernização da Etiqueta de Envio & Logística (`modal-etiqueta`) - Janela #4
+- **Ergonomia e Proporções 2 Colunas:** Painel operacional à esquerda + Pré-visualização em tempo real à direita.
+- **Linha 1:** Serviço de Frete / Transportadora (Superfrete, Sedex, PAC, Jadlog, Melhor Envio) + Formato (Térmica 100x150 mm vs Folha A4).
+- **Linha 2:** Declaração de Conteúdo / Mercadoria + Nº do Pedido centralizado em JetBrains Mono.
+- **Linha 3 (Inovação Logística):** Peso Estimado (105px) + Dimensões da Caixa A x L x C cm (155px) + Valor Declarado R$ (em esmeralda formatado).
+- **Integração Logística:** Função `copiarDadosSuperfrete()` atualizada para incluir dimensões e valor declarado formatados para colagem com 1 clique no app/site do Superfrete.
+- **Pré-visualização e Impressão:** Exibição dinâmica de dimensões e valor declarado na etiqueta térmica/A4 e impressão sem cortes.
+- **Rodapé Limpo:** Botões indevidos de 'Personalizar Colunas' removidos, deixando fechamento e impressão rápida.
+- **Service Worker v38:** Cache atualizado para `missuenos-pwa-v38` e deploy validado na nuvem.
 
 ---
 
@@ -42,18 +48,18 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`2f29e54`](https://github.com/gustavorosainformatica/MisSuenos/commit/2f29e54)
-  - Service Worker: `missuenos-pwa-v37` ativo.
-  - ETag da Produção: `"0af76814794905a00ebb86ed10c53208"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`8f674b6`](https://github.com/gustavorosainformatica/MisSuenos/commit/8f674b6)
+  - Service Worker: `missuenos-pwa-v38` ativo.
+  - ETag da Produção: `"6d28aee147231164cb6d67c037204799"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `2f29e54` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `2cd7923` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `d12a8aa` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `8f674b6` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `d3c25c6` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `91f44bd` na branch `main`).
 - **Fila de Modernização de Janelas Restantes:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
   - [x] #3: `modal-lancamento-financeiro` (Concluído)
-  - [ ] #4: `modal-etiqueta` (Etiqueta de Envio & Logística Superfrete/Correios/Jadlog)
+  - [x] #4: `modal-etiqueta` (Concluído)
   - [ ] #5: `modal-ajuste-estoque` (Ajuste Rápido de Estoque)
   - [ ] #6: `modal-ficha-kardex` (Extrato Kardex de Movimentações)
   - [ ] #7: `modal-rastreamento-pedido` (Rastreamento Logístico)
@@ -66,7 +72,5 @@
 
 ## 3. Próximos Passos Imediatos
 
-- [ ] **1. Janela #4 - Etiqueta de Envio (`modal-etiqueta`):**
-  - Apresentar protótipo visual interativo com proporções ergonômicas para dimensões da caixa (A x L x C cm), peso (kg) e serviços de frete.
-- [ ] **2. Orientação de Atualização de Cache do PWA:**
-  - Orientar o usuário a pressionar `Ctrl + F5` ou clicar na engrenagem -> "Atualizar Sistema" para descarregar a versão antiga em memória do PWA instalado.
+- [ ] **1. Janela #5 - Ajuste Rápido de Estoque (`modal-ajuste-estoque`):**
+  - Apresentar protótipo visual interativo com proporções modernas, badge semântico de tipo de ajuste (Entrada / Saída / Balanço Inventário), cálculo automático do novo saldo e motivo padronizado.
