@@ -1728,6 +1728,7 @@
       justify-content: center;
       border-radius: 6px;
       transition: background 0.15s ease, color 0.15s ease;
+      margin-left: auto;
       margin-right: 4px;
     }
 
@@ -2319,6 +2320,8 @@
       overflow: hidden;
       min-width: 460px;
       min-height: 320px;
+      max-width: 98vw;
+      max-height: 96vh;
     }
     .modal-overlay .modal-body {
       flex: 1 1 auto;
@@ -2326,58 +2329,58 @@
     }
 
     #modal-cliente .modal-container {
-      max-width: 900px;
-      width: 95%;
+      width: min(900px, 95vw);
+      max-width: 98vw;
       max-height: 96vh;
     }
     #modal-pedido .modal-container {
-      max-width: 880px;
-      width: 95%;
+      width: min(880px, 95vw);
+      max-width: 98vw;
       max-height: 94vh;
     }
     #modal-produto .modal-container {
-      max-width: 780px;
-      width: 95%;
+      width: min(780px, 95vw);
+      max-width: 98vw;
       max-height: 92vh;
     }
     #modal-fiscal .modal-container {
-      max-width: 720px;
-      width: 95%;
+      width: min(720px, 95vw);
+      max-width: 98vw;
       max-height: 92vh;
     }
     #modal-lancamento-financeiro .modal-container {
-      max-width: 660px;
-      width: 95%;
+      width: min(660px, 95vw);
+      max-width: 98vw;
       max-height: 90vh;
     }
     #modal-importar-xml .modal-container {
-      max-width: 960px;
-      width: 96%;
+      width: min(960px, 96vw);
+      max-width: 98vw;
       max-height: 94vh;
     }
     #modal-usuario-rbac .modal-container {
-      max-width: 620px;
-      width: 95%;
+      width: min(620px, 95vw);
+      max-width: 98vw;
       max-height: 90vh;
     }
     #modal-changelog .modal-container {
-      max-width: 720px;
-      width: 95%;
+      width: min(720px, 95vw);
+      max-width: 98vw;
       max-height: 90vh;
     }
     #modal-backup-dados .modal-container {
-      max-width: 680px;
-      width: 95%;
+      width: min(680px, 95vw);
+      max-width: 98vw;
       max-height: 90vh;
     }
     #modal-armazenamento-quotas .modal-container {
-      max-width: 880px;
-      width: 96%;
+      width: min(880px, 96vw);
+      max-width: 98vw;
       max-height: 92vh;
     }
     #modal-personalizar-colunas .modal-container {
-      max-width: 560px;
-      width: 95%;
+      width: min(560px, 95vw);
+      max-width: 98vw;
       max-height: 90vh;
     }
     #modal-cliente .modal-body {
@@ -11324,6 +11327,16 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const container = modal.querySelector('.modal-container');
       if (!container) return;
 
+      // Libera limites estáticos de largura/altura inline para permitir redimensionamento amplo até 98vw/96vh
+      if (container.style.maxWidth && container.style.maxWidth !== '98vw' && !container.style.maxWidth.includes('100%')) {
+        const w = container.style.maxWidth;
+        if (!container.style.width || container.style.width === '95%' || container.style.width === '96%') {
+          container.style.width = 'min(' + w + ', 95vw)';
+        }
+        container.style.maxWidth = '98vw';
+        container.style.maxHeight = '96vh';
+      }
+
       // Injeta botão de maximizar e duplo clique na barra de título
       const header = container.querySelector('.modal-header');
       if (header) {
@@ -11337,7 +11350,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           });
         }
 
-        const closeBtn = header.querySelector('.modal-close-btn');
+        const closeBtn = header.querySelector('.modal-close-btn') || header.querySelector('.modal-close');
         let maxBtn = header.querySelector('.modal-maximize-btn');
         if (!maxBtn) {
           maxBtn = document.createElement('button');
