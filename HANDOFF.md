@@ -75,10 +75,20 @@
   - Endereço de Envio compacto em apenas **2 linhas coesas**:
     - Linha 3: CEP (115px com busca ViaCEP) + Logradouro (flex) + Número (90px) + Complemento (160px).
     - Linha 4: Bairro (flex) + Cidade (flex) + UF compacto (65px, caixa alta, centralizado).
-- **Sub-Modais Ergonômicos no Rodapé da Ficha:**
-  - `[ 📝 Obs. Entrega ]`: Sub-modal dedicado para instruções de logística, horários de recebimento e transportadora preferencial.
-  - `[ ⭐ Preferências CRM ]`: Integrado à coluna `preferencias` do cliente, permitindo consultar e alterar padrões de compra (couros, espessuras, exigências) diretamente da ficha cadastral.
-- **PWA Service Worker v35:** Cache atualizado para forçar atualização imediata em produção.
+- **Sub-Modais Ergonômicos no Rodapé da Ficha:** `📝 Obs. Entrega` e `⭐ Preferências CRM`.
+
+### 🪵 J. Modernização da Ficha do Produto & Estoque (modal-produto - Janela #2 da Fila)
+- **Nome Comercial com Destaque Amplo (flex: 2.2):** O nome do produto agora ocupa a posição nobre da Linha 1 (mais de 60% da largura), deixando de ficar espremido em 1/3 da janela.
+- **Códigos Compactos:** Código / SKU (170px com gerador automático `⚡`) e NCM Fiscal (130px com validação de 8 dígitos).
+- **Classificação e Saldos (Linha 2):** Categoria (flex), Unidade de Medida (130px), Saldo em Estoque (140px, tipografia Mono destacada) e Estoque Mínimo (140px, cor âmbar).
+- **Card de Formação de Preço & Rentabilidade:**
+  - Preço de Custo e Preço de Venda integrados com cálculo automático em tempo real da **Margem Bruta (R$ e %)**.
+  - Badge dinâmico de rentabilidade (`#badge-prod-margem-val`) com cores semânticas (verde para margens positivas e vermelho para prejuízos).
+- **Rodapé com Ações Diretas & Sub-Modal:**
+  - `[ 📑 Ficha Kardex ]`: Atalho direto para consultar o extrato de movimentações do produto.
+  - `[ ⚡ Ajuste Rápido ]`: Atalho para movimentação imediata de estoque (entrada, saída, balanço).
+  - `[ 📝 Detalhes & Notas ]`: Sub-modal dedicado para especificações técnicas de curtimento, espessura e acabamento.
+- **PWA Service Worker v36:** Cache atualizado para propagação imediata em produção.
 
 ## 2. Arquivos Modificados / Criados
 
@@ -98,13 +108,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`df5aa8d`](https://github.com/gustavorosainformatica/MisSuenos/commit/df5aa8d).
-  - Service Worker: `missuenos-pwa-v35` ativo.
-  - Status HTTP: `200 OK` (ETag: `"b987e754396b2d0c2b6d04c04d73fcd4"`, auditado com sucesso).
+  - Commit oficial: [`23b436a`](https://github.com/gustavorosainformatica/MisSuenos/commit/23b436a).
+  - Service Worker: `missuenos-pwa-v36` ativo.
+  - Status HTTP: `200 OK` (ETag: `"96e0cd44b437815169408a1cdacff407"`, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `df5aa8d` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `f9946b4` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `2caf5f5` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `23b436a` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `c1a45a4` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `efded95` na branch `main`).
 - **Banco de Dados Híbrido:**
   - Banco local SQLite operacional na porta 3000.
   - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
