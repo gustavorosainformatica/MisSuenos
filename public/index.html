@@ -6121,6 +6121,107 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       MODAL: RASTREAMENTO DE ENCOMENDA & LOGÍSTICA ATIVA (FASE 4)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-rastreamento-pedido">
+    <div class="modal-container" style="max-width: 840px; width: 95%; max-height: 92vh;">
+      <div class="modal-resize-handle" data-modal="modal-rastreamento-pedido" title="Arraste para redimensionar (salvo automaticamente)">◢</div>
+      
+      <!-- Topo do Modal -->
+      <div class="modal-header" style="padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 22px;">🚚</span>
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff;">Rastreamento de Encomenda & Logística</div>
+            <div id="rastreio-modal-subtitulo" style="font-size: 12px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Consultando status oficial...</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <a id="rastreio-btn-link-oficial" href="https://rastreamento.correios.com.br" target="_blank" class="btn-top" style="font-size: 12px; padding: 6px 12px; text-decoration: none;" title="Abrir no portal oficial da transportadora">
+            🌐 Portal Oficial ↗
+          </a>
+          <button class="modal-close-btn" type="button" onclick="fecharModalRastreio()">✕</button>
+        </div>
+      </div>
+
+      <!-- Corpo do Modal -->
+      <div class="modal-body" style="padding: 20px; overflow-y: auto; flex: 1; min-height: 0;">
+        
+        <!-- CARD RESUMO DA ENCOMENDA -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span id="rastreio-badge-transp" style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); text-transform: uppercase;">CORREIOS</span>
+              <span id="rastreio-badge-pedido-num" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">#PED-1048</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+              <span style="font-size: 13px; color: var(--text-muted);">Código:</span>
+              <span id="rastreio-codigo-texto" style="font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px;">-</span>
+              <button type="button" onclick="copiarCodigoRastreio()" class="btn-top" style="padding: 3px 8px; font-size: 11px;" title="Copiar código de rastreio">📋 Copiar</button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="text-align: right;">
+              <div id="rastreio-status-badge-container">
+                <span class="erp-status-pill status-aguardando">⏳ Aguardando Envio</span>
+              </div>
+              <div id="rastreio-data-atualizacao" style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Atualizado agora</div>
+            </div>
+            <button type="button" onclick="atualizarRastreioModal()" class="btn-top" style="padding: 8px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" title="Atualizar informações em tempo real">
+              🔄 Atualizar
+            </button>
+          </div>
+        </div>
+
+        <!-- TIMELINE VERTICAL DOS EVENTOS LOGÍSTICOS -->
+        <div style="margin-bottom: 24px;">
+          <h4 style="font-size: 13px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+            <span>📍 Histórico de Movimentações da Carga</span>
+          </h4>
+
+          <div id="rastreio-timeline-wrapper" style="position: relative; padding-left: 20px; border-left: 2px solid #334155; margin-left: 12px; display: flex; flex-direction: column; gap: 18px;">
+            <div style="color: var(--text-muted); font-size: 12px;">Nenhum evento registrado ainda.</div>
+          </div>
+        </div>
+
+        <!-- ÁREA DE VÍNCULO / ATUALIZAÇÃO RÁPIDA DE CÓDIGO -->
+        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px;">
+          <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 8px;">⚙️ Vincular ou Alterar Código de Rastreio</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <select id="rastreio-input-transp" class="form-input" style="width: 180px; font-size: 12px; height: 36px;">
+              <option value="Correios (Sedex)">Correios (Sedex)</option>
+              <option value="Correios (PAC)">Correios (PAC)</option>
+              <option value="Jadlog">Jadlog</option>
+              <option value="Loggi">Loggi</option>
+              <option value="Total Express">Total Express</option>
+              <option value="Braspress">Braspress</option>
+              <option value="Retirada no Local">Retirada no Local</option>
+              <option value="Entrega Própria">Entrega Própria / Motoboy</option>
+            </select>
+            <input type="text" id="rastreio-input-novo-codigo" class="form-input" placeholder="Ex: NL184920485BR ou Código CTE" style="flex: 1; min-width: 200px; font-family: 'JetBrains Mono', monospace; font-size: 12px; height: 36px; text-transform: uppercase;">
+            <button type="button" onclick="salvarNovoCodigoRastreio()" class="btn-top" style="padding: 0 16px; height: 36px; font-size: 12px; font-weight: 700; background: #38bdf8; color: #04101e; border: none;">
+              💾 Salvar Rastreio
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div class="modal-footer" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" onclick="enviarWhatsAppDoModal()" class="btn-top" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px 16px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+          <span>📱</span> <span>Disparar para WhatsApp do Cliente</span>
+        </button>
+        <button type="button" class="btn-top" onclick="fecharModalRastreio()" style="padding: 8px 18px; font-size: 12px;">
+          Fechar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- MODAL 1: SOBRE O MIS SUEÑOS ERP (V3.0) -->
   <div class="modal-overlay" id="modal-sobre-sistema">
     <div class="modal-container" style="max-width: 580px; width: 95%;">
@@ -8672,6 +8773,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           ? `<span class="erp-status-pill status-aguardando">⏳ ${statusTexto}</span>`
           : ped.status === 'EM_SEPARACAO'
           ? `<span class="erp-status-pill status-separacao">📦 ${statusTexto}</span>`
+          : ped.status === 'EM_TRANSITO'
+          ? `<span class="erp-status-pill" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">🚚 ${statusTexto}</span>`
+          : ped.status === 'ENTREGUE'
+          ? `<span class="erp-status-pill" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">✅ ${statusTexto}</span>`
           : ped.status === 'ENVIADO'
           ? `<span class="erp-status-pill status-enviado">✓ ${statusTexto}</span>`
           : `<span class="erp-status-pill status-cancelado">✕ ${statusTexto}</span>`;
@@ -8679,15 +8784,27 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const valorNum = parseFloat(ped.valor_total || ped.valor || 0);
         const dataPed = ped.data_pedido || ped.data || '-';
         const clienteNome = ped.cliente_nome || ped.cliente || 'Cliente sem nome';
-        const rawTel = (ped.telefone || ped.tel || '').replace(/\D/g, '');
-        const rastreioInfo = ped.codigo_rastreio ? `<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #38bdf8; margin-top: 3px;">🚚 ${ped.codigo_rastreio}</div>` : '';
+        const rawTel = (ped.telefone || ped.telefone_limpo || ped.tel || '').replace(/\D/g, '');
+
+        // Botão inteligente de Rastreamento
+        const btnRastreio = ped.codigo_rastreio
+          ? `<button type="button" onclick="event.stopPropagation(); abrirModalRastreio(${ped.id}, '${ped.codigo_rastreio}')" style="display: inline-flex; align-items: center; gap: 4px; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-family: 'JetBrains Mono', monospace; font-weight: 700; cursor: pointer; margin-top: 4px;" title="Clique para rastrear em tempo real">🚚 ${ped.codigo_rastreio}</button>`
+          : `<button type="button" onclick="event.stopPropagation(); abrirModalRastreio(${ped.id}, '')" style="display: inline-flex; align-items: center; gap: 3px; background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px dashed rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px; font-size: 10px; cursor: pointer; margin-top: 4px;" title="Adicionar código de rastreio">+ Rastreio</button>`;
+
+        // Botão inteligente de WhatsApp
+        const btnWhatsLinha = rawTel
+          ? `<button type="button" onclick="event.stopPropagation(); enviarRastreioWhatsApp(${ped.id})" style="display: inline-flex; align-items: center; gap: 4px; background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer; margin-left: 6px;" title="Disparar comprovante e rastreio para o WhatsApp">📱 WhatsApp</button>`
+          : '';
 
         return `
           <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" oncontextmenu="abrirMenuAcoesPedido(event, ${ped.id}); return false;" title="Dois cliques para editar | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${ped.id}"></td>
             <td data-col="numero">
-              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
-              ${rastreioInfo}
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
+                ${btnWhatsLinha}
+              </div>
+              <div>${btnRastreio}</div>
             </td>
             <td data-col="data" style="color: var(--text-muted); font-size: 11.5px;">${dataPed}</td>
             <td data-col="cliente" style="font-weight: 700; color: #fff;">
@@ -11543,12 +11660,12 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
           📦 Pedido ${p.numero}
         </div>
+        <button class="erp-context-item" onclick="abrirModalRastreio(${p.id}, '${p.codigo_rastreio || ''}'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">🚚 Rastrear Encomenda</button>
+        <button class="erp-context-item" onclick="enviarRastreioWhatsApp(${p.id}); fecharContextMenu();" style="color: #34d399; font-weight: 700;">📱 Enviar Rastreio via WhatsApp</button>
         <button class="erp-context-item" onclick="abrirModalEditarPedido(${p.id}); fecharContextMenu();">✏️ Editar Pedido & Itens</button>
         <button class="erp-context-item" onclick="abrirModalEtiquetaPorPedidoId(${p.id}); fecharContextMenu();">🏷️ Imprimir Etiqueta</button>
         <button class="erp-context-item" onclick="abrirModalFiscal(); fecharContextMenu();">🧾 Emitir Nota Fiscal</button>
-        ${whatsBtn}
       `;
-      posicionarContextMenu(e, itens);
     }
 
     function abrirMenuAcoesProduto(e, id) {
@@ -12794,6 +12911,224 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     carregarProdutosApi();
     carregarPedidosApi();
 
+
+    /* =========================================================================
+       MÓDULO DE LOGÍSTICA ATIVA, RASTREAMENTO & WHATSAPP (FASE 4)
+       ========================================================================= */
+    let rastreioPedidoAtivo = null;
+
+    async function abrirModalRastreio(pedidoId, codigo) {
+      const modal = document.getElementById('modal-rastreamento-pedido');
+      if (!modal) return;
+
+      const pIdStr = String(pedidoId || '');
+      const ped = (Array.isArray(listaPedidos) ? listaPedidos : []).find(p => String(p.id) === pIdStr || String(p.numero) === pIdStr)
+               || (Array.isArray(pedidosFiltrados) ? pedidosFiltrados : []).find(p => String(p.id) === pIdStr || String(p.numero) === pIdStr);
+      
+      rastreioPedidoAtivo = ped || { id: pedidoId, codigo_rastreio: codigo };
+
+      const numPed = ped ? ped.numero : (`#PED-${pedidoId}`);
+      const clienteNome = ped ? (ped.cliente_nome || ped.cliente || 'Cliente') : 'Cliente';
+      const codFinal = codigo || (ped ? ped.codigo_rastreio : '') || '';
+      const transpFinal = (ped ? ped.transportadora : '') || 'Correios (Sedex)';
+
+      document.getElementById('rastreio-modal-subtitulo').textContent = `${numPed} · Cliente: ${clienteNome}`;
+      document.getElementById('rastreio-badge-pedido-num').textContent = numPed;
+      document.getElementById('rastreio-codigo-texto').textContent = codFinal || '(Sem código)';
+      document.getElementById('rastreio-badge-transp').textContent = transpFinal;
+      document.getElementById('rastreio-input-novo-codigo').value = codFinal;
+      document.getElementById('rastreio-input-transp').value = transpFinal;
+
+      const linkOficial = document.getElementById('rastreio-btn-link-oficial');
+      if (linkOficial) {
+        linkOficial.href = codFinal
+          ? `https://rastreamento.correios.com.br/app/index.php?codigo=${codFinal}`
+          : 'https://rastreamento.correios.com.br';
+      }
+
+      modal.classList.add('active');
+      modal.style.display = 'flex';
+
+      if (codFinal) {
+        await carregarDadosRastreio(codFinal);
+      } else {
+        document.getElementById('rastreio-timeline-wrapper').innerHTML = `
+          <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 12px 16px; color: #fbbf24; font-size: 12px;">
+            ⚠️ Este pedido ainda não possui um código de rastreamento vinculado. Digite o código abaixo e clique em <strong>"Salvar Rastreio"</strong> para consultar as movimentações em tempo real.
+          </div>
+        `;
+        document.getElementById('rastreio-status-badge-container').innerHTML = `
+          <span class="erp-status-pill status-aguardando">⏳ Aguardando Envio</span>
+        `;
+      }
+    }
+
+    function fecharModalRastreio() {
+      const modal = document.getElementById('modal-rastreamento-pedido');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
+      rastreioPedidoAtivo = null;
+    }
+
+    async function carregarDadosRastreio(codigo) {
+      const wrapper = document.getElementById('rastreio-timeline-wrapper');
+      const badgeContainer = document.getElementById('rastreio-status-badge-container');
+      const dataAtualizacao = document.getElementById('rastreio-data-atualizacao');
+
+      wrapper.innerHTML = `
+        <div style="color: #38bdf8; font-size: 12px; display: flex; align-items: center; gap: 8px; padding: 10px 0;">
+          <span>🔄</span> Consultando dados nos servidores logísticos...
+        </div>
+      `;
+
+      try {
+        const res = await fetch(`/api/logistica?codigo=${encodeURIComponent(codigo)}`);
+        const data = await res.json();
+
+        if (data.sucesso && Array.isArray(data.eventos) && data.eventos.length > 0) {
+          const isEntregue = data.status_atual === 'ENTREGUE';
+          const isTransito = data.status_atual === 'EM_TRANSITO';
+          badgeContainer.innerHTML = isEntregue
+            ? `<span class="erp-status-pill" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">✅ ENTREGUE</span>`
+            : isTransito
+            ? `<span class="erp-status-pill" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">🚚 EM TRÂNSITO</span>`
+            : `<span class="erp-status-pill status-separacao">📦 POSTADO</span>`;
+
+          dataAtualizacao.textContent = `Atualizado em: ${data.data_atualizacao || 'Hoje'}`;
+
+          wrapper.innerHTML = data.eventos.map((ev, index) => {
+            const isPrimeiro = index === 0;
+            const pontoEstilo = isPrimeiro
+              ? 'background: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); border: 2px solid #fff;'
+              : 'background: #475569; border: 2px solid #1e293b;';
+            
+            return `
+              <div style="position: relative; display: flex; align-items: flex-start; gap: 14px;">
+                <div style="position: absolute; left: -26px; top: 4px; width: 12px; height: 12px; border-radius: 50%; ${pontoEstilo}"></div>
+                <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid ${isPrimeiro ? 'rgba(56, 189, 248, 0.3)' : 'rgba(255, 255, 255, 0.06)'}; border-radius: 8px; padding: 12px 16px; flex: 1;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 6px;">
+                    <span style="font-size: 13px; font-weight: 700; color: ${isPrimeiro ? '#38bdf8' : '#e2e8f0'}; display: flex; align-items: center; gap: 6px;">
+                      <span>${ev.icone || '🚚'}</span> <span>${ev.status}</span>
+                    </span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); text-align: right;">${ev.data}</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 2px;">
+                    📍 ${ev.local}
+                  </div>
+                  ${ev.detalhes ? `<div style="font-size: 11px; color: #94a3b8; font-style: italic; margin-top: 4px;">${ev.detalhes}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          if (data.aviso) {
+            wrapper.innerHTML += `
+              <div style="font-size: 11px; color: var(--text-muted); background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 6px; border: 1px dashed rgba(255,255,255,0.1);">
+                ℹ️ ${data.aviso}
+              </div>
+            `;
+          }
+        } else {
+          wrapper.innerHTML = `
+            <div style="color: var(--text-muted); font-size: 12px;">Não foi possível obter eventos para este código no momento.</div>
+          `;
+        }
+      } catch (err) {
+        wrapper.innerHTML = `
+          <div style="color: #f87171; font-size: 12px;">Erro ao consultar rastreamento: ${err.message}</div>
+        `;
+      }
+    }
+
+    async function salvarNovoCodigoRastreio() {
+      if (!rastreioPedidoAtivo || !rastreioPedidoAtivo.id) {
+        mostrarToast('❌ Nenhum pedido selecionado para vincular');
+        return;
+      }
+
+      const novoCodigo = document.getElementById('rastreio-input-novo-codigo')?.value.trim();
+      const novaTransp = document.getElementById('rastreio-input-transp')?.value;
+
+      if (!novoCodigo) {
+        mostrarToast('⚠️ Informe o código de rastreamento');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/logistica/vincular', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            pedido_id: rastreioPedidoAtivo.id,
+            codigo_rastreio: novoCodigo,
+            transportadora: novaTransp
+          })
+        });
+        const d = await res.json();
+        if (d.sucesso) {
+          mostrarToast(`✅ ${d.mensagem}`);
+          rastreioPedidoAtivo.codigo_rastreio = novoCodigo;
+          rastreioPedidoAtivo.transportadora = novaTransp;
+          document.getElementById('rastreio-codigo-texto').textContent = novoCodigo;
+          document.getElementById('rastreio-badge-transp').textContent = novaTransp;
+          await carregarDadosRastreio(novoCodigo);
+          if (typeof carregarPedidosApi === 'function') carregarPedidosApi();
+        } else {
+          mostrarToast(`❌ ${d.erro || 'Falha ao vincular rastreio'}`);
+        }
+      } catch (err) {
+        mostrarToast(`❌ Erro de conexão: ${err.message}`);
+      }
+    }
+
+    function copiarCodigoRastreio() {
+      const cod = document.getElementById('rastreio-codigo-texto')?.textContent.trim();
+      if (!cod || cod === '-' || cod.includes('Sem código')) {
+        mostrarToast('⚠️ Nenhum código para copiar');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cod).then(() => mostrarToast('📋 Código copiado com sucesso!'));
+      } else {
+        prompt('Copie o código abaixo:', cod);
+      }
+    }
+
+    async function enviarRastreioWhatsApp(pedidoId) {
+      try {
+        const res = await fetch(`/api/logistica/pedido/${pedidoId}`);
+        const d = await res.json();
+        if (d.sucesso && d.whatsapp && d.whatsapp.link_direto) {
+          mostrarToast('📱 Abrindo WhatsApp com mensagem pronta...');
+          window.open(d.whatsapp.link_direto, '_blank');
+        } else if (d.sucesso && d.pedido && !d.pedido.telefone_limpo) {
+          mostrarToast('⚠️ Cliente sem telefone válido cadastrado');
+        } else {
+          mostrarToast('❌ Falha ao gerar mensagem do WhatsApp');
+        }
+      } catch (err) {
+        mostrarToast(`❌ Erro ao disparar WhatsApp: ${err.message}`);
+      }
+    }
+
+    function enviarWhatsAppDoModal() {
+      if (rastreioPedidoAtivo && rastreioPedidoAtivo.id) {
+        enviarRastreioWhatsApp(rastreioPedidoAtivo.id);
+      } else {
+        mostrarToast('⚠️ Nenhum pedido ativo selecionado');
+      }
+    }
+
+    function atualizarRastreioModal() {
+      const cod = document.getElementById('rastreio-codigo-texto')?.textContent.trim();
+      if (cod && cod !== '-' && !cod.includes('Sem código')) {
+        carregarDadosRastreio(cod);
+      } else {
+        mostrarToast('⚠️ Salve um código antes de atualizar');
+      }
+    }
     // Iniciar sempre com o Painel & Indicadores por padrão
     const navPainelInicial = document.getElementById('nav-item-painel');
     if (navPainelInicial) {
