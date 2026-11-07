@@ -7071,17 +7071,17 @@
           <input type="hidden" id="form-ped-cliente-id">
           <input type="hidden" id="form-ped-numero">
 
-          <!-- LINHA 1: OS 5 CAMPOS INTEGRADOS LADO A LADO NA MESMA LINHA ÚNICA! -->
+          <!-- LINHA 1: OS 5 CAMPOS INTEGRADOS LADO A LADO NA MESMA LINHA ÚNICA (CSS GRID BLINDADO) -->
           <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
-            <div style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+            <div style="display: grid; grid-template-columns: minmax(220px, 2.4fr) minmax(135px, 1.1fr) minmax(145px, 1.3fr) 60px 115px; gap: 10px; align-items: flex-end;">
               
               <!-- 1. CLIENTE / DESTINATÁRIO (MAIOR PESO) -->
-              <div class="form-group" style="flex: 1; min-width: 280px;">
+              <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                  <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                  <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
                     <span>👤</span> Cliente / Destinatário *
                   </span>
-                  <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">(Base de clientes ou digite)</span>
+                  <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">(Base ou digite)</span>
                 </label>
                 <div style="position: relative;">
                   <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
@@ -7093,34 +7093,34 @@
               </div>
 
               <!-- 2. TELEFONE / WHATSAPP -->
-              <div class="form-group" style="width: 175px; flex-shrink: 0;">
+              <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                  <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
+                  <span style="color: #34d399; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
                     <span>📱</span> Telefone / Whats
                   </span>
-                  <span style="font-size: 9.5px; color: #34d399; font-weight: 600;" title="Ao salvar o pedido, atualiza automaticamente na ficha principal do cliente!">
+                  <span style="font-size: 9px; color: #34d399; font-weight: 600;" title="Ao salvar o pedido, atualiza automaticamente na ficha principal do cliente!">
                     💾 Salva
                   </span>
                 </label>
-                <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+                <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399; width: 100%; box-sizing: border-box;">
               </div>
 
               <!-- 3. CIDADE DE ENTREGA -->
-              <div class="form-group" style="width: 220px; flex-shrink: 0;">
-                <label class="form-label" style="margin-bottom: 3px;">Cidade de Entrega</label>
-                <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega">
+              <div class="form-group" style="margin: 0; min-width: 0;">
+                <label class="form-label" style="margin-bottom: 3px; white-space: nowrap;">Cidade de Entrega</label>
+                <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega" style="width: 100%; box-sizing: border-box;">
               </div>
 
-              <!-- 4. UF (COMPACTO 65PX) -->
-              <div class="form-group" style="width: 65px; flex-shrink: 0;">
+              <!-- 4. UF (COMPACTO 60PX) -->
+              <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF</label>
-                <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+                <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 100%; box-sizing: border-box;">
               </div>
 
               <!-- 5. DATA DO PEDIDO -->
-              <div class="form-group" style="width: 130px; flex-shrink: 0;">
-                <label class="form-label" style="text-align: center; margin-bottom: 3px;">Data Pedido</label>
-                <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace;">
+              <div class="form-group" style="margin: 0; min-width: 0;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px; white-space: nowrap;">Data Pedido</label>
+                <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace; width: 100%; box-sizing: border-box;">
               </div>
 
             </div>
@@ -7345,29 +7345,44 @@
 
   <!-- MODAL DE NOVO LANÇAMENTO FINANCEIRO AVULSO (TICKET 4) -->
   <div class="modal-overlay" id="modal-lancamento-financeiro">
-    <div class="modal-container" style="max-width: 660px; width: 95%; max-height: 90vh;">
+    <div class="modal-container" style="max-width: 860px; width: 96%; max-height: 92vh;">
       <div class="modal-resize-handle" data-modal="modal-lancamento-financeiro" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header">
-        <div class="modal-title">
+      <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
           <span>💰</span>
-          <span id="modal-fin-titulo">Novo Lançamento Financeiro (Avulso)</span>
+          <span id="modal-fin-titulo">Novo Lançamento Financeiro</span>
+          <span id="modal-fin-badge-tipo" class="badge-ped" style="font-size: 11px; background: rgba(16, 185, 129, 0.12); color: #34d399; border-color: rgba(16, 185, 129, 0.35);">🟢 CONTA A RECEBER</span>
         </div>
         <button class="modal-close-btn" onclick="fecharModalLancamento()">✕</button>
       </div>
-      <div class="modal-body">
+
+      <div class="modal-body" style="padding: 18px 22px 14px 22px; gap: 12px;">
         <form id="form-lancamento-fin" onsubmit="salvarLancamentoFinanceiro(event)">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Tipo de Lançamento *</label>
-              <select class="form-input" id="fin-tipo" required>
-                <option value="RECEBER">🟢 Conta a Receber (Entrada)</option>
+          
+          <!-- LINHA 1: TIPO (210px) + DESCRIÇÃO COMERCIAL (flex: 1) + CATEGORIA (210px) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="width: 210px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Tipo de Lançamento *</label>
+              <select class="form-input erp-select" id="fin-tipo" required onchange="atualizarBadgeTipoFinanceiro(this.value)">
+                <option value="RECEBER" selected>🟢 Conta a Receber (Entrada)</option>
                 <option value="PAGAR">🔴 Conta a Pagar (Saída / Despesa)</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="form-label">Categoria *</label>
-              <select class="form-input" id="fin-categoria">
-                <option value="Vendas de Mercadorias">Vendas de Mercadorias</option>
+
+            <div class="form-group" style="flex: 1; min-width: 260px;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                  <span>📝</span> Descrição do Lançamento *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificação do título</span>
+              </label>
+              <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso" style="font-weight: 600;">
+            </div>
+
+            <div class="form-group" style="width: 210px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Categoria *</label>
+              <select class="form-input erp-select" id="fin-categoria">
+                <option value="Vendas de Mercadorias" selected>Vendas de Mercadorias</option>
                 <option value="Matéria-Prima / Couros">Matéria-Prima / Couros</option>
                 <option value="Frete / Transportadora">Frete / Transportadora</option>
                 <option value="Impostos / Taxas">Impostos / Taxas</option>
@@ -7378,55 +7393,69 @@
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 12px;">
-            <label class="form-label">Descrição do Lançamento *</label>
-            <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Compra de Sal Grosso / Frete Jadlog / Venda Balcão">
+          <!-- LINHA 2: VALOR (180px) + VENCIMENTO (155px) + FORMA DE PAGAMENTO (180px) + STATUS (flex: 1) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
+            <div class="form-group" style="width: 180px; flex-shrink: 0;">
+              <label class="form-label" style="color: #34d399; margin-bottom: 3px;">Valor do Título (R$) *</label>
+              <input type="text" inputmode="decimal" class="form-input" id="fin-valor" required placeholder="0,00" onblur="this.value = formatarMoedaPtBr(this.value)" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); text-align: right;">
+            </div>
+
+            <div class="form-group" style="width: 155px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Data de Vencimento *</label>
+              <input type="date" class="form-input" id="fin-vencimento" required style="font-family: 'JetBrains Mono', monospace; text-align: center;">
+            </div>
+
+            <div class="form-group" style="width: 180px; flex-shrink: 0;">
+              <label class="form-label" style="margin-bottom: 3px;">Forma de Pagamento</label>
+              <select class="form-input erp-select" id="fin-forma">
+                <option value="PIX" selected>⚡ PIX Instantâneo</option>
+                <option value="BOLETO">📄 Boleto Bancário</option>
+                <option value="CARTAO">💳 Cartão de Crédito/Débito</option>
+                <option value="DINHEIRO">💵 Dinheiro em Espécie</option>
+                <option value="TRANSFERENCIA">🏦 Transferência TED/DOC</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="flex: 1; min-width: 160px;">
+              <label class="form-label" style="margin-bottom: 3px;">Status do Título</label>
+              <select class="form-input erp-select" id="fin-status" style="font-weight: 600;">
+                <option value="PENDENTE" selected>⏳ Pendente (Em Aberto)</option>
+                <option value="PAGO">✅ Já Quitado / Recebido</option>
+              </select>
+            </div>
           </div>
 
-          <div class="form-grid-2" style="margin-top: 12px;">
-            <div class="form-group">
-              <label class="form-label">Cliente ou Fornecedor (Opcional)</label>
+          <!-- LINHA 3: CLIENTE OU FORNECEDOR (flex: 1.2) + OBSERVAÇÕES / CHAVE PIX / RECIBO (flex: 1.6) -->
+          <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
+            <div class="form-group" style="flex: 1.2; min-width: 240px;">
+              <label class="form-label" style="margin-bottom: 3px;">Cliente ou Fornecedor Vinculado</label>
               <input type="text" class="form-input" id="fin-entidade" list="lista-clientes-datalist" placeholder="Nome do cliente ou fornecedor">
             </div>
-            <div class="form-group">
-              <label class="form-label">Forma de Pagamento</label>
-              <select class="form-input" id="fin-forma">
-                <option value="PIX">PIX</option>
-                <option value="BOLETO">Boleto Bancário</option>
-                <option value="CARTAO">Cartão de Crédito/Débito</option>
-                <option value="DINHEIRO">Dinheiro em Espécie</option>
-                <option value="TRANSFERENCIA">Transferência TED/DOC</option>
-              </select>
+
+            <div class="form-group" style="flex: 1.6; min-width: 280px;">
+              <label class="form-label" style="margin-bottom: 3px;">Observações / Chave PIX / Recibo</label>
+              <input type="text" class="form-input" id="fin-obs" placeholder="Número de recibo, chave PIX, banco ou anotação interna...">
             </div>
           </div>
 
-          <div class="form-grid-3" style="margin-top: 12px;">
-            <div class="form-group">
-              <label class="form-label">Valor (R$) *</label>
-              <input type="text" inputmode="decimal" class="form-input" id="fin-valor" required placeholder="0,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Data de Vencimento *</label>
-              <input type="date" class="form-input" id="fin-vencimento" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Status Inicial</label>
-              <select class="form-input" id="fin-status">
-                <option value="PENDENTE">⏳ Pendente (Em Aberto)</option>
-                <option value="PAGO">✅ Já Pago / Recebido</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-top: 12px;">
-            <label class="form-label">Observações</label>
-            <input type="text" class="form-input" id="fin-obs" placeholder="Número de recibo, chave PIX ou anotação interna...">
-          </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalLancamento()">Cancelar</button>
-        <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-lancamento-fin').requestSubmit()">💾 Salvar Lançamento</button>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px; padding: 12px 22px;">
+        <!-- LADO ESQUERDO: COMPROVANTE / ANEXO -->
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" onclick="abrirAnexoComprovanteFinanceiro()" style="border-color: rgba(0, 212, 255, 0.4); color: #38bdf8;" title="Anexar arquivo de comprovante bancário ou recibo">
+            <span>📎</span> Anexar Comprovante
+          </button>
+        </div>
+
+        <!-- LADO DIREITO: CANCELAR E SALVAR -->
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalLancamento()">Cancelar</button>
+          <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-lancamento-fin').requestSubmit()">
+            💾 Salvar Lançamento
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -11611,13 +11640,142 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (modal) modal.classList.remove('active');
     }
 
-    function abrirModalLancamentoFinanceiro() {
+    
+    // ========================================================
+    // CONTROLE DO MODAL DE LANÇAMENTO FINANCEIRO (NORMA MODERNA)
+    // ========================================================
+    function atualizarBadgeTipoFinanceiro(tipo) {
+      const badge = document.getElementById('modal-fin-badge-tipo');
+      const valInput = document.getElementById('fin-valor');
+      if (!badge) return;
+
+      if (tipo === 'RECEBER') {
+        badge.textContent = '🟢 CONTA A RECEBER';
+        badge.style.color = '#34d399';
+        badge.style.borderColor = 'rgba(16, 185, 129, 0.35)';
+        badge.style.background = 'rgba(16, 185, 129, 0.12)';
+        if (valInput) {
+          valInput.style.color = '#34d399';
+          valInput.style.background = 'rgba(52, 211, 153, 0.08)';
+          valInput.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+        }
+      } else {
+        badge.textContent = '🔴 CONTA A PAGAR';
+        badge.style.color = '#f87171';
+        badge.style.borderColor = 'rgba(239, 68, 68, 0.35)';
+        badge.style.background = 'rgba(239, 68, 68, 0.12)';
+        if (valInput) {
+          valInput.style.color = '#f87171';
+          valInput.style.background = 'rgba(239, 68, 68, 0.08)';
+          valInput.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        }
+      }
+    }
+
+    function abrirAnexoComprovanteFinanceiro() {
+      mostrarNotificacaoToast('📎 Selecione o comprovante bancário ou recibo para anexar a este lançamento.');
+      if (typeof abrirModalAnexosGeral === 'function') {
+        abrirModalAnexosGeral();
+      }
+    }
+
+    async function salvarLancamentoFinanceiro(e) {
+      e.preventDefault();
+      const tipo = document.getElementById('fin-tipo')?.value || 'RECEBER';
+      const descricao = document.getElementById('fin-descricao')?.value.trim() || '';
+      const categoria = document.getElementById('fin-categoria')?.value || 'Geral';
+      const entidade = document.getElementById('fin-entidade')?.value.trim() || '';
+      const forma = document.getElementById('fin-forma')?.value || 'PIX';
+      const valorStr = document.getElementById('fin-valor')?.value || '0';
+      const valor = typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(valorStr) : parseFloat(valorStr.replace(/\./g, '').replace(',', '.')) || 0;
+      const vencimento = document.getElementById('fin-vencimento')?.value || new Date().toISOString().slice(0, 10);
+      const status = document.getElementById('fin-status')?.value || 'PENDENTE';
+      const obs = document.getElementById('fin-obs')?.value.trim() || '';
+
+      if (!descricao) {
+        mostrarNotificacaoToast('⚠️ A descrição do lançamento é obrigatória.');
+        return;
+      }
+      if (valor <= 0) {
+        mostrarNotificacaoToast('⚠️ O valor do lançamento deve ser maior que zero.');
+        return;
+      }
+
+      // Procura cliente vinculado se houver
+      let cli = null;
+      if (entidade) {
+        const norm = normalizarTextoBusca(entidade);
+        cli = (Array.isArray(clientes) ? clientes : []).find(c => {
+          if (!c) return false;
+          return normalizarTextoBusca(c.nome) === norm || normalizarTextoBusca(c.razao_social) === norm;
+        });
+      }
+
+      const payload = {
+        tipo,
+        categoria,
+        descricao,
+        cliente_id: cli ? cli.id : null,
+        cliente_nome: cli ? cli.nome : (tipo === 'RECEBER' ? entidade : ''),
+        fornecedor_nome: tipo === 'PAGAR' ? entidade : '',
+        valor,
+        data_vencimento: vencimento,
+        forma_pagamento: forma,
+        status,
+        observacoes: obs
+      };
+
+      try {
+        const resp = await fetch('/api/financeiro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (resp.ok) {
+          const valorFmt = typeof formatarMoedaPtBr === 'function' ? formatarMoedaPtBr(valor) : valor.toFixed(2);
+          mostrarNotificacaoToast(`✅ Lançamento de R$ ${valorFmt} salvo com sucesso no financeiro!`);
+          fecharModalLancamento();
+          if (typeof carregarDadosFinanceiros === 'function') {
+            carregarDadosFinanceiros();
+          }
+          if (typeof carregarRelatorios === 'function') {
+            carregarRelatorios();
+          }
+        } else {
+          const errData = await resp.json().catch(() => ({}));
+          mostrarNotificacaoToast('❌ Erro ao salvar lançamento: ' + (errData.error || resp.statusText));
+        }
+      } catch (err) {
+        console.error('Erro ao salvar lançamento:', err);
+        mostrarNotificacaoToast('❌ Erro de conexão ao salvar lançamento financeiro.');
+      }
+    }
+
+    function abrirModalLancamentoFinanceiro(tipoPadrao = 'RECEBER') {
       aplicarTamanhoSalvoModal('modal-lancamento-financeiro');
       const modal = document.getElementById('modal-lancamento-financeiro');
       if (modal) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
+        
+        // Reset e preenchimento inicial padrão
+        const form = document.getElementById('form-lancamento-fin');
+        if (form) form.reset();
+        
+        const tipoEl = document.getElementById('fin-tipo');
+        if (tipoEl) tipoEl.value = tipoPadrao;
+        atualizarBadgeTipoFinanceiro(tipoPadrao);
+
+        const vencEl = document.getElementById('fin-vencimento');
+        if (vencEl) vencEl.value = new Date().toISOString().slice(0, 10);
+
+        const valEl = document.getElementById('fin-valor');
+        if (valEl) valEl.value = '0,00';
+
         modal.classList.add('active');
+        const descEl = document.getElementById('fin-descricao');
+        if (descEl) descEl.focus();
       }
     }
     function fecharModalLancamento() {
