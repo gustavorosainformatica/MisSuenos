@@ -24,6 +24,7 @@ import handlerNfe from './nfe.js';
 import handlerSistema from './sistema.js';
 import handlerRelatorios from './relatorios.js';
 import handlerEstoque from './estoque.js';
+import handlerLogistica from './logistica.js';
 
 export default async function handler(req, res) {
   // CORS Preflight Global
@@ -88,6 +89,9 @@ export default async function handler(req, res) {
     }
     if (pathname === '/api/estoque' || pathname.startsWith('/api/estoque/')) {
       return await handlerEstoque(req, res);
+    }
+    if (pathname === '/api/logistica' || pathname.startsWith('/api/logistica/')) {
+      return await handlerLogistica(req, res);
     }
 
     // Rota não encontrada
