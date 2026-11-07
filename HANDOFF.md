@@ -66,14 +66,19 @@
 
 ### 🌟 H. Botões no Rodapé com Sub-Modais de Observações e Preferências do Cliente (CRM)
 - **Eliminação do Textarea Fixo:** O campo estático de observações foi substituído por canal de sincronização oculto, liberando mais de 110px de altura vertical para a tabela de mercadorias.
-- **Botão `📝 Observações do Pedido`:**
-  - Badge dinâmico de contagem (`Vazio` ou `X linhas`).
-  - Abre sub-modal dedicado `#submodal-ped-obs` com textarea multilinhas (`Enter` livre para peles, espessuras e notas de lote).
-- **Botão `⭐ Preferências do Cliente` (Inteligência de Vendas / CRM):**
-  - Acende automaticamente em cor âmbar/dourada quando o cliente possui histórico de preferências gravado.
-  - Abre sub-modal `#submodal-ped-pref` com salvamento direto na ficha do cliente no banco de dados (`clientes.preferencias` via Turso Cloud e SQLite local).
-  - Disponível automaticamente para todos os pedidos futuros do cliente.
-- **PWA Service Worker v34:** Cache atualizado para forçar propagação instantânea em todos os dispositivos.
+- **Botões Dinâmicos no Rodapé:** `📝 Observações do Pedido` e `⭐ Preferências do Cliente` com sub-modais dedicados e badges em tempo real.
+
+### 👤 I. Modernização da Ficha do Cliente (modal-cliente - Janela #1 da Fila)
+- **Dimensões Proporcionais & Eliminação de Quebras Desnecessárias:**
+  - Nome / Razão Social (60%) e Apelido / Fantasia (40%) unificados na Linha 1.
+  - Linha 2 de Contato & Fiscal: CPF/CNPJ (175px), Inscrição Estadual (135px), Telefone/WhatsApp (175px) e novo campo dedicado **E-mail para Faturas / XML NF-e** (com migração de coluna no banco Turso e SQLite).
+  - Endereço de Envio compacto em apenas **2 linhas coesas**:
+    - Linha 3: CEP (115px com busca ViaCEP) + Logradouro (flex) + Número (90px) + Complemento (160px).
+    - Linha 4: Bairro (flex) + Cidade (flex) + UF compacto (65px, caixa alta, centralizado).
+- **Sub-Modais Ergonômicos no Rodapé da Ficha:**
+  - `[ 📝 Obs. Entrega ]`: Sub-modal dedicado para instruções de logística, horários de recebimento e transportadora preferencial.
+  - `[ ⭐ Preferências CRM ]`: Integrado à coluna `preferencias` do cliente, permitindo consultar e alterar padrões de compra (couros, espessuras, exigências) diretamente da ficha cadastral.
+- **PWA Service Worker v35:** Cache atualizado para forçar atualização imediata em produção.
 
 ## 2. Arquivos Modificados / Criados
 
@@ -93,13 +98,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`ce763cc`](https://github.com/gustavorosainformatica/MisSuenos/commit/ce763cc).
-  - Service Worker: `missuenos-pwa-v34` ativo.
-  - Status HTTP: `200 OK` (ETag: `"ad15f2b193ffde709f9789400a6d092d"`, auditado com sucesso).
+  - Commit oficial: [`df5aa8d`](https://github.com/gustavorosainformatica/MisSuenos/commit/df5aa8d).
+  - Service Worker: `missuenos-pwa-v35` ativo.
+  - Status HTTP: `200 OK` (ETag: `"b987e754396b2d0c2b6d04c04d73fcd4"`, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `ce763cc` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `13a81f9` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `8c3da4c` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `df5aa8d` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `f9946b4` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `2caf5f5` na branch `main`).
 - **Banco de Dados Híbrido:**
   - Banco local SQLite operacional na porta 3000.
   - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
