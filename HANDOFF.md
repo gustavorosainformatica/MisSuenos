@@ -62,13 +62,18 @@
 
 ### 🖥️ G. Modal em Tela Cheia & Agrupamento dos 5 Campos em Linha Única
 - **Janela Imersiva em Tela Cheia (99vw x 96vh):** O modal de pedidos (`#modal-pedido`) agora sobrepõe praticamente todo o ERP (`width: 99vw; height: 96vh; padding: 8px`), eliminando espaços ociosos nas laterais e maximizando a área útil para a tabela de itens.
-- **5 Campos Integrados na Mesma Linha Horizontal:**
-  1. `Cliente / Destinatário *` (`flex: 1; min-width: 280px;`)
-  2. `Telefone / Whats` (`175px`) com badge `💾 Salva`
-  3. `Cidade de Entrega` (`220px`)
-  4. `UF` (`65px`, centralizado e em caixa alta)
-  5. `Data Pedido` (`130px`, centralizado)
-- **PWA Service Worker v33:** Cache bumpado para `missuenos-pwa-v33`, forçando atualização imediata em produção.
+- **5 Campos Integrados na Mesma Linha Horizontal:** Cliente, Telefone/Whats, Cidade, UF e Data.
+
+### 🌟 H. Botões no Rodapé com Sub-Modais de Observações e Preferências do Cliente (CRM)
+- **Eliminação do Textarea Fixo:** O campo estático de observações foi substituído por canal de sincronização oculto, liberando mais de 110px de altura vertical para a tabela de mercadorias.
+- **Botão `📝 Observações do Pedido`:**
+  - Badge dinâmico de contagem (`Vazio` ou `X linhas`).
+  - Abre sub-modal dedicado `#submodal-ped-obs` com textarea multilinhas (`Enter` livre para peles, espessuras e notas de lote).
+- **Botão `⭐ Preferências do Cliente` (Inteligência de Vendas / CRM):**
+  - Acende automaticamente em cor âmbar/dourada quando o cliente possui histórico de preferências gravado.
+  - Abre sub-modal `#submodal-ped-pref` com salvamento direto na ficha do cliente no banco de dados (`clientes.preferencias` via Turso Cloud e SQLite local).
+  - Disponível automaticamente para todos os pedidos futuros do cliente.
+- **PWA Service Worker v34:** Cache atualizado para forçar propagação instantânea em todos os dispositivos.
 
 ## 2. Arquivos Modificados / Criados
 
@@ -88,13 +93,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - O sistema em produção está 100% ativo em **[https://missuenos.vercel.app](https://missuenos.vercel.app)**.
-  - Commit oficial: [`81143b2`](https://github.com/gustavorosainformatica/MisSuenos/commit/81143b2).
-  - Service Worker: `missuenos-pwa-v33` ativo.
-  - Status HTTP: `200 OK` (ETag: `"dc26713003e1bf1172f9c098af1ba538"`, auditado com sucesso).
+  - Commit oficial: [`ce763cc`](https://github.com/gustavorosainformatica/MisSuenos/commit/ce763cc).
+  - Service Worker: `missuenos-pwa-v34` ativo.
+  - Status HTTP: `200 OK` (ETag: `"ad15f2b193ffde709f9789400a6d092d"`, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `1111f5d` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `ad960d6` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `ce763cc` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `13a81f9` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `8c3da4c` na branch `main`).
 - **Banco de Dados Híbrido:**
   - Banco local SQLite operacional na porta 3000.
   - Turso Cloud sincronizado com auto-provisionamento de schema em tempo real na nuvem.
