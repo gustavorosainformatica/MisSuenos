@@ -114,7 +114,7 @@ export default async function handler(req, res) {
       // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
       const monitorados = [
         'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
-        'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes'
+        'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias'
       ];
       const dados = {};
       monitorados.forEach(c => {
@@ -164,7 +164,8 @@ export default async function handler(req, res) {
           cep = ?,
           cep_limpo = ?,
           endereco_completo = ?,
-          observacoes = ?
+          observacoes = ?,
+          preferencias = ?
         WHERE id = ?
       `;
 
@@ -189,6 +190,7 @@ export default async function handler(req, res) {
         dados.cep.replace(/\D/g, ''),
         enderecoFormatado,
         dados.observacoes,
+        dados.preferencias || '',
         id
       ]);
 
@@ -252,8 +254,8 @@ export default async function handler(req, res) {
           telefone, telefone_limpo,
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
-          endereco_completo, observacoes, arquivo_origem, data_cadastro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const resultado = await run(sqlInsert, [
@@ -278,7 +280,8 @@ export default async function handler(req, res) {
         enderecoFormatado,
         payload.observacoes || '',
         payload.arquivo_origem || 'CADASTRO_MANUAL.docx',
-        dataHoje
+        dataHoje,
+        payload.preferencias || ''
       ]);
 
       const novoId = resultado.lastInsertRowid;
