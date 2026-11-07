@@ -1715,6 +1715,16 @@
       gap: 10px;
     }
 
+    /* Oculta spinners/setas de campos numéricos */
+    input[type=number].no-spin::-webkit-inner-spin-button,
+    input[type=number].no-spin::-webkit-outer-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0 !important;
+    }
+    input[type=number].no-spin {
+      -moz-appearance: textfield !important;
+    }
+
     .modal-maximize-btn {
       background: none;
       border: none;
@@ -6794,9 +6804,10 @@
     <div class="modal-container" style="max-width: 880px; width: 95%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-pedido" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
       <div class="modal-header">
-        <div class="modal-title">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
           <span id="modal-ped-icone">📦</span>
-          <span id="modal-ped-titulo">Novo Pedido de Venda & Logística</span>
+          <span id="modal-ped-titulo">Novo Pedido de Venda & Encomenda</span>
+          <span id="modal-ped-badge-numero" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px;">#PED-1044</span>
         </div>
         <button class="modal-close-btn" onclick="fecharModalPedido()">✕</button>
       </div>
@@ -6805,39 +6816,52 @@
         <form id="form-pedido" onsubmit="salvarPedido(event)">
           <input type="hidden" id="form-ped-id">
           <input type="hidden" id="form-ped-cliente-id">
+          <input type="hidden" id="form-ped-numero">
 
-          <div class="form-grid-2">
+          <!-- LINHA 1: CLIENTE (65%) + TELEFONE/WHATSAPP (35%) COM AUTO-SALVAMENTO NO CLIENTE -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label class="form-label">Nº do Pedido / Identificador *</label>
-              <input type="text" class="form-input" id="form-ped-numero" required placeholder="#PED-1043" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                  <span>👤</span> Cliente / Destinatário *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">(Base de clientes ou digite)</span>
+              </label>
+              <div style="position: relative;">
+                <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
+                <datalist id="lista-clientes-datalist">
+                  <!-- Populado via JS com os clientes cadastrados -->
+                </datalist>
+                <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+              </div>
             </div>
+
             <div class="form-group">
-              <label class="form-label">Data do Pedido</label>
-              <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
+                  <span>📱</span> Telefone / WhatsApp
+                </span>
+                <span style="font-size: 10px; color: #34d399; font-weight: 600;" title="Ao salvar o pedido, atualiza automaticamente na ficha principal do cliente!">
+                  💾 Salva no cliente
+                </span>
+              </label>
+              <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
             </div>
           </div>
 
-          <!-- SELEÇÃO RÁPIDA DE CLIENTE COM AUTOCOMPLETE / DATALIST -->
-          <div class="form-group" style="margin-top: 14px;">
-            <label class="form-label">Cliente / Destinatário * <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">(Selecione da base de 1.140 clientes ou digite)</span></label>
-            <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)">
-            <datalist id="lista-clientes-datalist">
-              <!-- Populado via JS com os clientes cadastrados -->
-            </datalist>
-          </div>
-
-          <div class="form-grid-3" style="margin-top: 14px;">
-            <div class="form-group">
-              <label class="form-label">Cidade</label>
+          <!-- LINHA 2: CIDADE + ESTADO (UF COMPACTO) + DATA DO PEDIDO -->
+          <div style="display: flex; gap: 12px; margin-top: 12px; align-items: flex-end;">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">Cidade de Entrega</label>
               <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega">
             </div>
-            <div class="form-group">
-              <label class="form-label">Estado (UF)</label>
-              <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase;">
+            <div class="form-group" style="width: 70px; flex-shrink: 0;">
+              <label class="form-label" style="text-align: center;">UF</label>
+              <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
             </div>
-            <div class="form-group">
-              <label class="form-label">Telefone / WhatsApp</label>
-              <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000">
+            <div class="form-group" style="width: 140px; flex-shrink: 0;">
+              <label class="form-label" style="text-align: center;">Data do Pedido</label>
+              <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace;">
             </div>
           </div>
 
@@ -6891,7 +6915,7 @@
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: center;">
                     Qtd
                   </label>
-                  <input type="number" id="ped-add-qtd-input" min="1" step="1" value="1" class="form-input" style="text-align: center; font-weight: 700; width: 100%;" oninput="atualizarSubtotalNovoItem()" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
+                  <input type="number" id="ped-add-qtd-input" min="1" step="any" value="" placeholder="" class="form-input no-spin" style="text-align: center; font-weight: 700; width: 100%; -moz-appearance: textfield;" oninput="atualizarSubtotalNovoItem()" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
                 </div>
 
                 <div style="width: 110px;">
@@ -6945,12 +6969,9 @@
             </div>
           </div>
 
-          <div class="form-grid-3" style="margin-top: 14px;">
-            <div class="form-group">
-              <label class="form-label">Valor Total (R$) *</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required placeholder="0,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
-            </div>
-            <div class="form-group">
+          <!-- LINHA DE FECHAMENTO: STATUS + RASTREIO + FRETE + TOTAL ALINHADO À DIREITA (SOLICITAÇÃO DO ÁUDIO 2) -->
+          <div style="display: flex; gap: 12px; margin-top: 14px; align-items: flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Status do Pedido</label>
               <select class="form-input erp-select" id="form-ped-status" style="width: 100%;">
                 <option value="AGUARDANDO_ENVIO">⏳ Aguardando Envio</option>
@@ -6959,15 +6980,29 @@
                 <option value="CANCELADO">❌ Cancelado</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Código de Rastreio (Opcional)</label>
               <input type="text" class="form-input" id="form-ped-rastreio" placeholder="QC123456789BR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
             </div>
+            <div class="form-group" style="width: 130px; flex-shrink: 0;">
+              <label class="form-label" style="text-align: right; color: #38bdf8;">Frete (R$)</label>
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-frete" value="0,00" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;" oninput="atualizarValorTotalPedidoComFrete()" onblur="this.value = formatarMoedaPtBr(this.value)">
+            </div>
+            <div class="form-group" style="width: 220px; flex-shrink: 0;">
+              <label class="form-label" style="text-align: right; color: #34d399;">Valor Total (R$) * (Itens + Frete)</label>
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.3);" onblur="this.value = formatarMoedaPtBr(this.value)">
+            </div>
           </div>
 
+          <!-- OBSERVAÇÕES INTERNAS, PELES E ESPESSURAS COM ENTER / MULTILINHAS (SOLICITAÇÃO DO ÁUDIO 3) -->
           <div class="form-group" style="margin-top: 14px;">
-            <label class="form-label">Observações Internas / Frete</label>
-            <input type="text" class="form-input" id="form-ped-obs" placeholder="Preferência de transportadora, Superfrete ou embalagem especial...">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label class="form-label" style="margin: 0; display: flex; align-items: center; gap: 6px;">
+                <span>📝</span> Observações Internas, Peles & Espessuras
+              </label>
+              <span style="font-size: 10px; color: var(--text-muted);">Pressione <strong>Enter</strong> para criar uma nova linha para cada pele</span>
+            </div>
+            <textarea class="form-input" id="form-ped-obs" rows="3" placeholder="Exemplo:&#10;Pele Lonca média nº 585 - 1.2mm&#10;Pele Sovada nº 204 - 2.5mm&#10;Preferência de transportadora, frete ou embalagem..." style="font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.5; resize: vertical; min-height: 65px;"></textarea>
           </div>
         </form>
       </div>
@@ -8992,6 +9027,21 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
     }
 
+    
+    function calcularSubtotalItensPedido() {
+      return (itensPedidoAtual || []).reduce((acc, item) => acc + (parseFloat(item.subtotal || 0) || 0), 0);
+    }
+
+    function atualizarValorTotalPedidoComFrete() {
+      const subtotalItens = calcularSubtotalItensPedido();
+      const frete = desformatarNumeroPtBr(document.getElementById('form-ped-frete')?.value || 0);
+      const totalFinal = Math.max(0, subtotalItens + frete);
+      const valEl = document.getElementById('form-ped-valor');
+      if (valEl) {
+        valEl.value = formatarMoedaPtBr(totalFinal > 0 ? totalFinal : (subtotalItens > 0 ? subtotalItens : 0));
+      }
+    }
+
     function aoDigitarOuSelecionarProdutoItem(valorDigitado) {
       const precoInp = document.getElementById('ped-add-preco-input');
       const qtdInp = document.getElementById('ped-add-qtd-input');
@@ -9324,7 +9374,17 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       // Próximo número sugerido
       const maxId = listaPedidos.reduce((max, p) => Math.max(max, Number(p.id || 0)), 1042);
-      document.getElementById('form-ped-numero').value = `#PED-${maxId + 1}`;
+      const numSugerido = `#PED-${maxId + 1}`;
+      document.getElementById('form-ped-numero').value = numSugerido;
+      const badgeNum = document.getElementById('modal-ped-badge-numero');
+      if (badgeNum) badgeNum.textContent = numSugerido;
+
+      const freteEl = document.getElementById('form-ped-frete');
+      if (freteEl) freteEl.value = '0,00';
+      const obsEl = document.getElementById('form-ped-obs');
+      if (obsEl) obsEl.value = '';
+      const qtdInpEl = document.getElementById('ped-add-qtd-input');
+      if (qtdInpEl) qtdInpEl.value = '';
 
       const hoje = new Date();
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
@@ -9363,10 +9423,18 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       document.getElementById('modal-ped-icone').textContent = '✏️';
       document.getElementById('modal-ped-titulo').textContent = `Editar Pedido: ${ped.numero}`;
+      const badgeNumEdit = document.getElementById('modal-ped-badge-numero');
+      if (badgeNumEdit) badgeNumEdit.textContent = ped.numero || '';
 
       document.getElementById('form-ped-id').value = ped.id || '';
       document.getElementById('form-ped-cliente-id').value = ped.cliente_id || '';
       document.getElementById('form-ped-numero').value = ped.numero || '';
+      const freteEditEl = document.getElementById('form-ped-frete');
+      if (freteEditEl) freteEditEl.value = formatarMoedaPtBr(ped.valor_frete || 0);
+      const obsEditEl = document.getElementById('form-ped-obs');
+      if (obsEditEl) obsEditEl.value = ped.observacoes || '';
+      const qtdEditEl = document.getElementById('ped-add-qtd-input');
+      if (qtdEditEl) qtdEditEl.value = '';
       document.getElementById('form-ped-data').value = ped.data_pedido || ped.data || '';
       document.getElementById('form-ped-cliente-nome').value = ped.cliente_nome || ped.cliente || '';
       document.getElementById('form-ped-cidade').value = ped.cidade || '';
@@ -9422,10 +9490,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           preco_unitario: i.preco
         })),
         valor_total: desformatarNumeroPtBr(document.getElementById('form-ped-valor').value),
+        valor_frete: desformatarNumeroPtBr(document.getElementById('form-ped-frete')?.value || 0),
         status: status,
         status_texto: statusMap[status] || 'Pendente',
         codigo_rastreio: document.getElementById('form-ped-rastreio').value.trim(),
-        observacoes: document.getElementById('form-ped-obs').value.trim(),
+        observacoes: (document.getElementById('form-ped-obs')?.value || '').trim(),
         data_pedido: document.getElementById('form-ped-data').value.trim()
       };
 
@@ -9441,6 +9510,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
         if (resp.ok) {
           mostrarToast(`✅ Pedido ${payload.numero} gravado! Estoque reservado e Conta a Receber sincronizada.`);
+          // Sincroniza imediatamente o telefone na memória de clientes local se informado
+          if (payload.cliente_id && payload.telefone) {
+            const cliMem = (Array.isArray(clientes) ? clientes : []).find(c => Number(c.id) === Number(payload.cliente_id));
+            if (cliMem) cliMem.telefone = payload.telefone;
+          }
           fecharModalPedido();
           await carregarPedidosApi();
           await carregarProdutosApi();

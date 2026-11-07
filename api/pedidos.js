@@ -231,9 +231,9 @@ export default async function handler(req, res) {
       const info = await run(`
         INSERT INTO pedidos (
           numero, cliente_id, cliente_nome, cidade, uf, telefone,
-          itens, valor_total, status, status_texto, codigo_rastreio,
+          itens, valor_total, valor_frete, status, status_texto, codigo_rastreio,
           observacoes, data_pedido, data_atualizacao
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         numero,
         payload.cliente_id ? Number(payload.cliente_id) : null,
@@ -243,6 +243,7 @@ export default async function handler(req, res) {
         payload.telefone ? payload.telefone.trim() : '',
         payload.itens.trim(),
         valorTotal,
+        parseFloat(payload.valor_frete || 0) || 0,
         status,
         statusTexto,
         payload.codigo_rastreio ? payload.codigo_rastreio.trim() : '',
@@ -252,6 +253,19 @@ export default async function handler(req, res) {
       ]);
 
       const novoId = info.lastInsertRowid;
+      // Auto-atualiza telefone no cadastro do cliente se informado no pedido
+      if (payload.cliente_id && payload.telefone && payload.telefone.trim()) {
+        try {
+          await run(`
+            UPDATE clientes 
+            SET telefone = ? 
+            WHERE id = ? AND (telefone IS NULL OR telefone = '' OR telefone != ?)
+          `, [payload.telefone.trim(), Number(payload.cliente_id), payload.telefone.trim()]);
+        } catch (errCli) {
+          console.warn('[AVISO] Falha ao sincronizar telefone do cliente:', errCli.message);
+        }
+      }
+
 
       // Movimenta Estoque (Reserva se pendente, ou baixa direto se já criado como enviado)
       const itensEstoque = await identificarItensEstoque(payload.itens, payload.itens_detalhados);
@@ -346,7 +360,7 @@ export default async function handler(req, res) {
 
       const camposPossiveis = [
         'cliente_id', 'cliente_nome', 'cidade', 'uf', 'telefone',
-        'itens', 'valor_total', 'status', 'status_texto', 'codigo_rastreio',
+        'itens', 'valor_total', 'valor_frete', 'status', 'status_texto', 'codigo_rastreio',
         'observacoes', 'data_pedido'
       ];
 
@@ -373,6 +387,19 @@ export default async function handler(req, res) {
       params.push(idParam);
 
       await run(`UPDATE pedidos SET ${campos.join(', ')} WHERE id = ?`, params);
+
+      // Auto-atualiza telefone no cadastro do cliente se alterado no PUT
+      if (payload.cliente_id && payload.telefone && payload.telefone.trim()) {
+        try {
+          await run(`
+            UPDATE clientes 
+            SET telefone = ? 
+            WHERE id = ? AND (telefone IS NULL OR telefone = '' OR telefone != ?)
+          `, [payload.telefone.trim(), Number(payload.cliente_id), payload.telefone.trim()]);
+        } catch (errCli) {
+          console.warn('[AVISO] Falha ao sincronizar telefone do cliente (PUT):', errCli.message);
+        }
+      }
 
       // Transição de Estoque quando o status muda
       if (statusAnterior !== novoStatus) {
