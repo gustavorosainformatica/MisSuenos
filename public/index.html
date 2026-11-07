@@ -2343,10 +2343,33 @@
       max-width: 98vw;
       max-height: 96vh;
     }
+    #modal-pedido {
+      padding: 8px !important;
+    }
     #modal-pedido .modal-container {
-      width: min(880px, 95vw);
-      max-width: 98vw;
-      max-height: 94vh;
+      width: 99vw !important;
+      max-width: 99vw !important;
+      height: 96vh !important;
+      max-height: 96vh !important;
+      border-radius: 10px;
+    }
+    #modal-pedido .modal-body {
+      padding: 16px 22px !important;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    #modal-pedido #form-pedido {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    #modal-pedido .erp-table-wrapper {
+      flex: 1 1 auto !important;
+      max-height: none !important;
+      min-height: 140px;
     }
     #modal-produto .modal-container {
       width: min(780px, 95vw);
@@ -6801,7 +6824,7 @@
 
   <!-- MODAL DE CADASTRO / EDIÇÃO DE PEDIDO (REDIMENSIONÁVEL) -->
   <div class="modal-overlay" id="modal-pedido">
-    <div class="modal-container" style="max-width: 880px; width: 95%; max-height: 94vh;">
+    <div class="modal-container" style="width: 99vw; max-width: 99vw; height: 96vh; max-height: 96vh;">
       <div class="modal-resize-handle" data-modal="modal-pedido" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
       <div class="modal-header">
         <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
@@ -6818,50 +6841,58 @@
           <input type="hidden" id="form-ped-cliente-id">
           <input type="hidden" id="form-ped-numero">
 
-          <!-- LINHA 1: CLIENTE (65%) + TELEFONE/WHATSAPP (35%) COM AUTO-SALVAMENTO NO CLIENTE -->
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
-            <div class="form-group">
-              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-                  <span>👤</span> Cliente / Destinatário *
-                </span>
-                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">(Base de clientes ou digite)</span>
-              </label>
-              <div style="position: relative;">
-                <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
-                <datalist id="lista-clientes-datalist">
-                  <!-- Populado via JS com os clientes cadastrados -->
-                </datalist>
-                <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+          <!-- LINHA 1: OS 5 CAMPOS INTEGRADOS LADO A LADO NA MESMA LINHA ÚNICA! -->
+          <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
+            <div style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+              
+              <!-- 1. CLIENTE / DESTINATÁRIO (MAIOR PESO) -->
+              <div class="form-group" style="flex: 1; min-width: 280px;">
+                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                    <span>👤</span> Cliente / Destinatário *
+                  </span>
+                  <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">(Base de clientes ou digite)</span>
+                </label>
+                <div style="position: relative;">
+                  <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
+                  <datalist id="lista-clientes-datalist">
+                    <!-- Populado via JS com os clientes cadastrados -->
+                  </datalist>
+                  <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+                </div>
               </div>
-            </div>
 
-            <div class="form-group">
-              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
-                  <span>📱</span> Telefone / WhatsApp
-                </span>
-                <span style="font-size: 10px; color: #34d399; font-weight: 600;" title="Ao salvar o pedido, atualiza automaticamente na ficha principal do cliente!">
-                  💾 Salva no cliente
-                </span>
-              </label>
-              <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
-            </div>
-          </div>
+              <!-- 2. TELEFONE / WHATSAPP -->
+              <div class="form-group" style="width: 175px; flex-shrink: 0;">
+                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                  <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
+                    <span>📱</span> Telefone / Whats
+                  </span>
+                  <span style="font-size: 9.5px; color: #34d399; font-weight: 600;" title="Ao salvar o pedido, atualiza automaticamente na ficha principal do cliente!">
+                    💾 Salva
+                  </span>
+                </label>
+                <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+              </div>
 
-          <!-- LINHA 2: CIDADE + ESTADO (UF COMPACTO) + DATA DO PEDIDO -->
-          <div style="display: flex; gap: 12px; margin-top: 12px; align-items: flex-end;">
-            <div class="form-group" style="flex: 1;">
-              <label class="form-label">Cidade de Entrega</label>
-              <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega">
-            </div>
-            <div class="form-group" style="width: 70px; flex-shrink: 0;">
-              <label class="form-label" style="text-align: center;">UF</label>
-              <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
-            </div>
-            <div class="form-group" style="width: 140px; flex-shrink: 0;">
-              <label class="form-label" style="text-align: center;">Data do Pedido</label>
-              <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace;">
+              <!-- 3. CIDADE DE ENTREGA -->
+              <div class="form-group" style="width: 220px; flex-shrink: 0;">
+                <label class="form-label" style="margin-bottom: 3px;">Cidade de Entrega</label>
+                <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega">
+              </div>
+
+              <!-- 4. UF (COMPACTO 65PX) -->
+              <div class="form-group" style="width: 65px; flex-shrink: 0;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF</label>
+                <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+              </div>
+
+              <!-- 5. DATA DO PEDIDO -->
+              <div class="form-group" style="width: 130px; flex-shrink: 0;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px;">Data Pedido</label>
+                <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace;">
+              </div>
+
             </div>
           </div>
 
