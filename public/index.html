@@ -7758,76 +7758,119 @@
     </div>
   </div>
 
-  <!-- MODAL DE IMPORTAÇÃO DE XML DE COMPRA NF-e HÍBRIDO OPÇÕES A e B (TICKET 5) -->
+  <!-- MODAL DE IMPORTAÇÃO DE XML DE COMPRA NF-e (MODERNO & MINIMALISTA) -->
   <div class="modal-overlay" id="modal-importar-xml">
-    <div class="modal-container" style="max-width: 960px; width: 96%; max-height: 94vh;">
+    <div class="modal-container" style="max-width: 980px; width: 96%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-importar-xml" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>📥</span>
-          <span>Importar Nota Fiscal de Compra (.XML NF-e) • Fluxo Híbrido (A) e (B)</span>
-        </div>
-        <button class="modal-close-btn" onclick="fecharModalImportarXml()">✕</button>
-      </div>
-      <div class="modal-body">
-        <div style="background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #cbd5e1;">
-          💡 <strong>Como funciona:</strong> Selecione o arquivo <code>.xml</code> da NF-e enviada pelo fornecedor. O sistema extrai automaticamente os dados do <strong>Fornecedor</strong> e as <strong>Duplicatas a Pagar</strong>, permitindo escolher item a item entre <strong>(A) Apenas Despesa/Insumo</strong> ou <strong>(B) Somar no Estoque Físico + Atualizar Custo</strong>.
-        </div>
-
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-          <input type="file" id="xml-file-input" accept=".xml,text/xml" class="form-input" style="flex: 1;" onchange="lerArquivoXmlCompra(this)">
-          <button type="button" class="btn-top btn-row-action" onclick="carregarXmlExemploTeste()">🧪 Carregar XML de Exemplo</button>
-        </div>
-
-        <!-- ÁREA DE PREVIEW DO XML ANALISADO -->
-        <div id="xml-preview-container" style="display: none; flex-direction: column; gap: 16px; margin-top: 8px;">
-          <!-- Resumo Cabeçalho + Fornecedor -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
-              <div style="font-size: 10.5px; font-weight: 800; color: #38bdf8; text-transform: uppercase;">🏢 Fornecedor Extraído (&lt;emit&gt;)</div>
-              <div id="xml-prev-fornecedor-nome" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 4px;">-</div>
-              <div id="xml-prev-fornecedor-doc" style="font-size: 11.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">-</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">📥</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Importação de NF-e | Compra de Mercadorias & Insumos</span>
+              <span class="badge-ped" style="font-size: 10.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 PARSER XML SEFAZ
+              </span>
             </div>
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
-              <div style="font-size: 10.5px; font-weight: 800; color: #34d399; text-transform: uppercase;">🧾 Dados da Nota & Contas a Pagar (&lt;cobr&gt;)</div>
-              <div id="xml-prev-nota-num" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 4px;">-</div>
-              <div id="xml-prev-nota-chave" style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; word-break: break-all;">-</div>
-              <div id="xml-prev-duplicatas" style="font-size: 11px; color: #fbbf24; margin-top: 4px;">-</div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Alimentação de Estoque, Cadastro de Fornecedor e Lançamento de Duplicatas
+            </div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="fecharModalImportarXml()">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
+        
+        <!-- DROPZONE DE ARQUIVO XML COMPACTA E MODERNA -->
+        <div id="xml-dropzone" class="dropzone-box" onclick="document.getElementById('xml-file-input').click()" style="border: 2px dashed #334155; border-radius: 8px; background: rgba(15, 23, 42, 0.6); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; transition: all 0.2s;">
+          <input type="file" id="xml-file-input" accept=".xml,text/xml" style="display: none;" onchange="lerArquivoXmlCompra(this)">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 26px;">📄</span>
+            <div>
+              <div style="font-weight: 700; color: #38bdf8; font-size: 13px;">Arraste o arquivo .XML da NF-e aqui ou clique para selecionar</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Compatível com NF-e Modelo 55 da SEFAZ de qualquer fornecedor nacional</div>
+            </div>
+          </div>
+          <button type="button" class="btn-top btn-row-action" style="white-space: nowrap; font-size: 11.5px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="event.stopPropagation(); carregarXmlExemploTeste();">
+            <span>🧪</span> Carregar XML de Exemplo
+          </button>
+        </div>
+
+        <!-- ÁREA DE CARDS COM DADOS EXTRAÍDOS DO XML -->
+        <div id="xml-preview-container" style="display: none; flex-direction: column; gap: 14px;">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <!-- CARD FORNECEDOR -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
+              <div style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.3px;">
+                🏢 Fornecedor Emitente
+              </div>
+              <div id="xml-prev-fornecedor-nome" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 3px;">-</div>
+              <div id="xml-prev-fornecedor-doc" style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">-</div>
+            </div>
+
+            <!-- CARD DADOS DA NOTA -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-size: 10.5px; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.3px;">
+                  🧾 Dados da NF-e & Faturamento
+                </div>
+                <span id="xml-prev-duplicatas" style="font-size: 10.5px; font-weight: 700; color: #fbbf24;">-</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 3px;">
+                <div id="xml-prev-nota-num" style="font-weight: 800; color: #fff; font-size: 13.5px;">-</div>
+                <div id="xml-prev-nota-valor" style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3px;">
+                <div id="xml-prev-nota-chave" style="font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; word-break: break-all;">-</div>
+                <button type="button" class="btn-top btn-row-action" onclick="copiarChaveXmlImportado()" style="padding: 2px 7px; font-size: 10px; margin-left: 6px;">
+                  📋 Copiar
+                </button>
+              </div>
             </div>
           </div>
 
-          <!-- Tabela de Itens do XML com Seletor Híbrido (A) ou (B) -->
+          <!-- TABELA DE ITENS COM DESTINO NO ESTOQUE -->
           <div>
-            <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 8px;">
-              📦 Itens da Nota Fiscal (&lt;det&gt;) — Escolha o destino de cada item:
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px;">
+                📦 Mercadorias e Insumos da Nota Fiscal (<span id="xml-itens-contagem">0</span> itens):
+              </div>
+              <span style="font-size: 11px; color: #38bdf8; font-weight: 600;">Selecione o destino de estoque de cada item</span>
             </div>
-            <div class="erp-table-wrapper" style="max-height: 280px; overflow-y: auto;">
-              <table class="erp-table">
+
+            <div class="erp-table-wrapper" style="max-height: 260px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px;">
+              <table class="erp-table" style="width: 100%; border-collapse: collapse;">
                 <thead>
                   <tr>
-                    <th>Cód / NCM</th>
-                    <th>Produto no XML</th>
-                    <th style="text-align: center;">Qtd</th>
-                    <th style="text-align: right;">Custo Unit.</th>
-                    <th style="width: 240px;">Ação no Sistema (Opção A ou B)</th>
-                    <th style="width: 220px;">Vincular ao Produto (Se Opção B)</th>
+                    <th style="width: 115px; padding: 8px 10px; font-size: 11px;">NCM / Cód</th>
+                    <th style="padding: 8px 10px; font-size: 11px;">Descrição do Item no XML</th>
+                    <th style="text-align: center; width: 75px; padding: 8px 10px; font-size: 11px;">Qtd</th>
+                    <th style="text-align: right; width: 100px; padding: 8px 10px; font-size: 11px;">Custo Unit.</th>
+                    <th style="text-align: right; width: 105px; padding: 8px 10px; font-size: 11px;">Subtotal</th>
+                    <th style="width: 195px; padding: 8px 10px; font-size: 11px;">Ação de Entrada</th>
+                    <th style="width: 215px; padding: 8px 10px; font-size: 11px;">Vínculo no Catálogo</th>
                   </tr>
                 </thead>
                 <tbody id="xml-itens-preview-body"></tbody>
               </table>
             </div>
           </div>
+
         </div>
+
       </div>
-      <div class="modal-footer">
+
+      <!-- RODAPÉ DO MODAL -->
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>
-        <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-xml" style="display: none;" onclick="confirmarImportacaoXmlCompra()">
-          ✅ Confirmar Importação (Fornecedor + Contas a Pagar + Estoque)
+        <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-xml" style="display: none; font-weight: 800; font-size: 12.5px; padding: 8px 18px;" onclick="confirmarImportacaoXmlCompra()">
+          <span>✅</span> Confirmar Importação & Alimentar Estoque
         </button>
       </div>
     </div>
   </div>
-
 
   <!-- MODAL DE REDEFINIÇÃO ADMINISTRATIVA DE SENHA (GUSTAVO / SUPER ADMIN) -->
   <div id="modal-admin-reset-senha" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000002; align-items: center; justify-content: center; padding: 20px;">
@@ -12015,6 +12058,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     
     // CONTROLADORES DE ABERTURA E FECHAMENTO PARA MODAIS OPERACIONAIS COMPLEMENTARES
+    let dadosXmlImportadoAtual = null;
+
     function abrirModalImportarXml() {
       aplicarTamanhoSalvoModal('modal-importar-xml');
       const modal = document.getElementById('modal-importar-xml');
@@ -12024,9 +12069,268 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         modal.classList.add('active');
       }
     }
+
     function fecharModalImportarXml() {
       const modal = document.getElementById('modal-importar-xml');
       if (modal) modal.classList.remove('active');
+    }
+
+    function copiarChaveXmlImportado() {
+      const chave = (document.getElementById('xml-prev-nota-chave')?.textContent || '').replace(/\s+/g, '');
+      if (chave && navigator.clipboard) {
+        navigator.clipboard.writeText(chave).then(() => mostrarToast('📋 Chave de acesso da NF-e copiada!'));
+      }
+    }
+
+    function processarDadosXmlObjeto(dados) {
+      dadosXmlImportadoAtual = dados;
+      
+      const prevCont = document.getElementById('xml-preview-container');
+      const btnConf = document.getElementById('btn-confirmar-xml');
+      if (prevCont) prevCont.style.display = 'flex';
+      if (btnConf) btnConf.style.display = 'inline-flex';
+
+      // Fornecedor
+      const forNome = document.getElementById('xml-prev-fornecedor-nome');
+      const forDoc = document.getElementById('xml-prev-fornecedor-doc');
+      if (forNome) forNome.textContent = dados.fornecedor.nome;
+      if (forDoc) forDoc.textContent = `CNPJ: ${dados.fornecedor.cnpj} • ${dados.fornecedor.cidade} / ${dados.fornecedor.uf}`;
+
+      // Nota & Duplicatas
+      const notaNum = document.getElementById('xml-prev-nota-num');
+      const notaVal = document.getElementById('xml-prev-nota-valor');
+      const notaChave = document.getElementById('xml-prev-nota-chave');
+      const notaDup = document.getElementById('xml-prev-duplicatas');
+      if (notaNum) notaNum.textContent = `NF-e nº ${dados.nota.numero} • Série ${dados.nota.serie}`;
+      if (notaVal) notaVal.textContent = formatarMoedaPtBr ? formatarMoedaPtBr(dados.nota.valorTotal) : `R$ ${Number(dados.nota.valorTotal).toFixed(2)}`;
+      if (notaChave) notaChave.textContent = dados.nota.chave.replace(/(\d{4})/g, '$1 ').trim();
+      if (notaDup) notaDup.textContent = dados.nota.duplicatasInfo || '1 Duplicata (30 dias)';
+
+      // Itens
+      const tbody = document.getElementById('xml-itens-preview-body');
+      const countEl = document.getElementById('xml-itens-contagem');
+      if (countEl) countEl.textContent = dados.itens.length;
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      dados.itens.forEach((it, idx) => {
+        const tr = document.createElement('tr');
+        
+        // Montar opções de vínculo com produtos existentes do ERP
+        let optsProdutos = '<option value="NOVO">+ Cadastrar Novo Produto</option>';
+        if (Array.isArray(produtos)) {
+          produtos.forEach(p => {
+            const sel = (it.nome && p.nome && (p.nome.toLowerCase().includes(it.nome.toLowerCase().slice(0, 10)) || it.nome.toLowerCase().includes(p.nome.toLowerCase().slice(0, 10)))) ? 'selected' : '';
+            optsProdutos += `<option value="${p.id}" ${sel}>${p.nome} (Estoque: ${p.estoqueAtual || 0})</option>`;
+          });
+        }
+
+        tr.innerHTML = `
+          <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; font-size: 11px;">${it.ncm || '-'}</td>
+          <td>
+            <strong style="color: #fff; font-size: 12px;">${it.nome}</strong>
+            <div style="font-size: 10.5px; color: var(--text-muted);">Un: ${it.unidade || 'UN'} • Cód: ${it.codigo || '-'}</div>
+          </td>
+          <td style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;">${it.quantidade} ${it.unidade || 'un'}</td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px;">R$ ${Number(it.valorUnitario).toFixed(2).replace('.', ',')}</td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; font-size: 12px;">R$ ${Number(it.valorTotal).toFixed(2).replace('.', ',')}</td>
+          <td>
+            <select class="form-input erp-select" id="xml-acao-item-${idx}" style="font-size: 11px; padding: 4px 8px;" onchange="alternarAcaoItemXml(${idx})">
+              <option value="ESTOQUE" ${it.acaoSugerida === 'ESTOQUE' ? 'selected' : ''}>🟢 Somar ao Estoque</option>
+              <option value="DESPESA" ${it.acaoSugerida === 'DESPESA' ? 'selected' : ''}>⚪ Apenas Despesa / Insumo</option>
+            </select>
+          </td>
+          <td>
+            <select class="form-input erp-select" id="xml-vinculo-item-${idx}" style="font-size: 11px; padding: 4px 8px;">
+              ${optsProdutos}
+            </select>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function alternarAcaoItemXml(idx) {
+      const acaoSel = document.getElementById(`xml-acao-item-${idx}`);
+      const vincSel = document.getElementById(`xml-vinculo-item-${idx}`);
+      if (acaoSel && vincSel) {
+        if (acaoSel.value === 'DESPESA') {
+          vincSel.disabled = true;
+          vincSel.style.opacity = '0.4';
+        } else {
+          vincSel.disabled = false;
+          vincSel.style.opacity = '1';
+        }
+      }
+    }
+
+    function carregarXmlExemploTeste() {
+      const exemploDados = {
+        fornecedor: {
+          nome: 'CURTUME MINUANO LTDA',
+          cnpj: '92.834.120/0001-45',
+          cidade: 'Lindolfo Collor',
+          uf: 'RS'
+        },
+        nota: {
+          numero: '004.819',
+          serie: '1',
+          chave: '43261092834120000145550010000048191084729104',
+          valorTotal: 4250.00,
+          duplicatasInfo: '1 Duplicata (Venc: 30 dias)'
+        },
+        itens: [
+          {
+            codigo: '1048',
+            ncm: '4106.31.10',
+            nome: 'PELE DE CABRITO CRUA TRATADA 1ª LINHA',
+            unidade: 'PC',
+            quantidade: 50,
+            valorUnitario: 65.00,
+            valorTotal: 3250.00,
+            acaoSugerida: 'ESTOQUE'
+          },
+          {
+            codigo: '2011',
+            ncm: '3208.90.10',
+            nome: 'VERNIZ ACRÍLICO FOSCO ESPECIAL PARA COUROS',
+            unidade: 'GL',
+            quantidade: 10,
+            valorUnitario: 100.00,
+            valorTotal: 1000.00,
+            acaoSugerida: 'DESPESA'
+          }
+        ]
+      };
+
+      processarDadosXmlObjeto(exemploDados);
+      mostrarToast('🧪 XML de Exemplo (Curtume Minuano Ltda) carregado com sucesso!');
+    }
+
+    function lerArquivoXmlCompra(input) {
+      const file = input?.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const xmlText = e.target.result;
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+          const emit = xmlDoc.querySelector('emit');
+          const ide = xmlDoc.querySelector('ide');
+          const total = xmlDoc.querySelector('total ICMSTot');
+          const infNFe = xmlDoc.querySelector('infNFe');
+          const dets = xmlDoc.querySelectorAll('det');
+
+          if (!emit || !ide) {
+            mostrarToast('Arquivo XML inválido ou não compatível com NF-e.');
+            return;
+          }
+
+          const fornecedor = {
+            nome: emit.querySelector('xNome')?.textContent || 'Fornecedor Identificado',
+            cnpj: emit.querySelector('CNPJ')?.textContent || emit.querySelector('CPF')?.textContent || '-',
+            cidade: emit.querySelector('enderEmit xMun')?.textContent || 'Cidade',
+            uf: emit.querySelector('enderEmit UF')?.textContent || 'RS'
+          };
+
+          const chaveRaw = infNFe?.getAttribute('Id') || '';
+          const chave = chaveRaw.replace(/^NFe/, '') || '43261195500000019055001000001044198274610293';
+
+          const valorTotNum = parseFloat(total?.querySelector('vNF')?.textContent || '0') || 0;
+          const dupVenc = xmlDoc.querySelector('cobr dup dVenc')?.textContent || '30 dias';
+
+          const itens = [];
+          dets.forEach((det, i) => {
+            const prod = det.querySelector('prod');
+            if (prod) {
+              const qCom = parseFloat(prod.querySelector('qCom')?.textContent || '1') || 1;
+              const vUn = parseFloat(prod.querySelector('vUnCom')?.textContent || '0') || 0;
+              const vProd = parseFloat(prod.querySelector('vProd')?.textContent || '0') || (qCom * vUn);
+              itens.push({
+                codigo: prod.querySelector('cProd')?.textContent || String(i + 1),
+                ncm: prod.querySelector('NCM')?.textContent || '-',
+                nome: prod.querySelector('xProd')?.textContent || 'Mercadoria',
+                unidade: prod.querySelector('uCom')?.textContent || 'UN',
+                quantidade: qCom,
+                valorUnitario: vUn,
+                valorTotal: vProd,
+                acaoSugerida: 'ESTOQUE'
+              });
+            }
+          });
+
+          const dadosExtraidos = {
+            fornecedor,
+            nota: {
+              numero: ide.querySelector('nNF')?.textContent || '001',
+              serie: ide.querySelector('serie')?.textContent || '1',
+              chave,
+              valorTotal: valorTotNum,
+              duplicatasInfo: `Vencimento: ${dupVenc}`
+            },
+            itens
+          };
+
+          processarDadosXmlObjeto(dadosExtraidos);
+          mostrarToast(`📄 NF-e #${dadosExtraidos.nota.numero} do fornecedor carregada!`);
+        } catch (err) {
+          console.error('[XML] Erro ao ler XML:', err);
+          mostrarToast('Falha ao processar arquivo XML da NF-e.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function confirmarImportacaoXmlCompra() {
+      if (!dadosXmlImportadoAtual) {
+        mostrarToast('Carregue um arquivo XML antes de confirmar.');
+        return;
+      }
+
+      let itensSomadosEstoque = 0;
+      let despesasLancadas = 0;
+
+      dadosXmlImportadoAtual.itens.forEach((it, idx) => {
+        const acao = document.getElementById(`xml-acao-item-${idx}`)?.value || it.acaoSugerida;
+        const vincId = document.getElementById(`xml-vinculo-item-${idx}`)?.value;
+
+        if (acao === 'ESTOQUE') {
+          itensSomadosEstoque++;
+          // Atualizar produto existente no catálogo
+          if (vincId && vincId !== 'NOVO' && Array.isArray(produtos)) {
+            const p = produtos.find(pr => String(pr.id) === String(vincId));
+            if (p) {
+              p.estoqueAtual = (Number(p.estoqueAtual) || 0) + Number(it.quantidade);
+              if (it.valorUnitario > 0) p.custoUnitario = Number(it.valorUnitario);
+            }
+          }
+        } else {
+          despesasLancadas++;
+        }
+      });
+
+      // Lançar contas a pagar no financeiro se houver valor
+      if (dadosXmlImportadoAtual.nota.valorTotal > 0 && Array.isArray(financeiroLancamentos)) {
+        financeiroLancamentos.unshift({
+          id: Date.now(),
+          tipo: 'PAGAR',
+          descricao: `Compra Fornecedor NF-e #${dadosXmlImportadoAtual.nota.numero} (${dadosXmlImportadoAtual.fornecedor.nome})`,
+          valor: dadosXmlImportadoAtual.nota.valorTotal,
+          categoria: 'Insumos / Matéria-Prima',
+          formaPagamento: 'Boleto / Duplicata',
+          dataVencimento: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+          status: 'PENDENTE'
+        });
+        if (typeof renderizarFinanceiro === 'function') renderizarFinanceiro();
+      }
+
+      if (typeof renderizarEstoque === 'function') renderizarEstoque();
+
+      mostrarToast(`✅ Sucesso! ${itensSomadosEstoque} itens somados ao estoque e contas a pagar agendado!`);
+      fecharModalImportarXml();
     }
 
     
