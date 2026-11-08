@@ -7579,14 +7579,12 @@
                   <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px; white-space: nowrap;">
                     <span>👤</span> Cliente / Destinatário *
                   </span>
-                  <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">(Base ou digite)</span>
+                  <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Base oficial ou avulso</span>
                 </label>
-                <div style="position: relative;">
-                  <input type="text" class="form-input" id="form-ped-cliente-nome" list="lista-clientes-datalist" required placeholder="Digite o nome do cliente..." onchange="aoSelecionarClientePedido(this.value)" oninput="aoSelecionarClientePedido(this.value)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
-                  <datalist id="lista-clientes-datalist">
-                    <!-- Populado via JS com os clientes cadastrados -->
-                  </datalist>
-                  <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+                <div style="position: relative;" id="wrap-autocomplete-cliente-ped">
+                  <input type="text" class="form-input" id="form-ped-cliente-nome" autocomplete="off" required placeholder="Digite o nome do cliente (busca sem acentos)..." oninput="filtrarSugestoesClientesPedido(this.value)" onfocus="filtrarSugestoesClientesPedido(this.value)" onkeydown="aoTeclarClientePedido(event)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
+                  <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">🔍</span>
+                  <div id="autocomplete-clientes-pedido" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #0f172a; border: 1px solid #38bdf8; border-radius: 8px; box-shadow: 0 12px 35px rgba(0,0,0,0.85); max-height: 240px; overflow-y: auto; z-index: 10000; display: none;"></div>
                 </div>
               </div>
 
@@ -10096,7 +10094,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const cli = (Array.isArray(clientes) ? clientes : []).find(c => {
         if (!c || !c.nome) return false;
         const nomeNorm = normalizarTextoBusca(c.nome);
-        const razaoNorm = normalizarTextoBusca(c.razao_social);
+        const razaoNorm = normalizarTextoBusca(c.razao_social || '');
         return nomeNorm === digitadoNorm || razaoNorm === digitadoNorm;
       });
       if (cli) {
@@ -10111,6 +10109,152 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         atualizarBadgesObsEPreferencias();
       }
     }
+
+    // ========================================================
+    // AUTOCOMPLETE INTELIGENTE DE CLIENTES (INSENSÍVEL A ACENTOS)
+    // ========================================================
+    let indiceSelecaoAutocompleteCli = -1;
+    let sugestoesClientesAtuais = [];
+
+    function filtrarSugestoesClientesPedido(termo) {
+      const wrap = document.getElementById('autocomplete-clientes-pedido');
+      if (!wrap) return;
+
+      const termoNorm = normalizarTextoBusca(termo);
+      if (!termoNorm || termoNorm.length < 1) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+        sugestoesClientesAtuais = [];
+        indiceSelecaoAutocompleteCli = -1;
+        aoSelecionarClientePedido(termo);
+        return;
+      }
+
+      const lista = (Array.isArray(clientes) ? clientes : []);
+      sugestoesClientesAtuais = lista.filter(c => {
+        if (!c || !c.nome) return false;
+        const nome = normalizarTextoBusca(c.nome);
+        const razao = normalizarTextoBusca(c.razao_social || '');
+        const doc = normalizarTextoBusca(c.cpf || c.cnpj || '');
+        const cid = normalizarTextoBusca(c.cidade || '');
+        return nome.includes(termoNorm) || razao.includes(termoNorm) || doc.includes(termoNorm) || cid.includes(termoNorm);
+      }).slice(0, 15);
+
+      if (sugestoesClientesAtuais.length === 0) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+        indiceSelecaoAutocompleteCli = -1;
+        aoSelecionarClientePedido(termo);
+        return;
+      }
+
+      wrap.innerHTML = sugestoesClientesAtuais.map((c, idx) => {
+        const local = [c.cidade, c.uf].filter(Boolean).join(' - ');
+        const doc = c.cpf || c.cnpj || '';
+        const detalhe = [local, doc].filter(Boolean).join(' · ');
+        return `
+          <div class="item-autocomplete-cli" data-idx="${idx}" onclick="selecionarClienteDoAutocomplete(${idx})" style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.06); transition: background 0.15s; display: flex; justify-content: space-between; align-items: center;">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;">
+              <div style="font-size: 13px; font-weight: 700; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.nome}</div>
+              ${c.razao_social && c.razao_social !== c.nome ? `<div style="font-size: 11px; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.razao_social}</div>` : ''}
+            </div>
+            <div style="font-size: 11px; color: #38bdf8; text-align: right; font-family: 'JetBrains Mono', monospace; flex-shrink: 0; margin-left: 8px;">
+              ${detalhe}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      wrap.style.display = 'block';
+      indiceSelecaoAutocompleteCli = -1;
+      aoSelecionarClientePedido(termo);
+    }
+
+    function aoTeclarClientePedido(e) {
+      const wrap = document.getElementById('autocomplete-clientes-pedido');
+      if (!wrap || wrap.style.display === 'none') {
+        if (e.key === 'Enter') {
+          aoSelecionarClientePedido(e.target.value);
+        }
+        return;
+      }
+
+      const items = wrap.querySelectorAll('.item-autocomplete-cli');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        indiceSelecaoAutocompleteCli = (indiceSelecaoAutocompleteCli + 1) % items.length;
+        atualizarDestaqueAutocompleteCli(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        indiceSelecaoAutocompleteCli = (indiceSelecaoAutocompleteCli - 1 + items.length) % items.length;
+        atualizarDestaqueAutocompleteCli(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (indiceSelecaoAutocompleteCli >= 0 && indiceSelecaoAutocompleteCli < sugestoesClientesAtuais.length) {
+          selecionarClienteDoAutocomplete(indiceSelecaoAutocompleteCli);
+        } else if (items.length > 0) {
+          selecionarClienteDoAutocomplete(0);
+        }
+      } else if (e.key === 'Escape') {
+        wrap.style.display = 'none';
+      }
+    }
+
+    function atualizarDestaqueAutocompleteCli(items) {
+      items.forEach((it, idx) => {
+        if (idx === indiceSelecaoAutocompleteCli) {
+          it.style.background = '#1e293b';
+          it.style.borderLeft = '3px solid #38bdf8';
+          it.scrollIntoView({ block: 'nearest' });
+        } else {
+          it.style.background = 'transparent';
+          it.style.borderLeft = 'none';
+        }
+      });
+    }
+
+    function selecionarClienteDoAutocomplete(idx) {
+      const cli = sugestoesClientesAtuais[idx];
+      if (!cli) return;
+
+      const inp = document.getElementById('form-ped-cliente-nome');
+      if (inp) inp.value = cli.nome || '';
+
+      const idEl = document.getElementById('form-ped-cliente-id');
+      const cidEl = document.getElementById('form-ped-cidade');
+      const ufEl = document.getElementById('form-ped-uf');
+      const telEl = document.getElementById('form-ped-telefone');
+
+      if (idEl) idEl.value = cli.id || '';
+      if (cidEl) cidEl.value = cli.cidade || '';
+      if (ufEl) ufEl.value = (cli.uf || 'RS').toUpperCase();
+      if (telEl) telEl.value = cli.telefone || '';
+
+      const wrap = document.getElementById('autocomplete-clientes-pedido');
+      if (wrap) {
+        wrap.style.display = 'none';
+        wrap.innerHTML = '';
+      }
+      sugestoesClientesAtuais = [];
+      indiceSelecaoAutocompleteCli = -1;
+
+      atualizarBadgesObsEPreferencias();
+
+      // Pula o foco suavemente para o campo de produtos
+      const prodInp = document.getElementById('ped-add-produto-input');
+      if (prodInp) prodInp.focus();
+    }
+
+    // Fechar autocomplete ao clicar fora
+    document.addEventListener('click', (e) => {
+      const wrap = document.getElementById('wrap-autocomplete-cliente-ped');
+      const dropdown = document.getElementById('autocomplete-clientes-pedido');
+      if (dropdown && wrap && !wrap.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
 
     // ========================================================
     // GESTÃO DINÂMICA DE ITENS DO PEDIDO (ADICIONAR / ALTERAR / EXCLUIR)
