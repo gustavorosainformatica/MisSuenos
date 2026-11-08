@@ -82,16 +82,16 @@
   - [x] #6: `modal-ficha-kardex` (Concluído)
   - [x] #7: `modal-rastreamento-pedido` (Concluído)
   - [x] #8: `modal-fiscal` (Concluído - SW v42)
-  - [ ] **#9: `modal-pacote-contador` (Fechamento Fiscal Mensal)**
-  - [ ] #10: `modal-importar-xml` (Importação NF-e XML de Compras)
+  - [x] #9: `modal-pacote-contador` (Concluído - SW v43)
+  - [ ] **#10: `modal-importar-xml` (Importação NF-e XML de Compras)**
   - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
 
 ---
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #9 - Pacote do Contador / Fechamento Fiscal Mensal (`modal-pacote-contador`):**
-  - Mapear a estrutura atual do modal `modal-pacote-contador` no `index.html`.
-  - Aplicar a Diretriz Oficial Minimalista (zero parênteses redundantes/didáticos, seletores claros de mês/ano, métricas de fechamento e download consolidado de ZIP de XMLs e Relatórios).
-  - Gerar artefato visual interativo `proposta_modernizacao_pacote_contador.html` e submeter para aprovação do Gustavo.
-  - Implementar, validar, bump SW v43, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **1. Janela #10 - Importação de NF-e XML de Compras (`modal-importar-xml`):**
+  - Mapear a estrutura atual do modal `modal-importar-xml` no `index.html`.
+  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, drag & drop moderno de arquivo XML, extração de dados do fornecedor, chave de 44 dígitos, itens de compra e atualização automática de estoque com cálculo de custo).
+  - Gerar artefato visual interativo `proposta_modernizacao_importar_xml.html` e submeter para aprovação do Gustavo.
+  - Implementar, validar, bump SW v44, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
