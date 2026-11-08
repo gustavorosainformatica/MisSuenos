@@ -127,3 +127,4 @@ test('8. Parser de Itens Legados em Texto', () => {
   assert.strictEqual(itens[1].preco, 90);
   assert.strictEqual(itens[1].subtotal, 180);
 });
+
