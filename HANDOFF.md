@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 15:13 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Suíte de Testes Automatizados TDD Ativa (SW v54)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v54)
+> **Data de Atualização:** 08 de Novembro de 2026 — 15:23 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Suíte Completa de Testes de Regressão (/tdd) (SW v55)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v55)
 
 ---
 
@@ -14,20 +14,22 @@
 
 ---
 
-## 2. Suíte de Testes Automatizados (/tdd) - Blindagem Completa dos Cálculos
+## 2. Suíte de Testes Automatizados (/tdd) - Blindagem Completa dos Pedidos
 
-Implementação da biblioteca central de cálculos (`lib/calculos_erp.js`) e suíte de testes unitários com o Node.js Test Runner nativo (`tests/calculos.test.js` executável via `npm test`):
+Criados dois arquivos de testes unitários com o *Node.js Test Runner* nativo (`tests/calculos.test.js` e `tests/pedidos.test.js`), executáveis via `npm test`:
 
-1. **Caso Clássico Gustavo:** Pele Caprina (R$ 115,00) + Frete (R$ 30,00) = R$ 145,00.
-2. **Múltiplos Itens com Fracionados e Centavos:** Soma de produtos compostos e frete em formato brasileiro `R$ 25,00`.
-3. **Frete Zero / Não Informado:** Preservação integral do subtotal de itens sem sobrescrita.
-4. **Lista de Itens Vazia:** Preservação do valor exclusivo do frete (R$ 40,00).
-5. **Formatação e Desformatação Monetária Brasileira:** Conversão bidirecional segura (`1.250,75` ➔ `1250.75` e `145` ➔ `145,00`).
-6. **Margem Bruta do Produto:** Cálculo preciso de Margem em R$ e % com proteção contra divisão por zero.
-7. **Ajuste de Estoque:** Operações de Entrada (+5), Saída (-4) e Balanço Físico (+4 / -3).
-8. **Parser de Itens Legados com Centavos:** Blindagem da regex contra quebra de decimais (`/;,\\n,+,\\,(?!\\d)/`).
+### Cenários Cobertos em `tests/pedidos.test.js`:
+1. **Regressão 01 (Caso Gustavo):** 1x Pele Caprina (R$ 115,00) + Frete (R$ 30,00) = R$ 145,00.
+2. **Regressão 02 (Adição de Item com Frete):** Frete existente R$ 30,00 + novo item R$ 50,00 = R$ 195,00.
+3. **Regressão 03 (Alteração do Frete):** R$ 30 ➔ R$ 45 ➔ R$ 60 com produtos já lançados.
+4. **Regressão 04 (Zerar Frete):** Frete vazio/zero não afeta o subtotal dos produtos.
+5. **Regressão 05 (Alteração de Quantidade):** `+` e `-` recalculando subtotal e total com frete.
+6. **Regressão 06 (Preço Unitário Negociado):** Alteração de unitário refletindo no total.
+7. **Regressão 07 (Exclusão de Itens):** Remoção na lixeira recalculando o pedido imediatamente.
+8. **Regressão 08 (Precisão Decimal & Centavos):** Quantidades fracionadas (2.5 un) e centavos reais.
+9. **Regressão 09 (Serialização & Deserialização):** Conversão texto ➔ array ➔ texto sem perda de integridade.
 
-Resultado da Execução: **8 de 8 testes passando (100% Verde em ~185ms)**.
+Resultado Consolidado: **17 de 17 testes passando com 100% de sucesso em ~252ms**.
 
 ---
 
@@ -57,10 +59,10 @@ Resultado da Execução: **8 de 8 testes passando (100% Verde em ~185ms)**.
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`7d01dfb`](https://github.com/gustavorosainformatica/MisSuenos/commit/7d01dfb)
-  - Service Worker: `missuenos-pwa-v54` ativo.
-  - ETag da Produção: `"3ef14c921b4d42ead038ff868e2f4455"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`ec777f1`](https://github.com/gustavorosainformatica/MisSuenos/commit/ec777f1)
+  - Service Worker: `missuenos-pwa-v55` ativo.
+  - ETag da Produção: `"8863b832808d885965837cce5e8f7488"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `7d01dfb` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `4763711` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `5588907` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `ec777f1` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `a09b3f0` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `742714c` na branch `main`).
