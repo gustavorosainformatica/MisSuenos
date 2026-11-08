@@ -6,6 +6,7 @@
   "main": "scripts/servidor_web.js",
   "type": "module",
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "web": "node scripts/servidor_web.js",
     "web:infisical": "infisical run --silent -- node scripts/servidor_web.js",
     "promover:prod": "node scripts/promover_producao.js",

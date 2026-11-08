@@ -10263,7 +10263,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     function parseTextoParaItens(textoItens, valorTotal) {
       if (!textoItens || typeof textoItens !== 'string') return [];
-      const partes = textoItens.split(/[,;\n+]|\s*\+\s*/).map(s => s.trim()).filter(Boolean);
+      // Divide por ponto-e-vírgula, quebra de linha, sinal de adição ou vírgula que não seja decimal
+      const partes = textoItens.split(/;|\n|\+|\,(?!\d)/).map(s => s.trim()).filter(Boolean);
       const resultado = [];
 
       for (const parte of partes) {
