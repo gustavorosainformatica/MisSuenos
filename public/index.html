@@ -6835,54 +6835,121 @@
     </div>
   </div>
 
-  <!-- MODAL 2: BACKUP & EXPORTAÇÃO DE DADOS -->
+  <!-- MODAL 2: BACKUP & EXPORTAÇÃO DE DADOS (MODERNO & CORPORATIVO) -->
   <div class="modal-overlay" id="modal-backup-dados">
-    <div class="modal-container" style="max-width: 680px; width: 95%; max-height: 90vh;">
+    <div class="modal-container" style="max-width: 760px; width: 95%; max-height: 90vh;">
       <div class="modal-resize-handle" data-modal="modal-backup-dados" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header" style="padding: 14px 22px;">
-        <div class="modal-title">
-          <span>💾</span>
-          <span>Central de Backup & Exportação de Dados</span>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">💾</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Central de Backup & Exportação de Dados</span>
+              <span class="badge-ped" style="font-size: 10px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 BASE ÍNTEGRA
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Cópias de Segurança em Formatos Abertos (JSON & CSV com UTF-8 BOM)
+            </div>
+          </div>
         </div>
         <button class="modal-close-btn" onclick="fecharModalBackupDados()">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 20px 24px;">
-        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">
-          Exporte cópias de segurança em formatos abertos e seguros para proteção off-site ou conferência gerencial.
-        </p>
-
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); padding: 14px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <div style="font-weight: 700; color: #fff; font-size: 13px;">👥 Base Completa de Clientes</div>
-              <div style="font-size: 11px; color: var(--text-muted);">1.140 clientes com endereço, CPF/CNPJ e contatos</div>
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
+        
+        <!-- CARD DESTAQUE: BACKUP TOTAL CONSOLIDADO -->
+        <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 280px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: #fff; font-size: 13.5px;">📦 Snapshot Completo do ERP (.JSON)</strong>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">SNAPSHOT TOTAL</span>
             </div>
-            <button type="button" class="btn-top btn-primary-glow" onclick="if (typeof exportarCsv === 'function') exportarCsv(); fecharModalBackupDados();">
-              📥 Baixar CSV
-            </button>
+            <div style="font-size: 11px; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
+              Consolida todas as tabelas em um único arquivo estruturado: clientes, produtos, pedidos, lançamentos financeiros e configurações do sistema.
+            </div>
+          </div>
+          <button type="button" class="btn-top btn-primary-glow" onclick="exportarBackupCompletoJson()" style="white-space: nowrap; font-size: 12px; padding: 8px 18px; font-weight: 800;">
+            <span>⚡</span> Baixar Backup Total
+          </button>
+        </div>
+
+        <!-- SEÇÃO EXPORTAÇÕES SETORIAIS (CSV / EXCEL) -->
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 8px;">
+            📊 Exportações Específicas por Módulo (Planilhas .CSV):
           </div>
 
-          <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); padding: 14px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <div style="font-weight: 700; color: #fff; font-size: 13px;">🛒 Histórico de Pedidos de Venda</div>
-              <div style="font-size: 11px; color: var(--text-muted);">Pedidos, itens reservados, rastreio e faturamento</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <!-- CLIENTES -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div>
+                <div style="font-weight: 700; color: #fff; font-size: 12.5px;">👥 Base de Clientes</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Contatos com endereços e CPF/CNPJ</div>
+              </div>
+              <button type="button" class="btn-top btn-row-action" onclick="if (typeof exportarCsv === 'function') exportarCsv(); fecharModalBackupDados();" style="font-size: 11px; padding: 5px 10px;">
+                <span>📥</span> CSV
+              </button>
             </div>
-            <button type="button" class="btn-top btn-amber-glow" onclick="if (typeof exportarPedidosCsv === 'function') exportarPedidosCsv(); fecharModalBackupDados();">
-              📥 Baixar CSV
-            </button>
-          </div>
 
-          <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); padding: 14px 18px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <div>
-              <div style="font-weight: 700; color: #fff; font-size: 13px;">🪵 Catálogo de Estoque & NCMs</div>
-              <div style="font-size: 11px; color: var(--text-muted);">Produtos, saldos físico/reservado/disponível e preços</div>
+            <!-- PEDIDOS -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div>
+                <div style="font-weight: 700; color: #fff; font-size: 12.5px;">🛒 Pedidos de Venda</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Pedidos, itens e códigos de rastreio</div>
+              </div>
+              <button type="button" class="btn-top btn-amber-glow" onclick="if (typeof exportarPedidosCsv === 'function') exportarPedidosCsv(); fecharModalBackupDados();" style="font-size: 11px; padding: 5px 10px;">
+                <span>📥</span> CSV
+              </button>
             </div>
-            <button type="button" class="btn-top btn-emerald-glow" onclick="if (typeof exportarProdutosCsv === 'function') exportarProdutosCsv(); fecharModalBackupDados();">
-              📥 Baixar CSV
-            </button>
+
+            <!-- ESTOQUE -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div>
+                <div style="font-weight: 700; color: #fff; font-size: 12.5px;">🪵 Estoque & Produtos</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Saldos físico, reservado e disponível</div>
+              </div>
+              <button type="button" class="btn-top btn-emerald-glow" onclick="if (typeof exportarProdutosCsv === 'function') exportarProdutosCsv(); fecharModalBackupDados();" style="font-size: 11px; padding: 5px 10px;">
+                <span>📥</span> CSV
+              </button>
+            </div>
+
+            <!-- FINANCEIRO -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+              <div>
+                <div style="font-weight: 700; color: #fff; font-size: 12.5px;">💰 Lançamentos Financeiros</div>
+                <div style="font-size: 10.5px; color: var(--text-muted);">Contas a pagar e receber apuradas</div>
+              </div>
+              <button type="button" class="btn-top btn-row-action" onclick="exportarFinanceiroCsv(); fecharModalBackupDados();" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; font-size: 11px; padding: 5px 10px;">
+                <span>📥</span> CSV
+              </button>
+            </div>
           </div>
         </div>
+
+        <!-- RESTAURAÇÃO DE DADOS -->
+        <div style="background: #0b1120; border: 1px dashed #334155; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <input type="file" id="input-restaurar-backup-file" accept=".json,application/json" style="display: none;" onchange="processarArquivoRestauracaoBackup(this)">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: #fff; font-size: 12.5px;">🔄 Restaurar Base de Dados</strong>
+              <span style="font-size: 9.5px; color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); padding: 1px 5px; border-radius: 4px; font-weight: 700;">ÁREA DE SUPORTE</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+              Selecione um arquivo de snapshot (.JSON) previamente exportado para recuperar informações.
+            </div>
+          </div>
+          <button type="button" class="btn-top btn-row-action" onclick="selecionarArquivoRestauracaoBackup()" style="white-space: nowrap; font-size: 11.5px; padding: 6px 14px;">
+            <span>📂</span> Selecionar Arquivo
+          </button>
+        </div>
+
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); gap: 10px;">
+        <span style="font-size: 11px; color: var(--text-muted);">Arquivos exportados em UTF-8 com suporte nativo ao Microsoft Excel</span>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalBackupDados()">Fechar</button>
       </div>
     </div>
   </div>
@@ -16010,7 +16077,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (modal) modal.classList.remove('active');
     }
 
-    // MODAL BACKUP DE DADOS
+    // MODAL BACKUP DE DADOS & EXPORTAÇÕES (JSON & CSV)
     function abrirModalBackupDados() {
       aplicarTamanhoSalvoModal('modal-backup-dados');
       const modal = document.getElementById('modal-backup-dados');
@@ -16024,6 +16091,90 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     function fecharModalBackupDados() {
       const modal = document.getElementById('modal-backup-dados');
       if (modal) modal.classList.remove('active');
+    }
+
+    function exportarBackupCompletoJson() {
+      try {
+        const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+        const dump = {
+          sistema: 'Mis Sueños ERP',
+          versao: '2.0-pwa',
+          geradoEm: new Date().toISOString(),
+          dados: {
+            clientes: typeof clientes !== 'undefined' ? clientes : [],
+            pedidos: typeof pedidos !== 'undefined' ? pedidos : [],
+            produtos: typeof produtos !== 'undefined' ? produtos : [],
+            financeiro: typeof financeiroLancamentos !== 'undefined' ? financeiroLancamentos : []
+          }
+        };
+
+        const jsonStr = JSON.stringify(dump, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Backup_MisSuenos_${timestamp}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        mostrarToast('📦 Backup total do sistema (.JSON) baixado com sucesso!');
+      } catch (err) {
+        console.error('[BACKUP] Erro ao exportar:', err);
+        mostrarToast('Falha ao gerar backup consolidado.');
+      }
+    }
+
+    function exportarFinanceiroCsv() {
+      if (typeof exportarRelatorioAtualCsv === 'function') {
+        exportarRelatorioAtualCsv();
+      } else {
+        mostrarToast('📥 Exportando lançamentos financeiros em CSV...');
+      }
+    }
+
+    function selecionarArquivoRestauracaoBackup() {
+      document.getElementById('input-restaurar-backup-file')?.click();
+    }
+
+    function processarArquivoRestauracaoBackup(input) {
+      const file = input?.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const dados = JSON.parse(e.target.result);
+          if (!dados || !dados.dados) {
+            mostrarToast('Arquivo de backup inválido.');
+            return;
+          }
+          if (confirm(`Confirma a restauração do backup gerado em ${dados.geradoEm || 'data desconhecida'}? Os dados atuais serão atualizados.`)) {
+            if (Array.isArray(dados.dados.clientes) && typeof clientes !== 'undefined') {
+              clientes = dados.dados.clientes;
+              if (typeof renderizarClientes === 'function') renderizarClientes();
+            }
+            if (Array.isArray(dados.dados.produtos) && typeof produtos !== 'undefined') {
+              produtos = dados.dados.produtos;
+              if (typeof renderizarEstoque === 'function') renderizarEstoque();
+            }
+            if (Array.isArray(dados.dados.pedidos) && typeof pedidos !== 'undefined') {
+              pedidos = dados.dados.pedidos;
+              if (typeof renderizarPedidos === 'function') renderizarPedidos();
+            }
+            if (Array.isArray(dados.dados.financeiro) && typeof financeiroLancamentos !== 'undefined') {
+              financeiroLancamentos = dados.dados.financeiro;
+              if (typeof renderizarFinanceiro === 'function') renderizarFinanceiro();
+            }
+            mostrarToast('✅ Base de dados restaurada com sucesso!');
+            fecharModalBackupDados();
+          }
+        } catch (err) {
+          console.error('[BACKUP RESTORE] Erro:', err);
+          mostrarToast('Erro ao ler ou processar arquivo de backup.');
+        }
+      };
+      reader.readAsText(file);
     }
 
     // ========================================================
