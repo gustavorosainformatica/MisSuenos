@@ -83,15 +83,21 @@
   - [x] #7: `modal-rastreamento-pedido` (Concluído)
   - [x] #8: `modal-fiscal` (Concluído - SW v42)
   - [x] #9: `modal-pacote-contador` (Concluído - SW v43)
-  - [ ] **#10: `modal-importar-xml` (Importação NF-e XML de Compras)**
-  - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
+  - [x] #10: `modal-importar-xml` (Concluído - SW v44)
+  - [ ] **#11: `modal-usuario-rbac` (Gestão de Usuários & Permissões RBAC)**
+  - [ ] #12: `modal-admin-reset-senha` (Redefinição Administrativa de Senha)
+  - [ ] #13: `modal-armazenamento-quotas` (Cotas de Armazenamento e Limites)
+  - [ ] #14: `modal-backup-dados` (Backup & Restauração de Dados)
+  - [ ] #15: `modal-personalizar-colunas` (Personalização de Colunas das Tabelas)
+  - [ ] #16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)
+  - [ ] #17: `modal-changelog` (Notas de Atualização do ERP)
 
 ---
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #10 - Importação de NF-e XML de Compras (`modal-importar-xml`):**
-  - Mapear a estrutura atual do modal `modal-importar-xml` no `index.html`.
-  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, drag & drop moderno de arquivo XML, extração de dados do fornecedor, chave de 44 dígitos, itens de compra e atualização automática de estoque com cálculo de custo).
-  - Gerar artefato visual interativo `proposta_modernizacao_importar_xml.html` e submeter para aprovação do Gustavo.
-  - Implementar, validar, bump SW v44, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **1. Janela #11 - Gestão de Usuários & Permissões RBAC (`modal-usuario-rbac`):**
+  - Mapear a estrutura atual de `modal-usuario-rbac` no `index.html`.
+  - Aplicar a Diretriz Oficial Minimalista (zero parênteses redundantes/didáticos, linhas proporcionais, avatar/perfil, níveis de acesso [Administrador, Operador, Vendedor], controle granular de permissões e segurança).
+  - Gerar artefato visual interativo `proposta_modernizacao_usuario_rbac.html` e submeter para aprovação do Gustavo.
+  - Implementar, validar, bump SW v45, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
