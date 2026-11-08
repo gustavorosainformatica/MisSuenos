@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 14:37 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Autocomplete Insensível a Acentos Ativo (SW v52)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v52)
+> **Data de Atualização:** 08 de Novembro de 2026 — 14:53 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Cálculo Unificado de Itens + Frete e Autocomplete sem Acentos (SW v53)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v53)
 
 ---
 
@@ -14,24 +14,27 @@
 
 ---
 
-## 2. Última Correção Crítica Implementada: Autocomplete Insensível a Acentos (Janela de Pedidos)
+## 2. Correções Críticas Recentes Implementadas na Ficha de Pedido
 
-### A. Diagnóstico da Causa Raiz
-- O campo de cliente na Ficha de Pedido (`form-ped-cliente-nome`) utilizava o elemento `<datalist>` nativo do HTML.
-- O motor interno do Chromium compara strings no `<datalist>` caractere a caractere com acento estrito (não remove diacríticos). Ao digitar `Jose Av`, o navegador comparava `e` com `é` e ocultava `José Avelino de Oliveira`.
+### A. Autocomplete Inteligente de Clientes (Insensível a Acentos)
+- O campo de cliente na Ficha de Pedido (`form-ped-cliente-nome`) utilizava o elemento `<datalist>` nativo do HTML, que filtrava com acentos rígidos no Chromium.
+- Substituído por um **Dropdown de Autocomplete Flutuante Reativo (`#autocomplete-clientes-pedido`)**:
+  - Aplica `normalizarTextoBusca()`, permitindo digitar `jose`, `jose av`, `avelino` ou documentos/cidades e localizar `José Avelino de Oliveira` instantaneamente.
+  - Suporte a teclado (`▲`, `▼`, `Enter`, `Esc`) e foco automático no próximo campo.
 
-### B. Solução Implementada
-- Substituição do `<datalist>` nativo por um **Dropdown de Autocomplete Flutuante Reativo (`#autocomplete-clientes-pedido`)**:
-  - Aplica `normalizarTextoBusca()` em tempo real, removendo diacríticos (`normalize('NFD').replace(/[\u0300-\u036f]/g, '')`).
-  - Permite digitar `jose`, `jose av`, `avelino` ou o documento/cidade, localizando instantaneamente clientes com ou sem acentos.
-  - Suporte completo a navegação por teclado (`▲`, `▼`, `Enter` para selecionar, `Esc` para fechar) e clique fora para recolher o dropdown.
-  - Ao selecionar, preenche automaticamente Nome, ID, Cidade, UF, Telefone, atualiza os badges de Observações e Preferências, e pula suavemente o foco para o campo de produtos.
+### B. Cálculo Unificado do Total Geral (Itens + Frete)
+- **Causa Raiz Identificada:** `calcularSubtotalItensPedido()` buscava a propriedade `item.subtotal`, que não era gravada no array de itens, retornando `0` no cálculo do frete e sobrescrevendo o Total Geral com apenas o valor do frete (ex: R$ 30,00 em vez de R$ 145,00).
+- **Solução Implementada:**
+  - Criação da rotina centralizada `recalcularTotalGeralPedido()`:
+    $$\text{Total Geral} = \sum (\text{Quantidade} \times \text{Preço Unitário}) + \text{Valor do Frete}$$
+  - Disparo síncrono e integrado ao adicionar produto, alterar quantidade, alterar preço, remover item ou alterar o valor do frete.
+  - Atribuição persistente de `item.subtotal = qtd * preco` no mapeamento dos itens.
 
 ---
 
 ## 3. Todas as 17 Janelas Modais Concluídas e Padronizadas
 
-1. **Ficha de Pedido (`modal-pedido`):** Imersão total `99vw x 96vh`, Grid de 5 colunas e novo Autocomplete inteligente sem acentos.
+1. **Ficha de Pedido (`modal-pedido`):** Imersão total `99vw x 96vh`, Grid de 5 colunas, Autocomplete inteligente sem acentos e cálculo unificado de itens + frete.
 2. **Ficha do Cliente (`modal-cliente`):** Proporções Nome (60%) e Apelido (40%), e-mail oficial para NF-e/XML e atalhos CRM.
 3. **Ficha do Produto (`modal-produto`):** Nome Comercial (>60%), SKU `⚡`, NCM e Margem Bruta em tempo real.
 4. **Lançamento Financeiro (`modal-lancamento-financeiro`):** 3 linhas fluidas, badges semânticos (`🟢 RECEBER` / `🔴 PAGAR`) e upload de comprovante.
@@ -55,10 +58,10 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`97fcf8c`](https://github.com/gustavorosainformatica/MisSuenos/commit/97fcf8c)
-  - Service Worker: `missuenos-pwa-v52` ativo.
-  - ETag da Produção: `"c81062ccb09494e4ea22c3eeed5fec4a"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`d56e604`](https://github.com/gustavorosainformatica/MisSuenos/commit/d56e604)
+  - Service Worker: `missuenos-pwa-v53` ativo.
+  - ETag da Produção: `"40a98416bcec88bc769b96fc9dd8ae37"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `97fcf8c` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `3660e57` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `4a6e6be` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `d56e604` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `8d22619` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `6feb9af` na branch `main`).
