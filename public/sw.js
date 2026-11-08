@@ -2,7 +2,7 @@
 // v30: Elimina cache agressivo de HTML e força Network-Only para navegação local,
 // garantindo que qualquer alteração apareça imediatamente sem necessidade de Control + F5.
 // v31: Expurgar cache agressivo, alinhar controles de janelas flutuantes e destravar redimensionamento
-const CACHE_NAME = 'missuenos-pwa-v52';
+const CACHE_NAME = 'missuenos-pwa-v53';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',

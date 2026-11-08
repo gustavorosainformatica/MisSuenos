@@ -10382,17 +10382,28 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     
     function calcularSubtotalItensPedido() {
-      return (itensPedidoAtual || []).reduce((acc, item) => acc + (parseFloat(item.subtotal || 0) || 0), 0);
+      return (itensPedidoAtual || []).reduce((acc, item) => {
+        const q = parseFloat(item.qtd) || 0;
+        const p = parseFloat(item.preco) || 0;
+        const sub = (item.subtotal !== undefined && item.subtotal !== null && !isNaN(item.subtotal))
+          ? parseFloat(item.subtotal)
+          : (q * p);
+        return acc + sub;
+      }, 0);
     }
 
-    function atualizarValorTotalPedidoComFrete() {
+    function recalcularTotalGeralPedido() {
       const subtotalItens = calcularSubtotalItensPedido();
       const frete = desformatarNumeroPtBr(document.getElementById('form-ped-frete')?.value || 0);
       const totalFinal = Math.max(0, subtotalItens + frete);
       const valEl = document.getElementById('form-ped-valor');
       if (valEl) {
-        valEl.value = formatarMoedaPtBr(totalFinal > 0 ? totalFinal : (subtotalItens > 0 ? subtotalItens : 0));
+        valEl.value = formatarMoedaPtBr(totalFinal);
       }
+    }
+
+    function atualizarValorTotalPedidoComFrete() {
+      recalcularTotalGeralPedido();
     }
 
     function aoDigitarOuSelecionarProdutoItem(valorDigitado) {
@@ -10645,6 +10656,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           </tr>
         `;
         if (textItens) textItens.value = '';
+        recalcularTotalGeralPedido();
         return;
       }
 
@@ -10652,6 +10664,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const qtdNum = parseFloat(item.qtd) || 1;
         const precoNum = parseFloat(item.preco) || 0;
         const subtotal = qtdNum * precoNum;
+        item.subtotal = subtotal;
         somaTotal += subtotal;
 
         const skuTag = item.sku && item.sku !== 'AVULSO'
@@ -10688,9 +10701,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         `;
       }).join('');
 
-      if (totalInp && somaTotal > 0) {
-        totalInp.value = formatarMoedaPtBr(somaTotal);
-      }
+      recalcularTotalGeralPedido();
 
       if (textItens) {
         const textoFormatado = itensPedidoAtual.map(i => {
