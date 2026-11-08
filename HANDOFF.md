@@ -1,64 +1,68 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 12:34 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #7 e Pedido Concluídas)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
+> **Data de Atualização:** 08 de Novembro de 2026 — 13:50 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #15 Concluídas e Auditadas)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v49)
 
 ---
 
 ## 1. Diretriz Oficial de Design: Padronização Minimalista e Limpa (Zero Parênteses Óbvios)
-- **Princípio Aprovado pelo Usuário Gustavo:** Eliminar solenemente parênteses e textos didáticos redundantes (como `(+ AUMENTAR)`, `(- BAIXAR)`, `(CONTAGEM)`).
+- **Princípio Aprovado pelo Usuário Gustavo:** Eliminar solenemente parênteses e textos didáticos redundantes (como `(+ AUMENTAR)`, `(- BAIXAR)`, `(CONTAGEM)`, `(A)` ou `(B)`).
 - **Segmented Controls Compactos:** Utilizar barras seletoras segmentadas elegantes com termos consolidados (`🟢 Entrada`, `🔴 Saída`, `⚖️ Balanço`, `Todos`).
 - **Rótulos Inteligentes de Contexto:** Em vez de poluir os botões com texto longo, os campos subsequentes ajustam seu título dinamicamente.
+- **Tipografia & Proporções:** *JetBrains Mono* para códigos, documentos, quantidades e valores monetários.
 
 ---
 
 ## 2. O Que Foi Realizado Recentemente
 
 ### A. Modernização da Ficha de Pedido (`modal-pedido`) - Janela Universal de Vendas
-- **Imersão Total:** Janela expandida para `99vw x 96vh` aproveitando todo o monitor.
-- **Linha 1 Blindada com CSS Grid:** 5 campos integrados lado a lado na mesma linha sem quebras horizontais (`Cliente / Destinatário`, `Telefone / Whats`, `Cidade de Entrega`, `UF` com 60px e `Data do Pedido` com 115px).
-- **Sub-Modais no Rodapé:** Botões `[ 📝 Observações do Pedido ]` e `[ ⭐ Preferências do Cliente ]`.
+- Janela imersiva `99vw x 96vh`, Grid de 5 colunas sem quebra horizontal, sub-modais de observações e preferências integrados ao rodapé.
 
 ### B. Modernização da Ficha do Cliente (`modal-cliente`) - Janela #1
-- **Proporcionalidade Perfeita:** Nome Comercial (60%), Nome Curto/Apelido (40%), CPF/CNPJ, IE, Telefone e novo campo oficial de E-mail para Faturas/XML.
-- **Endereço Compacto:** CEP (115px) integrado ao Logradouro e Bairro/Cidade/UF em 2 linhas fluidas.
-- **Rodapé:** Botões `[ 🏷️ Gerar Etiqueta ]`, `[ 🧾 Emitir NF-e ]`, `[ 💬 WhatsApp ]`, `[ 📝 Obs. Entrega ]` e `[ ⭐ Preferências CRM ]`.
+- Proporção equilibrada Nome (60%) e Apelido (40%), e-mail oficial para NF-e/XML e atalhos de CRM/WhatsApp.
 
 ### C. Modernização da Ficha do Produto (`modal-produto`) - Janela #2
-- **Nome Comercial Expandido:** `flex: 2.2` (>60% da primeira linha), SKU compacto com gerador `⚡` e NCM.
-- **Classificação & Rentabilidade:** Card visual em tempo real calculando Margem Bruta em R$ e %.
-- **Rodapé:** `[ 📑 Ficha Kardex ]`, `[ ⚡ Ajuste Rápido ]` e `[ 📝 Detalhes & Notas ]`.
+- Nome Comercial amplo (>60%), SKU com gerador `⚡`, NCM e card dinâmico de Margem Bruta em tempo real.
 
 ### D. Modernização do Lançamento Financeiro (`modal-lancamento-financeiro`) - Janela #3
-- **3 Linhas Fluidas:** Linha 1 (Tipo, Descrição, Categoria), Linha 2 (Valor R$, Vencimento, Forma Pagamento, Status), Linha 3 (Cliente/Fornecedor, Obs/PIX/Recibo).
-- **Badge Dinâmico:** Alternância em tempo real entre `🟢 CONTA A RECEBER` e `🔴 CONTA A PAGAR` recalculando cor do input de valor.
-- **Rodapé:** Botão `[ 📎 Anexar Comprovante ]` para upload direto de recibos.
+- 3 linhas fluidas, badges semânticos (`🟢 CONTA A RECEBER` / `🔴 CONTA A PAGAR`) e upload de comprovante.
 
 ### E. Modernização da Etiqueta de Envio & Logística (`modal-etiqueta`) - Janela #4
-- **Medidas da Embalagem:** Linha compacta com `Peso Estimado (kg)` + `Dimensões A x L x C (cm)` + `Valor Declarado (R$)`.
-- **Integração Superfrete:** Botão `⚡ Copiar p/ Superfrete` formatando automaticamente medidas e valor.
-- **Impressão Térmica / A4:** Layout físico realista sem cortes e rodapé limpo.
+- Medidas de embalagem (`Peso kg` + `Dimensões A x L x C cm` + `Valor Declarado R$`), botão `⚡ Copiar p/ Superfrete` e pré-visualização térmica 100x150 mm.
 
 ### F. Modernização do Ajuste Rápido de Estoque (`modal-ajuste-estoque`) - Janela #5
-- **Segmented Control Moderno:** Seleção elegante entre `[ 🟢 Entrada ]`, `[ 🔴 Saída ]` e `[ ⚖️ Balanço ]` (zero parênteses óbvios).
-- **Inteligência de Balanço / Inventário:** O operador digita o saldo físico real contado no galpão, e o frontend calcula automaticamente se deve disparar uma Entrada ou Saída com o motivo de inventário correspondente.
-- **Linha 2 Compacta:** Quantidade dinâmica (160px) + Doc. Referência (`flex: 1`) lado a lado.
-- **Card de Cálculo em Tempo Real:** Saldo Atual ➔ Movimento (+/-) ➔ Novo Saldo Resultante em JetBrains Mono.
+- Segmented Control limpo (`[ 🟢 Entrada | 🔴 Saída | ⚖️ Balanço ]`), cálculo em tempo real e lote compacto.
 
 ### G. Modernização da Ficha Kardex do Produto (`modal-ficha-kardex`) - Janela #6
-- **Barra de Ferramentas com Segmented Control:** Filtro instantâneo por `[ Todos | 🟢 Entradas | 🔴 Saídas ]` integrado à busca textual rápida.
-- **4 Cards de Métricas no Topo:** `Saldo Físico Atual` (azul ciano), `Total de Entradas` (verde esmeralda), `Total de Saídas` (vermelho carmesim) e `Movimentações` (roxo).
-- **Tabela Proporcional de Extrato:** Colunas alinhadas com tipografia *JetBrains Mono* para quantidades e saldos, badges semânticos compactos e atalho `[ ⚡ Novo Ajuste Neste Item ]`.
-- **Exportação CSV:** Botão `📊 Exportar CSV` com UTF-8 BOM preservado para abertura perfeita no Excel.
+- Segmented Control (`[ Todos | 🟢 Entradas | 🔴 Saídas ]`), 4 cards KPI, tabela em *JetBrains Mono* e exportação CSV com UTF-8 BOM.
 
 ### H. Modernização do Rastreamento Logístico (`modal-rastreamento-pedido`) - Janela #7
-- **Pipeline Visual Horizontal de 4 Etapas:** Barra de progresso dinâmica (`[ 📦 Postado ]` ➔ `[ 🚚 Em Trânsito ]` ➔ `[ 📍 Saiu p/ Entrega ]` ➔ `[ 🏁 Entregue ]`) com acendimento automático conforme o status da carga.
-- **Card Resumo de Alto Contraste:** Código oficial em *JetBrains Mono* com botão de cópia instantânea `📋 Copiar` e botão `🔄 Atualizar`.
-- **Linha do Tempo Cronológica:** Histórico de eventos logísticos com ícones semânticos, datas e locais de passagem.
-- **Área de Vinculação Rápida:** Transportadora + Código com atalho direto.
-- **Notificação Direta para WhatsApp:** Botão `📱 Disparar para WhatsApp do Cliente` gerando mensagem formatada de rastreio com link com 1 clique.
-- **Service Worker v41:** Cache atualizado para `missuenos-pwa-v41` e deploy validado na nuvem.
+- Pipeline de 4 etapas (`Postado` ➔ `Em Trânsito` ➔ `Saiu p/ Entrega` ➔ `Entregue`), botão de cópia rápida e disparo WhatsApp.
+
+### I. Modernização do Módulo de Emissão Fiscal (`modal-fiscal`) - Janela #8
+- Proporções limpas (Destinatário/CNPJ/UF, Natureza CFOP/Frete, Descrição/NCM/Valor), chave de 44 dígitos e botões DANFE/SEFAZ. SW v42.
+
+### J. Modernização do Pacote Mensal do Contador (`modal-pacote-contador`) - Janela #9
+- Fechamento Fiscal Mensal com seletores de mês/ano, regime Simples Nacional, 4 cards KPI e download consolidado de ZIP e CSV. SW v43.
+
+### K. Modernização da Importação de NF-e XML de Compra (`modal-importar-xml`) - Janela #10
+- Parser nativo de NF-e XML de fornecedor, drag & drop moderno, extração de duplicatas, tabela de destinação (Estoque vs Despesa) e integração financeira. SW v44.
+
+### L. Modernização do Cadastro & Permissões de Usuários (`modal-usuario-rbac`) - Janela #11
+- Login `@usuario` (40%) + Nome Completo (60%), senha com toggle `👁️`, cargo/papel oficial e matriz de 6 permissões com switches modernos. SW v45.
+
+### M. Modernização da Redefinição de Senha & Gestão de Perfis - Janela #12
+- Reset administrativo com padrão `admin123` e senha manual com toggle `👁️`; Gestão de Perfis com badges semânticos, cores customizadas e matriz granular. SW v46.
+
+### N. Modernização do Monitoramento de Quotas & Storage (`modal-armazenamento-quotas`) - Janela #13
+- Monitoramento em tempo real do Turso Cloud (9.0 GB), SQLite local e Cloudflare R2 (10 GB) com barras de progresso, botões de manutenção (VACUUM e Cold Storage) e tabela proporcional de tabelas. SW v47.
+
+### O. Modernização do Backup & Restauração de Dados (`modal-backup-dados`) - Janela #14
+- Snapshot consolidado em `.JSON` (`exportarBackupCompletoJson`), exportações modulares em `.CSV` (Clientes, Pedidos, Estoque, Financeiro) com UTF-8 BOM e restauração segura. SW v48.
+
+### P. Modernização da Personalização de Colunas das Tabelas (`modal-personalizar-colunas`) - Janela #15
+- Header moderno com badge `🟢 ATIVO`, sub-barra com contador dinâmico de colunas configuráveis, botões rápidos (`👁️ Exibir Todas`, `🔄 Ordem Padrão`), reordenação ágil com setas `▲` e `▼`, travamento de colunas fixas `🔒 Fixa` e persistência do layout individual no perfil do usuário. SW v49.
 
 ---
 
@@ -66,13 +70,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`274fc75`](https://github.com/gustavorosainformatica/MisSuenos/commit/274fc75)
-  - Service Worker: `missuenos-pwa-v41` ativo.
-  - ETag da Produção: `"040b562573f844df2e58c7b042fbd5f7"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`6338a3c`](https://github.com/gustavorosainformatica/MisSuenos/commit/6338a3c)
+  - Service Worker: `missuenos-pwa-v49` ativo.
+  - ETag da Produção: `"7b1fa84b5aee66b8a260963b3e5d4c86"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `274fc75` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `d90349c` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `72b33d8` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `6338a3c` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `e89491d` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `6b9e8cd` na branch `main`).
 - **Fila de Modernização de Janelas:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
@@ -88,16 +92,17 @@
   - [x] #12: `modal-admin-reset-senha` / `modal-gerenciar-perfis` (Concluído - SW v46)
   - [x] #13: `modal-armazenamento-quotas` (Concluído - SW v47)
   - [x] #14: `modal-backup-dados` (Concluído - SW v48)
-  - [ ] **#15: `modal-personalizar-colunas` (Personalização de Colunas das Tabelas)**
-  - [ ] #16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)
+  - [x] #15: `modal-personalizar-colunas` (Concluído - SW v49)
+  - [ ] **#16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)**
   - [ ] #17: `modal-changelog` (Notas de Atualização do ERP)
 
 ---
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #15 - Personalização de Colunas das Tabelas (`modal-personalizar-colunas`):**
-  - Mapear a estrutura de `modal-personalizar-colunas` no `index.html`.
-  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, reordenação intuitiva de colunas com setas ou drag, checkboxes de visibilidade, indicação de coluna fixa/bloqueada e persistência no localStorage por usuário).
-  - Gerar artefato visual interativo `proposta_modernizacao_colunas.html` e submeter para aprovação do Gustavo.
-  - Implementar, validar, bump SW v49, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **1. Janela #16 - Sobre o Sistema & Licenciamento (`modal-sobre-sistema`):**
+  - Gerar artefato visual interativo `proposta_modernizacao_sobre_sistema.html` com especificações técnicas da stack oficial, badges corporativos, canais de suporte e atalho de atualização forçada.
+  - Submeter para aprovação do Gustavo.
+  - Implementar em `public/index.html`, bump para `missuenos-pwa-v50`, validar sintaxe JS, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **2. Janela #17 - Notas de Atualização & Histórico (`modal-changelog`):**
+  - Modernizar timeline de versões com badges de destaque e categorização de melhorias (v3.0.0 Oficial, v2.0.0 Turso Cloud, v1.0.0 Legado).
