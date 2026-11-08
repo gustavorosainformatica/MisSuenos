@@ -7926,39 +7926,70 @@
     </div>
   </div>
 
-  <!-- MODAL DE CADASTRO / EDIÇÃO DE OPERADOR RBAC (TICKET 6) -->
+  <!-- MODAL DE CADASTRO / EDIÇÃO DE OPERADOR RBAC (MODERNO & MINIMALISTA) -->
   <div class="modal-overlay" id="modal-usuario-rbac">
-    <div class="modal-container" style="max-width: 620px; width: 95%; max-height: 90vh;">
+    <div class="modal-container" style="max-width: 680px; width: 95%; max-height: 92vh;">
       <div class="modal-resize-handle" data-modal="modal-usuario-rbac" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>👤</span>
-          <span id="modal-rbac-titulo">Novo Operador do Sistema</span>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">👤</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;" id="modal-rbac-titulo">Novo Operador do Sistema</span>
+              <span class="badge-ped" id="modal-rbac-badge-status" style="font-size: 10.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 ATIVO
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Controle de Perfis RBAC, Segurança e Níveis de Acesso
+            </div>
+          </div>
         </div>
         <button class="modal-close-btn" onclick="fecharModalUsuarioRbac()">✕</button>
       </div>
-      <div class="modal-body">
+
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
         <form id="form-usuario-rbac" onsubmit="salvarUsuarioRbac(event)">
           <input type="hidden" id="rbac-user-id">
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Login de Acesso *</label>
-              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: financeiro, joao">
+
+          <!-- LINHA 1: LOGIN (40%) + NOME COMPLETO (60%) -->
+          <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; align-items: flex-end;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="color: #38bdf8; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                  <span>🔑</span> Login de Acesso *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificador / @</span>
+              </label>
+              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: vendas, financeiro" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">
             </div>
-            <div class="form-group">
-              <label class="form-label">Nome Completo *</label>
-              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome do operador">
+
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+                Nome Completo do Colaborador *
+              </label>
+              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome e sobrenome" style="font-weight: 600;">
             </div>
           </div>
 
-          <div class="form-grid-2" style="margin-top: 12px;">
-            <div class="form-group">
-              <label class="form-label">Senha de Acesso <span id="rbac-senha-hint" style="font-weight: normal; color: var(--text-muted);">(Obrigatória)</span></label>
-              <input type="password" class="form-input" id="rbac-senha" placeholder="Digite a senha...">
+          <!-- LINHA 2: SENHA COM TOGGLE (1fr) + PAPEL/CARGO OFICIAL (1fr) -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: flex-end; margin-top: 12px;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Senha de Acesso</span>
+                <span id="rbac-senha-hint" style="color: var(--text-muted); font-size: 10px; font-weight: normal;">(Obrigatória)</span>
+              </label>
+              <div style="display: flex; position: relative; align-items: center;">
+                <input type="password" class="form-input" id="rbac-senha" placeholder="Digite a senha..." style="width: 100%; padding-right: 36px; font-family: 'JetBrains Mono', monospace;">
+                <button type="button" onclick="toggleSenhaUsuarioRbac()" style="position: absolute; right: 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px;" title="Mostrar/ocultar senha">👁️</button>
+              </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Papel / Perfil *</label>
-              <select class="form-input" id="rbac-papel" onchange="aoMudarPapelRbac(this.value)">
+
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+                Papel & Cargo Oficial *
+              </label>
+              <select class="form-input erp-select" id="rbac-papel" onchange="aoMudarPapelRbac(this.value)" style="font-weight: 600; width: 100%;">
                 <option value="ADMIN">👑 Administrador Total</option>
                 <option value="VENDAS">💼 Vendas & Atendimento</option>
                 <option value="EXPEDICAO">📦 Expedição & Logística</option>
@@ -7967,28 +7998,74 @@
             </div>
           </div>
 
-          <div style="margin-top: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
-            <label class="form-label" style="margin-bottom: 8px; display: block;">🔒 Permissões Específicas do Operador:</label>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; color: #cbd5e1;">
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-clientes-criar" checked> Cadastrar/Editar Clientes
+          <!-- MATRIZ DE PERMISSÕES GRANULARES (6 CARDS MODERNOS) -->
+          <div style="margin-top: 14px; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px;">
+                🔒 Permissões Granulares de Acesso:
+              </div>
+              <span style="font-size: 10.5px; color: #38bdf8; font-weight: 600;">Mapeamento RBAC</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-clientes-criar" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">👥 Clientes & Contatos</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Cadastrar e editar carteira</div>
+                </div>
               </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-fiscal-emitir" checked> Emitir NF-e / Central Fiscal
+
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-fiscal-emitir" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">🧾 Central Fiscal & NF-e</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Emitir e transmitir à SEFAZ</div>
+                </div>
               </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-produtos-custo" checked> Ver/Editar Preço de Custo
+
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-produtos-custo" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">🏷️ Preço de Custo & Margem</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Visualizar custos e lucros</div>
+                </div>
               </label>
-              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-configuracoes"> Acessar Aba Configurações
+
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-estoque-mov" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">📦 Estoque & Expedição</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Ajustes e etiquetas de envio</div>
+                </div>
+              </label>
+
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-financeiro-baixa" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">💰 Baixas & Financeiro</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Lançar pagamentos e contas</div>
+                </div>
+              </label>
+
+              <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="perm-configuracoes" style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <div>
+                  <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">⚙️ Configurações & Sistema</div>
+                  <div style="font-size: 10px; color: var(--text-muted);">Backups, perfis e licenças</div>
+                </div>
               </label>
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
+
+      <!-- RODAPÉ DO MODAL -->
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalUsuarioRbac()">Cancelar</button>
-        <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-usuario-rbac').requestSubmit()">💾 Salvar Operador</button>
+        <button type="button" class="btn-top btn-emerald-glow" style="font-weight: 800; font-size: 12.5px; padding: 8px 20px;" onclick="document.getElementById('form-usuario-rbac').requestSubmit()">
+          <span>💾</span> Salvar Operador
+        </button>
       </div>
     </div>
   </div>
@@ -12476,34 +12553,49 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (modal) modal.classList.remove('active');
     }
 
+    function toggleSenhaUsuarioRbac() {
+      const s = document.getElementById('rbac-senha');
+      if (s) {
+        s.type = s.type === 'password' ? 'text' : 'password';
+      }
+    }
+
     function aoMudarPapelRbac(papel) {
       const chkClientes = document.getElementById('perm-clientes-criar');
       const chkFiscal = document.getElementById('perm-fiscal-emitir');
       const chkCusto = document.getElementById('perm-produtos-custo');
+      const chkEstoque = document.getElementById('perm-estoque-mov');
+      const chkFinanceiro = document.getElementById('perm-financeiro-baixa');
       const chkConfig = document.getElementById('perm-configuracoes');
 
-      if (!chkClientes || !chkFiscal || !chkCusto || !chkConfig) return;
-
       if (papel === 'ADMIN') {
-        chkClientes.checked = true;
-        chkFiscal.checked = true;
-        chkCusto.checked = true;
-        chkConfig.checked = true;
+        if (chkClientes) chkClientes.checked = true;
+        if (chkFiscal) chkFiscal.checked = true;
+        if (chkCusto) chkCusto.checked = true;
+        if (chkEstoque) chkEstoque.checked = true;
+        if (chkFinanceiro) chkFinanceiro.checked = true;
+        if (chkConfig) chkConfig.checked = true;
       } else if (papel === 'VENDAS') {
-        chkClientes.checked = true;
-        chkFiscal.checked = true;
-        chkCusto.checked = false;
-        chkConfig.checked = false;
+        if (chkClientes) chkClientes.checked = true;
+        if (chkFiscal) chkFiscal.checked = true;
+        if (chkCusto) chkCusto.checked = false;
+        if (chkEstoque) chkEstoque.checked = true;
+        if (chkFinanceiro) chkFinanceiro.checked = false;
+        if (chkConfig) chkConfig.checked = false;
       } else if (papel === 'EXPEDICAO') {
-        chkClientes.checked = false;
-        chkFiscal.checked = false;
-        chkCusto.checked = false;
-        chkConfig.checked = false;
+        if (chkClientes) chkClientes.checked = false;
+        if (chkFiscal) chkFiscal.checked = false;
+        if (chkCusto) chkCusto.checked = false;
+        if (chkEstoque) chkEstoque.checked = true;
+        if (chkFinanceiro) chkFinanceiro.checked = false;
+        if (chkConfig) chkConfig.checked = false;
       } else if (papel === 'FINANCEIRO') {
-        chkClientes.checked = false;
-        chkFiscal.checked = true;
-        chkCusto.checked = true;
-        chkConfig.checked = false;
+        if (chkClientes) chkClientes.checked = false;
+        if (chkFiscal) chkFiscal.checked = true;
+        if (chkCusto) chkCusto.checked = true;
+        if (chkEstoque) chkEstoque.checked = false;
+        if (chkFinanceiro) chkFinanceiro.checked = true;
+        if (chkConfig) chkConfig.checked = false;
       }
     }
 
@@ -12551,6 +12643,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const permClientes = document.getElementById('perm-clientes-criar')?.checked || false;
       const permFiscal = document.getElementById('perm-fiscal-emitir')?.checked || false;
       const permCusto = document.getElementById('perm-produtos-custo')?.checked || false;
+      const permEstoque = document.getElementById('perm-estoque-mov')?.checked || false;
+      const permFinanceiro = document.getElementById('perm-financeiro-baixa')?.checked || false;
       const permConfig = document.getElementById('perm-configuracoes')?.checked || false;
 
       if (!login || !nome) {
@@ -12577,6 +12671,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         produtos_editar: papel === 'ADMIN' || papel === 'EXPEDICAO',
         produtos_custo: permCusto,
         fiscal_emitir: permFiscal,
+        estoque_mov: permEstoque,
+        financeiro_baixa: permFinanceiro,
         configuracoes: permConfig,
         usuarios_gerenciar: papel === 'ADMIN'
       };
@@ -17124,11 +17220,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const chkClientes = document.getElementById('perm-clientes-criar');
       const chkFiscal = document.getElementById('perm-fiscal-emitir');
       const chkCusto = document.getElementById('perm-produtos-custo');
+      const chkEstoque = document.getElementById('perm-estoque-mov');
+      const chkFinanceiro = document.getElementById('perm-financeiro-baixa');
       const chkConfig = document.getElementById('perm-configuracoes');
 
       if (chkClientes) chkClientes.checked = !!perms.clientes_criar;
       if (chkFiscal) chkFiscal.checked = !!perms.fiscal_emitir;
       if (chkCusto) chkCusto.checked = !!perms.produtos_custo;
+      if (chkEstoque) chkEstoque.checked = perms.estoque_mov !== undefined ? !!perms.estoque_mov : (u.papel === 'ADMIN' || u.papel === 'EXPEDICAO' || u.papel === 'VENDAS');
+      if (chkFinanceiro) chkFinanceiro.checked = perms.financeiro_baixa !== undefined ? !!perms.financeiro_baixa : (u.papel === 'ADMIN' || u.papel === 'FINANCEIRO');
       if (chkConfig) chkConfig.checked = !!perms.configuracoes;
 
       if (modal) {
