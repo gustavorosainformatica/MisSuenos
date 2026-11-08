@@ -85,8 +85,8 @@
   - [x] #9: `modal-pacote-contador` (Concluído - SW v43)
   - [x] #10: `modal-importar-xml` (Concluído - SW v44)
   - [x] #11: `modal-usuario-rbac` (Concluído - SW v45)
-  - [ ] **#12: `modal-admin-reset-senha` / `modal-gerenciar-perfis` (Segurança & Perfis)**
-  - [ ] #13: `modal-armazenamento-quotas` (Cotas de Armazenamento e Limites)
+  - [x] #12: `modal-admin-reset-senha` / `modal-gerenciar-perfis` (Concluído - SW v46)
+  - [ ] **#13: `modal-armazenamento-quotas` (Cotas de Armazenamento e Limites)**
   - [ ] #14: `modal-backup-dados` (Backup & Restauração de Dados)
   - [ ] #15: `modal-personalizar-colunas` (Personalização de Colunas das Tabelas)
   - [ ] #16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)
@@ -96,8 +96,8 @@
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #12 - Redefinição Administrativa de Senha & Gestão de Perfis (`modal-admin-reset-senha` & `modal-gerenciar-perfis`):**
-  - Mapear as estruturas de `modal-admin-reset-senha` e `modal-gerenciar-perfis` no `index.html`.
-  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, credenciais limpas com validação de força, cores semânticas de perfis e auditoria de segurança).
-  - Gerar artefato visual interativo `proposta_modernizacao_seguranca_perfis.html` e submeter para aprovação do Gustavo.
-  - Implementar, validar, bump SW v46, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **1. Janela #13 - Cotas de Armazenamento & Limites da Nuvem (`modal-armazenamento-quotas`):**
+  - Mapear a estrutura de `modal-armazenamento-quotas` no `index.html`.
+  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, barras de progresso elegantes com percentuais de consumo, status de SQLite local vs Turso cloud, cotas de uploads de comprovantes e fotos de produtos).
+  - Gerar artefato visual interativo `proposta_modernizacao_quotas.html` e submeter para aprovação do Gustavo.
+  - Implementar, validar, bump SW v47, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
