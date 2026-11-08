@@ -6887,142 +6887,152 @@
     </div>
   </div>
 
-  <!-- MODAL DE ARMAZENAMENTO, QUOTAS & COLD STORAGE R2 -->
+  <!-- MODAL DE ARMAZENAMENTO, QUOTAS & COLD STORAGE R2 (MODERNO & CORPORATIVO) -->
   <div class="modal-overlay" id="modal-armazenamento-quotas">
-    <div class="modal-container" style="max-width: 880px; width: 96%; max-height: 92vh; display: flex; flex-direction: column;">
+    <div class="modal-container" style="max-width: 860px; width: 96%; max-height: 92vh; display: flex; flex-direction: column;">
       <div class="modal-resize-handle" data-modal="modal-armazenamento-quotas" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header" style="padding: 14px 22px;">
-        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
-          <span>📊</span>
-          <span>Painel de Armazenamento, Quotas & Nuvem</span>
-          <span class="gear-dd-badge badge-emerald" id="arm-modal-badge-modo" style="font-size: 10px;">Turso libSQL</span>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">📊</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Painel de Armazenamento & Quotas na Nuvem</span>
+              <span class="badge-ped" id="arm-modal-badge-modo" style="font-size: 10.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                TURSO LIBSQL • ATIVO
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Auditoria de Capacidade, Cold Storage R2 e Desfragmentação Preventiva
+            </div>
+          </div>
         </div>
         <button class="modal-close-btn" onclick="fecharModalArmazenamento()">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px;">
-        <!-- SUBTÍTULO -->
-        <div style="font-size: 12.5px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-          <span>Monitoramento de cotas gratuitas do Turso Cloud (9.0 GB), SQLite local e Cloudflare R2 (10 GB).</span>
+      <div class="modal-body" style="padding: 18px 22px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 16px;">
+        <!-- SUBTÍTULO COM ATUALIZAÇÃO -->
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+          <span>Cotas de armazenamento em nuvem e integridade dos bancos de dados:</span>
           <button type="button" class="btn-top btn-row-action" onclick="carregarMetricasArmazenamento()" style="padding: 4px 10px; font-size: 11px;">
-            🔄 Atualizar
+            <span>🔄</span> Atualizar Métricas
           </button>
         </div>
 
-        <!-- GRID DE CARDS DE SERVIÇOS -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px;">
-          <!-- CARD TURSO -->
-          <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+        <!-- GRID DE CARDS DOS 3 SERVIÇOS -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+          <!-- TURSO CLOUD -->
+          <div style="background: #1e293b; border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 12px; font-weight: 700; color: #38bdf8;">🌐 Turso Cloud</span>
-              <span style="font-size: 10px; font-weight: 800; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px;">9.0 GB GRÁTIS</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">9.0 GB COTA</span>
             </div>
             <div>
-              <div style="font-size: 19px; font-weight: 800; color: #fff;">
-                <span id="arm-turso-usado">Carregando...</span> <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">/ 9.0 GB</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace;">
+                <span id="arm-turso-usado">Carregando...</span> <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">/ 9.0 GB</span>
               </div>
-              <div style="font-size: 11px; color: #38bdf8; margin-top: 2px;" id="arm-turso-pct">0% da quota utilizada</div>
+              <div style="font-size: 10.5px; color: #38bdf8; margin-top: 2px;" id="arm-turso-pct">0% da cota utilizada</div>
             </div>
             <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
-              <div id="arm-turso-bar" style="height: 100%; width: 0.5%; background: #00d4ff; border-radius: 999px; transition: width 0.3s ease;"></div>
+              <div id="arm-turso-bar" style="height: 100%; width: 0.5%; background: #38bdf8; border-radius: 999px; transition: width 0.3s ease;"></div>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-muted); display: flex; justify-content: space-between;">
-              <span>Páginas: <strong id="arm-turso-pages">-</strong></span>
-              <span>Reaproveitável: <strong id="arm-turso-free">0 B</strong></span>
+            <div style="font-size: 10px; color: var(--text-muted); display: flex; justify-content: space-between;">
+              <span>Páginas: <strong id="arm-turso-pages" style="color: #fff; font-family: 'JetBrains Mono', monospace;">-</strong></span>
+              <span>Reaproveitável: <strong id="arm-turso-free" style="color: #fff; font-family: 'JetBrains Mono', monospace;">0 B</strong></span>
             </div>
           </div>
 
-          <!-- CARD SQLITE LOCAL -->
-          <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <!-- SQLITE LOCAL -->
+          <div style="background: #1e293b; border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 12px; font-weight: 700; color: #34d399;">💾 SQLite Local</span>
-              <span style="font-size: 10px; font-weight: 800; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 2px 6px; border-radius: 4px;">ARQUIVO .DB</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(52, 211, 153, 0.15); color: #34d399; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">ARQUIVO .DB</span>
             </div>
             <div>
-              <div style="font-size: 19px; font-weight: 800; color: #fff;" id="arm-sqlite-usado">Carregando...</div>
-              <div style="font-size: 11px; color: #34d399; margin-top: 2px;">Persistência em disco local</div>
+              <div style="font-size: 18px; font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace;" id="arm-sqlite-usado">Carregando...</div>
+              <div style="font-size: 10.5px; color: #34d399; margin-top: 2px;">Persistência em disco local</div>
             </div>
             <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
-              <div style="height: 100%; width: 5%; background: #10b981; border-radius: 999px;"></div>
+              <div style="height: 100%; width: 5%; background: #34d399; border-radius: 999px;"></div>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-muted);">
-              Caminho: <code>database/clientes.db</code>
+            <div style="font-size: 10px; color: var(--text-muted);">
+              Caminho: <code style="color: #cbd5e1; font-family: 'JetBrains Mono', monospace;">database/clientes.db</code>
             </div>
           </div>
 
-          <!-- CARD CLOUDFLARE R2 -->
-          <div style="background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <!-- CLOUDFLARE R2 -->
+          <div style="background: #1e293b; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span style="font-size: 12px; font-weight: 700; color: #fbbf24;">☁️ Cloudflare R2</span>
-              <span style="font-size: 10px; font-weight: 800; background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 2px 6px; border-radius: 4px;">10 GB GRÁTIS</span>
+              <span style="font-size: 10px; font-weight: 800; background: rgba(251, 191, 36, 0.15); color: #fbbf24; padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;">10 GB COTA</span>
             </div>
             <div>
-              <div style="font-size: 19px; font-weight: 800; color: #fff;">
-                <span id="arm-r2-usado">Carregando...</span> <span style="font-size: 11.5px; color: var(--text-muted); font-weight: 500;">/ 10.0 GB</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace;">
+                <span id="arm-r2-usado">Carregando...</span> <span style="font-size: 11px; color: var(--text-muted); font-weight: normal;">/ 10.0 GB</span>
               </div>
-              <div style="font-size: 11px; color: #fbbf24; margin-top: 2px;" id="arm-r2-pct">0% da quota utilizada</div>
+              <div style="font-size: 10.5px; color: #fbbf24; margin-top: 2px;" id="arm-r2-pct">0% da cota utilizada</div>
             </div>
             <div style="height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 999px; overflow: hidden;">
-              <div id="arm-r2-bar" style="height: 100%; width: 0.5%; background: #f59e0b; border-radius: 999px; transition: width 0.3s ease;"></div>
+              <div id="arm-r2-bar" style="height: 100%; width: 0.5%; background: #fbbf24; border-radius: 999px; transition: width 0.3s ease;"></div>
             </div>
-            <div style="font-size: 10.5px; color: var(--text-muted); display: flex; justify-content: space-between;">
-              <span>Arquivos: <strong id="arm-r2-total">0</strong></span>
-              <span>Provedor: <strong id="arm-r2-prov">R2</strong></span>
+            <div style="font-size: 10px; color: var(--text-muted); display: flex; justify-content: space-between;">
+              <span>Arquivos: <strong id="arm-r2-total" style="color: #fff; font-family: 'JetBrains Mono', monospace;">0</strong></span>
+              <span>Provedor: <strong id="arm-r2-prov" style="color: #fff; font-family: 'JetBrains Mono', monospace;">R2</strong></span>
             </div>
           </div>
         </div>
 
         <!-- SEÇÃO DE MANUTENÇÃO PREVENTIVA -->
-        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 16px;">
-          <div style="font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-            <span>⚡</span>
-            <span>Ações de Manutenção Preventiva (Seguras & Automáticas)</span>
+        <div style="background: #111827; border: 1px solid #334155; border-radius: 10px; padding: 14px 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: #fff; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+            <span>⚡</span> Ações de Manutenção Preventiva do Banco
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <!-- AÇÃO 1: VACUUM -->
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
               <div>
-                <div style="font-weight: 700; color: #38bdf8; font-size: 13px;">🧹 Otimizar Banco de Dados (VACUUM)</div>
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
-                  Reorganiza as páginas físicas, desfragmenta os índices B-Tree e encolhe o arquivo do banco devolvendo megabytes livres.
-                </div>
+                <strong style="color: #38bdf8; font-size: 12.5px; display: block;">🧹 Otimização do Banco (VACUUM)</strong>
+                <span style="font-size: 11px; color: var(--text-muted); margin-top: 3px; display: block; line-height: 1.4;">
+                  Reorganiza as páginas físicas, desfragmenta os índices B-Tree e devolve espaço em disco ao sistema.
+                </span>
               </div>
-              <button type="button" class="btn-top btn-primary-glow" onclick="executarOtimizacaoBanco()" style="width: 100%; justify-content: center;">
-                ⚡ Executar Otimização (VACUUM)
+              <button type="button" class="btn-top btn-primary-glow" onclick="executarOtimizacaoBanco()" style="width: 100%; justify-content: center; font-size: 11.5px; padding: 7px 14px;">
+                <span>⚡</span> Executar Otimização (VACUUM)
               </button>
             </div>
 
             <!-- AÇÃO 2: COLD STORAGE LOGS NO R2 -->
-            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
               <div>
-                <div style="font-weight: 700; color: #34d399; font-size: 13px;">☁️ Cold Storage no R2 (Logs > 90 dias)</div>
-                <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
-                  Gera arquivo <code>.csv</code> dos logs antigos, faz upload para o Cloudflare R2 e remove do banco liberando espaço imediato.
-                </div>
+                <strong style="color: #34d399; font-size: 12.5px; display: block;">☁️ Cold Storage de Logs no R2</strong>
+                <span style="font-size: 11px; color: var(--text-muted); margin-top: 3px; display: block; line-height: 1.4;">
+                  Compacta e transfere logs com mais de 90 dias para a nuvem gratuita do Cloudflare R2 liberando espaço.
+                </span>
               </div>
-              <button type="button" class="btn-top btn-emerald-glow" onclick="executarLimpezaLogsColdStorage()" style="width: 100%; justify-content: center;">
-                ☁️ Arquivar no R2 & Limpar Logs
+              <button type="button" class="btn-top btn-emerald-glow" onclick="executarLimpezaLogsColdStorage()" style="width: 100%; justify-content: center; font-size: 11.5px; padding: 7px 14px;">
+                <span>☁️</span> Arquivar no R2 & Limpar Logs
               </button>
             </div>
           </div>
         </div>
 
         <!-- SEÇÃO: TABELA DETALHADA -->
-        <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 16px;">
-          <div style="font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-            <span>📑 Espaço Ocupado por Tabela</span>
-            <span style="font-size: 11px; color: var(--text-muted);">Calculado em tempo real</span>
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px;">
+              📑 Espaço Ocupado por Tabela no Banco:
+            </div>
+            <span style="font-size: 11px; color: #34d399; font-weight: 700;">Base Saudável</span>
           </div>
 
-          <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+          <div class="erp-table-wrapper" style="border: 1px solid #334155; border-radius: 8px; overflow-x: auto; background: #111827;">
+            <table class="erp-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
               <thead>
-                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); text-align: left; color: var(--text-muted);">
-                  <th style="padding: 6px 10px;">Tabela</th>
-                  <th style="padding: 6px 10px;">Registros</th>
-                  <th style="padding: 6px 10px;">Espaço Est.</th>
-                  <th style="padding: 6px 10px;">% do Banco</th>
+                <tr>
+                  <th style="padding: 8px 12px; font-size: 11px;">Tabela</th>
+                  <th style="text-align: center; width: 120px; padding: 8px 12px; font-size: 11px;">Registros</th>
+                  <th style="text-align: right; width: 140px; padding: 8px 12px; font-size: 11px;">Espaço Est.</th>
+                  <th style="text-align: right; width: 120px; padding: 8px 12px; font-size: 11px;">% do Banco</th>
                 </tr>
               </thead>
               <tbody id="arm-tabela-corpo">
@@ -7033,8 +7043,8 @@
         </div>
       </div>
 
-      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 11px; color: var(--text-muted);">Status: <span id="arm-status-geral" style="color: #34d399; font-weight: 700;">100% Saudável</span></span>
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); gap: 10px;">
+        <span style="font-size: 11px; color: var(--text-muted);">Status Geral da Infraestrutura: <strong id="arm-status-geral" style="color: #34d399; font-weight: 700;">100% Saudável</strong></span>
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalArmazenamento()">Fechar</button>
       </div>
     </div>
