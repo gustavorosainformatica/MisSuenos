@@ -6443,20 +6443,20 @@
        MODAL: RASTREAMENTO DE ENCOMENDA & LOGÍSTICA ATIVA (FASE 4)
        ========================================================================= -->
   <div class="modal-overlay" id="modal-rastreamento-pedido">
-    <div class="modal-container" style="max-width: 840px; width: 95%; max-height: 92vh;">
+    <div class="modal-container" style="max-width: 860px; width: 95%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-rastreamento-pedido" title="Arraste para redimensionar (salvo automaticamente)">◢</div>
       
       <!-- Topo do Modal -->
-      <div class="modal-header" style="padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 22px;">🚚</span>
+          <span style="font-size: 20px;">🚚</span>
           <div>
-            <div style="font-size: 16px; font-weight: 800; color: #fff;">Rastreamento de Encomenda & Logística</div>
-            <div id="rastreio-modal-subtitulo" style="font-size: 12px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Consultando status oficial...</div>
+            <div style="font-size: 15px; font-weight: 800; color: #fff;">Rastreamento de Encomenda & Logística</div>
+            <div id="rastreio-modal-subtitulo" style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Consultando status oficial...</div>
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <a id="rastreio-btn-link-oficial" href="https://rastreamento.correios.com.br" target="_blank" class="btn-top" style="font-size: 12px; padding: 6px 12px; text-decoration: none;" title="Abrir no portal oficial da transportadora">
+          <a id="rastreio-btn-link-oficial" href="https://rastreamento.correios.com.br" target="_blank" class="btn-top btn-row-action" style="font-size: 11.5px; padding: 6px 12px; text-decoration: none;" title="Abrir no portal oficial da transportadora">
             🌐 Portal Oficial ↗
           </a>
           <button class="modal-close-btn" type="button" onclick="fecharModalRastreio()">✕</button>
@@ -6464,19 +6464,19 @@
       </div>
 
       <!-- Corpo do Modal -->
-      <div class="modal-body" style="padding: 20px; overflow-y: auto; flex: 1; min-height: 0;">
+      <div class="modal-body" style="padding: 18px 22px; overflow-y: auto; flex: 1; min-height: 0; gap: 16px;">
         
-        <!-- CARD RESUMO DA ENCOMENDA -->
-        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <!-- CARD RESUMO DA ENCOMENDA (DESIGN DE ALTO CONTRASTE) -->
+        <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <span id="rastreio-badge-transp" style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); text-transform: uppercase;">CORREIOS</span>
-              <span id="rastreio-badge-pedido-num" style="font-size: 12px; color: var(--text-muted); font-weight: 600;">#PED-1048</span>
+              <span id="rastreio-badge-transp" class="badge-ped" style="font-size: 10.5px; font-weight: 800; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); text-transform: uppercase;">CORREIOS</span>
+              <span id="rastreio-badge-pedido-num" style="font-size: 12px; color: #cbd5e1; font-weight: 700; font-family: 'JetBrains Mono', monospace;">#PED-1048</span>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
-              <span style="font-size: 13px; color: var(--text-muted);">Código:</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+              <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Código:</span>
               <span id="rastreio-codigo-texto" style="font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px;">-</span>
-              <button type="button" onclick="copiarCodigoRastreio()" class="btn-top" style="padding: 3px 8px; font-size: 11px;" title="Copiar código de rastreio">📋 Copiar</button>
+              <button type="button" onclick="copiarCodigoRastreio()" class="btn-top btn-row-action" style="padding: 3px 8px; font-size: 11px;" title="Copiar código de rastreio">📋 Copiar</button>
             </div>
           </div>
 
@@ -6485,30 +6485,68 @@
               <div id="rastreio-status-badge-container">
                 <span class="erp-status-pill status-aguardando">⏳ Aguardando Envio</span>
               </div>
-              <div id="rastreio-data-atualizacao" style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Atualizado agora</div>
+              <div id="rastreio-data-atualizacao" style="font-size: 10.5px; color: var(--text-muted); margin-top: 3px;">Atualizado agora</div>
             </div>
-            <button type="button" onclick="atualizarRastreioModal()" class="btn-top" style="padding: 8px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" title="Atualizar informações em tempo real">
+            <button type="button" onclick="atualizarRastreioModal()" class="btn-top btn-emerald-glow" style="padding: 7px 12px; font-size: 11.5px; display: flex; align-items: center; gap: 6px;" title="Atualizar informações em tempo real">
               🔄 Atualizar
             </button>
           </div>
         </div>
 
-        <!-- TIMELINE VERTICAL DOS EVENTOS LOGÍSTICOS -->
-        <div style="margin-bottom: 24px;">
-          <h4 style="font-size: 13px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
-            <span>📍 Histórico de Movimentações da Carga</span>
-          </h4>
+        <!-- PIPELINE HORIZONTAL DE 4 ETAPAS (PROGRESSO DA ENTREGA) -->
+        <div style="background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 12px 16px;">
+          <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.3px;">
+            Pipeline de Entrega da Carga:
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center;">
+            <div id="pipe-step-1" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+              <div id="pipe-circle-1" style="width: 28px; height: 28px; border-radius: 50%; background: #1e293b; border: 2px solid #475569; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; transition: all 0.2s;">
+                📦
+              </div>
+              <div id="pipe-lbl-1" style="font-size: 11px; font-weight: 700; color: #94a3b8;">Postado</div>
+            </div>
 
-          <div id="rastreio-timeline-wrapper" style="position: relative; padding-left: 20px; border-left: 2px solid #334155; margin-left: 12px; display: flex; flex-direction: column; gap: 18px;">
+            <div id="pipe-step-2" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+              <div id="pipe-circle-2" style="width: 28px; height: 28px; border-radius: 50%; background: #1e293b; border: 2px solid #475569; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; transition: all 0.2s;">
+                🚚
+              </div>
+              <div id="pipe-lbl-2" style="font-size: 11px; font-weight: 700; color: #94a3b8;">Em Trânsito</div>
+            </div>
+
+            <div id="pipe-step-3" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+              <div id="pipe-circle-3" style="width: 28px; height: 28px; border-radius: 50%; background: #1e293b; border: 2px solid #475569; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; transition: all 0.2s;">
+                📍
+              </div>
+              <div id="pipe-lbl-3" style="font-size: 11px; font-weight: 700; color: #94a3b8;">Saiu p/ Entrega</div>
+            </div>
+
+            <div id="pipe-step-4" style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+              <div id="pipe-circle-4" style="width: 28px; height: 28px; border-radius: 50%; background: #1e293b; border: 2px solid #475569; color: #94a3b8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; transition: all 0.2s;">
+                🏁
+              </div>
+              <div id="pipe-lbl-4" style="font-size: 11px; font-weight: 700; color: #94a3b8;">Entregue</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TIMELINE VERTICAL DOS EVENTOS LOGÍSTICOS -->
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+            <span>📍</span> Histórico de Movimentações da Carga
+          </div>
+
+          <div id="rastreio-timeline-wrapper" style="position: relative; padding-left: 20px; border-left: 2px solid #334155; margin-left: 12px; display: flex; flex-direction: column; gap: 14px;">
             <div style="color: var(--text-muted); font-size: 12px;">Nenhum evento registrado ainda.</div>
           </div>
         </div>
 
         <!-- ÁREA DE VÍNCULO / ATUALIZAÇÃO RÁPIDA DE CÓDIGO -->
-        <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px 18px;">
-          <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 8px;">⚙️ Vincular ou Alterar Código de Rastreio</div>
-          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <select id="rastreio-input-transp" class="form-input" style="width: 180px; font-size: 12px; height: 36px;">
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px 16px;">
+          <div style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 6px;">
+            ⚙️ Vincular ou Alterar Código de Rastreio
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <select id="rastreio-input-transp" class="form-input erp-select" style="width: 180px; font-size: 12px; height: 35px;">
               <option value="Correios (Sedex)">Correios (Sedex)</option>
               <option value="Correios (PAC)">Correios (PAC)</option>
               <option value="Jadlog">Jadlog</option>
@@ -6518,8 +6556,8 @@
               <option value="Retirada no Local">Retirada no Local</option>
               <option value="Entrega Própria">Entrega Própria / Motoboy</option>
             </select>
-            <input type="text" id="rastreio-input-novo-codigo" class="form-input" placeholder="Ex: NL184920485BR ou Código CTE" style="flex: 1; min-width: 200px; font-family: 'JetBrains Mono', monospace; font-size: 12px; height: 36px; text-transform: uppercase;">
-            <button type="button" onclick="salvarNovoCodigoRastreio()" class="btn-top" style="padding: 0 16px; height: 36px; font-size: 12px; font-weight: 700; background: #38bdf8; color: #04101e; border: none;">
+            <input type="text" id="rastreio-input-novo-codigo" class="form-input" placeholder="Ex: NL184920485BR ou Código CTE" style="flex: 1; min-width: 200px; font-family: 'JetBrains Mono', monospace; font-size: 12px; height: 35px; text-transform: uppercase;">
+            <button type="button" onclick="salvarNovoCodigoRastreio()" class="btn-top btn-primary-glow" style="padding: 0 16px; height: 35px; font-size: 12px; font-weight: 700; background: #0284c7; color: #fff; border: 1px solid #38bdf8;">
               💾 Salvar Rastreio
             </button>
           </div>
@@ -6528,12 +6566,12 @@
       </div>
 
       <!-- Rodapé do Modal -->
-      <div class="modal-footer" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08);">
-        <button type="button" onclick="enviarWhatsAppDoModal()" class="btn-top" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px 16px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" onclick="enviarWhatsAppDoModal()" class="btn-top btn-emerald-glow" style="padding: 8px 16px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
           <span>📱</span> <span>Disparar para WhatsApp do Cliente</span>
         </button>
-        <button type="button" class="btn-top" onclick="fecharModalRastreio()" style="padding: 8px 18px; font-size: 12px;">
-          Fechar
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalRastreio()" style="padding: 8px 16px; font-size: 12px;">
+          Fechar Janela
         </button>
       </div>
 
@@ -13967,6 +14005,105 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         document.getElementById('rastreio-status-badge-container').innerHTML = `
           <span class="erp-status-pill status-aguardando">⏳ Aguardando Envio</span>
         `;
+        if (typeof atualizarPipelineRastreio === 'function') atualizarPipelineRastreio('AGUARDANDO_ENVIO');
+      }
+    }
+
+    function atualizarPipelineRastreio(status) {
+      const st = String(status || '').toUpperCase().trim();
+      
+      const c1 = document.getElementById('pipe-circle-1');
+      const l1 = document.getElementById('pipe-lbl-1');
+      const c2 = document.getElementById('pipe-circle-2');
+      const l2 = document.getElementById('pipe-lbl-2');
+      const c3 = document.getElementById('pipe-circle-3');
+      const l3 = document.getElementById('pipe-lbl-3');
+      const c4 = document.getElementById('pipe-circle-4');
+      const l4 = document.getElementById('pipe-lbl-4');
+
+      // Reseta todos
+      [c1, c2, c3, c4].forEach(c => {
+        if (c) {
+          c.style.background = '#1e293b';
+          c.style.borderColor = '#475569';
+          c.style.color = '#94a3b8';
+          c.style.boxShadow = 'none';
+        }
+      });
+      [l1, l2, l3, l4].forEach(l => { if (l) l.style.color = '#94a3b8'; });
+
+      const setCompleted = (c, l) => {
+        if (c) { c.style.background = '#059669'; c.style.borderColor = '#10b981'; c.style.color = '#fff'; }
+        if (l) { l.style.color = '#34d399'; }
+      };
+      const setActive = (c, l) => {
+        if (c) { c.style.background = 'rgba(56, 189, 248, 0.2)'; c.style.borderColor = '#38bdf8'; c.style.color = '#38bdf8'; c.style.boxShadow = '0 0 10px rgba(56, 189, 248, 0.35)'; }
+        if (l) { l.style.color = '#38bdf8'; }
+      };
+
+      if (st === 'ENTREGUE') {
+        setCompleted(c1, l1);
+        setCompleted(c2, l2);
+        setCompleted(c3, l3);
+        setCompleted(c4, l4);
+      } else if (st === 'SAIU_ENTREGA' || st.includes('SAIU')) {
+        setCompleted(c1, l1);
+        setCompleted(c2, l2);
+        setActive(c3, l3);
+      } else if (st === 'EM_TRANSITO' || st.includes('TRANSITO')) {
+        setCompleted(c1, l1);
+        setActive(c2, l2);
+      } else if (st === 'POSTADO' || st.includes('COLETADO')) {
+        setActive(c1, l1);
+      }
+    }
+
+    function atualizarPipelineRastreio(status) {
+      const st = String(status || '').toUpperCase().trim();
+      
+      const c1 = document.getElementById('pipe-circle-1');
+      const l1 = document.getElementById('pipe-lbl-1');
+      const c2 = document.getElementById('pipe-circle-2');
+      const l2 = document.getElementById('pipe-lbl-2');
+      const c3 = document.getElementById('pipe-circle-3');
+      const l3 = document.getElementById('pipe-lbl-3');
+      const c4 = document.getElementById('pipe-circle-4');
+      const l4 = document.getElementById('pipe-lbl-4');
+
+      // Reseta todos
+      [c1, c2, c3, c4].forEach(c => {
+        if (c) {
+          c.style.background = '#1e293b';
+          c.style.borderColor = '#475569';
+          c.style.color = '#94a3b8';
+          c.style.boxShadow = 'none';
+        }
+      });
+      [l1, l2, l3, l4].forEach(l => { if (l) l.style.color = '#94a3b8'; });
+
+      const setCompleted = (c, l) => {
+        if (c) { c.style.background = '#059669'; c.style.borderColor = '#10b981'; c.style.color = '#fff'; }
+        if (l) { l.style.color = '#34d399'; }
+      };
+      const setActive = (c, l) => {
+        if (c) { c.style.background = 'rgba(56, 189, 248, 0.2)'; c.style.borderColor = '#38bdf8'; c.style.color = '#38bdf8'; c.style.boxShadow = '0 0 10px rgba(56, 189, 248, 0.35)'; }
+        if (l) { l.style.color = '#38bdf8'; }
+      };
+
+      if (st === 'ENTREGUE') {
+        setCompleted(c1, l1);
+        setCompleted(c2, l2);
+        setCompleted(c3, l3);
+        setCompleted(c4, l4);
+      } else if (st === 'SAIU_ENTREGA' || st.includes('SAIU')) {
+        setCompleted(c1, l1);
+        setCompleted(c2, l2);
+        setActive(c3, l3);
+      } else if (st === 'EM_TRANSITO' || st.includes('TRANSITO')) {
+        setCompleted(c1, l1);
+        setActive(c2, l2);
+      } else if (st === 'POSTADO' || st.includes('COLETADO')) {
+        setActive(c1, l1);
       }
     }
 
@@ -14004,6 +14141,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             : `<span class="erp-status-pill status-separacao">📦 POSTADO</span>`;
 
           dataAtualizacao.textContent = `Atualizado em: ${data.data_atualizacao || 'Hoje'}`;
+          atualizarPipelineRastreio(data.status_atual || (isEntregue ? 'ENTREGUE' : (isTransito ? 'EM_TRANSITO' : 'POSTADO')));
+          atualizarPipelineRastreio(data.status_atual || (isEntregue ? 'ENTREGUE' : (isTransito ? 'EM_TRANSITO' : 'POSTADO')));
 
           wrapper.innerHTML = data.eventos.map((ev, index) => {
             const isPrimeiro = index === 0;
