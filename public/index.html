@@ -6308,64 +6308,80 @@
   <div class="modal-overlay" id="modal-ficha-kardex">
     <div class="modal-container" style="max-width: 1220px; width: 96%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-ficha-kardex" title="Arraste para redimensionar (salvo automaticamente)">◢</div>
-      <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 22px;">📑</span>
+          <span style="font-size: 20px;">📑</span>
           <div>
-            <div style="font-size: 16px; font-weight: 800; color: #fff;">Ficha Kardex do Produto</div>
-            <div id="kardex-prod-subtitulo" style="font-size: 12px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando histórico...</div>
+            <div style="font-size: 15px; font-weight: 800; color: #fff;">Ficha Kardex do Produto</div>
+            <div id="kardex-prod-subtitulo" style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando histórico...</div>
           </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <button type="button" class="btn-top btn-row-action" onclick="exportarKardexCsv()" style="font-size: 12px; padding: 6px 12px; display: flex; align-items: center; gap: 6px;" title="Exportar Extrato para Planilha Excel (CSV com UTF-8 BOM)">
-            📊 Exportar CSV
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="exportarKardexCsv()" style="font-size: 11.5px; padding: 6px 12px; display: flex; align-items: center; gap: 6px;" title="Exportar Extrato para Planilha Excel (CSV com UTF-8 BOM)">
+            <span>📊</span> Exportar CSV
           </button>
           <button class="modal-close-btn" type="button" onclick="fecharModalFichaKardex()">✕</button>
         </div>
       </div>
 
-      <div class="modal-body" style="padding: 20px; display: flex; flex-direction: column; flex: 1; min-height: 0;">
-        <!-- CARDS DE RESUMO DO PRODUTO (SALDO ATUAL, ENTRADAS, SAÍDAS) -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px;">
-          <div style="background: rgba(15, 23, 42, 0.75); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; padding: 12px 16px;">
-            <div style="font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Saldo Físico Atual</div>
-            <div id="kardex-card-saldo" style="font-size: 22px; font-weight: 800; color: #38bdf8; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+      <div class="modal-body" style="padding: 18px 22px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 14px;">
+        <!-- 4 CARDS DE RESUMO DO PRODUTO (SALDO ATUAL, ENTRADAS, SAÍDAS, MOVIMENTAÇÕES) -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10px; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Saldo Físico Atual</div>
+            <div id="kardex-card-saldo" style="font-size: 20px; font-weight: 800; color: #38bdf8; font-family: 'JetBrains Mono', monospace; margin-top: 3px;">-</div>
           </div>
-          <div style="background: rgba(160, 230, 200, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 12px 16px;">
-            <div style="font-size: 11px; color: #34d399; font-weight: 700; text-transform: uppercase;">Total de Entradas</div>
-            <div id="kardex-card-entradas" style="font-size: 22px; font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10px; color: #34d399; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Total de Entradas</div>
+            <div id="kardex-card-entradas" style="font-size: 20px; font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace; margin-top: 3px;">-</div>
           </div>
-          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 10px; padding: 12px 16px;">
-            <div style="font-size: 11px; color: #f87171; font-weight: 700; text-transform: uppercase;">Total de Saídas / Baixas</div>
-            <div id="kardex-card-saidas" style="font-size: 22px; font-weight: 800; color: #f87171; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10px; color: #f87171; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Total de Saídas</div>
+            <div id="kardex-card-saidas" style="font-size: 20px; font-weight: 800; color: #f87171; font-family: 'JetBrains Mono', monospace; margin-top: 3px;">-</div>
           </div>
-          <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 10px; padding: 12px 16px;">
-            <div style="font-size: 11px; color: #c084fc; font-weight: 700; text-transform: uppercase;">Total de Movimentações</div>
-            <div id="kardex-card-total" style="font-size: 22px; font-weight: 800; color: #c084fc; font-family: 'JetBrains Mono', monospace; margin-top: 4px;">-</div>
+          <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10px; color: #c084fc; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">Movimentações</div>
+            <div id="kardex-card-total" style="font-size: 20px; font-weight: 800; color: #c084fc; font-family: 'JetBrains Mono', monospace; margin-top: 3px;">-</div>
           </div>
         </div>
 
-        <!-- BARRA DE FILTROS E AÇÃO RÁPIDA -->
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;">
-          <input type="text" id="kardex-busca-filtro" class="form-input" placeholder="🔍 Filtrar por motivo, doc ou operador..." style="width: 280px; padding: 8px 12px; font-size: 12px;" oninput="filtrarLinhasKardex()">
-          <button type="button" class="btn-top btn-row-action" onclick="if(kardexProdutoAtivoId) { abrirModalAjusteEstoque(kardexProdutoAtivoId); fecharModalFichaKardex(); }" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-weight: 800; padding: 8px 16px;">
-            ⚡ Novo Ajuste Neste Item
+        <!-- BARRA DE FERRAMENTAS: BUSCA RÁPIDA + SEGMENTED CONTROL LIMPO + BOTÃO DE NOVO AJUSTE -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="kardex-busca-filtro" class="form-input" placeholder="🔍 Filtrar por motivo, doc ou operador..." style="width: 270px; padding: 7px 12px; font-size: 12px;" oninput="filtrarLinhasKardex()">
+            
+            <!-- SEGMENTED CONTROL LIMPO (PADRONIZAÇÃO OFICIAL DO ERP) -->
+            <div style="display: flex; background: #090d16; border: 1px solid #334155; border-radius: 6px; padding: 3px; gap: 4px;">
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-todos" onclick="filtrarTipoKardex('TODOS')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.18); color: #38bdf8; cursor: pointer; transition: all 0.2s;">
+                Todos
+              </button>
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-entradas" onclick="filtrarTipoKardex('ENTRADA')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
+                <span>🟢</span> Entradas
+              </button>
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-saidas" onclick="filtrarTipoKardex('SAIDA')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
+                <span>🔴</span> Saídas
+              </button>
+            </div>
+          </div>
+
+          <button type="button" class="btn-top btn-emerald-glow" onclick="if(kardexProdutoAtivo?.id) { abrirModalAjusteEstoque(kardexProdutoAtivo.id); fecharModalFichaKardex(); }" style="font-weight: 800; font-size: 11.5px; padding: 7px 14px;">
+            <span>⚡</span> Novo Ajuste Neste Item
           </button>
         </div>
 
-        <!-- TABELA DO KARDEX -->
-        <div class="erp-table-wrapper kardex-table-wrapper" style="flex: 1; min-height: 260px; max-height: 52vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;">
-          <table class="erp-table" id="tabela-kardex" style="width: 100%;">
+        <!-- TABELA DO KARDEX COM PROPORÇÕES PERFEITAS -->
+        <div class="erp-table-wrapper kardex-table-wrapper" style="flex: 1; min-height: 280px; max-height: 54vh; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: #0b1120;">
+          <table class="erp-table" id="tabela-kardex" style="width: 100%; border-collapse: collapse;">
             <thead>
-              <tr>
-                <th style="width: 135px;">Data / Hora</th>
-                <th style="width: 90px; text-align: center;">Tipo</th>
-                <th>Motivo / Justificativa</th>
-                <th style="width: 95px; text-align: right;">Quantidade</th>
-                <th style="width: 85px; text-align: right;">Saldo Ant.</th>
-                <th style="width: 95px; text-align: right;">Saldo Result.</th>
-                <th style="width: 130px;">Documento</th>
-                <th style="width: 140px;">Operador</th>
+              <tr style="background: #090d16;">
+                <th style="width: 135px; padding: 9px 12px;">Data / Hora</th>
+                <th style="width: 90px; text-align: center; padding: 9px 12px;">Tipo</th>
+                <th style="padding: 9px 12px;">Motivo / Justificativa</th>
+                <th style="width: 105px; text-align: right; padding: 9px 12px;">Qtd Movimento</th>
+                <th style="width: 90px; text-align: right; padding: 9px 12px;">Saldo Ant.</th>
+                <th style="width: 105px; text-align: right; padding: 9px 12px;">Novo Saldo</th>
+                <th style="width: 140px; padding: 9px 12px;">Doc. Referência</th>
+                <th style="width: 120px; padding: 9px 12px;">Operador</th>
               </tr>
             </thead>
             <tbody id="tbody-kardex">
@@ -6377,6 +6393,13 @@
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 11px; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+          <span>🔒</span> Extrato patrimonial imutável para conformidade contábil e auditoria.
+        </div>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalFichaKardex()">Fechar Extrato</button>
       </div>
     </div>
   </div>
@@ -18450,7 +18473,49 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       kardexLinhasCache = [];
     }
 
+    let filtroTipoKardexAtivo = 'TODOS';
+
+    function filtrarTipoKardex(tipo) {
+      filtroTipoKardexAtivo = tipo;
+      const btnTodos = document.getElementById('btn-kardex-todos');
+      const btnEntradas = document.getElementById('btn-kardex-entradas');
+      const btnSaidas = document.getElementById('btn-kardex-saidas');
+
+      [btnTodos, btnEntradas, btnSaidas].forEach(btn => {
+        if (btn) {
+          btn.style.border = '1px solid transparent';
+          btn.style.background = 'transparent';
+          btn.style.color = '#94a3b8';
+          btn.style.boxShadow = 'none';
+        }
+      });
+
+      if (tipo === 'TODOS') {
+        if (btnTodos) {
+          btnTodos.style.border = '1px solid #38bdf8';
+          btnTodos.style.background = 'rgba(56, 189, 248, 0.18)';
+          btnTodos.style.color = '#38bdf8';
+        }
+      } else if (tipo === 'ENTRADA') {
+        if (btnEntradas) {
+          btnEntradas.style.border = '1px solid #10b981';
+          btnEntradas.style.background = 'rgba(16, 185, 129, 0.18)';
+          btnEntradas.style.color = '#34d399';
+        }
+      } else if (tipo === 'SAIDA') {
+        if (btnSaidas) {
+          btnSaidas.style.border = '1px solid #ef4444';
+          btnSaidas.style.background = 'rgba(239, 68, 68, 0.18)';
+          btnSaidas.style.color = '#f87171';
+        }
+      }
+
+      filtrarLinhasKardex();
+    }
+
     async function carregarKardexProduto(produtoId) {
+      filtroTipoKardexAtivo = 'TODOS';
+      filtrarTipoKardex('TODOS');
       const tbody = document.getElementById('tbody-kardex');
       tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">Carregando extrato de movimentações...</td></tr>';
 
@@ -18531,16 +18596,24 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     function filtrarLinhasKardex() {
       const termo = (document.getElementById('kardex-busca-filtro')?.value || '').toLowerCase().trim();
-      if (!termo) {
-        renderizarLinhasKardex(kardexLinhasCache);
-        return;
+      
+      let filtradas = kardexLinhasCache || [];
+
+      // Filtro 1: Por Tipo (Segmented Control)
+      if (filtroTipoKardexAtivo && filtroTipoKardexAtivo !== 'TODOS') {
+        filtradas = filtradas.filter(m => m.tipo === filtroTipoKardexAtivo);
       }
-      const filtradas = kardexLinhasCache.filter(m => {
-        return (m.motivo || '').toLowerCase().includes(termo) ||
-               (m.documento_referencia || '').toLowerCase().includes(termo) ||
-               (m.operador_nome || '').toLowerCase().includes(termo) ||
-               (m.observacoes || '').toLowerCase().includes(termo);
-      });
+
+      // Filtro 2: Por Termo Textual
+      if (termo) {
+        filtradas = filtradas.filter(m => {
+          return (m.motivo || '').toLowerCase().includes(termo) ||
+                 (m.documento_referencia || '').toLowerCase().includes(termo) ||
+                 (m.operador_nome || '').toLowerCase().includes(termo) ||
+                 (m.observacoes || '').toLowerCase().includes(termo);
+        });
+      }
+
       renderizarLinhasKardex(filtradas);
     }
 
