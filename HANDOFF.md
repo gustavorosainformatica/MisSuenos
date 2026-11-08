@@ -1,7 +1,7 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 12:25 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #6 e Pedido Concluídas)  
+> **Data de Atualização:** 08 de Novembro de 2026 — 12:34 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #7 e Pedido Concluídas)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
 
 ---
@@ -51,7 +51,14 @@
 - **4 Cards de Métricas no Topo:** `Saldo Físico Atual` (azul ciano), `Total de Entradas` (verde esmeralda), `Total de Saídas` (vermelho carmesim) e `Movimentações` (roxo).
 - **Tabela Proporcional de Extrato:** Colunas alinhadas com tipografia *JetBrains Mono* para quantidades e saldos, badges semânticos compactos e atalho `[ ⚡ Novo Ajuste Neste Item ]`.
 - **Exportação CSV:** Botão `📊 Exportar CSV` com UTF-8 BOM preservado para abertura perfeita no Excel.
-- **Service Worker v40:** Cache atualizado para `missuenos-pwa-v40` e deploy validado na nuvem.
+
+### H. Modernização do Rastreamento Logístico (`modal-rastreamento-pedido`) - Janela #7
+- **Pipeline Visual Horizontal de 4 Etapas:** Barra de progresso dinâmica (`[ 📦 Postado ]` ➔ `[ 🚚 Em Trânsito ]` ➔ `[ 📍 Saiu p/ Entrega ]` ➔ `[ 🏁 Entregue ]`) com acendimento automático conforme o status da carga.
+- **Card Resumo de Alto Contraste:** Código oficial em *JetBrains Mono* com botão de cópia instantânea `📋 Copiar` e botão `🔄 Atualizar`.
+- **Linha do Tempo Cronológica:** Histórico de eventos logísticos com ícones semânticos, datas e locais de passagem.
+- **Área de Vinculação Rápida:** Transportadora + Código com atalho direto.
+- **Notificação Direta para WhatsApp:** Botão `📱 Disparar para WhatsApp do Cliente` gerando mensagem formatada de rastreio com link com 1 clique.
+- **Service Worker v41:** Cache atualizado para `missuenos-pwa-v41` e deploy validado na nuvem.
 
 ---
 
@@ -59,13 +66,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`fa05df3`](https://github.com/gustavorosainformatica/MisSuenos/commit/fa05df3)
-  - Service Worker: `missuenos-pwa-v40` ativo.
-  - ETag da Produção: `"8937a0c5605f6ff1418e963c6f9f7c69"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`274fc75`](https://github.com/gustavorosainformatica/MisSuenos/commit/274fc75)
+  - Service Worker: `missuenos-pwa-v41` ativo.
+  - ETag da Produção: `"040b562573f844df2e58c7b042fbd5f7"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `fa05df3` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `7cdd178` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `e99c209` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `274fc75` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `d90349c` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `72b33d8` na branch `main`).
 - **Fila de Modernização de Janelas:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
@@ -73,8 +80,8 @@
   - [x] #4: `modal-etiqueta` (Concluído)
   - [x] #5: `modal-ajuste-estoque` (Concluído)
   - [x] #6: `modal-ficha-kardex` (Concluído)
-  - [ ] **#7: `modal-rastreamento-pedido` (Rastreamento Logístico)**
-  - [ ] #8: `modal-fiscal` (Emissão NF-e Portal Nacional)
+  - [x] #7: `modal-rastreamento-pedido` (Concluído)
+  - [ ] **#8: `modal-fiscal` (Emissão NF-e Portal Nacional)**
   - [ ] #9: `modal-pacote-contador` (Fechamento Fiscal)
   - [ ] #10: `modal-importar-xml` (Importação NF-e XML)
   - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
@@ -83,7 +90,7 @@
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #7 - Rastreamento Logístico (`modal-rastreamento-pedido`):**
-  - Aplicar o novo padrão minimalista e moderno no modal de rastreamento de encomendas.
-  - Linha do tempo visual da entrega (Objeto Postado ➔ Em Trânsito ➔ Saiu para Entrega ➔ Entregue).
-  - Consulta rápida de código de rastreio dos Correios / Transportadoras e atalho direto para WhatsApp do cliente com o status do pacote.
+- [ ] **1. Janela #8 - Emissão NF-e Portal Nacional (`modal-fiscal`):**
+  - Modernizar a tela de emissão e conferência de Nota Fiscal com proporções perfeitas e abas/linhas fluidas.
+  - Campos de Natureza da Operação, CFOP (5.101/6.101), Chave de Acesso de 44 dígitos e alíquotas.
+  - Ações rápidas: `[ 🧾 Transmitir NF-e ]`, `[ 📥 Baixar XML ]`, `[ 🖨️ Imprimir DANFE ]` e `[ 📱 Enviar XML/DANFE por WhatsApp ]`.
