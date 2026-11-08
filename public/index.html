@@ -6774,63 +6774,108 @@
 
   <!-- MODAL 1: SOBRE O MIS SUEÑOS ERP (V3.0) -->
   <div class="modal-overlay" id="modal-sobre-sistema">
-    <div class="modal-container" style="max-width: 580px; width: 95%;">
-      <div class="modal-header" style="padding: 14px 22px;">
-        <div class="modal-title">
-          <span>ℹ️</span>
-          <span>Sobre o Mis Sueños ERP</span>
+    <div class="modal-container" style="max-width: 620px; width: 95%;">
+      <div class="modal-resize-handle" data-modal="modal-sobre-sistema" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 20px;">ℹ️</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Sobre o Sistema • Mis Sueños ERP</span>
+              <span style="font-size: 9.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: 700;">
+                🟢 HOMOLOGADO
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Especificações da Stack Oficial, Licenciamento e Suporte Técnico
+            </div>
+          </div>
         </div>
-        <button class="modal-close-btn" onclick="fecharModalSobreSistema()">✕</button>
+        <button type="button" class="modal-close" onclick="fecharModalSobreSistema()" style="font-size: 18px; color: var(--text-muted); cursor: pointer; background: none; border: none; transition: color 0.2s;">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 24px; text-align: center;">
-        <div style="font-size: 42px; margin-bottom: 6px;">🪵</div>
-        <h3 style="font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 2px;" id="modal-sobre-app-name">Mis Sueños ERP</h3>
-        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;" id="modal-sobre-app-slogan">
-          Gestão Integrada de Couros, Clientes, Estoque (3 Saldos) & Fiscal
-        </p>
-
-        <span style="display: inline-block; padding: 4px 14px; border-radius: 999px; font-size: 11px; font-weight: 800; background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); margin-bottom: 18px;">
-          ✓ Versão 3.0.0 Oficial (Nuvem & Offline PWA)
-        </span>
+      <div class="modal-body" style="padding: 24px; display: flex; flex-direction: column; gap: 18px; text-align: center;">
+        
+        <!-- HERO BANNER -->
+        <div style="background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; overflow: hidden;">
+          <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #38bdf8, #34d399, #818cf8);"></div>
+          <span style="font-size: 40px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">🪵</span>
+          <h3 style="font-size: 22px; font-weight: 900; letter-spacing: -0.5px; color: #fff; margin: 0;" id="modal-sobre-app-name">Mis Sueños ERP</h3>
+          <p style="font-size: 12.5px; color: var(--text-muted); max-width: 480px; line-height: 1.4; margin: 0;" id="modal-sobre-app-slogan">
+            Gestão Integrada de Couros Nobres, Carteira de Clientes, Estoque de 3 Saldos e Inteligência Fiscal
+          </p>
+          <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 999px; font-size: 11px; font-weight: 800; background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); font-family: 'JetBrains Mono', monospace; margin-top: 4px;">
+            <span>⚡</span> Versão 3.0.0 Oficial • Produção Edge PWA (Turso Cloud)
+          </div>
+        </div>
 
         <!-- GRID DE ESPECIFICAÇÕES TÉCNICAS -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; text-align: left;">
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Desenvolvedor</div>
-            <div style="font-size: 13px; font-weight: 700; color: #fff; margin-top: 2px;">Gustavo Rosa Informática</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>👨‍💻</span> Desenvolvedor Responsável
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #fff; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Gustavo Rosa Informática</div>
           </div>
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Banco de Dados</div>
-            <div style="font-size: 13px; font-weight: 700; color: #34d399; margin-top: 2px;">🟢 Turso Cloud (GRU/SP)</div>
+
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>🗄️</span> Banco de Dados Principal
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #34d399; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Turso Cloud libSQL (GRU/SP)</div>
           </div>
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Hospedagem & CDN</div>
-            <div style="font-size: 13px; font-weight: 700; color: #fff; margin-top: 2px;">Vercel Edge / Cloudflare</div>
+
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>⚡</span> Hospedagem & CDN
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #38bdf8; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Vercel Edge / Cloudflare</div>
           </div>
-          <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
-            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--text-muted);">Licença Comercial</div>
-            <div style="font-size: 13px; font-weight: 700; color: #38bdf8; margin-top: 2px;">✓ Licença Homologada</div>
+
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>📦</span> Armazenamento em Nuvem
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Cloudflare R2 Storage (10 GB)</div>
+          </div>
+
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>🛡️</span> Arquitetura Serverless
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #a78bfa; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Single Function Gateway (Hobby Tier)</div>
+          </div>
+
+          <div style="background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.06); padding: 10px 14px; border-radius: 8px;">
+            <div style="font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px;">
+              <span>🔐</span> Licenciamento Comercial
+            </div>
+            <div style="font-size: 12.5px; font-weight: 700; color: #34d399; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">Licença Homologada & Ativa</div>
           </div>
         </div>
 
         <!-- BOTÕES DE AÇÃO -->
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="btn-top" style="background: #16a34a; color: #fff; border-color: #22c55e;" onclick="abrirSuporteWhatsApp()">
+          <button type="button" class="btn-top" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.4); color: #4ade80;" onclick="abrirSuporteWhatsApp()">
             <span>💬</span> Suporte via WhatsApp
           </button>
           <button type="button" class="btn-top btn-row-action" onclick="fecharModalSobreSistema(); abrirModalChangelog();">
-            <span>📜</span> Ver Novidades (Changelog)
+            <span>📜</span> Notas da Versão
+          </button>
+          <button type="button" class="btn-top btn-row-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" onclick="if(window.atualizarSistemaERP) window.atualizarSistemaERP(); else window.location.reload();">
+            <span>🔄</span> Atualizar Sistema
           </button>
           <a class="btn-top btn-row-action" href="/DEMONSTRACAO_EVOLUCAO_SISTEMA.html" target="_blank" style="text-decoration: none;">
-            <span>🌐</span> Showcase Antes vs Depois
+            <span>🌐</span> Showcase Antes & Depois
           </a>
         </div>
 
-        <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 11.5px; color: var(--text-muted);">
+        <!-- RODAPÉ LEGAL -->
+        <div style="padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.06); font-size: 11px; color: var(--text-muted); line-height: 1.5;">
           Desenvolvido com excelência técnica por <strong>Gustavo Rosa Informática</strong><br>
-          Sapiranga - RS • Suporte Técnico, Automação & Infraestrutura
+          Sapiranga - RS • Suporte Técnico Especializado, Automação & Infraestrutura em Nuvem
         </div>
+
       </div>
     </div>
   </div>
