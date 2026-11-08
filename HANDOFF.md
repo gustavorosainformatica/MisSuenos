@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 14:53 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Cálculo Unificado de Itens + Frete e Autocomplete sem Acentos (SW v53)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v53)
+> **Data de Atualização:** 08 de Novembro de 2026 — 15:13 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Suíte de Testes Automatizados TDD Ativa (SW v54)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v54)
 
 ---
 
@@ -14,21 +14,20 @@
 
 ---
 
-## 2. Correções Críticas Recentes Implementadas na Ficha de Pedido
+## 2. Suíte de Testes Automatizados (/tdd) - Blindagem Completa dos Cálculos
 
-### A. Autocomplete Inteligente de Clientes (Insensível a Acentos)
-- O campo de cliente na Ficha de Pedido (`form-ped-cliente-nome`) utilizava o elemento `<datalist>` nativo do HTML, que filtrava com acentos rígidos no Chromium.
-- Substituído por um **Dropdown de Autocomplete Flutuante Reativo (`#autocomplete-clientes-pedido`)**:
-  - Aplica `normalizarTextoBusca()`, permitindo digitar `jose`, `jose av`, `avelino` ou documentos/cidades e localizar `José Avelino de Oliveira` instantaneamente.
-  - Suporte a teclado (`▲`, `▼`, `Enter`, `Esc`) e foco automático no próximo campo.
+Implementação da biblioteca central de cálculos (`lib/calculos_erp.js`) e suíte de testes unitários com o Node.js Test Runner nativo (`tests/calculos.test.js` executável via `npm test`):
 
-### B. Cálculo Unificado do Total Geral (Itens + Frete)
-- **Causa Raiz Identificada:** `calcularSubtotalItensPedido()` buscava a propriedade `item.subtotal`, que não era gravada no array de itens, retornando `0` no cálculo do frete e sobrescrevendo o Total Geral com apenas o valor do frete (ex: R$ 30,00 em vez de R$ 145,00).
-- **Solução Implementada:**
-  - Criação da rotina centralizada `recalcularTotalGeralPedido()`:
-    $$\text{Total Geral} = \sum (\text{Quantidade} \times \text{Preço Unitário}) + \text{Valor do Frete}$$
-  - Disparo síncrono e integrado ao adicionar produto, alterar quantidade, alterar preço, remover item ou alterar o valor do frete.
-  - Atribuição persistente de `item.subtotal = qtd * preco` no mapeamento dos itens.
+1. **Caso Clássico Gustavo:** Pele Caprina (R$ 115,00) + Frete (R$ 30,00) = R$ 145,00.
+2. **Múltiplos Itens com Fracionados e Centavos:** Soma de produtos compostos e frete em formato brasileiro `R$ 25,00`.
+3. **Frete Zero / Não Informado:** Preservação integral do subtotal de itens sem sobrescrita.
+4. **Lista de Itens Vazia:** Preservação do valor exclusivo do frete (R$ 40,00).
+5. **Formatação e Desformatação Monetária Brasileira:** Conversão bidirecional segura (`1.250,75` ➔ `1250.75` e `145` ➔ `145,00`).
+6. **Margem Bruta do Produto:** Cálculo preciso de Margem em R$ e % com proteção contra divisão por zero.
+7. **Ajuste de Estoque:** Operações de Entrada (+5), Saída (-4) e Balanço Físico (+4 / -3).
+8. **Parser de Itens Legados com Centavos:** Blindagem da regex contra quebra de decimais (`/;,\\n,+,\\,(?!\\d)/`).
+
+Resultado da Execução: **8 de 8 testes passando (100% Verde em ~185ms)**.
 
 ---
 
@@ -58,10 +57,10 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`d56e604`](https://github.com/gustavorosainformatica/MisSuenos/commit/d56e604)
-  - Service Worker: `missuenos-pwa-v53` ativo.
-  - ETag da Produção: `"40a98416bcec88bc769b96fc9dd8ae37"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`7d01dfb`](https://github.com/gustavorosainformatica/MisSuenos/commit/7d01dfb)
+  - Service Worker: `missuenos-pwa-v54` ativo.
+  - ETag da Produção: `"3ef14c921b4d42ead038ff868e2f4455"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `d56e604` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `8d22619` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `6feb9af` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `7d01dfb` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `4763711` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `5588907` na branch `main`).
