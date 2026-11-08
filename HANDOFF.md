@@ -1,15 +1,15 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 12:05 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #5 e Pedido Concluídas)  
+> **Data de Atualização:** 08 de Novembro de 2026 — 12:25 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #6 e Pedido Concluídas)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados)
 
 ---
 
 ## 1. Diretriz Oficial de Design: Padronização Minimalista e Limpa (Zero Parênteses Óbvios)
 - **Princípio Aprovado pelo Usuário Gustavo:** Eliminar solenemente parênteses e textos didáticos redundantes (como `(+ AUMENTAR)`, `(- BAIXAR)`, `(CONTAGEM)`).
-- **Segmented Controls Compactos:** Utilizar barras seletoras segmentadas elegantes com termos consolidados (`🟢 Entrada`, `🔴 Saída`, `⚖️ Balanço`).
-- **Rótulos Inteligentes de Contexto:** Em vez de poluir os botões com texto longo, os campos subsequentes ajustam seu título dinamicamente (ex: `Qtd a Adicionar *`, `Qtd a Baixar *` ou `Saldo Físico Real Encontrado *`).
+- **Segmented Controls Compactos:** Utilizar barras seletoras segmentadas elegantes com termos consolidados (`🟢 Entrada`, `🔴 Saída`, `⚖️ Balanço`, `Todos`).
+- **Rótulos Inteligentes de Contexto:** Em vez de poluir os botões com texto longo, os campos subsequentes ajustam seu título dinamicamente.
 
 ---
 
@@ -45,8 +45,13 @@
 - **Inteligência de Balanço / Inventário:** O operador digita o saldo físico real contado no galpão, e o frontend calcula automaticamente se deve disparar uma Entrada ou Saída com o motivo de inventário correspondente.
 - **Linha 2 Compacta:** Quantidade dinâmica (160px) + Doc. Referência (`flex: 1`) lado a lado.
 - **Card de Cálculo em Tempo Real:** Saldo Atual ➔ Movimento (+/-) ➔ Novo Saldo Resultante em JetBrains Mono.
-- **Linha 3:** Input compacto de 1 linha para Observações Técnicas / Lote gravado no Kardex.
-- **Service Worker v39:** Cache atualizado para `missuenos-pwa-v39` e deploy validado na nuvem.
+
+### G. Modernização da Ficha Kardex do Produto (`modal-ficha-kardex`) - Janela #6
+- **Barra de Ferramentas com Segmented Control:** Filtro instantâneo por `[ Todos | 🟢 Entradas | 🔴 Saídas ]` integrado à busca textual rápida.
+- **4 Cards de Métricas no Topo:** `Saldo Físico Atual` (azul ciano), `Total de Entradas` (verde esmeralda), `Total de Saídas` (vermelho carmesim) e `Movimentações` (roxo).
+- **Tabela Proporcional de Extrato:** Colunas alinhadas com tipografia *JetBrains Mono* para quantidades e saldos, badges semânticos compactos e atalho `[ ⚡ Novo Ajuste Neste Item ]`.
+- **Exportação CSV:** Botão `📊 Exportar CSV` com UTF-8 BOM preservado para abertura perfeita no Excel.
+- **Service Worker v40:** Cache atualizado para `missuenos-pwa-v40` e deploy validado na nuvem.
 
 ---
 
@@ -54,21 +59,21 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`f6e3f18`](https://github.com/gustavorosainformatica/MisSuenos/commit/f6e3f18)
-  - Service Worker: `missuenos-pwa-v39` ativo.
-  - ETag da Produção: `"76fdf506a413e4462303301102a14b33"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`fa05df3`](https://github.com/gustavorosainformatica/MisSuenos/commit/fa05df3)
+  - Service Worker: `missuenos-pwa-v40` ativo.
+  - ETag da Produção: `"8937a0c5605f6ff1418e963c6f9f7c69"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `f6e3f18` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `b472404` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `5591ff1` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `fa05df3` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `7cdd178` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `e99c209` na branch `main`).
 - **Fila de Modernização de Janelas:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
   - [x] #3: `modal-lancamento-financeiro` (Concluído)
   - [x] #4: `modal-etiqueta` (Concluído)
   - [x] #5: `modal-ajuste-estoque` (Concluído)
-  - [ ] **#6: `modal-ficha-kardex` (Extrato Kardex de Movimentações)**
-  - [ ] #7: `modal-rastreamento-pedido` (Rastreamento Logístico)
+  - [x] #6: `modal-ficha-kardex` (Concluído)
+  - [ ] **#7: `modal-rastreamento-pedido` (Rastreamento Logístico)**
   - [ ] #8: `modal-fiscal` (Emissão NF-e Portal Nacional)
   - [ ] #9: `modal-pacote-contador` (Fechamento Fiscal)
   - [ ] #10: `modal-importar-xml` (Importação NF-e XML)
@@ -78,7 +83,7 @@
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #6 - Ficha Kardex do Produto (`modal-ficha-kardex`):**
-  - Aplicar o novo padrão minimalista e moderno nos filtros de período e tipo de movimentação.
-  - Otimizar tabela de extrato com colunas proporcionais (Data/Hora, Tipo com badge semântico, Motivo, Qtd Entrada, Qtd Saída, Saldo Resultante em JetBrains Mono, Doc. Ref e Usuário).
-  - Apresentar protótipo visual interativo no artefato antes da implementação.
+- [ ] **1. Janela #7 - Rastreamento Logístico (`modal-rastreamento-pedido`):**
+  - Aplicar o novo padrão minimalista e moderno no modal de rastreamento de encomendas.
+  - Linha do tempo visual da entrega (Objeto Postado ➔ Em Trânsito ➔ Saiu para Entrega ➔ Entregue).
+  - Consulta rápida de código de rastreio dos Correios / Transportadoras e atalho direto para WhatsApp do cliente com o status do pacote.
