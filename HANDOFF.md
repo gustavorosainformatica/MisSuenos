@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 13:50 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #15 Concluídas e Auditadas)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v49)
+> **Data de Atualização:** 08 de Novembro de 2026 — 13:57 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Modernização Visual Contínua (Janelas #1 a #16 Concluídas e Auditadas)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v50)
 
 ---
 
@@ -62,7 +62,10 @@
 - Snapshot consolidado em `.JSON` (`exportarBackupCompletoJson`), exportações modulares em `.CSV` (Clientes, Pedidos, Estoque, Financeiro) com UTF-8 BOM e restauração segura. SW v48.
 
 ### P. Modernização da Personalização de Colunas das Tabelas (`modal-personalizar-colunas`) - Janela #15
-- Header moderno com badge `🟢 ATIVO`, sub-barra com contador dinâmico de colunas configuráveis, botões rápidos (`👁️ Exibir Todas`, `🔄 Ordem Padrão`), reordenação ágil com setas `▲` e `▼`, travamento de colunas fixas `🔒 Fixa` e persistência do layout individual no perfil do usuário. SW v49.
+- Header moderno com badge `🟢 ATIVO`, sub-barra com contador dinâmico de colunas configuráveis, botões rápidos (`👁️ Exibir Todas`, `🔄 Ordem Padrão`), reordenação ágil com setas `▲` e `▼`, travamento visual `🔒 Fixa` e persistência do layout individual no perfil do usuário. SW v49.
+
+### Q. Modernização do Sobre o Sistema & Licenciamento (`modal-sobre-sistema`) - Janela #16
+- Header oficial com badge `🟢 HOMOLOGADO`, Hero Banner com identidade corporativa, Grid de 6 especificações da stack homologada (Gustavo Rosa Informática, Turso Cloud, Vercel Edge, Cloudflare R2, Single Function Gateway, Licença Ativa) e botões de suporte WhatsApp, Notas da Versão e Atualização PWA. SW v50.
 
 ---
 
@@ -70,13 +73,13 @@
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`6338a3c`](https://github.com/gustavorosainformatica/MisSuenos/commit/6338a3c)
-  - Service Worker: `missuenos-pwa-v49` ativo.
-  - ETag da Produção: `"7b1fa84b5aee66b8a260963b3e5d4c86"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`7490883`](https://github.com/gustavorosainformatica/MisSuenos/commit/7490883)
+  - Service Worker: `missuenos-pwa-v50` ativo.
+  - ETag da Produção: `"54b70e87078c94d649222107b6276d9a"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `6338a3c` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `e89491d` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `6b9e8cd` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `7490883` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `8d3822c` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `e0d3a5b` na branch `main`).
 - **Fila de Modernização de Janelas:**
   - [x] #1: `modal-cliente` (Concluído)
   - [x] #2: `modal-produto` (Concluído)
@@ -93,16 +96,14 @@
   - [x] #13: `modal-armazenamento-quotas` (Concluído - SW v47)
   - [x] #14: `modal-backup-dados` (Concluído - SW v48)
   - [x] #15: `modal-personalizar-colunas` (Concluído - SW v49)
-  - [ ] **#16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)**
-  - [ ] #17: `modal-changelog` (Notas de Atualização do ERP)
+  - [x] #16: `modal-sobre-sistema` (Concluído - SW v50)
+  - [ ] **#17: `modal-changelog` (Notas de Atualização do ERP & Histórico de Versões)**
 
 ---
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #16 - Sobre o Sistema & Licenciamento (`modal-sobre-sistema`):**
-  - Gerar artefato visual interativo `proposta_modernizacao_sobre_sistema.html` com especificações técnicas da stack oficial, badges corporativos, canais de suporte e atalho de atualização forçada.
+- [ ] **1. Janela #17 - Notas de Atualização & Histórico (`modal-changelog`):**
+  - Gerar artefato visual interativo `proposta_modernizacao_changelog.html` com timeline de versões corporativa, badges de ciclo de vida (Produção, Homologação, Legado), filtros por versão e tipografia em *JetBrains Mono*.
   - Submeter para aprovação do Gustavo.
-  - Implementar em `public/index.html`, bump para `missuenos-pwa-v50`, validar sintaxe JS, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
-- [ ] **2. Janela #17 - Notas de Atualização & Histórico (`modal-changelog`):**
-  - Modernizar timeline de versões com badges de destaque e categorização de melhorias (v3.0.0 Oficial, v2.0.0 Turso Cloud, v1.0.0 Legado).
+  - Implementar em `public/index.html`, bump para `missuenos-pwa-v51`, validar sintaxe JS, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
