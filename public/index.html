@@ -6191,83 +6191,112 @@
        MODAL 1: AJUSTE RÁPIDO DE ESTOQUE & MOVIMENTAÇÃO PATRIMONIAL
        ========================================================================= -->
   <div class="modal-overlay" id="modal-ajuste-estoque">
-    <div class="modal-container" style="max-width: 640px; width: 95%; max-height: 92vh;">
-      <div class="modal-resize-handle" data-modal="modal-ajuste-estoque" title="Arraste para redimensionar">◢</div>
-      <div class="modal-header" style="padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+    <div class="modal-container" style="max-width: 660px; width: 95%; max-height: 92vh;">
+      <div class="modal-resize-handle" data-modal="modal-ajuste-estoque" title="Arraste para redimensionar (salvo automaticamente)">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
           <span style="font-size: 20px;">⚡</span>
           <div>
-            <div style="font-size: 16px; font-weight: 800; color: #fff;">Ajuste Rápido de Estoque</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Ajuste Rápido de Estoque</span>
+              <span id="modal-ajuste-badge-tipo" class="badge-ped" style="font-size: 11px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 ENTRADA
+              </span>
+            </div>
             <div id="ajuste-prod-subtitulo" style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando produto...</div>
           </div>
         </div>
         <button class="modal-close-btn" type="button" onclick="fecharModalAjusteEstoque()">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 20px;">
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
         <form id="form-ajuste-estoque" onsubmit="confirmarAjusteEstoque(event)">
           <input type="hidden" id="ajuste-prod-id">
           <input type="hidden" id="ajuste-saldo-atual" value="0">
           <input type="hidden" id="ajuste-tipo" value="ENTRADA">
 
-          <!-- SELETOR DE TIPO (ENTRADA VS SAIDA) -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-            <button type="button" id="btn-tipo-entrada" class="btn-tipo-ajuste" onclick="aoMudarTipoAjuste('ENTRADA')" style="padding: 12px; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: 2px solid #10b981; background: rgba(16, 185, 129, 0.16); color: #34d399; transition: all 0.2s;">
-              <span style="font-size: 16px;">🟢</span> ENTRADA (+ Aumentar)
-            </button>
-            <button type="button" id="btn-tipo-saida" class="btn-tipo-ajuste" onclick="aoMudarTipoAjuste('SAIDA')" style="padding: 12px; border-radius: 10px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.04); color: var(--text-muted); transition: all 0.2s;">
-              <span style="font-size: 16px;">🔴</span> SAÍDA (- Baixar)
-            </button>
+          <!-- BARRA SELETORA SEGMENTADA MODERNA (SEGMENTED CONTROL LIMPO SEM PARÊNTESES) -->
+          <div style="margin-bottom: 14px;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; display: block;">
+              Tipo de Movimentação *
+            </label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 4px; gap: 6px;">
+              <button type="button" id="btn-tipo-entrada" onclick="aoMudarTipoAjuste('ENTRADA')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.18); color: #34d399; transition: all 0.2s;">
+                <span>🟢</span> Entrada
+              </button>
+              <button type="button" id="btn-tipo-saida" onclick="aoMudarTipoAjuste('SAIDA')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;">
+                <span>🔴</span> Saída
+              </button>
+              <button type="button" id="btn-tipo-balanco" onclick="aoMudarTipoAjuste('BALANCO')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;" title="Definir o saldo físico real contado no galpão">
+                <span>⚖️</span> Balanço
+              </button>
+            </div>
           </div>
 
-          <!-- MOTIVO DA MOVIMENTAÇÃO -->
-          <div class="form-group" style="margin-bottom: 14px;">
-            <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Motivo / Justificativa da Movimentação *</label>
-            <select class="form-input" id="ajuste-motivo" required style="font-weight: 600; background: #0f172a;">
+          <!-- LINHA 1: MOTIVO DA MOVIMENTAÇÃO -->
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Motivo / Justificativa *</span>
+              <span id="ajuste-motivo-dica" style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Classificação para o Kardex</span>
+            </label>
+            <select class="form-input erp-select" id="ajuste-motivo" required style="font-weight: 600; width: 100%;">
               <option value="">Selecione o motivo...</option>
             </select>
           </div>
 
-          <!-- QUANTIDADE E DOCUMENTO DE REFERÊNCIA -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
-            <div class="form-group">
-              <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Quantidade a Movimentar *</label>
-              <input type="number" step="any" min="0.001" class="form-input" id="ajuste-quantidade" required placeholder="Ex: 5" style="font-size: 16px; font-weight: 800; font-family: 'JetBrains Mono', monospace;" oninput="aoAlterarQtdAjuste()">
+          <!-- LINHA 2: QUANTIDADE DINÂMICA + DOC. REFERÊNCIA LADO A LADO -->
+          <div style="display: grid; grid-template-columns: 160px 1fr; gap: 10px; margin-bottom: 12px; align-items: flex-end;">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span id="ajuste-lbl-quantidade" style="color: #34d399; font-size: 11px; font-weight: 700; text-transform: uppercase;">Qtd a Adicionar *</span>
+              </label>
+              <input type="number" step="any" min="0" class="form-input" id="ajuste-quantidade" required placeholder="Ex: 10" style="font-size: 15px; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center; color: #34d399;" oninput="aoAlterarQtdAjuste()">
             </div>
-            <div class="form-group">
-              <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Doc. Referência (NF, Pedido, Recibo)</label>
-              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1420 / Pedido 105">
+            
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Doc. Referência / NF-e</span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Pedido, NF ou Recibo</span>
+              </label>
+              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1042 / Pedido 105 / Lote 26" style="font-weight: 600;">
             </div>
           </div>
 
-          <!-- CARD PREVIEW DE CÁLCULO DE SALDO -->
-          <div id="ajuste-card-preview" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-            <div style="font-size: 12px; color: var(--text-muted);">
-              Saldo Atual: <strong id="preview-saldo-atual" style="color: #fff; font-family: monospace;">-</strong>
+          <!-- CARD PREVIEW DE CÁLCULO DE SALDO EM TEMPO REAL -->
+          <div id="ajuste-card-preview" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.7)); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr 1.3fr; align-items: center; gap: 10px;">
+            <div>
+              <div style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Saldo Atual</div>
+              <div id="preview-saldo-atual" style="color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800;">-</div>
             </div>
-            <div style="font-size: 12px; font-weight: 700;">
-              Movimento: <strong id="preview-qtd-mov" style="color: #34d399; font-family: monospace;">+0</strong>
+            <div>
+              <div id="preview-lbl-mov" style="font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Movimento</div>
+              <div id="preview-qtd-mov" style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800;">+0</div>
             </div>
-            <div style="font-size: 13px; font-weight: 800;">
-              👉 Novo Saldo: <strong id="preview-saldo-resultante" style="color: #38bdf8; font-family: monospace; font-size: 15px;">-</strong>
+            <div style="text-align: right;">
+              <div style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">👉 Novo Saldo</div>
+              <div id="preview-saldo-resultante" style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800;">-</div>
             </div>
           </div>
-          <div id="ajuste-alerta-insuficiente" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 12px; font-weight: 700; padding: 10px 14px; border-radius: 8px; margin-bottom: 14px;">
+
+          <div id="ajuste-alerta-insuficiente" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-size: 11.5px; font-weight: 700; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px;">
             ⚠️ Atenção: A quantidade informada excede o saldo físico atual em estoque.
           </div>
 
-          <!-- OBSERVAÇÕES OPCIONAIS -->
-          <div class="form-group">
-            <label class="form-label" style="font-weight: 700; color: #cbd5e1;">Observações Técnicas / Detalhes (Opcional)</label>
-            <textarea class="form-input" id="ajuste-observacoes" rows="2" placeholder="Detalhes da avaria, lote do couro, cliente da amostra ou contrato de locação..."></textarea>
+          <!-- LINHA 3: OBSERVAÇÕES TÉCNICAS (INPUT COMPACTO DE 1 LINHA) -->
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Observações Técnicas / Lote (Opcional)</span>
+              <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Gravado no extrato Kardex</span>
+            </label>
+            <input type="text" class="form-input" id="ajuste-observacoes" placeholder="Ex: Lote de couros sem defeitos / conferência física realizada no setor A">
           </div>
         </form>
       </div>
 
-      <div class="modal-footer" style="padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+      <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalAjusteEstoque()">Cancelar</button>
-        <button type="button" class="btn-top btn-primary-glow" id="btn-salvar-ajuste-estoque" onclick="document.getElementById('form-ajuste-estoque').requestSubmit()" style="background: linear-gradient(135deg, #0284c7, #0ea5e9); font-weight: 800; font-size: 13px; padding: 10px 20px;">
-          💾 Confirmar Movimentação
+        <button type="button" class="btn-top btn-emerald-glow" id="btn-salvar-ajuste-estoque" onclick="document.getElementById('form-ajuste-estoque').requestSubmit()" style="font-weight: 800; font-size: 12.5px; padding: 9px 18px;">
+          💾 Confirmar Movimentação & Atualizar Kardex
         </button>
       </div>
     </div>
@@ -18126,30 +18155,100 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('ajuste-tipo').value = tipo;
       const btnEntrada = document.getElementById('btn-tipo-entrada');
       const btnSaida = document.getElementById('btn-tipo-saida');
+      const btnBalanco = document.getElementById('btn-tipo-balanco');
       const selectMotivo = document.getElementById('ajuste-motivo');
+      const badgeTipo = document.getElementById('modal-ajuste-badge-tipo');
+      const lblQtd = document.getElementById('ajuste-lbl-quantidade');
+      const inputQtd = document.getElementById('ajuste-quantidade');
+
+      // Reseta estilos da barra segmentada moderna
+      [btnEntrada, btnSaida, btnBalanco].forEach(btn => {
+        if (btn) {
+          btn.style.border = '1px solid transparent';
+          btn.style.background = 'transparent';
+          btn.style.color = '#94a3b8';
+          btn.style.boxShadow = 'none';
+        }
+      });
 
       if (tipo === 'ENTRADA') {
-        btnEntrada.style.border = '2px solid #10b981';
-        btnEntrada.style.background = 'rgba(16, 185, 129, 0.16)';
+        btnEntrada.style.border = '1px solid #10b981';
+        btnEntrada.style.background = 'rgba(16, 185, 129, 0.18)';
         btnEntrada.style.color = '#34d399';
+        btnEntrada.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.2)';
 
-        btnSaida.style.border = '1px solid rgba(255, 255, 255, 0.12)';
-        btnSaida.style.background = 'rgba(255, 255, 255, 0.04)';
-        btnSaida.style.color = 'var(--text-muted)';
-      } else {
-        btnSaida.style.border = '2px solid #ef4444';
-        btnSaida.style.background = 'rgba(239, 68, 68, 0.16)';
+        if (badgeTipo) {
+          badgeTipo.textContent = '🟢 ENTRADA';
+          badgeTipo.style.background = 'rgba(16, 185, 129, 0.15)';
+          badgeTipo.style.color = '#34d399';
+          badgeTipo.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+        }
+        if (lblQtd) {
+          lblQtd.textContent = 'Qtd a Adicionar *';
+          lblQtd.style.color = '#34d399';
+        }
+        if (inputQtd) {
+          inputQtd.placeholder = 'Ex: 10';
+          inputQtd.style.color = '#34d399';
+        }
+
+        const lista = (motivosEstoqueCache && motivosEstoqueCache.ENTRADA) ? motivosEstoqueCache.ENTRADA : [];
+        selectMotivo.innerHTML = '<option value="">Selecione o motivo...</option>' + 
+          lista.map(m => `<option value="${m.id}">${m.label}</option>`).join('');
+
+      } else if (tipo === 'SAIDA') {
+        btnSaida.style.border = '1px solid #ef4444';
+        btnSaida.style.background = 'rgba(239, 68, 68, 0.18)';
         btnSaida.style.color = '#f87171';
+        btnSaida.style.boxShadow = '0 0 10px rgba(239, 68, 68, 0.2)';
 
-        btnEntrada.style.border = '1px solid rgba(255, 255, 255, 0.12)';
-        btnEntrada.style.background = 'rgba(255, 255, 255, 0.04)';
-        btnEntrada.style.color = 'var(--text-muted)';
+        if (badgeTipo) {
+          badgeTipo.textContent = '🔴 SAÍDA';
+          badgeTipo.style.background = 'rgba(239, 68, 68, 0.15)';
+          badgeTipo.style.color = '#f87171';
+          badgeTipo.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+        }
+        if (lblQtd) {
+          lblQtd.textContent = 'Qtd a Baixar *';
+          lblQtd.style.color = '#f87171';
+        }
+        if (inputQtd) {
+          inputQtd.placeholder = 'Ex: 5';
+          inputQtd.style.color = '#f87171';
+        }
+
+        const lista = (motivosEstoqueCache && motivosEstoqueCache.SAIDA) ? motivosEstoqueCache.SAIDA : [];
+        selectMotivo.innerHTML = '<option value="">Selecione o motivo...</option>' + 
+          lista.map(m => `<option value="${m.id}">${m.label}</option>`).join('');
+
+      } else if (tipo === 'BALANCO') {
+        btnBalanco.style.border = '1px solid #38bdf8';
+        btnBalanco.style.background = 'rgba(56, 189, 248, 0.18)';
+        btnBalanco.style.color = '#38bdf8';
+        btnBalanco.style.boxShadow = '0 0 10px rgba(56, 189, 248, 0.2)';
+
+        if (badgeTipo) {
+          badgeTipo.textContent = '⚖️ BALANÇO / INVENTÁRIO';
+          badgeTipo.style.background = 'rgba(56, 189, 248, 0.15)';
+          badgeTipo.style.color = '#38bdf8';
+          badgeTipo.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+        }
+        if (lblQtd) {
+          lblQtd.textContent = 'Saldo Físico Real Encontrado *';
+          lblQtd.style.color = '#38bdf8';
+        }
+        if (inputQtd) {
+          inputQtd.placeholder = 'Ex: 42';
+          inputQtd.style.color = '#38bdf8';
+        }
+
+        // Motivos especiais para balanço/inventário
+        selectMotivo.innerHTML = `
+          <option value="AJUSTE_BALANCO_FISICO" selected>⚖️ Ajuste de Saldo Físico / Inventário de Galpão</option>
+          <option value="CONTAGEM_PERIODICA">📋 Contagem Periódica de Inventário</option>
+          <option value="INVENTARIO_INICIAL">📦 Acerto de Saldo Inicial de Catálogo</option>
+        `;
       }
-
-      // Preenche os motivos dinâmicos
-      const lista = (motivosEstoqueCache && motivosEstoqueCache[tipo]) ? motivosEstoqueCache[tipo] : [];
-      selectMotivo.innerHTML = '<option value="">Selecione o motivo...</option>' + 
-        lista.map(m => `<option value="${m.id}">${m.label}</option>`).join('');
 
       aoAlterarQtdAjuste();
     }
@@ -18157,10 +18256,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     function aoAlterarQtdAjuste() {
       const saldoAtual = Number(document.getElementById('ajuste-saldo-atual').value) || 0;
       const tipo = document.getElementById('ajuste-tipo').value;
-      const qtd = Number(document.getElementById('ajuste-quantidade').value) || 0;
+      const rawVal = document.getElementById('ajuste-quantidade').value;
+      const qtd = rawVal === '' ? 0 : Number(rawVal);
       const un = produtoAjusteAtivo?.unidade_medida || 'UN';
-
       const unStr = ` ${un}`;
+
       document.getElementById('preview-saldo-atual').textContent = `${saldoAtual}${unStr}`;
 
       let saldoResultante = saldoAtual;
@@ -18176,7 +18276,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         alertaInsuficiente.style.display = 'none';
         btnSalvar.disabled = false;
         btnSalvar.style.opacity = '1';
-      } else {
+
+      } else if (tipo === 'SAIDA') {
         saldoResultante = saldoAtual - qtd;
         previewQtd.style.color = '#f87171';
         previewQtd.textContent = `-${qtd}${unStr}`;
@@ -18191,6 +18292,26 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           btnSalvar.disabled = false;
           btnSalvar.style.opacity = '1';
         }
+
+      } else if (tipo === 'BALANCO') {
+        // No modo Balanço, o valor digitado É o novo saldo físico real
+        const diferenca = qtd - saldoAtual;
+        saldoResultante = qtd;
+
+        if (diferenca > 0) {
+          previewQtd.style.color = '#34d399';
+          previewQtd.textContent = `+${diferenca}${unStr} (Entrada)`;
+        } else if (diferenca < 0) {
+          previewQtd.style.color = '#f87171';
+          previewQtd.textContent = `${diferenca}${unStr} (Saída)`;
+        } else {
+          previewQtd.style.color = '#38bdf8';
+          previewQtd.textContent = `0${unStr} (Inalterado)`;
+        }
+
+        alertaInsuficiente.style.display = 'none';
+        btnSalvar.disabled = false;
+        btnSalvar.style.opacity = '1';
       }
 
       previewResult.textContent = `${saldoResultante}${unStr}`;
@@ -18201,20 +18322,53 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (e && e.preventDefault) e.preventDefault();
 
       const produtoId = Number(document.getElementById('ajuste-prod-id').value);
-      const tipo = document.getElementById('ajuste-tipo').value;
+      const tipoSelecionado = document.getElementById('ajuste-tipo').value;
       const motivo = document.getElementById('ajuste-motivo').value;
-      const quantidade = Number(document.getElementById('ajuste-quantidade').value);
+      const quantidadeDigitada = Number(document.getElementById('ajuste-quantidade').value);
       const docRef = document.getElementById('ajuste-doc-ref').value.trim();
-      const obs = document.getElementById('ajuste-observacoes').value.trim();
+      let obs = document.getElementById('ajuste-observacoes').value.trim();
+      const saldoAtual = Number(document.getElementById('ajuste-saldo-atual').value) || 0;
 
       if (!motivo) {
         mostrarNotificacaoToast('Por favor, selecione o motivo da movimentação.', 'aviso');
         return;
       }
-      if (!quantidade || quantidade <= 0) {
-        mostrarNotificacaoToast('Informe uma quantidade válida maior que zero.', 'aviso');
-        return;
+
+      let tipoFinal = tipoSelecionado;
+      let qtdFinal = quantidadeDigitada;
+
+      if (tipoSelecionado === 'BALANCO') {
+        if (isNaN(quantidadeDigitada) || quantidadeDigitada < 0) {
+          mostrarNotificacaoToast('Informe o saldo físico real válido (zero ou maior).', 'aviso');
+          return;
+        }
+
+        const dif = quantidadeDigitada - saldoAtual;
+        if (dif === 0) {
+          mostrarNotificacaoToast('O saldo físico informado já é idêntico ao saldo atual do sistema.', 'info');
+          return;
+        }
+
+        if (dif > 0) {
+          tipoFinal = 'ENTRADA';
+          qtdFinal = dif;
+        } else {
+          tipoFinal = 'SAIDA';
+          qtdFinal = Math.abs(dif);
+        }
+
+        const obsBalanco = `Balanço Físico: Saldo de ${saldoAtual} ajustado para ${quantidadeDigitada}`;
+        obs = obs ? `${obs} | ${obsBalanco}` : obsBalanco;
+
+      } else {
+        if (!quantidadeDigitada || quantidadeDigitada <= 0) {
+          mostrarNotificacaoToast('Informe uma quantidade válida maior que zero.', 'aviso');
+          return;
+        }
       }
+
+      const tipo = tipoFinal;
+      const quantidade = qtdFinal;
 
       const btnSalvar = document.getElementById('btn-salvar-ajuste-estoque');
       btnSalvar.disabled = true;
