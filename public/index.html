@@ -7200,60 +7200,138 @@
 
   <!-- MODAL 3: NOTAS DA VERSÃO / CHANGELOG -->
   <div class="modal-overlay" id="modal-changelog">
-    <div class="modal-container" style="max-width: 720px; width: 95%; max-height: 90vh;">
+    <div class="modal-container" style="max-width: 760px; width: 95%; max-height: 90vh;">
       <div class="modal-resize-handle" data-modal="modal-changelog" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header" style="padding: 14px 22px;">
-        <div class="modal-title">
-          <span>📜</span>
-          <span>Notas da Versão & Histórico (Changelog)</span>
-        </div>
-        <button class="modal-close-btn" onclick="fecharModalChangelog()">✕</button>
-      </div>
-
-      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; max-height: 65vh;">
-        <div style="display: flex; flex-direction: column; gap: 18px;">
-          <div style="border-left: 3px solid #34d399; padding-left: 14px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span style="font-size: 14px; font-weight: 800; color: #fff;">Versão 3.0.0 Oficial (Atual)</span>
-              <span style="background: rgba(52, 211, 153, 0.2); color: #34d399; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">PRODUÇÃO</span>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 20px;">📜</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Histórico de Versões • Changelog</span>
+              <span style="font-size: 9.5px; background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: 700;">
+                🟢 v3.0.0 ATIVA
+              </span>
             </div>
-            <ul style="font-size: 12px; color: #cbd5e1; margin-left: 18px; line-height: 1.6;">
-              <li>Menu suspenso e atalhos rápidos integrados ao botão da Engrenagem ⚙️.</li>
-              <li>Modal Sobre o Sistema com especificações técnicas e suporte direto WhatsApp.</li>
-              <li>Menu de contexto (clique direito) posicionando exatamente no cursor do mouse <code>(clientX, clientY)</code>.</li>
-              <li>Sincronização em tempo real dos KPIs de pedidos (Aguardando Envio, Faturamento e Ticket Médio).</li>
-              <li>Layout limpo sem barras intermediárias e com duplo clique padronizado.</li>
-              <li>Estoque inteligente de 3 saldos (Físico, Reservado em Pedidos e Disponível para Venda).</li>
-              <li>Motor White-Label Dupla Camada v3.0 com presets para 8 ramos comerciais.</li>
-            </ul>
-          </div>
-
-          <div style="border-left: 3px solid #fbbf24; padding-left: 14px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span style="font-size: 13.5px; font-weight: 700; color: #fff;">Versão 2.0.0</span>
-              <span style="background: rgba(251, 191, 36, 0.2); color: #fbbf24; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">TURSO CLOUD</span>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Evolução Contínua, Melhorias de Arquitetura e Novas Funcionalidades
             </div>
-            <ul style="font-size: 12px; color: #cbd5e1; margin-left: 18px; line-height: 1.6;">
-              <li>Migração e persistência distribuída no Turso Cloud (São Paulo).</li>
-              <li>Módulo Financeiro com Contas a Pagar, Contas a Receber e DRE gerencial.</li>
-              <li>Importador híbrido de Notas Fiscais em XML (A/B: Despesa ou Entrada de Estoque).</li>
-              <li>Autenticação com senhas individuais e perfis RBAC.</li>
-            </ul>
-          </div>
-
-          <div style="border-left: 3px solid #94a3b8; padding-left: 14px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span style="font-size: 13.5px; font-weight: 700; color: #fff;">Versão 1.0.0</span>
-              <span style="background: rgba(148, 163, 184, 0.2); color: #94a3b8; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">LEGADO</span>
-            </div>
-            <ul style="font-size: 12px; color: #cbd5e1; margin-left: 18px; line-height: 1.6;">
-              <li>Extração dos 1.140 clientes reais a partir de arquivos .docx.</li>
-              <li>Interface web responsiva com Mapa Interativo do Brasil.</li>
-              <li>Emissão de etiquetas de envio com código de barras.</li>
-            </ul>
           </div>
         </div>
+        <button type="button" class="modal-close" onclick="fecharModalChangelog()" style="font-size: 18px; color: var(--text-muted); cursor: pointer; background: none; border: none; transition: color 0.2s;">✕</button>
       </div>
+
+      <div class="modal-body" style="padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; max-height: 65vh; overflow-y: auto;">
+        
+        <!-- BARRA DE PESQUISA RÁPIDA -->
+        <div style="display: flex; align-items: center; gap: 10px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 14px;">
+          <span style="color: #94a3b8; font-size: 13px;">🔍</span>
+          <input type="text" id="filtro-changelog" placeholder="Filtrar novidades (ex: fiscal, estoque, backup, colunas, turso)..." onkeyup="filtrarNovidadesChangelog(this.value)" style="background: transparent; border: none; color: #fff; font-size: 12.5px; width: 100%; outline: none;">
+        </div>
+
+        <!-- TIMELINE DE VERSÕES -->
+        <div class="timeline" id="timeline-list" style="display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- VERSÃO 3.0.0 OFICIAL -->
+          <div class="release-card current" style="background: linear-gradient(90deg, rgba(52, 211, 153, 0.06) 0%, #1e293b 100%); border: 1px solid #334155; border-left: 4px solid #34d399; border-radius: 8px; padding: 16px 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+              <div style="font-size: 14.5px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 8px;">
+                <span>🚀</span>
+                <span>Versão 3.0.0 Oficial</span>
+                <span style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4);">PRODUÇÃO OFICIAL</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Novembro / 2026 • Build PWA Edge</div>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 7px; padding: 0; margin: 0;">
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Modernização Integral de 17 Janelas Modais:</strong> Padronização visual corporativa sem parênteses redundantes, proporções balanceadas e tipografia <em>JetBrains Mono</em>.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Persistência Distribuída na Nuvem (Turso Cloud):</strong> Banco de dados libSQL na região de São Paulo (GRU) com tolerância total a offline via SQLite PWA local.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Arquitetura Serverless Blindada:</strong> Dispatcher Central único no API Gateway (<code>api/index.js</code>) blindando o plano Hobby da Vercel contra limites de Serverless Functions.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Estoque Inteligente de 3 Saldos:</strong> Separação em tempo real entre Saldo Físico, Reservado em Pedidos e Disponível para Venda com recálculo automático.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Pacote Fiscal do Contador & Importação XML:</strong> Fechamento mensal em 1 clique com download de ZIP/CSV e parser nativo de notas de compra com conciliação.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Personalização de Colunas & Backup Consolidado:</strong> Reordenação ágil de colunas com persistência individual e snapshot em JSON + CSVs com UTF-8 BOM.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- VERSÃO 2.0.0 -->
+          <div class="release-card past" style="background: #1e293b; border: 1px solid #334155; border-left: 4px solid #fbbf24; border-radius: 8px; padding: 16px 18px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+              <div style="font-size: 14.5px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 8px;">
+                <span>⚡</span>
+                <span>Versão 2.0.0</span>
+                <span style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4);">TURSO CLOUD</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Outubro / 2026</div>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 7px; padding: 0; margin: 0;">
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Módulo Financeiro Integrado:</strong> Contas a Pagar, Contas a Receber, categorização de lançamentos e cálculo dinâmico de DRE gerencial.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Autenticação & Controle de Acesso (RBAC):</strong> Perfis operacionais (Administrador, Financeiro, Vendedor, Estoquista) com permissões granulares por módulo.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Logística com Rastreamento & Etiquetas Térmicas:</strong> Pipeline visual de encomendas com cálculo integrado e botão de cópia rápida para Superfrete.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- VERSÃO 1.0.0 -->
+          <div class="release-card legacy" style="background: #1e293b; border: 1px solid #334155; border-left: 4px solid #94a3b8; border-radius: 8px; padding: 16px 18px; opacity: 0.85;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+              <div style="font-size: 14.5px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; gap: 8px;">
+                <span>📦</span>
+                <span>Versão 1.0.0</span>
+                <span style="font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px; letter-spacing: 0.5px; font-family: 'JetBrains Mono', monospace; background: rgba(148, 163, 184, 0.2); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.4);">BASE INICIAL</span>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Setembro / 2026</div>
+            </div>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 7px; padding: 0; margin: 0;">
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Carga Inicial da Carteira de Clientes:</strong> Extração e saneamento dos 1.140 clientes reais a partir de arquivos legados de texto e planilhas.</span>
+              </li>
+              <li class="changelog-item" style="font-size: 12px; color: #cbd5e1; display: flex; align-items: flex-start; gap: 8px; line-height: 1.45;">
+                <span style="color: #38bdf8; font-size: 11px; margin-top: 2px; flex-shrink: 0;">◆</span>
+                <span><strong>Interface Inicial Web:</strong> Catálogo de produtos de couro, emissão básica de etiquetas e mapa interativo do Brasil.</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- RODAPÉ -->
+      <div class="modal-footer" style="padding: 12px 24px; border-top: 1px solid rgba(255,255,255,0.08); background: #0b1324; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+        <button type="button" class="btn-top btn-row-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" onclick="if(window.atualizarSistemaERP) window.atualizarSistemaERP(); else window.location.reload();">
+          <span>🔄</span> Atualizar Sistema (Limpar Cache)
+        </button>
+
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalChangelog()">
+          Fechar
+        </button>
+      </div>
+
     </div>
   </div>
 
@@ -16484,6 +16562,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     function fecharModalChangelog() {
       const modal = document.getElementById('modal-changelog');
       if (modal) modal.classList.remove('active');
+    }
+
+    function filtrarNovidadesChangelog(termo) {
+      const q = (termo || '').toLowerCase();
+      const items = document.querySelectorAll('#timeline-list .changelog-item');
+      items.forEach(li => {
+        const text = li.textContent.toLowerCase();
+        li.style.display = text.includes(q) ? 'flex' : 'none';
+      });
     }
 
     // SUPORTE WHATSAPP
