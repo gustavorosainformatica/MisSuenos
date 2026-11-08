@@ -86,8 +86,8 @@
   - [x] #10: `modal-importar-xml` (Concluído - SW v44)
   - [x] #11: `modal-usuario-rbac` (Concluído - SW v45)
   - [x] #12: `modal-admin-reset-senha` / `modal-gerenciar-perfis` (Concluído - SW v46)
-  - [ ] **#13: `modal-armazenamento-quotas` (Cotas de Armazenamento e Limites)**
-  - [ ] #14: `modal-backup-dados` (Backup & Restauração de Dados)
+  - [x] #13: `modal-armazenamento-quotas` (Concluído - SW v47)
+  - [ ] **#14: `modal-backup-dados` (Backup & Restauração de Dados)**
   - [ ] #15: `modal-personalizar-colunas` (Personalização de Colunas das Tabelas)
   - [ ] #16: `modal-sobre-sistema` (Sobre o Sistema e Licenciamento)
   - [ ] #17: `modal-changelog` (Notas de Atualização do ERP)
@@ -96,8 +96,8 @@
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #13 - Cotas de Armazenamento & Limites da Nuvem (`modal-armazenamento-quotas`):**
-  - Mapear a estrutura de `modal-armazenamento-quotas` no `index.html`.
-  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, barras de progresso elegantes com percentuais de consumo, status de SQLite local vs Turso cloud, cotas de uploads de comprovantes e fotos de produtos).
-  - Gerar artefato visual interativo `proposta_modernizacao_quotas.html` e submeter para aprovação do Gustavo.
-  - Implementar, validar, bump SW v47, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
+- [ ] **1. Janela #14 - Backup & Restauração de Dados (`modal-backup-dados`):**
+  - Mapear a estrutura de `modal-backup-dados` no `index.html`.
+  - Aplicar a Diretriz Oficial Minimalista (zero parênteses óbvios/didáticos, backup completo em arquivo JSON/SQLite criptografado com timestamp em JetBrains Mono, restauração com validação de integridade e histórico de backups locais).
+  - Gerar artefato visual interativo `proposta_modernizacao_backup.html` e submeter para aprovação do Gustavo.
+  - Implementar, validar, bump SW v48, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
