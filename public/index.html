@@ -5963,61 +5963,143 @@
 
   <!-- MODAL FISCAL (PORTAL NACIONAL NF-E) -->
   <div class="modal-overlay" id="modal-fiscal">
-    <div class="modal-container" style="max-width: 720px; width: 95%; max-height: 92vh;">
+    <div class="modal-container" style="max-width: 880px; width: 95%; max-height: 94vh;">
       <div class="modal-resize-handle" data-modal="modal-fiscal" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>🧾</span> Emissão de NF-e | Portal Nacional
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🧾</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Emissão de NF-e | Portal Nacional & SEFAZ</span>
+              <span id="fiscal-badge-ambiente" class="badge-ped" style="font-size: 10.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🟢 SEFAZ RS · PRODUÇÃO
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Nota Fiscal Eletrônica Modelo 55 • Emissor Fiscal Integrado
+            </div>
+          </div>
         </div>
         <button class="modal-close-btn" onclick="fecharModalFiscal()">✕</button>
       </div>
-      <div class="modal-body">
-        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 12px; color: #a7f3d0;">
-          🟢 <strong>Emissor Fiscal Integrado</strong>: Preparado para emissão simplificada com preenchimento automático a partir da ficha do destinatário.
-        </div>
-        <div class="form-group">
-          <label class="form-label">Destinatário da Nota</label>
-          <input type="text" class="form-input" id="fiscal-destinatario" readonly style="background: rgba(255,255,255,0.03); color: #38bdf8; font-weight: 700;">
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Documento</label>
-            <input type="text" class="form-input" id="fiscal-documento" readonly style="background: rgba(255,255,255,0.03);">
+
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
+        
+        <!-- LINHA 1: DESTINATÁRIO (flex: 1.8) + CNPJ/CPF (180px) + UF (90px) -->
+        <div style="display: grid; grid-template-columns: 1fr 180px 90px; gap: 10px; align-items: flex-end;">
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="color: #38bdf8; font-size: 11px; font-weight: 700; text-transform: uppercase;">
+                <span>👤</span> Destinatário da Nota
+              </span>
+              <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Tomador / Cliente</span>
+            </label>
+            <input type="text" class="form-input" id="fiscal-destinatario" readonly style="background: rgba(255,255,255,0.03); color: #38bdf8; font-weight: 700;" value="Cliente Selecionado">
           </div>
-          <div class="form-group">
-            <label class="form-label">Destino / UF</label>
-            <input type="text" class="form-input" id="fiscal-uf" readonly style="background: rgba(255,255,255,0.03);">
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+              Documento (CNPJ/CPF)
+            </label>
+            <input type="text" class="form-input" id="fiscal-documento" readonly style="background: rgba(255,255,255,0.03); font-family: 'JetBrains Mono', monospace; font-weight: 700;" value="-">
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
+              Destino / UF
+            </label>
+            <input type="text" class="form-input" id="fiscal-uf" readonly style="background: rgba(255,255,255,0.03); text-align: center; font-weight: 800; font-family: 'JetBrains Mono', monospace;" value="RS">
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Natureza da Operação</label>
-          <select class="form-input" id="fiscal-natureza">
-            <option value="5102">5.102 - Venda de mercadoria adquirida de terceiros (Dentro do Estado)</option>
-            <option value="6102">6.102 - Venda de mercadoria para outro Estado (Interestadual)</option>
-            <option value="5101">5.101 - Venda de produção do estabelecimento (Artesanato / Couros)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Descrição do Item / Couro</label>
-          <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO">
-        </div>
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Valor Total (R$)</label>
-            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399;" onblur="this.value = formatarMoedaPtBr(this.value)">
+
+        <!-- LINHA 2: NATUREZA DA OPERAÇÃO / CFOP + MODALIDADE DO FRETE -->
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px;">
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+              Natureza da Operação / CFOP
+            </label>
+            <select class="form-input erp-select" id="fiscal-natureza" style="font-weight: 600; width: 100%;">
+              <option value="5101" selected>5.101 - Venda de Produção do Estabelecimento (Couros / Artesanato)</option>
+              <option value="5102">5.102 - Venda de Mercadoria Adquirida de Terceiros</option>
+              <option value="6101">6.101 - Venda Interestadual de Produção Própria</option>
+              <option value="6102">6.102 - Venda Interestadual de Terceiros</option>
+              <option value="5910">5.910 - Remessa em Bonificação ou Doação</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Modalidade de Frete</label>
-            <select class="form-input" id="fiscal-frete">
-              <option value="0">0 - Contratação do Frete por conta do Remetente (CIF)</option>
-              <option value="1">1 - Contratação por conta do Destinatário (FOB)</option>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+              Modalidade de Frete
+            </label>
+            <select class="form-input erp-select" id="fiscal-frete" style="font-weight: 600; width: 100%;">
+              <option value="0" selected>0 - Remetente (CIF c/ Frete Incluso)</option>
+              <option value="1">1 - Destinatário (FOB)</option>
+              <option value="9">9 - Sem Ocorrência de Frete</option>
             </select>
           </div>
         </div>
+
+        <!-- LINHA 3: DISCRIMINAÇÃO DO ITEM + NCM + VALOR TOTAL -->
+        <div style="display: grid; grid-template-columns: 1fr 130px 160px; gap: 10px; align-items: flex-end;">
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
+              Descrição dos Produtos / Mercadorias *
+            </label>
+            <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO" style="font-weight: 600;">
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
+              NCM *
+            </label>
+            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;">
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase; margin-bottom: 3px; text-align: right;">
+              Valor Total (R$) *
+            </label>
+            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; text-align: right;" onblur="this.value = formatarMoedaPtBr(this.value)">
+          </div>
+        </div>
+
+        <!-- CARD DA CHAVE DE ACESSO DE 44 DÍGITOS E PROTOCOLO -->
+        <div style="background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">
+              Chave de Acesso da NF-e (44 Dígitos):
+            </div>
+            <div id="fiscal-chave-acesso-preview" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px; margin-top: 3px;">
+              4326 1195 5000 0001 9055 0010 0000 1044 1982 7461 0293
+            </div>
+          </div>
+          <button type="button" class="btn-top btn-row-action" onclick="copiarChaveAcessoFiscal()" style="padding: 4px 10px; font-size: 11px;">
+            📋 Copiar Chave
+          </button>
+        </div>
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalFiscal()">Fechar</button>
-        <button type="button" class="btn-top btn-emerald-glow" id="btn-transmitir-nfe" onclick="transmitirNfeModal()">🚀 Emitir & Transmitir NF-e</button>
+
+      <!-- Rodapé do Modal -->
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="btn-top btn-row-action" onclick="baixarTxtSefazUltimaNota()" style="font-size: 11.5px; padding: 7px 12px;">
+            <span>📥</span> Baixar TXT/XML
+          </button>
+          <button type="button" class="btn-top btn-row-action" onclick="imprimirDanfeFiscal()" style="font-size: 11.5px; padding: 7px 12px;">
+            <span>🖨️</span> Imprimir DANFE
+          </button>
+          <button type="button" class="btn-top btn-row-action" onclick="enviarNfeWhatsAppFiscal()" style="font-size: 11.5px; padding: 7px 12px; border-color: rgba(16, 185, 129, 0.4); color: #34d399;">
+            <span>📱</span> WhatsApp (XML/PDF)
+          </button>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalFiscal()">Cancelar</button>
+          <button type="button" class="btn-top btn-emerald-glow" id="btn-transmitir-nfe" onclick="transmitirNfeModal()" style="font-weight: 800; font-size: 12.5px; padding: 8px 18px;">
+            <span>🚀</span> Transmitir NF-e para a SEFAZ
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -8748,6 +8830,63 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     // Modal Fiscal (NF-e)
+    let ultimaNotaFiscalGerada = null;
+
+    function gerarChaveAcessoSimulada(uf = '43', cnpj = '00000000000191') {
+      const anoMes = new Date().toISOString().slice(2, 7).replace('-', '');
+      const mod = '55';
+      const serie = '001';
+      const numNfe = String(Math.floor(1000 + Math.random() * 9000)).padStart(9, '0');
+      const tpEmis = '1';
+      const cNF = String(Math.floor(10000000 + Math.random() * 90000000));
+      const cDV = String(Math.floor(Math.random() * 9));
+      const chaveLimpa = `${uf}${anoMes}${cnpj.replace(/\D/g, '').padEnd(14, '0')}${mod}${serie}${numNfe}${tpEmis}${cNF}${cDV}`.slice(0, 44);
+      return chaveLimpa.replace(/(\d{4})/g, '$1 ').trim();
+    }
+
+    function copiarChaveAcessoFiscal() {
+      const ch = (document.getElementById('fiscal-chave-acesso-preview')?.textContent || '').replace(/\s+/g, '');
+      if (ch && navigator.clipboard) {
+        navigator.clipboard.writeText(ch).then(() => mostrarToast('📋 Chave de acesso copiada com sucesso!'));
+      }
+    }
+
+    function baixarTxtSefazUltimaNota() {
+      if (ultimaNotaFiscalGerada && ultimaNotaFiscalGerada.txtSefaz) {
+        const blob = new Blob([ultimaNotaFiscalGerada.txtSefaz], { type: 'text/plain;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `NFe_${ultimaNotaFiscalGerada.numeroNfe || '1044'}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        mostrarToast('📥 Arquivo fiscal da NF-e baixado!');
+      } else {
+        mostrarToast('Emita a NF-e primeiro para baixar o arquivo TXT/XML.');
+      }
+    }
+
+    function imprimirDanfeFiscal() {
+      mostrarToast('🖨️ Abrindo visualizador de DANFE da NF-e...');
+      window.print();
+    }
+
+    function enviarNfeWhatsAppFiscal() {
+      if (!clienteFiscalSelecionado) {
+        mostrarToast('Selecione um cliente para enviar via WhatsApp.');
+        return;
+      }
+      const tel = (clienteFiscalSelecionado.telefone || '').replace(/\D/g, '');
+      if (!tel) {
+        mostrarToast('Cliente não possui telefone/WhatsApp cadastrado.');
+        return;
+      }
+      const chave = (document.getElementById('fiscal-chave-acesso-preview')?.textContent || '').replace(/\s+/g, '');
+      const msg = encodeURIComponent(`Olá ${clienteFiscalSelecionado.nome}! Sua Nota Fiscal Eletrônica (NF-e) foi emitida com sucesso pelo Mis Sueños Couros.\n\nChave de Acesso: ${chave}\n\nConsulte no portal oficial: https://www.nfe.fazenda.gov.br`);
+      window.open(`https://wa.me/55${tel}?text=${msg}`, '_blank');
+    }
+
     function abrirModalFiscal(clienteId) {
       aplicarTamanhoSalvoModal('modal-fiscal');
       const _cnt = document.querySelector('#modal-fiscal .modal-container');
@@ -8757,12 +8896,18 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (cliente) {
         document.getElementById('fiscal-destinatario').value = cliente.nome || 'Cliente Selecionado';
         document.getElementById('fiscal-documento').value = cliente.cpf || cliente.cnpj || 'Pendente de documento';
-        document.getElementById('fiscal-uf').value = `${cliente.cidade || 'Cidade'} / ${cliente.uf || 'RS'}`;
+        document.getElementById('fiscal-uf').value = (cliente.uf || 'RS').toUpperCase();
       } else {
         document.getElementById('fiscal-destinatario').value = 'Selecione um cliente na tabela';
         document.getElementById('fiscal-documento').value = '-';
         document.getElementById('fiscal-uf').value = 'RS';
       }
+
+      const chavePrev = document.getElementById('fiscal-chave-acesso-preview');
+      if (chavePrev) {
+        chavePrev.textContent = gerarChaveAcessoSimulada('43', cliente?.cnpj || cliente?.cpf || '00000000000191');
+      }
+
       document.getElementById('modal-fiscal').classList.add('active');
     }
 
@@ -8785,6 +8930,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         if (btn) btn.disabled = true;
         mostrarToast('Processando documento fiscal no Portal Nacional...');
 
+        const ncmVal = document.getElementById('fiscal-ncm')?.value.trim() || '41063110';
+        const cfopVal = document.getElementById('fiscal-natureza')?.value || '5101';
+        const freteVal = document.getElementById('fiscal-frete')?.value || '0';
+
         const resp = await fetch('/api/nfe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -8792,12 +8941,14 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             tipoNota: 'NFE_PRODUTO',
             cliente: clienteFiscalSelecionado,
             valores: { valorTotal: valorNum },
-            produtos: [{ descricao: itemDesc, valor: valorNum }]
+            produtos: [{ descricao: itemDesc, valor: valorNum, ncm: ncmVal, cfop: cfopVal }],
+            modalidadeFrete: freteVal
           })
         });
 
         const dados = await resp.json();
         if (resp.ok && dados.success) {
+          ultimaNotaFiscalGerada = dados;
           mostrarToast(`NF-e #${dados.numeroNfe} gerada com sucesso!`);
           if (dados.txtSefaz) {
             const blob = new Blob([dados.txtSefaz], { type: 'text/plain;charset=utf-8;' });
