@@ -81,16 +81,17 @@
   - [x] #5: `modal-ajuste-estoque` (Concluído)
   - [x] #6: `modal-ficha-kardex` (Concluído)
   - [x] #7: `modal-rastreamento-pedido` (Concluído)
-  - [ ] **#8: `modal-fiscal` (Emissão NF-e Portal Nacional)**
-  - [ ] #9: `modal-pacote-contador` (Fechamento Fiscal)
-  - [ ] #10: `modal-importar-xml` (Importação NF-e XML)
+  - [x] #8: `modal-fiscal` (Concluído - SW v42)
+  - [ ] **#9: `modal-pacote-contador` (Fechamento Fiscal Mensal)**
+  - [ ] #10: `modal-importar-xml` (Importação NF-e XML de Compras)
   - [ ] #11-17: Sistema (`usuarios-rbac`, `perfis`, `quotas`, `backup`, `personalizar-colunas`, `sobre-sistema`).
 
 ---
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **1. Janela #8 - Emissão NF-e Portal Nacional (`modal-fiscal`):**
-  - Modernizar a tela de emissão e conferência de Nota Fiscal com proporções perfeitas e abas/linhas fluidas.
-  - Campos de Natureza da Operação, CFOP (5.101/6.101), Chave de Acesso de 44 dígitos e alíquotas.
-  - Ações rápidas: `[ 🧾 Transmitir NF-e ]`, `[ 📥 Baixar XML ]`, `[ 🖨️ Imprimir DANFE ]` e `[ 📱 Enviar XML/DANFE por WhatsApp ]`.
+- [ ] **1. Janela #9 - Pacote do Contador / Fechamento Fiscal Mensal (`modal-pacote-contador`):**
+  - Mapear a estrutura atual do modal `modal-pacote-contador` no `index.html`.
+  - Aplicar a Diretriz Oficial Minimalista (zero parênteses redundantes/didáticos, seletores claros de mês/ano, métricas de fechamento e download consolidado de ZIP de XMLs e Relatórios).
+  - Gerar artefato visual interativo `proposta_modernizacao_pacote_contador.html` e submeter para aprovação do Gustavo.
+  - Implementar, validar, bump SW v43, auditar na Vercel e sincronizar com `MisSuenos-Dev` e `erp-base`.
