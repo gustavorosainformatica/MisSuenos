@@ -114,5 +114,5 @@ flowchart TD
   6. Atualizar `HANDOFF.md`.
 - **Passo de Validação:**
   - `curl` ou script HTTP confirmando SW v56 ativo em `https://missuenos.vercel.app/sw.js`.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído
 

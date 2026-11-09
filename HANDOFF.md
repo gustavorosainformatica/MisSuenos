@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 15:23 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Suíte Completa de Testes de Regressão (/tdd) (SW v55)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v55)
+> **Data de Atualização:** 08 de Novembro de 2026 — 21:50 (BRT)  
+> **Status Geral:** Sistema Operacional em Produção com Espelho do Pedido A4 & Romaneio de Galpão (SW v56)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v56)
 
 ---
 
@@ -14,55 +14,53 @@
 
 ---
 
-## 2. Suíte de Testes Automatizados (/tdd) - Blindagem Completa dos Pedidos
+## 2. Nova Funcionalidade Implementada: Espelho do Pedido A4 & Romaneio de Expedição
+Implementada a especificação [`SPEC-espelho-pedido-romaneio-pdf.md`](file:///d:/projetos-agy/MisSuenos/docs/specs/SPEC-espelho-pedido-romaneio-pdf.md) e executados os 6 tickets de [`TICKETS-espelho-pedido-romaneio-pdf.md`](file:///d:/projetos-agy/MisSuenos/docs/tickets/TICKETS-espelho-pedido-romaneio-pdf.md):
 
-Criados dois arquivos de testes unitários com o *Node.js Test Runner* nativo (`tests/calculos.test.js` e `tests/pedidos.test.js`), executáveis via `npm test`:
-
-### Cenários Cobertos em `tests/pedidos.test.js`:
-1. **Regressão 01 (Caso Gustavo):** 1x Pele Caprina (R$ 115,00) + Frete (R$ 30,00) = R$ 145,00.
-2. **Regressão 02 (Adição de Item com Frete):** Frete existente R$ 30,00 + novo item R$ 50,00 = R$ 195,00.
-3. **Regressão 03 (Alteração do Frete):** R$ 30 ➔ R$ 45 ➔ R$ 60 com produtos já lançados.
-4. **Regressão 04 (Zerar Frete):** Frete vazio/zero não afeta o subtotal dos produtos.
-5. **Regressão 05 (Alteração de Quantidade):** `+` e `-` recalculando subtotal e total com frete.
-6. **Regressão 06 (Preço Unitário Negociado):** Alteração de unitário refletindo no total.
-7. **Regressão 07 (Exclusão de Itens):** Remoção na lixeira recalculando o pedido imediatamente.
-8. **Regressão 08 (Precisão Decimal & Centavos):** Quantidades fracionadas (2.5 un) e centavos reais.
-9. **Regressão 09 (Serialização & Deserialização):** Conversão texto ➔ array ➔ texto sem perda de integridade.
-
-Resultado Consolidado: **17 de 17 testes passando com 100% de sucesso em ~252ms**.
-
----
-
-## 3. Todas as 17 Janelas Modais Concluídas e Padronizadas
-
-1. **Ficha de Pedido (`modal-pedido`):** Imersão total `99vw x 96vh`, Grid de 5 colunas, Autocomplete inteligente sem acentos e cálculo unificado de itens + frete.
-2. **Ficha do Cliente (`modal-cliente`):** Proporções Nome (60%) e Apelido (40%), e-mail oficial para NF-e/XML e atalhos CRM.
-3. **Ficha do Produto (`modal-produto`):** Nome Comercial (>60%), SKU `⚡`, NCM e Margem Bruta em tempo real.
-4. **Lançamento Financeiro (`modal-lancamento-financeiro`):** 3 linhas fluidas, badges semânticos (`🟢 RECEBER` / `🔴 PAGAR`) e upload de comprovante.
-5. **Etiqueta de Envio & Logística (`modal-etiqueta`):** Medidas A x L x C, peso, botão `⚡ Copiar p/ Superfrete` e preview térmico 100x150 mm.
-6. **Ajuste Rápido de Estoque (`modal-ajuste-estoque`):** Segmented Control `[ 🟢 Entrada | 🔴 Saída | ⚖️ Balanço ]` e cálculo de saldo.
-7. **Ficha Kardex do Produto (`modal-ficha-kardex`):** Segmented Control `[ Todos | 🟢 Entradas | 🔴 Saídas ]`, 4 cards KPI, tabela em *JetBrains Mono* e exportação CSV.
-8. **Rastreamento Logístico (`modal-rastreamento-pedido`):** Pipeline visual de 4 etapas e disparo WhatsApp.
-9. **Módulo de Emissão Fiscal (`modal-fiscal`):** Proporções limpas (Destinatário/CNPJ/UF, Natureza CFOP/Frete, Descrição/NCM/Valor), chave de 44 dígitos e botões DANFE/SEFAZ.
-10. **Pacote Mensal do Contador (`modal-pacote-contador`):** Fechamento Fiscal Mensal, regime Simples Nacional, 4 cards KPI e download de ZIP e CSV.
-11. **Importação de NF-e XML de Compra (`modal-importar-xml`):** Parser nativo de fornecedor, drag & drop, conciliação e destinação Estoque vs Despesa.
-12. **Cadastro & Permissões de Usuários (`modal-usuario-rbac`):** Login `@usuario`, senha com toggle `👁️` e matriz de 6 permissões com switches.
-13. **Redefinição de Senha & Gestão de Perfis (`modal-gerenciar-perfis` / `modal-admin-reset-senha`):** Reset padrão `admin123`, senha manual e cores customizadas.
-14. **Monitoramento de Quotas & Storage (`modal-armazenamento-quotas`):** Turso Cloud (9.0 GB), SQLite local e Cloudflare R2 (10 GB) com VACUUM e Cold Storage.
-15. **Backup & Restauração de Dados (`modal-backup-dados`):** Snapshot consolidado em `.JSON`, exportações modulares em `.CSV` com UTF-8 BOM e restauração segura.
-16. **Personalização de Colunas das Tabelas (`modal-personalizar-colunas`):** Reordenação ágil com setas `▲`/`▼`, travamento `🔒 Fixa` e persistência por perfil.
-17. **Sobre o Sistema & Histórico (`modal-sobre-sistema` & `modal-changelog`):** Specs da stack homologada, suporte WhatsApp e timeline de 3 eras do ERP.
+1. **Modal de Pré-Visualização Unificado (`#modal-imprimir-documento-pedido`):**
+   - Modal em formato imersivo com simulação da folha A4 proporcional (210mm x 297mm).
+   - Abas rápidas para alternar entre **📄 Espelho Comercial A4** e **📦 Romaneio de Galpão**.
+   - Barra de ações completa: `[ 🖨️ Imprimir / Salvar PDF ]`, `[ 💬 WhatsApp ]`, `[ 📋 Copiar Resumo ]` e `[ ✕ Fechar ]`.
+2. **Espelho do Pedido Comercial (Folha A4 / PDF):**
+   - Cabeçalho corporativo com logotipo e dados fiscais completos (CNPJ, IE, WhatsApp, E-mail, Endereço).
+   - Identificação do pedido com número destacado, vendedor, data e situação.
+   - Dados do destinatário e informações de entrega / frete.
+   - Tabela tabulada de itens com SKU, quantidade, unitário e subtotal.
+   - Totalizadores com Subtotal de Produtos, Frete Unificado e Total Geral em destaque.
+   - Instruções de pagamento PIX (chave, favorecido, banco) e observações especiais do pedido.
+   - CSS `@media print` calibrado para folha A4 vertical (sem margens sujas do navegador).
+3. **Romaneio de Expedição de Galpão (Checklist Operacional):**
+   - Título e cabeçalho para conferência física de depósito.
+   - Destinatário, modalidade de envio (Superfrete, Sedex, Jadlog) e código de rastreio.
+   - Tabela com caixas de conferência `[  ]`, quantidade em fonte grande (`1x`, `2x`), SKU e localização no estoque.
+   - Quadro de embalagem, peso estimado e volumes.
+   - Campo formal de rubrica/assinatura do estoquista conferente.
+4. **Disparos Operacionais e Atalhos na UI:**
+   - Botões `[ 📄 Espelho A4 ]` e `[ 📦 Romaneio ]` adicionados diretamente no rodapé da Ficha do Pedido (`modal-pedido`).
+   - Atalhos inseridos no menu de contexto (botão direito) da tabela de pedidos.
+   - Botão WhatsApp com link direto `https://wa.me/55...` com texto comercial pré-formatado.
+   - Botão de cópia para a área de transferência com toast informativo.
 
 ---
 
-## 4. Estado Atual e Decisões Críticas
+## 3. Suíte de Testes Automatizados TDD (/tdd) - 23 de 23 Testes Passando
+A suíte agora conta com 3 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
+- `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
+- `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
+- `tests/documentos.test.js`: 6 testes cobrindo resumo comercial, casos de frete grátis, fallbacks e formatação de moeda.
+
+**Resultado Consolidado:** **23 de 23 testes passando com 100% de sucesso em ~334ms**.
+
+---
+
+## 4. Estado Atual, Auditoria de Deploy e Sincronização Tríplice
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`ec777f1`](https://github.com/gustavorosainformatica/MisSuenos/commit/ec777f1)
-  - Service Worker: `missuenos-pwa-v55` ativo.
-  - ETag da Produção: `"8863b832808d885965837cce5e8f7488"` (Status 200 OK, auditado com sucesso).
+  - Commit Oficial: [`98de844`](https://github.com/gustavorosainformatica/MisSuenos/commit/98de844)
+  - Service Worker: `missuenos-pwa-v56` ativo.
+  - ETag da Produção: `"c9abe7ec5fbbf9986d8f2dc2e0ce6777"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `ec777f1` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `a09b3f0` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `742714c` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `98de844` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `a240e0b` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `56a03a2` na branch `main`).
