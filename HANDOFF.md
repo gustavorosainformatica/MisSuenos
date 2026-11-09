@@ -1,167 +1,97 @@
-# HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
+# Registro de Transição de Contexto (Handoff)
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 17:40 (BRT)  
-> **Status Geral:** Modernização de Janelas (Eliminação de Duplicidade de Maximizar e Redundâncias de Título) + Interceptor Universal de Foco + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
-
----
-
-## 0. Modernização de Janelas: Eliminação de Duplicidade de Maximizar e Títulos Limpos (Solicitação Gustavo)
-- **Problemas Relatados:**
-  1. **Duplicidade de Maximizar (Esquerda vs Direita):** A barra inteira do cabeçalho dos modais exibia o tooltip nativo `"Dois cliques para maximizar ou restaurar o tamanho da janela"` ao passar o mouse perto do título ou na esquerda, enquanto na extrema direita já existia o botão dedicado `[ 🗖 ]` com tooltip redundante.
-  2. **Pleonasmo no Cabeçalho:** O título de novo cadastro exibia `"Novo Cliente NOVO CADASTRO"` e `"Novo Produto NOVO PRODUTO"`, repetindo informação redundante lado a lado.
-- **Soluções Implementadas no Estado da Arte Moderno:**
-  1. **Barra de Título 100% Limpa (Zero Tooltips Invasivos):**
-     - Removido o atributo `title` do cabeçalho `.modal-header` (`header.removeAttribute('title')`). O duplo clique para maximizar/restaurar continua funcionando naturalmente no cabeçalho (padrão Windows 11/macOS), sem balões flutuantes chatos ao passar o mouse.
-     - Botão Maximizar unificado na extrema direita `[ 🗖 ]` com tooltip direto `title="Maximizar"` e `title="Restaurar"` quando maximizado.
-     - Botões de controle de janela (`[ 🗖 ]` e `[ ✕ ]`) com `tabindex="-1"` (zero fricção na tabulação).
-  2. **Design Minimalista de Títulos (Zero Pleonasmos):**
-     - **Novo Cadastro:** Título limpo e direto `👤 Novo Cliente` e `📦 Novo Produto`, com a badge de ID/SKU oculta (`display: none`), eliminando qualquer texto redundante como "NOVO CADASTRO".
-     - **Edição de Registro:** Título contextual `✏️ Ficha do Cliente: <NOME>` e `✏️ Ficha do Produto: <NOME>`, exibindo a badge elegante com o código real: `CLI #12 · ATIVO` ou `SKU-LON-001 · ATIVO`.
+> **Data / Hora:** 09 de Novembro de 2026 — 17:55 (BRT)  
+> **Sessão:** Mis Sueños ERP & Matriz ERP Base  
+> **Status:** Tríplice Sincronizada · 39 Testes Unitários Passando · Deploy Ativo em Produção  
+> **Ambiente Oficial:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
-## 0.1 Interceptor Universal de Foco no Primeiro Campo de Modais & Desativação de Autocomplete Nativo (Solicitação Gustavo)
-- **Problema & Necessidade:**
-  1. O operador solicitou que em **todos os modais que contenham campos de escrita o cursor comece automaticamente dentro do campo** (`? eu não sei se eu consegui me expressar corretamente, mas quero que todosos modais que contenham campos de escrita o cursor comece dentro do campo`).
-  2. Ao abrir o modal de cliente (evidenciado no print `media_1794253504227_b6dba2a2.jpg`), o balão nativo branco de preenchimento automático do Chrome aparecia sobreposto na tela cobrindo os campos.
-- **Soluções Implementadas:**
-  1. **Interceptor Universal de Foco (`focarPrimeiroCampoModal` + `inicializarInterceptorUniversalFocoModais`):**
-     - **Prioridade Absoluta para Campos de Escrita:** Busca e prioriza o primeiro elemento de escrita visível e interativo (`input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([tabindex="-1"]):not([readonly]):not([disabled])` e `textarea`), garantindo que campos de texto recebam o cursor antes de botões, checkboxes ou selects.
-     - **Seleção Inteligente de Conteúdo (`.select()`):** Se o campo de escrita já possuir texto (ex: ao abrir para editar ou com valor pré-carregado), todo o texto é automaticamente selecionado, permitindo ao operador digitar imediatamente para substituir ou teclar `Tab` para avançar sem precisar usar o mouse.
-     - **MutationObserver Universal e Reativo:** Observa `document.body` monitorando atributos `class` e `style` em tempo real. Qualquer modal ou submodal (`.modal-overlay`, `.submodal-overlay`, `modal-*`, `submodal-*`) que se torne visível (seja via `.active` ou via `style.display !== 'none'`) dispara imediatamente o posicionamento do cursor.
-     - **Garantia Dupla:** Chamadas explícitas de `focarPrimeiroCampoModal` adicionadas em todas as funções de abertura de modais (`abrirModalNovoCliente`, `abrirModalEditarCliente`, `abrirModalNovoProduto`, `abrirModalEditarProduto`, `abrirModalNovoPedido`, `abrirModalEditarPedido`, `abrirModalLancamentoFinanceiro`, `abrirModalUsuarioRbac`, submodais de observações e preferências).
-  2. **Eliminação do Balão Nativo do Chrome (`autocomplete="off"`):**
-     - Adicionado `autocomplete="off"` nos formulários de cadastro e nos campos de entrada de clientes (`form-cliente`, `form-nome`, `form-apelido`, `form-email`, `form-ie`), produtos (`form-produto`, `form-prod-nome`), lançamentos (`form-lancamento-fin`, `fin-descricao`) e operadores (`form-usuario-rbac`, `rbac-login`, `rbac-nome`), eliminando balões intrusivos do navegador.
+## 1. O que foi Concluído na Sessão
+
+1. **Blindagem de Numeração Comercial e Integridade UNIQUE (`#PED-XXXX`):**
+   - Corrigido o cálculo do próximo número comercial no frontend e backend para extrair dígitos numéricos reais dos pedidos existentes (`calcularProximoNumeroPedido`), eliminando o erro `UNIQUE constraint failed: pedidos.numero`.
+   - Adicionada blindagem preventiva dupla no backend serverless (`api/pedidos.js`).
+
+2. **Menu Dropdown Pesquisável Integrado de Produtos (Combobox):**
+   - Em "Itens e Mercadorias do Pedido", implementado o padrão oficial de combobox: campo editável para pesquisa sem acentos em tempo real + setinha `▼` para abrir o catálogo completo com SKU, nome em caixa alta, preço e estoque.
+   - Suporte completo a setas `↑`/`↓` e `Enter` no teclado, preenchimento automático de valores e avanço direto de foco para a quantidade.
+
+3. **Ergonomia de Teclado e Navegação Fluida por Tab:**
+   - Remoção universal dos botões verticais de incremento/decremento (`spinners`) em todos os `input[type="number"]` via CSS global (`::-webkit-inner-spin-button`, `-moz-appearance: textfield`).
+   - Atribuído `tabindex="-1"` a botões de ação e controle (`−`, `+`, `🗑️`, `✕`, `🗖`, modais secundários e totais readonly), garantindo que o `Tab` salte exclusivamente entre campos editáveis.
+
+4. **Interceptor Universal de Foco e Desativação de Autocomplete Nativo:**
+   - Implementado interceptor reativo via `MutationObserver` (monitorando `class` e `style`) e chamadas diretas em todos os modais e submodais do sistema.
+   - Prioridade estrita para o primeiro campo de escrita (`input` digitável e `textarea`), com seleção automática de texto (`.select()`) para permitir substituição ou avanço imediato.
+   - Adicionado `autocomplete="off"` em formulários e inputs, eliminando o balão branco flutuante do Chrome que cobria os campos.
+
+5. **Modernização de Janelas e Limpeza de Títulos:**
+   - **Fim da Duplicidade de Maximizar:** Removido o atributo `title` do container `.modal-header`. O duplo clique continua funcionando de forma silenciosa e natural na barra de títulos (padrão Windows 11/macOS), e o controle visual de maximizar fica unificado exclusivamente no botão oficial da extrema direita `[ 🗖 ]` com tooltips limpos (`Maximizar` / `Restaurar`).
+   - **Fim do Pleonasmo nos Cabeçalhos:** 
+     - No cadastro novo: **`👤 Novo Cliente`** e **`📦 Novo Produto`**, com a badge lateral oculta (`display: none`), eliminando a repetição "NOVO CADASTRO".
+     - Na edição de registro: **`✏️ Ficha do Cliente: <NOME>`** e **`✏️ Ficha do Produto: <NOME>`**, exibindo a badge com o identificador real (`CLI #12 · ATIVO` ou `SKU-LON-001 · ATIVO`).
+
+6. **Consolidação de Regras Globais:**
+   - Gravadas e ativadas as diretrizes no `GEMINI.md` e em `C:\Users\Usuario\.gemini\config\rules\`:
+     - `ergonomia-teclado-e-dropdown-pesquisavel.md`
+     - `blindagem-numeracao-comercial.md`
+
+7. **Sincronização Tríplice e Auditoria em Produção:**
+   - Replicado código em `MisSuenos`, `MisSuenos-Dev` e `erp-base`.
+   - 39 testes unitários executados e validados com 100% de sucesso.
+   - Deploy auditado e confirmado na Vercel (`Status Code: 200`, `Age: 0`).
 
 ---
 
-## 0.1 Menu Dropdown Pesquisável de Produtos (Solicitação Gustavo)
-- **Problema & Necessidade:** Em "Itens e Mercadorias do Pedido", o operador desejava utilizar exclusivamente o menu dropdown de catálogo, porém com o campo sendo editável para permitir pesquisa rápida pelo nome do produto.
-- **Solução Implementada (Combobox Dropdown Integrado):**
-  1. **Visual Único & Fluido:** Eliminada a alternância entre modos e botões redundantes. O campo agora é um Dropdown Combobox com botão `▼` dedicado.
-  2. **Busca e Filtro em Tempo Real:** Ao focar, clicar no campo ou na setinha `▼`, o menu abre exibindo todos os produtos do catálogo (com SKU, nome em destaque, preço e estoque disponível). Ao digitar qualquer parte do nome ou SKU, a lista é filtrada instantaneamente sem acentuação (`normalizarTextoBusca`).
-  3. **Navegação Completa por Teclado:** Suporta `ArrowDown`, `ArrowUp` e `Enter` para selecionar, preenchendo automaticamente o preço unitário e focando na quantidade.
-  4. **Fallback para Itens Avulsos:** Caso o operador digite um produto que não exista no catálogo, o dropdown disponibiliza a opção de adicionar como Item Avulso / Personalizado.
+## 2. Arquivos Modificados / Criados
+
+- `public/index.html`:
+  - Interceptor universal de foco (`focarPrimeiroCampoModal`, `inicializarInterceptorUniversalFocoModais`).
+  - Dropdown Combobox pesquisável de itens do pedido com autocomplete em tempo real.
+  - CSS global para remoção universal de spinners em inputs numéricos.
+  - Remoção de `header.title` e unificação dos controles de maximizar no botão da direita `[ 🗖 ]`.
+  - Limpeza dos títulos de modais eliminando badges redundantes no cadastro novo.
+  - Adição de `autocomplete="off"` e `tabindex="-1"` em elementos auxiliares.
+- `lib/calculos_erp.js`:
+  - Função `calcularProximoNumeroPedido` extraindo numeração real de registros existentes.
+- `api/pedidos.js`:
+  - Blindagem preventiva contra colisão `UNIQUE constraint failed`.
+- `tests/regressao_pedidos.test.js`:
+  - Adicionado o teste `REGRESSÃO PEDIDOS 10` para geração sequencial sem colisão.
+- `HANDOFF.md`:
+  - Registro de transferência e evolução contínua da sessão.
+- `C:\Users\Usuario\.gemini\GEMINI.md`:
+  - Inclusão das regras globais de Ergonomia de Teclado, Dropdown Pesquisável e Blindagem de Numeração.
+- `C:\Users\Usuario\.gemini\config\rules\`:
+  - Novos módulos `ergonomia-teclado-e-dropdown-pesquisavel.md` e `blindagem-numeracao-comercial.md`.
 
 ---
 
-## 0.1 Ergonomia de Teclado no Pedido & Remoção de Setas Redundantes (Solicitação Gustavo)
-- **Problema Relatado:**
-  1. A quantidade apresentava setas verticais nativas redundantes no input numérico (`spinners`), poluindo a interface.
-  2. Ao utilizar a tecla `Tab`, o cursor parava em botões de ação e controle (como botões `−`, `+` e lixeira `🗑️`), em vez de fluir exclusivamente pelos campos digitáveis.
-  3. O cursor não iniciava automaticamente dentro do campo "Cliente / Destinatário" ao abrir o modal de pedidos.
-- **Soluções Implementadas:**
-  1. **Remoção Universal de Spinners Numéricos:** Regra CSS global (`input[type=number]::-webkit-inner-spin-button`, `-moz-appearance: textfield`) eliminando setas redundantes de todos os inputs numéricos do ERP.
-  2. **Fluxo Contínuo de Tabulação (`tabindex="-1"`):** Atribuído `tabindex="-1"` a botões de controle de quantidade (`−` e `+`), exclusão de linhas (`🗑️`), botões de visualização/alternância (`Modo Texto Livre`, `Menu Dropdown`, `Observações`, `Preferências`, `Espelho A4`, `Romaneio`, `Cancelar`, `✕`) e campos readonly de totais (`form-ped-valor`). A navegação por `Tab` agora salta estritamente entre os campos digitáveis.
-  3. **Foco e Seleção Automática no Cliente:** Implementado `setTimeout` com `focus()` e `select()` em `form-ped-cliente-nome` tanto no cadastro de novo pedido quanto na edição, posicionando o operador pronto para digitar ou substituir o cliente imediatamente.
+## 3. Estado Atual e Decisões Críticas
+
+- **Repositórios e Versões Ativas:**
+  - `MisSuenos` (Produção): commit `d97b6b4` (branch `main`).
+  - `MisSuenos-Dev` (Desenvolvimento): commit `ade360c` (branch `dev`).
+  - `erp-base` (Template Neutro): commit `daacdc3` (branch `main`).
+- **Padrão de UX Estabelecido:** 
+  - Toda abertura de janela posiciona o foco no primeiro campo digitável sem balões intrusivos.
+  - O Tab é livre de interrupções em botões secundários.
+  - O duplo clique na barra de títulos é silencioso e o botão de maximizar reside unicamente na extrema direita.
+  - Títulos de janelas são limpos, modernos e sem redundâncias didáticas.
 
 ---
 
-## 0.1 Correção de Colisão de Número de Pedido (UNIQUE Constraint)
-- **Problema Relatado:** Ao salvar novo pedido, o sistema apresentava `Erro ao salvar pedido: Erro interno ao processar pedido: UNIQUE constraint failed: pedidos.numero`.
-- **Causa Raiz Identificada:** O cálculo do próximo número no frontend (`abrirModalNovoPedido`) realizava `Math.max` em cima de `p.id` (que possui auto-incremento pequeno 1 a 9) com fallback 1042, gerando sempre `#PED-1043`, que já existia no banco para outro cliente.
-- **Solução Implementada com Dupla Blindagem:**
-  1. **Frontend & Biblioteca Central (`lib/calculos_erp.js`):** Nova função `calcularProximoNumeroPedido(pedidos)` que extrai os dígitos reais de `p.numero` via regex `/\d+/`, garantindo que se existir `#PED-1043` na base, a próxima sugestão seja `#PED-1044` (ou superior).
-  2. **Backend Serverless (`api/pedidos.js`):** Blindagem preventiva no endpoint POST. Se o número não for informado ou se já existir no banco de dados, o backend consulta os números existentes e auto-incrementa para o próximo disponível, eliminando a colisão `UNIQUE constraint failed`.
-  3. **Feedback Visual Fiel (`salvarPedido`):** O toast de confirmação consome o número final retornado pelo backend (`resultado.numero || payload.numero`).
-  4. **Suíte de Testes:** Novo teste `REGRESSÃO PEDIDOS 10` adicionado com 39 testes unitários passando com 100% de sucesso.
+## 4. Próximos Passos Imediatos (Próxima Sessão)
+
+- [ ] Acompanhar uso prático pelo operador nos lançamentos diários de pedidos e clientes.
+- [ ] Aplicar o mesmo padrão de Dropdown Combobox Pesquisável em outros pontos de seleção do sistema quando necessário (ex: seleção de categorias fiscais ou filtros avançados).
+- [ ] Avaliar expansão do módulo de relatórios ou exportações adicionais de documentos comerciais.
 
 ---
 
-## 1. Diretriz Oficial de Design: Padronização Minimalista e Limpa (Zero Parênteses Óbvios)
-- **Princípio Aprovado pelo Usuário Gustavo:** Eliminar solenemente parênteses e textos didáticos redundantes (como `(+ AUMENTAR)`, `(- BAIXAR)`, `(CONTAGEM)`, `(A)` ou `(B)`).
-- **Segmented Controls Compactos:** Utilizar barras seletoras segmentadas elegantes com termos consolidados (`🟢 Entrada`, `🔴 Saída`, `⚖️ Balanço`, `Todos`).
-- **Rótulos Inteligentes de Contexto:** Em vez de poluir os botões com texto longo, os campos subsequentes ajustam seu título dinamicamente.
-- **Tipografia & Proporções:** *JetBrains Mono* para códigos, documentos, quantidades e valores monetários.
+## 5. Cuidados e Observações Técnicas
 
----
-
-## 2. Relatório de Compras do Cliente no Menu de Contexto (Opção A com Atalho Interno para Opção B)
-- **Disparo no Botão Direito (`abrirMenuAcoesCliente`):**
-  - Adicionado o item `🛍️ Relatório de Compras (X)` exibindo dinamicamente a contagem real de compras do cliente na base.
-- **Modal Flutuante de Extrato Comercial & CRM (`#modal-relatorio-compras-cliente`):**
-  - **Cards de Indicadores (KPIs):** Faturamento Total Comprado (R$), Ticket Médio, Total de Pedidos e Data da Última Compra.
-  - **Grade de Pedidos:** Listagem cronológica dos pedidos com número, data, status estilizado, itens adquiridos, frete, total e botão para abrir o Espelho A4 do pedido individual.
-  - **Ação A (Impressão A4 de Extrato):** Botão `[ 🖨️ Imprimir Extrato A4 ]` configurado com CSS `@media print` dedicado, gerando documento comercial limpo para conferência.
-  - **Ação B (Atalho Interno):** Botão `[ 📦 Ver na Grade de Pedidos ]` que fecha o modal, salta diretamente para o módulo de pedidos e aplica o filtro de busca pelo nome do cliente instantaneamente.
-
----
-
-## 3. Universalização de Caixa Alta e Blindagem de Dados em Todas as Telas
-Em estrita conformidade com as Regras Globais do Antigravity homologadas pelo usuário Gustavo:
-- **Caixa Alta Universal (CSS + Interceptor Global + Backend):**
-  - Estilização universal em `.form-input, input[type="text"], input[type="search"], input[type="email"], textarea, select` com `text-transform: uppercase !important`.
-  - Interceptor global nativo de eventos `input` com captura antecipada (`capture: true`), convertendo a digitação para maiúsculas em tempo real sem perder a posição do cursor.
-  - Sanitização estrita com `.toUpperCase().trim()` em todas as funções de envio (`salvarPedido`, `salvarCliente`, `salvarProduto`, `salvarLancamentoFinanceiro`, `salvarDadosEmpresa`, `salvarNovoCodigoRastreio`, `confirmarAjusteEstoque`, etc.).
-- **Foco Inteligente de CEP (Cidades com CEP Único vs Cidades com Logradouro Mapeado):**
-  - Se a cidade possui ruas mapeadas na base dos Correios: preenche o logradouro e foca diretamente no campo "Número".
-  - Se o município tiver CEP único (rua vazia nos Correios, ex: Osório/RS `95520-000`): posiciona o foco diretamente no campo "Logradouro / Rua" com aviso sutil ao operador, impedindo que o campo seja deixado em branco.
-- **Blindagem e Máscara Autoajustável de Telefone no Pedido e Configurações:**
-  - Aplicada a máscara progressiva `(00) 0000-0000` / `(00) 00000-0000` também no formulário de Novo Pedido (`form-ped-telefone`) e nos dados da empresa emitente (`cfg-telefone-emitente`).
-  - Bloqueio físico de letras no `keydown` e validação estrita de integridade com DDD nacional antes de salvar.
-- **Validação Matemática Estrita (Módulo 11 da Receita Federal):**
-  - Impedimento total de gravação caso o CPF ou CNPJ esteja matematicamente inválido quando preenchido.
-
----
-
-## 2. Nova Funcionalidade Implementada: Espelho do Pedido A4 & Romaneio de Expedição
-Implementada a especificação [`SPEC-espelho-pedido-romaneio-pdf.md`](file:///d:/projetos-agy/MisSuenos/docs/specs/SPEC-espelho-pedido-romaneio-pdf.md) e executados os 6 tickets de [`TICKETS-espelho-pedido-romaneio-pdf.md`](file:///d:/projetos-agy/MisSuenos/docs/tickets/TICKETS-espelho-pedido-romaneio-pdf.md):
-
-1. **Modal de Pré-Visualização Unificado (`#modal-imprimir-documento-pedido`):**
-   - Modal em formato imersivo com simulação da folha A4 proporcional (210mm x 297mm).
-   - Abas rápidas para alternar entre **📄 Espelho Comercial A4** e **📦 Romaneio de Galpão**.
-   - Barra de ações completa: `[ 🖨️ Imprimir / Salvar PDF ]`, `[ 💬 WhatsApp ]`, `[ 📋 Copiar Resumo ]` e `[ ✕ Fechar ]`.
-2. **Espelho do Pedido Comercial (Folha A4 / PDF):**
-   - Cabeçalho corporativo com logotipo e dados fiscais completos (CNPJ, IE, WhatsApp, E-mail, Endereço).
-   - Identificação do pedido com número destacado, vendedor, data e situação.
-   - Dados do destinatário e informações de entrega / frete.
-   - Tabela tabulada de itens com SKU, quantidade, unitário e subtotal.
-   - Totalizadores com Subtotal de Produtos, Frete Unificado e Total Geral em destaque.
-   - Instruções de pagamento PIX (chave, favorecido, banco) e observações especiais do pedido.
-   - CSS `@media print` calibrado para folha A4 vertical (sem margens sujas do navegador).
-3. **Romaneio de Expedição de Galpão (Checklist Operacional):**
-   - Título e cabeçalho para conferência física de depósito.
-   - Destinatário, modalidade de envio (Superfrete, Sedex, Jadlog) e código de rastreio.
-   - Tabela com caixas de conferência `[  ]`, quantidade em fonte grande (`1x`, `2x`), SKU e localização no estoque.
-   - Quadro de embalagem, peso estimado e volumes.
-   - Campo formal de rubrica/assinatura do estoquista conferente.
-4. **Disparos Operacionais e Atalhos na UI:**
-   - Botões `[ 📄 Espelho A4 ]` e `[ 📦 Romaneio ]` adicionados diretamente no rodapé da Ficha do Pedido (`modal-pedido`).
-   - Atalhos inseridos no menu de contexto (botão direito) da tabela de pedidos.
-   - Botão WhatsApp com link direto `https://wa.me/55...` com texto comercial pré-formatado.
-   - Botão de cópia para a área de transferência com toast informativo.
-
----
-
-## 3. Padronização em Caixa Alta e Blindagem Estrita de Dados (CPF/CNPJ, CEP e Telefone)
-Aprovada e homologada pelo usuário Gustavo como regra global permanente:
-- **Caixa Alta Universal (Uppercase):** Todos os inputs e textareas cadastrais e retornos de CEP operam e salvam em letras maiúsculas.
-- **Bloqueio Físico de Letras em CPF/CNPJ:** Interceptação no `keydown` impedindo digitação de caracteres não numéricos.
-- **Máscara Progressiva CPF/CNPJ:** Transição dinâmica de CPF (`000.000.000-00`) para CNPJ (`00.000.000/0000-00`).
-- **Validação Matemática Estrita (Módulo 11 da Receita Federal):** Rejeição impeditiva de documentos com dígitos verificadores inválidos ou repetidos.
-- **Blindagem e Autocompletação de CEP:** Limite de 8 números, máscara `00000-000`, busca automática no 8º dígito e foco inteligente direto no campo "Número".
-- **Blindagem e Máscara Autoajustável de Telefone:** Formatação fluida entre fixo `(00) 0000-0000` (10 dígitos) e celular `(00) 00000-0000` (11 dígitos), validação de DDD e acionamento integrado de WhatsApp.
-
----
-
-## 5. Suíte de Testes Automatizados TDD (/tdd) - 38 de 38 Testes Passando
-A suíte agora conta com 4 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
-- `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
-- `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
-- `tests/documentos.test.js`: 8 testes cobrindo resumo comercial, histórico de compras por cliente, ticket médio e formatação de moeda.
-- `tests/validacoes.test.js`: 13 testes cobrindo CPF, CNPJ, Módulo 11, Caixa Alta, CEP e Telefone/Celular.
-
-**Resultado Consolidado:** **38 de 38 testes passando com 100% de sucesso em ~450ms**.
-
----
-
-## 5. Estado Atual e Sincronização Tríplice
-
-- **Deploy em Produção Auditado e Operacional:**
-  - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Service Worker: `missuenos-pwa-v56` ativo.
-- **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `5261990` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `b71beeb` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `dba33c8` na branch `main`).
+- **Regra de Ouro da Tríplice:** Qualquer nova evolução em `MisSuenos` deve ser mantida em sincronia contínua com `MisSuenos-Dev` e `erp-base`.
+- **Blindagem de Funções Serverless (Vercel Hobby):** Não criar arquivos de rota soltos na pasta `api/` que ultrapassem o limite de 12 funções gratuitas da Vercel; rotear sempre pelo Gateway unificado `api/index.js` ou scripts existentes.
+- **Auditoria de Deploy:** Sempre validar o status de compilação ou cabeçalhos HTTP (`Age: 0`, `ETag`) antes de declarar versão no ar.
