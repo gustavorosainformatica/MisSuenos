@@ -43,23 +43,25 @@ Implementada a especificação [`SPEC-espelho-pedido-romaneio-pdf.md`](file:///d
 
 ---
 
-## 3. Padronização em Caixa Alta e Blindagem Estrita de CPF / CNPJ
-Aprovada e homologada pelo usuário Gustavo a validação estrita nos cadastros:
-- **Caixa Alta Universal (Uppercase):** Todos os inputs e textareas da modal Novo Cliente/Editar Cliente e retornos de CEP são convertidos e salvos em letras maiúsculas.
-- **Bloqueio de Letras no Campo CPF/CNPJ:** Interceptação no evento `keydown` impedindo digitação de letras ou caracteres especiais.
-- **Máscara Dinâmica Progressiva:** Transição automática de CPF (`000.000.000-00`) para CNPJ (`00.000.000/0000-00`).
-- **Validação Matemática Estrita (Módulo 11 da Receita Federal):** Cálculo de dígitos verificadores com bloqueio ativo no salvamento caso o documento digitado esteja incorreto.
+## 3. Padronização em Caixa Alta e Blindagem Estrita de Dados (CPF/CNPJ, CEP e Telefone)
+Aprovada e homologada pelo usuário Gustavo como regra global permanente:
+- **Caixa Alta Universal (Uppercase):** Todos os inputs e textareas cadastrais e retornos de CEP operam e salvam em letras maiúsculas.
+- **Bloqueio Físico de Letras em CPF/CNPJ:** Interceptação no `keydown` impedindo digitação de caracteres não numéricos.
+- **Máscara Progressiva CPF/CNPJ:** Transição dinâmica de CPF (`000.000.000-00`) para CNPJ (`00.000.000/0000-00`).
+- **Validação Matemática Estrita (Módulo 11 da Receita Federal):** Rejeição impeditiva de documentos com dígitos verificadores inválidos ou repetidos.
+- **Blindagem e Autocompletação de CEP:** Limite de 8 números, máscara `00000-000`, busca automática no 8º dígito e foco inteligente direto no campo "Número".
+- **Blindagem e Máscara Autoajustável de Telefone:** Formatação fluida entre fixo `(00) 0000-0000` (10 dígitos) e celular `(00) 00000-0000` (11 dígitos), validação de DDD e acionamento integrado de WhatsApp.
 
 ---
 
-## 4. Suíte de Testes Automatizados TDD (/tdd) - 32 de 32 Testes Passando
+## 4. Suíte de Testes Automatizados TDD (/tdd) - 36 de 36 Testes Passando
 A suíte agora conta com 4 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
 - `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
 - `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
 - `tests/documentos.test.js`: 6 testes cobrindo resumo comercial, casos de frete grátis, fallbacks e formatação de moeda.
-- `tests/validacoes.test.js`: 9 testes cobrindo rejeição de letras, máscara progressiva, Módulo 11 de CPF/CNPJ e caixa alta.
+- `tests/validacoes.test.js`: 13 testes cobrindo CPF, CNPJ, Módulo 11, Caixa Alta, CEP e Telefone/Celular.
 
-**Resultado Consolidado:** **32 de 32 testes passando com 100% de sucesso em ~390ms**.
+**Resultado Consolidado:** **36 de 36 testes passando com 100% de sucesso em ~390ms**.
 
 ---
 

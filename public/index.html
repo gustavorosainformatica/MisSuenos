@@ -6051,7 +6051,7 @@
                   <span>📱</span> TELEFONE / WHATS
                 </span>
               </label>
-              <input type="text" class="form-input" id="form-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+              <input type="text" class="form-input" id="form-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
             </div>
             <div class="form-group" style="flex: 1; min-width: 200px;">
               <label class="form-label" style="margin-bottom: 3px;">E-MAIL PARA FATURAS / XML NF-E</label>
@@ -6069,7 +6069,7 @@
             <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
               <div class="form-group" style="width: 115px; flex-shrink: 0;">
                 <label class="form-label" style="color: #38bdf8; margin-bottom: 3px;">CEP 🔍</label>
-                <input type="text" class="form-input" id="form-cep" placeholder="90000-000" onblur="buscarCep(this.value)" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
+                <input type="text" class="form-input" id="form-cep" inputmode="numeric" maxlength="9" placeholder="00000-000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" onblur="buscarCep(this.value)" autocomplete="postal-code" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
               </div>
               <div class="form-group" style="flex: 1; min-width: 260px;">
                 <label class="form-label" style="margin-bottom: 3px;">LOGRADOURO / RUA</label>
@@ -9418,6 +9418,107 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
     }
 
+    // Máscara e Validação de Telefone / WhatsApp (Fixo vs Celular)
+    function aplicarMascaraTelefoneValor(valor) {
+      const digitos = String(valor || '').replace(/\D/g, '').slice(0, 11);
+      if (!digitos) return '';
+      if (digitos.length <= 2) return `(${digitos}`;
+      if (digitos.length <= 6) return `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`;
+      if (digitos.length <= 10) return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 6)}-${digitos.slice(6)}`;
+      return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(7, 11)}`;
+    }
+
+    function checarTelefoneValido(valor) {
+      const limpo = String(valor || '').replace(/\D/g, '').slice(0, 11);
+      if (!limpo) return { valido: true, tipo: 'VAZIO' };
+      if (limpo.length < 10) return { valido: false, tipo: 'INCOMPLETO' };
+      const ddd = parseInt(limpo.slice(0, 2), 10);
+      if (ddd < 11 || ddd > 99) return { valido: false, tipo: 'DDD_INVALIDO' };
+      if (limpo.length === 11) {
+        if (limpo.charAt(2) !== '9') return { valido: false, tipo: 'CELULAR_SEM_NONO_DIGITO' };
+        return { valido: true, tipo: 'CELULAR' };
+      }
+      return { valido: true, tipo: 'FIXO' };
+    }
+
+    function aoDigitarTelefone(el) {
+      if (!el) return;
+      el.value = aplicarMascaraTelefoneValor(el.value);
+      const digitos = el.value.replace(/\D/g, '');
+      if (!digitos) {
+        el.style.borderColor = '';
+        return;
+      }
+      const res = checarTelefoneValido(digitos);
+      if (res.valido) {
+        el.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+      } else if (digitos.length >= 10) {
+        el.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+      } else {
+        el.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+      }
+    }
+
+    function aoColarTelefone(e, el) {
+      e.preventDefault();
+      const textoColado = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+      const limpo = textoColado.replace(/\D/g, '').slice(0, 11);
+      el.value = aplicarMascaraTelefoneValor(limpo);
+      formatarEValidarTelefone(el);
+    }
+
+    function formatarEValidarTelefone(el) {
+      if (!el) return;
+      el.value = aplicarMascaraTelefoneValor(el.value);
+      const digitos = el.value.replace(/\D/g, '');
+      if (!digitos) {
+        el.style.borderColor = '';
+        return;
+      }
+      const res = checarTelefoneValido(digitos);
+      el.style.borderColor = res.valido ? 'rgba(16, 185, 129, 0.65)' : 'rgba(239, 68, 68, 0.75)';
+    }
+
+    // Máscara e Validação de CEP
+    function aplicarMascaraCepValor(valor) {
+      const digitos = String(valor || '').replace(/\D/g, '').slice(0, 8);
+      if (!digitos) return '';
+      return digitos.replace(/^(\d{5})(\d)/, '$1-$2');
+    }
+
+    function checarCepValido(valor) {
+      const limpo = String(valor || '').replace(/\D/g, '').slice(0, 8);
+      if (!limpo) return { valido: true, tipo: 'VAZIO' };
+      if (limpo.length === 8) return { valido: true, tipo: 'CEP' };
+      return { valido: false, tipo: 'INCOMPLETO' };
+    }
+
+    function aoDigitarCep(el) {
+      if (!el) return;
+      el.value = aplicarMascaraCepValor(el.value);
+      const digitos = el.value.replace(/\D/g, '');
+      if (!digitos) {
+        el.style.borderColor = '';
+        return;
+      }
+      if (digitos.length === 8) {
+        el.style.borderColor = 'rgba(16, 185, 129, 0.7)';
+        buscarCep(digitos);
+      } else {
+        el.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+      }
+    }
+
+    function aoColarCep(e, el) {
+      e.preventDefault();
+      const textoColado = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+      const limpo = textoColado.replace(/\D/g, '').slice(0, 8);
+      el.value = aplicarMascaraCepValor(limpo);
+      if (limpo.length === 8) {
+        buscarCep(limpo);
+      }
+    }
+
     // Garante caixa alta em todos os inputs de texto e textarea do modal de cliente
     function inicializarCamposCaixaAltaModalCliente() {
       const modal = document.getElementById('modal-cliente');
@@ -9452,6 +9553,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (document.getElementById('form-pref')) document.getElementById('form-pref').value = '';
       if (document.getElementById('form-obs')) document.getElementById('form-obs').value = '';
       document.getElementById('form-doc').style.borderColor = '';
+      if (document.getElementById('form-telefone')) document.getElementById('form-telefone').style.borderColor = '';
+      if (document.getElementById('form-cep')) document.getElementById('form-cep').style.borderColor = '';
       atualizarBadgesFichaCliente();
       document.getElementById('modal-cliente').classList.add('active');
       document.getElementById('form-nome').focus();
@@ -9472,8 +9575,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
       formatarEValidarDoc(document.getElementById('form-doc'));
       document.getElementById('form-ie').value = (cliente.ie || '').toUpperCase();
-      document.getElementById('form-telefone').value = cliente.telefone || '';
-      document.getElementById('form-cep').value = cliente.cep || '';
+      document.getElementById('form-telefone').value = aplicarMascaraTelefoneValor(cliente.telefone || '');
+      formatarEValidarTelefone(document.getElementById('form-telefone'));
+      document.getElementById('form-cep').value = aplicarMascaraCepValor(cliente.cep || '');
       document.getElementById('form-logradouro').value = (cliente.logradouro || '').toUpperCase();
       document.getElementById('form-numero').value = (cliente.numero || '').toUpperCase();
       document.getElementById('form-complemento').value = (cliente.complemento || '').toUpperCase();
@@ -9518,6 +9622,36 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         }
       }
 
+      // Validação estrita de Telefone / WhatsApp
+      const telLimpo = (document.getElementById('form-telefone')?.value || '').replace(/\D/g, '');
+      if (telLimpo.length > 0) {
+        const telCheck = checarTelefoneValido(telLimpo);
+        if (!telCheck.valido) {
+          const telEl = document.getElementById('form-telefone');
+          if (telEl) {
+            telEl.style.borderColor = 'rgba(239, 68, 68, 0.9)';
+            telEl.focus();
+          }
+          mostrarToast('❌ Telefone inválido! Informe o DDD e o número completo (10 ou 11 dígitos).');
+          return;
+        }
+      }
+
+      // Validação estrita de CEP
+      const cepLimpo = (document.getElementById('form-cep')?.value || '').replace(/\D/g, '');
+      if (cepLimpo.length > 0) {
+        const cepCheck = checarCepValido(cepLimpo);
+        if (!cepCheck.valido) {
+          const cepEl = document.getElementById('form-cep');
+          if (cepEl) {
+            cepEl.style.borderColor = 'rgba(239, 68, 68, 0.9)';
+            cepEl.focus();
+          }
+          mostrarToast('❌ CEP incompleto! Digite os 8 números do CEP.');
+          return;
+        }
+      }
+
       // Preserva razão social e outros documentos se estiver editando
       let cpfFinal = !isCnpj ? doc : '';
       let cnpjFinal = isCnpj ? doc : '';
@@ -9537,8 +9671,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         cpf: cpfFinal,
         cnpj: cnpjFinal,
         ie: (document.getElementById('form-ie')?.value || '').trim().toUpperCase(),
-        telefone: (document.getElementById('form-telefone')?.value || '').trim(),
-        cep: (document.getElementById('form-cep')?.value || '').trim(),
+        telefone: aplicarMascaraTelefoneValor(document.getElementById('form-telefone')?.value || ''),
+        cep: aplicarMascaraCepValor(document.getElementById('form-cep')?.value || ''),
         logradouro: (document.getElementById('form-logradouro')?.value || '').trim().toUpperCase(),
         numero: (document.getElementById('form-numero')?.value || '').trim().toUpperCase(),
         complemento: (document.getElementById('form-complemento')?.value || '').trim().toUpperCase(),

@@ -6,6 +6,10 @@ import {
   validarCpf,
   validarCnpj,
   validarDocumentoFiscal,
+  aplicarMascaraCep,
+  validarCep,
+  aplicarMascaraTelefone,
+  validarTelefone,
   paraCaixaAlta
 } from '../lib/validacoes_erp.js';
 
@@ -44,48 +48,31 @@ test('VALIDAÇÃO 05: Máscara dinâmica ignora letras digitadas ou coladas', ()
 });
 
 test('VALIDAÇÃO 06: Validação de CPF com dígitos verificadores matemáticos', () => {
-  // CPF com números repetidos (inválido por definição da RF)
   assert.equal(validarCpf('11111111111'), false);
   assert.equal(validarCpf('00000000000'), false);
-  
-  // CPF incompleto ou com letras
   assert.equal(validarCpf('123456789'), false);
   assert.equal(validarCpf('abc'), false);
-
-  // CPF válido gerado conforme algoritmo oficial (ex: 52998224725)
   assert.equal(validarCpf('52998224725'), true);
-  // CPF com dígitos finais alterados propositalmente (inválido)
   assert.equal(validarCpf('52998224726'), false);
 });
 
 test('VALIDAÇÃO 07: Validação de CNPJ com dígitos verificadores matemáticos', () => {
-  // CNPJ com números repetidos (inválido)
   assert.equal(validarCnpj('00000000000000'), false);
   assert.equal(validarCnpj('11111111111111'), false);
-
-  // CNPJ incompleto
   assert.equal(validarCnpj('123456780001'), false);
-
-  // CNPJ válido real/conhecido (ex: Banco do Brasil 00.000.000/0001-91)
   assert.equal(validarCnpj('00000000000191'), true);
-  // CNPJ com dígito final corrompido
   assert.equal(validarCnpj('00000000000192'), false);
 });
 
 test('VALIDAÇÃO 08: Validação unificada de documento fiscal', () => {
-  // Vazio é aceito como opcional
   assert.deepEqual(validarDocumentoFiscal(''), { valido: true, tipo: 'VAZIO', digitos: '' });
-  
-  // Incompleto (ex: 5 dígitos)
   assert.equal(validarDocumentoFiscal('12345').valido, false);
   assert.equal(validarDocumentoFiscal('12345').tipo, 'INCOMPLETO');
 
-  // CPF Válido
   const cpfValido = validarDocumentoFiscal('529.982.247-25');
   assert.equal(cpfValido.valido, true);
   assert.equal(cpfValido.tipo, 'CPF');
 
-  // CNPJ Válido
   const cnpjValido = validarDocumentoFiscal('00.000.000/0001-91');
   assert.equal(cnpjValido.valido, true);
   assert.equal(cnpjValido.tipo, 'CNPJ');
@@ -100,3 +87,48 @@ test('VALIDAÇÃO 09: Normalização para Caixa Alta (Uppercase)', () => {
   assert.equal(paraCaixaAlta(undefined), '');
 });
 
+test('VALIDAÇÃO 10: Máscara dinâmica e bloqueio de letras para CEP (00000-000)', () => {
+  assert.equal(aplicarMascaraCep('95500'), '95500');
+  assert.equal(aplicarMascaraCep('95500000'), '95500-000');
+  assert.equal(aplicarMascaraCep('CEP: 95500-000 RS'), '95500-000');
+  assert.equal(aplicarMascaraCep('955000009999'), '95500-000'); // Corta em 8
+});
+
+test('VALIDAÇÃO 11: Validação de consistência de CEP', () => {
+  assert.deepEqual(validarCep(''), { valido: true, tipo: 'VAZIO', digitos: '' });
+  assert.equal(validarCep('9550').valido, false);
+  assert.equal(validarCep('9550').tipo, 'INCOMPLETO');
+  assert.equal(validarCep('95500-000').valido, true);
+  assert.equal(validarCep('95500-000').tipo, 'CEP');
+});
+
+test('VALIDAÇÃO 12: Máscara dinâmica progressiva para Telefone (Fixo vs Celular)', () => {
+  assert.equal(aplicarMascaraTelefone('51'), '(51');
+  assert.equal(aplicarMascaraTelefone('513662'), '(51) 3662');
+  // Fixo 10 dígitos
+  assert.equal(aplicarMascaraTelefone('5136621234'), '(51) 3662-1234');
+  // Celular 11 dígitos (hífen desloca automaticamente para a 5ª casa!)
+  assert.equal(aplicarMascaraTelefone('51997199204'), '(51) 99719-9204');
+  // Ignora letras e textos colados
+  assert.equal(aplicarMascaraTelefone('Whats: (51) 99719-9204 Comercial'), '(51) 99719-9204');
+});
+
+test('VALIDAÇÃO 13: Validação de integridade de Telefone e DDD', () => {
+  assert.deepEqual(validarTelefone(''), { valido: true, tipo: 'VAZIO', digitos: '' });
+  // Sem DDD (menos de 10 dígitos)
+  assert.equal(validarTelefone('997199204').valido, false);
+  // DDD inválido começando com 0
+  assert.equal(validarTelefone('05997199204').valido, false);
+  // Fixo Válido (10 dígitos)
+  const fixo = validarTelefone('(51) 3662-1234');
+  assert.equal(fixo.valido, true);
+  assert.equal(fixo.tipo, 'FIXO');
+  // Celular Válido (11 dígitos começando com 9)
+  const cel = validarTelefone('(51) 99719-9204');
+  assert.equal(cel.valido, true);
+  assert.equal(cel.tipo, 'CELULAR');
+  // Celular de 11 dígitos sem o 9 no início
+  const celSem9 = validarTelefone('(51) 29719-9204');
+  assert.equal(celSem9.valido, false);
+  assert.equal(celSem9.tipo, 'CELULAR_SEM_NONO_DIGITO');
+});
