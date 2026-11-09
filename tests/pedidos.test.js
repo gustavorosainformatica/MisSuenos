@@ -159,3 +159,4 @@ test('REGRESSÃO PEDIDOS 09: Ciclo completo de serialização e recuperação (R
   const totalRecuperado = calcularTotalGeralPedido(itensRecuperados, frete);
   assert.strictEqual(totalRecuperado, 316.00);
 });
+
