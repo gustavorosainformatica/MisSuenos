@@ -1,7 +1,7 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 23:15 (BRT)  
-> **Status Geral:** Sistema Operacional com Caixa Alta e Validação Estrita de Documentos (SW v56)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 00:30 (BRT)  
+> **Status Geral:** Universalização Global de Caixa Alta e Formulários Blindados em 100% das Telas do ERP  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
@@ -11,6 +11,23 @@
 - **Segmented Controls Compactos:** Utilizar barras seletoras segmentadas elegantes com termos consolidados (`🟢 Entrada`, `🔴 Saída`, `⚖️ Balanço`, `Todos`).
 - **Rótulos Inteligentes de Contexto:** Em vez de poluir os botões com texto longo, os campos subsequentes ajustam seu título dinamicamente.
 - **Tipografia & Proporções:** *JetBrains Mono* para códigos, documentos, quantidades e valores monetários.
+
+---
+
+## 2. Universalização de Caixa Alta e Blindagem de Dados em Todas as Telas
+Em estrita conformidade com as Regras Globais do Antigravity homologadas pelo usuário Gustavo:
+- **Caixa Alta Universal (CSS + Interceptor Global + Backend):**
+  - Estilização universal em `.form-input, input[type="text"], input[type="search"], input[type="email"], textarea, select` com `text-transform: uppercase !important`.
+  - Interceptor global nativo de eventos `input` com captura antecipada (`capture: true`), convertendo a digitação para maiúsculas em tempo real sem perder a posição do cursor.
+  - Sanitização estrita com `.toUpperCase().trim()` em todas as funções de envio (`salvarPedido`, `salvarCliente`, `salvarProduto`, `salvarLancamentoFinanceiro`, `salvarDadosEmpresa`, `salvarNovoCodigoRastreio`, `confirmarAjusteEstoque`, etc.).
+- **Foco Inteligente de CEP (Cidades com CEP Único vs Cidades com Logradouro Mapeado):**
+  - Se a cidade possui ruas mapeadas na base dos Correios: preenche o logradouro e foca diretamente no campo "Número".
+  - Se o município tiver CEP único (rua vazia nos Correios, ex: Osório/RS `95520-000`): posiciona o foco diretamente no campo "Logradouro / Rua" com aviso sutil ao operador, impedindo que o campo seja deixado em branco.
+- **Blindagem e Máscara Autoajustável de Telefone no Pedido e Configurações:**
+  - Aplicada a máscara progressiva `(00) 0000-0000` / `(00) 00000-0000` também no formulário de Novo Pedido (`form-ped-telefone`) e nos dados da empresa emitente (`cfg-telefone-emitente`).
+  - Bloqueio físico de letras no `keydown` e validação estrita de integridade com DDD nacional antes de salvar.
+- **Validação Matemática Estrita (Módulo 11 da Receita Federal):**
+  - Impedimento total de gravação caso o CPF ou CNPJ esteja matematicamente inválido quando preenchido.
 
 ---
 
