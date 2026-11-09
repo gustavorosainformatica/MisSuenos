@@ -1,12 +1,27 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 17:10 (BRT)  
-> **Status Geral:** Interceptor Universal de Foco no Primeiro Campo de Modais + Desativação de Autocomplete Nativo + Dropdown Pesquisável de Produtos + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 17:40 (BRT)  
+> **Status Geral:** Modernização de Janelas (Eliminação de Duplicidade de Maximizar e Redundâncias de Título) + Interceptor Universal de Foco + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
-## 0. Interceptor Universal de Foco no Primeiro Campo de Modais & Desativação de Autocomplete Nativo (Solicitação Gustavo)
+## 0. Modernização de Janelas: Eliminação de Duplicidade de Maximizar e Títulos Limpos (Solicitação Gustavo)
+- **Problemas Relatados:**
+  1. **Duplicidade de Maximizar (Esquerda vs Direita):** A barra inteira do cabeçalho dos modais exibia o tooltip nativo `"Dois cliques para maximizar ou restaurar o tamanho da janela"` ao passar o mouse perto do título ou na esquerda, enquanto na extrema direita já existia o botão dedicado `[ 🗖 ]` com tooltip redundante.
+  2. **Pleonasmo no Cabeçalho:** O título de novo cadastro exibia `"Novo Cliente NOVO CADASTRO"` e `"Novo Produto NOVO PRODUTO"`, repetindo informação redundante lado a lado.
+- **Soluções Implementadas no Estado da Arte Moderno:**
+  1. **Barra de Título 100% Limpa (Zero Tooltips Invasivos):**
+     - Removido o atributo `title` do cabeçalho `.modal-header` (`header.removeAttribute('title')`). O duplo clique para maximizar/restaurar continua funcionando naturalmente no cabeçalho (padrão Windows 11/macOS), sem balões flutuantes chatos ao passar o mouse.
+     - Botão Maximizar unificado na extrema direita `[ 🗖 ]` com tooltip direto `title="Maximizar"` e `title="Restaurar"` quando maximizado.
+     - Botões de controle de janela (`[ 🗖 ]` e `[ ✕ ]`) com `tabindex="-1"` (zero fricção na tabulação).
+  2. **Design Minimalista de Títulos (Zero Pleonasmos):**
+     - **Novo Cadastro:** Título limpo e direto `👤 Novo Cliente` e `📦 Novo Produto`, com a badge de ID/SKU oculta (`display: none`), eliminando qualquer texto redundante como "NOVO CADASTRO".
+     - **Edição de Registro:** Título contextual `✏️ Ficha do Cliente: <NOME>` e `✏️ Ficha do Produto: <NOME>`, exibindo a badge elegante com o código real: `CLI #12 · ATIVO` ou `SKU-LON-001 · ATIVO`.
+
+---
+
+## 0.1 Interceptor Universal de Foco no Primeiro Campo de Modais & Desativação de Autocomplete Nativo (Solicitação Gustavo)
 - **Problema & Necessidade:**
   1. O operador solicitou que em **todos os modais que contenham campos de escrita o cursor comece automaticamente dentro do campo** (`? eu não sei se eu consegui me expressar corretamente, mas quero que todosos modais que contenham campos de escrita o cursor comece dentro do campo`).
   2. Ao abrir o modal de cliente (evidenciado no print `media_1794253504227_b6dba2a2.jpg`), o balão nativo branco de preenchimento automático do Chrome aparecia sobreposto na tela cobrindo os campos.

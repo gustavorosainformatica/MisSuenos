@@ -6081,11 +6081,11 @@
       <div class="modal-resize-handle" data-modal="modal-cliente" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
       <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
-          <span id="modal-cliente-icone">✏️</span>
-          <span id="modal-cliente-titulo">Ficha do Cliente & Endereço</span>
-          <span id="modal-cli-badge-id" class="badge-ped" style="font-size: 11px;">NOVO</span>
+          <span id="modal-cliente-icone">👤</span>
+          <span id="modal-cliente-titulo">Novo Cliente</span>
+          <span id="modal-cli-badge-id" class="badge-ped" style="font-size: 11px; display: none;"></span>
         </div>
-        <button class="modal-close-btn" onclick="fecharModalCliente()">✕</button>
+        <button class="modal-close-btn" tabindex="-1" onclick="fecharModalCliente()" title="Fechar">✕</button>
       </div>
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
@@ -6399,11 +6399,11 @@
       <div class="modal-resize-handle" data-modal="modal-produto" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
       <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
-          <span id="modal-prod-icone">🪵</span>
-          <span id="modal-prod-titulo">Ficha do Produto & Estoque</span>
-          <span id="modal-prod-badge-sku" class="badge-ped" style="font-size: 11px;">NOVO PRODUTO</span>
+          <span id="modal-prod-icone">📦</span>
+          <span id="modal-prod-titulo">Novo Produto</span>
+          <span id="modal-prod-badge-sku" class="badge-ped" style="font-size: 11px; display: none;"></span>
         </div>
-        <button class="modal-close-btn" onclick="fecharModalProduto()">✕</button>
+        <button class="modal-close-btn" tabindex="-1" onclick="fecharModalProduto()" title="Fechar">✕</button>
       </div>
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
@@ -9822,10 +9822,13 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       aplicarTamanhoSalvoModal('modal-cliente');
       inicializarCamposCaixaAltaModalCliente();
       clienteAtualEditando = null;
-      document.getElementById('modal-cliente-icone').textContent = '➕';
+      document.getElementById('modal-cliente-icone').textContent = '👤';
       document.getElementById('modal-cliente-titulo').textContent = 'Novo Cliente';
       const bId = document.getElementById('modal-cli-badge-id');
-      if (bId) bId.textContent = 'NOVO CADASTRO';
+      if (bId) {
+        bId.textContent = '';
+        bId.style.display = 'none';
+      }
       document.getElementById('form-cliente').reset();
       document.getElementById('form-id').value = '';
       if (document.getElementById('form-email')) document.getElementById('form-email').value = '';
@@ -9847,7 +9850,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       clienteAtualEditando = cliente;
       document.getElementById('modal-cliente-icone').textContent = '✏️';
-      document.getElementById('modal-cliente-titulo').textContent = `Ficha: ${cliente.nome}`;
+      document.getElementById('modal-cliente-titulo').textContent = `Ficha do Cliente: ${cliente.nome}`;
       document.getElementById('form-id').value = cliente.id || '';
       document.getElementById('form-nome').value = (cliente.nome || '').toUpperCase();
       document.getElementById('form-apelido').value = (cliente.apelido_referencia || '').toUpperCase();
@@ -9867,7 +9870,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (document.getElementById('form-email')) document.getElementById('form-email').value = (cliente.email || '').toUpperCase();
       if (document.getElementById('form-pref')) document.getElementById('form-pref').value = cliente.preferencias || '';
       const bId = document.getElementById('modal-cli-badge-id');
-      if (bId) bId.textContent = `CLI #${cliente.id} · ATIVO`;
+      if (bId) {
+        bId.textContent = `CLI #${cliente.id} · ATIVO`;
+        bId.style.display = 'inline-block';
+      }
       atualizarBadgesFichaCliente();
 
       document.getElementById('modal-cliente').classList.add('active');
@@ -10373,15 +10379,18 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       aplicarTamanhoSalvoModal('modal-produto');
       const _cnt = document.querySelector('#modal-produto .modal-container');
       if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
-      document.getElementById('modal-prod-icone').textContent = '➕';
-      document.getElementById('modal-prod-titulo').textContent = 'Novo Produto / Catálogo';
+      document.getElementById('modal-prod-icone').textContent = '📦';
+      document.getElementById('modal-prod-titulo').textContent = 'Novo Produto';
       document.getElementById('form-produto').reset();
       document.getElementById('form-prod-id').value = '';
       const ncmEl = document.getElementById('form-prod-ncm');
       if (ncmEl) ncmEl.value = '42050000';
       gerarSkuAuto();
       const bSku = document.getElementById('modal-prod-badge-sku');
-      if (bSku) bSku.textContent = 'NOVO PRODUTO';
+      if (bSku) {
+        bSku.textContent = '';
+        bSku.style.display = 'none';
+      }
       atualizarMargemProduto();
       atualizarBadgeDescProduto();
       document.getElementById('modal-produto').classList.add('active');
@@ -10396,7 +10405,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (!prod) return;
 
       document.getElementById('modal-prod-icone').textContent = '✏️';
-      document.getElementById('modal-prod-titulo').textContent = `Editar: ${prod.nome}`;
+      document.getElementById('modal-prod-titulo').textContent = `Ficha do Produto: ${prod.nome}`;
       document.getElementById('form-prod-id').value = prod.id || '';
       document.getElementById('form-prod-sku').value = prod.codigo_sku || prod.codigo || '';
       const ncmEl = document.getElementById('form-prod-ncm');
@@ -10410,7 +10419,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
       document.getElementById('form-prod-desc').value = prod.descricao || '';
       const bSku = document.getElementById('modal-prod-badge-sku');
-      if (bSku) bSku.textContent = `${prod.codigo_sku || 'SKU'} · ATIVO`;
+      if (bSku) {
+        bSku.textContent = `${prod.codigo_sku || 'SKU'} · ATIVO`;
+        bSku.style.display = 'inline-block';
+      }
       atualizarMargemProduto();
       atualizarBadgeDescProduto();
 
@@ -14179,7 +14191,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         localStorage.removeItem('modal_maximized_' + modalId);
         if (maxBtn) {
           maxBtn.innerHTML = '🗖';
-          maxBtn.title = 'Maximizar janela (ou duplo clique na barra de título)';
+          maxBtn.title = 'Maximizar';
           maxBtn.setAttribute('aria-label', 'Maximizar janela');
         }
         const salvo = localStorage.getItem('modal_size_' + modalId);
@@ -14212,7 +14224,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         localStorage.setItem('modal_maximized_' + modalId, 'true');
         if (maxBtn) {
           maxBtn.innerHTML = '🗗';
-          maxBtn.title = 'Restaurar janela ao tamanho normal (ou duplo clique na barra de título)';
+          maxBtn.title = 'Restaurar';
           maxBtn.setAttribute('aria-label', 'Restaurar janela');
         }
         container.style.width = '98vw';
@@ -14239,7 +14251,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         container.style.maxHeight = '96vh';
         if (maxBtn) {
           maxBtn.innerHTML = '🗗';
-          maxBtn.title = 'Restaurar janela ao tamanho normal (ou duplo clique na barra de título)';
+          maxBtn.title = 'Restaurar';
           maxBtn.setAttribute('aria-label', 'Restaurar janela');
         }
         return;
@@ -14258,7 +14270,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             container.style.maxHeight = '96vh';
             if (maxBtn) {
               maxBtn.innerHTML = '🗖';
-              maxBtn.title = 'Maximizar janela (ou duplo clique na barra de título)';
+              maxBtn.title = 'Maximizar';
             }
           }
         } catch (e) {
@@ -14283,7 +14295,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const maxBtn = modal ? modal.querySelector('.modal-maximize-btn') : null;
       if (maxBtn) {
         maxBtn.innerHTML = '🗖';
-        maxBtn.title = 'Maximizar janela (ou duplo clique na barra de título)';
+        maxBtn.title = 'Maximizar';
       }
       mostrarToast('Dimensões originais da janela restauradas!');
     }
@@ -14308,9 +14320,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const header = container.querySelector('.modal-header');
       if (header) {
         header.style.cursor = 'default';
+        header.removeAttribute('title'); // Remove qualquer tooltip de duplo clique na barra inteira (elimina duplicidade)
         if (!header.dataset.dblclickConfigured) {
           header.dataset.dblclickConfigured = 'true';
-          header.title = 'Dois cliques para maximizar ou restaurar o tamanho da janela';
           header.addEventListener('dblclick', (e) => {
             if (e.target.closest('button, input, a, select, textarea')) return;
             alternarMaximizarModal(modalId);
@@ -14318,12 +14330,18 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         }
 
         const closeBtn = header.querySelector('.modal-close-btn') || header.querySelector('.modal-close');
+        if (closeBtn) {
+          closeBtn.setAttribute('tabindex', '-1');
+          if (!closeBtn.title) closeBtn.title = 'Fechar';
+        }
+
         let maxBtn = header.querySelector('.modal-maximize-btn');
         if (!maxBtn) {
           maxBtn = document.createElement('button');
           maxBtn.type = 'button';
           maxBtn.className = 'modal-maximize-btn';
-          maxBtn.title = 'Maximizar janela (ou duplo clique na barra de título)';
+          maxBtn.setAttribute('tabindex', '-1');
+          maxBtn.title = 'Maximizar';
           maxBtn.innerHTML = '🗖';
           maxBtn.setAttribute('aria-label', 'Maximizar janela');
           if (closeBtn) {
@@ -14335,6 +14353,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             e.stopPropagation();
             alternarMaximizarModal(modalId);
           });
+        } else {
+          maxBtn.setAttribute('tabindex', '-1');
         }
       }
 
@@ -14382,7 +14402,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           const maxBtn = modal.querySelector('.modal-maximize-btn');
           if (maxBtn) {
             maxBtn.innerHTML = '🗖';
-            maxBtn.title = 'Maximizar janela (ou duplo clique na barra de título)';
+            maxBtn.title = 'Maximizar';
           }
         }
 
