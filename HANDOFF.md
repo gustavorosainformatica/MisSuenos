@@ -1,8 +1,8 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 08 de Novembro de 2026 — 21:50 (BRT)  
-> **Status Geral:** Sistema Operacional em Produção com Espelho do Pedido A4 & Romaneio de Galpão (SW v56)  
-> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app) (Build e Deploy 100% Auditados - SW v56)
+> **Data de Atualização:** 08 de Novembro de 2026 — 23:15 (BRT)  
+> **Status Geral:** Sistema Operacional com Caixa Alta e Validação Estrita de Documentos (SW v56)  
+> **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
@@ -43,24 +43,32 @@ Implementada a especificação [`SPEC-espelho-pedido-romaneio-pdf.md`](file:///d
 
 ---
 
-## 3. Suíte de Testes Automatizados TDD (/tdd) - 23 de 23 Testes Passando
-A suíte agora conta com 3 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
-- `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
-- `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
-- `tests/documentos.test.js`: 6 testes cobrindo resumo comercial, casos de frete grátis, fallbacks e formatação de moeda.
-
-**Resultado Consolidado:** **23 de 23 testes passando com 100% de sucesso em ~334ms**.
+## 3. Padronização em Caixa Alta e Blindagem Estrita de CPF / CNPJ
+Aprovada e homologada pelo usuário Gustavo a validação estrita nos cadastros:
+- **Caixa Alta Universal (Uppercase):** Todos os inputs e textareas da modal Novo Cliente/Editar Cliente e retornos de CEP são convertidos e salvos em letras maiúsculas.
+- **Bloqueio de Letras no Campo CPF/CNPJ:** Interceptação no evento `keydown` impedindo digitação de letras ou caracteres especiais.
+- **Máscara Dinâmica Progressiva:** Transição automática de CPF (`000.000.000-00`) para CNPJ (`00.000.000/0000-00`).
+- **Validação Matemática Estrita (Módulo 11 da Receita Federal):** Cálculo de dígitos verificadores com bloqueio ativo no salvamento caso o documento digitado esteja incorreto.
 
 ---
 
-## 4. Estado Atual, Auditoria de Deploy e Sincronização Tríplice
+## 4. Suíte de Testes Automatizados TDD (/tdd) - 32 de 32 Testes Passando
+A suíte agora conta com 4 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
+- `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
+- `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
+- `tests/documentos.test.js`: 6 testes cobrindo resumo comercial, casos de frete grátis, fallbacks e formatação de moeda.
+- `tests/validacoes.test.js`: 9 testes cobrindo rejeição de letras, máscara progressiva, Módulo 11 de CPF/CNPJ e caixa alta.
+
+**Resultado Consolidado:** **32 de 32 testes passando com 100% de sucesso em ~390ms**.
+
+---
+
+## 5. Estado Atual e Sincronização Tríplice
 
 - **Deploy em Produção Auditado e Operacional:**
   - URL Oficial: **[https://missuenos.vercel.app](https://missuenos.vercel.app)**
-  - Commit Oficial: [`98de844`](https://github.com/gustavorosainformatica/MisSuenos/commit/98de844)
   - Service Worker: `missuenos-pwa-v56` ativo.
-  - ETag da Produção: `"c9abe7ec5fbbf9986d8f2dc2e0ce6777"` (Status 200 OK, auditado com sucesso).
 - **Paridade Tríplice Sincronizada:**
-  - Repositório de Produção (`MisSuenos` - commit `98de844` na branch `main`).
-  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `a240e0b` na branch `dev`).
-  - Matriz Molde Neutra (`erp-base` - commit `56a03a2` na branch `main`).
+  - Repositório de Produção (`MisSuenos` - commit `5261990` na branch `main`).
+  - Repositório de Desenvolvimento (`MisSuenos-Dev` - commit `b71beeb` na branch `dev`).
+  - Matriz Molde Neutra (`erp-base` - commit `dba33c8` na branch `main`).

@@ -99,3 +99,4 @@ test('VALIDAÇÃO 09: Normalização para Caixa Alta (Uppercase)', () => {
   assert.equal(paraCaixaAlta(null), '');
   assert.equal(paraCaixaAlta(undefined), '');
 });
+
