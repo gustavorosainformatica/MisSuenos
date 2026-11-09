@@ -8802,6 +8802,25 @@
       return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
+    function calcularProximoNumeroPedido(pedidos = []) {
+      let maiorNumero = 1042;
+      const lista = Array.isArray(pedidos) ? pedidos : [];
+      for (const p of lista) {
+        if (!p) continue;
+        const numStr = typeof p === 'string' ? p : (p.numero || '');
+        if (numStr) {
+          const match = String(numStr).match(/\d+/);
+          if (match) {
+            const val = parseInt(match[0], 10);
+            if (!isNaN(val) && val > maiorNumero) {
+              maiorNumero = val;
+            }
+          }
+        }
+      }
+      return `#PED-${maiorNumero + 1}`;
+    }
+
     let clientes = window.CLIENTES_DATA || [];
     let filtrados = [...clientes];
     let paginaAtual = 1;
@@ -11361,9 +11380,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('modal-ped-icone').textContent = '➕';
       document.getElementById('modal-ped-titulo').textContent = 'Novo Pedido de Venda & Encomenda';
 
-      // Próximo número sugerido
-      const maxId = listaPedidos.reduce((max, p) => Math.max(max, Number(p.id || 0)), 1042);
-      const numSugerido = `#PED-${maxId + 1}`;
+      // Próximo número sugerido calculado a partir dos números reais existentes
+      const numSugerido = calcularProximoNumeroPedido(listaPedidos);
       document.getElementById('form-ped-numero').value = numSugerido;
       const badgeNum = document.getElementById('modal-ped-badge-numero');
       if (badgeNum) badgeNum.textContent = numSugerido;
@@ -11740,7 +11758,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         });
 
         if (resp.ok) {
-          mostrarToast(`✅ Pedido ${payload.numero} gravado! Estoque reservado e Conta a Receber sincronizada.`);
+          const resultado = await resp.json().catch(() => ({}));
+          const numGravado = resultado.numero || payload.numero;
+          mostrarToast(`✅ Pedido ${numGravado} gravado! Estoque reservado e Conta a Receber sincronizada.`);
           // Sincroniza imediatamente o telefone na memória de clientes local se informado
           if (payload.cliente_id && payload.telefone) {
             const cliMem = (Array.isArray(clientes) ? clientes : []).find(c => Number(c.id) === Number(payload.cliente_id));

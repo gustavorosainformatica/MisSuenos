@@ -5,7 +5,8 @@ import {
   formatarMoedaPtBr,
   calcularSubtotalItens,
   calcularTotalGeralPedido,
-  parseTextoParaItens
+  parseTextoParaItens,
+  calcularProximoNumeroPedido
 } from '../lib/calculos_erp.js';
 
 test('REGRESSÃO PEDIDOS 01: Cenário Gustavo (1x Pele Caprina R$ 115,00 + Frete R$ 30,00 = R$ 145,00)', () => {
@@ -159,4 +160,36 @@ test('REGRESSÃO PEDIDOS 09: Ciclo completo de serialização e recuperação (R
   const totalRecuperado = calcularTotalGeralPedido(itensRecuperados, frete);
   assert.strictEqual(totalRecuperado, 316.00);
 });
+
+test('REGRESSÃO PEDIDOS 10: Geração do Próximo Número de Pedido sem colisão UNIQUE', () => {
+  // 1. Lista vazia ou sem pedidos: fallback para #PED-1043
+  assert.strictEqual(calcularProximoNumeroPedido([]), '#PED-1043');
+  assert.strictEqual(calcularProximoNumeroPedido(null), '#PED-1043');
+
+  // 2. Cenário Real do Bug Gustavo: Pedido no banco com id: 9 e numero: '#PED-1043'
+  // Antes calculava em cima de id: 9 gerando #PED-1043 e colidindo no banco
+  const pedidosExistentes = [
+    { id: 1, numero: '#PED-1035' },
+    { id: 2, numero: '#PED-1038' },
+    { id: 9, numero: '#PED-1043' }
+  ];
+  assert.strictEqual(
+    calcularProximoNumeroPedido(pedidosExistentes),
+    '#PED-1044',
+    'Deve extrair 1043 do campo numero e sugerir #PED-1044 mesmo com id: 9'
+  );
+
+  // 3. Suporte a pedidos fora de ordem e formatos mistos
+  const pedidosMisturados = [
+    { id: 99, numero: '#PED-1050' },
+    { id: 1, numero: 'PED-1042' },
+    { id: 12, numero: '#PED-1049' }
+  ];
+  assert.strictEqual(calcularProximoNumeroPedido(pedidosMisturados), '#PED-1051');
+
+  // 4. Suporte a lista com strings diretas (ex: retorno simples do banco)
+  const stringsDiretas = ['#PED-1043', '#PED-1044'];
+  assert.strictEqual(calcularProximoNumeroPedido(stringsDiretas), '#PED-1045');
+});
+
 

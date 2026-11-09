@@ -9,6 +9,7 @@
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
+import { calcularProximoNumeroPedido } from '../lib/calculos_erp.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -208,9 +209,15 @@ export default async function handler(req, res) {
 
       let numero = payload.numero && payload.numero.trim();
       if (!numero) {
-        const ultimos = await query('SELECT id FROM pedidos ORDER BY id DESC LIMIT 1');
-        const proximoId = (ultimos[0]?.id || 1042) + 1;
-        numero = `#PED-${proximoId}`;
+        const todosPedidos = await query('SELECT numero FROM pedidos');
+        numero = calcularProximoNumeroPedido(todosPedidos);
+      } else {
+        // Blindagem contra colisão: se o número informado já existir no banco, auto-incrementa sem estourar UNIQUE
+        const existente = await get('SELECT id FROM pedidos WHERE numero = ?', [numero]);
+        if (existente) {
+          const todosPedidos = await query('SELECT numero FROM pedidos');
+          numero = calcularProximoNumeroPedido(todosPedidos);
+        }
       }
 
       const agora = new Date();

@@ -1,8 +1,19 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 09:55 (BRT)  
-> **Status Geral:** Relatório & Extrato de Compras do Cliente no Menu de Contexto + Tríplice Sincronizada (38 Testes TDD)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 13:45 (BRT)  
+> **Status Geral:** Correção de Colisão UNIQUE de Pedidos + Relatório & Extrato de Compras no Menu de Contexto + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
+
+---
+
+## 0. Correção de Colisão de Número de Pedido (UNIQUE Constraint)
+- **Problema Relatado:** Ao salvar novo pedido, o sistema apresentava `Erro ao salvar pedido: Erro interno ao processar pedido: UNIQUE constraint failed: pedidos.numero`.
+- **Causa Raiz Identificada:** O cálculo do próximo número no frontend (`abrirModalNovoPedido`) realizava `Math.max` em cima de `p.id` (que possui auto-incremento pequeno 1 a 9) com fallback 1042, gerando sempre `#PED-1043`, que já existia no banco para outro cliente.
+- **Solução Implementada com Dupla Blindagem:**
+  1. **Frontend & Biblioteca Central (`lib/calculos_erp.js`):** Nova função `calcularProximoNumeroPedido(pedidos)` que extrai os dígitos reais de `p.numero` via regex `/\d+/`, garantindo que se existir `#PED-1043` na base, a próxima sugestão seja `#PED-1044` (ou superior).
+  2. **Backend Serverless (`api/pedidos.js`):** Blindagem preventiva no endpoint POST. Se o número não for informado ou se já existir no banco de dados, o backend consulta os números existentes e auto-incrementa para o próximo disponível, eliminando a colisão `UNIQUE constraint failed`.
+  3. **Feedback Visual Fiel (`salvarPedido`):** O toast de confirmação consome o número final retornado pelo backend (`resultado.numero || payload.numero`).
+  4. **Suíte de Testes:** Novo teste `REGRESSÃO PEDIDOS 10` adicionado com 39 testes unitários passando com 100% de sucesso.
 
 ---
 
