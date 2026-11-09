@@ -1,12 +1,24 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 13:45 (BRT)  
-> **Status Geral:** Correção de Colisão UNIQUE de Pedidos + Relatório & Extrato de Compras no Menu de Contexto + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 15:05 (BRT)  
+> **Status Geral:** Ergonomia de Teclado (Tab Exclusivo em Campos Digitáveis) + Remoção de Setas Redundantes + Foco Inicial no Cliente + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
-## 0. Correção de Colisão de Número de Pedido (UNIQUE Constraint)
+## 0. Ergonomia de Teclado no Pedido & Remoção de Setas Redundantes (Solicitação Gustavo)
+- **Problema Relatado:**
+  1. A quantidade apresentava setas verticais nativas redundantes no input numérico (`spinners`), poluindo a interface.
+  2. Ao utilizar a tecla `Tab`, o cursor parava em botões de ação e controle (como botões `−`, `+` e lixeira `🗑️`), em vez de fluir exclusivamente pelos campos digitáveis.
+  3. O cursor não iniciava automaticamente dentro do campo "Cliente / Destinatário" ao abrir o modal de pedidos.
+- **Soluções Implementadas:**
+  1. **Remoção Universal de Spinners Numéricos:** Regra CSS global (`input[type=number]::-webkit-inner-spin-button`, `-moz-appearance: textfield`) eliminando setas redundantes de todos os inputs numéricos do ERP.
+  2. **Fluxo Contínuo de Tabulação (`tabindex="-1"`):** Atribuído `tabindex="-1"` a botões de controle de quantidade (`−` e `+`), exclusão de linhas (`🗑️`), botões de visualização/alternância (`Modo Texto Livre`, `Menu Dropdown`, `Observações`, `Preferências`, `Espelho A4`, `Romaneio`, `Cancelar`, `✕`) e campos readonly de totais (`form-ped-valor`). A navegação por `Tab` agora salta estritamente entre os campos digitáveis.
+  3. **Foco e Seleção Automática no Cliente:** Implementado `setTimeout` com `focus()` e `select()` em `form-ped-cliente-nome` tanto no cadastro de novo pedido quanto na edição, posicionando o operador pronto para digitar ou substituir o cliente imediatamente.
+
+---
+
+## 0.1 Correção de Colisão de Número de Pedido (UNIQUE Constraint)
 - **Problema Relatado:** Ao salvar novo pedido, o sistema apresentava `Erro ao salvar pedido: Erro interno ao processar pedido: UNIQUE constraint failed: pedidos.numero`.
 - **Causa Raiz Identificada:** O cálculo do próximo número no frontend (`abrirModalNovoPedido`) realizava `Math.max` em cima de `p.id` (que possui auto-incremento pequeno 1 a 9) com fallback 1042, gerando sempre `#PED-1043`, que já existia no banco para outro cliente.
 - **Solução Implementada com Dupla Blindagem:**

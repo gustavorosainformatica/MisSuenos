@@ -1715,12 +1715,15 @@
       gap: 10px;
     }
 
-    /* Oculta spinners/setas de campos numéricos */
+    /* Oculta spinners/setas redundantes de campos numéricos universalmente */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button,
     input[type=number].no-spin::-webkit-inner-spin-button,
     input[type=number].no-spin::-webkit-outer-spin-button {
       -webkit-appearance: none !important;
       margin: 0 !important;
     }
+    input[type=number],
     input[type=number].no-spin {
       -moz-appearance: textfield !important;
     }
@@ -7734,7 +7737,7 @@
           <span id="modal-ped-titulo">Novo Pedido de Venda & Encomenda</span>
           <span id="modal-ped-badge-numero" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px;">#PED-1044</span>
         </div>
-        <button class="modal-close-btn" onclick="fecharModalPedido()">✕</button>
+        <button class="modal-close-btn" tabindex="-1" onclick="fecharModalPedido()">✕</button>
       </div>
 
       <div class="modal-body">
@@ -7806,7 +7809,7 @@
                 </label>
                 <span id="ped-itens-badge" class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; font-size: 10.5px;">0 itens</span>
               </div>
-              <button type="button" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="alternarModoTextoItensPedido()" title="Alternar entre modo visual e texto bruto">
+              <button type="button" tabindex="-1" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="alternarModoTextoItensPedido()" title="Alternar entre modo visual e texto bruto">
                 📝 Modo Texto Livre
               </button>
             </div>
@@ -7821,7 +7824,7 @@
                     </label>
                     <div style="display: flex; align-items: center; gap: 8px;">
                       <span id="ped-add-produto-tipo-tag" style="font-size: 9.5px; color: #94a3b8;">Catálogo ou Avulso</span>
-                      <button type="button" id="btn-toggle-modo-prod" onclick="alternarModoEntradaProduto()" style="background: none; border: none; color: #38bdf8; font-size: 10px; cursor: pointer; text-decoration: underline; padding: 0;">
+                      <button type="button" tabindex="-1" id="btn-toggle-modo-prod" onclick="alternarModoEntradaProduto()" style="background: none; border: none; color: #38bdf8; font-size: 10px; cursor: pointer; text-decoration: underline; padding: 0;">
                         📋 Menu Dropdown
                       </button>
                     </div>
@@ -7921,7 +7924,7 @@
             </div>
             <div class="form-group" style="width: 220px; flex-shrink: 0;">
               <label class="form-label" style="text-align: right; color: #34d399;">Valor Total (R$) * (Itens + Frete)</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.3);" onblur="this.value = formatarMoedaPtBr(this.value)">
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required tabindex="-1" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.3);" onblur="this.value = formatarMoedaPtBr(this.value)">
             </div>
           </div>
 
@@ -7934,26 +7937,26 @@
         <!-- LADO ESQUERDO: OS DOIS BOTÕES DE OBSERVAÇÕES E PREFERÊNCIAS -->
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
           <!-- 1. OBSERVAÇÕES DO PEDIDO -->
-          <button type="button" class="btn-ped-obs-action" id="btn-ped-abrir-obs" onclick="abrirSubmodalObsPedido()" title="Adicionar ou editar observações específicas deste pedido (lotes, espessuras, peles)">
+          <button type="button" tabindex="-1" class="btn-ped-obs-action" id="btn-ped-abrir-obs" onclick="abrirSubmodalObsPedido()" title="Adicionar ou editar observações específicas deste pedido (lotes, espessuras, peles)">
             <span>📝</span>
             <span>Observações do Pedido</span>
             <span class="btn-ped-badge-count" id="badge-ped-obs">Vazio</span>
           </button>
 
           <!-- 2. PREFERÊNCIAS DO CLIENTE -->
-          <button type="button" class="btn-ped-pref-action" id="btn-ped-abrir-pref" onclick="abrirSubmodalPrefCliente()" title="Visualizar ou editar preferências permanentes salvas na ficha deste cliente">
+          <button type="button" tabindex="-1" class="btn-ped-pref-action" id="btn-ped-abrir-pref" onclick="abrirSubmodalPrefCliente()" title="Visualizar ou editar preferências permanentes salvas na ficha deste cliente">
             <span>⭐</span>
             <span>Preferências</span>
             <span class="btn-ped-badge-count" id="badge-ped-pref">Sem notas</span>
           </button>
 
           <!-- 3. DOCUMENTOS DO PEDIDO: ESPELHO & ROMANEIO (TICKET 4) -->
-          <button type="button" class="btn-top" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11.5px; font-weight: 700; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" onclick="abrirModalDocumentoPedido(null, 'espelho')" title="Visualizar ou imprimir o Espelho do Pedido Comercial (Folha A4 / PDF)">
+          <button type="button" tabindex="-1" class="btn-top" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 11.5px; font-weight: 700; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" onclick="abrirModalDocumentoPedido(null, 'espelho')" title="Visualizar ou imprimir o Espelho do Pedido Comercial (Folha A4 / PDF)">
             <span>📄</span>
             <span>Espelho A4</span>
           </button>
 
-          <button type="button" class="btn-top" style="background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); font-size: 11.5px; font-weight: 700; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" onclick="abrirModalDocumentoPedido(null, 'romaneio')" title="Visualizar ou imprimir o romaneio e folha de separação de galpão">
+          <button type="button" tabindex="-1" class="btn-top" style="background: rgba(251, 191, 36, 0.12); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); font-size: 11.5px; font-weight: 700; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" onclick="abrirModalDocumentoPedido(null, 'romaneio')" title="Visualizar ou imprimir o romaneio e folha de separação de galpão">
             <span>📦</span>
             <span>Romaneio</span>
           </button>
@@ -7961,7 +7964,7 @@
 
         <!-- LADO DIREITO: CANCELAR E SALVAR -->
         <div style="display: flex; gap: 10px; align-items: center;">
-          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPedido()">Cancelar</button>
+          <button type="button" tabindex="-1" class="btn-top btn-row-action" onclick="fecharModalPedido()">Cancelar</button>
           <button type="button" class="btn-top btn-emerald-glow" onclick="document.getElementById('form-pedido').requestSubmit()">
             💾 Salvar Pedido no Banco
           </button>
@@ -11327,9 +11330,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             </td>
             <td style="text-align: center;">
               <div style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
-                <button type="button" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, -1)" title="Diminuir 1 un">−</button>
-                <input type="number" min="1" step="1" value="${qtdNum}" style="width: 48px; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; padding: 3px;" onchange="alterarQtdItemPedidoDireto(${idx}, this.value)">
-                <button type="button" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, 1)" title="Aumentar 1 un">+</button>
+                <button type="button" tabindex="-1" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, -1)" title="Diminuir 1 un">−</button>
+                <input type="number" min="1" step="1" value="${qtdNum}" class="no-spin" style="width: 48px; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; padding: 3px; -moz-appearance: textfield; -webkit-appearance: none;" onchange="alterarQtdItemPedidoDireto(${idx}, this.value)">
+                <button type="button" tabindex="-1" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, 1)" title="Aumentar 1 un">+</button>
               </div>
             </td>
             <td style="text-align: right;">
@@ -11339,7 +11342,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
               R$ ${formatarMoedaPtBr(subtotal)}
             </td>
             <td style="text-align: center;">
-              <button type="button" class="btn-row-action" style="color: #ef4444; padding: 3px 7px;" title="Remover item do pedido" onclick="removerItemPedido(${idx})">🗑️</button>
+              <button type="button" tabindex="-1" class="btn-row-action" style="color: #ef4444; padding: 3px 7px;" title="Remover item do pedido" onclick="removerItemPedido(${idx})">🗑️</button>
             </td>
           </tr>
         `;
@@ -11412,9 +11415,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarTabelaItensPedido();
       atualizarBadgesObsEPreferencias();
       document.getElementById('modal-pedido').classList.add('active');
-      if (!clienteId) {
-        document.getElementById('form-ped-cliente-nome').focus();
-      }
+      setTimeout(() => {
+        const cliInp = document.getElementById('form-ped-cliente-nome');
+        if (cliInp) {
+          cliInp.focus();
+          if (cliInp.value) {
+            cliInp.select();
+          }
+        }
+      }, 50);
     }
 
     function abrirModalEditarPedido(id) {
@@ -11461,6 +11470,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarBadgesObsEPreferencias();
 
       document.getElementById('modal-pedido').classList.add('active');
+      setTimeout(() => {
+        const cliInp = document.getElementById('form-ped-cliente-nome');
+        if (cliInp) {
+          cliInp.focus();
+          if (cliInp.value) {
+            cliInp.select();
+          }
+        }
+      }, 50);
     }
 
     
