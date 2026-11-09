@@ -6089,7 +6089,7 @@
       </div>
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
-        <form id="form-cliente" onsubmit="salvarCliente(event)">
+        <form id="form-cliente" onsubmit="salvarCliente(event)" autocomplete="off">
           <input type="hidden" id="form-id">
           <input type="hidden" id="form-pref">
 
@@ -6102,11 +6102,11 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; text-transform: uppercase;">EMPRESA OU PESSOA</span>
               </label>
-              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()">
+              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
             </div>
             <div class="form-group" style="flex: 1.2; min-width: 220px;">
               <label class="form-label" style="margin-bottom: 3px;">APELIDO / FANTASIA / REFERÊNCIA</label>
-              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()">
+              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off">
             </div>
           </div>
 
@@ -6118,7 +6118,7 @@
             </div>
             <div class="form-group" style="width: 135px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">INSCRIÇÃO EST. (IE)</label>
-              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" style="font-family: 'JetBrains Mono', monospace;">
+              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
             </div>
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
@@ -6126,11 +6126,11 @@
                   <span>📱</span> TELEFONE / WHATS
                 </span>
               </label>
-              <input type="text" class="form-input" id="form-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+              <input type="text" class="form-input" id="form-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
             </div>
             <div class="form-group" style="flex: 1; min-width: 200px;">
               <label class="form-label" style="margin-bottom: 3px;">E-MAIL PARA FATURAS / XML NF-E</label>
-              <input type="email" class="form-input" id="form-email" placeholder="FINANCEIRO@EMPRESA.COM" oninput="this.value = this.value.toUpperCase()">
+              <input type="email" class="form-input" id="form-email" placeholder="FINANCEIRO@EMPRESA.COM" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
             </div>
           </div>
 
@@ -6407,7 +6407,7 @@
       </div>
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
-        <form id="form-produto" onsubmit="salvarProduto(event)">
+        <form id="form-produto" onsubmit="salvarProduto(event)" autocomplete="off">
           <input type="hidden" id="form-prod-id">
 
           <!-- LINHA 1: NOME COMERCIAL (flex: 2.2) + SKU (170px) + NCM (130px) -->
@@ -6419,7 +6419,7 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Catálogo & Vendas</span>
               </label>
-              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Selecionada Flor Limpa" style="font-weight: 600;">
+              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Selecionada Flor Limpa" autocomplete="off" style="font-weight: 600;">
             </div>
 
             <div class="form-group" style="width: 170px; flex-shrink: 0;">
@@ -8163,7 +8163,7 @@
       </div>
 
       <div class="modal-body" style="padding: 18px 22px 14px 22px; gap: 12px;">
-        <form id="form-lancamento-fin" onsubmit="salvarLancamentoFinanceiro(event)">
+        <form id="form-lancamento-fin" onsubmit="salvarLancamentoFinanceiro(event)" autocomplete="off">
           
           <!-- LINHA 1: TIPO (210px) + DESCRIÇÃO COMERCIAL (flex: 1) + CATEGORIA (210px) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
@@ -8182,7 +8182,7 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificação do título</span>
               </label>
-              <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso" style="font-weight: 600;">
+              <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso" autocomplete="off" style="font-weight: 600;">
             </div>
 
             <div class="form-group" style="width: 210px; flex-shrink: 0;">
@@ -8477,7 +8477,7 @@
       </div>
 
       <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
-        <form id="form-usuario-rbac" onsubmit="salvarUsuarioRbac(event)">
+        <form id="form-usuario-rbac" onsubmit="salvarUsuarioRbac(event)" autocomplete="off">
           <input type="hidden" id="rbac-user-id">
 
           <!-- LINHA 1: LOGIN (40%) + NOME COMPLETO (60%) -->
@@ -8489,14 +8489,14 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificador / @</span>
               </label>
-              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: vendas, financeiro" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">
+              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: vendas, financeiro" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">
             </div>
 
             <div class="form-group" style="margin: 0;">
               <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
                 Nome Completo do Colaborador *
               </label>
-              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome e sobrenome" style="font-weight: 600;">
+              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome e sobrenome" autocomplete="off" style="font-weight: 600;">
             </div>
           </div>
 
@@ -8815,6 +8815,108 @@
         }
       }
       return `#PED-${maiorNumero + 1}`;
+    }
+
+    // =========================================================================
+    // INTERCEPTOR UNIVERSAL DE FOCO AUTOMÁTICO EM MODAIS (PROTOCOLO GUSTAVO)
+    // Garante que todo e qualquer modal coloque o cursor no primeiro campo de escrita
+    // =========================================================================
+    function focarPrimeiroCampoModal(modalEl) {
+      if (!modalEl) return;
+      setTimeout(() => {
+        // Função auxiliar para verificar visibilidade real do elemento na tela
+        const estaVisivel = (el) => {
+          if (!el) return false;
+          if (el.offsetParent === null && el.offsetWidth === 0 && el.offsetHeight === 0) return false;
+          const style = window.getComputedStyle(el);
+          return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+        };
+
+        // 1. Prioridade máxima: campos de escrita (texto, busca, email, tel, number, password, url, textarea)
+        const camposEscrita = Array.from(modalEl.querySelectorAll(
+          'input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="file"]):not([tabindex="-1"]):not([readonly]):not([disabled]), ' +
+          'textarea:not([tabindex="-1"]):not([readonly]):not([disabled])'
+        ));
+
+        let campoAlvo = camposEscrita.find(estaVisivel);
+
+        // 2. Se não houver campo de escrita, busca outros campos focáveis (select, checkbox, radio)
+        if (!campoAlvo) {
+          const outrosCampos = Array.from(modalEl.querySelectorAll(
+            'select:not([tabindex="-1"]):not([disabled]), ' +
+            'input[type="checkbox"]:not([tabindex="-1"]):not([disabled]), ' +
+            'input[type="radio"]:not([tabindex="-1"]):not([disabled])'
+          ));
+          campoAlvo = outrosCampos.find(estaVisivel);
+        }
+
+        if (campoAlvo) {
+          campoAlvo.focus();
+          // Se for campo de escrita com suporte a seleção e tiver texto preenchido, seleciona tudo para substituição imediata ou avanço via Tab
+          if (typeof campoAlvo.select === 'function' && campoAlvo.value) {
+            campoAlvo.select();
+          }
+        }
+      }, 50);
+    }
+
+    function inicializarInterceptorUniversalFocoModais() {
+      // 1. MutationObserver: Intercepta adição da classe 'active' ou estilo display ativo em tempo real
+      const observer = new MutationObserver((mutations) => {
+        for (const mut of mutations) {
+          const target = mut.target;
+          if (!target || !target.classList) continue;
+
+          const isModal = target.classList.contains('modal-overlay') || 
+                          target.classList.contains('submodal-overlay') ||
+                          (target.id && (target.id.startsWith('modal-') || target.id.startsWith('submodal-')));
+
+          if (!isModal) continue;
+
+          if (mut.type === 'attributes') {
+            if (mut.attributeName === 'class' && target.classList.contains('active')) {
+              focarPrimeiroCampoModal(target);
+            } else if (mut.attributeName === 'style') {
+              const display = target.style ? target.style.display : '';
+              if (display && display !== 'none') {
+                focarPrimeiroCampoModal(target);
+              }
+            }
+          }
+        }
+      });
+
+      if (document.body) {
+        observer.observe(document.body, {
+          attributes: true,
+          subtree: true,
+          attributeFilter: ['class', 'style']
+        });
+      }
+
+      // 2. Fallback de clique em botões de abertura de modal
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-modal], [onclick*="abrirModal"], [onclick*="Modal"], .btn-action, .btn-row-action');
+        if (btn) {
+          setTimeout(() => {
+            const modaisAtivos = document.querySelectorAll(
+              '.modal-overlay.active, .submodal-overlay.active, ' +
+              '[id^="modal-"][style*="display: flex"], [id^="submodal-"][style*="display: flex"]'
+            );
+            if (modaisAtivos.length > 0) {
+              const ultimoModal = modaisAtivos[modaisAtivos.length - 1];
+              focarPrimeiroCampoModal(ultimoModal);
+            }
+          }, 60);
+        }
+      });
+    }
+
+    // Inicializa imediatamente
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inicializarInterceptorUniversalFocoModais);
+    } else {
+      inicializarInterceptorUniversalFocoModais();
     }
 
     let clientes = window.CLIENTES_DATA || [];
@@ -9734,7 +9836,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (document.getElementById('form-cep')) document.getElementById('form-cep').style.borderColor = '';
       atualizarBadgesFichaCliente();
       document.getElementById('modal-cliente').classList.add('active');
-      document.getElementById('form-nome').focus();
+      focarPrimeiroCampoModal(document.getElementById('modal-cliente'));
     }
 
     function abrirModalEditarCliente(id) {
@@ -9769,6 +9871,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarBadgesFichaCliente();
 
       document.getElementById('modal-cliente').classList.add('active');
+      focarPrimeiroCampoModal(document.getElementById('modal-cliente'));
     }
 
     function fecharModalCliente() {
@@ -10282,7 +10385,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarMargemProduto();
       atualizarBadgeDescProduto();
       document.getElementById('modal-produto').classList.add('active');
-      document.getElementById('form-prod-nome').focus();
+      focarPrimeiroCampoModal(document.getElementById('modal-produto'));
     }
 
     function abrirModalEditarProduto(id) {
@@ -10312,6 +10415,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarBadgeDescProduto();
 
       document.getElementById('modal-produto').classList.add('active');
+      focarPrimeiroCampoModal(document.getElementById('modal-produto'));
     }
 
     function fecharModalProduto() {
@@ -11506,15 +11610,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarTabelaItensPedido();
       atualizarBadgesObsEPreferencias();
       document.getElementById('modal-pedido').classList.add('active');
-      setTimeout(() => {
-        const cliInp = document.getElementById('form-ped-cliente-nome');
-        if (cliInp) {
-          cliInp.focus();
-          if (cliInp.value) {
-            cliInp.select();
-          }
-        }
-      }, 50);
+      focarPrimeiroCampoModal(document.getElementById('modal-pedido'));
     }
 
     function abrirModalEditarPedido(id) {
@@ -11569,15 +11665,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       atualizarBadgesObsEPreferencias();
 
       document.getElementById('modal-pedido').classList.add('active');
-      setTimeout(() => {
-        const cliInp = document.getElementById('form-ped-cliente-nome');
-        if (cliInp) {
-          cliInp.focus();
-          if (cliInp.value) {
-            cliInp.select();
-          }
-        }
-      }, 50);
+      focarPrimeiroCampoModal(document.getElementById('modal-pedido'));
     }
 
     
@@ -13322,6 +13410,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
+        focarPrimeiroCampoModal(modal);
       }
     }
 
@@ -13722,8 +13811,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         if (valEl) valEl.value = '0,00';
 
         modal.classList.add('active');
-        const descEl = document.getElementById('fin-descricao');
-        if (descEl) descEl.focus();
+        focarPrimeiroCampoModal(modal);
       }
     }
     function fecharModalLancamento() {
@@ -13801,6 +13889,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
+        focarPrimeiroCampoModal(modal);
       }
     }
 
@@ -17208,6 +17297,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
+        focarPrimeiroCampoModal(modal);
       }
     }
 
@@ -17535,6 +17625,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
+        focarPrimeiroCampoModal(modal);
       }
     }
 
@@ -18558,6 +18649,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
+        focarPrimeiroCampoModal(modal);
       }
     }
 

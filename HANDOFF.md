@@ -1,12 +1,27 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 15:20 (BRT)  
-> **Status Geral:** Dropdown Pesquisável de Produtos (Combobox com Busca em Tempo Real) + Ergonomia de Teclado + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 17:10 (BRT)  
+> **Status Geral:** Interceptor Universal de Foco no Primeiro Campo de Modais + Desativação de Autocomplete Nativo + Dropdown Pesquisável de Produtos + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
-## 0. Menu Dropdown Pesquisável de Produtos (Solicitação Gustavo)
+## 0. Interceptor Universal de Foco no Primeiro Campo de Modais & Desativação de Autocomplete Nativo (Solicitação Gustavo)
+- **Problema & Necessidade:**
+  1. O operador solicitou que em **todos os modais que contenham campos de escrita o cursor comece automaticamente dentro do campo** (`? eu não sei se eu consegui me expressar corretamente, mas quero que todosos modais que contenham campos de escrita o cursor comece dentro do campo`).
+  2. Ao abrir o modal de cliente (evidenciado no print `media_1794253504227_b6dba2a2.jpg`), o balão nativo branco de preenchimento automático do Chrome aparecia sobreposto na tela cobrindo os campos.
+- **Soluções Implementadas:**
+  1. **Interceptor Universal de Foco (`focarPrimeiroCampoModal` + `inicializarInterceptorUniversalFocoModais`):**
+     - **Prioridade Absoluta para Campos de Escrita:** Busca e prioriza o primeiro elemento de escrita visível e interativo (`input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([tabindex="-1"]):not([readonly]):not([disabled])` e `textarea`), garantindo que campos de texto recebam o cursor antes de botões, checkboxes ou selects.
+     - **Seleção Inteligente de Conteúdo (`.select()`):** Se o campo de escrita já possuir texto (ex: ao abrir para editar ou com valor pré-carregado), todo o texto é automaticamente selecionado, permitindo ao operador digitar imediatamente para substituir ou teclar `Tab` para avançar sem precisar usar o mouse.
+     - **MutationObserver Universal e Reativo:** Observa `document.body` monitorando atributos `class` e `style` em tempo real. Qualquer modal ou submodal (`.modal-overlay`, `.submodal-overlay`, `modal-*`, `submodal-*`) que se torne visível (seja via `.active` ou via `style.display !== 'none'`) dispara imediatamente o posicionamento do cursor.
+     - **Garantia Dupla:** Chamadas explícitas de `focarPrimeiroCampoModal` adicionadas em todas as funções de abertura de modais (`abrirModalNovoCliente`, `abrirModalEditarCliente`, `abrirModalNovoProduto`, `abrirModalEditarProduto`, `abrirModalNovoPedido`, `abrirModalEditarPedido`, `abrirModalLancamentoFinanceiro`, `abrirModalUsuarioRbac`, submodais de observações e preferências).
+  2. **Eliminação do Balão Nativo do Chrome (`autocomplete="off"`):**
+     - Adicionado `autocomplete="off"` nos formulários de cadastro e nos campos de entrada de clientes (`form-cliente`, `form-nome`, `form-apelido`, `form-email`, `form-ie`), produtos (`form-produto`, `form-prod-nome`), lançamentos (`form-lancamento-fin`, `fin-descricao`) e operadores (`form-usuario-rbac`, `rbac-login`, `rbac-nome`), eliminando balões intrusivos do navegador.
+
+---
+
+## 0.1 Menu Dropdown Pesquisável de Produtos (Solicitação Gustavo)
 - **Problema & Necessidade:** Em "Itens e Mercadorias do Pedido", o operador desejava utilizar exclusivamente o menu dropdown de catálogo, porém com o campo sendo editável para permitir pesquisa rápida pelo nome do produto.
 - **Solução Implementada (Combobox Dropdown Integrado):**
   1. **Visual Único & Fluido:** Eliminada a alternância entre modos e botões redundantes. O campo agora é um Dropdown Combobox com botão `▼` dedicado.
