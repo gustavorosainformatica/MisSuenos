@@ -7814,35 +7814,28 @@
               </button>
             </div>
 
-            <!-- BARRA DE ADIÇÃO RÁPIDA: DIGITAR NOME OU SELECIONAR DO CATÁLOGO -->
+            <!-- BARRA DE ADIÇÃO RÁPIDA: MENU DROPDOWN PESQUISÁVEL COM BUSCA PELO NOME -->
             <div style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 10px; margin-bottom: 12px;">
               <div style="display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;">
                 <div style="flex: 3; min-width: 230px;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                     <label style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">
-                      + Adicionar Produto (Digite ou Selecione)
+                      + Adicionar Produto (Menu Dropdown & Busca pelo Nome)
                     </label>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                      <span id="ped-add-produto-tipo-tag" style="font-size: 9.5px; color: #94a3b8;">Catálogo ou Avulso</span>
-                      <button type="button" tabindex="-1" id="btn-toggle-modo-prod" onclick="alternarModoEntradaProduto()" style="background: none; border: none; color: #38bdf8; font-size: 10px; cursor: pointer; text-decoration: underline; padding: 0;">
-                        📋 Menu Dropdown
-                      </button>
+                      <span id="ped-add-produto-tipo-tag" style="font-size: 9.5px; color: #94a3b8;">Catálogo</span>
                     </div>
                   </div>
 
-                  <!-- MODO DIGITAÇÃO + AUTOCOMPLETE / DATALIST (PADRÃO) -->
-                  <div id="ped-add-produto-input-wrap" style="position: relative;">
-                    <input type="text" id="ped-add-produto-input" list="lista-produtos-ped-datalist" class="form-input" placeholder="Digite o nome do produto ou selecione da lista..." style="width: 100%; box-sizing: border-box; padding-right: 26px;" oninput="aoDigitarOuSelecionarProdutoItem(this.value)" onchange="aoDigitarOuSelecionarProdutoItem(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
-                    <datalist id="lista-produtos-ped-datalist">
-                      <!-- Populado dinamicamente com todos os produtos -->
-                    </datalist>
-                    <span title="Clique ou pressione seta para baixo para ver a lista" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">▼</span>
+                  <!-- MENU DROPDOWN PESQUISÁVEL INTEGRADO (COMBOBOX EDITÁVEL) -->
+                  <div id="wrap-dropdown-prod-pedido" style="position: relative;">
+                    <input type="text" id="ped-add-produto-input" class="form-input" autocomplete="off" placeholder="Clique para abrir a lista ou digite para buscar o produto..." style="width: 100%; box-sizing: border-box; padding-right: 32px; cursor: pointer;" onclick="abrirDropdownProdutosPedido(this.value)" onfocus="abrirDropdownProdutosPedido(this.value)" oninput="filtrarDropdownProdutosPedido(this.value)" onkeydown="aoTeclarDropdownProdutosPedido(event)">
+                    <button type="button" tabindex="-1" onclick="toggleDropdownProdutosPedido(event)" title="Abrir menu dropdown de produtos" style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #38bdf8; cursor: pointer; padding: 6px 8px; font-size: 11px; line-height: 1; display: flex; align-items: center; justify-content: center;">
+                      ▼
+                    </button>
+                    <!-- PAINEL FLUTUANTE DE PRODUTOS -->
+                    <div id="dropdown-produtos-pedido" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #0f172a; border: 1px solid #38bdf8; border-radius: 8px; box-shadow: 0 12px 35px rgba(0,0,0,0.85); max-height: 280px; overflow-y: auto; z-index: 10000; display: none;"></div>
                   </div>
-
-                  <!-- MODO SELECT DROPDOWN (OPCIONAL VIA TOGGLE) -->
-                  <select class="form-input erp-select" id="ped-add-produto-select" onchange="aoSelecionarProdutoItemPedido(this.value)" style="width: 100%; display: none;">
-                    <option value="">-- Selecione um produto do catálogo --</option>
-                  </select>
                 </div>
 
                 <div style="width: 80px;">
@@ -10893,12 +10886,19 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (prodInp) prodInp.focus();
     }
 
-    // Fechar autocomplete ao clicar fora
+    // Fechar autocomplete de clientes ao clicar fora
     document.addEventListener('click', (e) => {
       const wrap = document.getElementById('wrap-autocomplete-cliente-ped');
       const dropdown = document.getElementById('autocomplete-clientes-pedido');
       if (dropdown && wrap && !wrap.contains(e.target)) {
         dropdown.style.display = 'none';
+      }
+
+      // Fechar dropdown de produtos ao clicar fora
+      const wrapProd = document.getElementById('wrap-dropdown-prod-pedido');
+      const dropdownProd = document.getElementById('dropdown-produtos-pedido');
+      if (dropdownProd && wrapProd && !wrapProd.contains(e.target)) {
+        dropdownProd.style.display = 'none';
       }
     });
 
@@ -10964,70 +10964,235 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       return resultado;
     }
 
-    function alternarModoEntradaProduto() {
-      const inpWrap = document.getElementById('ped-add-produto-input-wrap');
-      const sel = document.getElementById('ped-add-produto-select');
-      const btn = document.getElementById('btn-toggle-modo-prod');
-      const inp = document.getElementById('ped-add-produto-input');
-
-      if (!inpWrap || !sel) return;
-
-      if (sel.style.display === 'none') {
-        inpWrap.style.display = 'none';
-        sel.style.display = 'block';
-        if (btn) btn.textContent = '✏️ Digitar Produto';
-        sel.focus();
-      } else {
-        sel.style.display = 'none';
-        inpWrap.style.display = 'block';
-        if (btn) btn.textContent = '📋 Menu Dropdown';
-        if (inp) inp.focus();
-      }
-    }
+    // ========================================================
+    // MENU DROPDOWN PESQUISÁVEL DE PRODUTOS NO PEDIDO (COMBOBOX)
+    // ========================================================
+    let sugestoesProdutosAtuais = [];
+    let indiceSelecaoDropdownProd = -1;
 
     function popularSelectProdutosPedido() {
-      const datalist = document.getElementById('lista-produtos-ped-datalist');
-      const sel = document.getElementById('ped-add-produto-select');
+      fecharDropdownProdutosPedido();
+    }
 
-      if (!Array.isArray(produtos) || produtos.length === 0) return;
+    function abrirDropdownProdutosPedido(termo = '') {
+      filtrarDropdownProdutosPedido(termo);
+    }
 
-      // 1. Popula o DATALIST para digitação com autocomplete inteligente
-      if (datalist) {
-        datalist.innerHTML = produtos.map(p => {
-          const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-          const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
-          const skuStr = p.codigo_sku ? `${p.codigo_sku} · ` : '';
-          return `<option value="${p.nome}">${skuStr}R$ ${precoFmt} (Disp: ${estDisp} ${p.unidade_medida || 'UN'})</option>`;
-        }).join('');
+    function fecharDropdownProdutosPedido() {
+      const wrap = document.getElementById('dropdown-produtos-pedido');
+      if (wrap) wrap.style.display = 'none';
+      indiceSelecaoDropdownProd = -1;
+    }
+
+    function toggleDropdownProdutosPedido(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
       }
-
-      // 2. Popula o SELECT para o modo dropdown opcional
-      if (sel) {
-        sel.innerHTML = '<option value="">-- Selecione um produto do catálogo --</option>';
-        const grupos = {};
-        produtos.forEach(p => {
-          const cat = p.categoria || 'Geral';
-          if (!grupos[cat]) grupos[cat] = [];
-          grupos[cat].push(p);
-        });
-
-        for (const cat of Object.keys(grupos).sort()) {
-          const optgroup = document.createElement('optgroup');
-          optgroup.label = `📦 ${cat}`;
-          grupos[cat].sort((a, b) => (a.codigo_sku || '').localeCompare(b.codigo_sku || '')).forEach(p => {
-            const opt = document.createElement('option');
-            opt.value = p.id;
-            const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
-            opt.textContent = `${p.codigo_sku ? p.codigo_sku + ' - ' : ''}${p.nome} (R$ ${precoFmt} | Disp: ${estDisp} ${p.unidade_medida || 'UN'})`;
-            optgroup.appendChild(opt);
-          });
-          sel.appendChild(optgroup);
-        }
+      const wrap = document.getElementById('dropdown-produtos-pedido');
+      const inp = document.getElementById('ped-add-produto-input');
+      if (!wrap) return;
+      if (wrap.style.display === 'block') {
+        fecharDropdownProdutosPedido();
+      } else {
+        if (inp) inp.focus();
+        abrirDropdownProdutosPedido(inp ? inp.value : '');
       }
     }
 
-    
+    function filtrarDropdownProdutosPedido(termo = '') {
+      const wrap = document.getElementById('dropdown-produtos-pedido');
+      if (!wrap) return;
+
+      const listaBase = Array.isArray(produtos) ? produtos : [];
+      if (listaBase.length === 0) {
+        wrap.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 12px;">Nenhum produto cadastrado no catálogo.</div>';
+        wrap.style.display = 'block';
+        return;
+      }
+
+      const termoNorm = normalizarTextoBusca(termo);
+      let filtrados = listaBase;
+      if (termoNorm) {
+        filtrados = listaBase.filter(p => {
+          if (!p) return false;
+          const nNorm = normalizarTextoBusca(p.nome || '');
+          const sNorm = normalizarTextoBusca(p.codigo_sku || '');
+          const cNorm = normalizarTextoBusca(p.categoria || '');
+          return nNorm.includes(termoNorm) || sNorm.includes(termoNorm) || cNorm.includes(termoNorm);
+        });
+      }
+
+      // Ordena por SKU e depois por Nome
+      filtrados = [...filtrados].sort((a, b) => {
+        const skuA = a.codigo_sku || '';
+        const skuB = b.codigo_sku || '';
+        if (skuA && skuB) return skuA.localeCompare(skuB);
+        return (a.nome || '').localeCompare(b.nome || '');
+      });
+
+      sugestoesProdutosAtuais = filtrados;
+      indiceSelecaoDropdownProd = -1;
+
+      if (filtrados.length === 0) {
+        const termoEscapado = (termo || '').replace(/'/g, "\\'");
+        wrap.innerHTML = `
+          <div style="padding: 10px 14px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.05);">
+            Nenhum produto encontrado com "<strong>${(termo || '').toUpperCase()}</strong>"
+          </div>
+          <div class="item-dropdown-prod" onclick="selecionarProdutoAvulso('${termoEscapado}')" style="padding: 10px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #fbbf24;">
+            <span style="font-size: 12px; color: #fbbf24; font-weight: 700;">✨ Usar "${(termo || '').toUpperCase()}" como Item Avulso</span>
+            <span style="font-size: 11px; color: #94a3b8;">Clique para selecionar</span>
+          </div>
+        `;
+        wrap.style.display = 'block';
+        return;
+      }
+
+      wrap.innerHTML = filtrados.map((p, idx) => {
+        const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
+        const skuHtml = p.codigo_sku 
+          ? `<span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #38bdf8; background: rgba(0, 212, 255, 0.12); border: 1px solid rgba(0, 212, 255, 0.25); padding: 1px 6px; border-radius: 4px; margin-right: 6px;">${p.codigo_sku}</span>` 
+          : '';
+        const catHtml = p.categoria ? `<span style="font-size: 10px; color: #94a3b8; margin-left: 6px;">(${p.categoria})</span>` : '';
+        const estoqueColor = estDisp > 0 ? '#34d399' : '#ef4444';
+
+        return `
+          <div class="item-dropdown-prod" data-idx="${idx}" onclick="selecionarProdutoDoDropdown(${idx})" style="padding: 9px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+            <div style="display: flex; align-items: center; gap: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 65%;">
+              ${skuHtml}
+              <strong style="color: #fff; font-size: 12px; text-transform: uppercase;">${p.nome}</strong>
+              ${catHtml}
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
+              <span style="font-size: 11px; color: ${estoqueColor}; font-weight: 600;">Disp: ${estDisp} ${p.unidade_medida || 'UN'}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px;">R$ ${precoFmt}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      wrap.style.display = 'block';
+    }
+
+    function aoTeclarDropdownProdutosPedido(e) {
+      const wrap = document.getElementById('dropdown-produtos-pedido');
+      const items = wrap ? wrap.querySelectorAll('.item-dropdown-prod') : [];
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!wrap || wrap.style.display === 'none') {
+          abrirDropdownProdutosPedido(e.target.value);
+          return;
+        }
+        if (items.length > 0) {
+          indiceSelecaoDropdownProd = (indiceSelecaoDropdownProd + 1) % items.length;
+          atualizarDestaqueDropdownProd(items);
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (items.length > 0) {
+          indiceSelecaoDropdownProd = (indiceSelecaoDropdownProd - 1 + items.length) % items.length;
+          atualizarDestaqueDropdownProd(items);
+        }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (wrap && wrap.style.display === 'block' && items.length > 0) {
+          if (indiceSelecaoDropdownProd >= 0 && indiceSelecaoDropdownProd < items.length) {
+            items[indiceSelecaoDropdownProd].click();
+          } else {
+            items[0].click();
+          }
+        } else {
+          // Se já selecionou e der Enter no campo, pula o foco para a quantidade
+          const qtdInp = document.getElementById('ped-add-qtd-input');
+          if (qtdInp) {
+            qtdInp.focus();
+            qtdInp.select();
+          }
+        }
+      } else if (e.key === 'Escape') {
+        fecharDropdownProdutosPedido();
+      } else if (e.key === 'Tab') {
+        fecharDropdownProdutosPedido();
+      }
+    }
+
+    function atualizarDestaqueDropdownProd(items) {
+      items.forEach((it, idx) => {
+        if (idx === indiceSelecaoDropdownProd) {
+          it.style.background = '#1e293b';
+          it.style.borderLeft = '3px solid #38bdf8';
+          it.scrollIntoView({ block: 'nearest' });
+        } else {
+          it.style.background = 'transparent';
+          it.style.borderLeft = 'none';
+        }
+      });
+    }
+
+    function selecionarProdutoDoDropdown(idx) {
+      const prod = sugestoesProdutosAtuais[idx];
+      if (!prod) return;
+
+      const inp = document.getElementById('ped-add-produto-input');
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
+
+      if (inp) {
+        inp.value = (prod.nome || '').toUpperCase();
+        inp.dataset.produtoId = prod.id;
+      }
+      if (precoInp) {
+        precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
+      }
+      if (qtdInp) {
+        if (!qtdInp.value || parseFloat(qtdInp.value) <= 0) qtdInp.value = '1';
+      }
+      if (tagTipo) {
+        const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
+        tagTipo.innerHTML = `📦 <strong style="color: #38bdf8;">Catálogo</strong> • Disp: <strong style="color: #34d399;">${estDisp} ${prod.unidade_medida || 'UN'}</strong>`;
+        tagTipo.style.color = '#38bdf8';
+      }
+
+      fecharDropdownProdutosPedido();
+      atualizarSubtotalNovoItem();
+
+      // Foco imediato na Quantidade com seleção pronta para digitar
+      if (qtdInp) {
+        qtdInp.focus();
+        qtdInp.select();
+      }
+    }
+
+    function selecionarProdutoAvulso(nomeAvulso) {
+      const inp = document.getElementById('ped-add-produto-input');
+      const precoInp = document.getElementById('ped-add-preco-input');
+      const qtdInp = document.getElementById('ped-add-qtd-input');
+      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
+
+      if (inp) {
+        inp.value = (nomeAvulso || '').toUpperCase();
+        delete inp.dataset.produtoId;
+      }
+      if (qtdInp && (!qtdInp.value || parseFloat(qtdInp.value) <= 0)) {
+        qtdInp.value = '1';
+      }
+      if (tagTipo) {
+        tagTipo.innerHTML = `✨ <strong style="color: #fbbf24;">Item Avulso / Personalizado</strong>`;
+        tagTipo.style.color = '#fbbf24';
+      }
+      fecharDropdownProdutosPedido();
+      atualizarSubtotalNovoItem();
+
+      if (precoInp) {
+        precoInp.focus();
+        precoInp.select();
+      }
+    }
+
     function calcularSubtotalItensPedido() {
       return (itensPedidoAtual || []).reduce((acc, item) => {
         const q = parseFloat(item.qtd) || 0;
@@ -11053,75 +11218,6 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       recalcularTotalGeralPedido();
     }
 
-    function aoDigitarOuSelecionarProdutoItem(valorDigitado) {
-      const precoInp = document.getElementById('ped-add-preco-input');
-      const qtdInp = document.getElementById('ped-add-qtd-input');
-      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
-
-      if (!valorDigitado || !valorDigitado.trim()) {
-        if (tagTipo) {
-          tagTipo.innerHTML = 'Catálogo ou Avulso';
-          tagTipo.style.color = '#94a3b8';
-        }
-        atualizarSubtotalNovoItem();
-        return;
-      }
-
-      const textoNorm = normalizarTextoBusca(valorDigitado.trim());
-      const prod = (Array.isArray(produtos) ? produtos : []).find(p => {
-        if (!p) return false;
-        const nomeNorm = normalizarTextoBusca(p.nome || '');
-        const skuNorm = normalizarTextoBusca(p.codigo_sku || '');
-        return nomeNorm === textoNorm || skuNorm === textoNorm;
-      });
-
-      if (prod) {
-        // Encontrou produto no catálogo
-        if (precoInp) {
-          precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
-        }
-        if (tagTipo) {
-          const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
-          tagTipo.innerHTML = `📦 <strong style="color: #38bdf8;">Catálogo</strong> • Disp: <strong style="color: #34d399;">${estDisp} ${prod.unidade_medida || 'UN'}</strong>`;
-          tagTipo.style.color = '#38bdf8';
-        }
-      } else {
-        // Item avulso digitado livremente (ex: "lonca crua")
-        if (tagTipo) {
-          tagTipo.innerHTML = `✨ <strong style="color: #fbbf24;">Item Avulso / Personalizado</strong>`;
-          tagTipo.style.color = '#fbbf24';
-        }
-      }
-
-      if (qtdInp && (!qtdInp.value || parseFloat(qtdInp.value) <= 0)) {
-        qtdInp.value = '1';
-      }
-      atualizarSubtotalNovoItem();
-    }
-
-    function aoSelecionarProdutoItemPedido(prodId) {
-      const precoInp = document.getElementById('ped-add-preco-input');
-      const qtdInp = document.getElementById('ped-add-qtd-input');
-      const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
-
-      if (!prodId) {
-        if (precoInp) precoInp.value = '0,00';
-        if (tagTipo) tagTipo.textContent = 'Catálogo ou Avulso';
-        atualizarSubtotalNovoItem();
-        return;
-      }
-      const prod = (Array.isArray(produtos) ? produtos : []).find(p => String(p.id) === String(prodId));
-      if (prod) {
-        if (precoInp) precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
-        if (!qtdInp.value || parseFloat(qtdInp.value) <= 0) qtdInp.value = '1';
-        if (tagTipo) {
-          const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
-          tagTipo.innerHTML = `📦 <strong style="color: #38bdf8;">Catálogo</strong> • Disp: <strong style="color: #34d399;">${estDisp} ${prod.unidade_medida || 'UN'}</strong>`;
-        }
-        atualizarSubtotalNovoItem();
-      }
-    }
-
     function atualizarSubtotalNovoItem() {
       const qtd = parseFloat(document.getElementById('ped-add-qtd-input')?.value || 1);
       const preco = desformatarNumeroPtBr(document.getElementById('ped-add-preco-input')?.value || 0);
@@ -11134,29 +11230,15 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     function adicionarItemAoPedidoAtual() {
       const inp = document.getElementById('ped-add-produto-input');
-      const sel = document.getElementById('ped-add-produto-select');
       const qtdInp = document.getElementById('ped-add-qtd-input');
       const precoInp = document.getElementById('ped-add-preco-input');
 
-      // Obtém o nome digitado no input OU a opção escolhida no select
-      let texto = (inp && inp.parentElement && inp.parentElement.style.display !== 'none' ? inp.value : '').trim();
-      let prodId = null;
-
-      if (!texto && sel && sel.style.display !== 'none' && sel.value) {
-        prodId = sel.value;
-        const pSel = (Array.isArray(produtos) ? produtos : []).find(p => String(p.id) === String(prodId));
-        if (pSel) texto = pSel.nome;
-      }
-
-      // Se ainda estiver vazio, tenta ler o inp mesmo que não esteja visível
-      if (!texto && inp && inp.value.trim()) {
-        texto = inp.value.trim();
-      }
+      let texto = (inp ? inp.value : '').trim();
+      let prodId = inp?.dataset?.produtoId || null;
 
       if (!texto) {
-        alert('Por favor, digite o nome do produto ou selecione um item do catálogo.');
-        if (inp && inp.parentElement && inp.parentElement.style.display !== 'none') inp.focus();
-        else if (sel) sel.focus();
+        mostrarToast('Por favor, selecione um produto no menu ou digite o nome.');
+        if (inp) inp.focus();
         return;
       }
 
@@ -11164,7 +11246,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const preco = desformatarNumeroPtBr(precoInp?.value || 0);
 
       if (qtd <= 0) {
-        alert('A quantidade do item deve ser maior que zero.');
+        mostrarToast('A quantidade do item deve ser maior que zero.');
         qtdInp?.focus();
         return;
       }
@@ -11191,7 +11273,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         finalNome = (prod.nome || '').toUpperCase();
         finalSku = (prod.codigo_sku || '').toUpperCase();
       } else {
-        // Item Avulso / Personalizado (como 'lonca crua')
+        // Item Avulso / Personalizado
         finalProdId = null;
         finalId = 'avulso_' + Date.now();
         finalNome = texto.toUpperCase();
@@ -11219,19 +11301,20 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       if (inp) {
         inp.value = '';
+        delete inp.dataset.produtoId;
         inp.focus();
       }
-      if (sel) sel.value = '';
-      if (qtdInp) qtdInp.value = '1';
+      if (qtdInp) qtdInp.value = '';
       if (precoInp) precoInp.value = '0,00';
       atualizarSubtotalNovoItem();
 
       const tagTipo = document.getElementById('ped-add-produto-tipo-tag');
       if (tagTipo) {
-        tagTipo.textContent = 'Catálogo ou Avulso';
+        tagTipo.textContent = 'Catálogo';
         tagTipo.style.color = '#94a3b8';
       }
 
+      fecharDropdownProdutosPedido();
       atualizarTabelaItensPedido();
       mostrarToast(`Item "${finalNome}" adicionado ao pedido!`);
     }
@@ -11395,6 +11478,14 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (obsEl) obsEl.value = '';
       const qtdInpEl = document.getElementById('ped-add-qtd-input');
       if (qtdInpEl) qtdInpEl.value = '';
+      const prodInpEl = document.getElementById('ped-add-produto-input');
+      if (prodInpEl) {
+        prodInpEl.value = '';
+        delete prodInpEl.dataset.produtoId;
+      }
+      const precoInpEl = document.getElementById('ped-add-preco-input');
+      if (precoInpEl) precoInpEl.value = '0,00';
+      fecharDropdownProdutosPedido();
 
       const hoje = new Date();
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
@@ -11452,6 +11543,14 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (obsEditEl) obsEditEl.value = ped.observacoes || '';
       const qtdEditEl = document.getElementById('ped-add-qtd-input');
       if (qtdEditEl) qtdEditEl.value = '';
+      const prodEditEl = document.getElementById('ped-add-produto-input');
+      if (prodEditEl) {
+        prodEditEl.value = '';
+        delete prodEditEl.dataset.produtoId;
+      }
+      const precoEditEl = document.getElementById('ped-add-preco-input');
+      if (precoEditEl) precoEditEl.value = '0,00';
+      fecharDropdownProdutosPedido();
       document.getElementById('form-ped-data').value = ped.data_pedido || ped.data || '';
       document.getElementById('form-ped-cliente-nome').value = ped.cliente_nome || ped.cliente || '';
       document.getElementById('form-ped-cidade').value = ped.cidade || '';

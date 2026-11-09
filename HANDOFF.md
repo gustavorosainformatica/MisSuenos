@@ -1,12 +1,22 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 15:05 (BRT)  
-> **Status Geral:** Ergonomia de Teclado (Tab Exclusivo em Campos Digitáveis) + Remoção de Setas Redundantes + Foco Inicial no Cliente + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
+> **Data de Atualização:** 09 de Novembro de 2026 — 15:20 (BRT)  
+> **Status Geral:** Dropdown Pesquisável de Produtos (Combobox com Busca em Tempo Real) + Ergonomia de Teclado + Tríplice Sincronizada (39 Testes TDD 100% Passando)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
-## 0. Ergonomia de Teclado no Pedido & Remoção de Setas Redundantes (Solicitação Gustavo)
+## 0. Menu Dropdown Pesquisável de Produtos (Solicitação Gustavo)
+- **Problema & Necessidade:** Em "Itens e Mercadorias do Pedido", o operador desejava utilizar exclusivamente o menu dropdown de catálogo, porém com o campo sendo editável para permitir pesquisa rápida pelo nome do produto.
+- **Solução Implementada (Combobox Dropdown Integrado):**
+  1. **Visual Único & Fluido:** Eliminada a alternância entre modos e botões redundantes. O campo agora é um Dropdown Combobox com botão `▼` dedicado.
+  2. **Busca e Filtro em Tempo Real:** Ao focar, clicar no campo ou na setinha `▼`, o menu abre exibindo todos os produtos do catálogo (com SKU, nome em destaque, preço e estoque disponível). Ao digitar qualquer parte do nome ou SKU, a lista é filtrada instantaneamente sem acentuação (`normalizarTextoBusca`).
+  3. **Navegação Completa por Teclado:** Suporta `ArrowDown`, `ArrowUp` e `Enter` para selecionar, preenchendo automaticamente o preço unitário e focando na quantidade.
+  4. **Fallback para Itens Avulsos:** Caso o operador digite um produto que não exista no catálogo, o dropdown disponibiliza a opção de adicionar como Item Avulso / Personalizado.
+
+---
+
+## 0.1 Ergonomia de Teclado no Pedido & Remoção de Setas Redundantes (Solicitação Gustavo)
 - **Problema Relatado:**
   1. A quantidade apresentava setas verticais nativas redundantes no input numérico (`spinners`), poluindo a interface.
   2. Ao utilizar a tecla `Tab`, o cursor parava em botões de ação e controle (como botões `−`, `+` e lixeira `🗑️`), em vez de fluir exclusivamente pelos campos digitáveis.
