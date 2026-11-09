@@ -124,3 +124,4 @@ test('TDD DOCS 06: Blindagem contra valores undefined na configuração de pagam
   assert.ok(!resumo.includes('null'), 'Não pode conter o texto literal null');
   assert.ok(!resumo.includes('NaN'), 'Não pode conter NaN');
 });
+

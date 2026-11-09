@@ -2522,9 +2522,15 @@
       font-size: 11px !important;
       margin-bottom: 1px !important;
     }
-    #modal-cliente .form-input {
+    #modal-cliente .form-input,
+    #modal-cliente textarea {
       padding: 8px 12px !important;
       font-size: 12.5px !important;
+      text-transform: uppercase !important;
+    }
+    #modal-cliente .form-input::placeholder,
+    #modal-cliente textarea::placeholder {
+      text-transform: uppercase !important;
     }
     #modal-cliente textarea#form-obs {
       height: 44px !important;
@@ -5432,7 +5438,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">CNPJ / CPF do Emitente *</label>
-                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" required>
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" inputmode="numeric" maxlength="18" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" required>
               </div>
             </div>
 
@@ -6017,46 +6023,46 @@
             <div class="form-group" style="flex: 2; min-width: 320px;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-                  <span>👤</span> Nome / Razão Social *
+                  <span>👤</span> NOME / RAZÃO SOCIAL *
                 </span>
-                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Empresa ou Pessoa</span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; text-transform: uppercase;">EMPRESA OU PESSOA</span>
               </label>
-              <input type="text" class="form-input" id="form-nome" required placeholder="Nome completo ou razão social da empresa">
+              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()">
             </div>
             <div class="form-group" style="flex: 1.2; min-width: 220px;">
-              <label class="form-label" style="margin-bottom: 3px;">Apelido / Fantasia / Referência</label>
-              <input type="text" class="form-input" id="form-apelido" placeholder="Ex: Chico Selaria, Agropecuária...">
+              <label class="form-label" style="margin-bottom: 3px;">APELIDO / FANTASIA / REFERÊNCIA</label>
+              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()">
             </div>
           </div>
 
           <!-- LINHA 2: CPF/CNPJ (175px) + IE (135px) + TELEFONE/WHATS (175px) + EMAIL/XML (flex: 1) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
-              <label class="form-label" style="margin-bottom: 3px;">CPF ou CNPJ</label>
-              <input type="text" class="form-input" id="form-doc" placeholder="000.000.000-00" onblur="formatarEValidarDoc(this)" style="font-family: 'JetBrains Mono', monospace;">
+              <label class="form-label" style="margin-bottom: 3px;">CPF OU CNPJ</label>
+              <input type="text" class="form-input" id="form-doc" inputmode="numeric" maxlength="18" placeholder="000.000.000-00" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
             </div>
             <div class="form-group" style="width: 135px; flex-shrink: 0;">
-              <label class="form-label" style="margin-bottom: 3px;">Inscrição Est. (IE)</label>
-              <input type="text" class="form-input" id="form-ie" placeholder="Opcional" style="font-family: 'JetBrains Mono', monospace;">
+              <label class="form-label" style="margin-bottom: 3px;">INSCRIÇÃO EST. (IE)</label>
+              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" style="font-family: 'JetBrains Mono', monospace;">
             </div>
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span style="color: #34d399; display: flex; align-items: center; gap: 6px;">
-                  <span>📱</span> Telefone / Whats
+                  <span>📱</span> TELEFONE / WHATS
                 </span>
               </label>
               <input type="text" class="form-input" id="form-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
             </div>
             <div class="form-group" style="flex: 1; min-width: 200px;">
-              <label class="form-label" style="margin-bottom: 3px;">E-mail para Faturas / XML NF-e</label>
-              <input type="email" class="form-input" id="form-email" placeholder="financeiro@empresa.com">
+              <label class="form-label" style="margin-bottom: 3px;">E-MAIL PARA FATURAS / XML NF-E</label>
+              <input type="email" class="form-input" id="form-email" placeholder="FINANCEIRO@EMPRESA.COM" oninput="this.value = this.value.toUpperCase()">
             </div>
           </div>
 
           <!-- SEÇÃO ENDEREÇO DE ENTREGA (2 LINHAS COESAS!) -->
           <div style="border-top: 1px solid var(--border-color); margin: 12px 0 6px 0; padding-top: 10px;">
             <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
-              <span>📍</span> <span>Endereço de Entrega & Despacho de Encomendas</span>
+              <span>📍</span> <span>ENDEREÇO DE ENTREGA & DESPACHO DE ENCOMENDAS</span>
             </div>
 
             <!-- LINHA 3: CEP (115px) + RUA (flex: 1) + NÚMERO (90px) + COMPLEMENTO (160px) -->
@@ -6066,32 +6072,32 @@
                 <input type="text" class="form-input" id="form-cep" placeholder="90000-000" onblur="buscarCep(this.value)" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
               </div>
               <div class="form-group" style="flex: 1; min-width: 260px;">
-                <label class="form-label" style="margin-bottom: 3px;">Logradouro / Rua</label>
-                <input type="text" class="form-input" id="form-logradouro" placeholder="Rua, Avenida, Linha...">
+                <label class="form-label" style="margin-bottom: 3px;">LOGRADOURO / RUA</label>
+                <input type="text" class="form-input" id="form-logradouro" placeholder="RUA, AVENIDA, LINHA..." oninput="this.value = this.value.toUpperCase()">
               </div>
               <div class="form-group" style="width: 90px; flex-shrink: 0;">
-                <label class="form-label" style="text-align: center; margin-bottom: 3px;">Número</label>
-                <input type="text" class="form-input" id="form-numero" placeholder="123 ou S/N" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
+                <label class="form-label" style="text-align: center; margin-bottom: 3px;">NÚMERO</label>
+                <input type="text" class="form-input" id="form-numero" placeholder="123 OU S/N" oninput="this.value = this.value.toUpperCase()" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
               </div>
               <div class="form-group" style="width: 160px; flex-shrink: 0;">
-                <label class="form-label" style="margin-bottom: 3px;">Complemento</label>
-                <input type="text" class="form-input" id="form-complemento" placeholder="Apto, Galpão, Pavilhão...">
+                <label class="form-label" style="margin-bottom: 3px;">COMPLEMENTO</label>
+                <input type="text" class="form-input" id="form-complemento" placeholder="APTO, GALPÃO, PAVILHÃO..." oninput="this.value = this.value.toUpperCase()">
               </div>
             </div>
 
             <!-- LINHA 4: BAIRRO (flex: 1.2) + CIDADE (flex: 1.6) + UF (65px) -->
             <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
               <div class="form-group" style="flex: 1.2; min-width: 180px;">
-                <label class="form-label" style="margin-bottom: 3px;">Bairro</label>
-                <input type="text" class="form-input" id="form-bairro" placeholder="Bairro, Distrito ou Interior">
+                <label class="form-label" style="margin-bottom: 3px;">BAIRRO</label>
+                <input type="text" class="form-input" id="form-bairro" placeholder="BAIRRO, DISTRITO OU INTERIOR" oninput="this.value = this.value.toUpperCase()">
               </div>
               <div class="form-group" style="flex: 1.6; min-width: 220px;">
-                <label class="form-label" style="margin-bottom: 3px;">Cidade *</label>
-                <input type="text" class="form-input" id="form-cidade" required placeholder="Cidade">
+                <label class="form-label" style="margin-bottom: 3px;">CIDADE *</label>
+                <input type="text" class="form-input" id="form-cidade" required placeholder="CIDADE" oninput="this.value = this.value.toUpperCase()">
               </div>
               <div class="form-group" style="width: 65px; flex-shrink: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF *</label>
-                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;">
+                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" oninput="this.value = this.value.toUpperCase()" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;">
               </div>
             </div>
           </div>
@@ -9286,26 +9292,155 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     let clienteAtualEditando = null;
     let clienteFiscalSelecionado = null;
 
-    // Formatação e Validação amigável de Documento (CPF / CNPJ)
+    // Bloqueia digitação de letras e caracteres inválidos no campo de CPF/CNPJ
+    function aoTeclarApenasDigitosDoc(e) {
+      if (['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
+        return;
+      }
+      if (e.ctrlKey || e.metaKey) {
+        return;
+      }
+      if (!/^\d$/.test(e.key)) {
+        e.preventDefault();
+      }
+    }
+
+    // Aplica máscara dinâmica progressiva de CPF/CNPJ (rejeita letras)
+    function aplicarMascaraDocumentoValor(valor) {
+      const digitos = String(valor || '').replace(/\D/g, '').slice(0, 14);
+      if (!digitos) return '';
+      if (digitos.length <= 11) {
+        return digitos
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+          .replace(/(\d{3})\.(\d{3})\.(\d{3})(\d{1,2})$/, '$1.$2.$3-$4');
+      } else {
+        return digitos
+          .replace(/^(\d{2})(\d)/, '$1.$2')
+          .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+          .replace(/\.(\d{3})(\d)/, '.$1/$2')
+          .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+      }
+    }
+
+    // Validação matemática do algoritmo do CPF (Módulo 11 da Receita Federal)
+    function validarCpfAlgoritmo(cpf) {
+      const limpo = String(cpf || '').replace(/\D/g, '').slice(0, 11);
+      if (limpo.length !== 11) return false;
+      if (/^(\d)\1{10}$/.test(limpo)) return false;
+      let soma = 0;
+      for (let i = 0; i < 9; i++) soma += parseInt(limpo.charAt(i), 10) * (10 - i);
+      let resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(limpo.charAt(9), 10)) return false;
+
+      soma = 0;
+      for (let i = 0; i < 10; i++) soma += parseInt(limpo.charAt(i), 10) * (11 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(limpo.charAt(10), 10)) return false;
+      return true;
+    }
+
+    // Validação matemática do algoritmo do CNPJ (Módulo 11 da Receita Federal)
+    function validarCnpjAlgoritmo(cnpj) {
+      const limpo = String(cnpj || '').replace(/\D/g, '').slice(0, 14);
+      if (limpo.length !== 14) return false;
+      if (/^(\d)\1{13}$/.test(limpo)) return false;
+      const pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+      let soma = 0;
+      for (let i = 0; i < 12; i++) soma += parseInt(limpo.charAt(i), 10) * pesos1[i];
+      let resto = soma % 11;
+      let digito1 = resto < 2 ? 0 : 11 - resto;
+      if (digito1 !== parseInt(limpo.charAt(12), 10)) return false;
+
+      const pesos2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+      soma = 0;
+      for (let i = 0; i < 13; i++) soma += parseInt(limpo.charAt(i), 10) * pesos2[i];
+      resto = soma % 11;
+      let digito2 = resto < 2 ? 0 : 11 - resto;
+      if (digito2 !== parseInt(limpo.charAt(13), 10)) return false;
+      return true;
+    }
+
+    // Checagem de integridade fiscal do documento
+    function checarDocumentoFiscalValido(doc) {
+      const limpo = String(doc || '').replace(/\D/g, '');
+      if (!limpo) return { valido: true, tipo: 'VAZIO' };
+      if (limpo.length === 11) return { valido: validarCpfAlgoritmo(limpo), tipo: 'CPF' };
+      if (limpo.length === 14) return { valido: validarCnpjAlgoritmo(limpo), tipo: 'CNPJ' };
+      return { valido: false, tipo: 'INCOMPLETO' };
+    }
+
+    // Formatação e Validação em tempo real ao digitar
+    function aoDigitarCpfCnpj(el) {
+      if (!el) return;
+      el.value = aplicarMascaraDocumentoValor(el.value);
+      const digitos = el.value.replace(/\D/g, '');
+      if (!digitos) {
+        el.style.borderColor = '';
+        return;
+      }
+      if (digitos.length === 11) {
+        const ok = validarCpfAlgoritmo(digitos);
+        el.style.borderColor = ok ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.75)';
+      } else if (digitos.length === 14) {
+        const ok = validarCnpjAlgoritmo(digitos);
+        el.style.borderColor = ok ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.75)';
+      } else {
+        el.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+      }
+    }
+
+    // Tratamento ao colar texto no campo de CPF/CNPJ
+    function aoColarCpfCnpj(e, el) {
+      e.preventDefault();
+      const textoColado = (e.clipboardData || window.clipboardData)?.getData('text') || '';
+      const limpo = textoColado.replace(/\D/g, '').slice(0, 14);
+      el.value = aplicarMascaraDocumentoValor(limpo);
+      formatarEValidarDoc(el);
+    }
+
+    // Formatação e Validação amigável de Documento (CPF / CNPJ) no blur
     function formatarEValidarDoc(el) {
       if (!el) return;
-      let v = el.value.replace(/\D/g, '');
-      if (v.length === 11) {
-        el.value = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-        el.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-      } else if (v.length === 14) {
-        el.value = v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-        el.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-      } else if (v.length > 0) {
-        el.style.borderColor = 'rgba(239, 68, 68, 0.6)';
-      } else {
+      el.value = aplicarMascaraDocumentoValor(el.value);
+      const digitos = el.value.replace(/\D/g, '');
+      if (!digitos) {
         el.style.borderColor = '';
+        return;
       }
+      const resultado = checarDocumentoFiscalValido(digitos);
+      if (resultado.valido) {
+        el.style.borderColor = 'rgba(16, 185, 129, 0.65)';
+      } else {
+        el.style.borderColor = 'rgba(239, 68, 68, 0.75)';
+      }
+    }
+
+    // Garante caixa alta em todos os inputs de texto e textarea do modal de cliente
+    function inicializarCamposCaixaAltaModalCliente() {
+      const modal = document.getElementById('modal-cliente');
+      if (!modal) return;
+      const inputs = modal.querySelectorAll('input[type="text"], input[type="email"], textarea');
+      inputs.forEach(inp => {
+        if (inp.id === 'form-doc' || inp.id === 'form-telefone' || inp.id === 'form-cep') return;
+        inp.style.textTransform = 'uppercase';
+        inp.addEventListener('input', function() {
+          const start = this.selectionStart;
+          const end = this.selectionEnd;
+          this.value = this.value.toUpperCase();
+          if (start !== null && end !== null) {
+            this.setSelectionRange(start, end);
+          }
+        });
+      });
     }
 
     // Modal de Edição / Novo Cliente
     function abrirModalNovoCliente() {
       aplicarTamanhoSalvoModal('modal-cliente');
+      inicializarCamposCaixaAltaModalCliente();
       clienteAtualEditando = null;
       document.getElementById('modal-cliente-icone').textContent = '➕';
       document.getElementById('modal-cliente-titulo').textContent = 'Novo Cliente';
@@ -9324,6 +9459,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     function abrirModalEditarCliente(id) {
       aplicarTamanhoSalvoModal('modal-cliente');
+      inicializarCamposCaixaAltaModalCliente();
       const cliente = clientes.find(c => String(c.id) === String(id));
       if (!cliente) return;
 
@@ -9331,21 +9467,21 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('modal-cliente-icone').textContent = '✏️';
       document.getElementById('modal-cliente-titulo').textContent = `Ficha: ${cliente.nome}`;
       document.getElementById('form-id').value = cliente.id || '';
-      document.getElementById('form-nome').value = cliente.nome || '';
-      document.getElementById('form-apelido').value = cliente.apelido_referencia || '';
+      document.getElementById('form-nome').value = (cliente.nome || '').toUpperCase();
+      document.getElementById('form-apelido').value = (cliente.apelido_referencia || '').toUpperCase();
       document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
       formatarEValidarDoc(document.getElementById('form-doc'));
-      document.getElementById('form-ie').value = cliente.ie || '';
+      document.getElementById('form-ie').value = (cliente.ie || '').toUpperCase();
       document.getElementById('form-telefone').value = cliente.telefone || '';
       document.getElementById('form-cep').value = cliente.cep || '';
-      document.getElementById('form-logradouro').value = cliente.logradouro || '';
-      document.getElementById('form-numero').value = cliente.numero || '';
-      document.getElementById('form-complemento').value = cliente.complemento || '';
-      document.getElementById('form-bairro').value = cliente.bairro || '';
-      document.getElementById('form-cidade').value = cliente.cidade || '';
+      document.getElementById('form-logradouro').value = (cliente.logradouro || '').toUpperCase();
+      document.getElementById('form-numero').value = (cliente.numero || '').toUpperCase();
+      document.getElementById('form-complemento').value = (cliente.complemento || '').toUpperCase();
+      document.getElementById('form-bairro').value = (cliente.bairro || '').toUpperCase();
+      document.getElementById('form-cidade').value = (cliente.cidade || '').toUpperCase();
       document.getElementById('form-uf').value = (cliente.uf || 'RS').toUpperCase();
-      document.getElementById('form-obs').value = cliente.observacoes || '';
-      if (document.getElementById('form-email')) document.getElementById('form-email').value = cliente.email || '';
+      document.getElementById('form-obs').value = (cliente.observacoes || '').toUpperCase();
+      if (document.getElementById('form-email')) document.getElementById('form-email').value = (cliente.email || '').toUpperCase();
       if (document.getElementById('form-pref')) document.getElementById('form-pref').value = cliente.preferencias || '';
       const bId = document.getElementById('modal-cli-badge-id');
       if (bId) bId.textContent = `CLI #${cliente.id} · ATIVO`;
@@ -9367,35 +9503,50 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const docLimpo = doc.replace(/\D/g, '');
       const isCnpj = docLimpo.length > 11;
 
+      // Validação estrita de integridade de CPF / CNPJ
+      if (docLimpo.length > 0) {
+        const docCheck = checarDocumentoFiscalValido(docLimpo);
+        if (!docCheck.valido) {
+          const docEl = document.getElementById('form-doc');
+          if (docEl) {
+            docEl.style.borderColor = 'rgba(239, 68, 68, 0.9)';
+            docEl.focus();
+          }
+          const tipoEsperado = docLimpo.length <= 11 ? 'CPF (11 dígitos)' : 'CNPJ (14 dígitos)';
+          mostrarToast(`❌ Documento fiscal inválido! Digite um ${tipoEsperado} válido.`);
+          return;
+        }
+      }
+
       // Preserva razão social e outros documentos se estiver editando
       let cpfFinal = !isCnpj ? doc : '';
       let cnpjFinal = isCnpj ? doc : '';
       let razaoSocialFinal = '';
 
       if (id && clienteAtualEditando) {
-        razaoSocialFinal = clienteAtualEditando.razao_social || '';
+        razaoSocialFinal = (clienteAtualEditando.razao_social || '').toUpperCase();
         // Se o cliente já tinha CNPJ e o usuário informou um CPF (ou vice-versa), preserva o complementar
         if (!isCnpj && clienteAtualEditando.cnpj) cnpjFinal = clienteAtualEditando.cnpj;
         if (isCnpj && clienteAtualEditando.cpf) cpfFinal = clienteAtualEditando.cpf;
       }
 
       const payload = {
-        nome: document.getElementById('form-nome').value.trim(),
-        apelido_referencia: document.getElementById('form-apelido').value.trim(),
+        nome: (document.getElementById('form-nome')?.value || '').trim().toUpperCase(),
+        apelido_referencia: (document.getElementById('form-apelido')?.value || '').trim().toUpperCase(),
         razao_social: razaoSocialFinal,
         cpf: cpfFinal,
         cnpj: cnpjFinal,
-        ie: document.getElementById('form-ie').value.trim(),
-        telefone: document.getElementById('form-telefone').value.trim(),
-        cep: document.getElementById('form-cep').value.trim(),
-        logradouro: document.getElementById('form-logradouro').value.trim(),
-        numero: document.getElementById('form-numero').value.trim(),
-        complemento: document.getElementById('form-complemento').value.trim(),
-        bairro: document.getElementById('form-bairro').value.trim(),
-        cidade: document.getElementById('form-cidade').value.trim(),
-        uf: document.getElementById('form-uf').value.trim().toUpperCase(),
-        email: document.getElementById('form-email') ? document.getElementById('form-email').value.trim() : '',
-        observacoes: document.getElementById('form-obs').value.trim(),
+        ie: (document.getElementById('form-ie')?.value || '').trim().toUpperCase(),
+        telefone: (document.getElementById('form-telefone')?.value || '').trim(),
+        cep: (document.getElementById('form-cep')?.value || '').trim(),
+        logradouro: (document.getElementById('form-logradouro')?.value || '').trim().toUpperCase(),
+        numero: (document.getElementById('form-numero')?.value || '').trim().toUpperCase(),
+        complemento: (document.getElementById('form-complemento')?.value || '').trim().toUpperCase(),
+        bairro: (document.getElementById('form-bairro')?.value || '').trim().toUpperCase(),
+        cidade: (document.getElementById('form-cidade')?.value || '').trim().toUpperCase(),
+        uf: (document.getElementById('form-uf')?.value || 'RS').trim().toUpperCase(),
+        email: document.getElementById('form-email') ? document.getElementById('form-email').value.trim().toUpperCase() : '',
+        observacoes: (document.getElementById('form-obs')?.value || '').trim().toUpperCase(),
         preferencias: document.getElementById('form-pref') ? document.getElementById('form-pref').value.trim() : (clienteAtualEditando?.preferencias || '')
       };
 
@@ -9458,11 +9609,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         const data = await resp.json();
         if (!data.erro) {
-          if (data.logradouro) document.getElementById('form-logradouro').value = data.logradouro;
-          if (data.bairro) document.getElementById('form-bairro').value = data.bairro;
-          if (data.localidade) document.getElementById('form-cidade').value = data.localidade;
-          if (data.uf) document.getElementById('form-uf').value = data.uf.toUpperCase();
-          mostrarToast(`Endereço localizado: ${data.localidade}/${data.uf}`);
+          if (data.logradouro) document.getElementById('form-logradouro').value = String(data.logradouro).toUpperCase();
+          if (data.bairro) document.getElementById('form-bairro').value = String(data.bairro).toUpperCase();
+          if (data.localidade) document.getElementById('form-cidade').value = String(data.localidade).toUpperCase();
+          if (data.uf) document.getElementById('form-uf').value = String(data.uf).toUpperCase();
+          mostrarToast(`Endereço localizado: ${String(data.localidade).toUpperCase()}/${String(data.uf).toUpperCase()}`);
           document.getElementById('form-numero').focus();
         }
       } catch (e) {
