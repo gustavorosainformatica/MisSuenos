@@ -1823,7 +1823,13 @@
       letter-spacing: 0.4px;
     }
 
-    .form-input {
+    .form-input,
+    input[type="text"],
+    input[type="search"],
+    input[type="email"],
+    textarea,
+    select.form-input,
+    .erp-select {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       color: #fff;
@@ -1833,6 +1839,13 @@
       outline: none;
       transition: var(--transition);
       font-family: inherit;
+      text-transform: uppercase !important;
+    }
+
+    .form-input::placeholder,
+    input::placeholder,
+    textarea::placeholder {
+      text-transform: uppercase !important;
     }
 
     .form-input:focus {
@@ -5460,7 +5473,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">CEP de Postagem</label>
-                <input type="text" class="form-input" id="cfg-cep-emitente" value="95500-000">
+                <input type="text" class="form-input" id="cfg-cep-emitente" value="95500-000" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" autocomplete="postal-code" style="font-family: 'JetBrains Mono', monospace;">
               </div>
             </div>
 
@@ -5471,7 +5484,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Telefone / WhatsApp Comercial</label>
-                <input type="text" class="form-input" id="cfg-telefone-emitente" value="(51) 99719-9204">
+                <input type="text" class="form-input" id="cfg-telefone-emitente" value="(51) 99719-9204" inputmode="tel" maxlength="15" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
               </div>
             </div>
 
@@ -7700,7 +7713,7 @@
                     💾 Salva
                   </span>
                 </label>
-                <input type="text" class="form-input" id="form-ped-telefone" placeholder="(00) 00000-0000" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399; width: 100%; box-sizing: border-box;">
+                <input type="text" class="form-input" id="form-ped-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399; width: 100%; box-sizing: border-box;">
               </div>
 
               <!-- 3. CIDADE DE ENTREGA -->
@@ -9519,23 +9532,42 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
     }
 
-    // Garante caixa alta em todos os inputs de texto e textarea do modal de cliente
-    function inicializarCamposCaixaAltaModalCliente() {
-      const modal = document.getElementById('modal-cliente');
-      if (!modal) return;
-      const inputs = modal.querySelectorAll('input[type="text"], input[type="email"], textarea');
-      inputs.forEach(inp => {
-        if (inp.id === 'form-doc' || inp.id === 'form-telefone' || inp.id === 'form-cep') return;
-        inp.style.textTransform = 'uppercase';
-        inp.addEventListener('input', function() {
-          const start = this.selectionStart;
-          const end = this.selectionEnd;
-          this.value = this.value.toUpperCase();
-          if (start !== null && end !== null) {
-            this.setSelectionRange(start, end);
+    // ========================================================
+    // DIRETRIZ GLOBAL ANTIGRAVITY: CAIXA ALTA UNIVERSAL EM TODOS OS CAMPOS E TELAS
+    // ========================================================
+    document.addEventListener('input', function(e) {
+      const el = e.target;
+      if (!el) return;
+      const tag = el.tagName ? el.tagName.toUpperCase() : '';
+      const type = el.type ? el.type.toLowerCase() : '';
+
+      // Não toca em campos de senha, números puros, cores e arquivos
+      if (type === 'password' || type === 'color' || type === 'number' || type === 'file') return;
+
+      // Não interfere em campos numéricos que possuem máscaras dinâmicas próprias
+      if (el.id === 'form-doc' || el.id === 'form-telefone' || el.id === 'form-cep' || 
+          el.id === 'form-ped-telefone' || el.id === 'cfg-cnpj-emitente' || el.id === 'cfg-cep-emitente' ||
+          el.id === 'cfg-telefone-emitente') {
+        return;
+      }
+
+      if (tag === 'TEXTAREA' || (tag === 'INPUT' && (type === 'text' || type === 'search' || type === 'email' || type === ''))) {
+        const start = el.selectionStart;
+        const end = el.selectionEnd;
+        if (el.value && typeof el.value === 'string') {
+          const upper = el.value.toUpperCase();
+          if (el.value !== upper) {
+            el.value = upper;
+            if (start !== null && end !== null) {
+              try { el.setSelectionRange(start, end); } catch(err) {}
+            }
           }
-        });
-      });
+        }
+      }
+    }, true);
+
+    function inicializarCamposCaixaAltaModalCliente() {
+      // Mantido para compatibilidade, o interceptor global já cobre 100% dos campos
     }
 
     // Modal de Edição / Novo Cliente
@@ -10252,16 +10284,16 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       e.preventDefault();
       const id = document.getElementById('form-prod-id').value;
       const payload = {
-        codigo_sku: document.getElementById('form-prod-sku').value.trim(),
+        codigo_sku: document.getElementById('form-prod-sku').value.trim().toUpperCase(),
         ncm: (document.getElementById('form-prod-ncm')?.value || '42050000').replace(/\D/g, ''),
-        nome: document.getElementById('form-prod-nome').value.trim(),
-        categoria: document.getElementById('form-prod-cat').value,
-        unidade_medida: document.getElementById('form-prod-un').value,
+        nome: document.getElementById('form-prod-nome').value.trim().toUpperCase(),
+        categoria: (document.getElementById('form-prod-cat').value || '').toUpperCase(),
+        unidade_medida: (document.getElementById('form-prod-un').value || '').toUpperCase(),
         estoque_minimo: parseFloat(document.getElementById('form-prod-min').value || 5),
         preco_custo: desformatarNumeroPtBr(document.getElementById('form-prod-custo').value),
         preco_venda: desformatarNumeroPtBr(document.getElementById('form-prod-venda').value),
         estoque_atual: parseFloat(document.getElementById('form-prod-est').value || 0),
-        descricao: document.getElementById('form-prod-desc').value.trim()
+        descricao: document.getElementById('form-prod-desc').value.trim().toUpperCase()
       };
 
       try {
@@ -11004,13 +11036,13 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (prod) {
         finalProdId = Number(prod.id);
         finalId = String(prod.id);
-        finalNome = prod.nome;
-        finalSku = prod.codigo_sku || '';
+        finalNome = (prod.nome || '').toUpperCase();
+        finalSku = (prod.codigo_sku || '').toUpperCase();
       } else {
         // Item Avulso / Personalizado (como 'lonca crua')
         finalProdId = null;
         finalId = 'avulso_' + Date.now();
-        finalNome = texto;
+        finalNome = texto.toUpperCase();
         finalSku = 'AVULSO';
       }
 
@@ -11467,9 +11499,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     async function salvarSubmodalPrefCliente() {
       const cliNomeInp = document.getElementById('form-ped-cliente-nome');
-      const cliNome = cliNomeInp ? cliNomeInp.value.trim() : (clienteAtualEditando?.nome || document.getElementById('form-nome')?.value.trim() || '');
+      const cliNome = cliNomeInp ? cliNomeInp.value.trim().toUpperCase() : (clienteAtualEditando?.nome || document.getElementById('form-nome')?.value.trim() || '').toUpperCase();
       const txtArea = document.getElementById('submodal-pref-textarea');
-      const novoTexto = txtArea ? txtArea.value.trim() : '';
+      const novoTexto = txtArea ? txtArea.value.trim().toUpperCase() : '';
 
       // Atualiza input oculto da ficha de cliente se estiver aberto
       const formPrefEl = document.getElementById('form-pref');
@@ -11523,23 +11555,38 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         'CANCELADO': 'Cancelado'
       };
 
+      // Validação de Telefone do Pedido
+      const telPedLimpo = (document.getElementById('form-ped-telefone')?.value || '').replace(/\D/g, '');
+      if (telPedLimpo.length > 0) {
+        const telCheck = checarTelefoneValido(telPedLimpo);
+        if (!telCheck.valido) {
+          const telEl = document.getElementById('form-ped-telefone');
+          if (telEl) {
+            telEl.style.borderColor = 'rgba(239, 68, 68, 0.9)';
+            telEl.focus();
+          }
+          mostrarToast('❌ Telefone do cliente inválido! Informe DDD e número completo (10 ou 11 dígitos).');
+          return;
+        }
+      }
+
       // Garante sincronização se o usuário digitou no campo texto
-      let itensTexto = document.getElementById('form-ped-itens').value.trim();
+      let itensTexto = document.getElementById('form-ped-itens').value.trim().toUpperCase();
       if (!itensTexto && itensPedidoAtual.length > 0) {
-        itensTexto = itensPedidoAtual.map(i => `${i.qtd}x ${i.nome}`).join(' + ');
+        itensTexto = itensPedidoAtual.map(i => `${i.qtd}x ${(i.nome || '').toUpperCase()}`).join(' + ');
       }
 
       const payload = {
         numero: document.getElementById('form-ped-numero').value.trim(),
         cliente_id: document.getElementById('form-ped-cliente-id').value || null,
-        cliente_nome: document.getElementById('form-ped-cliente-nome').value.trim(),
-        cidade: document.getElementById('form-ped-cidade').value.trim(),
+        cliente_nome: document.getElementById('form-ped-cliente-nome').value.trim().toUpperCase(),
+        cidade: document.getElementById('form-ped-cidade').value.trim().toUpperCase(),
         uf: document.getElementById('form-ped-uf').value.trim().toUpperCase(),
-        telefone: document.getElementById('form-ped-telefone').value.trim(),
+        telefone: aplicarMascaraTelefoneValor(document.getElementById('form-ped-telefone').value.trim()),
         itens: itensTexto,
         itens_detalhados: itensPedidoAtual.map(i => ({
           produto_id: i.produto_id,
-          nome: i.nome,
+          nome: (i.nome || '').toUpperCase(),
           qtd: i.qtd,
           preco_unitario: i.preco
         })),
@@ -11547,8 +11594,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         valor_frete: desformatarNumeroPtBr(document.getElementById('form-ped-frete')?.value || 0),
         status: status,
         status_texto: statusMap[status] || 'Pendente',
-        codigo_rastreio: document.getElementById('form-ped-rastreio').value.trim(),
-        observacoes: (document.getElementById('form-ped-obs')?.value || '').trim(),
+        codigo_rastreio: document.getElementById('form-ped-rastreio').value.trim().toUpperCase(),
+        observacoes: (document.getElementById('form-ped-obs')?.value || '').trim().toUpperCase(),
         data_pedido: document.getElementById('form-ped-data').value.trim()
       };
 
@@ -13315,16 +13362,16 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     async function salvarLancamentoFinanceiro(e) {
       e.preventDefault();
-      const tipo = document.getElementById('fin-tipo')?.value || 'RECEBER';
-      const descricao = document.getElementById('fin-descricao')?.value.trim() || '';
-      const categoria = document.getElementById('fin-categoria')?.value || 'Geral';
-      const entidade = document.getElementById('fin-entidade')?.value.trim() || '';
-      const forma = document.getElementById('fin-forma')?.value || 'PIX';
+      const tipo = (document.getElementById('fin-tipo')?.value || 'RECEBER').toUpperCase();
+      const descricao = (document.getElementById('fin-descricao')?.value.trim() || '').toUpperCase();
+      const categoria = (document.getElementById('fin-categoria')?.value || 'Geral').toUpperCase();
+      const entidade = (document.getElementById('fin-entidade')?.value.trim() || '').toUpperCase();
+      const forma = (document.getElementById('fin-forma')?.value || 'PIX').toUpperCase();
       const valorStr = document.getElementById('fin-valor')?.value || '0';
       const valor = typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(valorStr) : parseFloat(valorStr.replace(/\./g, '').replace(',', '.')) || 0;
       const vencimento = document.getElementById('fin-vencimento')?.value || new Date().toISOString().slice(0, 10);
-      const status = document.getElementById('fin-status')?.value || 'PENDENTE';
-      const obs = document.getElementById('fin-obs')?.value.trim() || '';
+      const status = (document.getElementById('fin-status')?.value || 'PENDENTE').toUpperCase();
+      const obs = (document.getElementById('fin-obs')?.value.trim() || '').toUpperCase();
 
       if (!descricao) {
         mostrarNotificacaoToast('⚠️ A descrição do lançamento é obrigatória.');
@@ -15732,8 +15779,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         return;
       }
 
-      const novoCodigo = document.getElementById('rastreio-input-novo-codigo')?.value.trim();
-      const novaTransp = document.getElementById('rastreio-input-transp')?.value;
+      const novoCodigo = (document.getElementById('rastreio-input-novo-codigo')?.value.trim() || '').toUpperCase();
+      const novaTransp = (document.getElementById('rastreio-input-transp')?.value || '').toUpperCase();
 
       if (!novoCodigo) {
         mostrarToast('⚠️ Informe o código de rastreamento');
@@ -16572,18 +16619,49 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     async function salvarDadosEmpresa(e) {
       if (e) e.preventDefault();
+
+      const cnpjLimpo = (document.getElementById('cfg-cnpj-emitente')?.value || '').replace(/\D/g, '');
+      if (cnpjLimpo.length > 0) {
+        const docCheck = checarCpfCnpjValido(cnpjLimpo);
+        if (!docCheck.valido) {
+          const el = document.getElementById('cfg-cnpj-emitente');
+          if (el) { el.style.borderColor = 'rgba(239, 68, 68, 0.9)'; el.focus(); }
+          mostrarToast('❌ CNPJ/CPF do emitente inválido! ' + docCheck.motivo);
+          return;
+        }
+      }
+
+      const telLimpo = (document.getElementById('cfg-telefone-emitente')?.value || '').replace(/\D/g, '');
+      if (telLimpo.length > 0) {
+        const telCheck = checarTelefoneValido(telLimpo);
+        if (!telCheck.valido) {
+          const el = document.getElementById('cfg-telefone-emitente');
+          if (el) { el.style.borderColor = 'rgba(239, 68, 68, 0.9)'; el.focus(); }
+          mostrarToast('❌ Telefone comercial do emitente inválido! Informe DDD e número completo.');
+          return;
+        }
+      }
+
+      const cepLimpo = (document.getElementById('cfg-cep-emitente')?.value || '').replace(/\D/g, '');
+      if (cepLimpo.length > 0 && cepLimpo.length < 8) {
+        const el = document.getElementById('cfg-cep-emitente');
+        if (el) { el.style.borderColor = 'rgba(239, 68, 68, 0.9)'; el.focus(); }
+        mostrarToast('❌ CEP do emitente incompleto! Digite os 8 dígitos.');
+        return;
+      }
+
       const btn = document.getElementById('btn-salvar-empresa');
       if (btn) { btn.disabled = true; btn.textContent = 'Gravando dados...'; }
 
       const dadosEmpresa = {
-        companyRazaoSocial: (document.getElementById('app-config-razao-social')?.value || '').trim(),
-        companyCnpj: (document.getElementById('cfg-cnpj-emitente')?.value || '').trim(),
-        userName: (document.getElementById('app-config-user-name')?.value || '').trim(),
-        companyIe: (document.getElementById('cfg-ie-emitente')?.value || '').trim(),
-        companyCityState: (document.getElementById('cfg-cidade-uf-emitente')?.value || '').trim(),
-        companyCep: (document.getElementById('cfg-cep-emitente')?.value || '').trim(),
-        companyAddress: (document.getElementById('cfg-endereco-emitente')?.value || '').trim(),
-        companyPhone: (document.getElementById('cfg-telefone-emitente')?.value || '').trim()
+        companyRazaoSocial: (document.getElementById('app-config-razao-social')?.value || '').trim().toUpperCase(),
+        companyCnpj: aplicarMascaraCpfCnpjValor(document.getElementById('cfg-cnpj-emitente')?.value || ''),
+        userName: (document.getElementById('app-config-user-name')?.value || '').trim().toUpperCase(),
+        companyIe: (document.getElementById('cfg-ie-emitente')?.value || '').trim().toUpperCase(),
+        companyCityState: (document.getElementById('cfg-cidade-uf-emitente')?.value || '').trim().toUpperCase(),
+        companyCep: aplicarMascaraCepValor(document.getElementById('cfg-cep-emitente')?.value || ''),
+        companyAddress: (document.getElementById('cfg-endereco-emitente')?.value || '').trim().toUpperCase(),
+        companyPhone: aplicarMascaraTelefoneValor(document.getElementById('cfg-telefone-emitente')?.value || '')
       };
 
       try {
@@ -20176,8 +20254,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const tipoSelecionado = document.getElementById('ajuste-tipo').value;
       const motivo = document.getElementById('ajuste-motivo').value;
       const quantidadeDigitada = Number(document.getElementById('ajuste-quantidade').value);
-      const docRef = document.getElementById('ajuste-doc-ref').value.trim();
-      let obs = document.getElementById('ajuste-observacoes').value.trim();
+      const docRef = document.getElementById('ajuste-doc-ref').value.trim().toUpperCase();
+      let obs = document.getElementById('ajuste-observacoes').value.trim().toUpperCase();
       const saldoAtual = Number(document.getElementById('ajuste-saldo-atual').value) || 0;
 
       if (!motivo) {
