@@ -9743,15 +9743,27 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         const data = await resp.json();
         if (!data.erro) {
-          if (data.logradouro) document.getElementById('form-logradouro').value = String(data.logradouro).toUpperCase();
+          const temRua = data.logradouro && data.logradouro.trim().length > 0;
+          if (temRua) {
+            document.getElementById('form-logradouro').value = String(data.logradouro).toUpperCase();
+          }
           if (data.bairro) document.getElementById('form-bairro').value = String(data.bairro).toUpperCase();
           if (data.localidade) document.getElementById('form-cidade').value = String(data.localidade).toUpperCase();
           if (data.uf) document.getElementById('form-uf').value = String(data.uf).toUpperCase();
-          mostrarToast(`Endereço localizado: ${String(data.localidade).toUpperCase()}/${String(data.uf).toUpperCase()}`);
-          document.getElementById('form-numero').focus();
+
+          if (temRua) {
+            mostrarToast(`Endereço localizado: ${String(data.logradouro).toUpperCase()}`);
+            document.getElementById('form-numero').focus();
+          } else {
+            mostrarToast(`Município ${String(data.localidade).toUpperCase()}/${String(data.uf).toUpperCase()} localizado. Digite a rua.`);
+            document.getElementById('form-logradouro').focus();
+          }
+        } else {
+          document.getElementById('form-logradouro').focus();
         }
       } catch (e) {
         console.log('Falha ao consultar CEP online');
+        document.getElementById('form-logradouro').focus();
       }
     }
 
