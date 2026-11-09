@@ -9,7 +9,8 @@ import {
   gerarTextoResumoComercial,
   formatarMoedaPtBr,
   parseTextoParaItens,
-  calcularTotalGeralPedido
+  calcularTotalGeralPedido,
+  calcularResumoComprasCliente
 } from '../lib/calculos_erp.js';
 
 test('TDD DOCS 01: Cenário Gustavo (1x Pele Caprina R$ 115,00 + Frete R$ 30,00 = R$ 145,00)', () => {
@@ -123,5 +124,33 @@ test('TDD DOCS 06: Blindagem contra valores undefined na configuração de pagam
   assert.ok(!resumo.includes('undefined'), 'Não pode conter o texto literal undefined');
   assert.ok(!resumo.includes('null'), 'Não pode conter o texto literal null');
   assert.ok(!resumo.includes('NaN'), 'Não pode conter NaN');
+});
+
+test('TDD DOCS 07: Agrupamento e cálculo de histórico de compras por cliente', () => {
+  const pedidos = [
+    { numero: '#PED-1043', valor_total: 295.00, valor_frete: 30.00 },
+    { numero: '#PED-1022', valor_total: 275.00, valor_frete: 25.00 },
+    { numero: '#PED-0998', valor_total: 1270.00, valor_frete: 40.00 }
+  ];
+
+  const resumo = calcularResumoComprasCliente(pedidos);
+
+  assert.equal(resumo.totalPedidos, 3, 'Deve contar exatamente 3 pedidos');
+  assert.equal(resumo.totalComprado, 1840.00, 'Total comprado deve ser R$ 1.840,00');
+  assert.equal(resumo.totalFrete, 95.00, 'Total de frete deve ser R$ 95,00');
+  assert.equal(Math.round(resumo.ticketMedio * 100) / 100, 613.33, 'Ticket médio deve ser R$ 613,33');
+});
+
+test('TDD DOCS 08: Cliente sem pedidos acumulados retorna extrato zerado seguro sem NaN', () => {
+  const resumoVazio = calcularResumoComprasCliente([]);
+
+  assert.equal(resumoVazio.totalPedidos, 0);
+  assert.equal(resumoVazio.totalComprado, 0);
+  assert.equal(resumoVazio.totalFrete, 0);
+  assert.equal(resumoVazio.ticketMedio, 0);
+
+  const resumoNulo = calcularResumoComprasCliente(null);
+  assert.equal(resumoNulo.totalPedidos, 0);
+  assert.equal(resumoNulo.ticketMedio, 0);
 });
 

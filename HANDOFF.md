@@ -1,7 +1,7 @@
 # HANDOFF & RESUMO TÉCNICO - SESSÃO MIS SUEÑOS ERP
 
-> **Data de Atualização:** 09 de Novembro de 2026 — 00:30 (BRT)  
-> **Status Geral:** Universalização Global de Caixa Alta e Formulários Blindados em 100% das Telas do ERP  
+> **Data de Atualização:** 09 de Novembro de 2026 — 09:55 (BRT)  
+> **Status Geral:** Relatório & Extrato de Compras do Cliente no Menu de Contexto + Tríplice Sincronizada (38 Testes TDD)  
 > **Domínio de Produção:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
@@ -14,7 +14,18 @@
 
 ---
 
-## 2. Universalização de Caixa Alta e Blindagem de Dados em Todas as Telas
+## 2. Relatório de Compras do Cliente no Menu de Contexto (Opção A com Atalho Interno para Opção B)
+- **Disparo no Botão Direito (`abrirMenuAcoesCliente`):**
+  - Adicionado o item `🛍️ Relatório de Compras (X)` exibindo dinamicamente a contagem real de compras do cliente na base.
+- **Modal Flutuante de Extrato Comercial & CRM (`#modal-relatorio-compras-cliente`):**
+  - **Cards de Indicadores (KPIs):** Faturamento Total Comprado (R$), Ticket Médio, Total de Pedidos e Data da Última Compra.
+  - **Grade de Pedidos:** Listagem cronológica dos pedidos com número, data, status estilizado, itens adquiridos, frete, total e botão para abrir o Espelho A4 do pedido individual.
+  - **Ação A (Impressão A4 de Extrato):** Botão `[ 🖨️ Imprimir Extrato A4 ]` configurado com CSS `@media print` dedicado, gerando documento comercial limpo para conferência.
+  - **Ação B (Atalho Interno):** Botão `[ 📦 Ver na Grade de Pedidos ]` que fecha o modal, salta diretamente para o módulo de pedidos e aplica o filtro de busca pelo nome do cliente instantaneamente.
+
+---
+
+## 3. Universalização de Caixa Alta e Blindagem de Dados em Todas as Telas
 Em estrita conformidade com as Regras Globais do Antigravity homologadas pelo usuário Gustavo:
 - **Caixa Alta Universal (CSS + Interceptor Global + Backend):**
   - Estilização universal em `.form-input, input[type="text"], input[type="search"], input[type="email"], textarea, select` com `text-transform: uppercase !important`.
@@ -71,14 +82,14 @@ Aprovada e homologada pelo usuário Gustavo como regra global permanente:
 
 ---
 
-## 4. Suíte de Testes Automatizados TDD (/tdd) - 36 de 36 Testes Passando
+## 5. Suíte de Testes Automatizados TDD (/tdd) - 38 de 38 Testes Passando
 A suíte agora conta com 4 arquivos de testes rodando pelo *Node.js Test Runner* nativo (`npm test`):
 - `tests/calculos.test.js`: 8 testes cobrindo cálculos matemáticos, estoques e margens.
 - `tests/pedidos.test.js`: 9 testes cobrindo variações de pedidos, itens múltiplos, frete e serialização round-trip.
-- `tests/documentos.test.js`: 6 testes cobrindo resumo comercial, casos de frete grátis, fallbacks e formatação de moeda.
+- `tests/documentos.test.js`: 8 testes cobrindo resumo comercial, histórico de compras por cliente, ticket médio e formatação de moeda.
 - `tests/validacoes.test.js`: 13 testes cobrindo CPF, CNPJ, Módulo 11, Caixa Alta, CEP e Telefone/Celular.
 
-**Resultado Consolidado:** **36 de 36 testes passando com 100% de sucesso em ~390ms**.
+**Resultado Consolidado:** **38 de 38 testes passando com 100% de sucesso em ~450ms**.
 
 ---
 

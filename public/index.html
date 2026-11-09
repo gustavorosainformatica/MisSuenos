@@ -4404,6 +4404,65 @@
       body.imprimindo-documento-pedido .modal-resize-handle {
         display: none !important;
       }
+
+      /* REGRAS DE IMPRESSÃO A4: RELATÓRIO & EXTRATO DE COMPRAS DO CLIENTE */
+      body.imprimindo-relatorio-cliente * {
+        visibility: hidden !important;
+      }
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente,
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente .modal-container,
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente .modal-body,
+      body.imprimindo-relatorio-cliente #corpo-relatorio-compras-impressao,
+      body.imprimindo-relatorio-cliente #corpo-relatorio-compras-impressao * {
+        visibility: visible !important;
+      }
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        z-index: 999999 !important;
+      }
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente .modal-container {
+        position: static !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      body.imprimindo-relatorio-cliente #modal-relatorio-compras-cliente .modal-body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+      body.imprimindo-relatorio-cliente #corpo-relatorio-compras-impressao {
+        display: block !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      body.imprimindo-relatorio-cliente #relatorio-compras-kpis,
+      body.imprimindo-relatorio-cliente #relatorio-compras-grade-box,
+      body.imprimindo-relatorio-cliente .modal-header,
+      body.imprimindo-relatorio-cliente .modal-footer,
+      body.imprimindo-relatorio-cliente .modal-resize-handle {
+        display: none !important;
+      }
       @page {
         size: A4 portrait;
         margin: 10mm;
@@ -8017,6 +8076,77 @@
           </button>
           <button type="button" class="btn-top btn-emerald-glow" onclick="imprimirDocumentoPedidoAtual()" style="font-size: 12.5px; font-weight: 700; padding: 8px 18px;" title="Abrir caixa de diálogo de impressão ou salvar como PDF (A4 vertical)">
             🖨️ Imprimir / Salvar PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE HISTÓRICO & RELATÓRIO DE COMPRAS DO CLIENTE (OPÇÃO A COM ATALHO INTERNO PARA OPÇÃO B) -->
+  <div class="modal-overlay" id="modal-relatorio-compras-cliente">
+    <div class="modal-container" style="max-width: 980px; width: 96%; max-height: 94vh; display: flex; flex-direction: column;">
+      <div class="modal-resize-handle" data-modal="modal-relatorio-compras-cliente" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
+      
+      <!-- CABEÇALHO DO MODAL -->
+      <div class="modal-header" style="padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 18px;">🛍️</span>
+          <span style="font-size: 15px; font-weight: 800; color: #fff;">Histórico & Relatório de Compras</span>
+          <span id="relatorio-compras-badge-cliente" style="font-size: 12px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 4px;">CLIENTE</span>
+        </div>
+        <button class="modal-close-btn" onclick="fecharModalRelatorioComprasCliente()" title="Fechar janela">✕</button>
+      </div>
+
+      <!-- CORPO DO MODAL -->
+      <div class="modal-body" style="flex: 1; overflow-y: auto; padding: 18px 22px; display: flex; flex-direction: column; gap: 16px;">
+        <!-- CARDS DE KPIS DO CLIENTE -->
+        <div id="relatorio-compras-kpis" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <!-- Injetado dinamicamente via JS -->
+        </div>
+
+        <!-- GRADE DE PEDIDOS DO CLIENTE -->
+        <div id="relatorio-compras-grade-box" style="border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, 0.2);">
+          <div style="padding: 10px 14px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Detalhamento das Compras Realizadas</span>
+            <span id="relatorio-compras-badge-contagem" style="font-size: 11px; color: #38bdf8; font-weight: 700;">0 pedidos</span>
+          </div>
+          <div class="erp-table-wrapper" style="max-height: 380px; overflow-y: auto;">
+            <table class="erp-table" style="margin: 0; font-size: 12px;">
+              <thead>
+                <tr style="background: rgba(0, 0, 0, 0.4);">
+                  <th style="padding: 9px 12px; width: 110px;">Pedido</th>
+                  <th style="padding: 9px 12px; width: 100px;">Data</th>
+                  <th style="padding: 9px 12px; width: 140px;">Situação</th>
+                  <th style="padding: 9px 12px;">Mercadorias / Itens</th>
+                  <th style="padding: 9px 12px; text-align: right; width: 95px;">Frete</th>
+                  <th style="padding: 9px 12px; text-align: right; width: 110px;">Total</th>
+                  <th style="padding: 9px 12px; text-align: center; width: 85px;">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-relatorio-compras-cliente">
+                <!-- Injetado dinamicamente via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ÁREA OCULTA PARA IMPRESSÃO A4 FORMATADA DO EXTRATO -->
+        <div id="corpo-relatorio-compras-impressao" style="display: none;"></div>
+      </div>
+
+      <!-- RODAPÉ DE AÇÕES -->
+      <div class="modal-footer" style="padding: 12px 20px; background: #0b1120; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; flex-shrink: 0;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-top btn-emerald-glow" onclick="imprimirRelatorioComprasCliente()" style="font-size: 12px; font-weight: 700; padding: 7px 14px;" title="Imprimir extrato comercial ou salvar em PDF (A4)">
+            🖨️ Imprimir Extrato A4
+          </button>
+          <button type="button" class="btn-top" onclick="irParaGradePedidosDoCliente()" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); font-weight: 700; font-size: 12px; padding: 7px 14px;" title="Alternar para a tela de Pedidos e filtrar a tabela por este cliente">
+            📦 Ver na Grade de Pedidos
+          </button>
+        </div>
+        <div>
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalRelatorioComprasCliente()" style="font-size: 12px; padding: 7px 14px;">
+            Fechar
           </button>
         </div>
       </div>
@@ -14249,8 +14379,17 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     function abrirMenuAcoesCliente(e, id) {
       if (e && e.preventDefault) e.preventDefault();
       if (e && e.stopPropagation) e.stopPropagation();
-      const c = clientes.find(item => String(item.id) === String(id));
+      const c = (Array.isArray(clientes) ? clientes : []).find(item => String(item.id) === String(id));
       if (!c) return;
+
+      const cNomeNorm = normalizarTextoBusca(c.nome || '');
+      const pedsDoCliente = (Array.isArray(listaPedidos) ? listaPedidos : []).filter(p => {
+        if (p.cliente_id && String(p.cliente_id) === String(c.id)) return true;
+        const pNomeNorm = normalizarTextoBusca(p.cliente_nome || p.cliente || '');
+        return cNomeNorm && pNomeNorm && cNomeNorm === pNomeNorm;
+      });
+      const qtdPeds = pedsDoCliente.length;
+      const textoPedsBadge = qtdPeds > 0 ? `(${qtdPeds})` : '(0)';
 
       const rawTel = (c.telefone || '').replace(/\D/g, '');
       const whatsBtn = rawTel
@@ -14262,6 +14401,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           👤 ${c.nome.length > 20 ? c.nome.substring(0, 20) + '...' : c.nome}
         </div>
         <button class="erp-context-item" onclick="abrirModalEditarCliente(${c.id}); fecharContextMenu();">✏️ Editar Ficha do Cliente</button>
+        <button class="erp-context-item" onclick="abrirRelatorioComprasCliente(${c.id}); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">🛍️ Relatório de Compras ${textoPedsBadge}</button>
         <button class="erp-context-item" onclick="abrirModalEtiquetaPorClienteId(${c.id}); fecharContextMenu();">🏷️ Gerar Etiqueta de Envio</button>
         <button class="erp-context-item" onclick="abrirModalFiscal(${c.id}); fecharContextMenu();">🧾 Emitir NF-e / Fiscal</button>
         ${whatsBtn}
@@ -21206,6 +21346,284 @@ Agradecemos pela preferência! Ficamos à disposição.`;
       window.addEventListener('afterprint', limparImpressao);
       setTimeout(limparImpressao, 2500); // Fallback de segurança
       
+      window.print();
+    }
+
+    // ========================================================
+    // RELATÓRIO DE COMPRAS DO CLIENTE & CRM (OPÇÃO A + B)
+    // ========================================================
+    let clienteRelatorioComprasAtual = null;
+
+    function formatarDataSimplesPtBr(dataStr) {
+      if (!dataStr) return '-';
+      if (typeof dataStr === 'string' && dataStr.includes('/')) return dataStr;
+      try {
+        const parts = String(dataStr).split('T')[0].split('-');
+        if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        const d = new Date(dataStr);
+        if (!isNaN(d.getTime())) return d.toLocaleDateString('pt-BR');
+      } catch (e) {}
+      return String(dataStr);
+    }
+
+    function fecharModalRelatorioComprasCliente() {
+      const modal = document.getElementById('modal-relatorio-compras-cliente');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function abrirRelatorioComprasCliente(clienteId) {
+      aplicarTamanhoSalvoModal('modal-relatorio-compras-cliente');
+      const c = (Array.isArray(clientes) ? clientes : []).find(item => String(item.id) === String(clienteId));
+      if (!c) {
+        mostrarToast('Cliente não localizado.');
+        return;
+      }
+      clienteRelatorioComprasAtual = c;
+
+      const cNomeNorm = normalizarTextoBusca(c.nome || '');
+      const peds = (Array.isArray(listaPedidos) ? listaPedidos : []).filter(p => {
+        if (p.cliente_id && String(p.cliente_id) === String(c.id)) return true;
+        const pNomeNorm = normalizarTextoBusca(p.cliente_nome || p.cliente || '');
+        return cNomeNorm && pNomeNorm && cNomeNorm === pNomeNorm;
+      }).sort((a, b) => new Date(b.data_pedido || b.data || 0) - new Date(a.data_pedido || a.data || 0));
+
+      const totalPedidos = peds.length;
+      const totalComprado = peds.reduce((acc, p) => acc + (parseFloat(p.valor_total || p.valor) || 0), 0);
+      const totalFrete = peds.reduce((acc, p) => acc + (parseFloat(p.valor_frete) || 0), 0);
+      const ticketMedio = totalPedidos > 0 ? (totalComprado / totalPedidos) : 0;
+      const ultimaCompra = totalPedidos > 0 && (peds[0].data_pedido || peds[0].data) ? formatarDataSimplesPtBr(peds[0].data_pedido || peds[0].data) : 'Nenhuma';
+
+      // Atualiza Badges do Modal
+      const badgeCli = document.getElementById('relatorio-compras-badge-cliente');
+      if (badgeCli) badgeCli.textContent = (c.nome || 'CLIENTE').toUpperCase();
+      const badgeContagem = document.getElementById('relatorio-compras-badge-contagem');
+      if (badgeContagem) badgeContagem.textContent = `${totalPedidos} pedido(s) registrado(s)`;
+
+      // Renderiza KPIs
+      const kpisContainer = document.getElementById('relatorio-compras-kpis');
+      if (kpisContainer) {
+        kpisContainer.innerHTML = `
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="font-size: 10px; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.5px;">Total Comprado (Faturamento)</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #34d399; margin-top: 4px;">
+              R$ ${totalComprado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+          <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="font-size: 10px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;">Ticket Médio por Pedido</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #38bdf8; margin-top: 4px;">
+              R$ ${ticketMedio.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          </div>
+          <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="font-size: 10px; font-weight: 700; color: #c084fc; text-transform: uppercase; letter-spacing: 0.5px;">Total de Pedidos</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 800; color: #fff; margin-top: 4px;">
+              ${totalPedidos} <span style="font-size: 12px; font-weight: 600; color: #94a3b8;">compras</span>
+            </div>
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 12px 14px;">
+            <div style="font-size: 10px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.5px;">Última Compra Realizada</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px;">
+              ${ultimaCompra}
+            </div>
+          </div>
+        `;
+      }
+
+      // Renderiza Linhas da Tabela
+      const tbody = document.getElementById('tbody-relatorio-compras-cliente');
+      if (tbody) {
+        if (peds.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 40px 20px; color: #94a3b8;">
+                <div style="font-size: 32px; margin-bottom: 8px;">🛍️</div>
+                <div style="font-weight: 700; font-size: 14px; color: #cbd5e1;">Nenhum pedido localizado para este cliente.</div>
+                <div style="font-size: 12px; color: #64748b; margin-top: 4px;">Quando uma venda for cadastrada para ${(c.nome || '').toUpperCase()}, o extrato detalhado será exibido automaticamente aqui.</div>
+              </td>
+            </tr>
+          `;
+        } else {
+          const statusLabels = {
+            'AGUARDANDO_ENVIO': { label: 'Aguardando Envio', bg: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' },
+            'EM_SEPARACAO': { label: 'Em Separação', bg: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' },
+            'ENVIADO': { label: 'Enviado', bg: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa' },
+            'ENTREGUE': { label: 'Entregue', bg: 'rgba(16, 185, 129, 0.15)', color: '#34d399' },
+            'CONCLUIDO': { label: 'Concluído', bg: 'rgba(16, 185, 129, 0.15)', color: '#34d399' },
+            'CANCELADO': { label: 'Cancelado', bg: 'rgba(239, 68, 68, 0.15)', color: '#f87171' }
+          };
+
+          tbody.innerHTML = peds.map(p => {
+            const st = statusLabels[p.status] || { label: p.status_texto || p.status || 'Pendente', bg: 'rgba(255,255,255,0.08)', color: '#cbd5e1' };
+            const dataFmt = formatarDataSimplesPtBr(p.data_pedido || p.data);
+            const valTot = parseFloat(p.valor_total || p.valor) || 0;
+            const valFrete = parseFloat(p.valor_frete) || 0;
+            const itensTxt = (p.itens || p.itens_resumo || 'Itens diversos').toUpperCase();
+            const rastreioTxt = p.codigo_rastreio ? `<span style="font-family: monospace; font-size: 10px; color: #38bdf8; display: block; margin-top: 2px;">📦 ${p.codigo_rastreio}</span>` : '';
+
+            return `
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+                <td style="padding: 10px 12px; font-weight: 800; font-family: 'JetBrains Mono', monospace; color: #38bdf8;">
+                  ${p.numero || `#PED-${p.id}`}
+                  ${rastreioTxt}
+                </td>
+                <td style="padding: 10px 12px; font-family: 'JetBrains Mono', monospace; color: #cbd5e1;">
+                  ${dataFmt}
+                </td>
+                <td style="padding: 10px 12px;">
+                  <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; background: ${st.bg}; color: ${st.color};">
+                    ${st.label}
+                  </span>
+                </td>
+                <td style="padding: 10px 12px; color: #f1f5f9; font-size: 11.5px; max-width: 320px; white-space: normal; line-height: 1.4;">
+                  ${itensTxt}
+                </td>
+                <td style="padding: 10px 12px; text-align: right; font-family: 'JetBrains Mono', monospace; color: #94a3b8;">
+                  R$ ${valFrete.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </td>
+                <td style="padding: 10px 12px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">
+                  R$ ${valTot.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </td>
+                <td style="padding: 10px 12px; text-align: center;">
+                  <button type="button" class="btn-top btn-row-action" onclick="abrirModalDocumentoPedido(${p.id}, 'espelho')" title="Visualizar Espelho A4 deste pedido" style="padding: 4px 8px; font-size: 11px;">
+                    📄 A4
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      const modal = document.getElementById('modal-relatorio-compras-cliente');
+      if (modal) modal.classList.add('active');
+    }
+
+    function irParaGradePedidosDoCliente() {
+      if (!clienteRelatorioComprasAtual) return;
+      const nomeCli = clienteRelatorioComprasAtual.nome || '';
+      fecharModalRelatorioComprasCliente();
+
+      // Encontra botão nav de pedidos na sidebar
+      const navBtn = document.querySelector('.sidebar-nav .nav-item[onclick*="pedidos"]');
+      trocarModulo('pedidos', navBtn);
+
+      // Preenche o input de busca e dispara o filtro de pedidos
+      const topbarBusca = document.getElementById('topbar-busca');
+      if (topbarBusca) topbarBusca.value = nomeCli;
+      buscaTexto = nomeCli;
+      statusFiltroPedido = 'TODOS';
+      aplicarFiltrosPedidos();
+      mostrarToast(`📦 Exibindo histórico de pedidos de: ${nomeCli.toUpperCase()}`);
+    }
+
+    function imprimirRelatorioComprasCliente() {
+      if (!clienteRelatorioComprasAtual) return;
+      const c = clienteRelatorioComprasAtual;
+      const cNomeNorm = normalizarTextoBusca(c.nome || '');
+      const peds = (Array.isArray(listaPedidos) ? listaPedidos : []).filter(p => {
+        if (p.cliente_id && String(p.cliente_id) === String(c.id)) return true;
+        const pNomeNorm = normalizarTextoBusca(p.cliente_nome || p.cliente || '');
+        return cNomeNorm && pNomeNorm && cNomeNorm === pNomeNorm;
+      }).sort((a, b) => new Date(b.data_pedido || b.data || 0) - new Date(a.data_pedido || a.data || 0));
+
+      const totalPedidos = peds.length;
+      const totalComprado = peds.reduce((acc, p) => acc + (parseFloat(p.valor_total || p.valor) || 0), 0);
+      const totalFrete = peds.reduce((acc, p) => acc + (parseFloat(p.valor_frete) || 0), 0);
+      const ticketMedio = totalPedidos > 0 ? (totalComprado / totalPedidos) : 0;
+      const empresa = typeof obterDadosEmpresaDocumento === 'function' ? obterDadosEmpresaDocumento() : {};
+
+      const corpo = document.getElementById('corpo-relatorio-compras-impressao');
+      if (!corpo) return;
+
+      corpo.innerHTML = `
+        <div style="font-family: 'Inter', -apple-system, sans-serif; color: #0f172a; padding: 20px; max-width: 800px; margin: 0 auto; background: #fff;">
+          <!-- CABEÇALHO EMPRESA -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 14px; margin-bottom: 16px;">
+            <div>
+              <h1 style="margin: 0; font-size: 19px; font-weight: 800; color: #0f172a; text-transform: uppercase;">${empresa.razaoSocial || 'MIS SUEÑOS ERP'}</h1>
+              <div style="font-size: 11px; color: #475569; margin-top: 3px;">
+                CNPJ: ${empresa.cnpj || '-'} | IE: ${empresa.ie || 'ISENTO'} | WhatsApp: ${empresa.telefone || '-'}
+              </div>
+              <div style="font-size: 11px; color: #475569;">
+                ${empresa.endereco || ''} - ${empresa.cidadeUf || ''}
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <span style="display: inline-block; background: #0f172a; color: #fff; padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 4px; text-transform: uppercase;">
+                EXTRATO DE COMPRAS
+              </span>
+              <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Emissão: ${new Date().toLocaleString('pt-BR')}</div>
+            </div>
+          </div>
+
+          <!-- DADOS DO CLIENTE -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin-bottom: 16px;">
+            <div style="font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px;">Dados do Cliente / Destinatário</div>
+            <div style="font-size: 15px; font-weight: 800; color: #0f172a; text-transform: uppercase;">${c.nome}</div>
+            <div style="display: flex; gap: 20px; font-size: 11.5px; color: #334155; margin-top: 4px; flex-wrap: wrap;">
+              <span><strong>Documento:</strong> ${c.cpf || c.cnpj || 'Não informado'}</span>
+              <span><strong>Telefone:</strong> ${c.telefone || 'Não informado'}</span>
+              <span><strong>Cidade/UF:</strong> ${(c.cidade || '')}/${(c.uf || '')}</span>
+              <span><strong>CEP:</strong> ${c.cep || ''}</span>
+            </div>
+          </div>
+
+          <!-- KPIS CONSOLIDADOS -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px;">
+            <div style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; background: #f8fafc;">
+              <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total Comprado</div>
+              <div style="font-size: 17px; font-weight: 800; color: #047857; margin-top: 2px;">R$ ${totalComprado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            </div>
+            <div style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; background: #f8fafc;">
+              <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Ticket Médio</div>
+              <div style="font-size: 17px; font-weight: 800; color: #0369a1; margin-top: 2px;">R$ ${ticketMedio.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+            </div>
+            <div style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; background: #f8fafc;">
+              <div style="font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase;">Total de Pedidos</div>
+              <div style="font-size: 17px; font-weight: 800; color: #0f172a; margin-top: 2px;">${totalPedidos} compras</div>
+            </div>
+          </div>
+
+          <!-- TABELA DE COMPRAS IMPRESSA -->
+          <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px;">
+            <thead>
+              <tr style="background: #f1f5f9; border-top: 1px solid #cbd5e1; border-bottom: 1px solid #cbd5e1;">
+                <th style="padding: 7px 8px; text-align: left;">Pedido</th>
+                <th style="padding: 7px 8px; text-align: left;">Data</th>
+                <th style="padding: 7px 8px; text-align: left;">Situação</th>
+                <th style="padding: 7px 8px; text-align: left;">Itens / Mercadorias</th>
+                <th style="padding: 7px 8px; text-align: right;">Frete</th>
+                <th style="padding: 7px 8px; text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${peds.length === 0 ? '<tr><td colspan="6" style="padding: 20px; text-align: center; color: #64748b;">Nenhum pedido registrado para este cliente.</td></tr>' : peds.map(p => `
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 7px 8px; font-weight: 700; font-family: monospace;">${p.numero || `#PED-${p.id}`}</td>
+                  <td style="padding: 7px 8px;">${formatarDataSimplesPtBr(p.data_pedido || p.data)}</td>
+                  <td style="padding: 7px 8px;">${p.status_texto || p.status || '-'}</td>
+                  <td style="padding: 7px 8px; font-size: 10.5px;">${(p.itens || p.itens_resumo || '-').toUpperCase()}</td>
+                  <td style="padding: 7px 8px; text-align: right; font-family: monospace;">R$ ${(parseFloat(p.valor_frete) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                  <td style="padding: 7px 8px; text-align: right; font-weight: 700; font-family: monospace;">R$ ${(parseFloat(p.valor_total || p.valor) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div style="font-size: 9.5px; color: #94a3b8; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+            Relatório gerado automaticamente pelo Mis Sueños ERP em ${new Date().toLocaleDateString('pt-BR')}. Documento para conferência interna e extrato comercial.
+          </div>
+        </div>
+      `;
+
+      document.body.classList.add('imprimindo-relatorio-cliente');
+      const limpar = () => {
+        document.body.classList.remove('imprimindo-relatorio-cliente');
+        window.removeEventListener('afterprint', limpar);
+      };
+      window.addEventListener('afterprint', limpar);
+      setTimeout(limpar, 2500);
       window.print();
     }
 
