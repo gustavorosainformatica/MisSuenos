@@ -92,7 +92,7 @@ flowchart LR
   3. Ordenar cotações automaticamente por menor preço e menor prazo de entrega.
 - **Passo de Validação:**
   - Testes unitários com mocks de resposta validando a consolidação das cotações e a tolerância a falhas.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Implementado lib/logistica_hub.js com Strategy/Adapter para Melhor Envio, SuperFrete, Correios CWS e Frenet, cotação concorrente resiliente, tags menor_preco e mais_rapido e 5 testes em tests/suprimentos_fiscal.test.js)
 
 ### Ticket 6: API REST de Logística, Configuração de Provedores e Etiquetas
 - **Objetivo:** Integrar os endpoints de logística ao despachante unificado (`api/index.js`), suportando cotação, seleção de provedor padrão e geração de etiquetas.

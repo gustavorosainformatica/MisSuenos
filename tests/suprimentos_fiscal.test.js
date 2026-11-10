@@ -751,3 +751,216 @@ test('TICKET 04 - UI: JavaScript controller implementa auto-aprendizagem, combob
   assert.ok(html.includes('function confirmarImportacaoXmlCompra('), 'Deve implementar envio atômico para /api/compras/confirmar-entrada');
 });
 
+import {
+  normalizarCep,
+  formatarCep,
+  validarCep,
+  normalizarDimensoes,
+  normalizarPeso,
+  estimarFreteRegional,
+  MelhorEnvioAdapter,
+  SuperFreteAdapter,
+  CorreiosCwsAdapter,
+  FrenetAdapter,
+  LogisticaHub,
+  cotarFreteMultiplo,
+  gerarDadosEtiqueta
+} from '../lib/logistica_hub.js';
+
+test('TICKET 05 - LOGÍSTICA: Helpers de CEP, dimensões e cálculo de estimativa regional', () => {
+  // CEP
+  assert.strictEqual(normalizarCep('93.940-000'), '93940000');
+  assert.strictEqual(formatarCep('93940000'), '93940-000');
+  assert.strictEqual(validarCep('93940000'), true);
+  assert.strictEqual(validarCep('11111111'), false, 'Sequência repetida deve ser rejeitada');
+  assert.strictEqual(validarCep('123'), false, 'Menos de 8 dígitos deve ser rejeitado');
+
+  // Dimensões mínimas dos Correios (16x11x2 cm)
+  const dims = normalizarDimensoes({ c: 10, l: 5, a: 1 });
+  assert.strictEqual(dims.comprimento, 16);
+  assert.strictEqual(dims.largura, 11);
+  assert.strictEqual(dims.altura, 2);
+
+  // Peso mínimo 50g
+  assert.strictEqual(normalizarPeso(0.01), 0.05);
+  assert.strictEqual(normalizarPeso(2.5), 2.5);
+
+  // Estimativa regional
+  const estadualSedex = estimarFreteRegional('93940000', '93300000', 1.0, 'SEDEX'); // RS -> RS
+  const interestadualSedex = estimarFreteRegional('93940000', '01310100', 1.0, 'SEDEX'); // RS -> SP
+
+  assert.ok(estadualSedex.preco > 0);
+  assert.ok(interestadualSedex.preco > estadualSedex.preco, 'Frete interestadual deve custar mais que estadual');
+  assert.ok(estadualSedex.prazo_dias <= interestadualSedex.prazo_dias, 'Prazo estadual deve ser menor ou igual');
+});
+
+test('TICKET 05 - LOGÍSTICA: Adapters individuais para Melhor Envio, SuperFrete, Correios CWS e Frenet', async () => {
+  const params = {
+    cepOrigem: '93940000', // Lindolfo Collor - RS
+    cepDestino: '01310100', // São Paulo - SP
+    pesoKg: 0.8,
+    dimensoes: { c: 20, l: 15, a: 10 },
+    valorDeclarado: 150.0
+  };
+
+  // 1. Melhor Envio (Correios e Jadlog)
+  const melhorEnvio = new MelhorEnvioAdapter({ ambiente: 'sandbox' });
+  const cotacoesMe = await melhorEnvio.cotar(params);
+  assert.ok(Array.isArray(cotacoesMe));
+  assert.ok(cotacoesMe.length >= 3, 'Deve retornar ao menos SEDEX, PAC e Jadlog');
+  assert.ok(cotacoesMe.some(c => c.servico_nome.includes('SEDEX')));
+  assert.ok(cotacoesMe.some(c => c.transportadora === 'Jadlog'));
+
+  // 2. SuperFrete (Correios com Mini Envios)
+  const superFrete = new SuperFreteAdapter({});
+  const cotacoesSf = await superFrete.cotar(params);
+  assert.ok(Array.isArray(cotacoesSf));
+  assert.ok(cotacoesSf.some(c => c.servico_nome === 'SEDEX'));
+  assert.ok(cotacoesSf.some(c => c.servico_nome === 'PAC'));
+
+  // Teste Mini Envios com pacote leve (200g)
+  const cotacoesSfLeve = await superFrete.cotar({ ...params, pesoKg: 0.2 });
+  assert.ok(cotacoesSfLeve.some(c => c.servico_nome === 'Mini Envios'), 'Pacote até 300g deve incluir Mini Envios');
+
+  // 3. Correios CWS
+  const cws = new CorreiosCwsAdapter({});
+  const cotacoesCws = await cws.cotar(params);
+  assert.ok(Array.isArray(cotacoesCws));
+  assert.ok(cotacoesCws.some(c => c.servico_codigo === '03220')); // SEDEX Contrato
+
+  // 4. Frenet Gateway
+  const frenet = new FrenetAdapter({});
+  const cotacoesFrenet = await frenet.cotar(params);
+  assert.ok(Array.isArray(cotacoesFrenet));
+  assert.ok(cotacoesFrenet.some(c => c.transportadora === 'Total Express'));
+});
+
+test('TICKET 05 - LOGÍSTICA: Cotação concorrente multi-frete com ordenação, menor preço e mais rápido', async () => {
+  const configsMock = [
+    { id: 'melhor_envio', nome: 'Melhor Envio', ativo: 1, padrao: 1, ambiente: 'sandbox' },
+    { id: 'superfrete', nome: 'SuperFrete', ativo: 1, padrao: 0, ambiente: 'producao' },
+    { id: 'frenet', nome: 'Frenet Gateway', ativo: 1, padrao: 0, ambiente: 'producao' }
+  ];
+
+  const resultado = await cotarFreteMultiplo({
+    cepOrigem: '93940-000',
+    cepDestino: '01310-100',
+    pesoKg: 1.2,
+    transportadorasConfig: configsMock
+  });
+
+  assert.strictEqual(resultado.success, true);
+  assert.strictEqual(resultado.origem, '93940-000');
+  assert.strictEqual(resultado.destino, '01310-100');
+  assert.ok(resultado.total_opcoes > 5, 'Deve consolidar opções de múltiplos provedores');
+
+  // Ordenação: primeiro item deve ter o menor preço
+  const primeiro = resultado.opcoes[0];
+  const ultimo = resultado.opcoes[resultado.opcoes.length - 1];
+  assert.ok(primeiro.preco <= ultimo.preco, 'Lista consolidada deve estar ordenada por menor preço');
+
+  // Tags analíticas
+  assert.strictEqual(primeiro.menor_preco, true, 'Primeiro item deve possuir tag menor_preco');
+  const maisRapido = resultado.opcoes.find(o => o.mais_rapido);
+  assert.ok(maisRapido, 'Deve identificar a opção mais rápida');
+  assert.ok(maisRapido.prazo_dias <= primeiro.prazo_dias);
+
+  // Provedor padrão
+  assert.strictEqual(resultado.provedor_padrao, 'melhor_envio');
+  const temRecomendado = resultado.opcoes.some(o => o.recomendado_padrao);
+  assert.strictEqual(temRecomendado, true, 'Deve marcar as opções do provedor padrão');
+});
+
+test('TICKET 05 - LOGÍSTICA: Resiliência contra falhas ou timeouts de provedores sem abortar cotações saudáveis', async () => {
+  const hubResiliente = new LogisticaHub({
+    db: {
+      query: async () => [
+        { id: 'melhor_envio', nome: 'Melhor Envio', ativo: 1, padrao: 1 },
+        { id: 'provedor_quebrado', nome: 'Provedor Falho', ativo: 1, padrao: 0 }
+      ]
+    }
+  });
+
+  // Registra um adapter quebrado que estoura exceção
+  hubResiliente.registrarAdapter('provedor_quebrado', {
+    cotar: async () => { throw new Error('API do provedor fora do ar (503 Service Unavailable)'); }
+  });
+
+  // Registra um adapter saudável
+  hubResiliente.registrarAdapter('melhor_envio', new MelhorEnvioAdapter({}));
+
+  const res = await hubResiliente.cotarFreteMultiplo({
+    cepOrigem: '93940000',
+    cepDestino: '90010000',
+    pesoKg: 0.5,
+    transportadorasConfig: [
+      { id: 'melhor_envio', nome: 'Melhor Envio', ativo: 1, padrao: 1 },
+      { id: 'provedor_quebrado', nome: 'Provedor Falho', ativo: 1, padrao: 0 }
+    ]
+  });
+
+  assert.strictEqual(res.success, true);
+  assert.ok(res.total_opcoes > 0, 'Mesmo com falha de um provedor, deve retornar opções saudáveis');
+  
+  const relatorioFalho = res.provedores_consultados.find(p => p.provedor_id === 'provedor_quebrado');
+  assert.ok(relatorioFalho);
+  assert.strictEqual(relatorioFalho.sucesso, false);
+  assert.ok(relatorioFalho.erro.includes('fora do ar'));
+});
+
+test('TICKET 05 - LOGÍSTICA: Geração de dados de etiquetas térmicas e A4 com código de rastreamento', () => {
+  const pedidoMock = {
+    id: 1045,
+    numero_pedido: '#PED-1045',
+    cliente_nome: 'GUSTAVO ROSA',
+    cliente_cpf: '012.345.678-99',
+    endereco: 'RUA DAS FLORES',
+    numero: '123',
+    bairro: 'CENTRO',
+    cidade: 'PORTO ALEGRE',
+    uf: 'RS',
+    cep: '90010-000',
+    telefone: '(51) 98765-4321',
+    valor_total: 280.00,
+    itens_descricao: '1X POLTRONA RETRÔ COURO CARAMELO'
+  };
+
+  const cotacaoMock = {
+    transportadora: 'Correios',
+    servico_nome: 'SEDEX',
+    preco: 28.50,
+    prazo_dias: 2,
+    peso_kg: 2.5,
+    valor_declarado: 280.00
+  };
+
+  // Etiqueta Térmica 100x150 mm
+  const etiquetaTermica = gerarDadosEtiqueta({
+    pedido: pedidoMock,
+    cotacao: cotacaoMock,
+    formato: 'termica_100x150'
+  });
+
+  assert.strictEqual(etiquetaTermica.success, true);
+  assert.strictEqual(etiquetaTermica.formato_etiqueta, 'termica_100x150');
+  assert.strictEqual(etiquetaTermica.dimensoes_etiqueta_mm.largura, 100);
+  assert.strictEqual(etiquetaTermica.dimensoes_etiqueta_mm.altura, 150);
+  assert.ok(etiquetaTermica.codigo_rastreio.startsWith('SL'), 'SEDEX Correios deve iniciar com SL');
+  assert.ok(etiquetaTermica.codigo_rastreio.endsWith('BR'));
+  assert.ok(etiquetaTermica.url_rastreio.includes('rastreamento.correios.com.br'));
+  assert.strictEqual(etiquetaTermica.destinatario.nome, 'GUSTAVO ROSA');
+  assert.strictEqual(etiquetaTermica.destinatario.cep, '90010-000');
+
+  // Etiqueta Jadlog
+  const etiquetaJadlog = gerarDadosEtiqueta({
+    pedido: pedidoMock,
+    cotacao: { ...cotacaoMock, transportadora: 'Jadlog', servico_nome: 'Jadlog .Package' },
+    formato: 'folha_a4'
+  });
+
+  assert.strictEqual(etiquetaJadlog.formato_etiqueta, 'folha_a4');
+  assert.ok(etiquetaJadlog.codigo_rastreio.startsWith('18'), 'Jadlog deve iniciar com 18');
+  assert.ok(etiquetaJadlog.url_rastreio.includes('jadlog.com.br'));
+});
+
+
