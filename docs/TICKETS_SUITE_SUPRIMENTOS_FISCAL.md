@@ -42,14 +42,14 @@ flowchart LR
 - **Objetivo:** Implementar o parser especializado de XML de Notas Fiscais Eletrônicas (`lib/compras_parser.js`) e a engine de correspondência De-Para de produtos por fornecedor.
 - **Arquivos Envolvidos:**
   - `lib/compras_parser.js` (Novo)
-  - `test/suprimentos_fiscal.test.js` (Novo)
+  - `tests/suprimentos_fiscal.test.js`
 - **Ações a Executar:**
   1. Implementar `parseXmlNfeCompleto(xmlString)` extraindo: chave de 44 dígitos, dados do emitente (`<emit>`), lista de itens (`<det>` com código, cEAN, descrição, NCM, CFOP, quantidade, valor unitário) e cobrança (`<cobr>` / `<dup>`).
   2. Implementar função `resolverDeParaItem(fornecedorId, itemXml, db)` para autovincular itens já memorizados na tabela `fornecedores_produtos_vinculo`.
-  3. Escrever testes unitários em `test/suprimentos_fiscal.test.js` para validação de integridade.
+  3. Escrever testes unitários em `tests/suprimentos_fiscal.test.js` para validação de integridade.
 - **Passo de Validação:**
   - Executar `npm test` e verificar se o parser e a lógica de De-Para passam em 100% dos cenários de teste.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Validação 100% aprovada com 5 novos testes em tests/suprimentos_fiscal.test.js)
 
 ### Ticket 3: API REST de Entrada de Compras, Kardex e Contas a Pagar
 - **Objetivo:** Refatorar e blindar a API `/api/compras` para orquestrar a confirmação de entrada, gravação de novos vínculos De-Para, movimentação de estoque físico com custo de aquisição e agendamento de parcelas no Contas a Pagar.
