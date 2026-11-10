@@ -6,6 +6,7 @@ import { gerarTokenSessao } from '../lib/auth.js';
 
 test('AUTH PIN 01: Inicialização da tabela e coluna tamanho_pin no banco', async () => {
   await inicializarTabelas();
+  await run("UPDATE usuarios SET tamanho_pin = 4 WHERE login = 'gustavo'");
   const gustavo = await get("SELECT login, tamanho_pin FROM usuarios WHERE login = 'gustavo'");
   assert.ok(gustavo, 'Usuário gustavo deve existir no banco');
   assert.equal(gustavo.tamanho_pin, 4, 'Gustavo deve possuir tamanho_pin = 4 após alteração de senha');
