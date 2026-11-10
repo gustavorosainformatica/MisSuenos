@@ -11,9 +11,9 @@ test('AUTH PIN 01: Inicialização da tabela e coluna tamanho_pin no banco', asy
   assert.ok(gustavo, 'Usuário gustavo deve existir no banco');
   assert.equal(gustavo.tamanho_pin, 4, 'Gustavo deve possuir tamanho_pin = 4 após alteração de senha');
 
-  const marcos = await get("SELECT login, tamanho_pin FROM usuarios WHERE login = 'marcos'");
-  assert.ok(marcos, 'Usuário marcos deve existir no banco');
-  assert.equal(marcos.tamanho_pin, 6, 'Marcos deve possuir tamanho_pin = 6 por padrão');
+  const vendas = await get("SELECT login, tamanho_pin FROM usuarios WHERE login = 'vendas'");
+  assert.ok(vendas, 'Usuário vendas deve existir no banco');
+  assert.equal(vendas.tamanho_pin, 6, 'Vendas deve possuir tamanho_pin = 6 por padrão');
 });
 
 test('AUTH PIN 02: Endpoint info_operador via GET retorna o tamanho de PIN correto', async () => {
@@ -38,15 +38,15 @@ test('AUTH PIN 02: Endpoint info_operador via GET retorna o tamanho de PIN corre
   assert.equal(responseData.login, 'gustavo');
   assert.equal(responseData.tamanhoPin, 4);
 
-  // Teste Marcos (6 dígitos)
-  const reqMarcos = {
+  // Teste Vendas (6 dígitos)
+  const reqVendas = {
     method: 'GET',
-    url: '/api/auth?info_operador=marcos',
+    url: '/api/auth?info_operador=vendas',
     headers: {}
   };
-  await handlerAuth(reqMarcos, resGustavo);
+  await handlerAuth(reqVendas, resGustavo);
   assert.equal(statusCode, 200);
-  assert.equal(responseData.login, 'marcos');
+  assert.equal(responseData.login, 'vendas');
   assert.equal(responseData.tamanhoPin, 6);
 });
 
@@ -74,7 +74,8 @@ test('AUTH PIN 03: Endpoint info_operador via POST (ação info_operador)', asyn
 });
 
 test('AUTH PIN 04: Troca de senha atualiza tamanho_pin para 4 dígitos no banco e resposta', async () => {
-  const token = gerarTokenSessao(2, 'gustavo');
+  const gustavo = await get("SELECT id FROM usuarios WHERE login = 'gustavo'");
+  const token = gerarTokenSessao(gustavo ? gustavo.id : 2, 'gustavo');
   let statusCode = 0;
   let responseData = null;
 
