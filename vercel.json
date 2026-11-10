@@ -21,6 +21,10 @@
       "dest": "/api/index.js"
     },
     {
+      "src": "/api-docs",
+      "dest": "/public/api-docs.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/$1"
     }

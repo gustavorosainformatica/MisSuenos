@@ -1,0 +1,477 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mis Sueños ERP - API Reference",
+    "version": "2.0.0",
+    "description": "Especificação oficial de APIs REST do ERP Mis Sueños para Vendas, Estoque, Clientes, Central Fiscal, Inteligência Contábil (DRE) e Logística Integrada.",
+    "contact": {
+      "name": "Gustavo Rosa Informática",
+      "email": "suporte@gustavorosainformatica.com.br"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Servidor da Aplicação (Ambiente Ativo)"
+    }
+  ],
+  "security": [
+    { "ApiKeyAuth": [] },
+    { "BearerAuth": [] }
+  ],
+  "tags": [
+    { "name": "Vendas & Pedidos", "description": "Gestão de pedidos comerciais, funil de expedição e reserva de estoque" },
+    { "name": "Clientes", "description": "Cadastro e consulta de clientes com validação estrita de CPF/CNPJ e CEP" },
+    { "name": "Estoque & Catálogo", "description": "Produtos, precificação, saldos, ajustes rápidos e extrato Kardex" },
+    { "name": "Financeiro", "description": "Contas a pagar e receber com controle de recorrência e liquidações" },
+    { "name": "Relatórios & DRE", "description": "DRE Analítico, Fluxo de Caixa Projetado, curva ABC e histórico" },
+    { "name": "Logística & Rastreio", "description": "Rastreamento ativo de encomendas e disparo de WhatsApp" },
+    { "name": "Central Fiscal", "description": "Emissão de NF-e, lote fiscal e comunicação com SEFAZ" },
+    { "name": "Auditoria & Logs", "description": "Trilha de auditoria das operações realizadas no ERP" }
+  ],
+  "paths": {
+    "/api/pedidos": {
+      "get": {
+        "tags": ["Vendas & Pedidos"],
+        "summary": "Listar pedidos em carteira",
+        "description": "Retorna todos os pedidos cadastrados com suporte a filtros por status logístico e busca textual.",
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["TODOS", "AGUARDANDO_PAGAMENTO", "EM_SEPARACAO", "AGUARDANDO_ENVIO", "ENVIADO", "ENTREGUE", "CANCELADO"] }, "description": "Filtro pelo status do funil logístico" },
+          { "name": "busca", "in": "query", "schema": { "type": "string" }, "description": "Termo de busca (nome do cliente, cidade, número #PED-XXXX)" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Pedido" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Vendas & Pedidos"],
+        "summary": "Criar novo pedido de venda",
+        "description": "Registra um novo pedido no banco de dados. Dispara a reserva imediata dos itens no estoque e gera o título financeiro pendente.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/NovoPedidoPayload" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pedido gravado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": { "type": "boolean", "example": true },
+                    "id": { "type": "integer", "example": 1044 },
+                    "numero": { "type": "string", "example": "#PED-1044" },
+                    "status": { "type": "string", "example": "AGUARDANDO_PAGAMENTO" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Dados obrigatórios inválidos ou ausentes" }
+        }
+      }
+    },
+    "/api/pedidos/{id}": {
+      "get": {
+        "tags": ["Vendas & Pedidos"],
+        "summary": "Obter detalhes de um pedido",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Pedido" } } } },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      },
+      "put": {
+        "tags": ["Vendas & Pedidos"],
+        "summary": "Atualizar pedido existente",
+        "description": "Atualiza dados comerciais, transiciona o status no funil logístico ou adiciona código de rastreamento.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AtualizarPedidoPayload" } } }
+        },
+        "responses": {
+          "200": { "description": "Pedido atualizado com sucesso" },
+          "400": { "description": "Falha na validação" }
+        }
+      },
+      "delete": {
+        "tags": ["Vendas & Pedidos"],
+        "summary": "Excluir pedido",
+        "description": "Exclui o pedido, estorna reservas no estoque e apaga lançamentos financeiros pendentes vinculados.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Pedido e reservas removidos com sucesso" }
+        }
+      }
+    },
+    "/api/clientes": {
+      "get": {
+        "tags": ["Clientes"],
+        "summary": "Consultar base de clientes",
+        "parameters": [
+          { "name": "termo", "in": "query", "schema": { "type": "string" }, "description": "Busca inteligente sem acentos" },
+          { "name": "uf", "in": "query", "schema": { "type": "string" }, "description": "Filtro por sigla de estado (ex: RS)" }
+        ],
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Cliente" } } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Clientes"],
+        "summary": "Cadastrar novo cliente",
+        "description": "Registra cliente no banco com conversão automática para caixa alta (Uppercase) e validação matemática de CPF/CNPJ.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NovoClientePayload" } } }
+        },
+        "responses": {
+          "201": { "description": "Cliente cadastrado com sucesso" },
+          "400": { "description": "CPF/CNPJ inválido ou campos obrigatórios faltantes" }
+        }
+      }
+    },
+    "/api/clientes/{id}": {
+      "get": {
+        "tags": ["Clientes"],
+        "summary": "Detalhes de um cliente",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Cliente" } } } }
+        }
+      },
+      "put": {
+        "tags": ["Clientes"],
+        "summary": "Atualizar cadastro de cliente",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NovoClientePayload" } } }
+        },
+        "responses": { "200": { "description": "Cliente atualizado" } }
+      },
+      "delete": {
+        "tags": ["Clientes"],
+        "summary": "Inativar ou remover cliente",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Cliente removido" } }
+      }
+    },
+    "/api/produtos": {
+      "get": {
+        "tags": ["Estoque & Catálogo"],
+        "summary": "Listar produtos e saldos",
+        "parameters": [
+          { "name": "busca", "in": "query", "schema": { "type": "string" }, "description": "Nome ou código SKU" },
+          { "name": "categoria", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Produto" } } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Estoque & Catálogo"],
+        "summary": "Cadastrar mercadoria",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ProdutoPayload" } } }
+        },
+        "responses": { "201": { "description": "Produto cadastrado com sucesso" } }
+      }
+    },
+    "/api/produtos/{id}/ajuste": {
+      "post": {
+        "tags": ["Estoque & Catálogo"],
+        "summary": "Ajuste rápido de estoque",
+        "description": "Lança uma movimentação rápida de ENTRADA, SAÍDA ou BALANÇO gerando registro automático na ficha Kardex.",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["tipo", "quantidade"],
+                "properties": {
+                  "tipo": { "type": "string", "enum": ["ENTRADA", "SAIDA", "BALANCO"], "example": "ENTRADA" },
+                  "quantidade": { "type": "number", "example": 10 },
+                  "motivo": { "type": "string", "example": "Recebimento de fornecedor" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Estoque ajustado com sucesso" } }
+      }
+    },
+    "/api/produtos/{id}/kardex": {
+      "get": {
+        "tags": ["Estoque & Catálogo"],
+        "summary": "Extrato histórico da ficha Kardex",
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": {
+          "200": { "description": "Movimentações cronológicas retornadas com sucesso" }
+        }
+      }
+    },
+    "/api/financeiro": {
+      "get": {
+        "tags": ["Financeiro"],
+        "summary": "Listar títulos a pagar e receber",
+        "parameters": [
+          { "name": "tipo", "in": "query", "schema": { "type": "string", "enum": ["RECEBER", "PAGAR"] } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["PENDENTE", "PAGO", "CANCELADO"] } }
+        ],
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/TituloFinanceiro" } } } }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Financeiro"],
+        "summary": "Criar lançamento financeiro",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/NovoFinanceiroPayload" } } }
+        },
+        "responses": { "201": { "description": "Lançamento criado" } }
+      }
+    },
+    "/api/relatorios/dre_gerencial": {
+      "get": {
+        "tags": ["Relatórios & DRE"],
+        "summary": "DRE Analítico Contábil",
+        "description": "Calcula a apuração de Receita Bruta, CMV real, Lucro Bruto, Despesas por Categoria e Lucro Líquido.",
+        "responses": {
+          "200": { "description": "Relatório DRE consolidado com sucesso" }
+        }
+      }
+    },
+    "/api/relatorios/fluxo_caixa_projetado": {
+      "get": {
+        "tags": ["Relatórios & DRE"],
+        "summary": "Projeção Temporal de Fluxo de Caixa",
+        "description": "Projeta o saldo diário para os próximos 30 dias com sinalização de furo de caixa e consolidação de 6 meses.",
+        "responses": {
+          "200": { "description": "Projeção gerada com sucesso" }
+        }
+      }
+    },
+    "/api/logistica/rastreio/{codigo}": {
+      "get": {
+        "tags": ["Logística & Rastreio"],
+        "summary": "Rastrear objeto em trânsito",
+        "parameters": [{ "name": "codigo", "in": "path", "required": true, "schema": { "type": "string", "example": "QC123456789BR" } }],
+        "responses": {
+          "200": { "description": "Eventos de rastreamento retornados em tempo real" }
+        }
+      }
+    },
+    "/api/nfe/emitir": {
+      "post": {
+        "tags": ["Central Fiscal"],
+        "summary": "Gerar espelho e emitir NF-e",
+        "description": "Gera os dados fiscais da nota a partir de um pedido existente.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["pedido_id"],
+                "properties": {
+                  "pedido_id": { "type": "integer", "example": 1044 }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Nota autorizada ou espelho gerado" } }
+      }
+    },
+    "/api/logs": {
+      "get": {
+        "tags": ["Auditoria & Logs"],
+        "summary": "Consultar trilha de auditoria",
+        "responses": { "200": { "description": "Histórico de logs do sistema" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY",
+        "description": "Chave de autorização fornecida para integrações internas e externas"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Token de sessão administrativa"
+      }
+    },
+    "schemas": {
+      "Pedido": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1044 },
+          "numero": { "type": "string", "example": "#PED-1044" },
+          "cliente_id": { "type": "integer", "example": 12 },
+          "cliente_nome": { "type": "string", "example": "GUSTAVO SILVEIRA ALVES" },
+          "cidade": { "type": "string", "example": "OSÓRIO" },
+          "uf": { "type": "string", "example": "RS" },
+          "telefone": { "type": "string", "example": "(51) 99888-7766" },
+          "itens": { "type": "string", "example": "1x Lonca de Cabrito Selecionada" },
+          "valor_total": { "type": "number", "example": 1250.00 },
+          "valor_frete": { "type": "number", "example": 35.00 },
+          "status": {
+            "type": "string",
+            "enum": ["AGUARDANDO_PAGAMENTO", "EM_SEPARACAO", "AGUARDANDO_ENVIO", "ENVIADO", "ENTREGUE", "CANCELADO"],
+            "example": "AGUARDANDO_PAGAMENTO"
+          },
+          "status_texto": { "type": "string", "example": "Aguardando Pagamento" },
+          "codigo_rastreio": { "type": "string", "example": "QC123456789BR" },
+          "data_pedido": { "type": "string", "example": "10/11/2026" }
+        }
+      },
+      "NovoPedidoPayload": {
+        "type": "object",
+        "required": ["cliente_nome", "itens", "valor_total"],
+        "properties": {
+          "cliente_id": { "type": "integer", "example": 12 },
+          "cliente_nome": { "type": "string", "example": "GUSTAVO SILVEIRA ALVES" },
+          "cidade": { "type": "string", "example": "OSÓRIO" },
+          "uf": { "type": "string", "example": "RS" },
+          "telefone": { "type": "string", "example": "(51) 99888-7766" },
+          "itens": { "type": "string", "example": "2x Meio Couro Cru Sovado" },
+          "itens_detalhados": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "produto_id": { "type": "integer", "example": 4 },
+                "nome": { "type": "string", "example": "Meio Couro Cru Sovado" },
+                "quantidade": { "type": "number", "example": 2 },
+                "preco_unitario": { "type": "number", "example": 280.00 }
+              }
+            }
+          },
+          "valor_total": { "type": "number", "example": 560.00 },
+          "valor_frete": { "type": "number", "example": 40.00 },
+          "status": {
+            "type": "string",
+            "enum": ["AGUARDANDO_PAGAMENTO", "EM_SEPARACAO", "AGUARDANDO_ENVIO", "ENVIADO", "ENTREGUE", "CANCELADO"],
+            "default": "AGUARDANDO_PAGAMENTO"
+          },
+          "codigo_rastreio": { "type": "string", "example": "" },
+          "observacoes": { "type": "string", "example": "ENVIAR VIA SEDEX" }
+        }
+      },
+      "AtualizarPedidoPayload": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "enum": ["AGUARDANDO_PAGAMENTO", "EM_SEPARACAO", "AGUARDANDO_ENVIO", "ENVIADO", "ENTREGUE", "CANCELADO"] },
+          "codigo_rastreio": { "type": "string", "example": "QC123456789BR" },
+          "observacoes": { "type": "string" },
+          "valor_total": { "type": "number" },
+          "valor_frete": { "type": "number" }
+        }
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "nome": { "type": "string", "example": "ACÁCIO BENEDITO RAMOS" },
+          "cpf_cnpj": { "type": "string", "example": "123.456.789-00" },
+          "cidade": { "type": "string", "example": "CONCEIÇÃO DOS OUROS" },
+          "uf": { "type": "string", "example": "MG" },
+          "telefone": { "type": "string", "example": "(35) 99988-7766" },
+          "cep": { "type": "string", "example": "37548-000" }
+        }
+      },
+      "NovoClientePayload": {
+        "type": "object",
+        "required": ["nome", "cidade", "uf"],
+        "properties": {
+          "nome": { "type": "string", "example": "JOÃO CARLOS PEIXOTO" },
+          "cpf_cnpj": { "type": "string", "example": "123.456.789-00" },
+          "cidade": { "type": "string", "example": "PORTO ALEGRE" },
+          "uf": { "type": "string", "example": "RS" },
+          "telefone": { "type": "string", "example": "(51) 98765-4321" },
+          "cep": { "type": "string", "example": "90010-000" },
+          "endereco": { "type": "string", "example": "RUA DOS ANDRADAS, 1000" },
+          "bairro": { "type": "string", "example": "CENTRO HISTÓRICO" }
+        }
+      },
+      "Produto": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "nome": { "type": "string", "example": "LONCA DE CABRITO SELECIONADA" },
+          "categoria": { "type": "string", "example": "LONCAS" },
+          "codigo_sku": { "type": "string", "example": "LNC-CAB-001" },
+          "preco_venda": { "type": "number", "example": 115.00 },
+          "preco_custo": { "type": "number", "example": 55.00 },
+          "estoque_atual": { "type": "number", "example": 45 },
+          "estoque_reservado": { "type": "number", "example": 3 }
+        }
+      },
+      "ProdutoPayload": {
+        "type": "object",
+        "required": ["nome", "preco_venda"],
+        "properties": {
+          "nome": { "type": "string", "example": "TENTO DE POTRO 100M" },
+          "categoria": { "type": "string", "example": "TENTOS" },
+          "codigo_sku": { "type": "string", "example": "TNT-POT-100" },
+          "preco_venda": { "type": "number", "example": 85.00 },
+          "preco_custo": { "type": "number", "example": 40.00 },
+          "estoque_atual": { "type": "number", "example": 20 }
+        }
+      },
+      "TituloFinanceiro": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 50 },
+          "tipo": { "type": "string", "enum": ["RECEBER", "PAGAR"], "example": "RECEBER" },
+          "descricao": { "type": "string", "example": "VENDA #PED-1044 - GUSTAVO" },
+          "categoria": { "type": "string", "example": "VENDAS" },
+          "valor": { "type": "number", "example": 1250.00 },
+          "data_vencimento": { "type": "string", "example": "10/11/2026" },
+          "status": { "type": "string", "enum": ["PENDENTE", "PAGO", "CANCELADO"], "example": "PENDENTE" },
+          "recorrente": { "type": "integer", "enum": [0, 1], "example": 0 }
+        }
+      },
+      "NovoFinanceiroPayload": {
+        "type": "object",
+        "required": ["tipo", "descricao", "valor", "data_vencimento"],
+        "properties": {
+          "tipo": { "type": "string", "enum": ["RECEBER", "PAGAR"], "example": "PAGAR" },
+          "descricao": { "type": "string", "example": "ENERGIA ELÉTRICA GALPÃO" },
+          "categoria": { "type": "string", "example": "DESPESAS FIXAS" },
+          "valor": { "type": "number", "example": 420.00 },
+          "data_vencimento": { "type": "string", "example": "20/11/2026" },
+          "recorrente": { "type": "boolean", "example": true }
+        }
+      }
+    }
+  }
+}

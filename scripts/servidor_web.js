@@ -302,6 +302,27 @@ async function tratarRequisicao(req, res) {
   }
 
   // Delegação direta para os handlers Serverless (Paridade 100% Local <-> Vercel)
+  if (pathname === '/api/openapi.json') {
+    const openapiPath = path.join(PUBLIC_DIR, 'openapi.json');
+    if (fs.existsSync(openapiPath)) {
+      res.writeHead(200, {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      });
+      return res.end(fs.readFileSync(openapiPath, 'utf8'));
+    }
+  }
+
+  if (pathname === '/api-docs' || pathname === '/api/docs') {
+    const docsPath = path.join(PUBLIC_DIR, 'api-docs.html');
+    if (fs.existsSync(docsPath)) {
+      res.writeHead(200, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      });
+      return res.end(fs.readFileSync(docsPath, 'utf8'));
+    }
+  }
   if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
     return handlerProdutos(req, res);
   }

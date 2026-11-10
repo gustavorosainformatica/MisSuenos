@@ -25,6 +25,8 @@ import handlerSistema from './sistema.js';
 import handlerRelatorios from './relatorios.js';
 import handlerEstoque from './estoque.js';
 import handlerLogistica from './logistica.js';
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(req, res) {
   // CORS Preflight Global
@@ -48,6 +50,28 @@ export default async function handler(req, res) {
   const pathname = rawUrl.split('?')[0];
 
   try {
+    if (pathname === '/api/openapi.json') {
+      const openapiPath = path.join(process.cwd(), 'public', 'openapi.json');
+      if (fs.existsSync(openapiPath)) {
+        const conteudo = fs.readFileSync(openapiPath, 'utf8');
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        });
+        return res.end(conteudo);
+      }
+    }
+    if (pathname === '/api/docs' || pathname === '/api-docs') {
+      const docsPath = path.join(process.cwd(), 'public', 'api-docs.html');
+      if (fs.existsSync(docsPath)) {
+        const conteudo = fs.readFileSync(docsPath, 'utf8');
+        res.writeHead(200, {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        });
+        return res.end(conteudo);
+      }
+    }
     if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
       return await handlerAuth(req, res);
     }

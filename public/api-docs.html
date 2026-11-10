@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mis Sueños ERP - Central de Documentação da API</title>
+    <meta name="description" content="Especificação e Contratos de API OpenAPI 3.0 do ERP Mis Sueños" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --scalar-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --scalar-font-code: 'JetBrains Mono', monospace;
+      }
+      body {
+        margin: 0;
+        background-color: #0b1120;
+        color: #f8fafc;
+      }
+      /* Barra superior de navegação para retornar ao ERP */
+      .top-nav-erp {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        background: rgba(11, 17, 32, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+      .top-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #fff;
+        text-decoration: none;
+      }
+      .top-nav-brand span.badge-api {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .btn-voltar-erp {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .btn-voltar-erp:hover {
+        background: rgba(56, 189, 248, 0.15);
+        border-color: #38bdf8;
+        color: #38bdf8;
+      }
+      /* Espaçamento superior para acomodar a barra */
+      #api-reference-wrapper {
+        margin-top: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- BARRA SUPERIOR DE CONTROLE DO ERP -->
+    <header class="top-nav-erp">
+      <a href="/" class="top-nav-brand">
+        <span>📦 Mis Sueños ERP</span>
+        <span class="badge-api">OpenAPI 3.0</span>
+      </a>
+      <a href="/" class="btn-voltar-erp" title="Retornar ao painel operacional do ERP">
+        <span>←</span> <span>Voltar ao ERP</span>
+      </a>
+    </header>
+
+    <!-- CONTAINER DA INTERFACE SCALAR -->
+    <div id="api-reference-wrapper">
+      <script
+        id="api-reference"
+        data-url="/public/openapi.json"
+        data-configuration='{
+          "theme": "deepSpace",
+          "darkMode": true,
+          "showSidebar": true,
+          "searchHotKey": "k",
+          "metaData": {
+            "title": "Mis Sueños ERP - API Reference",
+            "description": "Especificação Oficial de APIs REST do ERP Mis Sueños"
+          }
+        }'></script>
+      <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    </div>
+  </body>
+</html>
