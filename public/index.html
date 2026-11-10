@@ -737,6 +737,11 @@
       transition: all 0.2s ease;
     }
 
+    .erp-status-pill.status-aguardando-pagamento {
+      background: rgba(250, 204, 21, 0.18);
+      color: #facc15;
+      border: 1px solid rgba(250, 204, 21, 0.35);
+    }
     .erp-status-pill.status-aguardando {
       background: rgba(245, 158, 11, 0.18);
       color: #fbbf24;
@@ -758,6 +763,11 @@
       border: 1px solid rgba(239, 68, 68, 0.35);
     }
 
+    [data-theme="light"] .erp-status-pill.status-aguardando-pagamento {
+      background: #fef9c3 !important;
+      color: #a16207 !important;
+      border: 1px solid #fde047 !important;
+    }
     [data-theme="light"] .erp-status-pill.status-aguardando {
       background: #fef3c7 !important;
       color: #b45309 !important;
@@ -8347,9 +8357,11 @@
             <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Status do Pedido</label>
               <select class="form-input erp-select" id="form-ped-status" style="width: 100%;">
-                <option value="AGUARDANDO_ENVIO">⏳ Aguardando Envio</option>
+                <option value="AGUARDANDO_PAGAMENTO">💳 Aguardando Pagamento</option>
                 <option value="EM_SEPARACAO">📦 Em Separação</option>
-                <option value="ENVIADO">✅ Enviado / Concluído</option>
+                <option value="AGUARDANDO_ENVIO">⏳ Aguardando Envio</option>
+                <option value="ENVIADO">🚚 Enviado / Em Trânsito</option>
+                <option value="ENTREGUE">✅ Entregue / Concluído</option>
                 <option value="CANCELADO">❌ Cancelado</option>
               </select>
             </div>
@@ -12743,16 +12755,18 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       tbody.innerHTML = pedidosFiltrados.map(ped => {
         const statusTexto = ped.status_texto || ped.statusTexto || 'Pendente';
-        const statusBadge = ped.status === 'AGUARDANDO_ENVIO'
-          ? `<span class="erp-status-pill status-aguardando">⏳ ${statusTexto}</span>`
+        const statusBadge = ped.status === 'AGUARDANDO_PAGAMENTO'
+          ? `<span class="erp-status-pill status-aguardando-pagamento">💳 ${statusTexto}</span>`
           : ped.status === 'EM_SEPARACAO'
           ? `<span class="erp-status-pill status-separacao">📦 ${statusTexto}</span>`
+          : ped.status === 'AGUARDANDO_ENVIO'
+          ? `<span class="erp-status-pill status-aguardando">⏳ ${statusTexto}</span>`
           : ped.status === 'EM_TRANSITO'
-          ? `<span class="erp-status-pill" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3);">🚚 ${statusTexto}</span>`
+          ? `<span class="erp-status-pill" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">🚚 ${statusTexto}</span>`
           : ped.status === 'ENTREGUE'
           ? `<span class="erp-status-pill" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">✅ ${statusTexto}</span>`
           : ped.status === 'ENVIADO'
-          ? `<span class="erp-status-pill status-enviado">✓ ${statusTexto}</span>`
+          ? `<span class="erp-status-pill status-enviado">🚚 ${statusTexto}</span>`
           : `<span class="erp-status-pill status-cancelado">✕ ${statusTexto}</span>`;
 
         const valorNum = parseFloat(ped.valor_total || ped.valor || 0);
@@ -13580,7 +13594,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       const hoje = new Date();
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
-      document.getElementById('form-ped-status').value = 'AGUARDANDO_ENVIO';
+      document.getElementById('form-ped-status').value = 'AGUARDANDO_PAGAMENTO';
 
       // Se passou clienteId, auto-preenche todos os dados do cliente selecionado
       if (clienteId) {
@@ -13642,7 +13656,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       document.getElementById('form-ped-itens').value = ped.itens || '';
       const valorPedido = parseFloat(ped.valor_total || ped.valor || 0);
       document.getElementById('form-ped-valor').value = formatarMoedaPtBr(valorPedido);
-      document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_ENVIO';
+      document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_PAGAMENTO';
       document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
       document.getElementById('form-ped-obs').value = ped.observacoes || '';
 
@@ -13889,9 +13903,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const id = document.getElementById('form-ped-id').value;
       const status = document.getElementById('form-ped-status').value;
       const statusMap = {
-        'AGUARDANDO_ENVIO': 'Aguardando Envio',
+        'AGUARDANDO_PAGAMENTO': 'Aguardando Pagamento',
         'EM_SEPARACAO': 'Em Separação',
+        'AGUARDANDO_ENVIO': 'Aguardando Envio',
         'ENVIADO': 'Enviado',
+        'ENTREGUE': 'Entregue',
         'CANCELADO': 'Cancelado'
       };
 
@@ -17110,7 +17126,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         mostrarToast(`📦 Exibindo histórico completo: ${pedidosFiltrados.length} pedidos em carteira.`);
       } else {
         pedidosFiltrados = listaPedidos.filter(p => p.status === status);
-        const label = status === 'AGUARDANDO_ENVIO' ? 'aguardando envio' : status === 'ENVIADO' ? 'enviados' : status === 'ENTREGUE' ? 'entregues' : 'cancelados';
+        const label = status === 'AGUARDANDO_PAGAMENTO' ? 'aguardando pagamento' : status === 'EM_SEPARACAO' ? 'em separação' : status === 'AGUARDANDO_ENVIO' ? 'aguardando envio' : status === 'ENVIADO' ? 'enviados' : status === 'ENTREGUE' ? 'entregues' : 'cancelados';
         mostrarToast(`🚚 Filtrado: ${pedidosFiltrados.length} pedido(s) ${label}.`);
       }
       renderTabelaPedidos();
@@ -17486,14 +17502,20 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 10px 4px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
               <span>🚚</span> <span>Status Logístico & Envio</span>
             </div>
-            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('AGUARDANDO_ENVIO', 'card-kpi-ped-aguardando')">
-              <span>⏳</span> <span>Aguardando Envio / Separação</span>
+            <button type="button" class="erp-context-item" style="color: #facc15;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('AGUARDANDO_PAGAMENTO', 'card-kpi-ped-aguardando')">
+              <span>💳</span> <span>1. Aguardando Pagamento</span>
             </button>
-            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('ENVIADO', 'card-kpi-ped-aguardando')">
-              <span>🚚</span> <span>Pedidos Enviados / Em Trânsito</span>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('EM_SEPARACAO', 'card-kpi-ped-aguardando')">
+              <span>📦</span> <span>2. Em Separação</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #fbbf24;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('AGUARDANDO_ENVIO', 'card-kpi-ped-aguardando')">
+              <span>⏳</span> <span>3. Aguardando Envio</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #60a5fa;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('ENVIADO', 'card-kpi-ped-aguardando')">
+              <span>🚚</span> <span>4. Pedidos Enviados / Em Trânsito</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('ENTREGUE', 'card-kpi-ped-aguardando')">
-              <span>✅</span> <span>Pedidos Entregues / Concluídos</span>
+              <span>✅</span> <span>5. Pedidos Entregues / Concluídos</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarPedidosPorStatusCustom('CANCELADO', 'card-kpi-ped-aguardando')">
               <span>❌</span> <span>Pedidos Cancelados</span>
@@ -23203,8 +23225,9 @@ Agradecemos pela preferência! Ficamos à disposição.`;
 
       // 3. Status formatado
       const statusMap = {
-        'AGUARDANDO_ENVIO': 'Aguardando Envio',
+        'AGUARDANDO_PAGAMENTO': 'Aguardando Pagamento',
         'EM_SEPARACAO': 'Em Separação',
+        'AGUARDANDO_ENVIO': 'Aguardando Envio',
         'EM_TRANSITO': 'Em Trânsito',
         'ENTREGUE': 'Entregue',
         'ENVIADO': 'Enviado',
@@ -23705,8 +23728,9 @@ Agradecemos pela preferência! Ficamos à disposição.`;
           `;
         } else {
           const statusLabels = {
-            'AGUARDANDO_ENVIO': { label: 'Aguardando Envio', bg: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' },
+            'AGUARDANDO_PAGAMENTO': { label: 'Aguardando Pagamento', bg: 'rgba(250, 204, 21, 0.15)', color: '#facc15' },
             'EM_SEPARACAO': { label: 'Em Separação', bg: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' },
+            'AGUARDANDO_ENVIO': { label: 'Aguardando Envio', bg: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24' },
             'ENVIADO': { label: 'Enviado', bg: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa' },
             'ENTREGUE': { label: 'Entregue', bg: 'rgba(16, 185, 129, 0.15)', color: '#34d399' },
             'CONCLUIDO': { label: 'Concluído', bg: 'rgba(16, 185, 129, 0.15)', color: '#34d399' },

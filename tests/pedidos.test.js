@@ -192,4 +192,30 @@ test('REGRESSÃO PEDIDOS 10: Geração do Próximo Número de Pedido sem colisã
   assert.strictEqual(calcularProximoNumeroPedido(stringsDiretas), '#PED-1045');
 });
 
+test('REGRESSÃO PEDIDOS 11: Ciclo de vida logístico e ordem correta dos status', () => {
+  const ordemEsperada = [
+    'AGUARDANDO_PAGAMENTO',
+    'EM_SEPARACAO',
+    'AGUARDANDO_ENVIO',
+    'ENVIADO',
+    'ENTREGUE',
+    'CANCELADO'
+  ];
+
+  const statusMap = {
+    'AGUARDANDO_PAGAMENTO': 'Aguardando Pagamento',
+    'EM_SEPARACAO': 'Em Separação',
+    'AGUARDANDO_ENVIO': 'Aguardando Envio',
+    'ENVIADO': 'Enviado',
+    'ENTREGUE': 'Entregue',
+    'CANCELADO': 'Cancelado'
+  };
+
+  assert.deepStrictEqual(Object.keys(statusMap), ordemEsperada, 'A ordem dos status deve seguir o ciclo real de galpão e e-commerce');
+  assert.strictEqual(statusMap['AGUARDANDO_PAGAMENTO'], 'Aguardando Pagamento');
+  assert.strictEqual(statusMap['EM_SEPARACAO'], 'Em Separação');
+  assert.strictEqual(statusMap['AGUARDANDO_ENVIO'], 'Aguardando Envio');
+});
+
+
 

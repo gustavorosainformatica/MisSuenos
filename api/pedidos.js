@@ -44,7 +44,7 @@ async function parseBody(req) {
 }
 
 function isStatusPendente(st) {
-  return st === 'AGUARDANDO_ENVIO' || st === 'EM_SEPARACAO';
+  return st === 'AGUARDANDO_PAGAMENTO' || st === 'EM_SEPARACAO' || st === 'AGUARDANDO_ENVIO';
 }
 
 function isStatusConcluido(st) {
@@ -224,15 +224,16 @@ export default async function handler(req, res) {
       const hojeIso = agora.toISOString().slice(0, 10);
       const dataFormatada = `${String(agora.getDate()).padStart(2, '0')}/${String(agora.getMonth() + 1).padStart(2, '0')}/${agora.getFullYear()}`;
 
-      const status = payload.status || 'AGUARDANDO_ENVIO';
+      const status = payload.status || 'AGUARDANDO_PAGAMENTO';
       const statusMap = {
-        'AGUARDANDO_ENVIO': 'Aguardando Envio',
+        'AGUARDANDO_PAGAMENTO': 'Aguardando Pagamento',
         'EM_SEPARACAO': 'Em Separação',
+        'AGUARDANDO_ENVIO': 'Aguardando Envio',
         'ENVIADO': 'Enviado',
         'ENTREGUE': 'Entregue',
         'CANCELADO': 'Cancelado'
       };
-      const statusTexto = payload.status_texto || statusMap[status] || 'Aguardando Envio';
+      const statusTexto = payload.status_texto || statusMap[status] || 'Aguardando Pagamento';
       const valorTotal = desformatarNumeroPtBr(payload.valor_total !== undefined ? payload.valor_total : (payload.valor || 0));
 
       const info = await run(`
@@ -352,8 +353,9 @@ export default async function handler(req, res) {
       const novoStatus = payload.status || statusAnterior;
 
       const statusMap = {
-        'AGUARDANDO_ENVIO': 'Aguardando Envio',
+        'AGUARDANDO_PAGAMENTO': 'Aguardando Pagamento',
         'EM_SEPARACAO': 'Em Separação',
+        'AGUARDANDO_ENVIO': 'Aguardando Envio',
         'ENVIADO': 'Enviado',
         'ENTREGUE': 'Entregue',
         'CANCELADO': 'Cancelado'
