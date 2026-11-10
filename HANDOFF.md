@@ -1,97 +1,83 @@
 # Registro de Transição de Contexto (Handoff)
 
-> **Data / Hora:** 09 de Novembro de 2026 — 17:55 (BRT)  
-> **Sessão:** Mis Sueños ERP & Matriz ERP Base  
-> **Status:** Tríplice Sincronizada · 39 Testes Unitários Passando · Deploy Ativo em Produção  
+> **Data / Hora:** 10 de Novembro de 2026 — 00:40 (BRT)  
+> **Sessão:** DRE Analítico & Fluxo de Caixa Projetado (Mis Sueños ERP & Matriz ERP Base)  
+> **Status:** Tríplice Sincronizada · 48 Testes Unitários Passando (100% Verdes) · Deploy Ativo em Produção  
 > **Ambiente Oficial:** [https://missuenos.vercel.app](https://missuenos.vercel.app)
 
 ---
 
 ## 1. O que foi Concluído na Sessão
 
-1. **Blindagem de Numeração Comercial e Integridade UNIQUE (`#PED-XXXX`):**
-   - Corrigido o cálculo do próximo número comercial no frontend e backend para extrair dígitos numéricos reais dos pedidos existentes (`calcularProximoNumeroPedido`), eliminando o erro `UNIQUE constraint failed: pedidos.numero`.
-   - Adicionada blindagem preventiva dupla no backend serverless (`api/pedidos.js`).
+1. **Motor Contábil Puro do DRE Analítico (`calcularDreAnalitico` em `lib/calculos_erp.js`):**
+   - Apuração contábil pura e desacoplada do DOM para Receita Bruta de Vendas, Deduções de Frete e Devoluções, Receita Líquida, Custo das Mercadorias Vendidas (CMV Real cruzado item a item com o preço de custo do catálogo de produtos), Lucro Bruto Operacional, Margem Bruta (%), Despesas Operacionais agrupadas por categoria, Lucro Líquido Real e Margem Líquida (%).
+   - Suporte a dois modos de apuração com alternância fluida:
+     - **Modo Integrado:** Cruza pedidos faturados com catálogo de produtos e despesas financeiras.
+     - **Modo Financeiro:** Apura lançamentos lançados diretamente no módulo financeiro por categoria.
+   - Blindagem anti-duplicidade para lançamentos que possuam vínculo com `pedido_id`.
 
-2. **Menu Dropdown Pesquisável Integrado de Produtos (Combobox):**
-   - Em "Itens e Mercadorias do Pedido", implementado o padrão oficial de combobox: campo editável para pesquisa sem acentos em tempo real + setinha `▼` para abrir o catálogo completo com SKU, nome em caixa alta, preço e estoque.
-   - Suporte completo a setas `↑`/`↓` e `Enter` no teclado, preenchimento automático de valores e avanço direto de foco para a quantidade.
+2. **Motor de Projeção Temporal do Fluxo de Caixa (`projetarFluxoCaixa` em `lib/calculos_erp.js`):**
+   - Algoritmo de projeção de saldo de caixa contínuo no tempo (dia a dia e mês a mês).
+   - Suporte a entradas pelas datas de vencimento reais (à vista ou parcelado).
+   - Suporte a saídas pelas datas de vencimento cadastradas no financeiro.
+   - Projeção automática de despesas fixas recorrentes mensais (`recorrente: true`) para os meses futuros.
+   - Detecção inteligente de saldo descoberto (`isNegativo: true`, `temAlertaFuroCaixa: true`) com sinalização do menor saldo projetado e data de impacto.
 
-3. **Ergonomia de Teclado e Navegação Fluida por Tab:**
-   - Remoção universal dos botões verticais de incremento/decremento (`spinners`) em todos os `input[type="number"]` via CSS global (`::-webkit-inner-spin-button`, `-moz-appearance: textfield`).
-   - Atribuído `tabindex="-1"` a botões de ação e controle (`−`, `+`, `🗑️`, `✕`, `🗖`, modais secundários e totais readonly), garantindo que o `Tab` salte exclusivamente entre campos editáveis.
+3. **Interface Operacional no Módulo Financeiro (Abas Integradas em `public/index.html`):**
+   - Barra de abas segmentadas no topo do módulo `💰 Financeiro`:
+     - `[ 📋 Contas a Pagar & Receber ]`: Mantém os KPIs originais e a tabela interativa de títulos.
+     - `[ 📊 DRE Analítico (Resultado) ]`: Controles de período rápido (`Mês Atual`, `Mês Anterior`, `Trimestre`, `Ano`, `Todos`), alternador de modo (`Integrado` vs `Financeiro`), KPIs executivos e cascata contábil analítica.
+     - `[ 📈 Fluxo de Caixa Projetado ]`: Alternador de visão (`30 Dias Diário`, `6 Meses Mensal`, `Resumo Executivo`), campo para Saldo Atual em Caixa com recálculo reativo, banner de alerta para furo de caixa projetado, linha do tempo horizontal de cards diários e tabela mensal para 6 meses.
+   - Checkbox no modal de lançamento financeiro (`#modal-lancamento-financeiro`):
+     - `🔁 Despesa Recorrente Mensal (Fixa no Fluxo de Caixa Projetado)` com persistência na base e replicação automática nos meses futuros.
 
-4. **Interceptor Universal de Foco e Desativação de Autocomplete Nativo:**
-   - Implementado interceptor reativo via `MutationObserver` (monitorando `class` e `style`) e chamadas diretas em todos os modais e submodais do sistema.
-   - Prioridade estrita para o primeiro campo de escrita (`input` digitável e `textarea`), com seleção automática de texto (`.select()`) para permitir substituição ou avanço imediato.
-   - Adicionado `autocomplete="off"` em formulários e inputs, eliminando o balão branco flutuante do Chrome que cobria os campos.
+4. **Interface Executiva na Central de Relatórios, Impressão A4 & Exportação Excel:**
+   - Vinculação dos sub-relatórios `dre_gerencial` e `fluxo_caixa_projetado` na categoria `💰 Financeiro & DRE` da Central de Relatórios.
+   - Conexão nativa com a API `api/relatorios.js` alimentada pelos mesmos motores contábeis.
+   - Botões de impressão em folha A4 corporativa limpa (`@media print`) sem menus ou toolbars.
+   - Botões de exportação direta para Excel/CSV formatado com UTF-8 BOM e delimitador `;`.
 
-5. **Modernização de Janelas e Limpeza de Títulos:**
-   - **Fim da Duplicidade de Maximizar:** Removido o atributo `title` do container `.modal-header`. O duplo clique continua funcionando de forma silenciosa e natural na barra de títulos (padrão Windows 11/macOS), e o controle visual de maximizar fica unificado exclusivamente no botão oficial da extrema direita `[ 🗖 ]` com tooltips limpos (`Maximizar` / `Restaurar`).
-   - **Fim do Pleonasmo nos Cabeçalhos:** 
-     - No cadastro novo: **`👤 Novo Cliente`** e **`📦 Novo Produto`**, com a badge lateral oculta (`display: none`), eliminando a repetição "NOVO CADASTRO".
-     - Na edição de registro: **`✏️ Ficha do Cliente: <NOME>`** e **`✏️ Ficha do Produto: <NOME>`**, exibindo a badge com o identificador real (`CLI #12 · ATIVO` ou `SKU-LON-001 · ATIVO`).
-
-6. **Consolidação de Regras Globais:**
-   - Gravadas e ativadas as diretrizes no `GEMINI.md` e em `C:\Users\Usuario\.gemini\config\rules\`:
-     - `ergonomia-teclado-e-dropdown-pesquisavel.md`
-     - `blindagem-numeracao-comercial.md`
-
-7. **Sincronização Tríplice e Auditoria em Produção:**
-   - Replicado código em `MisSuenos`, `MisSuenos-Dev` e `erp-base`.
-   - 39 testes unitários executados e validados com 100% de sucesso.
-   - Deploy auditado e confirmado na Vercel (`Status Code: 200`, `Age: 0`).
+5. **Suíte TDD de Testes Automatizados (48 Testes Unitários Passando):**
+   - Criação de `tests/dre_fluxo_caixa.test.js` (7 testes) e `tests/dre_relatorios_api.test.js` (2 testes de integração).
+   - 48 testes unitários passando com 100% de sucesso em ~600ms.
 
 ---
 
 ## 2. Arquivos Modificados / Criados
 
-- `public/index.html`:
-  - Interceptor universal de foco (`focarPrimeiroCampoModal`, `inicializarInterceptorUniversalFocoModais`).
-  - Dropdown Combobox pesquisável de itens do pedido com autocomplete em tempo real.
-  - CSS global para remoção universal de spinners em inputs numéricos.
-  - Remoção de `header.title` e unificação dos controles de maximizar no botão da direita `[ 🗖 ]`.
-  - Limpeza dos títulos de modais eliminando badges redundantes no cadastro novo.
-  - Adição de `autocomplete="off"` e `tabindex="-1"` em elementos auxiliares.
 - `lib/calculos_erp.js`:
-  - Função `calcularProximoNumeroPedido` extraindo numeração real de registros existentes.
-- `api/pedidos.js`:
-  - Blindagem preventiva contra colisão `UNIQUE constraint failed`.
-- `tests/regressao_pedidos.test.js`:
-  - Adicionado o teste `REGRESSÃO PEDIDOS 10` para geração sequencial sem colisão.
+  - Implementação de `calcularDreAnalitico` e `projetarFluxoCaixa` com suporte a dados em JSON, array e texto legado.
+- `lib/db.js`:
+  - Adição da coluna `recorrente INTEGER DEFAULT 0` na tabela `financeiro_lancamentos` e migrações idempotentes no Turso e SQLite local.
+- `api/financeiro.js`:
+  - Gravação do campo `recorrente` em lançamentos e enriquecimento no retorno JSON.
+- `api/relatorios.js`:
+  - Integração analítica com `calcularDreAnalitico` e `projetarFluxoCaixa` para emissão executiva.
+- `public/index.html`:
+  - Abas segmentadas no financeiro, visualização DRE em cascata, linha do tempo de fluxo de caixa, checkbox de recorrência no modal, estilos CSS modernos e regras de impressão A4 corporativas.
+- `tests/dre_fluxo_caixa.test.js`:
+  - Suíte TDD para cenários de DRE Integrado, Financeiro puro, parcelas e despesas recorrentes.
+- `tests/dre_relatorios_api.test.js`:
+  - Testes de integração de apuração de períodos e projeções temporais de caixa.
 - `HANDOFF.md`:
-  - Registro de transferência e evolução contínua da sessão.
-- `C:\Users\Usuario\.gemini\GEMINI.md`:
-  - Inclusão das regras globais de Ergonomia de Teclado, Dropdown Pesquisável e Blindagem de Numeração.
-- `C:\Users\Usuario\.gemini\config\rules\`:
-  - Novos módulos `ergonomia-teclado-e-dropdown-pesquisavel.md` e `blindagem-numeracao-comercial.md`.
+  - Atualizado para consolidar as novas funcionalidades contábeis e financeiras.
 
 ---
 
 ## 3. Estado Atual e Decisões Críticas
 
 - **Repositórios e Versões Ativas:**
-  - `MisSuenos` (Produção): commit `d97b6b4` (branch `main`).
-  - `MisSuenos-Dev` (Desenvolvimento): commit `ade360c` (branch `dev`).
-  - `erp-base` (Template Neutro): commit `daacdc3` (branch `main`).
-- **Padrão de UX Estabelecido:** 
-  - Toda abertura de janela posiciona o foco no primeiro campo digitável sem balões intrusivos.
-  - O Tab é livre de interrupções em botões secundários.
-  - O duplo clique na barra de títulos é silencioso e o botão de maximizar reside unicamente na extrema direita.
-  - Títulos de janelas são limpos, modernos e sem redundâncias didáticas.
+  - `MisSuenos` (Produção): branch `main`.
+  - `MisSuenos-Dev` (Desenvolvimento): branch `dev`.
+  - `erp-base` (Template Neutro): branch `main`.
+- **Regras de Negócio Validadas:**
+  - O cálculo do DRE no Modo Integrado sempre deduz o frete da receita e apura o CMV item a item pelo preço de custo.
+  - Vendas vinculadas a `pedido_id` no financeiro são tratadas com blindagem anti-duplicidade para não inflar a receita.
+  - O Fluxo de Caixa sinaliza o dia exato do menor saldo projetado com destaque em vermelho e aviso claro para a tomada de decisão gerencial.
 
 ---
 
-## 4. Próximos Passos Imediatos (Próxima Sessão)
+## 4. Próximos Passos Recomendados
 
-- [ ] Acompanhar uso prático pelo operador nos lançamentos diários de pedidos e clientes.
-- [ ] Aplicar o mesmo padrão de Dropdown Combobox Pesquisável em outros pontos de seleção do sistema quando necessário (ex: seleção de categorias fiscais ou filtros avançados).
-- [ ] Avaliar expansão do módulo de relatórios ou exportações adicionais de documentos comerciais.
-
----
-
-## 5. Cuidados e Observações Técnicas
-
-- **Regra de Ouro da Tríplice:** Qualquer nova evolução em `MisSuenos` deve ser mantida em sincronia contínua com `MisSuenos-Dev` e `erp-base`.
-- **Blindagem de Funções Serverless (Vercel Hobby):** Não criar arquivos de rota soltos na pasta `api/` que ultrapassem o limite de 12 funções gratuitas da Vercel; rotear sempre pelo Gateway unificado `api/index.js` ou scripts existentes.
-- **Auditoria de Deploy:** Sempre validar o status de compilação ou cabeçalhos HTTP (`Age: 0`, `ETag`) antes de declarar versão no ar.
+- Utilizar o comando `/code-review` para auditoria completa das alterações.
+- Acompanhar os lançamentos reais de contas a pagar para refinar a precisão das categorias contábeis no fechamento mensal.

@@ -14,6 +14,7 @@
  */
 
 import { query, get, registrarLog } from '../lib/db.js';
+import { calcularDreAnalitico, projetarFluxoCaixa, formatarMoedaPtBr } from '../lib/calculos_erp.js';
 import { validarTokenSessao } from '../lib/auth.js';
 
 function responder(res, status, data, headers = {}) {
@@ -302,90 +303,134 @@ export default async function handler(req, res) {
         return responder(res, 403, { error: 'Acesso negado: seu operador não possui permissão para visualizar custos e DRE.' });
       }
 
-      // 1. Receita Bruta de Vendas (Pedidos de Venda)
-      const resVendas = await get(`
-        SELECT COALESCE(SUM(valor_total), 0) as receita_bruta, COUNT(id) as total_pedidos
-        FROM pedidos
-        WHERE ${SQL_DATA_PEDIDO} >= ? AND ${SQL_DATA_PEDIDO} <= ?
+      const modo = url.searchParams.get('modo') || 'INTEGRADO';
+
+      // 1. Busca Pedidos não cancelados no período
+      const pedidos = await query(`
+        SELECT * FROM pedidos 
+        WHERE status != 'CANCELADO' AND ${SQL_DATA_PEDIDO} >= ? AND ${SQL_DATA_PEDIDO} <= ?
       `, [infoPeriodo.inicio, infoPeriodo.fim]);
 
-      const receitaBruta = Number(resVendas?.receita_bruta || 0);
+      // 2. Busca Catálogo de Produtos
+      const produtos = await query(`SELECT * FROM produtos`);
 
-      // 2. Lançamentos Financeiros (Despesas operacionais, impostos e deduções)
-      const lancamentos = await query(`
-        SELECT tipo, categoria, descricao, SUM(valor) as total
-        FROM financeiro_lancamentos
-        WHERE status = 'PAGO'
-        GROUP BY tipo, categoria
-      `);
+      // 3. Busca Lançamentos Financeiros não cancelados no período
+      const financeiro = await query(`
+        SELECT * FROM financeiro_lancamentos 
+        WHERE status != 'CANCELADO' AND data_vencimento >= ? AND data_vencimento <= ?
+      `, [infoPeriodo.inicio, infoPeriodo.fim]);
 
-      let totalDeducoes = 0;
-      let totalDespesasOperacionais = 0;
-      let totalImpostos = 0;
-
-      for (const l of lancamentos) {
-        const cat = (l.categoria || '').toLowerCase();
-        const val = Number(l.total || 0);
-        if (cat.includes('imposto') || cat.includes('fiscal') || cat.includes('tribut')) {
-          totalImpostos += val;
-        } else if (cat.includes('devolu') || cat.includes('desconto')) {
-          totalDeducoes += val;
-        } else if (l.tipo === 'DESPESA') {
-          totalDespesasOperacionais += val;
-        }
-      }
-
-      // Se financeiro estiver em implantação inicial, projeta despesas operacionais e impostos padrão do setor
-      if (totalImpostos === 0 && receitaBruta > 0) {
-        totalImpostos = Math.round(receitaBruta * 0.06 * 100) / 100; // 6% Simples Nacional
-      }
-      if (totalDespesasOperacionais === 0 && receitaBruta > 0) {
-        totalDespesasOperacionais = Math.round(receitaBruta * 0.12 * 100) / 100; // 12% Despesas fixas/adm
-      }
-
-      // Estimativa precisa de CMV (Custo das Mercadorias Vendidas) via produtos
-      const resEstoqueCusto = await get(`
-        SELECT COALESCE(AVG(preco_custo / NULLIF(preco_venda, 0)), 0.52) as razao_custo
-        FROM produtos WHERE preco_venda > 0
-      `);
-      const razaoCusto = Number(resEstoqueCusto?.razao_custo || 0.52);
-      const cmvEstimado = Math.round(receitaBruta * razaoCusto * 100) / 100;
-
-      const receitaLiquida = Math.max(0, receitaBruta - totalDeducoes);
-      const margemBruta = receitaLiquida - cmvEstimado;
-      const lucroLiquido = margemBruta - totalDespesasOperacionais - totalImpostos;
-      const margemLiquidaPerc = receitaLiquida > 0 ? ((lucroLiquido / receitaLiquida) * 100).toFixed(1) + '%' : '0%';
+      const dre = calcularDreAnalitico(pedidos, produtos, financeiro, { inicio: infoPeriodo.inicio, fim: infoPeriodo.fim, modo });
 
       const linhasDRE = [
-        { conta: '1. RECEITA OPERACIONAL BRUTA', valor: receitaBruta, percentual: '100.0%', tipoLinha: 'destaque_verde' },
-        { conta: '   (-) Deduções da Receita e Abatimentos', valor: -totalDeducoes, percentual: receitaBruta > 0 ? ((-totalDeducoes / receitaBruta) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
-        { conta: '2. RECEITA OPERACIONAL LÍQUIDA', valor: receitaLiquida, percentual: '100.0%', tipoLinha: 'total_intermediario' },
-        { conta: '   (-) Custo das Mercadorias Vendidas (CMV)', valor: -cmvEstimado, percentual: receitaLiquida > 0 ? ((-cmvEstimado / receitaLiquida) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
-        { conta: '3. MARGEM DE CONTRIBUIÇÃO / LUCRO BRUTO', valor: margemBruta, percentual: receitaLiquida > 0 ? ((margemBruta / receitaLiquida) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'total_intermediario' },
-        { conta: '   (-) Despesas Operacionais e Administrativas', valor: -totalDespesasOperacionais, percentual: receitaLiquida > 0 ? ((-totalDespesasOperacionais / receitaLiquida) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
-        { conta: '   (-) Tributos e Impostos Fiscais', valor: -totalImpostos, percentual: receitaLiquida > 0 ? ((-totalImpostos / receitaLiquida) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
-        { conta: '4. RESULTADO LÍQUIDO DO PERÍODO (LUCRO/PREJUÍZO)', valor: lucroLiquido, percentual: margemLiquidaPerc, tipoLinha: lucroLiquido >= 0 ? 'destaque_lucro' : 'destaque_prejuizo' }
+        { conta: '1. RECEITA OPERACIONAL BRUTA', valor: dre.receitaBruta, percentual: '100.0%', tipoLinha: 'destaque_verde' },
+        { conta: '   (-) Deduções de Frete e Devoluções', valor: -dre.deducoesReceita, percentual: dre.receitaBruta > 0 ? ((-dre.deducoesReceita / dre.receitaBruta) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
+        { conta: '2. RECEITA OPERACIONAL LÍQUIDA', valor: dre.receitaLiquida, percentual: '100.0%', tipoLinha: 'total_intermediario' },
+        { conta: '   (-) Custo das Mercadorias Vendidas (CMV Real)', valor: -dre.cmvTotal, percentual: dre.receitaLiquida > 0 ? ((-dre.cmvTotal / dre.receitaLiquida) * 100).toFixed(1) + '%' : '0%', tipoLinha: 'subitem' },
+        { conta: '3. LUCRO BRUTO OPERACIONAL (MARGEM BRUTA)', valor: dre.lucroBruto, percentual: dre.margemBrutaPercentual + '%', tipoLinha: 'total_intermediario' }
       ];
 
+      // Adiciona detalhamento de despesas por categoria
+      if (dre.despesasPorCategoria && Object.keys(dre.despesasPorCategoria).length > 0) {
+        for (const [cat, val] of Object.entries(dre.despesasPorCategoria)) {
+          linhasDRE.push({
+            conta: `   (-) Despesa: ${cat}`,
+            valor: -val,
+            percentual: dre.receitaLiquida > 0 ? ((-val / dre.receitaLiquida) * 100).toFixed(1) + '%' : '0%',
+            tipoLinha: 'subitem'
+          });
+        }
+      } else {
+        linhasDRE.push({
+          conta: '   (-) Despesas Operacionais & Administrativas',
+          valor: -dre.totalDespesas,
+          percentual: dre.receitaLiquida > 0 ? ((-dre.totalDespesas / dre.receitaLiquida) * 100).toFixed(1) + '%' : '0%',
+          tipoLinha: 'subitem'
+        });
+      }
+
+      linhasDRE.push({
+        conta: '4. RESULTADO LÍQUIDO DO EXERCÍCIO (LUCRO / PREJUÍZO)',
+        valor: dre.lucroLiquido,
+        percentual: dre.margemLiquidaPercentual + '%',
+        tipoLinha: dre.lucroLiquido >= 0 ? 'destaque_lucro' : 'destaque_prejuizo'
+      });
+
       resultado = {
-        titulo: 'Demonstração do Resultado do Exercício (DRE Gerencial)',
+        titulo: `DRE Analítico (${modo === 'INTEGRADO' ? 'Modo Integrado Vendas + CMV' : 'Modo Financeiro Puro'})`,
         categoria: 'Financeiro & Controladoria',
         orientacaoPadrao: 'paisagem',
+        dre,
         kpis: {
-          receitaLiquida,
-          lucroLiquido,
-          margemLiquida: margemLiquidaPerc,
-          pontoEquilibrio: totalDespesasOperacionais > 0 ? (totalDespesasOperacionais / Math.max(0.1, (margemBruta / Math.max(1, receitaLiquida)))) : 0
+          receitaLiquida: dre.receitaLiquida,
+          lucroLiquido: dre.lucroLiquido,
+          margemLiquida: dre.margemLiquidaPercentual + '%',
+          margemBruta: dre.margemBrutaPercentual + '%',
+          pontoEquilibrio: dre.totalDespesas > 0 ? (dre.totalDespesas / Math.max(0.1, (dre.lucroBruto / Math.max(1, dre.receitaLiquida)))) : 0
         },
         colunas: [
-          { chave: 'conta', titulo: 'Estrutura da DRE (Contas Gerenciais)', tipo: 'texto' },
-          { chave: 'valor', titulo: 'Valor Acumulado (R$)', tipo: 'moeda_dre', width: '200px' },
+          { chave: 'conta', titulo: 'Estrutura da DRE (Contas Analíticas)', tipo: 'texto' },
+          { chave: 'valor', titulo: 'Valor Apurado (R$)', tipo: 'moeda_dre', width: '220px' },
           { chave: 'percentual', titulo: '% da Receita', tipo: 'texto', width: '130px' }
         ],
         dados: linhasDRE
       };
     }
 
+    // =========================================================================
+    // 3.B. FLUXO DE CAIXA PROJETADO (30 DIAS / 6 MESES / HÍBRIDO)
+    // =========================================================================
+    else if (tipo === 'fluxo_caixa_projetado') {
+      const diasProjecao = Math.max(7, parseInt(url.searchParams.get('dias'), 10) || 30);
+      const saldoInicial = parseFloat(url.searchParams.get('saldoInicial')) || 0;
+
+      const pedidos = await query(`
+        SELECT * FROM pedidos 
+        WHERE status != 'CANCELADO'
+      `);
+
+      const financeiro = await query(`
+        SELECT * FROM financeiro_lancamentos 
+        WHERE status != 'CANCELADO'
+      `);
+
+      const fluxo = projetarFluxoCaixa(pedidos, financeiro, { saldoInicial, diasProjecao });
+
+      const dadosTabela = fluxo.dias.map(d => ({
+        data: d.dataFmt,
+        diaSemana: d.diaSemana,
+        entradas: d.entradas,
+        saidas: d.saidas,
+        resultadoDia: d.resultadoDia,
+        saldoAcumulado: d.saldoAcumulado,
+        situacao: d.isNegativo ? '⚠️ DESCOBERTO' : '🟢 REGULAR'
+      }));
+
+      resultado = {
+        titulo: `Fluxo de Caixa Projetado (${diasProjecao} Dias)`,
+        categoria: 'Financeiro & Controladoria',
+        orientacaoPadrao: 'paisagem',
+        fluxo,
+        kpis: {
+          saldoInicial: fluxo.saldoInicial,
+          totalEntradas: fluxo.totalEntradasPeriodo,
+          totalSaidas: fluxo.totalSaidasPeriodo,
+          saldoFinal: fluxo.saldoFinalPeriodo,
+          menorSaldo: fluxo.menorSaldoProjetado,
+          diasNegativos: fluxo.diasNegativos
+        },
+        colunas: [
+          { chave: 'data', titulo: 'Data', tipo: 'texto', width: '100px' },
+          { chave: 'diaSemana', titulo: 'Dia da Semana', tipo: 'texto', width: '120px' },
+          { chave: 'entradas', titulo: 'Entradas (R$)', tipo: 'moeda', width: '130px' },
+          { chave: 'saidas', titulo: 'Saídas (R$)', tipo: 'moeda_dre', width: '130px' },
+          { chave: 'resultadoDia', titulo: 'Resultado Dia (R$)', tipo: 'moeda_dre', width: '140px' },
+          { chave: 'saldoAcumulado', titulo: 'Saldo Acumulado (R$)', tipo: 'moeda_dre', width: '160px' },
+          { chave: 'situacao', titulo: 'Situação', tipo: 'texto', width: '140px' }
+        ],
+        dados: dadosTabela
+      };
+    }
     // =========================================================================
     // 4. ESTOQUE: POSIÇÃO FÍSICA E VALORIZAÇÃO DO PATRIMÔNIO
     // =========================================================================

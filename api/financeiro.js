@@ -113,7 +113,8 @@ export default async function handler(req, res) {
           ...item,
           valor: val,
           is_atrasado: isAtrasado,
-          status_visual: statusVisual
+          status_visual: statusVisual,
+          recorrente: Boolean(item.recorrente)
         };
       });
 
@@ -169,7 +170,7 @@ export default async function handler(req, res) {
           tipo, origem, descricao, categoria, cliente_id, cliente_nome,
           fornecedor_id, fornecedor_nome, pedido_id, valor,
           data_vencimento, data_pagamento, forma_pagamento, status,
-          observacoes, data_cadastro
+          observacoes, recorrente, data_cadastro
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         tipo,
@@ -187,6 +188,7 @@ export default async function handler(req, res) {
         formaPagamento,
         status,
         body.observacoes || '',
+        body.recorrente ? 1 : 0,
         agora.toISOString()
       ]);
 
