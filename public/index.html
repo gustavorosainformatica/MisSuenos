@@ -11482,7 +11482,7 @@ function calcularDreAnalitico(pedidos = [], produtos = [], financeiro = [], opco
         receitaBruta += val;
       } else if (modo === 'INTEGRADO') {
         // No modo integrado, só soma receitas financeiras avulsas que NÃO vieram de um pedido já contabilizado
-        if (!lanc.pedido_id && !pedidosIdsProcessados.has(String(lanc.pedido_id))) {
+        if (!lanc.pedido_id || !pedidosIdsProcessados.has(String(lanc.pedido_id))) {
           receitaBruta += val;
         }
       }
@@ -11510,6 +11510,12 @@ function calcularDreAnalitico(pedidos = [], produtos = [], financeiro = [], opco
     percentualSobreReceita: receitaLiquida > 0 ? Number(((total / receitaLiquida) * 100).toFixed(1)) : 0
   })).sort((a, b) => b.total - a.total);
 
+  const despesasPorCategoria = {};
+  for (const [cat, val] of categoriasDespesas.entries()) {
+    despesasPorCategoria[cat] = Number(val.toFixed(2));
+  }
+  const contagemDespesasTotal = listaFin.filter(l => l && l.status !== 'CANCELADO' && l.tipo === 'PAGAR' && noPeriodo(l.data_pagamento || l.data_vencimento || l.data || '')).length;
+
   return {
     periodo: {
       inicio: dtInicio || 'TODOS',
@@ -11531,6 +11537,10 @@ function calcularDreAnalitico(pedidos = [], produtos = [], financeiro = [], opco
     lucroLiquido: Number(lucroLiquido.toFixed(2)),
     margemLiquidaPercentual: Number(margemLiquidaPercentual.toFixed(1)),
     contagemPedidos,
+    quantidadePedidosApurados: contagemPedidos,
+    contagemDespesasTotal,
+    quantidadeDespesasApuradas: contagemDespesasTotal,
+    despesasPorCategoria,
     ticketMedio: Number(ticketMedio.toFixed(2))
   };
 }
@@ -12085,7 +12095,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       for (let m = 1; m <= mesesProjecao; m++) {
         const dataFutura = new Date(dataAtual);
-        dataFutura.setMonth(dataFutura.getMonth() + m);
+        dataFutura.setDate(1);
+        dataFutura.setMonth(dataAtual.getMonth() + m);
         const diasNoMes = new Date(dataFutura.getFullYear(), dataFutura.getMonth() + 1, 0).getDate();
         const diaAjustado = Math.min(diaVencimento, diasNoMes);
         dataFutura.setDate(diaAjustado);
@@ -12127,6 +12138,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     dia.saldoAcumulado = Number(saldoAcumuladoCorrente.toFixed(2));
     dia.isNegativo = dia.saldoAcumulado < 0;
 
+    // Aliases consumidos pelo frontend e relatórios
+    dia.entradas = dia.entradasPrevistas;
+    dia.saidas = dia.saidasPrevistas;
+    dia.resultadoDia = dia.saldoDoDia;
+    dia.dataFmt = dia.dataFormatada;
+
     totalEntradasPeriodo += dia.entradasPrevistas;
     totalSaidasPeriodo += dia.saidasPrevistas;
 
@@ -12150,6 +12167,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       mapaMeses.set(mesChave, {
         mes: mesChave,
         rotulo: `${mesChave.split('-')[1]}/${mesChave.split('-')[0]}`,
+        mesNome: `${mesChave.split('-')[1]}/${mesChave.split('-')[0]}`,
         entradas: 0,
         saidas: 0,
         resultadoOperacional: 0,

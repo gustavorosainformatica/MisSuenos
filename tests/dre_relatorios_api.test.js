@@ -48,6 +48,9 @@ test('INTEGRAÇÃO DRE: Cálculo analítico de período com margem bruta e líqu
   assert.equal(dre.totalDespesas, 600);
   assert.equal(dre.lucroLiquido, 1800); // 2400 - 600
   assert.equal(dre.margemLiquidaPercentual, 37.5);
+  assert.equal(dre.quantidadePedidosApurados, 1);
+  assert.equal(dre.quantidadeDespesasApuradas, 1);
+  assert.equal(dre.despesasPorCategoria['DESPESAS OPERACIONAIS'], 600);
 });
 
 test('INTEGRAÇÃO FLUXO CAIXA: Projeção temporal de 30 dias com alerta de furo de caixa', () => {
@@ -86,4 +89,38 @@ test('INTEGRAÇÃO FLUXO CAIXA: Projeção temporal de 30 dias com alerta de fur
   assert.ok(fluxo.diasNegativos > 0);
   assert.equal(fluxo.menorSaldoProjetado, -1000); // 500 + 1000 - 2500 = -1000
   assert.equal(fluxo.dataMenorSaldo, '2026-11-10');
+
+  // Validação de aliases e propriedades
+  assert.equal(fluxo.dias[0].entradas, fluxo.dias[0].entradasPrevistas);
+  assert.equal(fluxo.dias[0].saidas, fluxo.dias[0].saidasPrevistas);
+  assert.equal(fluxo.dias[0].resultadoDia, fluxo.dias[0].saldoDoDia);
+  assert.equal(fluxo.dias[0].dataFmt, fluxo.dias[0].dataFormatada);
+  assert.ok(fluxo.meses[0].mesNome);
+});
+
+test('CODE REVIEW 01: Blindagem contra Date Rollover em meses com 31 dias', () => {
+  const financeiro = [
+    {
+      id: 1,
+      tipo: 'PAGAR',
+      categoria: 'Servidor Nuvem',
+      descricao: 'Assinatura Cloud',
+      valor: 150,
+      data_vencimento: '2026-01-31',
+      recorrente: true,
+      status: 'PENDENTE'
+    }
+  ];
+
+  // Projeção partindo de 31 de janeiro
+  const fluxo = projetarFluxoCaixa([], financeiro, {
+    saldoInicial: 1000,
+    diasProjecao: 60,
+    dataBase: '2026-01-31'
+  });
+
+  // O mês seguinte deve cair no último dia de fevereiro (28 de fevereiro), e não pular para 3 de março
+  const diaFevereiro = fluxo.dias.find(d => d.data === '2026-02-28');
+  assert.ok(diaFevereiro, 'Dia 2026-02-28 deve existir na projeção');
+  assert.equal(diaFevereiro.saidas, 150, 'Despesa recorrente do dia 31 deve ser ajustada para o dia 28 em fevereiro');
 });
