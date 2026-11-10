@@ -32,7 +32,7 @@ flowchart LR
   3. Garantir compatibilidade nativa tanto para SQLite local (`better-sqlite3`) quanto para Turso Cloud (`@libsql/client`).
 - **Passo de Validação:**
   - Executar script de inicialização do banco via `node -e "import('./lib/db.js').then(() => console.log('DB inicializado com sucesso'))"` e verificar se as tabelas foram criadas sem erros.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Validação 100% aprovada em tests/suprimentos_fiscal.test.js)
 
 ---
 
