@@ -302,7 +302,7 @@ async function tratarRequisicao(req, res) {
   }
 
   // Delegação direta para os handlers Serverless (Paridade 100% Local <-> Vercel)
-  if (pathname === '/api/openapi.json') {
+  if (pathname === '/api/openapi.json' || pathname === '/public/openapi.json' || pathname === '/openapi.json') {
     const openapiPath = path.join(PUBLIC_DIR, 'openapi.json');
     if (fs.existsSync(openapiPath)) {
       res.writeHead(200, {

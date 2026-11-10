@@ -79,6 +79,13 @@
       #api-reference-wrapper {
         margin-top: 48px;
       }
+      /* Oculta banners promocionais de deploy da Scalar */
+      .scalar-card:has(input[type="email"]),
+      .scalar-card:has(button[type="submit"]),
+      button[aria-label="Deploy API"],
+      [data-v-app] aside:has(input[type="email"]) {
+        display: none !important;
+      }
     </style>
   </head>
   <body>
@@ -97,7 +104,7 @@
     <div id="api-reference-wrapper">
       <script
         id="api-reference"
-        data-url="/public/openapi.json"
+        data-url="/api/openapi.json"
         data-configuration='{
           "theme": "deepSpace",
           "darkMode": true,
@@ -112,3 +119,4 @@
     </div>
   </body>
 </html>
+

@@ -50,7 +50,7 @@ export default async function handler(req, res) {
   const pathname = rawUrl.split('?')[0];
 
   try {
-    if (pathname === '/api/openapi.json') {
+    if (pathname === '/api/openapi.json' || pathname === '/public/openapi.json' || pathname === '/openapi.json') {
       const openapiPath = path.join(process.cwd(), 'public', 'openapi.json');
       if (fs.existsSync(openapiPath)) {
         const conteudo = fs.readFileSync(openapiPath, 'utf8');
