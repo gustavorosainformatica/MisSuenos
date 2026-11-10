@@ -62,7 +62,7 @@ flowchart LR
   3. Adicionar rota `GET /api/compras/de-para/:fornecedorId`.
 - **Passo de Validação:**
   - Testar requisição POST simulada de importação e entrada via script de teste, verificando a criação dos registros de estoque e financeiro no banco de dados.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Validação 100% aprovada com 4 novos testes em tests/suprimentos_fiscal.test.js)
 
 ### Ticket 4: Interface do Módulo de Compras e Modal de De-Para com Ergonomia
 - **Objetivo:** Criar/evoluir a interface de Compras com upload arrastar-e-soltar de XML, tabela de itens com status visual de De-Para (vinculado vs novo), Combobox pesquisável integrado para catálogo e atalhos de teclado.

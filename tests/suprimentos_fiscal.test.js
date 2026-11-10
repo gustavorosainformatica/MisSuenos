@@ -436,3 +436,264 @@ test('TICKET 02 - ENRIQUECIMENTO: Processar lista de itens de XML calculando est
   await db.run('DELETE FROM fornecedores_produtos_vinculo WHERE fornecedor_id = ? AND codigo_fornecedor = ?', [fornecedorId, codigoVinculado]);
   await db.run('DELETE FROM produtos WHERE id = ?', [prodId]);
 });
+
+import handlerCompras from '../api/compras.js';
+
+function criarMockRes() {
+  let statusCode = 0;
+  let responseData = null;
+  return {
+    status(code) { statusCode = code; return this; },
+    json(data) { responseData = data; return this; },
+    writeHead(code) { statusCode = code; return this; },
+    end(str) {
+      if (typeof str === 'string') {
+        try { responseData = JSON.parse(str); } catch { responseData = str; }
+      } else {
+        responseData = str;
+      }
+      return this;
+    },
+    getStatusCode: () => statusCode,
+    getData: () => responseData
+  };
+}
+
+test('TICKET 03 - API: POST /api/compras/importar-xml analisa nota, extrai dados e enriquece De-Para', async () => {
+  const chaveUnica = '35261188888888000199550010000008881000000888';
+  // Garante limpeza prévia
+  await db.run('DELETE FROM compras_xml WHERE chave_nfe = ?', [chaveUnica]);
+
+  const xmlTeste = `
+    <nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+      <NFe>
+        <infNFe Id="NFe${chaveUnica}" versao="4.00">
+          <ide><nNF>888</nNF><serie>1</serie><dhEmi>2026-11-10T08:00:00-03:00</dhEmi></ide>
+          <emit>
+            <CNPJ>88888888000199</CNPJ>
+            <xNome>Fornecedor Espumas do Sul Ltda</xNome>
+          </emit>
+          <dest><CNPJ>98765432000188</CNPJ><xNome>Mis Suenos</xNome></dest>
+          <det nItem="1">
+            <prod>
+              <cProd>ESP-D33-BLOC</cProd>
+              <xProd>Bloco de Espuma D33 5cm</xProd>
+              <uCom>UN</uCom>
+              <qCom>5.0000</qCom>
+              <vUnCom>120.0000</vUnCom>
+              <vProd>600.00</vProd>
+            </prod>
+          </det>
+          <total><ICMSTot><vProd>600.00</vProd><vNF>600.00</vNF></ICMSTot></total>
+          <cobr><dup><nDup>001</nDup><dVenc>2026-12-10</dVenc><vDup>600.00</vDup></dup></cobr>
+        </infNFe>
+      </NFe>
+    </nfeProc>
+  `;
+
+  const req = {
+    method: 'POST',
+    url: '/api/compras/importar-xml',
+    body: { xml: xmlTeste }
+  };
+  const res = criarMockRes();
+
+  await handlerCompras(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.chave_nfe, chaveUnica);
+  assert.strictEqual(data.numero_nfe, '888');
+  assert.strictEqual(data.valor_total, 600);
+  assert.strictEqual(data.itens.length, 1);
+  assert.ok(data.resumo_de_para, 'Deve conter resumo_de_para');
+  assert.strictEqual(data.resumo_de_para.total_itens, 1);
+});
+
+test('TICKET 03 - API: POST /api/compras/confirmar-entrada executa fluxo atômico (Fornecedor, Kardex, Pagar e De-Para)', async () => {
+  const chaveCompra = '35261177777777000199550010000007771000000777';
+  const cnpjFornecedor = '77777777000199';
+  const codFornecedorItem = 'INS-TEC-LINHO-01';
+
+  // 1. Limpeza prévia
+  await db.run('DELETE FROM compras_xml WHERE chave_nfe = ?', [chaveCompra]);
+  await db.run('DELETE FROM financeiro_lancamentos WHERE chave_nfe_origem = ?', [chaveCompra]);
+  await db.run('DELETE FROM fornecedores WHERE cnpj = ?', [cnpjFornecedor]);
+
+  // 2. Cria produto no catálogo para vincular
+  const agora = new Date().toISOString();
+  const resProd = await db.run(`
+    INSERT INTO produtos (nome, categoria, unidade_medida, preco_custo, preco_venda, estoque_atual, ativo, data_cadastro)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `, ['TECIDO LINHO CRU 1.40M', 'TECIDOS', 'M', 40.0, 80.0, 20.0, 1, agora]);
+  const prodId = resProd.lastInsertRowid;
+
+  // 3. Monta payload de confirmação com 1 item (fator 10 = rolo de 10m vira 10m no estoque) e 2 duplicatas
+  const payload = {
+    chave_nfe: chaveCompra,
+    numero_nfe: '777',
+    serie_nfe: '1',
+    data_emissao: '2026-11-10',
+    valor_total: 1000.0,
+    fornecedor: {
+      documento: cnpjFornecedor,
+      cnpj: cnpjFornecedor,
+      razao_social: 'TECIDOS & CIA BRASIL LTDA',
+      cidade: 'PORTO ALEGRE',
+      uf: 'RS'
+    },
+    duplicatas: [
+      { numero: '001', vencimento: '2026-12-10', valor: 500.0 },
+      { numero: '002', vencimento: '2027-01-10', valor: 500.0 }
+    ],
+    itens: [
+      {
+        codigo: codFornecedorItem,
+        descricao: 'ROLO TECIDO LINHO 10M',
+        quantidade: 2, // 2 rolos
+        valor_unitario: 500.0,
+        valor_total: 1000.0,
+        unidade: 'ROL',
+        produto_erp_id: prodId,
+        fator_conversao: 10.0, // 2 rolos * 10 = 20 metros
+        movimentar_estoque: true
+      }
+    ],
+    lancar_financeiro: true,
+    atualizar_estoque: true
+  };
+
+  const req = {
+    method: 'POST',
+    url: '/api/compras/confirmar-entrada',
+    body: payload
+  };
+  const res = criarMockRes();
+
+  await handlerCompras(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 201);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.parcelas_lancadas, 2);
+  assert.strictEqual(data.itens_somados_estoque, 1);
+  assert.strictEqual(data.vinculos_memorizados, 1);
+
+  // 4. Valida se o estoque do produto somou 20 metros (saldo anterior 20 + 20 = 40)
+  const prodAtualizado = await db.get('SELECT estoque_atual, preco_custo FROM produtos WHERE id = ?', [prodId]);
+  assert.strictEqual(Number(prodAtualizado.estoque_atual), 40.0);
+
+  // 5. Valida se Kardex registrou a entrada
+  const movEstoque = await db.get(`
+    SELECT * FROM estoque_movimentacoes 
+    WHERE produto_id = ? AND documento_referencia = 'NF-e #777'
+  `, [prodId]);
+  assert.ok(movEstoque, 'Movimentação de Kardex deve existir');
+  assert.strictEqual(movEstoque.tipo, 'ENTRADA');
+  assert.strictEqual(Number(movEstoque.quantidade), 20.0);
+  assert.strictEqual(Number(movEstoque.saldo_posterior), 40.0);
+
+  // 6. Valida se lançou as 2 parcelas no Contas a Pagar
+  const lancamentos = await db.query(`
+    SELECT * FROM financeiro_lancamentos 
+    WHERE chave_nfe_origem = ? ORDER BY data_vencimento ASC
+  `, [chaveCompra]);
+  assert.strictEqual(lancamentos.length, 2);
+  assert.strictEqual(Number(lancamentos[0].valor), 500.0);
+  assert.strictEqual(lancamentos[0].tipo, 'PAGAR');
+
+  // 7. Valida se memorizou o vínculo De-Para
+  const vinculo = await db.get(`
+    SELECT * FROM fornecedores_produtos_vinculo 
+    WHERE fornecedor_id = ? AND codigo_fornecedor = ?
+  `, [data.fornecedor_id, codFornecedorItem]);
+  assert.ok(vinculo, 'Vínculo De-Para deve ter sido memorizado');
+  assert.strictEqual(Number(vinculo.fator_conversao), 10.0);
+  assert.strictEqual(vinculo.produto_erp_id, prodId);
+
+  // 8. Limpeza dos dados de teste
+  await db.run('DELETE FROM compras_xml WHERE chave_nfe = ?', [chaveCompra]);
+  await db.run('DELETE FROM financeiro_lancamentos WHERE chave_nfe_origem = ?', [chaveCompra]);
+  await db.run('DELETE FROM estoque_movimentacoes WHERE produto_id = ?', [prodId]);
+  await db.run('DELETE FROM fornecedores_produtos_vinculo WHERE fornecedor_id = ? AND codigo_fornecedor = ?', [data.fornecedor_id, codFornecedorItem]);
+  await db.run('DELETE FROM fornecedores WHERE cnpj = ?', [cnpjFornecedor]);
+  await db.run('DELETE FROM produtos WHERE id = ?', [prodId]);
+});
+
+test('TICKET 03 - API: Bloqueio idempotente retorna HTTP 409 para nota já importada', async () => {
+  const chaveExistente = '35261166666666000199550010000006661000000666';
+
+  // Cria registro fake na compras_xml
+  await db.run('DELETE FROM compras_xml WHERE chave_nfe = ?', [chaveExistente]);
+  await db.run(`
+    INSERT INTO compras_xml (
+      chave_nfe, numero_nfe, serie_nfe, fornecedor_cnpj, fornecedor_nome, valor_total, data_emissao, data_importacao
+    ) VALUES (?, '666', '1', '66666666000199', 'FORN FAKE', 100.0, '2026-11-10', '2026-11-10T12:00:00Z')
+  `, [chaveExistente]);
+
+  // Tenta confirmar entrada com a mesma chave
+  const req = {
+    method: 'POST',
+    url: '/api/compras/confirmar-entrada',
+    body: {
+      chave_nfe: chaveExistente,
+      numero_nfe: '666',
+      valor_total: 100.0
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerCompras(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 409, 'Deve responder HTTP 409 Conflict');
+  const data = res.getData();
+  assert.ok(data.error.includes('já foi importada anteriormente'));
+
+  // Limpeza
+  await db.run('DELETE FROM compras_xml WHERE chave_nfe = ?', [chaveExistente]);
+});
+
+test('TICKET 03 - API: GET /api/compras/de-para/:fornecedorId retorna o mapa de vínculos do fornecedor', async () => {
+  const fornId = 5555;
+  const skuTeste = 'SKU_MAPA_TEST_01';
+
+  // Cria produto e vínculo para testar
+  const agora = new Date().toISOString();
+  const resProd = await db.run(`
+    INSERT INTO produtos (nome, categoria, unidade_medida, preco_custo, preco_venda, estoque_atual, ativo, data_cadastro)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `, ['PRODUTO MAPA TESTE', 'MATERIAIS', 'UN', 15.0, 30.0, 5, 1, agora]);
+  const prodId = resProd.lastInsertRowid;
+
+  await db.run(`
+    INSERT INTO fornecedores_produtos_vinculo (
+      fornecedor_id, codigo_fornecedor, descricao_fornecedor, produto_erp_id, fator_conversao, unidade_fornecedor
+    ) VALUES (?, ?, ?, ?, ?, ?)
+  `, [fornId, skuTeste, 'DESCRICAO ITEM FORNECEDOR', prodId, 4.0, 'PCT']);
+
+  const req = {
+    method: 'GET',
+    url: `/api/compras/de-para/${fornId}`
+  };
+  const res = criarMockRes();
+
+  await handlerCompras(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.fornecedor_id, fornId);
+  assert.ok(Array.isArray(data.vinculos));
+  assert.ok(data.vinculos.length >= 1);
+
+  const item = data.vinculos.find(v => v.codigo_fornecedor === skuTeste);
+  assert.ok(item, 'Item vinculado deve constar no array');
+  assert.strictEqual(Number(item.fator_conversao), 4.0);
+  assert.strictEqual(item.unidade_fornecedor, 'PCT');
+  assert.strictEqual(item.produto_erp_nome, 'PRODUTO MAPA TESTE');
+
+  // Limpeza
+  await db.run('DELETE FROM fornecedores_produtos_vinculo WHERE fornecedor_id = ? AND codigo_fornecedor = ?', [fornId, skuTeste]);
+  await db.run('DELETE FROM produtos WHERE id = ?', [prodId]);
+});
