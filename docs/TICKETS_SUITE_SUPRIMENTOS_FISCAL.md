@@ -75,7 +75,7 @@ flowchart LR
   3. Aplicar rigorosamente as regras globais de UI/UX: Caixa Alta Universal em todos os campos, navegação fluida por Tab, botões secundários com `tabindex="-1"` e remoção de spinners em campos numéricos.
 - **Passo de Validação:**
   - Testar no navegador o upload de um XML de teste, verificar o foco automático e a navegação estrita por teclado.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Implementado modal moderno com 3 cards analíticos, drag-and-drop nativo, combobox pesquisável flutuante, fator de embalagem reativo e 3 novos testes em tests/suprimentos_fiscal.test.js)
 
 ---
 

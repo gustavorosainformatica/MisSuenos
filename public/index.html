@@ -8738,99 +8738,137 @@
     </div>
   </div>
 
-  <!-- MODAL DE IMPORTAÇÃO DE XML DE COMPRA NF-e (MODERNO & MINIMALISTA) -->
+  <!-- MODAL DE IMPORTAÇÃO DE XML DE COMPRA NF-e (MODERNO, SEFAZ & MOTOR DE-PARA INTELIGENTE) -->
   <div class="modal-overlay" id="modal-importar-xml">
-    <div class="modal-container" style="max-width: 980px; width: 96%; max-height: 94vh;">
+    <div class="modal-container" style="max-width: 1240px; width: 97%; max-height: 94vh; display: flex; flex-direction: column;">
       <div class="modal-resize-handle" data-modal="modal-importar-xml" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
-      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38; flex-shrink: 0;">
         <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
           <span style="font-size: 20px;">📥</span>
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 15px; font-weight: 800; color: #fff;">Importação de NF-e | Compra de Mercadorias & Insumos</span>
               <span class="badge-ped" style="font-size: 10.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
-                🟢 PARSER XML SEFAZ
+                🟢 PARSER XML SEFAZ & MOTOR DE-PARA
               </span>
             </div>
             <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
-              Alimentação de Estoque, Cadastro de Fornecedor e Lançamento de Duplicatas
+              Alimentação de Estoque, Cadastro Automático de Fornecedor e Lançamento de Duplicatas
             </div>
           </div>
         </div>
-        <button type="button" class="modal-close-btn" onclick="fecharModalImportarXml()">✕</button>
+        <button type="button" class="modal-close-btn" tabindex="-1" onclick="fecharModalImportarXml()" title="Fechar janela (Esc)">✕</button>
       </div>
 
-      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto; flex: 1;">
         
-        <!-- DROPZONE DE ARQUIVO XML COMPACTA E MODERNA -->
-        <div id="xml-dropzone" class="dropzone-box" onclick="document.getElementById('xml-file-input').click()" style="border: 2px dashed #334155; border-radius: 8px; background: rgba(15, 23, 42, 0.6); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; transition: all 0.2s;">
+        <!-- DROPZONE DE ARQUIVO XML COMPACTA E MODERNA COM DRAG AND DROP REAL -->
+        <div id="xml-dropzone" class="dropzone-box" onclick="document.getElementById('xml-file-input').click()"
+             ondragover="aoArrastarSobreXmlDropzone(event)"
+             ondragleave="aoSairXmlDropzone(event)"
+             ondrop="aoSoltarArquivoXml(event)"
+             style="border: 2px dashed #334155; border-radius: 8px; background: rgba(15, 23, 42, 0.6); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; transition: all 0.2s;">
           <input type="file" id="xml-file-input" accept=".xml,text/xml" style="display: none;" onchange="lerArquivoXmlCompra(this)">
           <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 26px;">📄</span>
+            <span style="font-size: 28px;">📄</span>
             <div>
-              <div style="font-weight: 700; color: #38bdf8; font-size: 13px;">Arraste o arquivo .XML da NF-e aqui ou clique para selecionar</div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Compatível com NF-e Modelo 55 da SEFAZ de qualquer fornecedor nacional</div>
+              <div style="font-weight: 700; color: #38bdf8; font-size: 13.5px;">Arraste o arquivo .XML da NF-e aqui ou clique para selecionar</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Compatível com NF-e Modelo 55 da SEFAZ de qualquer fornecedor nacional com auto-aprendizagem de produtos</div>
             </div>
           </div>
-          <button type="button" class="btn-top btn-row-action" style="white-space: nowrap; font-size: 11.5px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="event.stopPropagation(); carregarXmlExemploTeste();">
-            <span>🧪</span> Carregar XML de Exemplo
+          <button type="button" tabindex="-1" class="btn-top btn-row-action" style="white-space: nowrap; font-size: 11.5px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="event.stopPropagation(); carregarXmlExemploTeste();">
+            <span>🧪</span> Carregar NF-e Exemplo
           </button>
         </div>
 
         <!-- ÁREA DE CARDS COM DADOS EXTRAÍDOS DO XML -->
         <div id="xml-preview-container" style="display: none; flex-direction: column; gap: 14px;">
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <!-- CARD FORNECEDOR -->
-            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
-              <div style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.3px;">
-                🏢 Fornecedor Emitente
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px;">
+            <!-- CARD 1: FORNECEDOR EMITENTE -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.3px;">
+                    🏢 Fornecedor Emitente
+                  </div>
+                  <span id="xml-prev-fornecedor-status" class="badge-ped" style="font-size: 9.5px;">-</span>
+                </div>
+                <div id="xml-prev-fornecedor-nome" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 4px; text-transform: uppercase;">-</div>
+                <div id="xml-prev-fornecedor-doc" style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">-</div>
               </div>
-              <div id="xml-prev-fornecedor-nome" style="font-weight: 800; color: #fff; font-size: 13.5px; margin-top: 3px;">-</div>
-              <div id="xml-prev-fornecedor-doc" style="font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">-</div>
             </div>
 
-            <!-- CARD DADOS DA NOTA -->
+            <!-- CARD 2: DADOS DA NOTA & FATURAMENTO -->
             <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="font-size: 10.5px; font-weight: 700; color: #34d399; text-transform: uppercase; letter-spacing: 0.3px;">
-                  🧾 Dados da NF-e & Faturamento
+                  🧾 NF-e & Faturamento
                 </div>
                 <span id="xml-prev-duplicatas" style="font-size: 10.5px; font-weight: 700; color: #fbbf24;">-</span>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 3px;">
-                <div id="xml-prev-nota-num" style="font-weight: 800; color: #fff; font-size: 13.5px;">-</div>
+                <div id="xml-prev-nota-num" style="font-weight: 800; color: #fff; font-size: 13px;">-</div>
                 <div id="xml-prev-nota-valor" style="font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: #34d399;">R$ 0,00</div>
               </div>
               <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3px;">
                 <div id="xml-prev-nota-chave" style="font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; word-break: break-all;">-</div>
-                <button type="button" class="btn-top btn-row-action" onclick="copiarChaveXmlImportado()" style="padding: 2px 7px; font-size: 10px; margin-left: 6px;">
+                <button type="button" tabindex="-1" class="btn-top btn-row-action" onclick="copiarChaveXmlImportado()" style="padding: 2px 7px; font-size: 10px; margin-left: 6px;">
                   📋 Copiar
                 </button>
               </div>
             </div>
+
+            <!-- CARD 3: MOTOR INTELIGENTE DE-PARA -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px;">
+              <div style="font-size: 10.5px; font-weight: 700; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.3px; display: flex; justify-content: space-between; align-items: center;">
+                <span>🔄 Motor De-Para de Produtos</span>
+                <span id="xml-kpi-status-badge" class="badge-ped" style="font-size: 9.5px;">-</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 6px; text-align: center;">
+                <div style="background: rgba(15, 23, 42, 0.5); border-radius: 6px; padding: 4px;">
+                  <div style="font-size: 10px; color: var(--text-muted);">Total Itens</div>
+                  <div id="xml-kpi-total-itens" style="font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px;">0</div>
+                </div>
+                <div style="background: rgba(16, 185, 129, 0.1); border-radius: 6px; padding: 4px;">
+                  <div style="font-size: 10px; color: #34d399;">Vinculados</div>
+                  <div id="xml-kpi-vinculados" style="font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 14px;">0</div>
+                </div>
+                <div style="background: rgba(250, 204, 21, 0.1); border-radius: 6px; padding: 4px;">
+                  <div style="font-size: 10px; color: #facc15;">Pendentes / Novos</div>
+                  <div id="xml-kpi-pendentes" style="font-weight: 800; color: #facc15; font-family: 'JetBrains Mono', monospace; font-size: 14px;">0</div>
+                </div>
+              </div>
+              <div id="xml-kpi-status-banner" style="font-size: 10.5px; margin-top: 5px; color: #94a3b8; line-height: 1.2;">
+                Vínculos identificados automaticamente por histórico ou código EAN.
+              </div>
+            </div>
           </div>
 
-          <!-- TABELA DE ITENS COM DESTINO NO ESTOQUE -->
+          <!-- TABELA DE ITENS COM DESTINO NO ESTOQUE E DE-PARA -->
           <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px;">
-                📦 Mercadorias e Insumos da Nota Fiscal (<span id="xml-itens-contagem">0</span> itens):
+                📦 Mercadorias & Insumos da Nota Fiscal (<span id="xml-itens-contagem">0</span> itens):
               </div>
-              <span style="font-size: 11px; color: #38bdf8; font-weight: 600;">Selecione o destino de estoque de cada item</span>
+              <span style="font-size: 11px; color: #38bdf8; font-weight: 600;">Ajuste o fator de embalagem e selecione o destino de cada produto</span>
             </div>
 
-            <div class="erp-table-wrapper" style="max-height: 260px; overflow-y: auto; border: 1px solid #334155; border-radius: 8px;">
-              <table class="erp-table" style="width: 100%; border-collapse: collapse;">
+            <div class="erp-table-wrapper" style="max-height: 320px; overflow-y: auto; overflow-x: auto; border: 1px solid #334155; border-radius: 8px;">
+              <table class="erp-table" style="width: 100%; border-collapse: collapse; min-width: 1000px;">
                 <thead>
                   <tr>
-                    <th style="width: 115px; padding: 8px 10px; font-size: 11px;">NCM / Cód</th>
-                    <th style="padding: 8px 10px; font-size: 11px;">Descrição do Item no XML</th>
-                    <th style="text-align: center; width: 75px; padding: 8px 10px; font-size: 11px;">Qtd</th>
-                    <th style="text-align: right; width: 100px; padding: 8px 10px; font-size: 11px;">Custo Unit.</th>
-                    <th style="text-align: right; width: 105px; padding: 8px 10px; font-size: 11px;">Subtotal</th>
-                    <th style="width: 195px; padding: 8px 10px; font-size: 11px;">Ação de Entrada</th>
-                    <th style="width: 215px; padding: 8px 10px; font-size: 11px;">Vínculo no Catálogo</th>
+                    <th style="width: 35px; padding: 8px 6px; font-size: 11px; text-align: center;">#</th>
+                    <th style="width: 105px; padding: 8px 10px; font-size: 11px;">NCM / Cód</th>
+                    <th style="padding: 8px 10px; font-size: 11px; min-width: 200px;">Descrição do Item no XML</th>
+                    <th style="text-align: center; width: 85px; padding: 8px 6px; font-size: 11px;">Qtd XML</th>
+                    <th style="text-align: center; width: 85px; padding: 8px 6px; font-size: 11px;" title="Ex: se 1 caixa contém 12 unidades, informe 12">Fator Emb.</th>
+                    <th style="text-align: center; width: 105px; padding: 8px 6px; font-size: 11px;">Estoque Final</th>
+                    <th style="text-align: right; width: 95px; padding: 8px 8px; font-size: 11px;">Custo Unit.</th>
+                    <th style="text-align: right; width: 100px; padding: 8px 8px; font-size: 11px;">Subtotal</th>
+                    <th style="text-align: center; width: 110px; padding: 8px 8px; font-size: 11px;">De-Para</th>
+                    <th style="padding: 8px 10px; font-size: 11px; min-width: 250px;">Vínculo Catálogo ERP (Pesquisável)</th>
+                    <th style="width: 145px; padding: 8px 10px; font-size: 11px;">Destino</th>
                   </tr>
                 </thead>
                 <tbody id="xml-itens-preview-body"></tbody>
@@ -8843,14 +8881,17 @@
       </div>
 
       <!-- RODAPÉ DO MODAL -->
-      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px;">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px; flex-shrink: 0;">
+        <button type="button" tabindex="-1" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>
         <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-xml" style="display: none; font-weight: 800; font-size: 12.5px; padding: 8px 18px;" onclick="confirmarImportacaoXmlCompra()">
-          <span>✅</span> Confirmar Importação & Alimentar Estoque
+          <span>💾</span> Confirmar Entrada no Estoque e Financeiro
         </button>
       </div>
     </div>
   </div>
+
+  <!-- DROPDOWN FLUTUANTE REUTILIZÁVEL PARA COMBOBOX DE-PARA DE COMPRAS (ANTI-OVERFLOW) -->
+  <div id="dropdown-flutuante-de-para" style="position: fixed; display: none; background: #0f172a; border: 1px solid #38bdf8; border-radius: 8px; box-shadow: 0 16px 40px rgba(0,0,0,0.9); max-height: 280px; overflow-y: auto; z-index: 100050; min-width: 320px;"></div>
 
   <!-- MODAL DE REDEFINIÇÃO ADMINISTRATIVA DE SENHA (MODERNO & SEGURO) -->
   <div id="modal-admin-reset-senha" class="modal-overlay" style="display: none;">
@@ -15409,8 +15450,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     
-    // CONTROLADORES DE ABERTURA E FECHAMENTO PARA MODAIS OPERACIONAIS COMPLEMENTARES
+    // ========================================================
+    // MÓDULO DE COMPRAS, IMPORTAÇÃO DE NF-E & MOTOR DE-PARA (TICKET 4)
+    // ========================================================
     let dadosXmlImportadoAtual = null;
+    let catalogoProdutosERP = [];
+    let indiceItemDeParaDropdownAberto = -1;
 
     function abrirModalImportarXml() {
       aplicarTamanhoSalvoModal('modal-importar-xml');
@@ -15419,275 +15464,678 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         const _cnt = modal.querySelector('.modal-container');
         if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
         modal.classList.add('active');
-        focarPrimeiroCampoModal(modal);
+        
+        // Foco automático ergonômico no primeiro elemento interativo
+        setTimeout(() => {
+          const dropzone = document.getElementById('xml-dropzone');
+          if (dropzone) dropzone.focus();
+        }, 50);
       }
     }
 
     function fecharModalImportarXml() {
       const modal = document.getElementById('modal-importar-xml');
       if (modal) modal.classList.remove('active');
+      fecharDropdownComboboxXmlItem();
     }
 
     function copiarChaveXmlImportado() {
       const chave = (document.getElementById('xml-prev-nota-chave')?.textContent || '').replace(/\s+/g, '');
       if (chave && navigator.clipboard) {
-        navigator.clipboard.writeText(chave).then(() => mostrarToast('📋 Chave de acesso da NF-e copiada!'));
+        navigator.clipboard.writeText(chave).then(() => mostrarToast('📋 Chave de acesso da NF-e copiada com sucesso!'));
       }
     }
 
-    function processarDadosXmlObjeto(dados) {
-      dadosXmlImportadoAtual = dados;
-      
-      const prevCont = document.getElementById('xml-preview-container');
-      const btnConf = document.getElementById('btn-confirmar-xml');
-      if (prevCont) prevCont.style.display = 'flex';
-      if (btnConf) btnConf.style.display = 'inline-flex';
-
-      // Fornecedor
-      const forNome = document.getElementById('xml-prev-fornecedor-nome');
-      const forDoc = document.getElementById('xml-prev-fornecedor-doc');
-      if (forNome) forNome.textContent = dados.fornecedor.nome;
-      if (forDoc) forDoc.textContent = `CNPJ: ${dados.fornecedor.cnpj} • ${dados.fornecedor.cidade} / ${dados.fornecedor.uf}`;
-
-      // Nota & Duplicatas
-      const notaNum = document.getElementById('xml-prev-nota-num');
-      const notaVal = document.getElementById('xml-prev-nota-valor');
-      const notaChave = document.getElementById('xml-prev-nota-chave');
-      const notaDup = document.getElementById('xml-prev-duplicatas');
-      if (notaNum) notaNum.textContent = `NF-e nº ${dados.nota.numero} • Série ${dados.nota.serie}`;
-      if (notaVal) notaVal.textContent = formatarMoedaPtBr ? formatarMoedaPtBr(dados.nota.valorTotal) : `R$ ${Number(dados.nota.valorTotal).toFixed(2)}`;
-      if (notaChave) notaChave.textContent = dados.nota.chave.replace(/(\d{4})/g, '$1 ').trim();
-      if (notaDup) notaDup.textContent = dados.nota.duplicatasInfo || '1 Duplicata (30 dias)';
-
-      // Itens
-      const tbody = document.getElementById('xml-itens-preview-body');
-      const countEl = document.getElementById('xml-itens-contagem');
-      if (countEl) countEl.textContent = dados.itens.length;
-      if (!tbody) return;
-
-      tbody.innerHTML = '';
-      dados.itens.forEach((it, idx) => {
-        const tr = document.createElement('tr');
-        
-        // Montar opções de vínculo com produtos existentes do ERP
-        let optsProdutos = '<option value="NOVO">+ Cadastrar Novo Produto</option>';
-        if (Array.isArray(produtos)) {
-          produtos.forEach(p => {
-            const sel = (it.nome && p.nome && (p.nome.toLowerCase().includes(it.nome.toLowerCase().slice(0, 10)) || it.nome.toLowerCase().includes(p.nome.toLowerCase().slice(0, 10)))) ? 'selected' : '';
-            optsProdutos += `<option value="${p.id}" ${sel}>${p.nome} (Estoque: ${p.estoqueAtual || 0})</option>`;
-          });
-        }
-
-        tr.innerHTML = `
-          <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; font-size: 11px;">${it.ncm || '-'}</td>
-          <td>
-            <strong style="color: #fff; font-size: 12px;">${it.nome}</strong>
-            <div style="font-size: 10.5px; color: var(--text-muted);">Un: ${it.unidade || 'UN'} • Cód: ${it.codigo || '-'}</div>
-          </td>
-          <td style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;">${it.quantidade} ${it.unidade || 'un'}</td>
-          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12px;">R$ ${Number(it.valorUnitario).toFixed(2).replace('.', ',')}</td>
-          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; font-size: 12px;">R$ ${Number(it.valorTotal).toFixed(2).replace('.', ',')}</td>
-          <td>
-            <select class="form-input erp-select" id="xml-acao-item-${idx}" style="font-size: 11px; padding: 4px 8px;" onchange="alternarAcaoItemXml(${idx})">
-              <option value="ESTOQUE" ${it.acaoSugerida === 'ESTOQUE' ? 'selected' : ''}>🟢 Somar ao Estoque</option>
-              <option value="DESPESA" ${it.acaoSugerida === 'DESPESA' ? 'selected' : ''}>⚪ Apenas Despesa / Insumo</option>
-            </select>
-          </td>
-          <td>
-            <select class="form-input erp-select" id="xml-vinculo-item-${idx}" style="font-size: 11px; padding: 4px 8px;">
-              ${optsProdutos}
-            </select>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function alternarAcaoItemXml(idx) {
-      const acaoSel = document.getElementById(`xml-acao-item-${idx}`);
-      const vincSel = document.getElementById(`xml-vinculo-item-${idx}`);
-      if (acaoSel && vincSel) {
-        if (acaoSel.value === 'DESPESA') {
-          vincSel.disabled = true;
-          vincSel.style.opacity = '0.4';
-        } else {
-          vincSel.disabled = false;
-          vincSel.style.opacity = '1';
-        }
+    // Drag and Drop funcional ergonômico para arquivo XML
+    function aoArrastarSobreXmlDropzone(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('xml-dropzone');
+      if (dz) {
+        dz.style.borderColor = '#10b981';
+        dz.style.background = 'rgba(16, 185, 129, 0.12)';
+        dz.style.transform = 'scale(1.005)';
       }
     }
 
-    function carregarXmlExemploTeste() {
-      const exemploDados = {
-        fornecedor: {
-          nome: 'CURTUME MINUANO LTDA',
-          cnpj: '92.834.120/0001-45',
-          cidade: 'Lindolfo Collor',
-          uf: 'RS'
-        },
-        nota: {
-          numero: '004.819',
-          serie: '1',
-          chave: '43261092834120000145550010000048191084729104',
-          valorTotal: 4250.00,
-          duplicatasInfo: '1 Duplicata (Venc: 30 dias)'
-        },
-        itens: [
-          {
-            codigo: '1048',
-            ncm: '4106.31.10',
-            nome: 'PELE DE CABRITO CRUA TRATADA 1ª LINHA',
-            unidade: 'PC',
-            quantidade: 50,
-            valorUnitario: 65.00,
-            valorTotal: 3250.00,
-            acaoSugerida: 'ESTOQUE'
-          },
-          {
-            codigo: '2011',
-            ncm: '3208.90.10',
-            nome: 'VERNIZ ACRÍLICO FOSCO ESPECIAL PARA COUROS',
-            unidade: 'GL',
-            quantidade: 10,
-            valorUnitario: 100.00,
-            valorTotal: 1000.00,
-            acaoSugerida: 'DESPESA'
-          }
-        ]
-      };
+    function aoSairXmlDropzone(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('xml-dropzone');
+      if (dz) {
+        dz.style.borderColor = '#334155';
+        dz.style.background = 'rgba(15, 23, 42, 0.6)';
+        dz.style.transform = 'none';
+      }
+    }
 
-      processarDadosXmlObjeto(exemploDados);
-      mostrarToast('🧪 XML de Exemplo (Curtume Minuano Ltda) carregado com sucesso!');
+    function aoSoltarArquivoXml(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      aoSairXmlDropzone(e);
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        const file = files[0];
+        if (!file.name.toLowerCase().endsWith('.xml')) {
+          mostrarToast('Formato inválido. Por favor, arraste um arquivo com extensão .XML.');
+          return;
+        }
+        enviarArquivoXmlParaApi(file);
+      }
     }
 
     function lerArquivoXmlCompra(input) {
       const file = input?.files?.[0];
       if (!file) return;
+      enviarArquivoXmlParaApi(file);
+      input.value = '';
+    }
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const xmlText = e.target.result;
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+    async function enviarArquivoXmlParaApi(fileOuStringXml) {
+      let xmlString = '';
+      if (typeof fileOuStringXml === 'string') {
+        xmlString = fileOuStringXml;
+      } else if (fileOuStringXml instanceof File || fileOuStringXml instanceof Blob) {
+        xmlString = await fileOuStringXml.text();
+      }
 
-          const emit = xmlDoc.querySelector('emit');
-          const ide = xmlDoc.querySelector('ide');
-          const total = xmlDoc.querySelector('total ICMSTot');
-          const infNFe = xmlDoc.querySelector('infNFe');
-          const dets = xmlDoc.querySelectorAll('det');
+      if (!xmlString || xmlString.trim().length === 0) {
+        mostrarToast('Arquivo XML vazio ou corrompido.');
+        return;
+      }
 
-          if (!emit || !ide) {
-            mostrarToast('Arquivo XML inválido ou não compatível com NF-e.');
-            return;
-          }
+      mostrarToast('⏳ Analisando XML da NF-e e processando De-Para inteligente...');
 
-          const fornecedor = {
-            nome: emit.querySelector('xNome')?.textContent || 'Fornecedor Identificado',
-            cnpj: emit.querySelector('CNPJ')?.textContent || emit.querySelector('CPF')?.textContent || '-',
-            cidade: emit.querySelector('enderEmit xMun')?.textContent || 'Cidade',
-            uf: emit.querySelector('enderEmit UF')?.textContent || 'RS'
-          };
+      try {
+        const res = await fetch('/api/compras/importar-xml', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ xml: xmlString })
+        });
 
-          const chaveRaw = infNFe?.getAttribute('Id') || '';
-          const chave = chaveRaw.replace(/^NFe/, '') || '43261195500000019055001000001044198274610293';
+        const data = await res.json();
 
-          const valorTotNum = parseFloat(total?.querySelector('vNF')?.textContent || '0') || 0;
-          const dupVenc = xmlDoc.querySelector('cobr dup dVenc')?.textContent || '30 dias';
-
-          const itens = [];
-          dets.forEach((det, i) => {
-            const prod = det.querySelector('prod');
-            if (prod) {
-              const qCom = parseFloat(prod.querySelector('qCom')?.textContent || '1') || 1;
-              const vUn = parseFloat(prod.querySelector('vUnCom')?.textContent || '0') || 0;
-              const vProd = parseFloat(prod.querySelector('vProd')?.textContent || '0') || (qCom * vUn);
-              itens.push({
-                codigo: prod.querySelector('cProd')?.textContent || String(i + 1),
-                ncm: prod.querySelector('NCM')?.textContent || '-',
-                nome: prod.querySelector('xProd')?.textContent || 'Mercadoria',
-                unidade: prod.querySelector('uCom')?.textContent || 'UN',
-                quantidade: qCom,
-                valorUnitario: vUn,
-                valorTotal: vProd,
-                acaoSugerida: 'ESTOQUE'
-              });
-            }
-          });
-
-          const dadosExtraidos = {
-            fornecedor,
-            nota: {
-              numero: ide.querySelector('nNF')?.textContent || '001',
-              serie: ide.querySelector('serie')?.textContent || '1',
-              chave,
-              valorTotal: valorTotNum,
-              duplicatasInfo: `Vencimento: ${dupVenc}`
-            },
-            itens
-          };
-
-          processarDadosXmlObjeto(dadosExtraidos);
-          mostrarToast(`📄 NF-e #${dadosExtraidos.nota.numero} do fornecedor carregada!`);
-        } catch (err) {
-          console.error('[XML] Erro ao ler XML:', err);
-          mostrarToast('Falha ao processar arquivo XML da NF-e.');
+        if (res.status === 409) {
+          mostrarToast(`⚠️ ATENÇÃO: Esta NF-e já foi importada anteriormente! Chave: ${data.chave_nfe || ''}`);
+          return;
         }
-      };
-      reader.readAsText(file);
+
+        if (!res.ok || !data.success) {
+          mostrarToast(data.error || 'Falha ao processar o XML da NF-e na SEFAZ.');
+          return;
+        }
+
+        dadosXmlImportadoAtual = data;
+        catalogoProdutosERP = Array.isArray(data.catalogo_produtos) && data.catalogo_produtos.length > 0
+          ? data.catalogo_produtos 
+          : (Array.isArray(produtos) ? produtos : []);
+
+        renderizarVisualizacaoXmlCompra(data);
+        mostrarToast(`📄 NF-e nº ${data.numero_nfe} do fornecedor carregada com sucesso!`);
+      } catch (err) {
+        console.error('[COMPRAS] Erro ao enviar XML:', err);
+        mostrarToast('Erro de comunicação ao conectar com o serviço de importação.');
+      }
+    }
+
+    function renderizarVisualizacaoXmlCompra(dados) {
+      const prevCont = document.getElementById('xml-preview-container');
+      const btnConf = document.getElementById('btn-confirmar-xml');
+      if (prevCont) prevCont.style.display = 'flex';
+      if (btnConf) {
+        btnConf.style.display = 'inline-flex';
+        btnConf.disabled = false;
+        btnConf.innerHTML = '<span>💾</span> Confirmar Entrada no Estoque e Financeiro';
+      }
+
+      // 1. CARD FORNECEDOR EMITENTE
+      const f = dados.fornecedor || {};
+      const elForNome = document.getElementById('xml-prev-fornecedor-nome');
+      const elForDoc = document.getElementById('xml-prev-fornecedor-doc');
+      const elForStatus = document.getElementById('xml-prev-fornecedor-status');
+      
+      if (elForNome) elForNome.textContent = (f.razao_social || f.nome || 'FORNECEDOR IDENTIFICADO').toUpperCase();
+      
+      const cnpjBruto = (f.documento || f.cnpj || '').replace(/\D/g, '');
+      const cnpjFmt = cnpjBruto.length === 14 
+        ? cnpjBruto.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5')
+        : (cnpjBruto.length === 11 ? cnpjBruto.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : cnpjBruto);
+      const cidadeUf = [f.cidade, f.uf].filter(Boolean).join(' / ').toUpperCase();
+      
+      if (elForDoc) {
+        elForDoc.textContent = `CNPJ: ${cnpjFmt || '-'} • ${cidadeUf || 'BRASIL'}${f.ie ? ' • IE: ' + f.ie : ''}`;
+      }
+      
+      if (elForStatus) {
+        if (dados.fornecedor_cadastrado) {
+          elForStatus.className = 'badge-ped';
+          elForStatus.style.background = 'rgba(16, 185, 129, 0.15)';
+          elForStatus.style.color = '#34d399';
+          elForStatus.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+          elForStatus.textContent = '🟢 CADASTRADO NO ERP';
+        } else {
+          elForStatus.className = 'badge-ped';
+          elForStatus.style.background = 'rgba(250, 204, 21, 0.15)';
+          elForStatus.style.color = '#facc15';
+          elForStatus.style.border = '1px solid rgba(250, 204, 21, 0.3)';
+          elForStatus.textContent = '🟡 NOVO (AUTO-CADASTRO)';
+        }
+      }
+
+      // 2. CARD NF-E & FATURAMENTO
+      const elNotaNum = document.getElementById('xml-prev-nota-num');
+      const elNotaVal = document.getElementById('xml-prev-nota-valor');
+      const elNotaChave = document.getElementById('xml-prev-nota-chave');
+      const elNotaDup = document.getElementById('xml-prev-duplicatas');
+
+      if (elNotaNum) elNotaNum.textContent = `NF-e nº ${dados.numero_nfe || dados.nota?.numero || '-'} • Série ${dados.serie_nfe || dados.nota?.serie || '1'}`;
+      const valTot = Number(dados.valor_total || dados.nota?.valorTotal || 0);
+      if (elNotaVal) elNotaVal.textContent = typeof formatarMoedaPtBr === 'function' ? formatarMoedaPtBr(valTot) : `R$ ${valTot.toFixed(2).replace('.', ',')}`;
+      
+      const chaveRaw = (dados.chave_nfe || dados.nota?.chave || '').replace(/\D/g, '');
+      if (elNotaChave) elNotaChave.textContent = chaveRaw.replace(/(\d{4})/g, '$1 ').trim();
+
+      const duplicatas = Array.isArray(dados.duplicatas) ? dados.duplicatas : [];
+      if (elNotaDup) {
+        if (duplicatas.length > 0) {
+          elNotaDup.textContent = `${duplicatas.length} Duplicata(s) (${duplicatas.map(d => d.data_vencimento ? d.data_vencimento.split('-').reverse().slice(0, 2).join('/') : '30d').join(', ')})`;
+        } else {
+          elNotaDup.textContent = dados.nota?.duplicatasInfo || '1 Duplicata (30 dias)';
+        }
+      }
+
+      // 3. TABELA DE ITENS COM DE-PARA
+      const tbody = document.getElementById('xml-itens-preview-body');
+      const countEl = document.getElementById('xml-itens-contagem');
+      const itens = Array.isArray(dados.itens) ? dados.itens : [];
+      if (countEl) countEl.textContent = itens.length;
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      itens.forEach((it, idx) => {
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+
+        const ncmCod = it.ncm || it.codigo_fornecedor || '-';
+        const descXml = (it.descricao_fornecedor || it.nome || 'MERCADORIA').toUpperCase();
+        const unXml = (it.unidade_fornecedor || it.unidade || 'UN').toUpperCase();
+        const qtdXml = Number(it.quantidade_fornecedor || it.quantidade || 1);
+        const fator = Number(it.fator_conversao || 1);
+        const qtdFinal = qtdXml * fator;
+        const vUn = Number(it.valor_unitario_fornecedor || it.valorUnitario || 0);
+        const vTot = Number(it.valor_total_bruto || it.valorTotal || (qtdXml * vUn));
+        const unErp = (it.produto_erp_unidade || unXml).toUpperCase();
+
+        const statusDePara = it.status_de_para === 'VINCULADO' ? 'VINCULADO' : (it.produto_erp_id ? 'VINCULADO' : 'NOVO');
+        it.status_de_para = statusDePara;
+
+        const badgeDeParaHtml = statusDePara === 'VINCULADO'
+          ? `<span id="xml-item-badge-${idx}" class="badge-ped" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 10px; font-weight: 700;">🟢 VINCULADO</span>`
+          : `<span id="xml-item-badge-${idx}" class="badge-ped" style="background: rgba(250, 204, 21, 0.15); color: #facc15; border: 1px solid rgba(250, 204, 21, 0.3); font-size: 10px; font-weight: 700;">🟡 NOVO / PENDENTE</span>`;
+
+        const textoInputProd = it.produto_erp_id 
+          ? (it.produto_erp_nome || `PRODUTO ERP #${it.produto_erp_id}`)
+          : '✨ CADASTRAR NOVO PRODUTO NO CATÁLOGO';
+
+        tr.innerHTML = `
+          <td style="text-align: center; font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">${idx + 1}</td>
+          <td style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #fbbf24; font-weight: 700;">
+            ${ncmCod}
+            <div style="font-size: 9.5px; color: var(--text-muted); font-weight: 400;">Cód: ${it.codigo_fornecedor || it.codigo || '-'}</div>
+          </td>
+          <td>
+            <strong style="color: #fff; font-size: 12px; text-transform: uppercase;">${descXml}</strong>
+            <div style="font-size: 10px; color: var(--text-muted);">Unid: ${unXml}${it.ean_fornecedor ? ' • EAN: ' + it.ean_fornecedor : ''}</div>
+          </td>
+          <td style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; color: #fff;">
+            ${qtdXml} <span style="font-size: 10px; color: var(--text-muted);">${unXml}</span>
+          </td>
+          <td style="text-align: center;">
+            <input type="number" step="any" min="0.0001" id="xml-item-fator-${idx}" value="${fator}" class="form-input no-spin" style="width: 70px; text-align: center; font-weight: 700; padding: 4px 6px; font-size: 12px; -moz-appearance: textfield;" oninput="aoMudarFatorConversaoItem(this, ${idx})" title="Fator de conversão (ex: 1 caixa = 12 unidades)">
+          </td>
+          <td style="text-align: center;">
+            <span id="xml-item-estoque-final-${idx}" class="badge-ped" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 800;">
+              ${Number.isInteger(qtdFinal) ? qtdFinal : qtdFinal.toFixed(2).replace('.', ',')} ${unErp}
+            </span>
+          </td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #cbd5e1;">
+            R$ ${vUn.toFixed(2).replace('.', ',')}
+          </td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12px;">
+            R$ ${vTot.toFixed(2).replace('.', ',')}
+          </td>
+          <td style="text-align: center;">
+            ${badgeDeParaHtml}
+          </td>
+          <td style="position: relative;">
+            <div style="display: flex; align-items: center; position: relative;">
+              <input type="text" id="xml-item-prod-input-${idx}" class="form-input" value="${textoInputProd}" autocomplete="off" placeholder="Buscar produto no catálogo..." style="width: 100%; box-sizing: border-box; padding-right: 28px; font-size: 11px; cursor: pointer; text-transform: uppercase;" onclick="abrirDropdownComboboxXmlItem(${idx}, event)" onfocus="abrirDropdownComboboxXmlItem(${idx}, event)" oninput="filtrarDropdownComboboxXmlItem(${idx}, this.value)" onkeydown="aoTeclarComboboxXmlItem(event, ${idx})">
+              <button type="button" tabindex="-1" onclick="abrirDropdownComboboxXmlItem(${idx}, event)" title="Abrir catálogo ERP" style="position: absolute; right: 2px; background: none; border: none; color: #38bdf8; cursor: pointer; padding: 4px 6px; font-size: 10px; line-height: 1;">
+                ▼
+              </button>
+            </div>
+          </td>
+          <td>
+            <select class="form-input erp-select" id="xml-item-destino-${idx}" style="font-size: 11px; padding: 4px 6px; width: 100%;">
+              <option value="ESTOQUE_PRODUTO" ${it.destino_entrada === 'ESTOQUE_PRODUTO' || !it.destino_entrada ? 'selected' : ''}>🟢 Estoque (Venda)</option>
+              <option value="MATERIAIS" ${it.destino_entrada === 'MATERIAIS' ? 'selected' : ''}>🟡 Matéria-Prima</option>
+              <option value="USO_CONSUMO" ${it.destino_entrada === 'USO_CONSUMO' ? 'selected' : ''}>⚪ Uso / Consumo</option>
+            </select>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      recalcularKpisDePara();
+
+      setTimeout(() => {
+        const primFator = document.getElementById('xml-item-fator-0');
+        if (primFator) {
+          primFator.focus();
+          primFator.select();
+        }
+      }, 60);
+    }
+
+    function aoMudarFatorConversaoItem(input, idx) {
+      const fator = parseFloat(input.value) || 1;
+      if (!dadosXmlImportadoAtual || !dadosXmlImportadoAtual.itens || !dadosXmlImportadoAtual.itens[idx]) return;
+      
+      const it = dadosXmlImportadoAtual.itens[idx];
+      it.fator_conversao = fator;
+      
+      const qtdXml = Number(it.quantidade_fornecedor || it.quantidade || 1);
+      const qtdFinal = qtdXml * fator;
+      const unErp = (it.produto_erp_unidade || it.unidade_fornecedor || it.unidade || 'UN').toUpperCase();
+      
+      const elEstoqueFinal = document.getElementById(`xml-item-estoque-final-${idx}`);
+      if (elEstoqueFinal) {
+        elEstoqueFinal.textContent = `${Number.isInteger(qtdFinal) ? qtdFinal : qtdFinal.toFixed(2).replace('.', ',')} ${unErp}`;
+      }
+    }
+
+    function recalcularKpisDePara() {
+      if (!dadosXmlImportadoAtual || !Array.isArray(dadosXmlImportadoAtual.itens)) return;
+      
+      const total = dadosXmlImportadoAtual.itens.length;
+      let vinculados = 0;
+      let pendentes = 0;
+
+      dadosXmlImportadoAtual.itens.forEach(it => {
+        if (it.produto_erp_id && it.produto_erp_id !== 'NOVO') {
+          vinculados++;
+        } else {
+          pendentes++;
+        }
+      });
+
+      const elTot = document.getElementById('xml-kpi-total-itens');
+      const elVinc = document.getElementById('xml-kpi-vinculados');
+      const elPend = document.getElementById('xml-kpi-pendentes');
+      const elStatusBadge = document.getElementById('xml-kpi-status-badge');
+      const elBanner = document.getElementById('xml-kpi-status-banner');
+
+      if (elTot) elTot.textContent = total;
+      if (elVinc) elVinc.textContent = vinculados;
+      if (elPend) elPend.textContent = pendentes;
+
+      if (elStatusBadge) {
+        if (pendentes === 0) {
+          elStatusBadge.className = 'badge-ped';
+          elStatusBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+          elStatusBadge.style.color = '#34d399';
+          elStatusBadge.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+          elStatusBadge.textContent = '🟢 100% VINCULADO';
+        } else {
+          elStatusBadge.className = 'badge-ped';
+          elStatusBadge.style.background = 'rgba(250, 204, 21, 0.15)';
+          elStatusBadge.style.color = '#facc15';
+          elStatusBadge.style.border = '1px solid rgba(250, 204, 21, 0.3)';
+          elStatusBadge.textContent = `🟡 ${pendentes} NOVO(S) / PENDENTE(S)`;
+        }
+      }
+
+      if (elBanner) {
+        if (pendentes === 0) {
+          elBanner.textContent = 'Todos os itens já possuem vínculo memorizado no catálogo. Pronto para entrada!';
+          elBanner.style.color = '#34d399';
+        } else {
+          elBanner.textContent = `${pendentes} item(ns) serão criados como novos produtos ou podem ser vinculados a itens existentes.`;
+          elBanner.style.color = '#94a3b8';
+        }
+      }
+    }
+
+    // COMBOBOX PESQUISÁVEL FLUTUANTE REUTILIZÁVEL (ANTI-OVERFLOW)
+    function abrirDropdownComboboxXmlItem(idx, event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      indiceItemDeParaDropdownAberto = idx;
+      const inputEl = document.getElementById(`xml-item-prod-input-${idx}`);
+      const painel = document.getElementById('dropdown-flutuante-de-para');
+      if (!inputEl || !painel) return;
+
+      const rect = inputEl.getBoundingClientRect();
+      painel.style.top = `${rect.bottom + 4}px`;
+      painel.style.left = `${Math.max(10, rect.left)}px`;
+      painel.style.width = `${Math.max(340, rect.width)}px`;
+      painel.style.display = 'block';
+
+      filtrarDropdownComboboxXmlItem(idx, inputEl.value || '');
+    }
+
+    function fecharDropdownComboboxXmlItem() {
+      const painel = document.getElementById('dropdown-flutuante-de-para');
+      if (painel) painel.style.display = 'none';
+      indiceItemDeParaDropdownAberto = -1;
+    }
+
+    function filtrarDropdownComboboxXmlItem(idx, termo = '') {
+      const painel = document.getElementById('dropdown-flutuante-de-para');
+      if (!painel) return;
+
+      const termoNorm = typeof normalizarTextoBusca === 'function' 
+        ? normalizarTextoBusca(termo) 
+        : (termo || '').toLowerCase().trim();
+
+      const listaBase = Array.isArray(catalogoProdutosERP) && catalogoProdutosERP.length > 0 
+        ? catalogoProdutosERP 
+        : (Array.isArray(produtos) ? produtos : []);
+
+      let filtrados = listaBase;
+      if (termoNorm && !termoNorm.includes('cadastrar novo')) {
+        filtrados = listaBase.filter(p => {
+          if (!p) return false;
+          const n = (p.nome || '').toLowerCase();
+          const s = (p.codigo_sku || '').toLowerCase();
+          const c = (p.categoria || '').toLowerCase();
+          return n.includes(termoNorm) || s.includes(termoNorm) || c.includes(termoNorm);
+        });
+      }
+
+      let html = `
+        <div onclick="selecionarProdutoDeParaXml(${idx}, 'NOVO', '✨ CADASTRAR NOVO PRODUTO NO CATÁLOGO', '', 'UN')" 
+             style="padding: 10px 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: rgba(245, 158, 11, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid #fbbf24; transition: background 0.15s ease;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 14px;">✨</span>
+            <span style="font-size: 12px; color: #fbbf24; font-weight: 800; text-transform: uppercase;">Cadastrar Novo Produto no Catálogo</span>
+          </div>
+          <span style="font-size: 10.5px; color: #94a3b8;">Criar automaticamente</span>
+        </div>
+      `;
+
+      if (filtrados.length === 0) {
+        html += `
+          <div style="padding: 12px 14px; font-size: 11.5px; color: var(--text-muted); text-align: center;">
+            Nenhum produto encontrado com "<strong>${(termo || '').toUpperCase()}</strong>"
+          </div>
+        `;
+      } else {
+        html += filtrados.slice(0, 30).map(p => {
+          const skuHtml = p.codigo_sku 
+            ? `<span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.25); padding: 1px 5px; border-radius: 4px; margin-right: 6px;">${p.codigo_sku}</span>` 
+            : '';
+          const un = (p.unidade_medida || 'UN').toUpperCase();
+          const est = p.estoque_atual !== undefined ? p.estoque_atual : (p.estoqueAtual || 0);
+          const pNomeEsc = (p.nome || '').replace(/'/g, "\\'");
+          const pSkuEsc = (p.codigo_sku || '').replace(/'/g, "\\'");
+
+          return `
+            <div onclick="selecionarProdutoDeParaXml(${idx}, ${p.id}, '${pNomeEsc}', '${pSkuEsc}', '${un}')"
+                 style="padding: 8px 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.15s ease;"
+                 onmouseenter="this.style.background='rgba(56, 189, 248, 0.12)'"
+                 onmouseleave="this.style.background='transparent'">
+              <div style="display: flex; align-items: center; gap: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 68%;">
+                ${skuHtml}
+                <strong style="color: #fff; font-size: 11.5px; text-transform: uppercase;">${p.nome}</strong>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                <span style="font-size: 11px; color: ${est > 0 ? '#34d399' : '#f87171'}; font-weight: 600;">Estoque: ${est} ${un}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      painel.innerHTML = html;
+      painel.style.display = 'block';
+    }
+
+    function selecionarProdutoDeParaXml(idx, prodId, prodNome, prodSku, prodUnidade) {
+      if (!dadosXmlImportadoAtual || !dadosXmlImportadoAtual.itens || !dadosXmlImportadoAtual.itens[idx]) return;
+
+      const it = dadosXmlImportadoAtual.itens[idx];
+      const inputEl = document.getElementById(`xml-item-prod-input-${idx}`);
+      const badgeEl = document.getElementById(`xml-item-badge-${idx}`);
+
+      if (prodId === 'NOVO') {
+        it.produto_erp_id = null;
+        it.produto_erp_nome = null;
+        it.produto_erp_sku = null;
+        it.produto_erp_unidade = it.unidade_fornecedor || 'UN';
+        it.status_de_para = 'NOVO';
+
+        if (inputEl) inputEl.value = '✨ CADASTRAR NOVO PRODUTO NO CATÁLOGO';
+        if (badgeEl) {
+          badgeEl.className = 'badge-ped';
+          badgeEl.style.background = 'rgba(250, 204, 21, 0.15)';
+          badgeEl.style.color = '#facc15';
+          badgeEl.style.border = '1px solid rgba(250, 204, 21, 0.3)';
+          badgeEl.textContent = '🟡 NOVO / PENDENTE';
+        }
+      } else {
+        it.produto_erp_id = Number(prodId);
+        it.produto_erp_nome = prodNome;
+        it.produto_erp_sku = prodSku;
+        it.produto_erp_unidade = prodUnidade || 'UN';
+        it.status_de_para = 'VINCULADO';
+
+        if (inputEl) inputEl.value = `${prodSku ? '[' + prodSku + '] ' : ''}${prodNome}`.toUpperCase();
+        if (badgeEl) {
+          badgeEl.className = 'badge-ped';
+          badgeEl.style.background = 'rgba(16, 185, 129, 0.15)';
+          badgeEl.style.color = '#34d399';
+          badgeEl.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+          badgeEl.textContent = '🟢 VINCULADO';
+        }
+      }
+
+      const fator = Number(it.fator_conversao || 1);
+      const qtdFinal = Number(it.quantidade_fornecedor || it.quantidade || 1) * fator;
+      const elEstoqueFinal = document.getElementById(`xml-item-estoque-final-${idx}`);
+      if (elEstoqueFinal) {
+        elEstoqueFinal.textContent = `${Number.isInteger(qtdFinal) ? qtdFinal : qtdFinal.toFixed(2).replace('.', ',')} ${(it.produto_erp_unidade || 'UN').toUpperCase()}`;
+      }
+
+      fecharDropdownComboboxXmlItem();
+      recalcularKpisDePara();
+
+      const selDest = document.getElementById(`xml-item-destino-${idx}`);
+      if (selDest) selDest.focus();
+    }
+
+    function aoTeclarComboboxXmlItem(event, idx) {
+      if (event.key === 'Escape') {
+        fecharDropdownComboboxXmlItem();
+      } else if (event.key === 'Tab') {
+        fecharDropdownComboboxXmlItem();
+      } else if (event.key === 'ArrowDown') {
+        abrirDropdownComboboxXmlItem(idx, event);
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const painel = document.getElementById('dropdown-flutuante-de-para');
+      if (painel && painel.style.display === 'block') {
+        if (!painel.contains(e.target) && !e.target.closest('td[style*="position: relative"]')) {
+          fecharDropdownComboboxXmlItem();
+        }
+      }
+    });
+
+    window.addEventListener('resize', fecharDropdownComboboxXmlItem);
+
+    function carregarXmlExemploTeste() {
+      const chaveExemplo = `432611${Date.now()}550010000048191084729104`.slice(0, 44);
+      const xmlExemplo = `<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe>
+    <infNFe Id="NFe${chaveExemplo}" versao="4.00">
+      <ide>
+        <nNF>4819</nNF>
+        <serie>1</serie>
+        <natOp>COMPRA PARA INDUSTRIALIZACAO E REVENDA</natOp>
+        <dhEmi>2026-11-10T14:30:00-03:00</dhEmi>
+        <tpNF>0</tpNF>
+      </ide>
+      <emit>
+        <CNPJ>92834120000145</CNPJ>
+        <xNome>CURTUME MINUANO LTDA</xNome>
+        <xFant>MINUANO COUROS</xFant>
+        <IE>0820098765</IE>
+        <enderEmit>
+          <xLgr>AVENIDA DOS COUROS</xLgr>
+          <nro>1250</nro>
+          <xBairro>CENTRO</xBairro>
+          <xMun>LINDOLFO COLLOR</xMun>
+          <UF>RS</UF>
+          <CEP>93940000</CEP>
+          <fone>5135821100</fone>
+        </enderEmit>
+      </emit>
+      <dest>
+        <CNPJ>12345678000199</CNPJ>
+        <xNome>MIS SUENOS MOVEIS PLANEJADOS</xNome>
+        <IE>123456789</IE>
+      </dest>
+      <det nItem="1">
+        <prod>
+          <cProd>1048</cProd>
+          <cEAN>7891000200010</cEAN>
+          <xProd>PELE DE CABRITO CRUA TRATADA 1A LINHA</xProd>
+          <NCM>41063110</NCM>
+          <uCom>PC</uCom>
+          <qCom>50.0000</qCom>
+          <vUnCom>65.0000</vUnCom>
+          <vProd>3250.00</vProd>
+        </prod>
+      </det>
+      <det nItem="2">
+        <prod>
+          <cProd>2011</cProd>
+          <cEAN></cEAN>
+          <xProd>VERNIZ ACRILICO FOSCO ESPECIAL PARA COUROS</xProd>
+          <NCM>32089010</NCM>
+          <uCom>GL</uCom>
+          <qCom>10.0000</qCom>
+          <vUnCom>100.0000</vUnCom>
+          <vProd>1000.00</vProd>
+        </prod>
+      </det>
+      <total>
+        <ICMSTot>
+          <vNF>4250.00</vNF>
+        </ICMSTot>
+      </total>
+      <cobr>
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2026-12-10</dVenc>
+          <vDup>4250.00</vDup>
+        </dup>
+      </cobr>
+    </infNFe>
+  </NFe>
+</nfeProc>`;
+
+      enviarArquivoXmlParaApi(xmlExemplo);
+      mostrarToast('🧪 Enviando NF-e de Exemplo (Curtume Minuano Ltda) para o parser...');
     }
 
     async function confirmarImportacaoXmlCompra() {
       if (!dadosXmlImportadoAtual) {
-        mostrarToast('Carregue um arquivo XML antes de confirmar.');
+        mostrarToast('Carregue um arquivo XML válido antes de confirmar.');
         return;
       }
 
-      let itensSomadosEstoque = 0;
-      let despesasLancadas = 0;
-
-      dadosXmlImportadoAtual.itens.forEach((it, idx) => {
-        const acao = document.getElementById(`xml-acao-item-${idx}`)?.value || it.acaoSugerida;
-        const vincId = document.getElementById(`xml-vinculo-item-${idx}`)?.value;
-
-        if (acao === 'ESTOQUE') {
-          itensSomadosEstoque++;
-          // Atualizar produto existente no catálogo
-          if (vincId && vincId !== 'NOVO' && Array.isArray(produtos)) {
-            const p = produtos.find(pr => String(pr.id) === String(vincId));
-            if (p) {
-              p.estoqueAtual = (Number(p.estoqueAtual) || 0) + Number(it.quantidade);
-              if (it.valorUnitario > 0) p.custoUnitario = Number(it.valorUnitario);
-            }
-          }
-        } else {
-          despesasLancadas++;
-        }
-      });
-
-      // Lançar contas a pagar no financeiro se houver valor
-      if (dadosXmlImportadoAtual.nota.valorTotal > 0 && Array.isArray(financeiroLancamentos)) {
-        financeiroLancamentos.unshift({
-          id: Date.now(),
-          tipo: 'PAGAR',
-          descricao: `Compra Fornecedor NF-e #${dadosXmlImportadoAtual.nota.numero} (${dadosXmlImportadoAtual.fornecedor.nome})`,
-          valor: dadosXmlImportadoAtual.nota.valorTotal,
-          categoria: 'Insumos / Matéria-Prima',
-          formaPagamento: 'Boleto / Duplicata',
-          dataVencimento: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
-          status: 'PENDENTE'
-        });
-        if (typeof renderizarFinanceiro === 'function') renderizarFinanceiro();
+      const btnConf = document.getElementById('btn-confirmar-xml');
+      if (btnConf) {
+        btnConf.disabled = true;
+        btnConf.innerHTML = '<span>⏳</span> Gravando Estoque, Kardex e Financeiro...';
       }
 
-      if (typeof renderizarEstoque === 'function') renderizarEstoque();
+      try {
+        const itens = Array.isArray(dadosXmlImportadoAtual.itens) ? dadosXmlImportadoAtual.itens : [];
+        const decisoesItens = itens.map((it, idx) => {
+          const inpFator = document.getElementById(`xml-item-fator-${idx}`);
+          const selDest = document.getElementById(`xml-item-destino-${idx}`);
+          const fator = inpFator ? (parseFloat(inpFator.value) || 1) : (it.fator_conversao || 1);
+          const destino = selDest ? selDest.value : (it.destino_entrada || 'ESTOQUE_PRODUTO');
 
-      mostrarToast(`✅ Sucesso! ${itensSomadosEstoque} itens somados ao estoque e contas a pagar agendado!`);
-      fecharModalImportarXml();
+          const isNovo = !it.produto_erp_id || it.produto_erp_id === 'NOVO';
+
+          return {
+            codigo_fornecedor: it.codigo_fornecedor || it.codigo || String(idx + 1),
+            ean_fornecedor: it.ean_fornecedor || '',
+            descricao_fornecedor: (it.descricao_fornecedor || it.nome || 'MERCADORIA').toUpperCase(),
+            unidade_fornecedor: (it.unidade_fornecedor || it.unidade || 'UN').toUpperCase(),
+            quantidade_fornecedor: Number(it.quantidade_fornecedor || it.quantidade || 1),
+            valor_unitario_fornecedor: Number(it.valor_unitario_fornecedor || it.valorUnitario || 0),
+            valor_total_bruto: Number(it.valor_total_bruto || it.valorTotal || 0),
+            ncm: it.ncm || '',
+            fator_conversao: fator,
+            destino_entrada: destino,
+            produto_erp_id: isNovo ? null : Number(it.produto_erp_id),
+            cadastrar_novo: isNovo
+          };
+        });
+
+        const payload = {
+          nota: dadosXmlImportadoAtual,
+          decisoes_itens: decisoesItens,
+          lancar_financeiro: true,
+          atualizar_estoque: true,
+          operador_nome: (typeof usuarioLogadoAtual !== 'undefined' && usuarioLogadoAtual?.nome) ? usuarioLogadoAtual.nome : 'Operador ERP'
+        };
+
+        const res = await fetch('/api/compras/confirmar-entrada', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          mostrarToast(data.error || 'Erro ao processar entrada de compras no backend.');
+          if (btnConf) {
+            btnConf.disabled = false;
+            btnConf.innerHTML = '<span>💾</span> Confirmar Entrada no Estoque e Financeiro';
+          }
+          return;
+        }
+
+        mostrarToast(`✅ Sucesso! Entrada da NF-e nº ${dadosXmlImportadoAtual.numero_nfe || ''} confirmada! ${data.movimentacoes_kardex || 0} movimentações no estoque.`);
+        fecharModalImportarXml();
+
+        if (typeof carregarProdutosApi === 'function') await carregarProdutosApi();
+        if (typeof carregarFinanceiroApi === 'function') await carregarFinanceiroApi();
+        if (typeof renderizarProdutos === 'function') renderizarProdutos();
+        if (typeof renderizarEstoque === 'function') renderizarEstoque();
+        if (typeof renderizarFinanceiro === 'function') renderizarFinanceiro();
+
+      } catch (err) {
+        console.error('[COMPRAS] Erro ao confirmar entrada:', err);
+        mostrarToast('Falha na comunicação com o servidor ao confirmar entrada de compras.');
+      } finally {
+        if (btnConf) {
+          btnConf.disabled = false;
+          btnConf.innerHTML = '<span>💾</span> Confirmar Entrada no Estoque e Financeiro';
+        }
+      }
     }
 
-    
-    // ========================================================
     // CONTROLE DO MODAL DE LANÇAMENTO FINANCEIRO (NORMA MODERNA)
     // ========================================================
     function atualizarBadgeTipoFinanceiro(tipo) {

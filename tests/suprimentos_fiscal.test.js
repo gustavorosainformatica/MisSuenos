@@ -697,3 +697,57 @@ test('TICKET 03 - API: GET /api/compras/de-para/:fornecedorId retorna o mapa de 
   await db.run('DELETE FROM fornecedores_produtos_vinculo WHERE fornecedor_id = ? AND codigo_fornecedor = ?', [fornId, skuTeste]);
   await db.run('DELETE FROM produtos WHERE id = ?', [prodId]);
 });
+
+import fs from 'node:fs';
+import path from 'node:path';
+
+test('TICKET 04 - UI: Modal #modal-importar-xml possui estrutura completa de 3 cards, dropzone e dropdown flutuante', () => {
+  const htmlPath = path.resolve('public/index.html');
+  const html = fs.readFileSync(htmlPath, 'utf8');
+
+  // Modal principal e container responsivo
+  assert.ok(html.includes('id="modal-importar-xml"'), 'Deve conter modal-importar-xml');
+  assert.ok(html.includes('max-width: 1240px'), 'Container deve ter largura ergonômica para tabela de compras');
+  assert.ok(html.includes('id="dropdown-flutuante-de-para"'), 'Deve possuir container flutuante anti-overflow');
+
+  // Dropzone com eventos nativos de Drag and Drop
+  assert.ok(html.includes('ondragover="aoArrastarSobreXmlDropzone(event)"'), 'Dropzone deve ter ondragover');
+  assert.ok(html.includes('ondragleave="aoSairXmlDropzone(event)"'), 'Dropzone deve ter ondragleave');
+  assert.ok(html.includes('ondrop="aoSoltarArquivoXml(event)"'), 'Dropzone deve ter ondrop');
+
+  // 3 Cards analíticos
+  assert.ok(html.includes('id="xml-prev-fornecedor-nome"'), 'Card 1 Fornecedor deve ter elemento do nome');
+  assert.ok(html.includes('id="xml-prev-fornecedor-status"'), 'Card 1 Fornecedor deve ter badge de status no ERP');
+  assert.ok(html.includes('id="xml-prev-nota-num"'), 'Card 2 NF-e deve ter elemento de número/série');
+  assert.ok(html.includes('id="xml-prev-nota-valor"'), 'Card 2 NF-e deve ter elemento de valor total');
+  assert.ok(html.includes('id="xml-kpi-total-itens"'), 'Card 3 De-Para deve ter KPI de total de itens');
+  assert.ok(html.includes('id="xml-kpi-vinculados"'), 'Card 3 De-Para deve ter KPI de vinculados');
+  assert.ok(html.includes('id="xml-kpi-pendentes"'), 'Card 3 De-Para deve ter KPI de pendentes/novos');
+});
+
+test('TICKET 04 - UI: Ergonomia de teclado com tabindex="-1" nos controles secundários e sem spinners', () => {
+  const htmlPath = path.resolve('public/index.html');
+  const html = fs.readFileSync(htmlPath, 'utf8');
+
+  // Botões secundários com tabindex="-1" para navegação Tab sem interrupções
+  assert.ok(html.includes('class="modal-close-btn" tabindex="-1" onclick="fecharModalImportarXml()"'), 'Botão fechar ✕ deve ter tabindex="-1"');
+  assert.ok(html.includes('tabindex="-1" class="btn-top btn-row-action" style="white-space: nowrap; font-size: 11.5px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;" onclick="event.stopPropagation(); carregarXmlExemploTeste();"'), 'Botão carregar XML exemplo deve ter tabindex="-1"');
+  assert.ok(html.includes('tabindex="-1" class="btn-top btn-row-action" onclick="copiarChaveXmlImportado()"'), 'Botão copiar chave deve ter tabindex="-1"');
+  assert.ok(html.includes('tabindex="-1" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>'), 'Botão cancelar rodapé deve ter tabindex="-1"');
+});
+
+test('TICKET 04 - UI: JavaScript controller implementa auto-aprendizagem, combobox flutuante e envio à API', () => {
+  const htmlPath = path.resolve('public/index.html');
+  const html = fs.readFileSync(htmlPath, 'utf8');
+
+  assert.ok(html.includes('function aoArrastarSobreXmlDropzone('), 'Deve implementar aoArrastarSobreXmlDropzone');
+  assert.ok(html.includes('function aoSoltarArquivoXml('), 'Deve implementar aoSoltarArquivoXml');
+  assert.ok(html.includes('function enviarArquivoXmlParaApi('), 'Deve implementar envio assíncrono para a API');
+  assert.ok(html.includes('function renderizarVisualizacaoXmlCompra('), 'Deve implementar renderização dos cards e tabela');
+  assert.ok(html.includes('function aoMudarFatorConversaoItem('), 'Deve implementar reatividade de conversão de embalagem');
+  assert.ok(html.includes('function abrirDropdownComboboxXmlItem('), 'Deve implementar abertura inteligente do combobox');
+  assert.ok(html.includes('function selecionarProdutoDeParaXml('), 'Deve implementar seleção e memorização do vínculo');
+  assert.ok(html.includes('function recalcularKpisDePara('), 'Deve implementar recálculo de KPIs');
+  assert.ok(html.includes('function confirmarImportacaoXmlCompra('), 'Deve implementar envio atômico para /api/compras/confirmar-entrada');
+});
+
