@@ -6,10 +6,9 @@ import { gerarTokenSessao } from '../lib/auth.js';
 
 test('AUTH PIN 01: Inicialização da tabela e coluna tamanho_pin no banco', async () => {
   await inicializarTabelas();
-  await run("UPDATE usuarios SET tamanho_pin = 4 WHERE login = 'gustavo'");
   const gustavo = await get("SELECT login, tamanho_pin FROM usuarios WHERE login = 'gustavo'");
   assert.ok(gustavo, 'Usuário gustavo deve existir no banco');
-  assert.equal(gustavo.tamanho_pin, 4, 'Gustavo deve possuir tamanho_pin = 4 após alteração de senha');
+  assert.equal(gustavo.tamanho_pin, 4, 'Gustavo deve possuir tamanho_pin = 4');
 
   const vendas = await get("SELECT login, tamanho_pin FROM usuarios WHERE login = 'vendas'");
   assert.ok(vendas, 'Usuário vendas deve existir no banco');
@@ -73,9 +72,16 @@ test('AUTH PIN 03: Endpoint info_operador via POST (ação info_operador)', asyn
   assert.equal(responseData.tamanhoPin, 4);
 });
 
-test('AUTH PIN 04: Troca de senha atualiza tamanho_pin para 4 dígitos no banco e resposta', async () => {
-  const gustavo = await get("SELECT id FROM usuarios WHERE login = 'gustavo'");
-  const token = gerarTokenSessao(gustavo ? gustavo.id : 2, 'gustavo');
+test('AUTH PIN 04: Troca de senha atualiza tamanho_pin em usuário isolado de teste (Zero Mutação no Gustavo)', async () => {
+  // Cria usuário exclusivo e descartável para o teste não sobrescrever senhas de operadores reais
+  await run("DELETE FROM usuarios WHERE login = 'test_operador_pin'");
+  const resInsert = await run(`
+    INSERT INTO usuarios (nome, login, senha_hash, papel, ativo, data_cadastro, tamanho_pin)
+    VALUES ('Operador Teste', 'test_operador_pin', 'hash_temporario', 'OPERADOR', 1, '2026-11-10', 6)
+  `);
+
+  const userCriado = await get("SELECT id FROM usuarios WHERE login = 'test_operador_pin'");
+  const token = gerarTokenSessao(userCriado.id, 'test_operador_pin');
   let statusCode = 0;
   let responseData = null;
 
@@ -101,6 +107,9 @@ test('AUTH PIN 04: Troca de senha atualiza tamanho_pin para 4 dígitos no banco 
   assert.equal(responseData.success, true);
   assert.equal(responseData.tamanhoPin, 4);
 
-  const user = await get("SELECT tamanho_pin FROM usuarios WHERE login = 'gustavo'");
+  const user = await get("SELECT tamanho_pin FROM usuarios WHERE login = 'test_operador_pin'");
   assert.equal(user.tamanho_pin, 4);
+
+  // Limpeza: remove o usuário de teste
+  await run("DELETE FROM usuarios WHERE login = 'test_operador_pin'");
 });
