@@ -62,3 +62,4 @@ test('OPENAPI TDD 05: Interface do Scalar api-docs.html existe e está configura
   assert.ok(html.includes('openapi.json'), 'DEVE referenciar o arquivo openapi.json');
   assert.ok(html.includes('deepSpace'), 'DEVE usar o tema dark deepSpace');
 });
+

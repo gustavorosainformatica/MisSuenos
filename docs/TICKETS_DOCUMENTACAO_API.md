@@ -48,3 +48,4 @@
 - **Objetivo:** Replicar as melhorias no `MisSuenos-Dev` e na matriz neutra `d:\projetos-agy\erp-base`, executar commits, efetuar `git push` e auditar o build na nuvem via Vercel.
 - **Critério de Aceite:**
   - Status HTTP 200 e confirmação de deploy ativo em produção.
+

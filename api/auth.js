@@ -25,6 +25,7 @@ async function parseBody(req) {
   if (typeof req.body === 'string') {
     try { return JSON.parse(req.body); } catch { return {}; }
   }
+  if (typeof req.on !== 'function') return {};
   return new Promise((resolve) => {
     let body = '';
     req.on('data', chunk => { body += chunk.toString(); });
@@ -56,6 +57,33 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization || req.headers.Authorization;
     const bearerToken = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
     const token = body.token || bearerToken;
+
+    // Consulta pública de perfil básico do operador para personalização do terminal (ex: PIN dinâmico 4 ou 6 dígitos)
+    let infoOperadorParam = req.query?.info_operador;
+    if (!infoOperadorParam && req.url) {
+      try {
+        const parsedUrl = new URL(req.url, 'http://localhost');
+        infoOperadorParam = parsedUrl.searchParams.get('info_operador');
+      } catch {}
+    }
+
+    if (infoOperadorParam || body.acao === 'info_operador') {
+      const loginAlvo = (infoOperadorParam || body.login || '').trim().toLowerCase();
+      if (!loginAlvo) {
+        return responder(res, 400, { error: 'Login do operador não informado' });
+      }
+      const u = await get('SELECT id, login, nome, papel, tamanho_pin, ativo FROM usuarios WHERE LOWER(login) = ?', [loginAlvo]);
+      if (!u || u.ativo !== 1) {
+        return responder(res, 404, { error: 'Operador não encontrado ou inativo' });
+      }
+      return responder(res, 200, {
+        sucesso: true,
+        login: u.login,
+        nome: u.nome,
+        papel: u.papel,
+        tamanhoPin: u.tamanho_pin || (u.login === 'gustavo' ? 4 : 6)
+      });
+    }
 
     // 0. Ação 'trocar_senha': Atualização de senha definitiva pelo operador (Limite: 1x por mês)
     if (body.acao === 'trocar_senha') {
@@ -109,7 +137,8 @@ export default async function handler(req, res) {
 
       const novoHash = gerarHashSenha(novaSenha);
       const agora = new Date().toISOString();
-      await run('UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0 WHERE id = ?', [novoHash, agora, agora, sessao.usuarioId]);
+      const tamanhoPin = (novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
+      await run('UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0, tamanho_pin = ? WHERE id = ?', [novoHash, agora, agora, tamanhoPin, sessao.usuarioId]);
 
       registrarLog({
         clienteId: sessao.usuarioId,
@@ -121,7 +150,8 @@ export default async function handler(req, res) {
       return responder(res, 200, {
         success: true,
         mensagem: 'Nova senha cadastrada com sucesso!',
-        data_atualizacao_senha: agora
+        data_atualizacao_senha: agora,
+        tamanhoPin
       });
     }
 
@@ -136,7 +166,7 @@ export default async function handler(req, res) {
         return responder(res, 401, { error: 'Sessão inválida ou expirada' });
       }
 
-      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login, data_atualizacao_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
+      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login, data_atualizacao_senha, tamanho_pin FROM usuarios WHERE id = ?', [sessao.usuarioId]);
       if (!user || user.ativo !== 1) {
         return responder(res, 401, { error: 'Usuário inativo ou inexistente' });
       }
@@ -160,7 +190,8 @@ export default async function handler(req, res) {
           papelNome: papelConfig.nome,
           papelCor: papelConfig.cor,
           permissoes: permissoesFinais,
-          data_atualizacao_senha: user.data_atualizacao_senha || null
+          data_atualizacao_senha: user.data_atualizacao_senha || null,
+          tamanhoPin: user.tamanho_pin || (user.login === 'gustavo' ? 4 : 6)
         }
       });
     }
@@ -237,7 +268,8 @@ export default async function handler(req, res) {
           papelNome: papelConfig.nome,
           papelCor: papelConfig.cor,
           permissoes: permissoesFinais,
-          data_atualizacao_senha: user.data_atualizacao_senha || null
+          data_atualizacao_senha: user.data_atualizacao_senha || null,
+          tamanhoPin: user.tamanho_pin || (senhaInformada.length >= 4 && senhaInformada.length <= 6 ? senhaInformada.length : (user.login === 'gustavo' ? 4 : 6))
         }
       });
     }

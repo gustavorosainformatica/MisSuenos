@@ -96,3 +96,4 @@ A especificação cobrirá 100% das rotas operacionais do ERP:
 3. Testes automatizados com `node --test` devem validar a sintaxe e a integridade do JSON de documentação.
 4. O servidor web local ([`scripts/servidor_web.js`](file:///d:/projetos-agy/MisSuenos/scripts/servidor_web.js)) e o gateway Vercel ([`api/index.js`](file:///d:/projetos-agy/MisSuenos/api/index.js)) devem servir `/api-docs` e `/api/openapi.json` com status HTTP 200.
 5. Sincronização e validação completa nos 3 repositórios (`MisSuenos`, `MisSuenos-Dev` e `erp-base`).
+

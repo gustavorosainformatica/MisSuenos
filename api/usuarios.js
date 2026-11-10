@@ -105,11 +105,12 @@ export default async function handler(req, res) {
       const agora = new Date().toISOString();
       const forcarTroca = bodyRequisicao.forcarTroca !== false ? 1 : 0;
 
+      const tamanhoPin = (novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
       await run(`
         UPDATE usuarios 
-        SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?
+        SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?, tamanho_pin = ?
         WHERE id = ?
-      `, [novoHash, agora, forcarTroca, targetId]);
+      `, [novoHash, agora, forcarTroca, tamanhoPin, targetId]);
 
       registrarLog({
         clienteId: operador.id,
@@ -186,7 +187,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       const todosPapeis = await obterTodosPapeis();
       const rows = await query(`
-        SELECT id, nome, login, papel, permissoes, cliente_id, ativo, ultimo_login, data_cadastro, data_atualizacao_senha, exigir_troca_senha
+        SELECT id, nome, login, papel, permissoes, cliente_id, ativo, ultimo_login, data_cadastro, data_atualizacao_senha, exigir_troca_senha, tamanho_pin
         FROM usuarios
         ORDER BY papel ASC, nome ASC
       `);
@@ -207,7 +208,8 @@ export default async function handler(req, res) {
           ultimo_login: u.ultimo_login,
           data_cadastro: u.data_cadastro,
           data_atualizacao_senha: u.data_atualizacao_senha || null,
-          exigir_troca_senha: u.exigir_troca_senha === 1
+          exigir_troca_senha: u.exigir_troca_senha === 1,
+          tamanhoPin: u.tamanho_pin || 6
         };
       });
 
@@ -265,9 +267,9 @@ export default async function handler(req, res) {
       const agora = new Date().toISOString();
 
       const resInsert = await run(`
-        INSERT INTO usuarios (nome, login, senha_hash, papel, permissoes, ativo, data_cadastro)
-        VALUES (?, ?, ?, ?, ?, 1, ?)
-      `, [nome, login, hash, papel, permissoes, agora]);
+        INSERT INTO usuarios (nome, login, senha_hash, papel, permissoes, ativo, data_cadastro, tamanho_pin)
+        VALUES (?, ?, ?, ?, ?, 1, ?, ?)
+      `, [nome, login, hash, papel, permissoes, agora, (senha.length >= 4 && senha.length <= 6 ? senha.length : 6)]);
 
       registrarLog({
         tipoAcao: 'USUARIO_CRIADO',

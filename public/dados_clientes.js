@@ -1,6 +1,6 @@
 /**
  * Base de Clientes Mis Sueños (Offline)
- * Atualizado em: 2026-11-06T23:52:04.157Z
+ * Atualizado em: 2026-11-10T17:58:59.896Z
  */
 window.CLIENTES_DATA = [
   {
@@ -26,7 +26,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37548000",
     "observacoes": "",
     "arquivo_origem": "ACÁCIO BENEDITO RAMOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1307,
@@ -51,7 +53,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88550000",
     "observacoes": "",
     "arquivo_origem": "CELINHO - ADAIR JOSÉ BRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1142,
@@ -76,7 +80,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95880000",
     "observacoes": "",
     "arquivo_origem": "ADAM HUPPES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1143,
@@ -101,7 +107,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95590000",
     "observacoes": "",
     "arquivo_origem": "ADAMO CONSUL.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1144,
@@ -126,7 +134,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97880000",
     "observacoes": "",
     "arquivo_origem": "ADEL DA TRINDADE DIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1145,
@@ -151,7 +161,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95400000",
     "observacoes": "",
     "arquivo_origem": "ADEMAR MELOS CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1146,
@@ -176,7 +188,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15620000",
     "observacoes": "",
     "arquivo_origem": "ADEMILSON CLEMENTE DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1147,
@@ -201,7 +215,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87202182",
     "observacoes": "",
     "arquivo_origem": "ADEMILSON DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1148,
@@ -226,7 +242,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75800133",
     "observacoes": "",
     "arquivo_origem": "ADEMIR DONATO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1149,
@@ -251,7 +269,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37539118",
     "observacoes": "",
     "arquivo_origem": "ADEMIR ROBERTO OTAVIO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1150,
@@ -276,7 +296,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99840000",
     "observacoes": "",
     "arquivo_origem": "ADEMIR SANTOS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1152,
@@ -301,7 +323,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "",
     "arquivo_origem": "ADILSON IFRAN MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1153,
@@ -326,7 +350,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95560000",
     "observacoes": "",
     "arquivo_origem": "ADILSON MATOS DAITX.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1154,
@@ -351,7 +377,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95705336",
     "observacoes": "",
     "arquivo_origem": "ADMILSON OLIVEIRA BALTEZAN.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1155,
@@ -376,7 +404,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96170000",
     "observacoes": "",
     "arquivo_origem": "ADMIR GOULART DA SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1156,
@@ -401,7 +431,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15804000",
     "observacoes": "",
     "arquivo_origem": "ADONIAS RAFAEL DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1157,
@@ -426,7 +458,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89340000",
     "observacoes": "",
     "arquivo_origem": "ADRIAN MANOEL DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1158,
@@ -451,7 +485,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "MERCADO LENZ",
     "arquivo_origem": "ADRIANO ALVES FRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1159,
@@ -476,7 +512,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95300000",
     "observacoes": "",
     "arquivo_origem": "ADRIANO DE LIMA CARON.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1160,
@@ -501,7 +539,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96700000",
     "observacoes": "",
     "arquivo_origem": "ADRIANO LIMA SIMÕES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1161,
@@ -526,7 +566,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84300005",
     "observacoes": "",
     "arquivo_origem": "ADRIANO MAINARDES BATISTA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1162,
@@ -551,7 +593,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99300000",
     "observacoes": "",
     "arquivo_origem": "ADROIR LIMA GUEDES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1201,
@@ -576,7 +620,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89254100",
     "observacoes": "A/C GILMAR LEANDRO DE OLIVEIRA",
     "arquivo_origem": "ALISSON CASTILHOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1163,
@@ -601,7 +647,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95685358",
     "observacoes": "",
     "arquivo_origem": "AGUIDO LUIS FIDELLES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1164,
@@ -626,7 +674,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96540000",
     "observacoes": "",
     "arquivo_origem": "AIRTON ALVES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1165,
@@ -651,7 +701,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98802435",
     "observacoes": "",
     "arquivo_origem": "AIRTON MARTINS DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1166,
@@ -676,7 +728,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93285610",
     "observacoes": "",
     "arquivo_origem": "AIRTON TIMÓTEO DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1167,
@@ -701,7 +755,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76993000",
     "observacoes": "",
     "arquivo_origem": "ALAN LADISLAU ACIOLI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1168,
@@ -726,7 +782,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99025120",
     "observacoes": "",
     "arquivo_origem": "ALBINO DE OLIVEIRA MEOTI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1170,
@@ -751,7 +809,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "",
     "arquivo_origem": "ALCIMAR CARPES BALBUENO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1169,
@@ -776,7 +836,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88503000",
     "observacoes": "",
     "arquivo_origem": "ALCIDES DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1595,
@@ -801,7 +863,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78660000",
     "observacoes": "",
     "arquivo_origem": "ILSSON GOMES - ALDENORA GOMES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1171,
@@ -826,7 +890,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95180000",
     "observacoes": "",
     "arquivo_origem": "ALEJANDRO MARIO BERMUDEZ VARELA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1172,
@@ -851,7 +917,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98015040",
     "observacoes": "",
     "arquivo_origem": "ALENCAR DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1173,
@@ -876,7 +944,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95611314",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO DA SILVA FAGUNDES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1174,
@@ -901,7 +971,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97037070",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO ESCOBAR AGUIAR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1175,
@@ -926,7 +998,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97578700",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO LEITES ASSIS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1176,
@@ -951,7 +1025,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89205500",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO PIANTAVINI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1177,
@@ -976,7 +1052,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96205120",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO PINTO SCHIAVON.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1178,
@@ -1001,7 +1079,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97547575",
     "observacoes": "",
     "arquivo_origem": "ALESSANDRO ROZADO DA CONCEIÇÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1179,
@@ -1026,7 +1106,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92480000",
     "observacoes": "",
     "arquivo_origem": "ALEX DA SILVA VUCKOVIC.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1180,
@@ -1051,7 +1133,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95320000",
     "observacoes": "",
     "arquivo_origem": "ALEX JUNIOR BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1181,
@@ -1076,7 +1160,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99400000",
     "observacoes": "",
     "arquivo_origem": "ALEX NUNES FRIGHETTO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1183,
@@ -1101,7 +1187,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88338595",
     "observacoes": "",
     "arquivo_origem": "ALEX SANDRO MAYRES MERCK.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1184,
@@ -1126,7 +1214,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96750000",
     "observacoes": "",
     "arquivo_origem": "ALEX SANDRO OLIVEIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1185,
@@ -1151,7 +1241,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "INPACTO DESENVOLVIMENTO INDUSTRIAL",
     "arquivo_origem": "ALEX SANDRO VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1186,
@@ -1176,7 +1268,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95660000",
     "observacoes": "",
     "arquivo_origem": "ALEX SILVA GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1187,
@@ -1201,7 +1295,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87710290",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE ADOLFO BARRETO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1188,
@@ -1226,7 +1322,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95088580",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE ANTUNES DE LIMA 2.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1189,
@@ -1251,7 +1349,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95088580",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE ANTUNES DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1190,
@@ -1276,7 +1376,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96600000",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE DAMMERO PACHECO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1191,
@@ -1301,7 +1403,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "08900000",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE FERREIRA LEITE.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1192,
@@ -1326,7 +1430,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96610000",
     "observacoes": "Rua CLOVIS ITAQUI TRINDADE, 1836 | Bairro: VILA XAVIER | ENCRUZILHADA DO SUL - RS",
     "arquivo_origem": "ALEXANDRE FREITAS OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1193,
@@ -1351,7 +1457,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88600000",
     "observacoes": "CASA BRANCA C/ ROSA",
     "arquivo_origem": "ALEXANDRE MACEDO DE ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1194,
@@ -1376,7 +1484,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97545200",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE MOSSOLIN DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1195,
@@ -1401,7 +1511,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88519441",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE SENEM.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1196,
@@ -1426,7 +1538,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95300000",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRE VIEIRA DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1197,
@@ -1451,7 +1565,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92701730",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRO GARCIA AMADOR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1198,
@@ -1476,7 +1592,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88520110",
     "observacoes": "",
     "arquivo_origem": "ALEXANDRO MARCIO KLAAR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1199,
@@ -1501,7 +1619,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95150000",
     "observacoes": "",
     "arquivo_origem": "ALEXSANDER JUNIOR RUPPENTHAL.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1200,
@@ -1526,7 +1646,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "",
     "arquivo_origem": "ALFREDO SANTOS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2237,
@@ -1551,7 +1673,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78350000",
     "observacoes": "",
     "arquivo_origem": "VALTER BRAZÃO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1825,
@@ -1576,7 +1700,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13416240",
     "observacoes": "IMOBILIARIA SÃO JUDAS TADEU",
     "arquivo_origem": "LUCIANO DE ANGELIS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1907,
@@ -1601,7 +1727,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95320000",
     "observacoes": "POSTO DE SAÚDE SANTA CRUZ",
     "arquivo_origem": "MARCO ANTONIO PAIM.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1742,
@@ -1626,7 +1754,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98950000",
     "observacoes": "",
     "arquivo_origem": "JULIANO - ALINE VIVANE NEHRING.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1202,
@@ -1651,7 +1781,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37990000",
     "observacoes": "",
     "arquivo_origem": "ALISSON CINTRA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1203,
@@ -1676,7 +1808,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97507220",
     "observacoes": "",
     "arquivo_origem": "ALISSON MACEDO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1204,
@@ -1701,7 +1835,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78595000",
     "observacoes": "",
     "arquivo_origem": "ALLAN JUNIOR MACHADO NATAL.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1208,
@@ -1726,7 +1862,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18240000",
     "observacoes": "",
     "arquivo_origem": "ALVARPO HENRIQUE DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1205,
@@ -1751,7 +1889,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99955000",
     "observacoes": "",
     "arquivo_origem": "ALVARO JOSÉ BAGINSKI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1206,
@@ -1776,7 +1916,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37570000",
     "observacoes": "CENTRO | OURO FINO - MG",
     "arquivo_origem": "ALVARO MILTON PEREZ GARCIA JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1207,
@@ -1801,7 +1943,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98600000",
     "observacoes": "",
     "arquivo_origem": "ALVARO TIAGO SCHIMITT.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1209,
@@ -1826,7 +1970,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98010358",
     "observacoes": "",
     "arquivo_origem": "AMANDA FARIAS DE MOURA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1211,
@@ -1851,7 +1997,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96050460",
     "observacoes": "RESID. FLORENÇA – BL O – AP 304",
     "arquivo_origem": "AMARO LEANDRO NOGUEZ SOARES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1212,
@@ -1876,7 +2024,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87535000",
     "observacoes": "",
     "arquivo_origem": "AMERICO CALDEIRA DA SILVA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1788,
@@ -1901,7 +2051,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91900120",
     "observacoes": "",
     "arquivo_origem": "LEONARD PERINI GRACIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1452,
@@ -1926,7 +2078,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95140000",
     "observacoes": "",
     "arquivo_origem": "ELIZIO SCHERER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1213,
@@ -1951,7 +2105,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83711300",
     "observacoes": "",
     "arquivo_origem": "ANA MARCIA KAISER - ESPOSA NEY EDUARDO LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1809,
@@ -1976,7 +2132,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79556000",
     "observacoes": "",
     "arquivo_origem": "LUCAS BARBOSA - MATO GROSSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1214,
@@ -2001,7 +2159,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13309870",
     "observacoes": "",
     "arquivo_origem": "ANA PAULA BATAGLIA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1215,
@@ -2026,7 +2186,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83045140",
     "observacoes": "",
     "arquivo_origem": "ANDERSON ANTÔNIO RUTZ.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1216,
@@ -2051,7 +2213,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95820000",
     "observacoes": "",
     "arquivo_origem": "ANDERSON DE SOUZA DANIEL.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1217,
@@ -2076,7 +2240,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85900005",
     "observacoes": "",
     "arquivo_origem": "ANDERSON ERNESTO KAEFER.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1218,
@@ -2101,7 +2267,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83020700",
     "observacoes": "",
     "arquivo_origem": "ANDERSON FELIPE CHIORATTO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1219,
@@ -2126,7 +2294,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95880000",
     "observacoes": "",
     "arquivo_origem": "ANDERSON KLAFKI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1220,
@@ -2151,7 +2321,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "ANDERSON LUIS CHAVES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1221,
@@ -2176,7 +2348,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86165000",
     "observacoes": "",
     "arquivo_origem": "ANDERSON RODRIGUES DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1226,
@@ -2201,7 +2375,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91040070",
     "observacoes": "",
     "arquivo_origem": "ANDRESON SOUZA ESPÍNDOLA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1223,
@@ -2226,7 +2402,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97714186",
     "observacoes": "",
     "arquivo_origem": "ANDRE LOUREIRO DE PAULA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1224,
@@ -2251,7 +2429,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "ANDREI DUPONT.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1225,
@@ -2276,7 +2456,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88504250",
     "observacoes": "",
     "arquivo_origem": "ANDREI GUILHERME FURTADO SCHEMES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1222,
@@ -2301,7 +2483,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85505160",
     "observacoes": "",
     "arquivo_origem": "ANDERSON WILLIAN BARDIN.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1347,
@@ -2326,7 +2510,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89460056",
     "observacoes": "(LOJA NORTEPLAN MÓVEIS)",
     "arquivo_origem": "DANIEL ANDRÉ VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1228,
@@ -2351,7 +2537,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84043180",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ BATISTELLI DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1227,
@@ -2376,7 +2564,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400100",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ - LOJA CORREARIA SÃO JOÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1229,
@@ -2401,7 +2591,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38610283",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ DOMINGOS DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1230,
@@ -2426,7 +2618,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92510155",
     "observacoes": "SEGUNDO PISO",
     "arquivo_origem": "ANDRÉ LUIS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1231,
@@ -2451,7 +2645,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99260000",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ LUIZ MENEGAS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1232,
@@ -2476,7 +2672,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98300000",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ LUIZ OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1233,
@@ -2501,7 +2699,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93610360",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ MOISÉS STEIN .docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1234,
@@ -2526,7 +2726,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "",
     "arquivo_origem": "ANDRÉ VERCELINO RAICHLE.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1235,
@@ -2551,7 +2753,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96930000",
     "observacoes": "PRESIDIO ESTADUAL DE CANDELÁRIA",
     "arquivo_origem": "ANDRÉA FERREIRA PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1236,
@@ -2576,7 +2780,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "ANOEL DOS SANTOS RUPP.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1241,
@@ -2601,7 +2807,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87504120",
     "observacoes": "",
     "arquivo_origem": "ANTONIO CICERO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1244,
@@ -2626,7 +2834,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95076000",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO GILVANI MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1238,
@@ -2651,7 +2861,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76850000",
     "observacoes": "",
     "arquivo_origem": "ANTONIO CAMELO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1242,
@@ -2676,7 +2888,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18835004",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO CARLOS BERGAMO JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1243,
@@ -2701,7 +2915,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84300029",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO CARLOS GOMES CACERES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1239,
@@ -2726,7 +2942,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99820000",
     "observacoes": "",
     "arquivo_origem": "ANTONIO CARLOS RODRIGUES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1240,
@@ -2751,7 +2969,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92425555",
     "observacoes": "",
     "arquivo_origem": "ANTONIO CARLOS SILVA ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1710,
@@ -2776,7 +2996,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84970000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ VITOR - SANTANA DO ITARARÉ - PR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1245,
@@ -2801,7 +3023,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84970000",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO LÁZARO DA SILVA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1246,
@@ -2826,7 +3050,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96495000",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO MARCOS COUTINHO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1247,
@@ -2851,7 +3077,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96610000",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO MARCOS DA SILVA CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1248,
@@ -2876,7 +3104,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12720300",
     "observacoes": "",
     "arquivo_origem": "ANTÔNIO MARCOS PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1249,
@@ -2901,7 +3131,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78250000",
     "observacoes": "CAIXA POSTAL 106",
     "arquivo_origem": "ANTÔNIO SÉRGIO SOUZA QUEIROZ.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2225,
@@ -2926,7 +3158,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75935000",
     "observacoes": "",
     "arquivo_origem": "UEDISON  JUNIOR DE ASSIS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1250,
@@ -2951,7 +3185,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38295000",
     "observacoes": "",
     "arquivo_origem": "APARECIDO DONIZETE PRADO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1251,
@@ -2976,7 +3212,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13380112",
     "observacoes": "BL. 3 – AP. 311",
     "arquivo_origem": "APARECIDO FARIA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1252,
@@ -3001,7 +3239,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75806620",
     "observacoes": "",
     "arquivo_origem": "APOLLOP MARTINS MIRANDA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1253,
@@ -3026,7 +3266,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91770020",
     "observacoes": "",
     "arquivo_origem": "ARI ALEXANDRE FLORES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1254,
@@ -3051,7 +3293,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89540000",
     "observacoes": "",
     "arquivo_origem": "ARI JOSE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1255,
@@ -3076,7 +3320,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83805810",
     "observacoes": "",
     "arquivo_origem": "ARI JOSE ELIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2109,
@@ -3101,7 +3347,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18150075",
     "observacoes": "(LANCHERIA SABOR MINEIRO)",
     "arquivo_origem": "RICARDO HENRIQUE DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1256,
@@ -3126,7 +3374,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "",
     "observacoes": "",
     "arquivo_origem": "ARICELIO VAIS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1257,
@@ -3151,7 +3401,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83604581",
     "observacoes": "BLOCO 07 – AP 721",
     "arquivo_origem": "ARILSON JOSE CHAGAS MAIA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1258,
@@ -3176,7 +3428,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79970000",
     "observacoes": "",
     "arquivo_origem": "ARNALDO DE SOUZA SOARES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1259,
@@ -3201,7 +3455,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95760000",
     "observacoes": "",
     "arquivo_origem": "ARNI RODRIGUES DE MORAES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1260,
@@ -3226,7 +3482,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95350000",
     "observacoes": "",
     "arquivo_origem": "ARTUR LUIS BOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1261,
@@ -3251,7 +3509,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99150000",
     "observacoes": "",
     "arquivo_origem": "ARTUR MENEGUSSI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1262,
@@ -3276,7 +3536,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95300000",
     "observacoes": "",
     "arquivo_origem": "AUGUSTO MELLO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1263,
@@ -3301,7 +3563,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95935000",
     "observacoes": "",
     "arquivo_origem": "AUGUSTO SOPELSA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1266,
@@ -3326,7 +3590,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13505260",
     "observacoes": "",
     "arquivo_origem": "BENEDICTO PAULINO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1267,
@@ -3351,7 +3617,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95380000",
     "observacoes": "",
     "arquivo_origem": "BERNARDO FIGUEREDO CORREA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1268,
@@ -3376,7 +3644,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95625000",
     "observacoes": "",
     "arquivo_origem": "BIAGIO DOMINGOS FAMA JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1270,
@@ -3401,7 +3671,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37551037",
     "observacoes": "",
     "arquivo_origem": "BRENO PEREIRA BATISTA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1273,
@@ -3426,7 +3698,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99955000",
     "observacoes": "",
     "arquivo_origem": "BRUNO ARCARI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1274,
@@ -3451,7 +3725,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89227017",
     "observacoes": "",
     "arquivo_origem": "BRUNO CAMPOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1275,
@@ -3476,7 +3752,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96470000",
     "observacoes": "",
     "arquivo_origem": "BRUNO DIAS AZEVEDO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1276,
@@ -3501,7 +3779,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83706170",
     "observacoes": "",
     "arquivo_origem": "BRUNO FERREIRA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1277,
@@ -3526,7 +3806,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84020540",
     "observacoes": "",
     "arquivo_origem": "BRUNO GABRIEL KOBAY.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1970,
@@ -3551,7 +3833,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78254000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - BRUNO GONÇALVES - MT.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1272,
@@ -3576,7 +3860,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88511540",
     "observacoes": "",
     "arquivo_origem": "BRUNO - LAGES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1278,
@@ -3601,7 +3887,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96216240",
     "observacoes": "",
     "arquivo_origem": "BRUNO PEREIRA NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1279,
@@ -3626,7 +3914,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96080000",
     "observacoes": "",
     "arquivo_origem": "BRUNO SILVA DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1306,
@@ -3651,7 +3941,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89872000",
     "observacoes": "CONDOMINIO MODELO",
     "arquivo_origem": "CASSIO CARLOT - BARBARA L. DOS SANTOS CARLOT.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2026,
@@ -3676,7 +3968,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89227180",
     "observacoes": "",
     "arquivo_origem": "OSMAR - SC.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1281,
@@ -3701,7 +3995,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92480000",
     "observacoes": "",
     "arquivo_origem": "CACIO PINHO MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1282,
@@ -3726,7 +4022,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98300000",
     "observacoes": "",
     "arquivo_origem": "CAETANO ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1284,
@@ -3751,7 +4049,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97547490",
     "observacoes": "",
     "arquivo_origem": "CAMILO NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1285,
@@ -3776,7 +4076,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "CARLOS ALBERTO CARREIROS SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1286,
@@ -3801,7 +4103,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96230000",
     "observacoes": "",
     "arquivo_origem": "CARLOS ALBERTO GARCIA DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1287,
@@ -3826,7 +4130,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95059520",
     "observacoes": "",
     "arquivo_origem": "CARLOS ALEX DO NASCIMENTO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1289,
@@ -3851,7 +4157,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96212130",
     "observacoes": "",
     "arquivo_origem": "CARLOS ANTONIO MONTEIRO GONZALES JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1290,
@@ -3876,7 +4184,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88523140",
     "observacoes": "CORREARIA CIMARRONES",
     "arquivo_origem": "CARLOS AUGUSTO SANTOS DA SILVA - CORREARIA CIMARRONES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1291,
@@ -3901,7 +4211,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78360000",
     "observacoes": "",
     "arquivo_origem": "CARLOS CESAR PORTELA RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1292,
@@ -3926,7 +4238,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92870000",
     "observacoes": "",
     "arquivo_origem": "CARLOS CESAR RIBEIRO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1293,
@@ -3951,7 +4265,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78556974",
     "observacoes": "",
     "arquivo_origem": "CARLOS CLAUDINO DE MELO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1294,
@@ -3976,7 +4292,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87340000",
     "observacoes": "",
     "arquivo_origem": "CARLOS DANIEL ANDRADE MATHIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1295,
@@ -4001,7 +4319,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93220340",
     "observacoes": "",
     "arquivo_origem": "CARLOS DIEGO BORGES SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1296,
@@ -4026,7 +4346,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38660000",
     "observacoes": "",
     "arquivo_origem": "CARLOS EDUARDO NASCIMENTO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1297,
@@ -4051,7 +4373,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83325575",
     "observacoes": "",
     "arquivo_origem": "CARLOS HENRIQUE DE TOLEDO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1298,
@@ -4076,7 +4400,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97503266",
     "observacoes": "",
     "arquivo_origem": "CARLOS HENRIQUE GONÇALVES SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1299,
@@ -4101,7 +4427,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "CARLOS LEONARDO CAMBRILHA ARAUJO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1300,
@@ -4126,7 +4454,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76812200",
     "observacoes": "TSEXPRESSO / ENVIAR PARA MATUPI",
     "arquivo_origem": "CARLOS MATHEUS FERNDANDEZ.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1301,
@@ -4151,7 +4481,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35024780",
     "observacoes": "",
     "arquivo_origem": "CARLOS ROBERTO BENTO DE JESUS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1303,
@@ -4176,7 +4508,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97300704",
     "observacoes": "",
     "arquivo_origem": "CASSIANO HERBERLE VELOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1304,
@@ -4201,7 +4535,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95320000",
     "observacoes": "",
     "arquivo_origem": "CASSIANO PEGORARO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1305,
@@ -4226,7 +4562,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93821070",
     "observacoes": "",
     "arquivo_origem": "CASSIANO ZIMMER.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1309,
@@ -4251,7 +4589,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99150000",
     "observacoes": "",
     "arquivo_origem": "CELITO DA SILVA SCHNEIDER.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1422,
@@ -4276,7 +4616,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97105270",
     "observacoes": "",
     "arquivo_origem": "EDISON - CELOIR MEDEIROS CAMPELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1310,
@@ -4301,7 +4643,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95607764",
     "observacoes": "",
     "arquivo_origem": "CESAR ALEX DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1311,
@@ -4326,7 +4670,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95320000",
     "observacoes": "",
     "arquivo_origem": "CESAR AUGUSTO DA FONSECA PAIM.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1312,
@@ -4351,7 +4697,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97105970",
     "observacoes": "CAIXA POSTAL 5005",
     "arquivo_origem": "CESAR MARCONI FASSINATO - FACAS GAUCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1315,
@@ -4376,7 +4724,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89872000",
     "observacoes": "",
     "arquivo_origem": "CHARLES KATH.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1317,
@@ -4401,7 +4751,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "CIRO DA SILVA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1318,
@@ -4426,7 +4778,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89550000",
     "observacoes": "",
     "arquivo_origem": "CLAIR CORDEIRO DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1319,
@@ -4451,7 +4805,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93420010",
     "observacoes": "",
     "arquivo_origem": "CLAITON RAFAEL DOS SANTOS LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1271,
@@ -4476,7 +4832,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93042212",
     "observacoes": "",
     "arquivo_origem": "BRUNA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1534,
@@ -4501,7 +4859,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "HOSP. DE CARIDADE DR. VICTOR LANG",
     "arquivo_origem": "GABRIEL MADLOSSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1321,
@@ -4526,7 +4886,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97573970",
     "observacoes": "Rua RIVADAVIA CORREIA, 980",
     "arquivo_origem": "CLAUDIA MICHELE DA SILVA PERES RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1322,
@@ -4551,7 +4913,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98980000",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO ADRIANO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1323,
@@ -4576,7 +4940,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "30140003",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO HENRIQUE SOARES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1324,
@@ -4601,7 +4967,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95820000",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO JOSÉ PEIXOTO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1325,
@@ -4626,7 +4994,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96418410",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO MOISES RITTA VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1327,
@@ -4651,7 +5021,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97313330",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO RAFAEL SANTOS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2073,
@@ -4676,7 +5048,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85845174",
     "observacoes": "",
     "arquivo_origem": "PRETO - VALDIRENE GONÇALVES RAMOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1328,
@@ -4701,7 +5075,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96402120",
     "observacoes": "",
     "arquivo_origem": "CLEBER PINTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1329,
@@ -4726,7 +5102,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95380000",
     "observacoes": "",
     "arquivo_origem": "CLEBER SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1330,
@@ -4751,7 +5129,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97640000",
     "observacoes": "",
     "arquivo_origem": "CLEDILSON GAMARRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1331,
@@ -4776,7 +5156,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88521290",
     "observacoes": "",
     "arquivo_origem": "CLEIDISON LOURENÇO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1332,
@@ -4801,7 +5183,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "68570000",
     "observacoes": "(LOJA BOI GORDO)",
     "arquivo_origem": "CLEODOMAR SOUZA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1333,
@@ -4826,7 +5210,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95890000",
     "observacoes": "",
     "arquivo_origem": "CLEONIR DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1335,
@@ -4851,7 +5237,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95680000",
     "observacoes": "",
     "arquivo_origem": "CRISTIAN DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1336,
@@ -4876,7 +5264,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98780060",
     "observacoes": "",
     "arquivo_origem": "CRISTIAN SCHNEIDER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1337,
@@ -4901,7 +5291,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98338000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO ALOISIO HANAUER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1338,
@@ -4926,7 +5318,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86170000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO DOMINGOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1339,
@@ -4951,7 +5345,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16700000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO JOAQUIM DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1340,
@@ -4976,7 +5372,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97645000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO LOUREIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1341,
@@ -5001,7 +5399,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98865000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO MARTIN DE CAMARGO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1342,
@@ -5026,7 +5426,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO POLONI NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1343,
@@ -5051,7 +5453,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97070330",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO ROBALLO MOHR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1344,
@@ -5076,7 +5480,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95552000",
     "observacoes": "",
     "arquivo_origem": "CRISTIANO SAVI MOURA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1950,
@@ -5101,7 +5507,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98801285",
     "observacoes": "",
     "arquivo_origem": "MATHEUS FLORES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1345,
@@ -5126,7 +5534,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78675000",
     "observacoes": "ESQUINA COM  BRUXELAS",
     "arquivo_origem": "CRISTOVÃO LOZEIRA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1308,
@@ -5151,7 +5561,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37948000",
     "observacoes": "",
     "arquivo_origem": "CELIO PEREIRA TORRES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1804,
@@ -5176,7 +5588,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97800000",
     "observacoes": "",
     "arquivo_origem": "LUAN BEHLING TAUIMER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1346,
@@ -5201,7 +5615,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97450000",
     "observacoes": "",
     "arquivo_origem": "DANER DE ALENCAR SARAIVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1348,
@@ -5226,7 +5642,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79240000",
     "observacoes": "",
     "arquivo_origem": "DANIEL BISPO DA ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1349,
@@ -5251,7 +5669,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "DANIEL CORREIA MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1350,
@@ -5276,7 +5696,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97576295",
     "observacoes": "",
     "arquivo_origem": "DANIEL DA ROSA BARÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1351,
@@ -5301,7 +5723,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16503210",
     "observacoes": "",
     "arquivo_origem": "DANIEL DE ALMEIDA ARUT.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1352,
@@ -5326,7 +5750,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97145000",
     "observacoes": "END: TRAVESSA PALMEIRA, 19000 | Bairro: SÃO VALENTIM | SANTA MARIA – RS",
     "arquivo_origem": "DANIEL DUARTE LEAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1564,
@@ -5351,7 +5777,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98789004",
     "observacoes": "",
     "arquivo_origem": "GUASQUEIRO COUROCRU - DANIEL FRANÇA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1354,
@@ -5376,7 +5804,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79116134",
     "observacoes": "",
     "arquivo_origem": "DANIEL GUSTAVO BORGES SOARES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1355,
@@ -5401,7 +5831,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89291455",
     "observacoes": "",
     "arquivo_origem": "DANIEL LEITE FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1356,
@@ -5426,7 +5858,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84470000",
     "observacoes": "",
     "arquivo_origem": "DANIEL RODRIGUES DE CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1353,
@@ -5451,7 +5885,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98780735",
     "observacoes": "CENTRO PROFISSIONAL PASSARELLA",
     "arquivo_origem": "DANIEL FRANCA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2008,
@@ -5476,7 +5912,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78250000",
     "observacoes": "SALA SOURCING TECNOLOGIA",
     "arquivo_origem": "NELSON - MT.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1522,
@@ -5501,7 +5939,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "32673038",
     "observacoes": "(ATRÁS DO CLUBE DA PREFEITURA)",
     "arquivo_origem": "FRANK TEIXEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1357,
@@ -5526,7 +5966,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15375112",
     "observacoes": "",
     "arquivo_origem": "DANILO DE JESUS CONTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1358,
@@ -5551,7 +5993,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97105360",
     "observacoes": "",
     "arquivo_origem": "DANILO DE MORAIS MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1359,
@@ -5576,7 +6020,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79621130",
     "observacoes": "",
     "arquivo_origem": "DANILO FRANCISCO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1360,
@@ -5601,7 +6047,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "DANRLEI DUTRA FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1919,
@@ -5626,7 +6074,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88160959",
     "observacoes": "",
     "arquivo_origem": "MARCOS DANILO RODRIGUES XIMENDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1361,
@@ -5651,7 +6101,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79904708",
     "observacoes": "",
     "arquivo_origem": "DARIO HONÓRIO MARTINS ALMIRÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1362,
@@ -5676,7 +6128,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96460000",
     "observacoes": "",
     "arquivo_origem": "DARIO LUIZ CARDOZO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1363,
@@ -5701,7 +6155,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96205260",
     "observacoes": "",
     "arquivo_origem": "DARLAN SAN MARTINS COELHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1364,
@@ -5726,7 +6182,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15430000",
     "observacoes": "",
     "arquivo_origem": "DARLEY APARECIDO DE SOUZA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1365,
@@ -5751,7 +6209,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96360000",
     "observacoes": "",
     "arquivo_origem": "DARLÃ LIMA AGUILAR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1366,
@@ -5776,7 +6236,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97870000",
     "observacoes": "",
     "arquivo_origem": "DAVISON ROCHA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2248,
@@ -5801,7 +6263,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97685970",
     "observacoes": "RETIRA NA AGENCIA DOS CORREIOS",
     "arquivo_origem": "VINICIUS MONTE NEGRO GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1367,
@@ -5826,7 +6290,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15430000",
     "observacoes": "",
     "arquivo_origem": "DEILTON PEREIRA DOS SANTOS JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2074,
@@ -5851,7 +6317,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88914000",
     "observacoes": "OU | Destinatário: CRISTIANO PEREIRA LOPES | RUA JOAQUIM PORTO, 738 – SALA 2 | CENTRO | TORRES – RS | OU | Destinatário: DEIVID ANTÔNIO DA CUNHA | RUA SERTÓRIO, 207 | Bairro: TARUMÃ | VIAMÃO – RS",
     "arquivo_origem": "PSICOPATA - DEIVID ANTÔNIO DA CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1368,
@@ -5876,7 +6344,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93145430",
     "observacoes": "",
     "arquivo_origem": "DEIVID FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1370,
@@ -5901,7 +6371,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95840000",
     "observacoes": "",
     "arquivo_origem": "DELANO PEREIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1371,
@@ -5926,7 +6398,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93700000",
     "observacoes": "",
     "arquivo_origem": "DELCIO DOS SANTOS BRITO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1372,
@@ -5951,7 +6425,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37145000",
     "observacoes": "",
     "arquivo_origem": "DELEON PEREIRA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1373,
@@ -5976,7 +6452,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95625000",
     "observacoes": "",
     "arquivo_origem": "DELMAR WILLE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1374,
@@ -6001,7 +6479,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18704080",
     "observacoes": "",
     "arquivo_origem": "DENILSOM ELLIAS APARECIDO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1375,
@@ -6026,7 +6506,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88535000",
     "observacoes": "",
     "arquivo_origem": "DENILSON DA LUZ MELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1376,
@@ -6051,7 +6533,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98910000",
     "observacoes": "",
     "arquivo_origem": "DENILSON GUSTAVO FLORES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1377,
@@ -6076,7 +6560,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94460460",
     "observacoes": "",
     "arquivo_origem": "DENIS QUEIROZ NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1378,
@@ -6101,7 +6587,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76590000",
     "observacoes": "R. SOCIAL: 30.357.348 DEVANIR MOREIRA DE ALVARENGA | End: AV. SÃO MIGUEL DO ARAGUAIA, S/Nº | CENTRO (TATAIRA) | SÃO MIGUEL DO ARAGUAIA – GO",
     "arquivo_origem": "DEVANIR MOREIRA DE ALVARENGA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1379,
@@ -6126,7 +6614,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93900000",
     "observacoes": "",
     "arquivo_origem": "DIEGO ARCENO EWERLING.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1381,
@@ -6151,7 +6641,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19110033",
     "observacoes": "",
     "arquivo_origem": "DIEGO CABRERA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1382,
@@ -6176,7 +6668,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "DIEGO GRILLO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1383,
@@ -6201,7 +6695,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "DIEGO KNECHT.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1384,
@@ -6226,7 +6722,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98804610",
     "observacoes": "",
     "arquivo_origem": "DIEGO MARTINS FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1385,
@@ -6251,7 +6749,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96765000",
     "observacoes": "",
     "arquivo_origem": "DIEGO MEIRELES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1380,
@@ -6276,7 +6776,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88502230",
     "observacoes": "APTO 12",
     "arquivo_origem": "DIEGO B. MENEZES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1387,
@@ -6301,7 +6803,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99950000",
     "observacoes": "",
     "arquivo_origem": "DIEGO PINZON.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1388,
@@ -6326,7 +6830,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86620000",
     "observacoes": "",
     "arquivo_origem": "DIEGO PONTES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1389,
@@ -6351,7 +6857,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96216220",
     "observacoes": "",
     "arquivo_origem": "DIEGO SAN MARTIN COELHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1390,
@@ -6376,7 +6884,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79240000",
     "observacoes": "",
     "arquivo_origem": "DIEGO SILVA VITAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1391,
@@ -6401,7 +6911,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79240000",
     "observacoes": "",
     "arquivo_origem": "DIEGO TAVARES CHAVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1392,
@@ -6426,7 +6938,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97705030",
     "observacoes": "",
     "arquivo_origem": "DILCINONE SILVEIRA DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1393,
@@ -6451,7 +6965,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85896000",
     "observacoes": "",
     "arquivo_origem": "DILSON JOSÉ ZOZ COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1394,
@@ -6476,7 +6992,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99470000",
     "observacoes": "",
     "arquivo_origem": "DIOGO GUILHERME BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1326,
@@ -6501,7 +7019,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91990000",
     "observacoes": "",
     "arquivo_origem": "CLAUDIO PEIXOTO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1396,
@@ -6526,7 +7046,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98170000",
     "observacoes": "",
     "arquivo_origem": "DIOGO PADILHA FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1397,
@@ -6551,7 +7073,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96610000",
     "observacoes": "",
     "arquivo_origem": "DIOGO SKOPINSKI DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1398,
@@ -6576,7 +7100,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79580000",
     "observacoes": "",
     "arquivo_origem": "DIONATAN DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1400,
@@ -6601,7 +7127,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86970175",
     "observacoes": "",
     "arquivo_origem": "DIONI CLEVIN DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1401,
@@ -6626,7 +7154,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96495000",
     "observacoes": "",
     "arquivo_origem": "DIONI LEON DE AZAMBUJA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1402,
@@ -6651,7 +7181,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78675000",
     "observacoes": "",
     "arquivo_origem": "DIRCEU NECKER DA CRUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1934,
@@ -6676,7 +7208,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "MARIO ALTAMIR LEMES DE MEDEIROS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1403,
@@ -6701,7 +7235,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17526691",
     "observacoes": "A/C JOSINEI BATISTA",
     "arquivo_origem": "DJALMA APARECIDO MARIANO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1404,
@@ -6726,7 +7262,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85770000",
     "observacoes": "",
     "arquivo_origem": "DORIVAL BANDEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1405,
@@ -6751,7 +7289,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93224010",
     "observacoes": "",
     "arquivo_origem": "DOUGLAS FREITAS MARQUES 2.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1406,
@@ -6776,7 +7316,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "DOUGLAS FREITAS MARQUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1408,
@@ -6801,7 +7343,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97513206",
     "observacoes": "",
     "arquivo_origem": "DOUGLAS OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1409,
@@ -6826,7 +7370,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97701436",
     "observacoes": "",
     "arquivo_origem": "EBERSON TRINDADE DE MATTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1410,
@@ -6851,7 +7397,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95706108",
     "observacoes": "",
     "arquivo_origem": "EDAIR VIEIRA DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1411,
@@ -6876,7 +7424,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95671162",
     "observacoes": "",
     "arquivo_origem": "EDENI DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1412,
@@ -6901,7 +7451,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400101",
     "observacoes": "",
     "arquivo_origem": "EDER DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1413,
@@ -6926,7 +7478,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "80530000",
     "observacoes": "",
     "arquivo_origem": "EDER JOSE DO NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1415,
@@ -6951,7 +7505,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94198555",
     "observacoes": "",
     "arquivo_origem": "EDER RODRIGUES BORGES 2.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1416,
@@ -6976,7 +7532,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94198555",
     "observacoes": "",
     "arquivo_origem": "EDER RODRIGUES BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1417,
@@ -7001,7 +7559,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97755000",
     "observacoes": "",
     "arquivo_origem": "EDERSON DE SOUZA SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1419,
@@ -7026,7 +7586,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "",
     "arquivo_origem": "EDERSON SANTOS BATISTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1420,
@@ -7051,7 +7613,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78690000",
     "observacoes": "",
     "arquivo_origem": "EDILSON DE ARAUJO COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1421,
@@ -7076,7 +7640,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99300000",
     "observacoes": "",
     "arquivo_origem": "EDINILSON DE OLIVEIRA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1424,
@@ -7101,7 +7667,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75392688",
     "observacoes": "",
     "arquivo_origem": "EDIVALDO RODRIGUES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1426,
@@ -7126,7 +7694,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18702180",
     "observacoes": "",
     "arquivo_origem": "EDSON APARECIDO BEZERRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1427,
@@ -7151,7 +7721,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90200290",
     "observacoes": "",
     "arquivo_origem": "EDSON CRIST BRAUN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1428,
@@ -7176,7 +7748,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38475000",
     "observacoes": "",
     "arquivo_origem": "EDSON MARTINS PEREIRA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1429,
@@ -7201,7 +7775,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "11925000",
     "observacoes": "",
     "arquivo_origem": "EDSON ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1430,
@@ -7226,7 +7802,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98170000",
     "observacoes": "",
     "arquivo_origem": "EDSON TEIXEIRA VIANA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1432,
@@ -7251,7 +7829,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13917190",
     "observacoes": "",
     "arquivo_origem": "EDUARDO ADRIANO SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1433,
@@ -7276,7 +7856,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97610000",
     "observacoes": "",
     "arquivo_origem": "EDUARDO BALBINO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1434,
@@ -7301,7 +7883,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95110607",
     "observacoes": "",
     "arquivo_origem": "EDUARDO BASSANI DE BRITO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1435,
@@ -7326,7 +7910,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79260000",
     "observacoes": "",
     "arquivo_origem": "EDUARDO CESAR PINHEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1436,
@@ -7351,7 +7937,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92704515",
     "observacoes": "",
     "arquivo_origem": "EDUARDO FIGUEIRÓ CRUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1437,
@@ -7376,7 +7964,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96820002",
     "observacoes": "",
     "arquivo_origem": "EDUARDO FONSECA DOTTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1439,
@@ -7401,7 +7991,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93600970",
     "observacoes": "Rua PORTÃO, 441",
     "arquivo_origem": "EDUARDO LAMMEL BLAUTH.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1440,
@@ -7426,7 +8018,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91787170",
     "observacoes": "",
     "arquivo_origem": "EDUARDO MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1441,
@@ -7451,7 +8045,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97400000",
     "observacoes": "",
     "arquivo_origem": "EDUARDO OZÓRIO AREND.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1442,
@@ -7476,7 +8072,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96270000",
     "observacoes": "",
     "arquivo_origem": "EDUARDO PEREIRA BRAGA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1431,
@@ -7501,7 +8099,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96470000",
     "observacoes": "",
     "arquivo_origem": "EDUARDO  SOUZA FARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1443,
@@ -7526,7 +8126,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15046765",
     "observacoes": "",
     "arquivo_origem": "EDUARDO VAGNER DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1444,
@@ -7551,7 +8153,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96350000",
     "observacoes": "",
     "arquivo_origem": "ELANO PASSOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2242,
@@ -7576,7 +8180,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97503840",
     "observacoes": "",
     "arquivo_origem": "VICENTE SANTANA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1445,
@@ -7601,7 +8207,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95680000",
     "observacoes": "",
     "arquivo_origem": "ELIANA PADILHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1446,
@@ -7626,7 +8234,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88117310",
     "observacoes": "",
     "arquivo_origem": "ELIAS BENITES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1447,
@@ -7651,7 +8261,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98900000",
     "observacoes": "",
     "arquivo_origem": "ELIAS RODRIGUES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1448,
@@ -7676,7 +8288,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76929000",
     "observacoes": "",
     "arquivo_origem": "ELIELSON TEIXEIRA GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1460,
@@ -7701,7 +8315,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18702589",
     "observacoes": "",
     "arquivo_origem": "EMILIENE DE OLIVEIRA ELLIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1449,
@@ -7726,7 +8342,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79480000",
     "observacoes": "",
     "arquivo_origem": "ELISEU DE SÁ PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1450,
@@ -7751,7 +8369,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78320000",
     "observacoes": "",
     "arquivo_origem": "ELIVELTON DO NASCIMENTO SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1451,
@@ -7776,7 +8396,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79500000",
     "observacoes": "",
     "arquivo_origem": "ELIZANDRO DIAS COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1563,
@@ -7801,7 +8423,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76820841",
     "observacoes": "Destinatário:",
     "arquivo_origem": "GRILO - APUÍ - AM - ELIZEU DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1453,
@@ -7826,7 +8450,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94130160",
     "observacoes": "",
     "arquivo_origem": "ELTON AYRES MILHANO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1454,
@@ -7851,7 +8477,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83050480",
     "observacoes": "",
     "arquivo_origem": "ELTON SEBASTIAN BEHETY.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1455,
@@ -7876,7 +8504,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97542160",
     "observacoes": "",
     "arquivo_origem": "ELVIS ADRIANI GOMES VAZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1456,
@@ -7901,7 +8531,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97690000",
     "observacoes": "CENTRO | OU | HENRIQUE FERREIRA VILLANOVA | ROD. CEL. EDMUNDO DOS SANTOS ABREU, 2700 | VIAMÃO - RS",
     "arquivo_origem": "ELZA ROBALO - HENRIQUE FERREIRA VILLANOVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1457,
@@ -7926,7 +8558,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "68379200",
     "observacoes": "DSITR. DE ALTAMIRA",
     "arquivo_origem": "EMANUEL MATEUS GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1638,
@@ -7951,7 +8585,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84130000",
     "observacoes": "",
     "arquivo_origem": "JOAO PEDRO  HARTMANN MARQUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1458,
@@ -7976,7 +8612,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96470000",
     "observacoes": "",
     "arquivo_origem": "EMERSON SOUZA PONTES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1459,
@@ -8001,7 +8639,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97390000",
     "observacoes": "",
     "arquivo_origem": "EMERSON TEIXEIRA PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1461,
@@ -8026,7 +8666,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18530000",
     "observacoes": "",
     "arquivo_origem": "ENEAS VIEIRA FILHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1462,
@@ -8051,7 +8693,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96530000",
     "observacoes": "",
     "arquivo_origem": "ENIO MEDEIROS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1463,
@@ -8076,7 +8720,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95906138",
     "observacoes": "",
     "arquivo_origem": "ENRICO MARTINI LUCINI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1464,
@@ -8101,7 +8747,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97507761",
     "observacoes": "",
     "arquivo_origem": "ERAILDES MACHADO VIÇOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1465,
@@ -8126,7 +8774,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "ERALDO GORSKI DO AMARAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1976,
@@ -8151,7 +8801,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - VINICIUS SANTOS - ERENI DOS SANTOS - Cópia.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1399,
@@ -8176,7 +8828,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92440490",
     "observacoes": "",
     "arquivo_origem": "DIONATAS - CANOAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1466,
@@ -8201,7 +8855,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16902135",
     "observacoes": "",
     "arquivo_origem": "ERNANDES DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1467,
@@ -8226,7 +8882,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97770000",
     "observacoes": "",
     "arquivo_origem": "ERNANI DA SILVA DORNELES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1468,
@@ -8251,7 +8909,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93990000",
     "observacoes": "",
     "arquivo_origem": "ERNANI SILMAR PETRY.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1469,
@@ -8276,7 +8936,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87015440",
     "observacoes": "",
     "arquivo_origem": "ERNESTO DE PAIVA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1713,
@@ -8301,7 +8963,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96501000",
     "observacoes": "A/C MARIA IBRAEMA LIMA",
     "arquivo_origem": "JOÃO - CAHCOEIRA DO SUL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1470,
@@ -8326,7 +8990,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94589899",
     "observacoes": "",
     "arquivo_origem": "EUCLIDES SILVA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1418,
@@ -8351,7 +9017,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "EDERSON LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1471,
@@ -8376,7 +9044,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92524690",
     "observacoes": "OU | Destinatário:  EVAIR SINVAL DA ROSA DE OLIVEIRA | Rua QUINTINO BOCAIUVA, 1049 – AP 01 | Bairro: PETROPOLIS | CAXIAS DO SUL - RS",
     "arquivo_origem": "EVAIR SINVAL DA ROSA DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1472,
@@ -8401,7 +9071,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97800000",
     "observacoes": "",
     "arquivo_origem": "EVANDO CALISTO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1473,
@@ -8426,7 +9098,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92519515",
     "observacoes": "",
     "arquivo_origem": "EVANDRO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1474,
@@ -8451,7 +9125,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98500000",
     "observacoes": "",
     "arquivo_origem": "EVANDRO DE BORBA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1475,
@@ -8476,7 +9152,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84320000",
     "observacoes": "",
     "arquivo_origem": "EVANO RIBAS SOLTOVSKI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1476,
@@ -8501,7 +9179,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18520600",
     "observacoes": "",
     "arquivo_origem": "EVERALDO RODRIGUES DUARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1477,
@@ -8526,7 +9206,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "EVERALDO SILVA DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1478,
@@ -8551,7 +9233,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93700000",
     "observacoes": "",
     "arquivo_origem": "EVERALDO SIMMI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1479,
@@ -8576,7 +9260,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98865000",
     "observacoes": "",
     "arquivo_origem": "EVERTON LUIZ NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1480,
@@ -8601,7 +9287,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96100000",
     "observacoes": "",
     "arquivo_origem": "EVERTON PEDROSO FIGUEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1736,
@@ -8626,7 +9314,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "JOÃO THOMAZ FERNANDES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1481,
@@ -8651,7 +9341,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93180000",
     "observacoes": "",
     "arquivo_origem": "EZEQUIEL ANTUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1482,
@@ -8676,7 +9368,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18967000",
     "observacoes": "",
     "arquivo_origem": "FABIANO DA SILVEIRA GUSKUMA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1484,
@@ -8701,7 +9395,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96195000",
     "observacoes": "",
     "arquivo_origem": "FABIO FISCHER KLUG.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1485,
@@ -8726,7 +9422,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "81920769",
     "observacoes": "",
     "arquivo_origem": "FABIO JOSE MARTINS DE LORENA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1425,
@@ -8751,7 +9449,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99615000",
     "observacoes": "",
     "arquivo_origem": "EDIVAN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1486,
@@ -8776,7 +9476,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "39280000",
     "observacoes": "",
     "arquivo_origem": "FABIO NUNES GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1487,
@@ -8801,7 +9503,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92480000",
     "observacoes": "",
     "arquivo_origem": "FABIO PIRES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1488,
@@ -8826,7 +9530,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88905434",
     "observacoes": "",
     "arquivo_origem": "FABIO TERRA PAIVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1489,
@@ -8851,7 +9557,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96490000",
     "observacoes": "ENDEREÇO À CIMA",
     "arquivo_origem": "FABRICIO BRITO PERES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1490,
@@ -8876,7 +9584,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97030590",
     "observacoes": "",
     "arquivo_origem": "FABRICIO DUARTE LEAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1491,
@@ -8901,7 +9611,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96600000",
     "observacoes": "",
     "arquivo_origem": "FABRICIO MENARÉ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1492,
@@ -8926,7 +9638,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95860000",
     "observacoes": "",
     "arquivo_origem": "FABRICIO NICOLAU TEIXEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1493,
@@ -8951,7 +9665,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "",
     "arquivo_origem": "FABRICIO PRESTES DE BEM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1848,
@@ -8976,7 +9692,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76590000",
     "observacoes": "ESTR. FAZENDA NOVA PIRATININGA",
     "arquivo_origem": "LUIS SOUSA FEITOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1495,
@@ -9001,7 +9719,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95600152",
     "observacoes": "",
     "arquivo_origem": "FELIPE ARSAND PHILERENE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1496,
@@ -9026,7 +9746,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18130970",
     "observacoes": "",
     "arquivo_origem": "FELIPE AUGUSTO PEREIRA ARAUJO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1497,
@@ -9051,7 +9773,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95096205",
     "observacoes": "",
     "arquivo_origem": "FELIPE BECKER CAMELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1498,
@@ -9076,7 +9800,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88117310",
     "observacoes": "",
     "arquivo_origem": "FELIPE CAPITAO PELAGIO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1499,
@@ -9101,7 +9827,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "FELIPE DA SILVA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1501,
@@ -9126,7 +9854,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85025510",
     "observacoes": "",
     "arquivo_origem": "FELIPE JOSÉ GUIMARÃES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1502,
@@ -9151,7 +9881,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95370000",
     "observacoes": "",
     "arquivo_origem": "FELIPE LUTHEMEIER JOAQUIM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1503,
@@ -9176,7 +9908,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38081180",
     "observacoes": "",
     "arquivo_origem": "FELIPE SCHWETTER CAETANO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1504,
@@ -9201,7 +9935,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88331440",
     "observacoes": "",
     "arquivo_origem": "FELIPE TERRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1505,
@@ -9226,7 +9962,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95185000",
     "observacoes": "",
     "arquivo_origem": "FELIPE TREVISOL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1506,
@@ -9251,7 +9989,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93346320",
     "observacoes": "",
     "arquivo_origem": "FELIPPE HENCKEL MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1507,
@@ -9276,7 +10016,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96090470",
     "observacoes": "",
     "arquivo_origem": "FERNANDO PEREIRA JACOBS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1508,
@@ -9301,7 +10043,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89703148",
     "observacoes": "",
     "arquivo_origem": "FERNANDO ROSSATTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1509,
@@ -9326,7 +10070,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98150000",
     "observacoes": "",
     "arquivo_origem": "FILIPE DALCIN MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1510,
@@ -9351,7 +10097,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96077190",
     "observacoes": "",
     "arquivo_origem": "FILIPE SOARES DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1512,
@@ -9376,7 +10124,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89162120",
     "observacoes": "",
     "arquivo_origem": "FLAVIO ANDRADE MELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1513,
@@ -9401,7 +10151,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99052250",
     "observacoes": "",
     "arquivo_origem": "FLAVIO ANTONIO DIDONÉ DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1514,
@@ -9426,7 +10178,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79750000",
     "observacoes": "",
     "arquivo_origem": "FLAVIO DA SILVA ERNESTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1515,
@@ -9451,7 +10205,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97755000",
     "observacoes": "",
     "arquivo_origem": "FLAVIO GUERRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1516,
@@ -9476,7 +10232,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17190000",
     "observacoes": "",
     "arquivo_origem": "FLAVIO RAMOS JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1517,
@@ -9501,7 +10259,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38170000",
     "observacoes": "",
     "arquivo_origem": "FLORISVALDO ALVES COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1518,
@@ -9526,7 +10286,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37012110",
     "observacoes": "CLINICA FOT",
     "arquivo_origem": "FRANCISCO AZARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1407,
@@ -9551,7 +10313,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "",
     "arquivo_origem": "DOUGLAS L. BIEGER (FRANCISCO EMILIO MIRON ROLOFF.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1519,
@@ -9576,7 +10340,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83181000",
     "observacoes": "",
     "arquivo_origem": "FRANCISCO FERNANDO CARBONAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1520,
@@ -9601,7 +10367,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83181000",
     "observacoes": "",
     "arquivo_origem": "FRANCISCO FERNANDO CARBORNAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1521,
@@ -9626,7 +10394,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88502210",
     "observacoes": "",
     "arquivo_origem": "FRANCISCO WOLNY CORRÊA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1523,
@@ -9651,7 +10421,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89340000",
     "observacoes": "",
     "arquivo_origem": "FREDERICO SCHMECKEL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1524,
@@ -9676,7 +10448,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97705000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL BRAUNER DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1525,
@@ -9701,7 +10475,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95320000",
     "observacoes": "RETIRA NA AGÊNCIA DO CORREIO",
     "arquivo_origem": "GABRIEL BRUNETTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1526,
@@ -9726,7 +10502,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92997000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL DA SILVA DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1527,
@@ -9751,7 +10529,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99500000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL DA SILVA MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1528,
@@ -9776,7 +10556,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "BLOCO B, APTO 305",
     "arquivo_origem": "GABRIEL DORNELES FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1529,
@@ -9801,7 +10583,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL DUTRA FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1530,
@@ -9826,7 +10610,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97645000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL ESTIVALET.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1531,
@@ -9851,7 +10637,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86929000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL JOSÉ DARIENSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1532,
@@ -9876,7 +10664,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95760000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL LUIS KNORTST.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1533,
@@ -9901,7 +10691,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95908388",
     "observacoes": "",
     "arquivo_origem": "GABRIEL LUIZ BRUM GIACOMOLLI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1535,
@@ -9926,7 +10718,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86300000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL MENDES KILLER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1536,
@@ -9951,7 +10745,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95110120",
     "observacoes": "",
     "arquivo_origem": "GABRIEL PRETTO MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1537,
@@ -9976,7 +10772,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94430804",
     "observacoes": "",
     "arquivo_origem": "GABRIEL RAMOS DA LUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1538,
@@ -10001,7 +10799,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19140015",
     "observacoes": "",
     "arquivo_origem": "GABRIEL RODRIGUES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1540,
@@ -10026,7 +10826,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79645122",
     "observacoes": "",
     "arquivo_origem": "GABRIELA ARAUJO HONÓRIO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1541,
@@ -10051,7 +10853,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96900000",
     "observacoes": "",
     "arquivo_origem": "GEDERSON CARLOS COLOMBELLI FETZER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1542,
@@ -10076,7 +10880,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98700000",
     "observacoes": "",
     "arquivo_origem": "GEDOVAR CORRÊA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1543,
@@ -10101,7 +10907,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96930000",
     "observacoes": "(PRESÍDIO DE CANDELÁRIA) | 96.930-000 | Destinatário: TAINÁ RODRIGUES TROJAHN | Rua ALCIBIADES CANDIDO TRINDADE, 754 | Bairro: VALE GERMANIA | CANDELARIA - RS",
     "arquivo_origem": "GELSON DA SILVA GRIGOLO - PRESÍDIO DE CANDELÁRIA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1544,
@@ -10126,7 +10934,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96690000",
     "observacoes": "",
     "arquivo_origem": "GENINHO GOMES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1545,
@@ -10151,7 +10961,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76862970",
     "observacoes": "",
     "arquivo_origem": "GENIVALDO ANGELO DE JESUS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1546,
@@ -10176,7 +10988,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98200000",
     "observacoes": "",
     "arquivo_origem": "GEORGE FELIPE LAUXEN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1547,
@@ -10201,7 +11015,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92728310",
     "observacoes": "",
     "arquivo_origem": "GEORGE RODRIGO MORAES SANTANA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1548,
@@ -10226,7 +11042,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89680000",
     "observacoes": "",
     "arquivo_origem": "GERALDO GONÇALVES DE MEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1549,
@@ -10251,7 +11069,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99070060",
     "observacoes": "",
     "arquivo_origem": "GERALDO TAQUARA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1551,
@@ -10276,7 +11096,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97702050",
     "observacoes": "",
     "arquivo_origem": "GILBERTO ANTÔNIO DALENOGARE JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1552,
@@ -10301,7 +11123,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88545000",
     "observacoes": "CENTRO | OU | GILBERTO RIBEIRO DE JESUS JUNIOR | Rua EVANGELICA, 54 | A/C RITA LOPES RIBEIRO | OTACILIO COSTA - SC",
     "arquivo_origem": "GILBERTO RIBEIRO DE JESUS JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1553,
@@ -10326,7 +11150,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "GILBERTO SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1554,
@@ -10351,7 +11177,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17213366",
     "observacoes": "",
     "arquivo_origem": "GILMAR LIMA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1555,
@@ -10376,7 +11204,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96413030",
     "observacoes": "",
     "arquivo_origem": "GILMAR MACEDO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1556,
@@ -10401,7 +11231,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94430550",
     "observacoes": "",
     "arquivo_origem": "GIOVANE RIBEIRO ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1557,
@@ -10426,7 +11258,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95760000",
     "observacoes": "EST. DJALMO PEDRO KLEIN, 400 | Cliente que pagou:   NF FOI REJEITADA | SOGUERIA LOS CHANGADORES LTDA | R LINHA GENERAL NETO ALTO , S/Nº | BARÃO – RS | 95.730-000",
     "arquivo_origem": "GIOVANI DE AZEVEDO ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1334,
@@ -10451,7 +11285,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "COMPANHIA DO COURO - GISLAINE PORTO TAVARES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1558,
@@ -10476,7 +11312,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99660000",
     "observacoes": "",
     "arquivo_origem": "GLADSTONE FANTINI JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1758,
@@ -10501,7 +11339,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99665000",
     "observacoes": "",
     "arquivo_origem": "JUNIOR FANTINI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1559,
@@ -10526,7 +11366,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96420200",
     "observacoes": "",
     "arquivo_origem": "GLAUCIONIR VELOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1560,
@@ -10551,7 +11393,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85823000",
     "observacoes": "",
     "arquivo_origem": "GLEISON TEIXEIRA DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1561,
@@ -10576,7 +11420,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "",
     "observacoes": "",
     "arquivo_origem": "GOMERCINDO FLORES DA CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1628,
@@ -10601,7 +11447,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91510486",
     "observacoes": "",
     "arquivo_origem": "JEDERSON MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1562,
@@ -10626,7 +11474,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95097370",
     "observacoes": "OU | Destinatário: GREGORI KICH | Rua JACINTO MODENA, 212 | Bairro CRUZEIRO | CAXIAS DO SUL - RS",
     "arquivo_origem": "GREGORI KICH.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1567,
@@ -10651,7 +11501,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96530000",
     "observacoes": "",
     "arquivo_origem": "GUILHERME AUGUSTO CARDOSO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1568,
@@ -10676,7 +11528,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "GUILHERME BANDEIRA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1569,
@@ -10701,7 +11555,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79556016",
     "observacoes": "",
     "arquivo_origem": "GUILHERME COLOMBO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1570,
@@ -10726,7 +11582,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13580000",
     "observacoes": "",
     "arquivo_origem": "GUILHERME MANIERI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1571,
@@ -10751,7 +11609,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97800000",
     "observacoes": "",
     "arquivo_origem": "GUILHERME SCHLEDER HAMERSKI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2004,
@@ -10776,7 +11636,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96508761",
     "observacoes": "",
     "arquivo_origem": "NATHALIA ARAUJO - GUILHERME SEVERO GUTERRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1572,
@@ -10801,7 +11663,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96835620",
     "observacoes": "",
     "arquivo_origem": "GUILHERME SILVA DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1573,
@@ -10826,7 +11690,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96785250",
     "observacoes": "",
     "arquivo_origem": "GUILHERME SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1574,
@@ -10851,7 +11717,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38701152",
     "observacoes": "",
     "arquivo_origem": "GUSTAVO AMANCIO GOMES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1575,
@@ -10876,7 +11744,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15980000",
     "observacoes": "",
     "arquivo_origem": "GUSTAVO HENRIQUE FURIA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1576,
@@ -10901,7 +11771,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14110000",
     "observacoes": "",
     "arquivo_origem": "GUSTAVO HENRIQUE MENDONÇA FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1578,
@@ -10926,7 +11798,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "33045380",
     "observacoes": "",
     "arquivo_origem": "GUSTAVO JOSÉ MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2116,
@@ -10951,7 +11825,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97574173",
     "observacoes": "",
     "arquivo_origem": "ROBERT MISQUEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1579,
@@ -10976,7 +11852,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "36447027",
     "observacoes": "",
     "arquivo_origem": "HAILSON ADRIANO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1580,
@@ -11001,7 +11879,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79580000",
     "observacoes": "",
     "arquivo_origem": "HAMILTON DE FREITAS ADRIANO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1581,
@@ -11026,7 +11906,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95770000",
     "observacoes": "",
     "arquivo_origem": "HEBER LIONEL GONZALEZ SOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1302,
@@ -11051,7 +11933,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79210000",
     "observacoes": "",
     "arquivo_origem": "CARLOS VELACIO DE ARAUJO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1582,
@@ -11076,7 +11960,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96077000",
     "observacoes": "",
     "arquivo_origem": "HENRIQUE AUGUSTO CALVETE CORSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1583,
@@ -11101,7 +11987,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86210000",
     "observacoes": "SELARIA",
     "arquivo_origem": "HENRIQUE DA CRUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1585,
@@ -11126,7 +12014,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96755000",
     "observacoes": "Destinat.:HERMES CLAUDIOMAR ALMEIDA ALVES",
     "arquivo_origem": "HERMES CLAUDIOMIR ALMEIDA ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1586,
@@ -11151,7 +12041,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "HILTON GUILLERMO VIEIRA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1587,
@@ -11176,7 +12068,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35986000",
     "observacoes": "",
     "arquivo_origem": "HINRIQUI ARTUZO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1588,
@@ -11201,7 +12095,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79530000",
     "observacoes": "",
     "arquivo_origem": "HUMBERTO GONÇALVES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1589,
@@ -11226,7 +12122,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99060220",
     "observacoes": "",
     "arquivo_origem": "IBARÉ VERGÍLIO BOLNER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1590,
@@ -11251,7 +12149,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99300000",
     "observacoes": "",
     "arquivo_origem": "IDUAREZ CASSIO DA VEIGA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1591,
@@ -11276,7 +12176,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35672000",
     "observacoes": "",
     "arquivo_origem": "IGOR FELIPE APARECIDO DA CUNHA FARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1592,
@@ -11301,7 +12203,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89500335",
     "observacoes": "",
     "arquivo_origem": "IGOR JOSÉ TABORDA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1593,
@@ -11326,7 +12230,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97546210",
     "observacoes": "",
     "arquivo_origem": "IGOR MEDEIROS ROSADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1594,
@@ -11351,7 +12257,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99680000",
     "observacoes": "",
     "arquivo_origem": "IGOR SILVA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1596,
@@ -11376,7 +12284,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96410610",
     "observacoes": "",
     "arquivo_origem": "INACIO CORBO MELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1597,
@@ -11401,7 +12311,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93490284",
     "observacoes": "",
     "arquivo_origem": "IRINEU ALBAN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1598,
@@ -11426,7 +12338,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88504320",
     "observacoes": "",
     "arquivo_origem": "IRINEU FERNANDO SILVA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1599,
@@ -11451,7 +12365,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13603059",
     "observacoes": "",
     "arquivo_origem": "ISABELA CRISTINA MORAIS PONTES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1600,
@@ -11476,7 +12392,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98801290",
     "observacoes": "",
     "arquivo_origem": "ISMAEL AUGUSTO LENZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1601,
@@ -11501,7 +12419,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95715000",
     "observacoes": "",
     "arquivo_origem": "ISMAEL CONTINI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1602,
@@ -11526,7 +12446,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96835970",
     "observacoes": "AGF ANA NERY",
     "arquivo_origem": "ITAJAIBA DOS SANTOS SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1603,
@@ -11551,7 +12473,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97546126",
     "observacoes": "END: RUA MACHADO DE ASSIS ,  163 | BAIRRO:  PROGRESSO | ALEGRETE – RS",
     "arquivo_origem": "ITALO FERREIRA DUARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1604,
@@ -11576,7 +12500,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96930000",
     "observacoes": "",
     "arquivo_origem": "IURI JONATAS MORAES DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1605,
@@ -11601,7 +12527,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "68530000",
     "observacoes": "",
     "arquivo_origem": "IVAN CARLOS M. FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1606,
@@ -11626,7 +12554,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "47864558",
     "observacoes": "",
     "arquivo_origem": "IVAN CLEIDE RIBEIRO BARRETO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1607,
@@ -11651,7 +12581,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96222280",
     "observacoes": "",
     "arquivo_origem": "IVAN DOS SANTOS - TROCA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1608,
@@ -11676,7 +12608,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97095540",
     "observacoes": "",
     "arquivo_origem": "IVAN DOS SANTOS SOARES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1609,
@@ -11701,7 +12635,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85170000",
     "observacoes": "",
     "arquivo_origem": "IVAN MATOSO DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1288,
@@ -11726,7 +12662,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94435350",
     "observacoes": "",
     "arquivo_origem": "CARLOS ALEXANDRE QUADROS DE ABREU.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1610,
@@ -11751,7 +12689,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85933000",
     "observacoes": "",
     "arquivo_origem": "IVANDRO JOSÉ JUCHNESKI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1611,
@@ -11776,7 +12716,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84240000",
     "observacoes": "",
     "arquivo_origem": "IZAQUEU DO PRADO CANAVARRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1612,
@@ -11801,7 +12743,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85933000",
     "observacoes": "",
     "arquivo_origem": "JACINTO KUMIZAKI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1613,
@@ -11826,7 +12770,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75909651",
     "observacoes": "QUADRA 43, LOTE 28, CASA 01, PARQUE A",
     "arquivo_origem": "JACIVALDO FRANCISCO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1614,
@@ -11851,7 +12797,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95975000",
     "observacoes": "",
     "arquivo_origem": "JACKSON CASAGRANDE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1615,
@@ -11876,7 +12824,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38295000",
     "observacoes": "",
     "arquivo_origem": "JACKSON JONES DOS SANTOS MARCELINO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1616,
@@ -11901,7 +12851,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97310097",
     "observacoes": "",
     "arquivo_origem": "JADERSON LUIS DOS SANTOS SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1617,
@@ -11926,7 +12878,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94180280",
     "observacoes": "",
     "arquivo_origem": "JAIME LIMA VARGAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1619,
@@ -11951,7 +12905,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96115000",
     "observacoes": "",
     "arquivo_origem": "JAIR EDUARDO DOMINGUES OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1620,
@@ -11976,7 +12932,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95060062",
     "observacoes": "BL 1, CASA 10",
     "arquivo_origem": "JAIR FREITAS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1621,
@@ -12001,7 +12959,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400700",
     "observacoes": "",
     "arquivo_origem": "JAIRO ADRIANO CASTRO CAMARGO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1622,
@@ -12026,7 +12986,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "JAIRO DOS SANTOS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1623,
@@ -12051,7 +13013,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96506540",
     "observacoes": "",
     "arquivo_origem": "JAIRO LAMBARI FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1624,
@@ -12076,7 +13040,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "JAIRTON PRESTES DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1584,
@@ -12101,7 +13067,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93716656",
     "observacoes": "Ou | HERCULES INÁCIO RODRIGUES DA SILVA | Rua PAULICO COELHO, 185 | CENTRO | ANITÓPOLIS – SC | Ou | HERCULES INÁCIO RODRIGUES DA SILVA | Rua MARCILIO DIAS, 1001 | FLORICULTURA TOQUE DE ANJO | CENTRO | NOVO HAMBURGO – RS",
     "arquivo_origem": "HERCULES INACIO RODRIGUES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1625,
@@ -12126,7 +13094,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99530000",
     "observacoes": "",
     "arquivo_origem": "JAQUES ESPICH.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1626,
@@ -12151,7 +13121,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92870000",
     "observacoes": "",
     "arquivo_origem": "JARDEL DE SOUZA VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1627,
@@ -12176,7 +13148,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97310660",
     "observacoes": "",
     "arquivo_origem": "JEAN CARLO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1629,
@@ -12201,7 +13175,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17180007",
     "observacoes": "",
     "arquivo_origem": "JEFERSON DONIZETE VELOSO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1971,
@@ -12226,7 +13202,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - JEFERSON QUEVEDO DEVENS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1630,
@@ -12251,7 +13229,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78300000",
     "observacoes": "",
     "arquivo_origem": "JEFFERSON IZIDRO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1631,
@@ -12276,7 +13256,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97450000",
     "observacoes": "",
     "arquivo_origem": "JEFFERSON LUIZ MENDONÇA GOROSTIDES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1632,
@@ -12301,7 +13283,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "45640000",
     "observacoes": "",
     "arquivo_origem": "JEOVANI MIRANDA DE JESUS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1634,
@@ -12326,7 +13310,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94264428",
     "observacoes": "PARADA 107",
     "arquivo_origem": "JERRI ADRIANI COELHO GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1633,
@@ -12351,7 +13337,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96415420",
     "observacoes": "",
     "arquivo_origem": "JERONIMO FERREIRA JARDIM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1869,
@@ -12376,7 +13364,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94100250",
     "observacoes": "",
     "arquivo_origem": "MAICO LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1678,
@@ -12401,7 +13391,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "AUTOPEÇAS JAGUARÃO",
     "arquivo_origem": "JOSE MARIA DE LOS SANTOS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1635,
@@ -12426,7 +13418,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75355000",
     "observacoes": "",
     "arquivo_origem": "JOACI DE FARIA FRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1636,
@@ -12451,7 +13445,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90680001",
     "observacoes": "OU | JOANILSON DE OLIVEIRADA COSTA | RS 040, S/Nº - RETIRA NA AGÊNCIA DO CORREIO | ÁGUAS CLARAS | VIAMÃO - RS",
     "arquivo_origem": "JOANILSON OLIVEIRA DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1639,
@@ -12476,7 +13472,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88161280",
     "observacoes": "",
     "arquivo_origem": "JOAO PEDRO BERNARDES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1640,
@@ -12501,7 +13499,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400040",
     "observacoes": "",
     "arquivo_origem": "JOAQUIM PEDRO VAZ DE MORAES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1641,
@@ -12526,7 +13526,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88820000",
     "observacoes": "ESQINA C/ RUA CASTRO ALVES",
     "arquivo_origem": "JOCEMAR DO NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1642,
@@ -12551,7 +13553,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97578682",
     "observacoes": "",
     "arquivo_origem": "JOCIMAR DA SILVA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1643,
@@ -12576,7 +13580,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16072530",
     "observacoes": "",
     "arquivo_origem": "JOCINEI ALEXANDRE DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1644,
@@ -12601,7 +13607,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "JOELMIRE SEBASTIÃO BITENCOURT JOAQUIM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1645,
@@ -12626,7 +13634,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96503762",
     "observacoes": "",
     "arquivo_origem": "JOELSON PINHEIRO FURTADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1646,
@@ -12651,7 +13661,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "JOHN EDERSON KIST.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1647,
@@ -12676,7 +13688,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84043150",
     "observacoes": "",
     "arquivo_origem": "JOHN PITTER CARVALHO MARTINS CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1648,
@@ -12701,7 +13715,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95012421",
     "observacoes": "MARCIA ELIANE JONAS",
     "arquivo_origem": "JOHNATAN CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1649,
@@ -12726,7 +13742,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99570970",
     "observacoes": "",
     "arquivo_origem": "JONAILSON OLIVEIRA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1650,
@@ -12751,7 +13769,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "JONAS ALENCAR PEREIRA SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1651,
@@ -12776,7 +13796,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97707513",
     "observacoes": "",
     "arquivo_origem": "JONAS ELISEU DE MIRANDA FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1652,
@@ -12801,7 +13823,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98280000",
     "observacoes": "",
     "arquivo_origem": "JONAS MENEZES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1978,
@@ -12826,7 +13850,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86050460",
     "observacoes": "",
     "arquivo_origem": "MERCADOLIVRE - JONAS PEREIRA DE ARAUJO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1653,
@@ -12851,7 +13877,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95074220",
     "observacoes": "",
     "arquivo_origem": "JONAS RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1654,
@@ -12876,7 +13904,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98865000",
     "observacoes": "",
     "arquivo_origem": "JONAS RORATTO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1655,
@@ -12901,7 +13931,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97590000",
     "observacoes": "",
     "arquivo_origem": "JONATA DE FREITAS RODRIGUES 2.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1656,
@@ -12926,7 +13958,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97590000",
     "observacoes": "",
     "arquivo_origem": "JONATA DE FREITAS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1657,
@@ -12951,7 +13985,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96490000",
     "observacoes": "",
     "arquivo_origem": "JONATAN GARCIA DE ÁVILA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1658,
@@ -12976,7 +14012,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97870000",
     "observacoes": "",
     "arquivo_origem": "JONATAN SILVA DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1659,
@@ -13001,7 +14039,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97110800",
     "observacoes": "QUADRA 14 | R. SOCIAL: 46.498.908 JONATHAN CUSTÓDIO RODRIGUES | AV. PREFEITO EVANDRO BEHR, 6776 | Bairro: CAMOBI | SANTA MARIA – RS",
     "arquivo_origem": "JONATHAN CUSTODIO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1660,
@@ -13026,7 +14066,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76970000",
     "observacoes": "",
     "arquivo_origem": "JONATHAN PROCÓPIO GABRIEL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1663,
@@ -13051,7 +14093,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "JONI RAFAEL BORCHES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1662,
@@ -13076,7 +14120,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97610000",
     "observacoes": "",
     "arquivo_origem": "JONES SEVERO FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1664,
@@ -13101,7 +14147,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85845000",
     "observacoes": "",
     "arquivo_origem": "JORDY KAIBER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1665,
@@ -13126,7 +14174,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94050070",
     "observacoes": "",
     "arquivo_origem": "JORGE ADRIANO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1666,
@@ -13151,7 +14201,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99070250",
     "observacoes": "",
     "arquivo_origem": "JORGE ALBERTO RIBEIRO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1667,
@@ -13176,7 +14228,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95098140",
     "observacoes": "",
     "arquivo_origem": "JORGE ELON DE SOUZA CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1668,
@@ -13201,7 +14255,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "FIORELLA SEREAIS",
     "arquivo_origem": "JORGE GREGORIO BASTOS RIVERO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1669,
@@ -13226,7 +14282,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83090130",
     "observacoes": "A/C DARCI FABRÍCIO",
     "arquivo_origem": "JORGE LUIZ CAMARGO DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1670,
@@ -13251,7 +14309,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93700000",
     "observacoes": "",
     "arquivo_origem": "JORGE LUIZ WEBER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1900,
@@ -13276,7 +14336,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97035210",
     "observacoes": "",
     "arquivo_origem": "MARCIO GUASQUEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1671,
@@ -13301,7 +14363,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97301420",
     "observacoes": "OU | JORGE RENATO PINHEIRO VELLOSO | Rua BOAVENTURA FERREIRA DA SILVA, 625 | EDIFÍCIO MEC III, APTO 102 | VILA CAMITA | SÃO GABRIEL - RS",
     "arquivo_origem": "JORGE RENATO PINHEIRO VELLOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1672,
@@ -13326,7 +14390,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95057430",
     "observacoes": "PAVILHÃO JRM SILVA",
     "arquivo_origem": "JOSE AMAURI MELO RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1681,
@@ -13351,7 +14417,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79940000",
     "observacoes": "",
     "arquivo_origem": "JOSE ROBERTO DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1683,
@@ -13376,7 +14444,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78175000",
     "observacoes": "",
     "arquivo_origem": "JOSENILDO GONÇALO MORAES DE ARRUDA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1684,
@@ -13401,7 +14471,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96822410",
     "observacoes": "",
     "arquivo_origem": "JOSEPER DA SILVA BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1685,
@@ -13426,7 +14498,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78715272",
     "observacoes": "",
     "arquivo_origem": "JOSIMAR NOGUEIRA DE ARAUJO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1686,
@@ -13451,7 +14525,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85170000",
     "observacoes": "",
     "arquivo_origem": "JOSNEI J. ROCHA BARBOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1687,
@@ -13476,7 +14552,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99200000",
     "observacoes": "",
     "arquivo_origem": "JOSUE BORIN DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2198,
@@ -13501,7 +14579,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93214170",
     "observacoes": "BLOCO 09, AP. 408",
     "arquivo_origem": "STENIO FREITAS - JOSUÉ SAMUEL TEMICO DELGORUCOV.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1688,
@@ -13526,7 +14606,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86125000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ ALCIELIO DOS SANTOS CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1689,
@@ -13551,7 +14633,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ ANTUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1690,
@@ -13576,7 +14660,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94410000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ ANTÔNIO LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1691,
@@ -13601,7 +14687,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15603380",
     "observacoes": "PIMENTA ALINHAMENTO E BALANCIAMENTO",
     "arquivo_origem": "JOSÉ APARECIDO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1673,
@@ -13626,7 +14714,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13700095",
     "observacoes": "",
     "arquivo_origem": "JOSE ARAUJO FILHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1692,
@@ -13651,7 +14741,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95913118",
     "observacoes": "",
     "arquivo_origem": "JOSÉ AVELINO DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1693,
@@ -13676,7 +14768,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97547260",
     "observacoes": "",
     "arquivo_origem": "JOSÉ CARLOS CARDOSO PAIM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1694,
@@ -13701,7 +14795,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87900000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ CARLOS FARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1695,
@@ -13726,7 +14822,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79556000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ CLAUDIO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1696,
@@ -13751,7 +14849,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "GALPÃO DO GUASQUEIRO | Rua MINISTRO DEMETRIO MÉRCIO XAVIER, 446 | CENTRO | DOM PEDRITO - RS",
     "arquivo_origem": "JOSÉ DE GODOY DIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1697,
@@ -13776,7 +14876,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38295000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ DELFINO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1698,
@@ -13801,7 +14903,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98290000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ DIOCARLE OLIVEIRA ANJOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1699,
@@ -13826,7 +14930,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95918000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ EDUARDO SOUZA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1674,
@@ -13851,7 +14957,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76889000",
     "observacoes": "",
     "arquivo_origem": "JOSE FRANCISCO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1700,
@@ -13876,7 +14984,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95330000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ GERALDO MOREIRA DA CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1313,
@@ -13901,7 +15011,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95325000",
     "observacoes": "",
     "arquivo_origem": "CHAPÉU - .docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1675,
@@ -13926,7 +15038,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "04515011",
     "observacoes": "",
     "arquivo_origem": "JOSE HENRIQUE MARTINS DAHER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1701,
@@ -13951,7 +15065,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18700160",
     "observacoes": "",
     "arquivo_origem": "JOSÉ HENRIQUE MEIRELLES CASTEJON.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1702,
@@ -13976,7 +15092,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95300000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ ILCEU REIS PRUSCH.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1676,
@@ -14001,7 +15119,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15330000",
     "observacoes": "",
     "arquivo_origem": "JOSE LICINDIO NEVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1704,
@@ -14026,7 +15146,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95660000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ LUIZ SILVA FREITAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1677,
@@ -14051,7 +15173,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96755000",
     "observacoes": "",
     "arquivo_origem": "JOSE LUIZ SILVEIRA DUARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1705,
@@ -14076,7 +15200,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98801640",
     "observacoes": "ENTREGAR NA LOJA “FILO”",
     "arquivo_origem": "JOSÉ LUÍS FUCKS BATISTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1679,
@@ -14101,7 +15227,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96460000",
     "observacoes": "ASS. SEPÉ TIARAJU",
     "arquivo_origem": "JOSE NEDIR DA SILVA OUREIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1680,
@@ -14126,7 +15254,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89400000",
     "observacoes": "",
     "arquivo_origem": "JOSE OSNI SCHEFFER.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1706,
@@ -14151,7 +15281,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19273000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ PEDRO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1707,
@@ -14176,7 +15308,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90520550",
     "observacoes": "",
     "arquivo_origem": "JOSÉ RAFAEL PEREIRA DA ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1182,
@@ -14201,7 +15335,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79130000",
     "observacoes": "",
     "arquivo_origem": "ALEX SANDER FERREIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1682,
@@ -14226,7 +15362,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95560000",
     "observacoes": "",
     "arquivo_origem": "JOSE ROBERTO SCHEFFER MATOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1708,
@@ -14251,7 +15389,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12490000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ RUBENS PORTO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1712,
@@ -14276,7 +15416,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "JOVANE GALDINO GAVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1714,
@@ -14301,7 +15443,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99440000",
     "observacoes": "",
     "arquivo_origem": "JOÃO ALBERTO MELLO E SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1637,
@@ -14326,7 +15470,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79965039",
     "observacoes": "",
     "arquivo_origem": "JOAO BATISTA ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1715,
@@ -14351,7 +15497,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97880000",
     "observacoes": "",
     "arquivo_origem": "JOÃO CARLOS DE MATOS GOMES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1716,
@@ -14376,7 +15524,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95201457",
     "observacoes": "",
     "arquivo_origem": "JOÃO CECURA LEMOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1717,
@@ -14401,7 +15551,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98180000",
     "observacoes": "",
     "arquivo_origem": "JOÃO DORNELES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1718,
@@ -14426,7 +15578,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75516310",
     "observacoes": "",
     "arquivo_origem": "JOÃO EUJACIO DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1719,
@@ -14451,7 +15605,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95020412",
     "observacoes": "",
     "arquivo_origem": "JOÃO FELIPE MACARTHY CABRAL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1720,
@@ -14476,7 +15632,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97645000",
     "observacoes": "",
     "arquivo_origem": "JOÃO FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1721,
@@ -14501,7 +15659,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79550000",
     "observacoes": "",
     "arquivo_origem": "JOÃO GUERREIRO BRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1722,
@@ -14526,7 +15686,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97030590",
     "observacoes": "",
     "arquivo_origem": "JOÃO HENRIQUE LUNGES DE MELO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1723,
@@ -14551,7 +15713,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96160000",
     "observacoes": "",
     "arquivo_origem": "JOÃO JOSÉ FERREIRA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1724,
@@ -14576,7 +15740,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98805420",
     "observacoes": "",
     "arquivo_origem": "JOÃO LUIS MOURA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1725,
@@ -14601,7 +15767,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97310040",
     "observacoes": "",
     "arquivo_origem": "JOÃO MACHADO JACOBSEN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1726,
@@ -14626,7 +15794,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95305000",
     "observacoes": "SICREDI SUREG – A/C POLLYANA CORDEIRO",
     "arquivo_origem": "JOÃO MARCOS CRISTIANETTI FELIPI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1727,
@@ -14651,7 +15821,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99440000",
     "observacoes": "",
     "arquivo_origem": "JOÃO MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1729,
@@ -14676,7 +15848,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78800000",
     "observacoes": "",
     "arquivo_origem": "JOÃO PAULO DE JESUS OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1730,
@@ -14701,7 +15875,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97755000",
     "observacoes": "",
     "arquivo_origem": "JOÃO PAULO UBERTI DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1731,
@@ -14726,7 +15902,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88600000",
     "observacoes": "",
     "arquivo_origem": "JOÃO PAULO VIEIRA MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1732,
@@ -14751,7 +15929,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78625000",
     "observacoes": "",
     "arquivo_origem": "JOÃO PEDRO DA SILVA PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1733,
@@ -14776,7 +15956,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98920000",
     "observacoes": "",
     "arquivo_origem": "JOÃO PEDRO DE MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1734,
@@ -14801,7 +15983,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97590000",
     "observacoes": "",
     "arquivo_origem": "JOÃO ROBERTO RIBEIRO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1735,
@@ -14826,7 +16010,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96395000",
     "observacoes": "",
     "arquivo_origem": "JOÃO RUBEM MACHADO DE CASTRO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1737,
@@ -14851,7 +16037,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96077000",
     "observacoes": "",
     "arquivo_origem": "JOÃO VICTOR BURCK.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1738,
@@ -14876,7 +16064,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13254625",
     "observacoes": "",
     "arquivo_origem": "JOÃO VITOR MUTTON DE CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1739,
@@ -14901,7 +16091,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88865000",
     "observacoes": "POUSADA DI VENEZIA",
     "arquivo_origem": "JOÃO VITOR SANTOS PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1740,
@@ -14926,7 +16118,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96780074",
     "observacoes": "",
     "arquivo_origem": "JUAREZ RODRIGUES DA ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1369,
@@ -14951,7 +16145,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96900000",
     "observacoes": "",
     "arquivo_origem": "DEIVID. R. NETTO DA CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1741,
@@ -14976,7 +16172,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96490000",
     "observacoes": "",
     "arquivo_origem": "JUBER FARIAS FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1884,
@@ -15001,7 +16199,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97065220",
     "observacoes": "",
     "arquivo_origem": "MARCELO DUTRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1743,
@@ -15026,7 +16226,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88525200",
     "observacoes": "A / C SIMONE MEDEIROS",
     "arquivo_origem": "JULIANO BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1744,
@@ -15051,7 +16253,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38660000",
     "observacoes": "OBS.  FEZ O PEDIDO O 1º, DEPOIS NÃO PAGOU",
     "arquivo_origem": "JULIANO FERREIRA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1745,
@@ -15076,7 +16280,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79580000",
     "observacoes": "",
     "arquivo_origem": "JULIANO MENDES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1746,
@@ -15101,7 +16307,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93228030",
     "observacoes": "",
     "arquivo_origem": "JULIANO RIBAS TEIXEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1747,
@@ -15126,7 +16334,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85909190",
     "observacoes": "",
     "arquivo_origem": "JULIANO SILVESTRE DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1748,
@@ -15151,7 +16361,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99560000",
     "observacoes": "",
     "arquivo_origem": "JULIANO TURRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2220,
@@ -15176,7 +16388,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96330000",
     "observacoes": "",
     "arquivo_origem": "TUKANO CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1749,
@@ -15201,7 +16415,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38055170",
     "observacoes": "",
     "arquivo_origem": "JULIO ALBERTO DA COSTA SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1750,
@@ -15226,7 +16442,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85887000",
     "observacoes": "",
     "arquivo_origem": "JULIO CESAR CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1751,
@@ -15251,7 +16469,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "33880570",
     "observacoes": "",
     "arquivo_origem": "JULIO CESAR DA COSTA SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1752,
@@ -15276,7 +16496,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38755000",
     "observacoes": "",
     "arquivo_origem": "JULIO CESAR DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1753,
@@ -15301,7 +16523,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94264428",
     "observacoes": "A/C TUTI",
     "arquivo_origem": "JULIO CESAR DE VARGAS DA CONCEIÇÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1756,
@@ -15326,7 +16550,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89275000",
     "observacoes": "",
     "arquivo_origem": "JUNIOR CESAR LOMBARDI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1754,
@@ -15351,7 +16577,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98130000",
     "observacoes": "",
     "arquivo_origem": "JULIO CESAR MARQUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2187,
@@ -15376,7 +16604,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97573550",
     "observacoes": "",
     "arquivo_origem": "SERGIO VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1757,
@@ -15401,7 +16631,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35505000",
     "observacoes": "",
     "arquivo_origem": "JUNIOR CIRINO MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1761,
@@ -15426,7 +16658,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86200000",
     "observacoes": "",
     "arquivo_origem": "JUNIOR SOUZA TEIXEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1762,
@@ -15451,7 +16685,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93340640",
     "observacoes": "",
     "arquivo_origem": "JURANDIR DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1763,
@@ -15476,7 +16712,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95681102",
     "observacoes": "",
     "arquivo_origem": "JURANDIR PAULO MES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1764,
@@ -15501,7 +16739,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95706188",
     "observacoes": "",
     "arquivo_origem": "JUSCEMAR DOS SANTOS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1765,
@@ -15526,7 +16766,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79752268",
     "observacoes": "",
     "arquivo_origem": "JÂNIO CANDIDO DE SÁ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1766,
@@ -15551,7 +16793,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37545000",
     "observacoes": "(EM FRENTE AO POSTO SANTA BARBARA)",
     "arquivo_origem": "KAIO VINICIUS DE FARIA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1767,
@@ -15576,7 +16820,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95690000",
     "observacoes": "",
     "arquivo_origem": "KAUÃ EDUARDO ALVES FLESCH.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1768,
@@ -15601,7 +16847,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97313402",
     "observacoes": "",
     "arquivo_origem": "KAWE CAMARGO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1769,
@@ -15626,7 +16874,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78211210",
     "observacoes": "",
     "arquivo_origem": "KAYKY JOSÉ TORRES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1483,
@@ -15651,7 +16901,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98801280",
     "observacoes": "",
     "arquivo_origem": "FABIO BRUM.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1773,
@@ -15676,7 +16928,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93537400",
     "observacoes": "Destinatário:",
     "arquivo_origem": "KLEVYN GIOVANE DOS SANTOS MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1770,
@@ -15701,7 +16955,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97573570",
     "observacoes": "",
     "arquivo_origem": "KENY GABRIEL DA SILVA PEREZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1771,
@@ -15726,7 +16982,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "KEVIN FERNANDES NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1772,
@@ -15751,7 +17009,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95650000",
     "observacoes": "",
     "arquivo_origem": "KLEITON ANGONESSE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1774,
@@ -15776,7 +17036,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96015420",
     "observacoes": "",
     "arquivo_origem": "LAERTE AFONSO ROCHEL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1775,
@@ -15801,7 +17063,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "LARIUS BITTENCOURT DIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1776,
@@ -15826,7 +17090,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "",
     "arquivo_origem": "LAURO FRANCISCO DA GLORIA DUTRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1777,
@@ -15851,7 +17117,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95555000",
     "observacoes": "",
     "arquivo_origem": "LAURO MARTINS SILVEIRA JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1778,
@@ -15876,7 +17144,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95330000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO CARLOS DA CRUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1779,
@@ -15901,7 +17171,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12943410",
     "observacoes": "",
     "arquivo_origem": "LEANDRO DOMINGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1780,
@@ -15926,7 +17198,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97640000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO DOS SANTOS FALCÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1781,
@@ -15951,7 +17225,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO GOMES DA SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1782,
@@ -15976,7 +17252,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95190000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO JOSÉ DA CRUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1783,
@@ -16001,7 +17279,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98570000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO PRAZIDO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1785,
@@ -16026,7 +17306,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97577300",
     "observacoes": "",
     "arquivo_origem": "LEANDRO ROBINSON GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1786,
@@ -16051,7 +17333,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92714710",
     "observacoes": "",
     "arquivo_origem": "LEANDRO SALGADO DA SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1787,
@@ -16076,7 +17360,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95599000",
     "observacoes": "",
     "arquivo_origem": "LEANDRO SILVA NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1789,
@@ -16101,7 +17387,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95560000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO CARDOSO RAUPP.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1790,
@@ -16126,7 +17414,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88658000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO COSTA MACCARINI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1791,
@@ -16151,7 +17441,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89654000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO ELIAS DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1792,
@@ -16176,7 +17468,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93285084",
     "observacoes": "",
     "arquivo_origem": "LEONARDO FRAGA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1793,
@@ -16201,7 +17495,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86801040",
     "observacoes": "LOJA DA ESQUINA C/ RUA TIBAGI",
     "arquivo_origem": "LEONARDO FRATIA SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1794,
@@ -16226,7 +17522,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98240000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO KIRCH.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1795,
@@ -16251,7 +17549,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1796,
@@ -16276,7 +17576,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14580000",
     "observacoes": "",
     "arquivo_origem": "LEONARDO PINTO PIRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1797,
@@ -16301,7 +17603,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "72801670",
     "observacoes": "LOTE 12 / LOJA 04  S/ Nº",
     "arquivo_origem": "LEONARDO SILVA SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1798,
@@ -16326,7 +17630,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97300354",
     "observacoes": "",
     "arquivo_origem": "LEONARDO SOARES DIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1799,
@@ -16351,7 +17657,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97573595",
     "observacoes": "",
     "arquivo_origem": "LEONEL FURTADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1728,
@@ -16376,7 +17684,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15385000",
     "observacoes": "",
     "arquivo_origem": "JOÃO MIGUEL - LETICIA SOARES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1800,
@@ -16401,7 +17711,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95012040",
     "observacoes": "",
     "arquivo_origem": "LEVI MESSA BARÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1802,
@@ -16426,7 +17738,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95535000",
     "observacoes": "",
     "arquivo_origem": "LORILEI SADI VARGAS SARAIVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1803,
@@ -16451,7 +17765,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85170000",
     "observacoes": "",
     "arquivo_origem": "LOURENÇO MONCIOLI DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1805,
@@ -16476,7 +17792,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98680000",
     "observacoes": "",
     "arquivo_origem": "LUAN DA SILVEIRA TRINDADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1806,
@@ -16501,7 +17819,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78513000",
     "observacoes": "",
     "arquivo_origem": "LUAN HENRIQUE DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1807,
@@ -16526,7 +17846,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88490000",
     "observacoes": "PRÓXIMO AO ALAMBIQUE DOM BUENO",
     "arquivo_origem": "LUCAS ALBINO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1808,
@@ -16551,7 +17873,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13930000",
     "observacoes": "",
     "arquivo_origem": "LUCAS ARRELARO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1810,
@@ -16576,7 +17900,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96610000",
     "observacoes": "",
     "arquivo_origem": "LUCAS DA SILVA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1811,
@@ -16601,7 +17927,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96635000",
     "observacoes": "",
     "arquivo_origem": "LUCAS DA SILVA VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1812,
@@ -16626,7 +17954,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93295740",
     "observacoes": "",
     "arquivo_origem": "LUCAS FERREIRA BETZKOWSKI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1813,
@@ -16651,7 +17981,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98670000",
     "observacoes": "",
     "arquivo_origem": "LUCAS JOAQUIM SIMSEN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1814,
@@ -16676,7 +18008,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97420000",
     "observacoes": "AGROP. FLORES – A/C WAGNER BRINCKER",
     "arquivo_origem": "LUCAS MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1815,
@@ -16701,7 +18035,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98590000",
     "observacoes": "",
     "arquivo_origem": "LUCAS MEIRELLES ROTILLI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1816,
@@ -16726,7 +18062,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84240000",
     "observacoes": "",
     "arquivo_origem": "LUCAS PETROSKI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1817,
@@ -16751,7 +18089,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83190000",
     "observacoes": "",
     "arquivo_origem": "LUCAS PIVOVAR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1819,
@@ -16776,7 +18116,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "LUCAS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1820,
@@ -16801,7 +18143,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94480340",
     "observacoes": "",
     "arquivo_origem": "LUCAS SEVERO DE MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1821,
@@ -16826,7 +18170,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97707039",
     "observacoes": "",
     "arquivo_origem": "LUCAS VIERO GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1822,
@@ -16851,7 +18197,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97590000",
     "observacoes": "",
     "arquivo_origem": "LUCIAN MEDINA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1494,
@@ -16876,7 +18224,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98770000",
     "observacoes": "",
     "arquivo_origem": "FELIPE - LUCIANA CORTINA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1824,
@@ -16901,7 +18251,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98925000",
     "observacoes": "",
     "arquivo_origem": "LUCIANO DA CONCEIÇÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1826,
@@ -16926,7 +18278,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78890085",
     "observacoes": "",
     "arquivo_origem": "LUCIANO DE ARAGÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1827,
@@ -16951,7 +18305,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "68385000",
     "observacoes": "",
     "arquivo_origem": "LUCIANO DE SOUZA XAVIER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1828,
@@ -16976,7 +18332,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "",
     "observacoes": "",
     "arquivo_origem": "LUCIANO FREITAS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1823,
@@ -17001,7 +18359,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93046700",
     "observacoes": "",
     "arquivo_origem": "LUCIANO  MELLO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2029,
@@ -17026,7 +18386,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97390000",
     "observacoes": "",
     "arquivo_origem": "OTAVIO MACHADO - LUCIANO PIRES MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1972,
@@ -17051,7 +18413,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79480000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - LUCILEIDE LARA - MATO GROSSO DO SUL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1830,
@@ -17076,7 +18440,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "LUCIMAR ALVES ZACARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1831,
@@ -17101,7 +18467,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93710645",
     "observacoes": "",
     "arquivo_origem": "LUCIO WESCHENFELDER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1832,
@@ -17126,7 +18494,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95840000",
     "observacoes": "",
     "arquivo_origem": "LUIS ADELMO DA SILVA SCHWARZBACH.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1833,
@@ -17151,7 +18521,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95088582",
     "observacoes": "",
     "arquivo_origem": "LUIS ALBERTO GOMES DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1834,
@@ -17176,7 +18548,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92031050",
     "observacoes": "",
     "arquivo_origem": "LUIS ALBERTO MANCINI MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1835,
@@ -17201,7 +18575,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88340425",
     "observacoes": "LOJA JEITO CABOCLO",
     "arquivo_origem": "LUIS ARTUR GONSIORKIEWICZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1784,
@@ -17226,7 +18602,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18271770",
     "observacoes": "",
     "arquivo_origem": "LEANDRO RICCI.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1759,
@@ -17251,7 +18629,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400100",
     "observacoes": "",
     "arquivo_origem": "JUNIOR GULARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1837,
@@ -17276,7 +18656,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86840000",
     "observacoes": "",
     "arquivo_origem": "LUIS CARLOS MATIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1839,
@@ -17301,7 +18683,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96170000",
     "observacoes": "",
     "arquivo_origem": "LUIS CARLOS UARTE DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1840,
@@ -17326,7 +18710,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98010565",
     "observacoes": "",
     "arquivo_origem": "LUIS EDUARDO MACUGLIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1841,
@@ -17351,7 +18737,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "LUIS FELIPE DA ROSA OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1842,
@@ -17376,7 +18764,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79820150",
     "observacoes": "",
     "arquivo_origem": "LUIS FELIPE RODRIGUES LEITE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1843,
@@ -17401,7 +18791,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96760000",
     "observacoes": "",
     "arquivo_origem": "LUIS FERNANDO LOPES DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1844,
@@ -17426,7 +18818,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94055330",
     "observacoes": "",
     "arquivo_origem": "LUIS PEDROSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1845,
@@ -17451,7 +18845,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98740000",
     "observacoes": "",
     "arquivo_origem": "LUIS PRAXEDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1846,
@@ -17476,7 +18872,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97716073",
     "observacoes": "",
     "arquivo_origem": "LUIS RICARDO REIS DOS SANTOS - LR CORDAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1847,
@@ -17501,7 +18899,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97716073",
     "observacoes": "",
     "arquivo_origem": "LUIS RICARDO REIS DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1849,
@@ -17526,7 +18926,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96415310",
     "observacoes": "",
     "arquivo_origem": "LUIZ ADAIR OLIVEIRA TEIXEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1850,
@@ -17551,7 +18953,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88390000",
     "observacoes": "LOJA FLOR E PINTA",
     "arquivo_origem": "LUIZ ALBERTO SAN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1851,
@@ -17576,7 +18980,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "LUIZ ALBERTO TEIXEIRA FAMFA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1852,
@@ -17601,7 +19007,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "LUIZ ALBERTO TEIXEIRA FANFA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1853,
@@ -17626,7 +19034,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99970000",
     "observacoes": "",
     "arquivo_origem": "LUIZ ARIEL FERNANDES SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1854,
@@ -17651,7 +19061,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15155000",
     "observacoes": "",
     "arquivo_origem": "LUIZ CARLOS BAZELLA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1855,
@@ -17676,7 +19088,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95890000",
     "observacoes": "",
     "arquivo_origem": "LUIZ CARLOS MARQUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1838,
@@ -17701,7 +19115,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35860000",
     "observacoes": "KAKAU OLIVEIRA DA RADIO",
     "arquivo_origem": "LUIS CARLOS OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1856,
@@ -17726,7 +19142,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99440000",
     "observacoes": "",
     "arquivo_origem": "LUIZ CARLOS RODRIGUES PINTO FILHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1857,
@@ -17751,7 +19169,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15775000",
     "observacoes": "",
     "arquivo_origem": "LUIZ CESAR DE MENEZES RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1858,
@@ -17776,7 +19196,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86690000",
     "observacoes": "",
     "arquivo_origem": "LUIZ ESTEVAN BARBOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1859,
@@ -17801,7 +19223,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96570000",
     "observacoes": "",
     "arquivo_origem": "LUIZ FELIPE PORTO JACOBSEN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1860,
@@ -17826,7 +19250,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95590000",
     "observacoes": "R. Social: 49.406.983 LUIZ FELIPE VIDAL GONÇALVES | End.: RUA DAS SEMPRE VIVAS, 73 | Bairro: JARDIM ATLANTICO | TRAMANDAÍ – RS",
     "arquivo_origem": "LUIZ FELIPE VIDAL GONÇALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1861,
@@ -17851,7 +19277,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98280000",
     "observacoes": "",
     "arquivo_origem": "LUIZ FERNANDO BENDER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1862,
@@ -17876,7 +19304,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88140000",
     "observacoes": "",
     "arquivo_origem": "LUIZ FILLYPPER CARNEIRO DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1863,
@@ -17901,7 +19331,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95290000",
     "observacoes": "",
     "arquivo_origem": "LUIZ HENRIQUE DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1864,
@@ -17926,7 +19358,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97610000",
     "observacoes": "",
     "arquivo_origem": "LUIZ ORESTE MESSA GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1865,
@@ -17951,7 +19385,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88058305",
     "observacoes": "",
     "arquivo_origem": "LUIZ ORESTES DALMAZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1866,
@@ -17976,7 +19412,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95552000",
     "observacoes": "",
     "arquivo_origem": "LUIZ PAULO OLIVEIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1760,
@@ -18001,7 +19439,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18160000",
     "observacoes": "",
     "arquivo_origem": "JUNIOR RISSIO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1867,
@@ -18026,7 +19466,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97850000",
     "observacoes": "",
     "arquivo_origem": "LÉO JAIME NUNES NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1801,
@@ -18051,7 +19493,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97300242",
     "observacoes": "",
     "arquivo_origem": "LIDIO ANTONIO BERGAMO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1711,
@@ -18076,7 +19520,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92524570",
     "observacoes": "",
     "arquivo_origem": "JOSÉ VOLMAR DA SILVA MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1868,
@@ -18101,7 +19547,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95670614",
     "observacoes": "AP. 304 – BLOCO B",
     "arquivo_origem": "MAICO ALAN DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2071,
@@ -18126,7 +19574,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91770210",
     "observacoes": "",
     "arquivo_origem": "POA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1870,
@@ -18151,7 +19601,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92714515",
     "observacoes": "",
     "arquivo_origem": "MAICON RAFAEL SANTOS DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1871,
@@ -18176,7 +19628,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94195210",
     "observacoes": "",
     "arquivo_origem": "MAICON RODRIGUES BENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2199,
@@ -18201,7 +19655,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88317600",
     "observacoes": "",
     "arquivo_origem": "SÉRGIO LUIS KAIPPER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1872,
@@ -18226,7 +19682,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78573000",
     "observacoes": "",
     "arquivo_origem": "MAIKY RIBEIRO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1973,
@@ -18251,7 +19709,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85670000",
     "observacoes": "SANTOS | DESTACAMENTO DA POLICIA MILITAR",
     "arquivo_origem": "MERCADO LIVRE - MAILSON FERNANDO ANTUNES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1873,
@@ -18276,7 +19736,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87950000",
     "observacoes": "",
     "arquivo_origem": "MANOEL DIORACI GARUZI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1874,
@@ -18301,7 +19763,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "07790630",
     "observacoes": "",
     "arquivo_origem": "MANOEL LINS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1875,
@@ -18326,7 +19790,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88865000",
     "observacoes": "PRÓXIMO AO PEDRO VIEIRA",
     "arquivo_origem": "MANOEL MAX VIEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1876,
@@ -18351,7 +19817,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96400470",
     "observacoes": "",
     "arquivo_origem": "MANUEL LUIS SARMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1386,
@@ -18376,7 +19844,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94085130",
     "observacoes": "",
     "arquivo_origem": "DIEGO PINTO LAPPE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1877,
@@ -18401,7 +19871,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13482817",
     "observacoes": "",
     "arquivo_origem": "MARCELO ALEXANDRE SEVIERO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1878,
@@ -18426,7 +19898,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97544020",
     "observacoes": "",
     "arquivo_origem": "MARCELO AUGUSTO RODRIGUES RAIMUNDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1879,
@@ -18451,7 +19925,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98865000",
     "observacoes": "",
     "arquivo_origem": "MARCELO AUGUSTO WURFEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1881,
@@ -18476,7 +19952,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91750050",
     "observacoes": "",
     "arquivo_origem": "MARCELO DAVID DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1880,
@@ -18501,7 +19979,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91750050",
     "observacoes": "A / C LIDIA",
     "arquivo_origem": "MARCELO DAVID DA SILVA GORSITO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1883,
@@ -18526,7 +20006,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12226830",
     "observacoes": "",
     "arquivo_origem": "MARCELO DE ALMEIDA MOURA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1882,
@@ -18551,7 +20033,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93330370",
     "observacoes": "",
     "arquivo_origem": "MARCELO DE  OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1885,
@@ -18576,7 +20060,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13580013",
     "observacoes": "",
     "arquivo_origem": "MARCELO FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1886,
@@ -18601,7 +20087,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97640000",
     "observacoes": "",
     "arquivo_origem": "MARCELO MACHADO COLPO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1887,
@@ -18626,7 +20114,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98280000",
     "observacoes": "",
     "arquivo_origem": "MARCELO MACIEL - VILMAR MACIEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1888,
@@ -18651,7 +20141,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98280000",
     "observacoes": "",
     "arquivo_origem": "MARCELO MARTINS MACIEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1889,
@@ -18676,7 +20168,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96835030",
     "observacoes": "",
     "arquivo_origem": "MARCELO MOTA FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1890,
@@ -18701,7 +20195,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98380000",
     "observacoes": "",
     "arquivo_origem": "MARCELO NUNES DA LUZ - CORREARIA CARA PRETZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1891,
@@ -18726,7 +20222,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95204096",
     "observacoes": "",
     "arquivo_origem": "MARCELO PARIS DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1892,
@@ -18751,7 +20249,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97390000",
     "observacoes": "",
     "arquivo_origem": "MARCELO PAZ CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1893,
@@ -18776,7 +20276,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91520360",
     "observacoes": "",
     "arquivo_origem": "MARCELO RIBEIRO 2.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1894,
@@ -18801,7 +20303,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91520360",
     "observacoes": "",
     "arquivo_origem": "MARCELO RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1895,
@@ -18826,7 +20330,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89190000",
     "observacoes": "",
     "arquivo_origem": "MARCELO S. DE ALBUQUERQUE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1577,
@@ -18851,7 +20357,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79590000",
     "observacoes": "A/C GUSTAVO HENRIQUE RAMOS DA CRUZ | HOTEL PORTAL DO MATO GROSSO",
     "arquivo_origem": "GUSTAVO HENRIQUE RAMOS DA CRUZ (MARCIA BENTO).docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1896,
@@ -18876,7 +20384,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94410250",
     "observacoes": "",
     "arquivo_origem": "MARCIA VIEIRA DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1438,
@@ -18901,7 +20411,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "39700000",
     "observacoes": "LOJA MARCILA MODAS",
     "arquivo_origem": "EDUARDO GARCIA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1897,
@@ -18926,7 +20438,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98170000",
     "observacoes": "",
     "arquivo_origem": "MARCIO AZEVEDO SEVERO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1898,
@@ -18951,7 +20465,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75860000",
     "observacoes": "",
     "arquivo_origem": "MARCIO CORREIA DE PAULA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1899,
@@ -18976,7 +20492,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16903013",
     "observacoes": "",
     "arquivo_origem": "MARCIO GIOVANI PARDINO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1901,
@@ -19001,7 +20519,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85805270",
     "observacoes": "",
     "arquivo_origem": "MARCIO JOSÉ DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1902,
@@ -19026,7 +20546,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95906372",
     "observacoes": "",
     "arquivo_origem": "MARCIO JOSÉ ELY.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1903,
@@ -19051,7 +20573,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38800000",
     "observacoes": "",
     "arquivo_origem": "MARCIO LACERDA LOPES JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1904,
@@ -19076,7 +20600,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95560000",
     "observacoes": "",
     "arquivo_origem": "MARCIO RECK.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1905,
@@ -19101,7 +20627,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85618000",
     "observacoes": "",
     "arquivo_origem": "MARCIO TONELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1906,
@@ -19126,7 +20654,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98905000",
     "observacoes": "",
     "arquivo_origem": "MARCO ANTONIO JOST.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1908,
@@ -19151,7 +20681,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83708640",
     "observacoes": "",
     "arquivo_origem": "MARCO ANTÔNIO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1909,
@@ -19176,7 +20708,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96750000",
     "observacoes": "",
     "arquivo_origem": "MARCO AURELIO PIVATTO HOFF.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1910,
@@ -19201,7 +20735,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95150000",
     "observacoes": "",
     "arquivo_origem": "MARCO LUCIANO MARTENS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1911,
@@ -19226,7 +20762,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98270000",
     "observacoes": "VILA LINHA MACUGLIA, S/Nº | INTERIOR | PEJUÇARA – RS",
     "arquivo_origem": "MARCO MACIEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1912,
@@ -19251,7 +20789,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84600906",
     "observacoes": "BLOCO 01 – AP. 103",
     "arquivo_origem": "MARCOS ALAOR SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1913,
@@ -19276,7 +20816,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "03340000",
     "observacoes": "AP 73 A",
     "arquivo_origem": "MARCOS APARECIDO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1914,
@@ -19301,7 +20843,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89810168",
     "observacoes": "A/C JANAINA",
     "arquivo_origem": "MARCOS AURELIO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1915,
@@ -19326,7 +20870,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89138000",
     "observacoes": "",
     "arquivo_origem": "MARCOS BALDASSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1916,
@@ -19351,7 +20897,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95400000",
     "observacoes": "",
     "arquivo_origem": "MARCOS CORREA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1917,
@@ -19376,7 +20924,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95400000",
     "observacoes": "",
     "arquivo_origem": "MARCOS CORRÊA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1918,
@@ -19401,7 +20951,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92850000",
     "observacoes": "",
     "arquivo_origem": "MARCOS DA SILVA VALIM.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1920,
@@ -19426,7 +20978,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90640080",
     "observacoes": "",
     "arquivo_origem": "MARCOS DE LORENZI SEADI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1921,
@@ -19451,7 +21005,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87900000",
     "observacoes": "",
     "arquivo_origem": "MARCOS DE OLIVEIRA RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1922,
@@ -19476,7 +21032,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79620322",
     "observacoes": "",
     "arquivo_origem": "MARCOS DE SOUZA LEAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1923,
@@ -19501,7 +21059,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12995000",
     "observacoes": "",
     "arquivo_origem": "MARCOS EUZÉBIO NOGUEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1924,
@@ -19526,7 +21086,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87518000",
     "observacoes": "",
     "arquivo_origem": "MARCOS FERNANDES BOTELHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1941,
@@ -19551,7 +21113,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97571210",
     "observacoes": "",
     "arquivo_origem": "MARQUINHOS JORGE LELY DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1926,
@@ -19576,7 +21140,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17526260",
     "observacoes": "",
     "arquivo_origem": "MARCOS ROBERTO CARLOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1927,
@@ -19601,7 +21167,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89817000",
     "observacoes": "",
     "arquivo_origem": "MARCOS ROGÉRIO PALUDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1928,
@@ -19626,7 +21194,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97010031",
     "observacoes": "SALA 04",
     "arquivo_origem": "MARCOS TONIAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1280,
@@ -19651,7 +21221,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93700000",
     "observacoes": "",
     "arquivo_origem": "BRUXO - MARCUS VINICIUS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1930,
@@ -19676,7 +21248,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78025438",
     "observacoes": "",
     "arquivo_origem": "MARIA APARECIDA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1283,
@@ -19701,7 +21275,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "36135000",
     "observacoes": "",
     "arquivo_origem": "CAIN - MARIA APARECIDA MENDES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1931,
@@ -19726,7 +21302,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79140000",
     "observacoes": "",
     "arquivo_origem": "MARIA DE FATIMA GUILHERMINO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1314,
@@ -19751,7 +21329,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79790000",
     "observacoes": "",
     "arquivo_origem": "CHARLES BOVOLATO.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1818,
@@ -19776,7 +21356,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78365000",
     "observacoes": "",
     "arquivo_origem": "LUCAS QUERINO DE ARAÚJO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1932,
@@ -19801,7 +21383,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98130000",
     "observacoes": "",
     "arquivo_origem": "MARIANO MACHADO PEZZINI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1933,
@@ -19826,7 +21410,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84026460",
     "observacoes": "",
     "arquivo_origem": "MARILDO LUIS FIORI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1935,
@@ -19851,7 +21437,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96470000",
     "observacoes": "",
     "arquivo_origem": "MARIO DELAVI OLIVEIRA MEDINA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1936,
@@ -19876,7 +21464,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95330000",
     "observacoes": "",
     "arquivo_origem": "MARK LINS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1937,
@@ -19901,7 +21491,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98870000",
     "observacoes": "",
     "arquivo_origem": "MARLI KAMIEN MASTELLA DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1938,
@@ -19926,7 +21518,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96170000",
     "observacoes": "",
     "arquivo_origem": "MARLON CORREA DUARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1939,
@@ -19951,7 +21545,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92714620",
     "observacoes": "",
     "arquivo_origem": "MARLON TRINDADE RAMOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1940,
@@ -19976,7 +21572,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87503640",
     "observacoes": "",
     "arquivo_origem": "MARLY PEDROSO BONETTI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1942,
@@ -20001,7 +21599,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96490000",
     "observacoes": "",
     "arquivo_origem": "MATEUS FUNARI LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1943,
@@ -20026,7 +21626,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97880000",
     "observacoes": "",
     "arquivo_origem": "MATEUS MARTINS DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1944,
@@ -20051,7 +21653,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99955000",
     "observacoes": "",
     "arquivo_origem": "MATEUS TOGNON.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1945,
@@ -20076,7 +21680,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89620000",
     "observacoes": "",
     "arquivo_origem": "MATHEUS AUGUSTO PEREIRA FRANÇA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1946,
@@ -20101,7 +21707,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99700442",
     "observacoes": "",
     "arquivo_origem": "MATHEUS BOTELHO FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1947,
@@ -20126,7 +21734,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "MATHEUS DA SILVA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1948,
@@ -20151,7 +21761,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96740000",
     "observacoes": "",
     "arquivo_origem": "MATHEUS DE MOURA MEDEIROS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1949,
@@ -20176,7 +21788,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12580000",
     "observacoes": "",
     "arquivo_origem": "MATHEUS DE SANTANA MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1951,
@@ -20201,7 +21815,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84603380",
     "observacoes": "OU | MATHEUS HENRIQUE SANTOS | Rua PRUDENTE DE MORAIS, 400 | HOSPITAL VETERINÁRIO SÃO FRANCISCO DE ASSIS | CENTRO | PORTO UNIÃO – SC",
     "arquivo_origem": "MATHEUS HENRIQUE SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1952,
@@ -20226,7 +21842,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "MATHEUS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1953,
@@ -20251,7 +21869,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94410250",
     "observacoes": "AGÊNCIA DOS CORREIOS",
     "arquivo_origem": "MATHEUS SILVEIRA BARRETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1954,
@@ -20276,7 +21896,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96075600",
     "observacoes": "",
     "arquivo_origem": "MATHEUS SOARES COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1955,
@@ -20301,7 +21923,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37952112",
     "observacoes": "OFICINA DE MOTOS",
     "arquivo_origem": "MATHEUS SOARES NOGUEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1956,
@@ -20326,7 +21950,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38183192",
     "observacoes": "",
     "arquivo_origem": "MATHEUS TEODORO COSTA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1957,
@@ -20351,7 +21977,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96501512",
     "observacoes": "",
     "arquivo_origem": "MATHIAS KIRCHHOF.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1958,
@@ -20376,7 +22004,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95708030",
     "observacoes": "",
     "arquivo_origem": "MAURI DE FREITAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1959,
@@ -20401,7 +22031,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "MAURICIO AZAMBUJA FARIAS PANDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1960,
@@ -20426,7 +22058,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98801610",
     "observacoes": "A/C CLAUDIA | Destinatário: CLAUDIA RAQUEL DORTO DE OLIVEIRA DE MOTA",
     "arquivo_origem": "MAURICIO GARCIA DE MOTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1961,
@@ -20451,7 +22085,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97572452",
     "observacoes": "",
     "arquivo_origem": "MAURICIO NUNES BENGOCHEA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1962,
@@ -20476,7 +22112,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79780000",
     "observacoes": "",
     "arquivo_origem": "MAURICIO PEREIRA BICA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1963,
@@ -20501,7 +22139,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13285514",
     "observacoes": "SERRALHERIA DO ZEZÉ",
     "arquivo_origem": "MAURILO RUELA OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1964,
@@ -20526,7 +22166,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85853600",
     "observacoes": "",
     "arquivo_origem": "MAURO MOTTA MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1965,
@@ -20551,7 +22193,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97870000",
     "observacoes": "",
     "arquivo_origem": "MAX ESCOBAR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1966,
@@ -20576,7 +22220,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96495000",
     "observacoes": "ESTRADA SEIVAL",
     "arquivo_origem": "MAX UILIAN PEREIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1967,
@@ -20601,7 +22247,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "36213000",
     "observacoes": "RUA SEBASTIAO RESENDE , 426Bairro ALTO CARDOSODores de Campos MG36213-000 | I.E:  0039734910019 | Rua Jose de Freitas, 331 – SALA 2Bairro FREITASDores de Campos MG36213-000",
     "arquivo_origem": "MAXUEL TAUAN CASSIMIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1968,
@@ -20626,7 +22274,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83420000",
     "observacoes": "",
     "arquivo_origem": "MAYCON SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2070,
@@ -20651,7 +22301,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96405714",
     "observacoes": "A/C SOLANI",
     "arquivo_origem": "PETRICK MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1979,
@@ -20676,7 +22328,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96789400",
     "observacoes": "",
     "arquivo_origem": "MICHAEL DE ANDRADES LEAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1980,
@@ -20701,7 +22355,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95040520",
     "observacoes": "",
     "arquivo_origem": "MICHEL ESTREIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1974,
@@ -20726,7 +22382,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99530000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - MICHEL GIACOMELLI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1981,
@@ -20751,7 +22409,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95200528",
     "observacoes": "",
     "arquivo_origem": "MICHELE CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1982,
@@ -20776,7 +22436,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95140000",
     "observacoes": "AO LADO DA IGREJA SANTO EXPEDITO",
     "arquivo_origem": "MICHELE S. NORONHA  - RAMON NORONHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1984,
@@ -20801,7 +22463,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84320000",
     "observacoes": "(EM FRENTE A RODOVIARIA)",
     "arquivo_origem": "MIGUEL MACIEL ZELA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1983,
@@ -20826,7 +22490,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97180000",
     "observacoes": "",
     "arquivo_origem": "MIGUEL ANTÔNIO CEZAR TEIXEIRA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1985,
@@ -20851,7 +22517,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97180000",
     "observacoes": "",
     "arquivo_origem": "MIGUEL TEIXEIRA NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1986,
@@ -20876,7 +22544,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79765000",
     "observacoes": "",
     "arquivo_origem": "MIKHAEL TEIXEIRA MACEDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1987,
@@ -20901,7 +22571,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99655000",
     "observacoes": "",
     "arquivo_origem": "MILTON ABEL SKOREK.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1988,
@@ -20926,7 +22598,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95173420",
     "observacoes": "",
     "arquivo_origem": "MILTON CESAR WEBER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1990,
@@ -20951,7 +22625,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85260000",
     "observacoes": "",
     "arquivo_origem": "MOACIR EDUARDO COMUNELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1991,
@@ -20976,7 +22652,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13988000",
     "observacoes": "",
     "arquivo_origem": "MOACIR HAMAGUCHI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2166,
@@ -21001,7 +22679,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98290000",
     "observacoes": "",
     "arquivo_origem": "ROSILENE - MOISES HERMINIO CECHELLA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1992,
@@ -21026,7 +22706,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97340000",
     "observacoes": "",
     "arquivo_origem": "MOISES LOPES POSSER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1993,
@@ -21051,7 +22733,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98995000",
     "observacoes": "",
     "arquivo_origem": "MOISES LUNARDI MACHADO - TENTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1994,
@@ -21076,7 +22760,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75960000",
     "observacoes": "QUADRA 42, LOTE 17, Nº 70",
     "arquivo_origem": "MOISES MARTINS DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1320,
@@ -21101,7 +22787,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95860000",
     "observacoes": "",
     "arquivo_origem": "CLAITON SOGUEIRO - TAQUARI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1995,
@@ -21126,7 +22814,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88902180",
     "observacoes": "",
     "arquivo_origem": "MURIALDO TOMAZI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1996,
@@ -21151,7 +22841,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98040336",
     "observacoes": "",
     "arquivo_origem": "MURILO CAMARGO FAGUNDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1997,
@@ -21176,7 +22868,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96214050",
     "observacoes": "",
     "arquivo_origem": "MURILO DA COSTA MARQUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1998,
@@ -21201,7 +22895,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96503610",
     "observacoes": "",
     "arquivo_origem": "MURILO SIQUEIRA DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1999,
@@ -21226,7 +22922,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89107000",
     "observacoes": "FARMALAN FARMACIAS – POSTO RDP",
     "arquivo_origem": "MURILO TAVARES FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2186,
@@ -21251,7 +22949,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15156002",
     "observacoes": "",
     "arquivo_origem": "SERGIO REIS - NADIA MADLENA DOS REIS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1566,
@@ -21276,7 +22976,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96508570",
     "observacoes": "",
     "arquivo_origem": "GUGA AYRES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2000,
@@ -21301,7 +23003,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83323040",
     "observacoes": "",
     "arquivo_origem": "NAJI SAMAHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2002,
@@ -21326,7 +23030,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17502000",
     "observacoes": "",
     "arquivo_origem": "NATALIA DIAS DE CAMPOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2003,
@@ -21351,7 +23057,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94824320",
     "observacoes": "",
     "arquivo_origem": "NATANAEL RODRIGUES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2054,
@@ -21376,7 +23084,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17360000",
     "observacoes": "",
     "arquivo_origem": "PEDRO - NATANE ROBERTA MARTINS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2005,
@@ -21401,7 +23111,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95032613",
     "observacoes": "",
     "arquivo_origem": "NAURA FAGUNDES CHAVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2007,
@@ -21426,7 +23138,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98130000",
     "observacoes": "",
     "arquivo_origem": "NELCI PORTELA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2009,
@@ -21451,7 +23165,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85050070",
     "observacoes": "",
     "arquivo_origem": "NELSON FIUZA DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2010,
@@ -21476,7 +23192,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88270000",
     "observacoes": "",
     "arquivo_origem": "NERI NEVES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2012,
@@ -21501,7 +23219,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95059520",
     "observacoes": "",
     "arquivo_origem": "NICANOR ALIPIO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2013,
@@ -21526,7 +23246,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98905000",
     "observacoes": "",
     "arquivo_origem": "NICOLAS FELIPE VARGAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2048,
@@ -21551,7 +23273,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "PAULO FLORIANO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2014,
@@ -21576,7 +23300,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91260530",
     "observacoes": "",
     "arquivo_origem": "NILCEMAR ESCOBAR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1423,
@@ -21601,7 +23327,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93336240",
     "observacoes": "A/C EDIVALDO FERREIRA | CASARÃO DO COURO LTDA | Rua RIO VERDE, 345 - QD. 113 – Lote 15 | Bairro: SETOR CAMPINAS | GOIÂNIA - GO",
     "arquivo_origem": "EDIVALDO FERREIRA - GO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2015,
@@ -21626,7 +23354,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98130000",
     "observacoes": "",
     "arquivo_origem": "NILOMAR JOAO NOGUEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2016,
@@ -21651,7 +23381,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14401110",
     "observacoes": "",
     "arquivo_origem": "NILTON BRUNO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2017,
@@ -21676,7 +23408,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "NILTON DA LUZ DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2018,
@@ -21701,7 +23435,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14403284",
     "observacoes": "",
     "arquivo_origem": "NOE DINIS CANHADAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2019,
@@ -21726,7 +23462,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95040520",
     "observacoes": "",
     "arquivo_origem": "NOELI  DIRCEU FREITAS LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2020,
@@ -21751,7 +23489,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97700215",
     "observacoes": "",
     "arquivo_origem": "NORTON AUGUSTO GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2021,
@@ -21776,7 +23516,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97560000",
     "observacoes": "",
     "arquivo_origem": "OCTÁCIO ROCHA DE CASTRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2022,
@@ -21801,7 +23543,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95670000",
     "observacoes": "",
     "arquivo_origem": "ODILO MIGUEL JUSZKEVICZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2023,
@@ -21826,7 +23570,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98770000",
     "observacoes": "",
     "arquivo_origem": "OLDEMAR ALTÍSSIMO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2024,
@@ -21851,7 +23597,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79490000",
     "observacoes": "",
     "arquivo_origem": "OREMAR GONÇALVES DO NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1989,
@@ -21876,7 +23624,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97573730",
     "observacoes": "",
     "arquivo_origem": "MILTON RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2025,
@@ -21901,7 +23651,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89040240",
     "observacoes": "FERREIRA",
     "arquivo_origem": "OSCAR RHUAN DOS SANTOS FERREIRA - TENTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2027,
@@ -21926,7 +23678,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95097570",
     "observacoes": "",
     "arquivo_origem": "OSMARIA COELHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2028,
@@ -21951,7 +23705,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89580112",
     "observacoes": "",
     "arquivo_origem": "OSNEI SCHEFFER DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2030,
@@ -21976,7 +23732,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96310000",
     "observacoes": "",
     "arquivo_origem": "OTÁVIO PAIVA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2031,
@@ -22001,7 +23759,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76720000",
     "observacoes": "",
     "arquivo_origem": "OZIEL FRANCISCO DOS REIS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2032,
@@ -22026,7 +23786,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98180000",
     "observacoes": "",
     "arquivo_origem": "PABLO DIEGO BAZZAN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2033,
@@ -22051,7 +23813,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "Ou | PABLO JUNG KREWER | Rua TIMÓTIO MEDEIROS, S/Nº | CASA CINZA COM ABERTURAS BRANCAS | Bairro: DAER | SANTO ANTÔNIO DAS MISSÕES - RS",
     "arquivo_origem": "PABLO JUNG KREWER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2034,
@@ -22076,7 +23840,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97511430",
     "observacoes": "OU | PABLO PEREIRA | Rua GEN. HIPÓLITO, 4016 | COND. CALIFÓRNIA – AP. 103 – BLOCO E | Bairro: SÃO JOÃO | URUGUAIANA - RS",
     "arquivo_origem": "PABLO SEVERO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1925,
@@ -22101,7 +23867,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "MARCOS ISASTI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2035,
@@ -22126,7 +23894,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96210050",
     "observacoes": "",
     "arquivo_origem": "PABLO VASCONCELLOS LEAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1550,
@@ -22151,7 +23921,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97541500",
     "observacoes": "",
     "arquivo_origem": "GIL ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1836,
@@ -22176,7 +23948,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98045132",
     "observacoes": "",
     "arquivo_origem": "LUIS CARLOS - CRUZ ALTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2036,
@@ -22201,7 +23975,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96503387",
     "observacoes": "",
     "arquivo_origem": "PATRIC DA SILVEIRA RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2037,
@@ -22226,7 +24002,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97340000",
     "observacoes": "",
     "arquivo_origem": "PATRICK LOPES DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1395,
@@ -22251,7 +24029,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79556060",
     "observacoes": "",
     "arquivo_origem": "DIOGO LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2038,
@@ -22276,7 +24056,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98200000",
     "observacoes": "",
     "arquivo_origem": "PAULO AFONSO CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2039,
@@ -22301,7 +24083,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93055000",
     "observacoes": "",
     "arquivo_origem": "PAULO BDERNARDO BASOTI DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2040,
@@ -22326,7 +24110,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38401036",
     "observacoes": "",
     "arquivo_origem": "PAULO BORGES COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2041,
@@ -22351,7 +24137,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96170000",
     "observacoes": "",
     "arquivo_origem": "PAULO CESAR DAMÉ RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2042,
@@ -22376,7 +24164,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16340000",
     "observacoes": "",
     "arquivo_origem": "PAULO CESAR THOMAZ DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2043,
@@ -22401,7 +24191,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79008970",
     "observacoes": "AGENCIA ESTAÇÃO RODOVIÁRIA",
     "arquivo_origem": "PAULO CEZAR FARIA PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2044,
@@ -22426,7 +24218,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76980022",
     "observacoes": "",
     "arquivo_origem": "PAULO EDIVANE DA SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2045,
@@ -22451,7 +24245,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95034330",
     "observacoes": "",
     "arquivo_origem": "PAULO FERNANDO HEHN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2046,
@@ -22476,7 +24272,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99600000",
     "observacoes": "",
     "arquivo_origem": "PAULO FERNANDO PINTO WINCKLER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2047,
@@ -22501,7 +24299,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13340121",
     "observacoes": "",
     "arquivo_origem": "PAULO FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2049,
@@ -22526,7 +24326,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97390000",
     "observacoes": "CENTRO | OU | Rua SOTERO DA SILVEIRA, 53 | SANTANA DO LIVRAMENTO - RS | OU | Travessa Expedicionário Arlindo Santos Nogueira, 82 | Bairro: SÃO JUDAS | BAGÉ - RS",
     "arquivo_origem": "PAULO HENRIQUE DELABARY.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2050,
@@ -22551,7 +24353,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96222137",
     "observacoes": "R. SOCIAL: 68.659.745 PAULO RANGEL DA SILVA DOMINGUES",
     "arquivo_origem": "PAULO RANGEL DOMINGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2051,
@@ -22576,7 +24380,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18570041",
     "observacoes": "",
     "arquivo_origem": "PAULO ROBERTO DEL VIGNA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2052,
@@ -22601,7 +24407,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79950000",
     "observacoes": "",
     "arquivo_origem": "PAULO SÉRGIO SEIFERT DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2053,
@@ -22626,7 +24434,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95880000",
     "observacoes": "",
     "arquivo_origem": "PAULO VITOR PLENTZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2055,
@@ -22651,7 +24461,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13493256",
     "observacoes": "",
     "arquivo_origem": "PEDRO ADEMIR DAS NEVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2056,
@@ -22676,7 +24488,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "63106010",
     "observacoes": "CONDOMÍNIO SERRA VILLE",
     "arquivo_origem": "PEDRO AGUIAR NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2058,
@@ -22701,7 +24515,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98290000",
     "observacoes": "R. SOCIAL:  68.022.007 MARIA EDUARDA KERKHOFF ESCHER",
     "arquivo_origem": "PEDRO CESAR ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2059,
@@ -22726,7 +24542,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17190009",
     "observacoes": "",
     "arquivo_origem": "PEDRO CESAR VICENTIN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2060,
@@ -22751,7 +24569,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90520080",
     "observacoes": "",
     "arquivo_origem": "PEDRO EDMUNDO RODRIGUES ANTUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2061,
@@ -22776,7 +24596,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92527210",
     "observacoes": "",
     "arquivo_origem": "PEDRO ERANI KUHN DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2057,
@@ -22801,7 +24623,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97950000",
     "observacoes": "",
     "arquivo_origem": "PEDRO ALEX FLORCZAK ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2062,
@@ -22826,7 +24650,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98918000",
     "observacoes": "",
     "arquivo_origem": "PEDRO HENRIQUE FOLLMANN WEBER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2063,
@@ -22851,7 +24677,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78850000",
     "observacoes": "",
     "arquivo_origem": "PEDRO HENRIQUE MELO GOMES SANTIN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1269,
@@ -22876,7 +24704,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94262000",
     "observacoes": "RS 030 – PARADA 107",
     "arquivo_origem": "BRENO ESPINDULA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2064,
@@ -22901,7 +24731,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35620000",
     "observacoes": "",
     "arquivo_origem": "PEDRO HENRIQUE ROMUALDO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2065,
@@ -22926,7 +24758,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13930000",
     "observacoes": "",
     "arquivo_origem": "PEDRO PAULO SILVA DE ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2066,
@@ -22951,7 +24785,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96211080",
     "observacoes": "",
     "arquivo_origem": "PEDRO ROSA VAZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2067,
@@ -22976,7 +24812,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85520000",
     "observacoes": "",
     "arquivo_origem": "PEDRO TURRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1661,
@@ -23001,7 +24839,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95420000",
     "observacoes": "",
     "arquivo_origem": "JONEI - OVEIA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2069,
@@ -23026,7 +24866,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97010970",
     "observacoes": "",
     "arquivo_origem": "PETERSON DA SILVA CODEN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2072,
@@ -23051,7 +24893,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "77890000",
     "observacoes": "",
     "arquivo_origem": "PRESLEY THARLES OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1929,
@@ -23076,7 +24920,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92200060",
     "observacoes": "",
     "arquivo_origem": "MARCUS SODRÉ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2068,
@@ -23101,7 +24947,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99145000",
     "observacoes": "",
     "arquivo_origem": "PERICLES FELIPE DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1618,
@@ -23126,7 +24974,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87501390",
     "observacoes": "",
     "arquivo_origem": "JAIR - R. EVANGELISTA FABRICA DE ARTEFATOS.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2075,
@@ -23151,7 +25001,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95340000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL BEGOTTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2076,
@@ -23176,7 +25028,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97210000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL BITENCOURT MATHIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2077,
@@ -23201,7 +25055,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37464000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL CARVALHO CUNHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2078,
@@ -23226,7 +25082,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97670000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL CORRÊA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2079,
@@ -23251,7 +25109,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96300000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL DA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2080,
@@ -23276,7 +25136,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78552151",
     "observacoes": "",
     "arquivo_origem": "RAFAEL DA SILVA FREITTAG.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2081,
@@ -23301,7 +25163,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95340000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL DALBERTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2083,
@@ -23326,7 +25190,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78520000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2082,
@@ -23351,7 +25217,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96330000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL FERNANDES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2084,
@@ -23376,7 +25244,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95840000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL FRANCO NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2085,
@@ -23401,7 +25271,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96745000",
     "observacoes": "",
     "arquivo_origem": "RAFAEL LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2086,
@@ -23426,7 +25298,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94940200",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MARCIANO SOUZA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2087,
@@ -23451,7 +25325,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93225425",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MARCOS LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2088,
@@ -23476,7 +25352,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96040620",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MEDINA SEVERO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2089,
@@ -23501,7 +25379,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95211119",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MONTEIRO ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2090,
@@ -23526,7 +25406,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96501098",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MORAIS RIECK.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2091,
@@ -23551,7 +25433,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86047070",
     "observacoes": "",
     "arquivo_origem": "RAFAEL MORASSI DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2092,
@@ -23576,7 +25460,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95865000",
     "observacoes": "AGÊNCIA DOS CORREIOS",
     "arquivo_origem": "RAFAEL RECKZIEGEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2093,
@@ -23601,7 +25487,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83015290",
     "observacoes": "",
     "arquivo_origem": "RAFAEL VIEIRA DE CAMPOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2228,
@@ -23626,7 +25514,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96050080",
     "observacoes": "",
     "arquivo_origem": "VAGNER SOUZA - RAFAEL ZANETTI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2094,
@@ -23651,7 +25541,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93600010",
     "observacoes": "",
     "arquivo_origem": "RAMOM SANDER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2095,
@@ -23676,7 +25568,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76180000",
     "observacoes": "",
     "arquivo_origem": "RAMON DE LIMA CALVARIO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2096,
@@ -23701,7 +25595,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99704572",
     "observacoes": "",
     "arquivo_origem": "RAUL CELIO SERRAGLIO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2001,
@@ -23726,7 +25622,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13206570",
     "observacoes": "",
     "arquivo_origem": "NANA TRANÇADOR -REGINALDO BRUM RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2097,
@@ -23751,7 +25649,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18617010",
     "observacoes": "",
     "arquivo_origem": "REGINALDO GOMES DO NASCIMENTO JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2098,
@@ -23776,7 +25676,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76982650",
     "observacoes": "",
     "arquivo_origem": "REGINALDO MAURICIO BARBOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2099,
@@ -23801,7 +25703,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38140000",
     "observacoes": "",
     "arquivo_origem": "REINALDO CARLOS DO CARMO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2100,
@@ -23826,7 +25730,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95795000",
     "observacoes": "",
     "arquivo_origem": "RENAN FRASSINI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2101,
@@ -23851,7 +25757,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99500000",
     "observacoes": "",
     "arquivo_origem": "RENATO AMADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2102,
@@ -23876,7 +25784,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89915000",
     "observacoes": "",
     "arquivo_origem": "RENATO ANDRÉ PALUDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2106,
@@ -23901,7 +25811,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18150000",
     "observacoes": "",
     "arquivo_origem": "RICARDO - TRAIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1565,
@@ -23926,7 +25838,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98600000",
     "observacoes": "",
     "arquivo_origem": "GUASQUEIRO FACCIN - RENATO FACCIN.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2103,
@@ -23951,7 +25865,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18074370",
     "observacoes": "",
     "arquivo_origem": "RENATO LOSI NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2104,
@@ -23976,7 +25892,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99840000",
     "observacoes": "",
     "arquivo_origem": "RENATO PAIZ ZAMBONIN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2105,
@@ -24001,7 +25919,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35540000",
     "observacoes": "",
     "arquivo_origem": "RENÉ AVELAR BASTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2107,
@@ -24026,7 +25946,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97400000",
     "observacoes": "",
     "arquivo_origem": "RICARDO COSTA RAICHLE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2108,
@@ -24051,7 +25973,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95555000",
     "observacoes": "SEG ALARMES",
     "arquivo_origem": "RICARDO DA SILVA BRAGA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2139,
@@ -24076,7 +26000,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO DUARTE BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2110,
@@ -24101,7 +26027,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "90200310",
     "observacoes": "FAZENDA TUBIANO",
     "arquivo_origem": "RICARDO PINTO RAMIRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2111,
@@ -24126,7 +26054,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97511461",
     "observacoes": "",
     "arquivo_origem": "RICARDO SOARES ÁVILA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2112,
@@ -24151,7 +26081,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92440366",
     "observacoes": "",
     "arquivo_origem": "RICARDO VARGAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2113,
@@ -24176,7 +26108,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88704397",
     "observacoes": "RETIFICA SÃO JOSÉ",
     "arquivo_origem": "RICHARD ANTONIO ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2114,
@@ -24201,7 +26135,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96450000",
     "observacoes": "",
     "arquivo_origem": "RICHARDT ANDRYEL SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2115,
@@ -24226,7 +26162,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83750000",
     "observacoes": "",
     "arquivo_origem": "RISVALDO - PATRICIA CAETANO DOS SANTOS BARBOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1237,
@@ -24251,7 +26189,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79955000",
     "observacoes": "QUADRA 166 – LOTE 20",
     "arquivo_origem": "ANTONIO APARECIDO DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2117,
@@ -24276,7 +26216,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97543040",
     "observacoes": "",
     "arquivo_origem": "ROBERTO ALMEIDA DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2118,
@@ -24301,7 +26243,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "05444050",
     "observacoes": "Dados para NF: | RESTAURA COMÉRCIO E SERVIÇOS DE MANUTANÇÃO LTDA | Rua MARTINHO CLARO, 396 | Bairro: BUTANTÃ | SÃO PAULO – SP",
     "arquivo_origem": "ROBERTO BOBADILHA NEUMANN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2119,
@@ -24326,7 +26270,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "",
     "observacoes": "",
     "arquivo_origem": "ROBERTO LUZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2120,
@@ -24351,7 +26297,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18602340",
     "observacoes": "",
     "arquivo_origem": "ROBERTO PEREIRA FILHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2121,
@@ -24376,7 +26324,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13323582",
     "observacoes": "",
     "arquivo_origem": "ROBERTO PRADO DE ALMEIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2122,
@@ -24401,7 +26351,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78250000",
     "observacoes": "",
     "arquivo_origem": "ROBERTO RAMOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2123,
@@ -24426,7 +26378,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89198000",
     "observacoes": "",
     "arquivo_origem": "ROBSON GUSTAVO ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2124,
@@ -24451,7 +26405,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99585000",
     "observacoes": "Destinatário:",
     "arquivo_origem": "ROBSON PIERRE PEREIRA DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2125,
@@ -24476,7 +26432,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97700190",
     "observacoes": "",
     "arquivo_origem": "RODOLFO OLINTO LUTZ BRESSAN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2126,
@@ -24501,7 +26459,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97870000",
     "observacoes": "",
     "arquivo_origem": "RODOLPHO DIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2127,
@@ -24526,7 +26486,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89226519",
     "observacoes": "",
     "arquivo_origem": "RODRIGO ALEXANDRE LOTH FELIPPE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2128,
@@ -24551,7 +26513,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97545450",
     "observacoes": "",
     "arquivo_origem": "RODRIGO ANJOS DE CASTRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2129,
@@ -24576,7 +26540,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95055540",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CARDOSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2130,
@@ -24601,7 +26567,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96083150",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CARPENA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2131,
@@ -24626,7 +26594,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14771896",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CHIARELLI DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2132,
@@ -24651,7 +26621,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "87320000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CORDEIRO RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2133,
@@ -24676,7 +26648,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96410350",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CUNHA DA ROSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2134,
@@ -24701,7 +26675,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88680000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO CUSTÓDIO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2135,
@@ -24726,7 +26702,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79170970",
     "observacoes": "",
     "arquivo_origem": "RODRIGO D. FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2136,
@@ -24751,7 +26729,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89176000",
     "observacoes": "Ou | TAIS BATRISTA | Rua ERNESTO PRADA, 280 | Bairro: VILA NOVA | TROMBUDO CENTRAL - SC",
     "arquivo_origem": "RODRIGO DA VEIGA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2137,
@@ -24776,7 +26756,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO DE AVILA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2138,
@@ -24801,7 +26783,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88750000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO DE JESUS LENHARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2140,
@@ -24826,7 +26810,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17380240",
     "observacoes": "",
     "arquivo_origem": "RODRIGO EDUARDO CAVINATO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2141,
@@ -24851,7 +26837,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13635900",
     "observacoes": "LPBL – FMVZ - USP",
     "arquivo_origem": "RODRIGO GARAVAGLIA CHESINI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2142,
@@ -24876,7 +26864,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95773000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO HUBLER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2143,
@@ -24901,7 +26891,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95390000",
     "observacoes": "",
     "arquivo_origem": "RODRIGO KRAMER RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2144,
@@ -24926,7 +26918,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97542110",
     "observacoes": "",
     "arquivo_origem": "RODRIGO MEDEIROS ROSADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2145,
@@ -24951,7 +26945,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93214170",
     "observacoes": "",
     "arquivo_origem": "RODRIGO NAPAR DE FARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2146,
@@ -24976,7 +26972,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96495000",
     "observacoes": "FLORICULTURA FLORECENA",
     "arquivo_origem": "RODRIGO OUTEIRO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2147,
@@ -25001,7 +26999,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99600000",
     "observacoes": "APARTAMENTO 2º ANDAR",
     "arquivo_origem": "RODRIGO PADILHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2148,
@@ -25026,7 +27026,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97306008",
     "observacoes": "",
     "arquivo_origem": "RODRIGO ROMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2149,
@@ -25051,7 +27053,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84600460",
     "observacoes": "",
     "arquivo_origem": "RODRIGO SANDERS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2150,
@@ -25076,7 +27080,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89809360",
     "observacoes": "",
     "arquivo_origem": "ROGER CRISTIAN DA SILVA MUNARINI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2151,
@@ -25101,7 +27107,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94190050",
     "observacoes": "OU (CASA DO SOGRO DELE A BAIXO) | ROGER ZAGO EV | Rua JOSÉ GOMES PEIXOTO, 317 | Bairro PARQUE DOS ANJOS | GRAVATAÍ - RS",
     "arquivo_origem": "ROGER ZAGO EV.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2152,
@@ -25126,7 +27134,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79950000",
     "observacoes": "",
     "arquivo_origem": "ROGÉRIO DA SILVA DANTAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2153,
@@ -25151,7 +27161,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17180013",
     "observacoes": "",
     "arquivo_origem": "ROGÉRIO DONIZETE ENGRATULES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2006,
@@ -25176,7 +27188,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15407446",
     "observacoes": "",
     "arquivo_origem": "NEANDER MARDEGAN DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2011,
@@ -25201,7 +27215,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15407446",
     "observacoes": "",
     "arquivo_origem": "NESNDER MARDEGAN DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2154,
@@ -25226,7 +27242,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95185000",
     "observacoes": "",
     "arquivo_origem": "ROGÉRIO MACHADO SCHAFINO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2155,
@@ -25251,7 +27269,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "17370048",
     "observacoes": "",
     "arquivo_origem": "ROMARIO AUGUSTO OLIVEIRA LISBOA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2156,
@@ -25276,7 +27296,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78720170",
     "observacoes": "",
     "arquivo_origem": "ROMARIO MENDES DO CARMO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2157,
@@ -25301,7 +27323,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95530000",
     "observacoes": "",
     "arquivo_origem": "ROMARIO POLICARPO FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2158,
@@ -25326,7 +27350,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85807060",
     "observacoes": "",
     "arquivo_origem": "ROMEU PIRES FERRAZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2159,
@@ -25351,7 +27377,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13831042",
     "observacoes": "",
     "arquivo_origem": "ROMILDO APARECIDO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2160,
@@ -25376,7 +27404,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95700338",
     "observacoes": "",
     "arquivo_origem": "RONAIRO BRINCKER COIMBRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2161,
@@ -25401,7 +27431,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38294000",
     "observacoes": "",
     "arquivo_origem": "RONE CARLOS LEANDRO BENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2163,
@@ -25426,7 +27458,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98560000",
     "observacoes": "",
     "arquivo_origem": "ROQUE LIDIANO HILGER.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2164,
@@ -25451,7 +27485,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "33820170",
     "observacoes": "",
     "arquivo_origem": "ROSANGELA OLIVEIRA CALDAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2165,
@@ -25476,7 +27512,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13337422",
     "observacoes": "",
     "arquivo_origem": "ROSE FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2162,
@@ -25501,7 +27539,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78740162",
     "observacoes": "",
     "arquivo_origem": "RONY ALVES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2167,
@@ -25526,7 +27566,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89167202",
     "observacoes": "",
     "arquivo_origem": "RUAN HARTMANN RAITZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2168,
@@ -25551,7 +27593,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96160000",
     "observacoes": "",
     "arquivo_origem": "RUAN SILVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2169,
@@ -25576,7 +27620,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78255000",
     "observacoes": "",
     "arquivo_origem": "RUBENS OLIVEIRA - EUA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2170,
@@ -25601,7 +27647,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89812110",
     "observacoes": "",
     "arquivo_origem": "RUDINEI DOS REIS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2171,
@@ -25626,7 +27674,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96015560",
     "observacoes": "",
     "arquivo_origem": "RUI CARLOS AVILA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2172,
@@ -25651,7 +27701,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "12512330",
     "observacoes": "Compl.: RUA DE TERRA DE SERVIDÃO",
     "arquivo_origem": "RULLYÃ FERREIRA DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1539,
@@ -25676,7 +27728,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98180000",
     "observacoes": "",
     "arquivo_origem": "GABRIEL SEVERINO PRENDEL.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2173,
@@ -25701,7 +27755,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88940000",
     "observacoes": "(RETIRA NA AGENCIA)",
     "arquivo_origem": "SAMUEL ALESSIO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2174,
@@ -25726,7 +27782,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84900000",
     "observacoes": "",
     "arquivo_origem": "SAMUEL RODRIGUES SARAIVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2175,
@@ -25751,7 +27809,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "81150210",
     "observacoes": "",
     "arquivo_origem": "SAMUEL SILVESTRE DE LARA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2176,
@@ -25776,7 +27836,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92030370",
     "observacoes": "",
     "arquivo_origem": "SAULO LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2178,
@@ -25801,7 +27863,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78350000",
     "observacoes": "",
     "arquivo_origem": "SEBASTIÃO DE CAMARGO JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2179,
@@ -25826,7 +27890,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84033310",
     "observacoes": "15.569.586 FERNANDO HENRIQUE DOS ANJOS PEREIRA",
     "arquivo_origem": "SELARIA MALACARA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1969,
@@ -25851,7 +27917,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76240000",
     "observacoes": "",
     "arquivo_origem": "MAZIN - SEL. NOSSA SENHORA APARECIDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2180,
@@ -25876,7 +27944,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96506678",
     "observacoes": "",
     "arquivo_origem": "SERGIO ANTÔNIO ROSA FRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2182,
@@ -25901,7 +27971,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "84509000",
     "observacoes": "",
     "arquivo_origem": "SERGIO LUIS SPECHT.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2183,
@@ -25926,7 +27998,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96785136",
     "observacoes": "",
     "arquivo_origem": "SERGIO MEDEIROS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2184,
@@ -25951,7 +28025,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89198000",
     "observacoes": "",
     "arquivo_origem": "SERGIO MOREIRA FONSECA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1316,
@@ -25976,7 +28052,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95500000",
     "observacoes": "",
     "arquivo_origem": "CHICO SAGA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1151,
@@ -26001,7 +28079,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83301180",
     "observacoes": "",
     "arquivo_origem": "ADILSON - D S COUROS.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2189,
@@ -26026,7 +28106,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98400000",
     "observacoes": "",
     "arquivo_origem": "SIDINEI JOSÉ DA ROCHA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2190,
@@ -26051,7 +28133,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78607156",
     "observacoes": "",
     "arquivo_origem": "SIDNEI DOS SANTOS SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2191,
@@ -26076,7 +28160,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37470000",
     "observacoes": "",
     "arquivo_origem": "SIDNEI MARCOS DE CARVALHO - MERCADO LIVRE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2192,
@@ -26101,7 +28187,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "89503398",
     "observacoes": "",
     "arquivo_origem": "SIDNEY MASSAROLI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1210,
@@ -26126,7 +28214,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19915704",
     "observacoes": "",
     "arquivo_origem": "AMARILDO BRITO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2193,
@@ -26151,7 +28241,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95270000",
     "observacoes": "R. SOCIAL: 56.899.459 SILVIA REGINA DOS SANTOS | Rua FLORES DA CUNHA, 1532 | CENTRO | FLORES DA CUNHA – RS",
     "arquivo_origem": "SILVIA - VALDECIR RIGON.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2194,
@@ -26176,7 +28268,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "11950000",
     "observacoes": "",
     "arquivo_origem": "SILVIO APARECIDO DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2195,
@@ -26201,7 +28295,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92513218",
     "observacoes": "",
     "arquivo_origem": "SILVIO CORREA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2196,
@@ -26226,7 +28322,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19600000",
     "observacoes": "",
     "arquivo_origem": "SILVIO DE LIMA FERREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2197,
@@ -26251,7 +28349,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97310651",
     "observacoes": "",
     "arquivo_origem": "SILVIO GERALDO TAMARA GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1709,
@@ -26276,7 +28376,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97120000",
     "observacoes": "",
     "arquivo_origem": "JOSÉ VILSON CARVALHO PEREIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1975,
@@ -26301,7 +28403,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37535000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE - SILVOLEIRO JOSÉ DE SOUZA -MG.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1511,
@@ -26326,7 +28430,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15204757",
     "observacoes": "",
     "arquivo_origem": "FLAVIA FERNANDO MARINHO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2177,
@@ -26351,7 +28457,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97250000",
     "observacoes": "",
     "arquivo_origem": "SAVIO FACHIN LIBERALESSO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2185,
@@ -26376,7 +28484,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19990013",
     "observacoes": "",
     "arquivo_origem": "SERGIO NOGUEIRA - HÉLIO DE ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2188,
@@ -26401,7 +28511,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18320970",
     "observacoes": "",
     "arquivo_origem": "SERGIO ZACARIAS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2200,
@@ -26426,7 +28538,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85805290",
     "observacoes": "",
     "arquivo_origem": "TAILUR PEROZZO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2201,
@@ -26451,7 +28565,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96200180",
     "observacoes": "",
     "arquivo_origem": "TALES MORAES SOARES SALCEDO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2202,
@@ -26476,7 +28592,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96780094",
     "observacoes": "",
     "arquivo_origem": "TAMILTON DE LIMA RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2203,
@@ -26501,7 +28619,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95300000",
     "observacoes": "",
     "arquivo_origem": "TATIANE MAITO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2204,
@@ -26526,7 +28646,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95880000",
     "observacoes": "",
     "arquivo_origem": "TELMO MONTESDIOCA NUNES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2205,
@@ -26551,7 +28673,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88240000",
     "observacoes": "",
     "arquivo_origem": "THAYLER VIEIRA PIZANI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2206,
@@ -26576,7 +28700,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "18460332",
     "observacoes": "",
     "arquivo_origem": "THIAGO DE MELO CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2207,
@@ -26601,7 +28727,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14403298",
     "observacoes": "",
     "arquivo_origem": "THIAGO GARCIA LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2208,
@@ -26626,7 +28754,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94935410",
     "observacoes": "",
     "arquivo_origem": "THIAGO HERMEL LAMONATO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2209,
@@ -26651,7 +28781,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "35595000",
     "observacoes": "",
     "arquivo_origem": "THIAGO RODRIGO DIAS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2210,
@@ -26676,7 +28808,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93224440",
     "observacoes": "",
     "arquivo_origem": "THIAGO TAVARES DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2211,
@@ -26701,7 +28835,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95480000",
     "observacoes": "",
     "arquivo_origem": "THIAGO TRINDADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2212,
@@ -26726,7 +28862,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97313272",
     "observacoes": "ENTREGAR NA GUARDA DO 9 RCB",
     "arquivo_origem": "THOMAS LUIS MAITTÉ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2213,
@@ -26751,7 +28889,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95800000",
     "observacoes": "",
     "arquivo_origem": "TIAGO BICK.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2214,
@@ -26776,7 +28916,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95020260",
     "observacoes": "",
     "arquivo_origem": "TIAGO CAPPELLATI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2215,
@@ -26801,7 +28943,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95780000",
     "observacoes": "",
     "arquivo_origem": "TIAGO GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2216,
@@ -26826,7 +28970,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95853970",
     "observacoes": "",
     "arquivo_origem": "TIAGO SILVEIRA RAMIRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2217,
@@ -26851,7 +28997,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99042560",
     "observacoes": "",
     "arquivo_origem": "TIARAJU LOPES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2218,
@@ -26876,7 +29024,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99500000",
     "observacoes": "",
     "arquivo_origem": "TOBIAS TOMBINI PACHECO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2219,
@@ -26901,7 +29051,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88901026",
     "observacoes": "",
     "arquivo_origem": "TONI EDGAR VARGAS GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2221,
@@ -26926,7 +29078,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95140000",
     "observacoes": "",
     "arquivo_origem": "TULIO CARDOSO ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2222,
@@ -26951,7 +29105,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92729730",
     "observacoes": "",
     "arquivo_origem": "TUPINAMBA DIAS RIBEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2223,
@@ -26976,7 +29132,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75855000",
     "observacoes": "QUADRA 5, LOTE 19",
     "arquivo_origem": "TYAGO GALVÃO DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2224,
@@ -27001,7 +29159,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98740000",
     "observacoes": "MERCADO ERGAN",
     "arquivo_origem": "UBIRAJARA FRANCO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2226,
@@ -27026,7 +29186,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93700000",
     "observacoes": "",
     "arquivo_origem": "UILIAN ANSELMO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2227,
@@ -27051,7 +29213,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97000000",
     "observacoes": "AGÊNCIA DOS CORREIOS",
     "arquivo_origem": "VAGNER CARLOSSO TURCHETTI.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2229,
@@ -27076,7 +29240,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95840000",
     "observacoes": "",
     "arquivo_origem": "VALDAIR LARA MACHADO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2230,
@@ -27101,7 +29267,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94480060",
     "observacoes": "",
     "arquivo_origem": "VALDECI OLIVEIRA - RAQUEL PAIANI DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2231,
@@ -27126,7 +29294,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "68515000",
     "observacoes": "",
     "arquivo_origem": "VALDENICIO TOMAZINI DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2232,
@@ -27151,7 +29321,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "78260000",
     "observacoes": "",
     "arquivo_origem": "VALDINEI INACIO MARTINS DA SILVA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2233,
@@ -27176,7 +29348,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "16202059",
     "observacoes": "",
     "arquivo_origem": "VALDIR BRITO DE OLIVEIRA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2234,
@@ -27201,7 +29375,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97850000",
     "observacoes": "",
     "arquivo_origem": "VALDIR HENRIQUE FERREIRA CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1977,
@@ -27226,7 +29402,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79970000",
     "observacoes": "",
     "arquivo_origem": "MERCADO LIVRE- VALDIRENE FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2235,
@@ -27251,7 +29429,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99030040",
     "observacoes": "",
     "arquivo_origem": "VALENTIN BORGES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2236,
@@ -27276,7 +29456,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13406010",
     "observacoes": "",
     "arquivo_origem": "VALTER ADRIANO GALVÃO DE ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2238,
@@ -27301,7 +29483,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "03192060",
     "observacoes": "",
     "arquivo_origem": "VANDERLEI GUEDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2239,
@@ -27326,7 +29510,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "86840000",
     "observacoes": "",
     "arquivo_origem": "VANDERLEI TEIXEIRA LEITE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1755,
@@ -27351,7 +29537,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97577500",
     "observacoes": "",
     "arquivo_origem": "JUNIOR - SANTANA DO LIVRAMENTO - VANESSA REMEDY DUARTE.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2240,
@@ -27376,7 +29564,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "75901150",
     "observacoes": "",
     "arquivo_origem": "VERGILIO JUNIO SILVA CARVALHO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2181,
@@ -27401,7 +29591,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85550000",
     "observacoes": "A/C SÉRGIO LINO PINHEIRO",
     "arquivo_origem": "SERGIO LINO PINHEIRO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2241,
@@ -27426,7 +29618,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38701626",
     "observacoes": "",
     "arquivo_origem": "VICENTE DONIZETE DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2243,
@@ -27451,7 +29645,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97578032",
     "observacoes": "",
     "arquivo_origem": "VICTOR PANTA NOBRE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2244,
@@ -27476,7 +29672,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93285000",
     "observacoes": "",
     "arquivo_origem": "VICTOR POLETTI NETO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1829,
@@ -27501,7 +29699,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97547380",
     "observacoes": "",
     "arquivo_origem": "LUCIELLE - VILI JUNHOR GUTERRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2245,
@@ -27526,7 +29726,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "94380000",
     "observacoes": "",
     "arquivo_origem": "VINICIO CARDOSO BARBOSA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2246,
@@ -27551,7 +29753,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88680000",
     "observacoes": "",
     "arquivo_origem": "VINICIUS DA CUNHA CABRAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2247,
@@ -27576,7 +29780,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96640000",
     "observacoes": "",
     "arquivo_origem": "VINICIUS DOS SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2249,
@@ -27601,7 +29807,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98160000",
     "observacoes": "",
     "arquivo_origem": "VINICIUS ZANCAN MORO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2251,
@@ -27626,7 +29834,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96402480",
     "observacoes": "",
     "arquivo_origem": "VITOR BENTO GARCIA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2252,
@@ -27651,7 +29861,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96750000",
     "observacoes": "",
     "arquivo_origem": "VITOR GONÇALVES TRINDADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2253,
@@ -27676,7 +29888,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "91900790",
     "observacoes": "",
     "arquivo_origem": "VITOR HUGO GOMES BARTZ.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2250,
@@ -27701,7 +29915,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99820000",
     "observacoes": "",
     "arquivo_origem": "VITOR ARRUDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2254,
@@ -27726,7 +29942,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99820000",
     "observacoes": "",
     "arquivo_origem": "VITOR LUIS VELASQUES ARRUDA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1500,
@@ -27751,7 +29969,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "13960000",
     "observacoes": "",
     "arquivo_origem": "FELIPE GARÓFALO LEÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2255,
@@ -27776,7 +29996,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99200000",
     "observacoes": "COND. BELUNO",
     "arquivo_origem": "VOLMIR RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2256,
@@ -27801,7 +30023,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97870000",
     "observacoes": "",
     "arquivo_origem": "VOLNEI DA SILVA PIRES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2257,
@@ -27826,7 +30050,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97030110",
     "observacoes": "",
     "arquivo_origem": "VONIBALDO OLIVEIRA DO NASCIMENTO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2259,
@@ -27851,7 +30077,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19210000",
     "observacoes": "",
     "arquivo_origem": "WAGNER APARECIDO SANT ANNA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2260,
@@ -27876,7 +30104,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "14440096",
     "observacoes": "",
     "arquivo_origem": "WAGNER DE OLIVEIRA OZELIN.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2261,
@@ -27901,7 +30131,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98400000",
     "observacoes": "",
     "arquivo_origem": "WAGNER DE SOUZA MATTEU.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2258,
@@ -27926,7 +30158,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "92705550",
     "observacoes": "",
     "arquivo_origem": "WAGNER  PACHECO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2262,
@@ -27951,7 +30185,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "83203500",
     "observacoes": "PRÓXIMO AO SHOPPING MALL",
     "arquivo_origem": "WAGNER VICENTE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2263,
@@ -27976,7 +30212,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88113835",
     "observacoes": "",
     "arquivo_origem": "WASHINGTON LUIZ SÁ DO AMARAL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2264,
@@ -28001,7 +30239,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "76846000",
     "observacoes": "",
     "arquivo_origem": "WELINGTON LEITE DE ASSIS DE ANDRADE.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2265,
@@ -28026,7 +30266,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99300000",
     "observacoes": "",
     "arquivo_origem": "WELLINGTON SANTOS RODRIGUES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2266,
@@ -28051,7 +30293,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "37472000",
     "observacoes": "",
     "arquivo_origem": "WENDRIL SOARES FERNANDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2267,
@@ -28076,7 +30320,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96670000",
     "observacoes": "",
     "arquivo_origem": "WESLEI BULLING MENDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2268,
@@ -28101,7 +30347,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97650000",
     "observacoes": "(PERTO DO CAMPO DE FUTEBOL)",
     "arquivo_origem": "WESLEI IRALA FALCÃO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2269,
@@ -28126,7 +30374,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "85150016",
     "observacoes": "",
     "arquivo_origem": "WESLEY FELIPE OLIVEIRA BERNARDINO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2270,
@@ -28151,7 +30401,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "96413000",
     "observacoes": "",
     "arquivo_origem": "WESLLEN DE LIMA DA SILVA DE LIMA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2271,
@@ -28176,7 +30428,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88054605",
     "observacoes": "",
     "arquivo_origem": "WILIAN NEVES DA CRUZ JUNIOR.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2272,
@@ -28201,7 +30455,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "98130000",
     "observacoes": "",
     "arquivo_origem": "WILLIAN ADOLFO MATIAS APPEL.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2273,
@@ -28226,7 +30482,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97400000",
     "observacoes": "",
     "arquivo_origem": "WILLIAN CONDE PINIERO.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2274,
@@ -28251,7 +30509,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "36227000",
     "observacoes": "",
     "arquivo_origem": "WILLIAN NASCIMENTO SANTOS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1264,
@@ -28276,7 +30536,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "95605142",
     "observacoes": "",
     "arquivo_origem": "AUREO DE SOUZA GOMES.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2275,
@@ -28301,7 +30563,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "15540000",
     "observacoes": "",
     "arquivo_origem": "WILSON CESAR BARBOZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2276,
@@ -28326,7 +30590,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38700368",
     "observacoes": "",
     "arquivo_origem": "WINNE CHRISTIAN BERNARDES.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2277,
@@ -28351,7 +30617,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "19026250",
     "observacoes": "",
     "arquivo_origem": "WM COUROS.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2278,
@@ -28376,7 +30644,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "99713072",
     "observacoes": "",
     "arquivo_origem": "YURI DELLA COSTA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2279,
@@ -28401,7 +30671,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "38800000",
     "observacoes": "",
     "arquivo_origem": "YURI GUILHERME.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 2280,
@@ -28426,7 +30698,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "97590000",
     "observacoes": "",
     "arquivo_origem": "YURI RIBEIRO DE SOUZA.docx",
-    "data_cadastro": "2026-10-15 19:31:52"
+    "data_cadastro": "2026-10-15 19:31:52",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1703,
@@ -28451,7 +30725,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "93315130",
     "observacoes": "",
     "arquivo_origem": "JOSÉ IVANDRO DE MELLO.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1265,
@@ -28476,7 +30752,9 @@ window.CLIENTES_DATA = [
     "cep_limpo": "88640000",
     "observacoes": "OBS. TEM UMA POUSADA LÁ",
     "arquivo_origem": "AUREO RIBEIRO CASSETTARI.docx",
-    "data_cadastro": "2026-10-15 19:31:50"
+    "data_cadastro": "2026-10-15 19:31:50",
+    "preferencias": "",
+    "email": ""
   },
   {
     "id": 1414,
@@ -28501,6 +30779,8 @@ window.CLIENTES_DATA = [
     "cep_limpo": "79906744",
     "observacoes": "",
     "arquivo_origem": "EDER JOSE PITA.docx",
-    "data_cadastro": "2026-10-15 19:31:51"
+    "data_cadastro": "2026-10-15 19:31:51",
+    "preferencias": "",
+    "email": ""
   }
 ];
