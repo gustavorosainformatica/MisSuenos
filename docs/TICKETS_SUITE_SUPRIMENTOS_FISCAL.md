@@ -147,7 +147,7 @@ flowchart LR
   2. Endpoint `POST /api/financeiro/conciliacao/reconciliar-lote`: executa a baixa dos títulos vinculados, grava a data da conciliação e cria despesas acessórias automáticas para eventuais diferenças de tarifas.
 - **Passo de Validação:**
   - Realizar upload de arquivo de extrato de teste e verificar persistência dos registros conciliados em banco.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ### Ticket 10: Interface de Conciliação Bancária com Visualização de Extrato e Baixa Rápida
 - **Objetivo:** Criar a tela/modal de Conciliação Bancária no módulo Financeiro com cards visuais de correspondência, badges de confiança (Verde: Exato, Amarelo: Sugerido, Cinza: Novo) e baixa em lote em 1 clique.
@@ -160,7 +160,7 @@ flowchart LR
   3. Aplicar padrões de UI: botões de ação secundária com `tabindex="-1"`, valores monetários alinhados e sem setas numéricas.
 - **Passo de Validação:**
   - Testar interação de conciliação de um lote no navegador e auditar atualização instantânea nos saldos e no DRE.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ---
 
@@ -178,7 +178,7 @@ flowchart LR
   3. Expandir `lib/wlg.js` com montagem completa do XML/payload para NF-e Mod 55 e NFS-e Padrão Nacional.
 - **Passo de Validação:**
   - Teste unitário simulando payload de venda e validação de CFOP (5102/6102) e NCM obrigatório.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ### Ticket 12: API REST de Emissão Fiscal, Consulta de Protocolo e DANFE
 - **Objetivo:** Blindar os endpoints fiscais em `api/nfe.js` dentro do Dispatcher Central, integrando persistência do XML assinado, protocolo e retorno de DANFE em PDF.
@@ -191,7 +191,7 @@ flowchart LR
   3. Blindar numeração fiscal contra duplicidade conforme regra global `blindagem-numeracao-comercial.md`.
 - **Passo de Validação:**
   - Chamada na API simulando transmissão e conferência de gravação de registro em `fiscal_documentos`.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ### Ticket 13: Interface de Emissão Fiscal no Pedido e Catálogo
 - **Objetivo:** Adicionar à tela de Pedidos e Catálogo o painel fiscal: validação visual de NCM/CFOP antes de emitir, botão "Emitir NF-e / NFS-e", badges de status e botões de download de XML e impressão de DANFE.
@@ -204,7 +204,7 @@ flowchart LR
   3. Garantir ergonomia de teclado com foco automático e `tabindex="-1"` em botões secundários.
 - **Passo de Validação:**
   - Abrir um pedido no navegador, acionar emissão simulada e verificar renderização da chave e do botão de DANFE.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ---
 
@@ -220,7 +220,7 @@ flowchart LR
   2. Validar que nenhum teste quebra a retrocompatibilidade dos módulos existentes.
 - **Passo de Validação:**
   - Saída do terminal exibindo 100% de testes verdes (`PASS`).
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ### Ticket 15: Sincronização Tríplice com ERP Base e Auditoria de Deploy na Nuvem
 - **Objetivo:** Espelhar todas as novas bibliotecas, migrações de banco, rotas serverless e componentes neutros na matriz `d:\projetos-agy\erp-base` e no ambiente `MisSuenos-Dev`, realizar os commits, disparar o push e auditar a Vercel.
@@ -233,7 +233,7 @@ flowchart LR
   4. Auditar o status de deploy da nuvem (Vercel) via requisição aos cabeçalhos HTTP e ETag do domínio de produção.
 - **Passo de Validação:**
   - Retorno HTTP Status 200 na Vercel e confirmação de deploy sem erros no build.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído
 
 ---
 

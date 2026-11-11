@@ -5,6 +5,11 @@
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
+import {
+  parseOfx,
+  parseCsvBancario,
+  conciliarExtratoComLancamentos
+} from '../lib/conciliacao_bancaria.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -55,10 +60,174 @@ export default async function handler(req, res) {
   }
 
   const url = parseUrl(req);
+  const pathname = url.pathname;
   const matchPathId = url.pathname.match(/^\/api\/financeiro\/(\d+)$/);
   const idParam = url.searchParams.get('id') || req.query?.id || (matchPathId ? matchPathId[1] : null);
 
   try {
+    // =========================================================================
+    // SUB-ROTA CONCILIAÇÃO: POST /api/financeiro/conciliacao/upload
+    // =========================================================================
+    if ((pathname === '/api/financeiro/conciliacao/upload' || url.searchParams.get('acao') === 'conciliacao_upload') && req.method === 'POST') {
+      const body = await parseBody(req);
+      const conteudoExtrato = body.conteudo || body.conteudoExtrato || body.extrato || '';
+      const tipoArquivo = (body.tipoArquivo || body.formato || '').toUpperCase();
+      const bancoNome = (body.banco || 'BANCO').toUpperCase();
+
+      if (!conteudoExtrato) {
+        return responder(res, 400, { error: 'O conteúdo do arquivo de extrato (.OFX ou .CSV) é obrigatório.' });
+      }
+
+      let parsed;
+      if (tipoArquivo === 'CSV' || (!conteudoExtrato.includes('<OFX>') && !conteudoExtrato.includes('OFXHEADER') && (conteudoExtrato.includes(';') || conteudoExtrato.includes(',')))) {
+        parsed = parseCsvBancario(conteudoExtrato, { banco: bancoNome });
+      } else {
+        parsed = parseOfx(conteudoExtrato);
+      }
+
+      // Busca lançamentos pendentes no ERP
+      const lancamentosPendentes = await query("SELECT * FROM financeiro_lancamentos WHERE status = 'PENDENTE'");
+
+      // Executa matching heurístico
+      const reconciliacao = conciliarExtratoComLancamentos(parsed.transacoes, lancamentosPendentes);
+
+      // Grava transações na tabela conciliacao_extratos com persistência idempotente
+      const agora = new Date().toISOString();
+      for (const r of reconciliacao.resultados) {
+        const t = r.transacao_extrato;
+        const matchId = r.sugestao ? r.sugestao.lancamento_id : null;
+        await run(`
+          INSERT INTO conciliacao_extratos (
+            origem, fitid, data_transacao, descricao, tipo, valor, status, transacao_financeiro_id, score_match, criado_em
+          ) VALUES (?, ?, ?, ?, ?, ?, 'PENDENTE', ?, ?, ?)
+          ON CONFLICT(fitid) DO UPDATE SET
+            score_match = excluded.score_match,
+            transacao_financeiro_id = excluded.transacao_financeiro_id
+        `, [
+          t.origem || parsed.formato,
+          t.fitid,
+          t.data,
+          t.descricao,
+          t.tipo,
+          t.valor,
+          matchId,
+          r.score,
+          agora
+        ]);
+      }
+
+      await registrarLog({
+        tipoAcao: 'CONCILIACAO_EXTRATO_UPLOAD',
+        detalhes: `Upload de extrato ${parsed.formato} (${parsed.banco}). ${parsed.totalTransacoes} transações processadas (${reconciliacao.total_auto_conciliavel} sugeridas automáticas).`
+      }).catch(() => {});
+
+      return responder(res, 200, {
+        success: true,
+        formato: parsed.formato,
+        banco: parsed.banco,
+        conta: parsed.conta,
+        saldoFinal: parsed.saldoFinal,
+        totalTransacoes: parsed.totalTransacoes,
+        totalCreditos: parsed.totalCreditos,
+        totalDebitos: parsed.totalDebitos,
+        total_auto_conciliavel: reconciliacao.total_auto_conciliavel,
+        total_com_match: reconciliacao.total_com_match,
+        total_sem_match: reconciliacao.total_sem_match,
+        transacoes: reconciliacao.resultados
+      });
+    }
+
+    // =========================================================================
+    // SUB-ROTA CONCILIAÇÃO: POST /api/financeiro/conciliacao/reconciliar-lote
+    // =========================================================================
+    if ((pathname === '/api/financeiro/conciliacao/reconciliar-lote' || url.searchParams.get('acao') === 'reconciliar_lote') && req.method === 'POST') {
+      const body = await parseBody(req);
+      const lote = Array.isArray(body.reconciliacoes) ? body.reconciliacoes : [];
+
+      if (lote.length === 0) {
+        return responder(res, 400, { error: 'Lista de transações para reconciliação vazia ou não informada.' });
+      }
+
+      const agora = new Date();
+      const hojeIso = agora.toISOString().slice(0, 10);
+      let totalBaixados = 0;
+      let totalTarifasCriadas = 0;
+
+      for (const item of lote) {
+        const lancId = item.lancamento_id;
+        const fitid = item.fitid;
+        const dataPagamento = item.data_pagamento || hojeIso;
+        const difTarifa = parseFloat(item.diferenca_tarifa || 0);
+
+        if (lancId) {
+          // Baixa no lançamento do ERP
+          await run(`
+            UPDATE financeiro_lancamentos 
+            SET status = 'PAGO', data_pagamento = ?, data_atualizacao = ?
+            WHERE id = ?
+          `, [dataPagamento, agora.toISOString(), lancId]);
+          totalBaixados++;
+
+          // Se houver diferença por tarifa bancária (ex: taxa boleto R$ 1,50)
+          if (difTarifa > 0) {
+            await run(`
+              INSERT INTO financeiro_lancamentos (
+                tipo, origem, descricao, categoria, valor, data_vencimento, data_pagamento, forma_pagamento, status, observacoes, data_cadastro
+              ) VALUES ('PAGAR', 'CONCILIACAO_TARIFA', ?, 'TARIFAS BANCÁRIAS', ?, ?, ?, 'DÉBITO EM CONTA', 'PAGO', ?, ?)
+            `, [
+              `TARIFA BANCÁRIA / DESCONTO (REF FITID ${fitid || lancId})`,
+              difTarifa,
+              dataPagamento,
+              dataPagamento,
+              `Ajuste automático de conciliação para o lançamento #${lancId}`,
+              agora.toISOString()
+            ]);
+            totalTarifasCriadas++;
+          }
+        }
+
+        // Atualiza a tabela conciliacao_extratos
+        if (fitid) {
+          await run(`
+            UPDATE conciliacao_extratos
+            SET status = 'CONCILIADO', transacao_financeiro_id = ?
+            WHERE fitid = ?
+          `, [lancId || null, fitid]);
+        }
+      }
+
+      await registrarLog({
+        tipoAcao: 'CONCILIACAO_LOTE_CONFIRMADA',
+        detalhes: `Reconciliação em lote executada. ${totalBaixados} títulos baixados e ${totalTarifasCriadas} tarifas ajustadas.`
+      }).catch(() => {});
+
+      return responder(res, 200, {
+        success: true,
+        mensagem: `${totalBaixados} título(s) reconciliado(s) com sucesso!`,
+        total_reconciliados: totalBaixados,
+        total_tarifas_ajustadas: totalTarifasCriadas
+      });
+    }
+
+    // =========================================================================
+    // SUB-ROTA CONCILIAÇÃO: GET /api/financeiro/conciliacao/extratos
+    // =========================================================================
+    if (pathname === '/api/financeiro/conciliacao/extratos' && req.method === 'GET') {
+      const statusExtrato = url.searchParams.get('status');
+      let sql = 'SELECT * FROM conciliacao_extratos';
+      const params = [];
+      if (statusExtrato) {
+        sql += ' WHERE status = ?';
+        params.push(statusExtrato.toUpperCase());
+      }
+      sql += ' ORDER BY data_transacao DESC, id DESC LIMIT 200';
+      const extratos = await query(sql, params);
+      return responder(res, 200, {
+        success: true,
+        total: extratos.length,
+        extratos
+      });
+    }
     // 1. GET: Listar lançamentos e calcular resumo de fluxo de caixa
     if (req.method === 'GET') {
       const tipoFiltro = url.searchParams.get('tipo'); // 'RECEBER' | 'PAGAR' | 'TODOS'

@@ -5306,6 +5306,9 @@
           <span>💼</span> <span>Gestão Financeira & Compras</span>
         </div>
         <div style="display: flex; gap: 8px;">
+          <button class="btn-top" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); font-weight: 700;" onclick="abrirModalConciliacaoBancaria()">
+            🏦 Conciliação Bancária (OFX / CSV)
+          </button>
           <button class="btn-top" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.4); font-weight: 700;" onclick="abrirModalImportarXml()">
             📥 Importar XML de Compra (NF-e)
           </button>
@@ -6802,7 +6805,7 @@
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
               NCM *
             </label>
-            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;">
+            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" maxlength="10" oninput="validarNcmCampoFiscal(this)" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;">
           </div>
 
           <div class="form-group" style="margin: 0;">
@@ -6811,6 +6814,12 @@
             </label>
             <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; text-align: right;" onblur="this.value = formatarMoedaPtBr(this.value)">
           </div>
+        </div>
+
+        <!-- ALERTA PREVENTIVO DE NCM INVÁLIDO (TICKET 13) -->
+        <div id="fiscal-alerta-ncm" style="display: none; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #f87171; align-items: center; gap: 8px;">
+          <span>⚠️</span>
+          <span><strong>NCM Inválido:</strong> O código NCM deve conter exatamente 8 dígitos numéricos oficiais. Corrija antes de transmitir à SEFAZ.</span>
         </div>
 
         <!-- CARD DA CHAVE DE ACESSO DE 44 DÍGITOS E PROTOCOLO -->
@@ -8452,6 +8461,12 @@
             <span>📦</span>
             <span>Romaneio</span>
           </button>
+
+          <!-- 4. EMISSÃO FISCAL: NF-E MODELO 55 (TICKET 13) -->
+          <button type="button" tabindex="-1" class="btn-top" id="btn-ped-emitir-fiscal" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 11.5px; font-weight: 700; padding: 6px 11px; display: inline-flex; align-items: center; gap: 5px;" onclick="abrirModalFiscalPorPedidoId(document.getElementById('form-ped-id').value)" title="Emitir NF-e Modelo 55 para este pedido com validação automática de NCM e DANFE">
+            <span>🧾</span>
+            <span>Emitir NF-e</span>
+          </button>
         </div>
 
         <!-- LADO DIREITO: CANCELAR E SALVAR -->
@@ -8921,6 +8936,121 @@
         <button type="button" tabindex="-1" class="btn-top btn-row-action" onclick="fecharModalImportarXml()">Cancelar</button>
         <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-xml" style="display: none; font-weight: 800; font-size: 12.5px; padding: 8px 18px;" onclick="confirmarImportacaoXmlCompra()">
           <span>💾</span> Confirmar Entrada no Estoque e Financeiro
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL DE CONCILIAÇÃO BANCÁRIA (OFX / CSV) (TICKET 10) -->
+  <div class="modal-overlay" id="modal-conciliacao-bancaria">
+    <div class="modal-container" style="max-width: 1240px; width: 97%; max-height: 94vh; display: flex; flex-direction: column;">
+      <div class="modal-resize-handle" data-modal="modal-conciliacao-bancaria" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38; flex-shrink: 0;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🏦</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Conciliação Bancária Inteligente | OFX & CSV</span>
+              <span class="badge-ped" style="font-size: 10.5px; background: rgba(168, 85, 247, 0.18); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4);">
+                🤖 MOTOR HEURÍSTICO & BAIXA EM LOTE
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Importe extratos de qualquer banco (Itaú, Bradesco, Inter, Nubank, Cora, C6) e faça a baixa em 1 clique
+            </div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" tabindex="-1" onclick="fecharModalConciliacaoBancaria()" title="Fechar janela (Esc)">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto; flex: 1;">
+        
+        <!-- DROPZONE COMPACTA DE EXTRATO BANCÁRIO -->
+        <div id="conciliacao-dropzone" class="dropzone-box" onclick="document.getElementById('conciliacao-file-input').click()"
+             ondragover="aoArrastarSobreConciliacaoDropzone(event)"
+             ondragleave="aoSairConciliacaoDropzone(event)"
+             ondrop="aoSoltarArquivoConciliacao(event)"
+             style="cursor: pointer; border: 2px dashed rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.04); border-radius: 12px; padding: 22px; text-align: center; transition: all 0.2s ease;">
+          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)">
+          <div style="font-size: 32px; margin-bottom: 6px;">📂</div>
+          <div style="font-size: 14px; font-weight: 700; color: #e2e8f0;">
+            Arraste e solte o arquivo de extrato bancário (<strong style="color: #c084fc;">.OFX</strong> ou <strong style="color: #38bdf8;">.CSV</strong>) aqui
+          </div>
+          <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">
+            Ou clique para procurar em seu computador · Compatível com todos os bancos do Brasil
+          </div>
+        </div>
+
+        <!-- RESUMO ANALÍTICO DO EXTRATO CARREGADO -->
+        <div id="conciliacao-resumo-painel" style="display: none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 6px;">
+          <div style="background: #0f172a; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Instituição & Conta</div>
+            <div id="conc-resumo-banco" style="font-size: 14px; font-weight: 800; color: #fff; margin-top: 3px; font-family: monospace;">-</div>
+            <div id="conc-resumo-periodo" style="font-size: 11px; color: #38bdf8; margin-top: 2px;">-</div>
+          </div>
+          <div style="background: #0f172a; border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 8px; padding: 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase;">Total Créditos (Entradas)</div>
+            <div id="conc-resumo-creditos" style="font-size: 16px; font-weight: 800; color: #34d399; margin-top: 3px; font-family: monospace;">R$ 0,00</div>
+          </div>
+          <div style="background: #0f172a; border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 8px; padding: 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #f87171; text-transform: uppercase;">Total Débitos (Saídas)</div>
+            <div id="conc-resumo-debitos" style="font-size: 16px; font-weight: 800; color: #f87171; margin-top: 3px; font-family: monospace;">R$ 0,00</div>
+          </div>
+          <div style="background: #0f172a; border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase;">Saldo Final Informado</div>
+            <div id="conc-resumo-saldo" style="font-size: 16px; font-weight: 800; color: #38bdf8; margin-top: 3px; font-family: monospace;">R$ 0,00</div>
+          </div>
+        </div>
+
+        <!-- BARRA DE SELEÇÃO E FILTROS DE CONCILIAÇÃO -->
+        <div id="conciliacao-barra-acoes" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding: 10px 14px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: #e2e8f0; cursor: pointer; user-select: none;">
+              <input type="checkbox" id="conc-check-todos" onchange="aoAlternarTodosConciliacao(this.checked)" style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;">
+              <span>Selecionar Prontos para Baixa</span>
+            </label>
+            <div style="display: flex; gap: 6px;">
+              <button type="button" class="fin-tab-btn active" id="btn-filtro-conc-todos" tabindex="-1" style="padding: 4px 10px; font-size: 11px;" onclick="filtrarTabelaConciliacao('TODOS')">
+                Todos (<span id="conc-cont-todos">0</span>)
+              </button>
+              <button type="button" class="fin-tab-btn" id="btn-filtro-conc-match" tabindex="-1" style="padding: 4px 10px; font-size: 11px;" onclick="filtrarTabelaConciliacao('MATCH')">
+                🟢 Correspondentes (<span id="conc-cont-match">0</span>)
+              </button>
+              <button type="button" class="fin-tab-btn" id="btn-filtro-conc-sem-match" tabindex="-1" style="padding: 4px 10px; font-size: 11px;" onclick="filtrarTabelaConciliacao('SEM_MATCH')">
+                ⚪ Sem Match (<span id="conc-cont-sem-match">0</span>)
+              </button>
+            </div>
+          </div>
+          <div id="conc-contador-selecionados" style="font-size: 12px; color: #94a3b8; font-weight: 600;">
+            0 transações selecionadas
+          </div>
+        </div>
+
+        <!-- TABELA COMPARATIVA DE CONCILIAÇÃO LADO A LADO -->
+        <div id="conciliacao-container-tabela" style="display: none; overflow-x: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: #0c1222;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+            <thead>
+              <tr style="background: #111e38; border-bottom: 1px solid rgba(255,255,255,0.12); color: #94a3b8; font-size: 11px; text-transform: uppercase;">
+                <th style="padding: 10px 14px; width: 44px; text-align: center;">Sel.</th>
+                <th style="padding: 10px 14px; min-width: 250px;">Extrato Bancário</th>
+                <th style="padding: 10px 14px; min-width: 320px;">Lançamento Sugerido no ERP</th>
+                <th style="padding: 10px 14px; width: 140px; text-align: right;">Diferença / Taxa</th>
+                <th style="padding: 10px 14px; width: 120px; text-align: center;">Score</th>
+              </tr>
+            </thead>
+            <tbody id="conciliacao-tbody">
+              <!-- LINHAS INJETADAS DINAMICAMENTE -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- RODAPÉ DO MODAL -->
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 10px; flex-shrink: 0;">
+        <button type="button" tabindex="-1" class="btn-top btn-row-action" onclick="fecharModalConciliacaoBancaria()">Cancelar</button>
+        <button type="button" class="btn-top btn-emerald-glow" id="btn-confirmar-conciliacao" style="display: none; font-weight: 800; font-size: 12.5px; padding: 8px 18px;" onclick="confirmarConciliacaoLote()">
+          <span>💾</span> Confirmar Baixa em Lote (<span id="conc-btn-qtd">0</span>)
         </button>
       </div>
     </div>
@@ -10660,6 +10790,86 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       window.open(`https://wa.me/55${tel}?text=${msg}`, '_blank');
     }
 
+    let pedidoFiscalVinculadoId = null;
+
+    function validarNcmCampoFiscal(inputEl) {
+      if (!inputEl) return true;
+      const ncmLimpo = String(inputEl.value || '').replace(/\D/g, '');
+      const alerta = document.getElementById('fiscal-alerta-ncm');
+      const btnTransmitir = document.getElementById('btn-transmitir-nfe');
+
+      if (ncmLimpo.length !== 8) {
+        inputEl.style.borderColor = '#ef4444';
+        inputEl.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.25)';
+        if (alerta) alerta.style.display = 'flex';
+        if (btnTransmitir) btnTransmitir.disabled = true;
+        return false;
+      } else {
+        inputEl.style.borderColor = '#fbbf24';
+        inputEl.style.boxShadow = 'none';
+        if (alerta) alerta.style.display = 'none';
+        if (btnTransmitir) btnTransmitir.disabled = false;
+        return true;
+      }
+    }
+
+    function abrirModalFiscalPorPedidoId(pedidoId) {
+      if (!pedidoId) {
+        mostrarToast('Selecione ou salve o pedido antes de emitir a nota fiscal.');
+        return;
+      }
+
+      pedidoFiscalVinculadoId = pedidoId;
+      const pedido = (typeof listaPedidos !== 'undefined') ? listaPedidos.find(p => String(p.id) === String(pedidoId)) : null;
+
+      if (!pedido) {
+        mostrarToast('Pedido não localizado na base de dados.');
+        return;
+      }
+
+      // Procura o cliente na lista de clientes
+      const cliente = (typeof clientes !== 'undefined')
+        ? clientes.find(c => String(c.id) === String(pedido.cliente_id) || c.nome === pedido.cliente_nome)
+        : null;
+
+      clienteFiscalSelecionado = cliente || {
+        id: pedido.cliente_id || null,
+        nome: pedido.cliente_nome || 'CONSUMIDOR FINAL',
+        cpf: '',
+        cnpj: '',
+        uf: pedido.uf || 'RS',
+        cidade: pedido.cidade || 'Sapiranga'
+      };
+
+      abrirModalFiscal(clienteFiscalSelecionado.id);
+
+      // Preenche os dados do pedido
+      const inpItem = document.getElementById('fiscal-item');
+      const inpValor = document.getElementById('fiscal-valor');
+      const selCfop = document.getElementById('fiscal-natureza');
+      const inpNcm = document.getElementById('fiscal-ncm');
+
+      if (inpItem) inpItem.value = pedido.itens || 'PRODUTOS ARTESANAIS EM COURO';
+      if (inpValor) inpValor.value = Number(pedido.valor_total || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+      // CFOP automático: se destinatário RS -> 5101/5102; fora do RS -> 6101/6102
+      const ufDest = (pedido.uf || clienteFiscalSelecionado.uf || 'RS').toUpperCase();
+      if (selCfop) {
+        selCfop.value = ufDest === 'RS' ? '5102' : '6102';
+      }
+
+      // Validação preventiva dos NCMs dos itens
+      validarNcmCampoFiscal(inpNcm);
+    }
+
+    function baixarXmlFiscal() {
+      if (ultimaNotaFiscalGerada?.chaveAcesso) {
+        window.open(`/api/nfe/xml/${ultimaNotaFiscalGerada.chaveAcesso}`, '_blank');
+      } else {
+        mostrarToast('Nenhum XML de nota autorizada disponível para download.');
+      }
+    }
+
     function abrirModalFiscal(clienteId) {
       aplicarTamanhoSalvoModal('modal-fiscal');
       const _cnt = document.querySelector('#modal-fiscal .modal-container');
@@ -10691,6 +10901,95 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     // Transmissão real do documento fiscal via API REST
     async function transmitirNfeModal() {
+      const inpNcm = document.getElementById('fiscal-ncm');
+      if (!validarNcmCampoFiscal(inpNcm)) {
+        mostrarToast('⚠️ Bloqueio Fiscal: O código NCM deve ter exatamente 8 dígitos!');
+        inpNcm?.focus();
+        return;
+      }
+
+      if (!clienteFiscalSelecionado) {
+        mostrarToast('Selecione um cliente antes de transmitir a nota fiscal.');
+        return;
+      }
+
+      const valorNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor')?.value || '0');
+      const itemDesc = document.getElementById('fiscal-item')?.value || 'PRODUTOS ARTESANAIS EM COURO';
+      const ncmVal = (document.getElementById('fiscal-ncm')?.value || '41063110').replace(/\D/g, '');
+      const cfopVal = document.getElementById('fiscal-natureza')?.value || '5102';
+      const btn = document.getElementById('btn-transmitir-nfe');
+
+      try {
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span>⏳</span> Transmitindo à SEFAZ...';
+        }
+        mostrarToast('🏛️ Transmitindo NF-e Modelo 55 para autorização na SEFAZ...');
+
+        const resp = await fetch('/api/nfe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tipoNota: 'NFE_PRODUTO',
+            pedidoId: pedidoFiscalVinculadoId || null,
+            cliente: clienteFiscalSelecionado,
+            valores: { valorTotal: valorNum },
+            produtos: [
+              {
+                codigo: 'ITEM-01',
+                descricao: itemDesc,
+                ncm: ncmVal,
+                cfop: cfopVal,
+                unidade: 'UN',
+                quantidade: 1,
+                valor_unitario: valorNum,
+                valor_total: valorNum
+              }
+            ]
+          })
+        });
+
+        const dados = await resp.json();
+        if (resp.ok && dados.success) {
+          ultimaNotaFiscalGerada = dados;
+          mostrarToast(`✅ NF-e #${dados.numeroNfe} autorizada com sucesso na SEFAZ!`);
+
+          // Atualiza card visual da chave de acesso
+          const chaveEl = document.getElementById('fiscal-chave-acesso-preview');
+          if (chaveEl) chaveEl.textContent = dados.chaveFormatada || dados.chaveAcesso;
+
+          const badgeStatus = document.getElementById('fiscal-badge-ambiente');
+          if (badgeStatus) {
+            badgeStatus.innerHTML = `🟢 AUTORIZADA · PROTOCOLO ${dados.protocolo || ''}`;
+            badgeStatus.style.background = 'rgba(16, 185, 129, 0.2)';
+            badgeStatus.style.color = '#34d399';
+          }
+
+          // Atualiza botão de DANFE para abrir a rota oficial
+          const btnDanfe = document.getElementById('btn-fiscal-imprimir-danfe');
+          if (btnDanfe) {
+            btnDanfe.onclick = () => window.open(dados.links.danfe, '_blank');
+          }
+
+          // Se tiver pedido vinculado, recarrega lista de pedidos
+          if (typeof carregarPedidosApi === 'function') await carregarPedidosApi();
+          if (typeof renderizarPedidos === 'function') renderizarPedidos();
+
+        } else {
+          mostrarToast('Erro ao emitir nota: ' + (dados.error || 'Falha no processamento fiscal'));
+        }
+      } catch (err) {
+        console.error('[FISCAL] Erro de comunicação:', err);
+        mostrarToast('Falha na comunicação com a API Fiscal: ' + err.message);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>🚀</span> Transmitir NF-e para a SEFAZ';
+        }
+      }
+    }
+
+    async function transmitirNfeModalLegado() {
       if (!clienteFiscalSelecionado) {
         alert('Selecione um cliente na tabela antes de transmitir a nota fiscal.');
         return;
@@ -16442,6 +16741,423 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
+    // ========================================================
+    // MÓDULO DE CONCILIAÇÃO BANCÁRIA (OFX / CSV) (TICKETS 8, 9 & 10)
+    // ========================================================
+    let dadosConciliacaoAtual = null;
+    let filtroConciliacaoAtivo = 'TODOS';
+    let itensConciliacaoSelecionados = new Set();
+
+    function abrirModalConciliacaoBancaria() {
+      aplicarTamanhoSalvoModal('modal-conciliacao-bancaria');
+      const modal = document.getElementById('modal-conciliacao-bancaria');
+      if (modal) {
+        const _cnt = modal.querySelector('.modal-container');
+        if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
+        modal.classList.add('active');
+        
+        setTimeout(() => {
+          const dropzone = document.getElementById('conciliacao-dropzone');
+          if (dropzone) dropzone.focus();
+        }, 50);
+      }
+    }
+
+    function fecharModalConciliacaoBancaria() {
+      const modal = document.getElementById('modal-conciliacao-bancaria');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function aoArrastarSobreConciliacaoDropzone(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('conciliacao-dropzone');
+      if (dz) {
+        dz.style.borderColor = '#c084fc';
+        dz.style.background = 'rgba(168, 85, 247, 0.12)';
+      }
+    }
+
+    function aoSairConciliacaoDropzone(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('conciliacao-dropzone');
+      if (dz) {
+        dz.style.borderColor = 'rgba(168, 85, 247, 0.5)';
+        dz.style.background = 'rgba(168, 85, 247, 0.04)';
+      }
+    }
+
+    function aoSoltarArquivoConciliacao(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      aoSairConciliacaoDropzone(e);
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        processarArquivoConciliacao(files[0]);
+      }
+    }
+
+    function aoSelecionarArquivoConciliacao(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        processarArquivoConciliacao(files[0]);
+      }
+    }
+
+    async function processarArquivoConciliacao(file) {
+      if (!file) return;
+      const nome = file.name || '';
+      const extensao = nome.split('.').pop().toUpperCase();
+      
+      mostrarToast(`📂 Lendo extrato bancário "${nome}"...`);
+      
+      const reader = new FileReader();
+      reader.onload = async function(evt) {
+        const conteudo = evt.target.result;
+        await enviarExtratoParaConciliacao(conteudo, extensao, nome);
+      };
+      reader.readAsText(file, 'ISO-8859-1');
+    }
+
+    async function enviarExtratoParaConciliacao(conteudo, formato, nomeArquivo) {
+      try {
+        const dropzone = document.getElementById('conciliacao-dropzone');
+        if (dropzone) {
+          dropzone.innerHTML = `
+            <div style="font-size: 28px; margin-bottom: 6px;">⏳</div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #c084fc;">
+              Processando "${nomeArquivo}" e cruzando dados com o ERP...
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+              Executando inteligência de score e correspondência de vencimentos
+            </div>
+          `;
+        }
+
+        const resp = await fetch('/api/financeiro/conciliacao/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            conteudo: conteudo,
+            tipoArquivo: formato,
+            banco: nomeArquivo
+          })
+        });
+
+        const data = await resp.json();
+        if (!resp.ok || !data.success) {
+          mostrarToast(data.error || 'Erro ao processar arquivo de extrato bancário.');
+          restaurarDropzoneConciliacao();
+          return;
+        }
+
+        dadosConciliacaoAtual = data;
+        mostrarToast(`✅ Extrato processado! ${data.totalTransacoes} transações (${data.total_auto_conciliavel} sugeridas automáticas).`);
+        renderizarPainelConciliacao(data);
+
+      } catch (err) {
+        console.error('[CONCILIACAO] Falha ao enviar extrato:', err);
+        mostrarToast('Erro de comunicação com o servidor ao conciliar extrato.');
+        restaurarDropzoneConciliacao();
+      }
+    }
+
+    function restaurarDropzoneConciliacao() {
+      const dropzone = document.getElementById('conciliacao-dropzone');
+      if (dropzone) {
+        dropzone.innerHTML = `
+          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)">
+          <div style="font-size: 32px; margin-bottom: 6px;">📂</div>
+          <div style="font-size: 14px; font-weight: 700; color: #e2e8f0;">
+            Arraste e solte o arquivo de extrato bancário (<strong style="color: #c084fc;">.OFX</strong> ou <strong style="color: #38bdf8;">.CSV</strong>) aqui
+          </div>
+          <div style="font-size: 11.5px; color: #94a3b8; margin-top: 4px;">
+            Ou clique para procurar em seu computador · Compatível com todos os bancos do Brasil
+          </div>
+        `;
+      }
+    }
+
+    function renderizarPainelConciliacao(data) {
+      const dropzone = document.getElementById('conciliacao-dropzone');
+      const painelResumo = document.getElementById('conciliacao-resumo-painel');
+      const barraAcoes = document.getElementById('conciliacao-barra-acoes');
+      const containerTabela = document.getElementById('conciliacao-container-tabela');
+      const btnConfirmar = document.getElementById('btn-confirmar-conciliacao');
+
+      // Dropzone recolhida
+      if (dropzone) {
+        dropzone.style.padding = '12px 18px';
+        dropzone.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 20px;">📄</span>
+              <span style="font-size: 12.5px; font-weight: 700; color: #e2e8f0;">
+                Extrato: <strong style="color: #c084fc;">${data.formato || 'ARQUIVO'}</strong> (${data.banco || 'BANCO'})
+              </span>
+            </div>
+            <button type="button" tabindex="-1" class="btn-top" style="padding: 4px 10px; font-size: 11px; background: rgba(255,255,255,0.06);" onclick="event.stopPropagation(); restaurarDropzoneConciliacao(); document.getElementById('conciliacao-file-input').click();">
+              🔄 Trocar Extrato
+            </button>
+          </div>
+        `;
+      }
+
+      // Preenche os cards de resumo
+      if (painelResumo) {
+        painelResumo.style.display = 'grid';
+        document.getElementById('conc-resumo-banco').textContent = (data.banco || 'BANCO') + (data.conta ? ' - C/C ' + data.conta : '');
+        document.getElementById('conc-resumo-periodo').textContent = `${data.totalTransacoes} transações processadas`;
+        document.getElementById('conc-resumo-creditos').textContent = (data.totalCreditos || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('conc-resumo-debitos').textContent = (data.totalDebitos || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('conc-resumo-saldo').textContent = (data.saldoFinal !== null && data.saldoFinal !== undefined)
+          ? Number(data.saldoFinal).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+          : 'N/A';
+      }
+
+      if (barraAcoes) barraAcoes.style.display = 'flex';
+      if (containerTabela) containerTabela.style.display = 'block';
+      if (btnConfirmar) btnConfirmar.style.display = 'inline-flex';
+
+      // Marca por padrão todos os com auto_conciliavel = true
+      itensConciliacaoSelecionados.clear();
+      (data.transacoes || []).forEach((t, idx) => {
+        if (t.score >= 0.8 && t.sugestao) {
+          itensConciliacaoSelecionados.add(idx);
+        }
+      });
+
+      const chkMaster = document.getElementById('conc-check-todos');
+      if (chkMaster) chkMaster.checked = itensConciliacaoSelecionados.size > 0;
+
+      atualizarContadoresEFiltrar();
+    }
+
+    function filtrarTabelaConciliacao(aba) {
+      filtroConciliacaoAtivo = aba;
+      document.getElementById('btn-filtro-conc-todos')?.classList.toggle('active', aba === 'TODOS');
+      document.getElementById('btn-filtro-conc-match')?.classList.toggle('active', aba === 'MATCH');
+      document.getElementById('btn-filtro-conc-sem-match')?.classList.toggle('active', aba === 'SEM_MATCH');
+      renderizarLinhasConciliacao();
+    }
+
+    function atualizarContadoresEFiltrar() {
+      if (!dadosConciliacaoAtual) return;
+      const total = dadosConciliacaoAtual.transacoes.length;
+      const comMatch = dadosConciliacaoAtual.transacoes.filter(t => t.possui_match).length;
+      const semMatch = total - comMatch;
+
+      const elTotal = document.getElementById('conc-cont-todos');
+      const elMatch = document.getElementById('conc-cont-match');
+      const elSemMatch = document.getElementById('conc-cont-sem-match');
+      if (elTotal) elTotal.textContent = total;
+      if (elMatch) elMatch.textContent = comMatch;
+      if (elSemMatch) elSemMatch.textContent = semMatch;
+
+      renderizarLinhasConciliacao();
+      atualizarEstadoBotaoConfirmar();
+    }
+
+    function renderizarLinhasConciliacao() {
+      const tbody = document.getElementById('conciliacao-tbody');
+      if (!tbody || !dadosConciliacaoAtual) return;
+
+      const transacoes = dadosConciliacaoAtual.transacoes || [];
+      const filtradas = transacoes.map((item, idxOriginal) => ({ item, idxOriginal })).filter(({ item }) => {
+        if (filtroConciliacaoAtivo === 'MATCH') return item.possui_match;
+        if (filtroConciliacaoAtivo === 'SEM_MATCH') return !item.possui_match;
+        return true;
+      });
+
+      if (filtradas.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 28px; color: #94a3b8; font-size: 13px;">
+              Nenhuma transação encontrada para este filtro.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtradas.map(({ item, idxOriginal }) => {
+        const ext = item.transacao_extrato;
+        const sug = item.sugestao;
+        const isCredito = ext.tipo === 'CREDITO';
+        const corTipo = isCredito ? '#34d399' : '#f87171';
+        const iconeTipo = isCredito ? '📥' : '📤';
+        const selecionado = itensConciliacaoSelecionados.has(idxOriginal);
+
+        let badgeMatch = '';
+        let infoErp = '';
+        let diferencaTaxa = 0;
+
+        if (item.score >= 0.95) {
+          badgeMatch = '<span class="badge-ped" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">🟢 EXATO (100%)</span>';
+        } else if (item.score >= 0.70) {
+          badgeMatch = `<span class="badge-ped" style="background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3);">🟡 SUGERIDO (${Math.round(item.score * 100)}%)</span>`;
+        } else {
+          badgeMatch = '<span class="badge-ped" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3);">⚪ SEM MATCH</span>';
+        }
+
+        if (sug) {
+          diferencaTaxa = Math.max(0, parseFloat((sug.valor - ext.valor).toFixed(2)));
+          infoErp = `
+            <div style="font-weight: 700; color: #fff; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <span style="color: #38bdf8;">#${sug.lancamento_id}</span>
+              <span style="text-transform: uppercase;">${sug.descricao || 'LANÇAMENTO'}</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              Venc: <strong style="color: #e2e8f0;">${sug.data_vencimento || '-'}</strong> · 
+              Valor ERP: <strong style="color: #fff; font-family: monospace;">${Number(sug.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong> ·
+              Cat: <span style="color: #cbd5e1;">${sug.categoria || 'GERAL'}</span>
+            </div>
+          `;
+        } else {
+          infoErp = `
+            <div style="color: #64748b; font-style: italic; font-size: 11.5px;">
+              Nenhum título em aberto correspondente no ERP.
+            </div>
+          `;
+        }
+
+        return `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: ${selecionado ? 'rgba(168, 85, 247, 0.06)' : 'transparent'};">
+            <td style="padding: 10px 14px; text-align: center;">
+              <input type="checkbox" ${selecionado ? 'checked' : ''} ${!sug ? 'disabled' : ''} 
+                     onchange="aoAlternarSelecaoConciliacao(${idxOriginal}, this.checked)"
+                     style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;">
+            </td>
+            <td style="padding: 10px 14px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 13px;">${iconeTipo}</span>
+                <div>
+                  <div style="font-weight: 700; color: #e2e8f0; font-size: 12px; text-transform: uppercase;">
+                    ${ext.descricao || 'TRANSAÇÃO'}
+                  </div>
+                  <div style="font-size: 11px; color: #94a3b8; margin-top: 1px;">
+                    Data: <strong style="color: #fff;">${ext.data}</strong> · FITID: <span style="font-family: monospace;">${ext.fitid || '-'}</span>
+                  </div>
+                </div>
+              </div>
+              <div style="font-size: 13px; font-weight: 800; color: ${corTipo}; font-family: monospace; margin-top: 3px;">
+                ${isCredito ? '+' : '-'} ${Number(ext.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+              </div>
+            </td>
+            <td style="padding: 10px 14px;">
+              ${infoErp}
+            </td>
+            <td style="padding: 10px 14px; text-align: right;">
+              ${sug ? `
+                <div style="display: inline-flex; align-items: center; gap: 4px;">
+                  <span style="font-size: 10.5px; color: #94a3b8;">R$</span>
+                  <input type="number" step="0.01" min="0" id="conc-dif-taxa-${idxOriginal}" value="${diferencaTaxa.toFixed(2)}"
+                         style="width: 75px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #fff; font-size: 11.5px; padding: 4px 6px; text-align: right; font-family: monospace;"
+                         title="Diferença ou taxa bancária cobrada">
+                </div>
+              ` : '<span style="color: #475569;">-</span>'}
+            </td>
+            <td style="padding: 10px 14px; text-align: center;">
+              ${badgeMatch}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function aoAlternarSelecaoConciliacao(idxOriginal, marcado) {
+      if (marcado) {
+        itensConciliacaoSelecionados.add(idxOriginal);
+      } else {
+        itensConciliacaoSelecionados.delete(idxOriginal);
+      }
+      atualizarEstadoBotaoConfirmar();
+    }
+
+    function aoAlternarTodosConciliacao(marcar) {
+      if (!dadosConciliacaoAtual) return;
+      itensConciliacaoSelecionados.clear();
+      if (marcar) {
+        dadosConciliacaoAtual.transacoes.forEach((t, idx) => {
+          if (t.sugestao) {
+            itensConciliacaoSelecionados.add(idx);
+          }
+        });
+      }
+      renderizarLinhasConciliacao();
+      atualizarEstadoBotaoConfirmar();
+    }
+
+    function atualizarEstadoBotaoConfirmar() {
+      const qtd = itensConciliacaoSelecionados.size;
+      const elQtd = document.getElementById('conc-btn-qtd');
+      const elCont = document.getElementById('conc-contador-selecionados');
+      const btn = document.getElementById('btn-confirmar-conciliacao');
+
+      if (elQtd) elQtd.textContent = qtd;
+      if (elCont) elCont.textContent = `${qtd} transações selecionadas para baixa`;
+      if (btn) btn.disabled = (qtd === 0);
+    }
+
+    async function confirmarConciliacaoLote() {
+      if (!dadosConciliacaoAtual || itensConciliacaoSelecionados.size === 0) {
+        mostrarToast('Selecione ao menos uma transação para conciliar.');
+        return;
+      }
+
+      const reconciliacoes = [];
+      for (const idx of itensConciliacaoSelecionados) {
+        const item = dadosConciliacaoAtual.transacoes[idx];
+        if (!item || !item.sugestao) continue;
+
+        const inpTarifa = document.getElementById(`conc-dif-taxa-${idx}`);
+        const tarifa = inpTarifa ? parseFloat(inpTarifa.value) || 0 : 0;
+
+        reconciliacoes.push({
+          fitid: item.transacao_extrato.fitid,
+          lancamento_id: item.sugestao.lancamento_id,
+          data_pagamento: item.transacao_extrato.data,
+          diferenca_tarifa: tarifa
+        });
+      }
+
+      const btn = document.getElementById('btn-confirmar-conciliacao');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Gravando Baixas no Financeiro...';
+      }
+
+      try {
+        const resp = await fetch('/api/financeiro/conciliacao/reconciliar-lote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reconciliacoes })
+        });
+
+        const resData = await resp.json();
+        if (!resp.ok || !resData.success) {
+          mostrarToast(resData.error || 'Erro ao processar reconciliação em lote.');
+          return;
+        }
+
+        mostrarToast(`✅ Sucesso! ${resData.total_reconciliados} título(s) baixado(s) com sucesso!`);
+        fecharModalConciliacaoBancaria();
+
+        if (typeof carregarFinanceiroApi === 'function') await carregarFinanceiroApi();
+        if (typeof renderizarFinanceiro === 'function') renderizarFinanceiro();
+
+      } catch (err) {
+        console.error('[CONCILIACAO] Falha ao confirmar lote:', err);
+        mostrarToast('Erro de comunicação ao salvar conciliação.');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<span>💾</span> Confirmar Baixa em Lote (<span id="conc-btn-qtd">${itensConciliacaoSelecionados.size}</span>)`;
+        }
+      }
+    }
+
     // CONTROLE DO MODAL DE LANÇAMENTO FINANCEIRO (NORMA MODERNA)
     // ========================================================
     function atualizarBadgeTipoFinanceiro(tipo) {
@@ -17431,7 +18147,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <button class="erp-context-item" onclick="enviarRastreioWhatsApp(${p.id}); fecharContextMenu();" style="color: #34d399; font-weight: 700;">📱 Enviar Rastreio via WhatsApp</button>
         <button class="erp-context-item" onclick="abrirModalEditarPedido(${p.id}); fecharContextMenu();">✏️ Editar Pedido & Itens</button>
         <button class="erp-context-item" onclick="abrirModalEtiquetaPorPedidoId(${p.id}); fecharContextMenu();">🏷️ Imprimir Etiqueta</button>
-        <button class="erp-context-item" onclick="abrirModalFiscal(); fecharContextMenu();">🧾 Emitir Nota Fiscal</button>
+        <button class="erp-context-item" onclick="abrirModalFiscalPorPedidoId(${p.id}); fecharContextMenu();">🧾 Emitir NF-e / Fiscal</button>
         ${whatsBtn}
       `;
       if (typeof posicionarContextMenu === 'function') {

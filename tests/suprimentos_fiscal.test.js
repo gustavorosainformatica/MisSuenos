@@ -1384,3 +1384,426 @@ test('TICKET 08 - CONCILIAÇÃO: Reconciliação em lote sem duplicação de lan
 
 
 
+
+
+import handlerFinanceiro from '../api/financeiro.js';
+
+test('TICKET 09 - API: POST /api/financeiro/conciliacao/upload com OFX e conciliação heurística', async () => {
+  const descTeste = 'TESTE VENDA COUROS PEDIDO 8888';
+  await db.run('DELETE FROM financeiro_lancamentos WHERE descricao = ?', [descTeste]);
+  const insertRes = await db.run(`
+    INSERT INTO financeiro_lancamentos (
+      tipo, origem, descricao, categoria, valor, data_vencimento, status, data_cadastro
+    ) VALUES ('RECEBER', 'PEDIDO', ?, 'VENDAS', 350.00, '2026-11-10', 'PENDENTE', '2026-11-10T10:00:00Z')
+  `, [descTeste]);
+  const lancamentoId = insertRes.lastInsertRowid;
+
+  const ofxExemplo = `
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+<OFX>
+<BANKMSGSRSV1>
+<STMTTRNRS>
+<STMTRS>
+<CURDEF>BRL
+<BANKACCTFROM>
+<BANKID>260
+<ACCTID>12345-6
+</BANKACCTFROM>
+<BANKTRANLIST>
+<DTSTART>20261110
+<DTEND>20261110
+<STMTTRN>
+<TRNTYPE>CREDIT
+<DTPOSTED>20261110120000[-03:BRT]
+<TRNAMT>350.00
+<FITID>OFX_TEST_8888_01
+<MEMO>PIX TESTE VENDA COUROS PEDIDO 8888
+</STMTTRN>
+</BANKTRANLIST>
+<LEDGERBAL>
+<BALAMT>1500.00
+<DTASOF>20261110120000[-03:BRT]
+</LEDGERBAL>
+</STMTRS>
+</STMTTRNRS>
+</BANKMSGSRSV1>
+</OFX>
+  `;
+
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', ['OFX_TEST_8888_01']);
+
+  const req = {
+    method: 'POST',
+    url: '/api/financeiro/conciliacao/upload',
+    body: {
+      conteudo: ofxExemplo,
+      tipoArquivo: 'OFX'
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerFinanceiro(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.totalTransacoes, 1);
+  assert.strictEqual(data.total_auto_conciliavel, 1);
+  assert.strictEqual(data.transacoes.length, 1);
+  assert.strictEqual(data.transacoes[0].transacao_extrato.fitid, 'OFX_TEST_8888_01');
+  assert.strictEqual(data.transacoes[0].sugestao.lancamento_id, lancamentoId);
+  assert.strictEqual(data.transacoes[0].score, 1.0);
+
+  const registro = await db.get('SELECT * FROM conciliacao_extratos WHERE fitid = ?', ['OFX_TEST_8888_01']);
+  assert.ok(registro, 'Registro no banco conciliacao_extratos deve existir');
+  assert.strictEqual(registro.status, 'PENDENTE');
+  assert.strictEqual(Number(registro.score_match), 1.0);
+
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', ['OFX_TEST_8888_01']);
+  await db.run('DELETE FROM financeiro_lancamentos WHERE id = ?', [lancamentoId]);
+});
+
+test('TICKET 09 - API: POST /api/financeiro/conciliacao/reconciliar-lote com baixa e taxa bancária', async () => {
+  const descTeste = 'TESTE BOLETO CLIENTE 9999';
+  const insertLanc = await db.run(`
+    INSERT INTO financeiro_lancamentos (
+      tipo, origem, descricao, categoria, valor, data_vencimento, status, data_cadastro
+    ) VALUES ('RECEBER', 'PEDIDO', ?, 'VENDAS', 100.00, '2026-11-10', 'PENDENTE', '2026-11-10T10:00:00Z')
+  `, [descTeste]);
+  const lancId = insertLanc.lastInsertRowid;
+
+  const fitidTeste = 'FITID_RECON_LOTE_01';
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
+  await db.run(`
+    INSERT INTO conciliacao_extratos (
+      origem, fitid, data_transacao, descricao, tipo, valor, status, transacao_financeiro_id, score_match, criado_em
+    ) VALUES ('OFX', ?, '2026-11-10', 'CRED LIQ BOLETO 9999', 'CREDITO', 98.50, 'PENDENTE', ?, 0.85, '2026-11-10T10:00:00Z')
+  `, [fitidTeste, lancId]);
+
+  const req = {
+    method: 'POST',
+    url: '/api/financeiro/conciliacao/reconciliar-lote',
+    body: {
+      reconciliacoes: [
+        {
+          fitid: fitidTeste,
+          lancamento_id: lancId,
+          data_pagamento: '2026-11-10',
+          diferenca_tarifa: 1.50
+        }
+      ]
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerFinanceiro(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.total_reconciliados, 1);
+  assert.strictEqual(data.total_tarifas_ajustadas, 1);
+
+  const lancAtualizado = await db.get('SELECT * FROM financeiro_lancamentos WHERE id = ?', [lancId]);
+  assert.strictEqual(lancAtualizado.status, 'PAGO');
+  assert.strictEqual(lancAtualizado.data_pagamento, '2026-11-10');
+
+  const tarifaGerada = await db.get(`
+    SELECT * FROM financeiro_lancamentos 
+    WHERE categoria = 'TARIFAS BANCÁRIAS' AND observacoes LIKE ?
+  `, [`%#${lancId}%`]);
+  assert.ok(tarifaGerada, 'Despesa de tarifa bancária deve ter sido gerada');
+  assert.strictEqual(tarifaGerada.tipo, 'PAGAR');
+  assert.strictEqual(Number(tarifaGerada.valor), 1.50);
+  assert.strictEqual(tarifaGerada.status, 'PAGO');
+
+  const extratoAtualizado = await db.get('SELECT * FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
+  assert.strictEqual(extratoAtualizado.status, 'CONCILIADO');
+
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
+  await db.run('DELETE FROM financeiro_lancamentos WHERE id = ?', [lancId]);
+  if (tarifaGerada) {
+    await db.run('DELETE FROM financeiro_lancamentos WHERE id = ?', [tarifaGerada.id]);
+  }
+});
+
+test('TICKET 09 - API: GET /api/financeiro/conciliacao/extratos lista registros com filtros', async () => {
+  const fitidFiltro = 'FITID_EXTRATO_FILTRO_01';
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidFiltro]);
+  await db.run(`
+    INSERT INTO conciliacao_extratos (
+      origem, fitid, data_transacao, descricao, tipo, valor, status, criado_em
+    ) VALUES ('CSV', ?, '2026-11-10', 'TRANSFERENCIA FILTRO', 'CREDITO', 250.00, 'CONCILIADO', '2026-11-10T10:00:00Z')
+  `, [fitidFiltro]);
+
+  const req = {
+    method: 'GET',
+    url: '/api/financeiro/conciliacao/extratos?status=CONCILIADO'
+  };
+  const res = criarMockRes();
+
+  await handlerFinanceiro(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.ok(Array.isArray(data.extratos));
+  const achado = data.extratos.find(e => e.fitid === fitidFiltro);
+  assert.ok(achado, 'Deve encontrar o extrato inserido no filtro de CONCILIADO');
+
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidFiltro]);
+});
+
+
+test('TICKET 10 - UI: Modal #modal-conciliacao-bancaria possui dropzone, resumo e tabela comparativa', () => {
+  const html = fs.readFileSync('public/index.html', 'utf8');
+
+  // 1. Botão no Financeiro
+  assert.ok(html.includes('abrirModalConciliacaoBancaria()'), 'Botão de abrir conciliação deve existir no financeiro');
+
+  // 2. Estrutura do Modal
+  assert.ok(html.includes('id="modal-conciliacao-bancaria"'), 'Modal de conciliação bancária deve existir');
+  assert.ok(html.includes('id="conciliacao-dropzone"'), 'Dropzone de arquivo de extrato deve existir');
+  assert.ok(html.includes('id="conciliacao-resumo-painel"'), 'Painel de resumo analítico deve existir');
+  assert.ok(html.includes('id="conciliacao-tbody"'), 'Tabela de conciliação lado a lado deve existir');
+  assert.ok(html.includes('id="btn-confirmar-conciliacao"'), 'Botão de confirmação de baixa em lote deve existir');
+
+  // 3. Ergonomia e Padrões
+  assert.ok(html.includes('onclick="fecharModalConciliacaoBancaria()"'), 'Botão fechar modal deve chamar fecharModalConciliacaoBancaria');
+  assert.ok(html.includes('tabindex="-1" onclick="fecharModalConciliacaoBancaria()"'), 'Botão fechar deve ter tabindex="-1"');
+});
+
+test('TICKET 10 - UI: JavaScript controller de conciliação bancária implementa upload, score, seleção e baixa em lote', () => {
+  const html = fs.readFileSync('public/index.html', 'utf8');
+
+  assert.ok(html.includes('function abrirModalConciliacaoBancaria()'), 'Função abrirModalConciliacaoBancaria deve estar definida');
+  assert.ok(html.includes('function fecharModalConciliacaoBancaria()'), 'Função fecharModalConciliacaoBancaria deve estar definida');
+  assert.ok(html.includes('function processarArquivoConciliacao('), 'Função processarArquivoConciliacao deve estar definida');
+  assert.ok(html.includes('function renderizarPainelConciliacao('), 'Função renderizarPainelConciliacao deve estar definida');
+  assert.ok(html.includes('function filtrarTabelaConciliacao('), 'Função filtrarTabelaConciliacao deve estar definida');
+  assert.ok(html.includes('function confirmarConciliacaoLote()'), 'Função confirmarConciliacaoLote deve estar definida');
+  assert.ok(html.includes('/api/financeiro/conciliacao/reconciliar-lote'), 'Deve disparar chamada ao endpoint de conciliação em lote');
+});
+
+
+import {
+  FiscalHub,
+  gerarChaveAcessoNfe,
+  calcularDvChaveAcesso,
+  formatarChaveAcesso,
+  validarCertificadoA1,
+  montarXmlNfe55,
+  gerarDanfeHtml
+} from '../lib/fiscal_hub.js';
+import handlerNfe from '../api/nfe.js';
+
+test('TICKET 11 - FISCAL HUB: Geração de Chave de Acesso Oficial de 44 dígitos com Dígito Verificador Módulo 11 SEFAZ', () => {
+  const base43 = '4326110000000000019155001000000001188888888';
+  const dv = calcularDvChaveAcesso(base43);
+  assert.strictEqual(dv.length, 1);
+  assert.match(dv, /^[0-9]$/);
+
+  const chave = gerarChaveAcessoNfe({
+    uf: 'RS',
+    dataEmissao: new Date('2026-11-10T12:00:00Z'),
+    cnpj: '00000000000191',
+    modelo: '55',
+    serie: 1,
+    numero: 777,
+    codigoNumerico: '12345678'
+  });
+
+  assert.strictEqual(chave.length, 44, 'A chave de acesso deve ter exatamente 44 dígitos');
+  assert.strictEqual(chave.slice(0, 2), '43', 'UF do RS é 43');
+  assert.strictEqual(chave.slice(2, 6), '2611', 'Ano e mês 2611');
+  assert.strictEqual(chave.slice(20, 22), '55', 'Modelo 55');
+  assert.strictEqual(chave.slice(22, 25), '001', 'Série 001');
+  assert.strictEqual(chave.slice(25, 34), '000000777', 'Número 777');
+
+  const formatada = formatarChaveAcesso(chave);
+  assert.strictEqual(formatada.split(' ').length, 11, 'Deve ser formatada em 11 blocos de 4 dígitos');
+});
+
+test('TICKET 11 - FISCAL HUB: Validação de Certificado Digital A1 (.pfx) e extração de vigência/CNPJ', () => {
+  const resVazio = validarCertificadoA1(Buffer.alloc(0), '1234');
+  assert.strictEqual(resVazio.valido, false);
+
+  const mockPfx = Buffer.from('MOCK_PFX_CERTIFICATE_CN=EMPRESA TESTE LTDA:00000000000191', 'utf8');
+  const resMock = validarCertificadoA1(mockPfx, 'senha123');
+  assert.strictEqual(resMock.valido, true);
+  assert.strictEqual(resMock.expirado, false);
+  assert.ok(resMock.diasRestantes > 0);
+  assert.strictEqual(resMock.cnpj, '00000000000191');
+});
+
+test('TICKET 11 - FISCAL HUB: Montagem de XML NF-e Modelo 55 e geração de layout DANFE HTML', () => {
+  const chave = '43261100000000000191550010000007771123456781';
+  const xml = montarXmlNfe55({
+    chaveAcesso: chave,
+    numero: 777,
+    serie: 1,
+    emitente: { cnpj: '00000000000191', razaoSocial: 'MIS SUEÑOS', uf: 'RS' },
+    destinatario: { nome: 'GUSTAVO ROSA', documento: '11122233344', uf: 'RS' },
+    itens: [
+      { codigo: '01', descricao: 'PELE CAPRINA RÚSTICA', ncm: '41079110', cfop: '5102', valor_total: 115.00, valor_unitario: 115.00, quantidade: 1 }
+    ],
+    totais: { valor_total: 115.00 }
+  });
+
+  assert.ok(xml.includes('<NFe xmlns="http://www.portalfiscal.inf.br/nfe">'), 'XML deve conter tag NFe');
+  assert.ok(xml.includes(`Id="NFe${chave}"`), 'XML deve conter Id da chave de 44 dígitos');
+  assert.ok(xml.includes('<NCM>41079110</NCM>'), 'XML deve conter o NCM validado');
+  assert.ok(xml.includes('<CFOP>5102</CFOP>'), 'XML deve conter o CFOP 5102');
+
+  const danfe = gerarDanfeHtml({
+    chaveAcesso: chave,
+    numero: 777,
+    serie: 1,
+    emitente: { razaoSocial: 'MIS SUEÑOS' },
+    destinatario: { nome: 'GUSTAVO ROSA' },
+    itens: [{ codigo: '01', descricao: 'PELE CAPRINA', valor_total: 115.00 }],
+    totais: { valor_total: 115.00 }
+  });
+
+  assert.ok(danfe.includes('<!DOCTYPE html>'), 'DANFE deve ser um documento HTML');
+  assert.ok(danfe.includes('DANFE'), 'DANFE deve conter título');
+  assert.ok(danfe.includes('4326 1100'), 'DANFE deve conter a chave de acesso formatada');
+});
+
+test('TICKET 12 - API: POST /api/nfe emite NF-e Modelo 55 e grava em fiscal_documentos', async () => {
+  const req = {
+    method: 'POST',
+    url: '/api/nfe',
+    body: {
+      tipoNota: 'NFE_PRODUTO',
+      cliente: {
+        nome: 'GUSTAVO ROSA TICKET 12',
+        cpf: '11122233344',
+        uf: 'RS',
+        cidade: 'Sapiranga'
+      },
+      produtos: [
+        {
+          codigo: 'SKU-FISCAL-01',
+          descricao: 'MANTA DE COURO LEGÍTIMO',
+          ncm: '42050000',
+          quantidade: 1,
+          valor_unitario: 180.00,
+          valor_total: 180.00
+        }
+      ]
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerNfe(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 201);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.tipoNota, 'NFE_PRODUTO');
+  assert.strictEqual(data.status, 'AUTORIZADO');
+  assert.strictEqual(data.chaveAcesso.length, 44);
+  assert.strictEqual(data.valorTotal, 180.00);
+
+  const registro = await db.get('SELECT * FROM fiscal_documentos WHERE chave_acesso = ?', [data.chaveAcesso]);
+  assert.ok(registro, 'Documento fiscal deve ser persistido em fiscal_documentos');
+  assert.strictEqual(registro.status, 'AUTORIZADO');
+  assert.ok(registro.xml_assinado && registro.xml_assinado.includes('180.00'), 'XML assinado deve conter o valor da nota');
+
+  await db.run('DELETE FROM fiscal_documentos WHERE chave_acesso = ?', [data.chaveAcesso]);
+});
+
+test('TICKET 12 - API: GET /api/nfe/danfe/:chave e GET /api/nfe/xml/:chave retornam DANFE e XML com headers corretos', async () => {
+  const chaveTeste = '43261100000000000191550010000009991123456789';
+  await db.run('DELETE FROM fiscal_documentos WHERE chave_acesso = ?', [chaveTeste]);
+  await db.run(`
+    INSERT INTO fiscal_documentos (
+      tipo, serie, numero, chave_acesso, status, motivo_status, protocolo_autorizacao, xml_assinado, emitido_em
+    ) VALUES ('NFE_55', '1', '999', ?, 'AUTORIZADO', 'Autorizado', '14326000000999', '<NFe><infNFe>XML TESTE</infNFe></NFe>', '2026-11-10T12:00:00Z')
+  `, [chaveTeste]);
+
+  const reqDanfe = {
+    method: 'GET',
+    url: `/api/nfe/danfe/${chaveTeste}`
+  };
+  const resDanfe = criarMockRes();
+  await handlerNfe(reqDanfe, resDanfe);
+  assert.strictEqual(resDanfe.getStatusCode(), 200);
+  const dataDanfe = resDanfe.getData();
+  assert.ok(typeof dataDanfe === 'string' && dataDanfe.includes('DANFE'));
+
+  const reqXml = {
+    method: 'GET',
+    url: `/api/nfe/xml/${chaveTeste}`
+  };
+  const resXml = criarMockRes();
+  await handlerNfe(reqXml, resXml);
+  assert.strictEqual(resXml.getStatusCode(), 200);
+  const dataXml = resXml.getData();
+  assert.ok(typeof dataXml === 'string' && dataXml.includes('<NFe>'));
+
+  await db.run('DELETE FROM fiscal_documentos WHERE chave_acesso = ?', [chaveTeste]);
+});
+
+test('TICKET 12 - API: POST /api/nfe emite NFS-e DPS e persiste registro', async () => {
+  const req = {
+    method: 'POST',
+    url: '/api/nfe',
+    body: {
+      tipoNota: 'NFSE_SERVICO',
+      cliente: {
+        nome: 'CLIENTE SERVICO ARTESANAL',
+        cpf: '22233344455'
+      },
+      servico: {
+        valor: 250.00,
+        discriminacao: 'Gravação a laser em bainha de faca'
+      }
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerNfe(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 201);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.tipoNota, 'NFSE_SERVICO');
+  assert.strictEqual(data.status, 'AUTORIZADO');
+  assert.strictEqual(data.valorTotal, 250.00);
+
+  await db.run('DELETE FROM fiscal_documentos WHERE chave_acesso = ?', [data.chaveAcesso]);
+});
+
+
+test('TICKET 13 - UI: Botão de emissão fiscal integrado no modal de pedidos e menu de contexto', () => {
+  const html = fs.readFileSync('public/index.html', 'utf8');
+
+  // 1. Botão no modal de pedidos
+  assert.ok(html.includes('id="btn-ped-emitir-fiscal"'), 'Botão de emissão fiscal deve existir no modal de pedido');
+  assert.ok(html.includes('onclick="abrirModalFiscalPorPedidoId(document.getElementById(\'form-ped-id\').value)"'), 'Deve chamar abrirModalFiscalPorPedidoId');
+  assert.ok(html.includes('tabindex="-1" class="btn-top" id="btn-ped-emitir-fiscal"'), 'Botão deve ter tabindex="-1"');
+
+  // 2. Menu de contexto de pedidos
+  assert.ok(html.includes('abrirModalFiscalPorPedidoId(${p.id})'), 'Menu de contexto do pedido deve chamar abrirModalFiscalPorPedidoId');
+});
+
+test('TICKET 13 - UI: Validação visual preventiva de NCM (8 dígitos) e bloqueio de transmissão', () => {
+  const html = fs.readFileSync('public/index.html', 'utf8');
+
+  // Validação preventiva e alerta
+  assert.ok(html.includes('id="fiscal-alerta-ncm"'), 'Div de alerta visual de NCM deve existir no modal fiscal');
+  assert.ok(html.includes('oninput="validarNcmCampoFiscal(this)"'), 'Campo NCM deve disparar validação no evento input');
+  assert.ok(html.includes('function validarNcmCampoFiscal('), 'Função validarNcmCampoFiscal deve estar definida');
+});
+
+test('TICKET 13 - UI: JavaScript controller implementa pré-carregamento por pedidoId, chave 44 dígitos e DANFE', () => {
+  const html = fs.readFileSync('public/index.html', 'utf8');
+
+  assert.ok(html.includes('function abrirModalFiscalPorPedidoId('), 'Função abrirModalFiscalPorPedidoId deve estar definida');
+  assert.ok(html.includes('function baixarXmlFiscal()'), 'Função baixarXmlFiscal deve estar definida');
+  assert.ok(html.includes('/api/nfe'), 'Deve chamar a API /api/nfe no controller de emissão');
+});
