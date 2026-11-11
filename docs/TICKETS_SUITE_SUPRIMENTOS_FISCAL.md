@@ -105,7 +105,7 @@ flowchart LR
   3. Criar rota `POST /api/logistica/gerar-etiqueta` retornando payload para impressão térmica (`100x150 mm`) ou folha A4.
 - **Passo de Validação:**
   - Chamada de teste na API validando retorno JSON com lista comparativa de fretes.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Implementado api/logistica.js com rotas /cotar, /configuracoes com tokens mascarados e transportadora padrão unívoca, e /gerar-etiqueta com transição de status para AGUARDANDO_ENVIO, além de 4 testes dedicados aprovados em tests/suprimentos_fiscal.test.js)
 
 ### Ticket 7: Interface de Expedição, Seletor Multi-Frete e Emissão de Etiquetas
 - **Objetivo:** Integrar à tela de Pedidos e Expedição o painel de cotação de fretes com 1 clique, comparativo visual (tags de "Menor Preço" e "Mais Rápido") e visualizador de etiquetas para impressão direta.

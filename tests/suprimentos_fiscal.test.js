@@ -963,4 +963,145 @@ test('TICKET 05 - LOGÍSTICA: Geração de dados de etiquetas térmicas e A4 com
   assert.ok(etiquetaJadlog.url_rastreio.includes('jadlog.com.br'));
 });
 
+import handlerLogistica from '../api/logistica.js';
+
+test('TICKET 06 - API: POST /api/logistica/cotar retorna opções concorrentes e ordenadas', async () => {
+  const req = {
+    method: 'POST',
+    url: '/api/logistica/cotar',
+    body: {
+      cepOrigem: '93940-000',
+      cepDestino: '01310-100',
+      pesoKg: 1.5,
+      dimensoes: { c: 25, l: 20, a: 15 }
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerLogistica(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.origem, '93940-000');
+  assert.strictEqual(data.destino, '01310-100');
+  assert.ok(data.total_opcoes > 0);
+  assert.ok(Array.isArray(data.opcoes));
+  assert.ok(data.destaques.menor_preco);
+  assert.ok(data.destaques.mais_rapido);
+});
+
+test('TICKET 06 - API: GET /api/logistica/configuracoes retorna transportadoras com tokens mascarados', async () => {
+  const req = {
+    method: 'GET',
+    url: '/api/logistica/configuracoes'
+  };
+  const res = criarMockRes();
+
+  await handlerLogistica(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.sucesso, true);
+  assert.ok(Array.isArray(data.transportadoras));
+  assert.ok(data.transportadoras.length >= 4);
+
+  // Valida que tokens reais não vazam na API
+  data.transportadoras.forEach(t => {
+    assert.strictEqual(t.token_acesso, undefined, 'token_acesso bruto não deve ser exposto');
+    assert.ok(t.token_mascarado !== undefined, 'Deve conter token_mascarado');
+  });
+});
+
+test('TICKET 06 - API: POST /api/logistica/configuracoes atualiza status e define transportadora padrão unívoca', async () => {
+  // Define superfrete como padrão
+  const req1 = {
+    method: 'POST',
+    url: '/api/logistica/configuracoes',
+    body: {
+      id: 'superfrete',
+      ativo: 1,
+      padrao: 1,
+      ambiente: 'producao',
+      formato_etiqueta_padrao: 'termica_100x150'
+    }
+  };
+  const res1 = criarMockRes();
+  await handlerLogistica(req1, res1);
+
+  assert.strictEqual(res1.getStatusCode(), 200);
+  const data1 = res1.getData();
+  assert.strictEqual(data1.sucesso, true);
+  assert.strictEqual(data1.transportadora.padrao, 1);
+  assert.strictEqual(data1.transportadora.ativo, 1);
+
+  // Confere no banco que apenas superfrete está como padrão (unicidade)
+  const padroes = await db.query('SELECT id FROM transportadoras_config WHERE padrao = 1');
+  assert.strictEqual(padroes.length, 1, 'Apenas 1 provedor pode ser padrão');
+  assert.strictEqual(padroes[0].id, 'superfrete');
+
+  // Restaura melhor_envio como padrão para manter consistência dos testes
+  const req2 = {
+    method: 'POST',
+    url: '/api/logistica/configuracoes',
+    body: {
+      id: 'melhor_envio',
+      ativo: 1,
+      padrao: 1,
+      ambiente: 'sandbox'
+    }
+  };
+  const res2 = criarMockRes();
+  await handlerLogistica(req2, res2);
+  assert.strictEqual(res2.getStatusCode(), 200);
+});
+
+test('TICKET 06 - API: POST /api/logistica/gerar-etiqueta emite etiqueta térmica e atualiza rastreio no pedido', async () => {
+  // Cria um pedido de teste
+  const agora = new Date().toISOString();
+  const resPed = await db.run(`
+    INSERT INTO pedidos (
+      numero, cliente_nome, telefone, cidade, uf, itens, valor_total, status, status_texto, data_pedido, data_atualizacao
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `, [
+    '#TESTE-ETIQ-01', 'GUSTAVO ROSA TESTE', '(51) 99999-8888', 'PORTO ALEGRE', 'RS', '1X POLTRONA RETRÔ', 350.00, 'EM_SEPARACAO', 'Em Separação', agora, agora
+  ]);
+  const pedidoId = resPed.lastInsertRowid;
+
+  const req = {
+    method: 'POST',
+    url: '/api/logistica/gerar-etiqueta',
+    body: {
+      pedidoId,
+      formato: 'termica_100x150',
+      cotacao: {
+        transportadora: 'Correios',
+        servico_nome: 'SEDEX',
+        preco: 25.0
+      }
+    }
+  };
+  const res = criarMockRes();
+
+  await handlerLogistica(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.sucesso, true);
+  assert.ok(data.etiqueta);
+  assert.ok(data.etiqueta.codigo_rastreio);
+  assert.strictEqual(data.etiqueta.formato_etiqueta, 'termica_100x150');
+
+  // Confere que o pedido no banco foi atualizado para AGUARDANDO_ENVIO e recebeu código de rastreamento
+  const pedAtualizado = await db.get('SELECT * FROM pedidos WHERE id = ?', [pedidoId]);
+  assert.ok(pedAtualizado);
+  assert.strictEqual(pedAtualizado.codigo_rastreio, data.etiqueta.codigo_rastreio);
+  assert.strictEqual(pedAtualizado.transportadora, 'Correios');
+  assert.strictEqual(pedAtualizado.status, 'AGUARDANDO_ENVIO');
+
+  // Limpeza
+  await db.run('DELETE FROM pedidos WHERE id = ?', [pedidoId]);
+});
+
+
 

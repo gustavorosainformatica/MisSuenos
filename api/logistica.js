@@ -1,18 +1,29 @@
 /**
  * Vercel Serverless Function & REST API: /api/logistica
- * Módulo de Logística Ativa, Rastreamento de Encomendas & WhatsApp Transacional
- * Autor: Gustavo Rosa Informática / Mis Sueños ERP
+ * Módulo de Expedição, Hub Multi-Frete, Rastreamento & Etiquetas Térmicas (Tickets 5 & 6)
+ * Autor: Gustavo Rosa Informática / Mis Sueños ERP & ERP Base
  * 
- * Funcionalidades:
- * - GET  /api/logistica?codigo=:codigo         : Consulta eventos de rastreio com timeline
- * - GET  /api/logistica/pedido/:id             : Consulta dados logísticos e gera mensagem de WhatsApp
- * - POST /api/logistica/vincular               : Vincula código de rastreio e transportadora ao pedido
- * - GET  /api/logistica/transportadoras        : Catálogo de transportadoras homologadas
+ * Endpoints Oficiais:
+ * - POST /api/logistica/cotar                : Cotação comparativa multi-provedor em tempo real
+ * - GET  /api/logistica/configuracoes        : Lista provedores homologados e credenciais ativas
+ * - POST /api/logistica/configuracoes        : Atualiza status, ambiente, token ou transportadora padrão
+ * - POST /api/logistica/gerar-etiqueta       : Emissão de etiqueta térmica (100x150 mm) ou A4
+ * - GET  /api/logistica/transportadoras      : Catálogo geral de transportadoras para seleção simples
+ * - POST /api/logistica/vincular             : Vincula código de rastreio e transportadora ao pedido
+ * - GET  /api/logistica/pedido/:id           : Consulta dados logísticos e gera mensagem de WhatsApp
+ * - GET  /api/logistica?codigo=:codigo       : Consulta eventos de rastreio com timeline
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
+import {
+  cotarFreteMultiplo,
+  gerarDadosEtiqueta,
+  formatarCep,
+  normalizarCep,
+  validarCep
+} from '../lib/logistica_hub.js';
 
-// Catálogo de Transportadoras Homologadas
+// Catálogo de Transportadoras Homologadas (compatibilidade retroativa)
 export const TRANSPORTADORAS_HOMOLOGADAS = [
   { id: 'correios_sedex', nome: 'Correios (Sedex)', tipo: 'correios', urlPadrao: 'https://rastreamento.correios.com.br/app/index.php?codigo=' },
   { id: 'correios_pac', nome: 'Correios (PAC)', tipo: 'correios', urlPadrao: 'https://rastreamento.correios.com.br/app/index.php?codigo=' },
@@ -35,8 +46,8 @@ function responder(res, status, data, headers = {}) {
   const defaultHeaders = {
     'Content-Type': 'application/json; charset=utf-8',
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
     ...headers
   };
 
@@ -70,9 +81,6 @@ function limparTelefone(tel) {
   return digits;
 }
 
-/**
- * Monta os eventos simulados de demonstração para testes rápidos e demonstração
- */
 function obterEventosDemonstracao(codigo) {
   const agora = new Date();
   const fData = (d) => d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
@@ -109,9 +117,6 @@ function obterEventosDemonstracao(codigo) {
   ];
 }
 
-/**
- * Consulta de Rastreamento Resiliente
- */
 async function consultarRastreio(codigo) {
   const codLimpo = sanitizarCodigo(codigo);
   if (!codLimpo) {
@@ -120,7 +125,6 @@ async function consultarRastreio(codigo) {
 
   const linkCorreios = `https://rastreamento.correios.com.br/app/index.php?codigo=${codLimpo}`;
 
-  // Se for código de teste ou padrão de demonstração
   if (codLimpo.startsWith('TESTE') || codLimpo === 'NL184920485BR' || codLimpo === 'NL123456789BR' || codLimpo.length < 13) {
     const eventos = obterEventosDemonstracao(codLimpo);
     return {
@@ -137,7 +141,6 @@ async function consultarRastreio(codigo) {
     };
   }
 
-  // Tenta consultar serviço de rastreamento aberto com timeout
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 4000);
 
@@ -201,7 +204,6 @@ async function consultarRastreio(codigo) {
     clearTimeout(timeout);
   }
 
-  // Fallback Gracioso: Objeto postado / aguardando indexação na base
   return {
     sucesso: true,
     codigo: codLimpo,
@@ -214,7 +216,7 @@ async function consultarRastreio(codigo) {
       {
         data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
         status: 'Objeto postado no ponto de coleta',
-        local: 'Agência Central - Dourados/MS',
+        local: 'Agência Central',
         icone: '📦',
         tipo: 'POSTADO',
         detalhes: 'Aguardando atualização das movimentações na malha logística da transportadora.'
@@ -227,7 +229,7 @@ async function consultarRastreio(codigo) {
 }
 
 /**
- * Handler Principal da API /api/logistica
+ * Handler Principal da API REST /api/logistica
  */
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -237,9 +239,250 @@ export default async function handler(req, res) {
   const rawUrl = req.url || '/';
   const urlObj = new URL(rawUrl, 'http://localhost');
   const pathname = urlObj.pathname;
+  const agora = new Date().toISOString();
 
   try {
-    // 1. GET /api/logistica/transportadoras
+    const body = (req.method === 'POST' || req.method === 'PUT') ? await parseBody(req) : {};
+    const acao = body.acao || urlObj.searchParams.get('acao') || '';
+
+    // =========================================================================
+    // 1. COTAÇÃO MULTI-FRETE EM TEMPO REAL: POST /api/logistica/cotar
+    // =========================================================================
+    if ((pathname === '/api/logistica/cotar' || acao === 'cotar') && req.method === 'POST') {
+      const cepDestino = body.cepDestino || body.cep_destino || body.cep || '';
+      if (!cepDestino) {
+        return responder(res, 400, { erro: 'O CEP de destino é obrigatório para cotação.' });
+      }
+
+      if (!validarCep(cepDestino)) {
+        return responder(res, 400, { erro: `CEP de destino inválido: "${cepDestino}". Informe um CEP com 8 dígitos numéricos.` });
+      }
+
+      // Se CEP de origem não informado, busca na transportadoras_config ou configuracoes_sistema
+      let cepOrigem = body.cepOrigem || body.cep_origem || '';
+      if (!cepOrigem) {
+        const transpPadrao = await get('SELECT dados_origem_json FROM transportadoras_config WHERE padrao = 1 LIMIT 1');
+        if (transpPadrao?.dados_origem_json) {
+          try {
+            const parsed = JSON.parse(transpPadrao.dados_origem_json);
+            if (parsed.cep) cepOrigem = parsed.cep;
+          } catch {}
+        }
+      }
+
+      if (!cepOrigem) {
+        const cfgCep = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'cep_origem'");
+        cepOrigem = cfgCep?.valor || '93940-000'; // Fallback padrão
+      }
+
+      const pesoKg = parseFloat(body.pesoKg || body.peso_kg || body.peso || 0.5);
+      const dimensoes = body.dimensoes || {
+        comprimento: body.comprimento || 20,
+        largura: body.largura || 15,
+        altura: body.altura || 10
+      };
+      const valorDeclarado = parseFloat(body.valorDeclarado || body.valor_declarado || body.valor || 0);
+      const provedores = Array.isArray(body.provedores) ? body.provedores : null;
+
+      const resultadoCotacao = await cotarFreteMultiplo({
+        cepOrigem,
+        cepDestino,
+        pesoKg,
+        dimensoes,
+        valorDeclarado,
+        provedores
+      });
+
+      return responder(res, 200, resultadoCotacao);
+    }
+
+    // =========================================================================
+    // 2. CONFIGURAÇÕES DE TRANSPORTADORAS: GET e POST /api/logistica/configuracoes
+    // =========================================================================
+    if (pathname === '/api/logistica/configuracoes' || acao === 'configuracoes' || acao === 'salvar_configuracoes') {
+      // 2.1 GET: Listagem segura das transportadoras homologadas
+      if (req.method === 'GET') {
+        const transportadoras = await query(`
+          SELECT 
+            id, 
+            nome, 
+            ativo, 
+            padrao, 
+            ambiente, 
+            formato_etiqueta_padrao, 
+            dados_origem_json, 
+            criado_em, 
+            atualizado_em,
+            CASE 
+              WHEN token_acesso IS NOT NULL AND token_acesso != '' THEN 1 
+              ELSE 0 
+            END as possui_token,
+            CASE 
+              WHEN token_acesso IS NOT NULL AND LENGTH(token_acesso) > 4 
+              THEN '••••••••' || SUBSTR(token_acesso, -4)
+              WHEN token_acesso IS NOT NULL AND token_acesso != ''
+              THEN '••••••••'
+              ELSE '' 
+            END as token_mascarado
+          FROM transportadoras_config 
+          ORDER BY padrao DESC, nome ASC
+        `);
+
+        return responder(res, 200, {
+          sucesso: true,
+          total: transportadoras.length,
+          transportadoras
+        });
+      }
+
+      // 2.2 POST: Atualização de configurações (token, ambiente, ativo, padrão)
+      if (req.method === 'POST') {
+        const dados = body.transportadora || body;
+        const idTransp = dados.id || dados.provedor_id;
+
+        if (!idTransp) {
+          return responder(res, 400, { erro: 'O identificador (id) da transportadora é obrigatório.' });
+        }
+
+        const transpExistente = await get('SELECT * FROM transportadoras_config WHERE id = ?', [idTransp]);
+        if (!transpExistente) {
+          return responder(res, 404, { erro: `Transportadora "${idTransp}" não encontrada no catálogo de configurações.` });
+        }
+
+        const ativo = dados.ativo !== undefined ? (dados.ativo ? 1 : 0) : transpExistente.ativo;
+        const ambiente = dados.ambiente || transpExistente.ambiente || 'producao';
+        const formatoEtiqueta = dados.formato_etiqueta_padrao || transpExistente.formato_etiqueta_padrao || 'termica_100x150';
+        const dadosOrigem = typeof dados.dados_origem_json === 'object' 
+          ? JSON.stringify(dados.dados_origem_json) 
+          : (dados.dados_origem_json || transpExistente.dados_origem_json || '');
+
+        // Trata token: só atualiza se vier preenchido e não for a máscara
+        let tokenFinal = transpExistente.token_acesso;
+        if (dados.token_acesso !== undefined && typeof dados.token_acesso === 'string') {
+          const t = dados.token_acesso.trim();
+          if (t && !t.startsWith('••••')) {
+            tokenFinal = t;
+          } else if (t === '') {
+            tokenFinal = '';
+          }
+        }
+
+        // Se for marcado como padrão, desmarca qualquer outro
+        const isPadrao = dados.padrao !== undefined ? (dados.padrao ? 1 : 0) : transpExistente.padrao;
+        if (isPadrao === 1) {
+          await run('UPDATE transportadoras_config SET padrao = 0');
+        }
+
+        await run(`
+          UPDATE transportadoras_config
+          SET ativo = ?,
+              padrao = ?,
+              ambiente = ?,
+              formato_etiqueta_padrao = ?,
+              token_acesso = ?,
+              dados_origem_json = ?,
+              atualizado_em = ?
+          WHERE id = ?
+        `, [
+          isPadrao === 1 ? 1 : ativo, // Provedor padrão é sempre mantido ativo
+          isPadrao,
+          ambiente,
+          formatoEtiqueta,
+          tokenFinal,
+          dadosOrigem,
+          agora,
+          idTransp
+        ]);
+
+        await registrarLog({
+          tipoAcao: 'LOGISTICA_CONFIG_ATUALIZADA',
+          detalhes: `Configuração da transportadora "${idTransp}" atualizada. Ativo: ${ativo}, Padrão: ${isPadrao}, Ambiente: ${ambiente}`
+        });
+
+        const transportadoraAtualizada = await get(`
+          SELECT 
+            id, nome, ativo, padrao, ambiente, formato_etiqueta_padrao, dados_origem_json, atualizado_em,
+            CASE WHEN token_acesso IS NOT NULL AND token_acesso != '' THEN 1 ELSE 0 END as possui_token
+          FROM transportadoras_config WHERE id = ?
+        `, [idTransp]);
+
+        return responder(res, 200, {
+          sucesso: true,
+          mensagem: `Configurações da transportadora "${transpExistente.nome}" salvas com sucesso!`,
+          transportadora: transportadoraAtualizada
+        });
+      }
+    }
+
+    // =========================================================================
+    // 3. GERAÇÃO DE ETIQUETA DE ENVIO: POST /api/logistica/gerar-etiqueta
+    // =========================================================================
+    if ((pathname === '/api/logistica/gerar-etiqueta' || acao === 'gerar_etiqueta') && req.method === 'POST') {
+      const pedidoId = body.pedidoId || body.pedido_id;
+      if (!pedidoId) {
+        return responder(res, 400, { erro: 'O ID do pedido é obrigatório para geração de etiqueta.' });
+      }
+
+      const pedido = await get('SELECT * FROM pedidos WHERE id = ? OR numero = ?', [pedidoId, pedidoId]);
+      if (!pedido) {
+        return responder(res, 404, { erro: `Pedido #${pedidoId} não localizado no banco de dados.` });
+      }
+
+      const formato = body.formato || body.formato_etiqueta || 'termica_100x150';
+      const cotacao = body.cotacao || null;
+      const dadosRemetente = body.dadosRemetente || null;
+
+      const dadosEtiqueta = gerarDadosEtiqueta({
+        pedido,
+        cotacao,
+        formato,
+        dadosRemetente
+      });
+
+      // Atualiza o pedido com código de rastreamento e transportadora
+      const novoStatus = (pedido.status === 'EM_SEPARACAO' || pedido.status === 'AGUARDANDO_PAGAMENTO') 
+        ? 'AGUARDANDO_ENVIO' 
+        : pedido.status;
+      const novoStatusTexto = (novoStatus === 'AGUARDANDO_ENVIO') 
+        ? 'Aguardando Envio' 
+        : pedido.status_texto;
+
+      await run(`
+        UPDATE pedidos
+        SET codigo_rastreio = ?,
+            transportadora = ?,
+            url_rastreio = ?,
+            status = ?,
+            status_texto = ?,
+            data_atualizacao = ?
+        WHERE id = ?
+      `, [
+        dadosEtiqueta.codigo_rastreio,
+        dadosEtiqueta.transportadora,
+        dadosEtiqueta.url_rastreio,
+        novoStatus,
+        novoStatusTexto,
+        agora,
+        pedido.id
+      ]);
+
+      await registrarLog({
+        clienteId: pedido.cliente_id,
+        clienteNome: pedido.cliente_nome,
+        tipoAcao: 'LOGISTICA_GERAR_ETIQUETA',
+        detalhes: `Etiqueta gerada para Pedido #${pedido.numero}. Rastreio: ${dadosEtiqueta.codigo_rastreio} (${dadosEtiqueta.transportadora})`
+      });
+
+      return responder(res, 200, {
+        sucesso: true,
+        mensagem: `Etiqueta do Pedido #${pedido.numero} gerada com sucesso!`,
+        etiqueta: dadosEtiqueta
+      });
+    }
+
+    // =========================================================================
+    // 4. ROTAS RETROCOMPATÍVEIS (VINCULAR, CATÁLOGO, PEDIDO E CONSULTA RASTREIO)
+    // =========================================================================
     if (pathname === '/api/logistica/transportadoras' && req.method === 'GET') {
       return responder(res, 200, {
         sucesso: true,
@@ -247,9 +490,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 2. POST /api/logistica/vincular (Vincula código ao pedido)
     if ((pathname === '/api/logistica/vincular' || pathname === '/api/logistica') && req.method === 'POST') {
-      const body = await parseBody(req);
       const { pedido_id, numero_pedido, codigo_rastreio, transportadora, url_rastreio } = body;
 
       if (!pedido_id && !numero_pedido) {
@@ -262,10 +503,8 @@ export default async function handler(req, res) {
       }
 
       const transpNome = transportadora || 'Correios';
-      const agora = new Date().toISOString();
       const linkOficial = url_rastreio || `https://rastreamento.correios.com.br/app/index.php?codigo=${codigoLimpo}`;
 
-      // Localiza o pedido
       const ped = pedido_id 
         ? await get('SELECT * FROM pedidos WHERE id = ?', [pedido_id])
         : await get('SELECT * FROM pedidos WHERE numero = ?', [numero_pedido]);
@@ -274,12 +513,11 @@ export default async function handler(req, res) {
         return responder(res, 404, { erro: 'Pedido não encontrado no banco' });
       }
 
-      // Atualiza o pedido com código de rastreio e avança status se estiver pendente
       const novoStatus = (ped.status === 'AGUARDANDO_ENVIO' || ped.status === 'EM_SEPARACAO') 
-        ? 'EM_TRANSITO' 
+        ? 'ENVIADO' 
         : ped.status;
-      const novoStatusTexto = (novoStatus === 'EM_TRANSITO') 
-        ? 'Em Trânsito' 
+      const novoStatusTexto = (novoStatus === 'ENVIADO') 
+        ? 'Enviado / Em Trânsito' 
         : ped.status_texto;
 
       await run(`
@@ -294,11 +532,10 @@ export default async function handler(req, res) {
         WHERE id = ?
       `, [codigoLimpo, transpNome, linkOficial, agora, novoStatus, novoStatusTexto, agora, ped.id]);
 
-      // Registra trilha de auditoria
       await registrarLog({
-        cliente_id: ped.cliente_id,
-        cliente_nome: ped.cliente_nome,
-        tipo_acao: 'LOGISTICA_VINCULAR_RASTREIO',
+        clienteId: ped.cliente_id,
+        clienteNome: ped.cliente_nome,
+        tipoAcao: 'LOGISTICA_VINCULAR_RASTREIO',
         detalhes: `Código ${codigoLimpo} (${transpNome}) vinculado ao pedido #${ped.numero}. Status: ${novoStatusTexto}`
       });
 
@@ -317,7 +554,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // 3. GET /api/logistica/pedido/:id (Gera dados logísticos e mensagem de WhatsApp)
     if (pathname.startsWith('/api/logistica/pedido/') && req.method === 'GET') {
       const idOrNumero = pathname.replace('/api/logistica/pedido/', '').trim();
       const ped = !isNaN(Number(idOrNumero))
@@ -333,11 +569,9 @@ export default async function handler(req, res) {
       const transportadora = ped.transportadora || 'Correios';
       const linkRastreio = ped.url_rastreio || (codigo ? `https://rastreamento.correios.com.br/app/index.php?codigo=${codigo}` : '');
 
-      // Nome da empresa configurada ou padrão
       const cfgEmpresa = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'nome_empresa'");
-      const nomeEmpresa = cfgEmpresa?.valor || 'Selaria Mis Sueños';
+      const nomeEmpresa = cfgEmpresa?.valor || 'Mis Sueños Móveis Planejados';
 
-      // Gera mensagem padronizada do WhatsApp
       let mensagemWa = `Olá, *${ped.cliente_nome}*! Tudo bem? 📦\n\n`;
       mensagemWa += `Seu pedido *#${ped.numero}* na *${nomeEmpresa}* `;
 
@@ -380,22 +614,18 @@ export default async function handler(req, res) {
       });
     }
 
-    // 4. GET /api/logistica?codigo=:codigo (Consulta eventos de rastreio)
     const codigoQuery = urlObj.searchParams.get('codigo') || urlObj.searchParams.get('c');
     if (codigoQuery) {
       const resultado = await consultarRastreio(codigoQuery);
 
-      // Se a encomenda foi entregue, sincroniza no banco automaticamente
       if (resultado.status_atual === 'ENTREGUE') {
         const ped = await get('SELECT id, numero, status FROM pedidos WHERE codigo_rastreio = ?', [resultado.codigo]);
         if (ped && ped.status !== 'ENTREGUE') {
-          const agora = new Date().toISOString();
           await run(`
             UPDATE pedidos 
             SET status = 'ENTREGUE', status_texto = 'Entregue', data_entrega = COALESCE(data_entrega, ?), data_atualizacao = ?
             WHERE id = ?
           `, [agora, agora, ped.id]);
-          console.log(`[LOGISTICA AUTO] Pedido #${ped.numero} atualizado para ENTREGUE via rastreamento.`);
         }
       }
 
@@ -403,13 +633,13 @@ export default async function handler(req, res) {
     }
 
     return responder(res, 400, {
-      erro: 'Informe o parâmetro ?codigo= ou acesse /api/logistica/pedido/:id'
+      erro: 'Endpoint ou parâmetro não informado. Consulte a documentação oficial da API.'
     });
 
   } catch (erro) {
     console.error('[ERRO API LOGISTICA]', erro);
     return responder(res, 500, {
-      erro: 'Erro interno no módulo de logística',
+      erro: 'Erro interno ao processar requisição no módulo de logística',
       detalhes: erro.message
     });
   }
