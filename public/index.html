@@ -4756,7 +4756,7 @@
       <div style="display: flex; align-items: center; gap: 10px; overflow: hidden; min-width: 0;">
         <div class="user-avatar" id="app-user-initials">MM</div>
         <div class="user-info" style="min-width: 0;">
-          <div class="user-name" id="app-user-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Marcos Machado</div>
+          <div class="user-name" id="app-user-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Administrador</div>
           <div class="user-role" id="app-user-role" style="font-weight: 600;">Administrador</div>
         </div>
       </div>
@@ -5984,7 +5984,7 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Responsável Operacional *</label>
-                <input type="text" class="form-input" id="app-config-user-name" value="Marcos Nunes Machado" required>
+                <input type="text" class="form-input" id="app-config-user-name" value="Administrador" required>
               </div>
               <div class="form-group">
                 <label class="form-label">Inscrição Estadual (IE)</label>
@@ -5995,22 +5995,22 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Cidade / Estado (Origem)</label>
-                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="Santo Antônio da Patrulha - RS">
+                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="">
               </div>
               <div class="form-group">
                 <label class="form-label">CEP de Postagem</label>
-                <input type="text" class="form-input" id="cfg-cep-emitente" value="95500-000" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" autocomplete="postal-code" style="font-family: 'JetBrains Mono', monospace;">
+                <input type="text" class="form-input" id="cfg-cep-emitente" value="" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" autocomplete="postal-code" style="font-family: 'JetBrains Mono', monospace;">
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Endereço da Sede / Remetente</label>
-                <input type="text" class="form-input" id="cfg-endereco-emitente" value="Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras">
+                <input type="text" class="form-input" id="cfg-endereco-emitente" value="">
               </div>
               <div class="form-group">
                 <label class="form-label">Telefone / WhatsApp Comercial</label>
-                <input type="text" class="form-input" id="cfg-telefone-emitente" value="(51) 99719-9204" inputmode="tel" maxlength="15" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+                <input type="text" class="form-input" id="cfg-telefone-emitente" value="" inputmode="tel" maxlength="15" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
               </div>
             </div>
 
@@ -8193,11 +8193,11 @@
               <!-- BLOCO REMETENTE -->
               <div class="etq-block etq-remetente">
                 <div class="etq-block-label">REMETENTE</div>
-                <div class="etq-rem-nome" id="etq-rem-nome">MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)</div>
-                <div class="etq-rem-endereco" id="etq-rem-endereco">Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras</div>
-                <div class="etq-rem-cidade" id="etq-rem-cidade">SANTO ANTÔNIO DA PATRULHA - RS</div>
+                <div class="etq-rem-nome" id="etq-rem-nome">MIS SUEÑOS COUROS & PELES (Administrador)</div>
+                <div class="etq-rem-endereco" id="etq-rem-endereco"></div>
+                <div class="etq-rem-cidade" id="etq-rem-cidade"></div>
                 <div class="etq-rem-cep-tel" id="etq-rem-cep-tel">
-                  <strong>CEP: 95500-000</strong> · WhatsApp: (51) 99719-9204
+                  <strong>CEP: </strong> · WhatsApp: 
                 </div>
               </div>
 
@@ -14409,12 +14409,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // GESTÃO FISCAL & DOCUMENTOS ELETRÔNICOS (ERP)
     // ========================================================
     const listaFiscal = [
-      { id: 1, numero: 'NF-e 001.428', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014281001234567', destinatario: 'ACÁCIO BENEDITO RAMOS', doc: 'Sem CPF', uf: 'MG', data: '15/10/2026', valor: 385.00, status: 'Autorizada' },
-      { id: 2, numero: 'NF-e 001.427', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014271001234568', destinatario: 'ADAIR JOSÉ BRANCO', doc: 'Sem CPF', uf: 'SC', data: '14/10/2026', valor: 455.00, status: 'Autorizada' },
-      { id: 3, numero: 'DPS 000.412', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-412', destinatario: 'ADAM HUPPES', doc: 'Sem CPF', uf: 'RS', data: '14/10/2026', valor: 180.00, status: 'Autorizada' },
-      { id: 4, numero: 'NF-e 001.426', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014261001234569', destinatario: 'ADRIANO MAINARDES BATISTA', doc: '086.881.949-64', uf: 'PR', data: '13/10/2026', valor: 590.00, status: 'Autorizada' },
-      { id: 5, numero: 'NF-e 001.425', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014251001234570', destinatario: 'ADROIR LIMA GUEDES', doc: '002.923.130-20', uf: 'RS', data: '12/10/2026', valor: 280.00, status: 'Autorizada' },
-      { id: 6, numero: 'DPS 000.411', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-411', destinatario: 'ADEMIR ROBERTO OTÁVIO', doc: 'Sem CPF', uf: 'MG', data: '11/10/2026', valor: 220.00, status: 'Autorizada' }
+      { id: 1, numero: 'NF-e 001.428', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014281001234567', destinatario: 'CLIENTE EXEMPLO 01', doc: 'Sem CPF', uf: 'MG', data: '15/10/2026', valor: 385.00, status: 'Autorizada' },
+      { id: 2, numero: 'NF-e 001.427', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014271001234568', destinatario: 'CLIENTE EXEMPLO 02', doc: 'Sem CPF', uf: 'SC', data: '14/10/2026', valor: 455.00, status: 'Autorizada' },
+      { id: 3, numero: 'DPS 000.412', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-412', destinatario: 'CLIENTE EXEMPLO 03', doc: 'Sem CPF', uf: 'RS', data: '14/10/2026', valor: 180.00, status: 'Autorizada' },
+      { id: 4, numero: 'NF-e 001.426', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014261001234569', destinatario: 'CLIENTE EXEMPLO 04', doc: '000.000.001-91', uf: 'PR', data: '13/10/2026', valor: 590.00, status: 'Autorizada' },
+      { id: 5, numero: 'NF-e 001.425', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014251001234570', destinatario: 'CLIENTE EXEMPLO 05', doc: '000.000.002-72', uf: 'RS', data: '12/10/2026', valor: 280.00, status: 'Autorizada' },
+      { id: 6, numero: 'DPS 000.411', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-411', destinatario: 'CLIENTE EXEMPLO 06', doc: 'Sem CPF', uf: 'MG', data: '11/10/2026', valor: 220.00, status: 'Autorizada' }
     ];
 
     let fiscalFiltrado = [...listaFiscal];
@@ -14572,7 +14572,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (etqRemCid && cfg.companyCityState) etqRemCid.textContent = cfg.companyCityState;
       const etqRemCepTel = document.getElementById('etq-rem-cep-tel');
       if (etqRemCepTel && (cfg.companyCep || cfg.companyPhone)) {
-        etqRemCepTel.innerHTML = `<strong>CEP: ${cfg.companyCep || '95500-000'}</strong>${cfg.companyPhone ? ' · WhatsApp: ' + cfg.companyPhone : ''}`;
+        etqRemCepTel.innerHTML = `<strong>CEP: ${cfg.companyCep || ''}</strong>${cfg.companyPhone ? ' · WhatsApp: ' + cfg.companyPhone : ''}`;
       }
 
       const configComp = document.getElementById('app-config-company-name');
@@ -14809,7 +14809,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       const texto = [
         '=== DADOS PARA COTAÇÃO / ENVIO SUPERFRETE ===',
-        `Origem: CEP ${(window.APP_CONFIG && window.APP_CONFIG.companyCep) || '95500-000'} (${(window.APP_CONFIG && window.APP_CONFIG.companyCityState) || 'Santo Antônio da Patrulha - RS'}) · ${(window.APP_CONFIG && (window.APP_CONFIG.shortName || window.APP_CONFIG.companyName)) || 'Mis Sueños Couros'}`,
+        `Origem: CEP ${(window.APP_CONFIG && window.APP_CONFIG.companyCep) || ''} (${(window.APP_CONFIG && window.APP_CONFIG.companyCityState) || ''}) · ${(window.APP_CONFIG && (window.APP_CONFIG.shortName || window.APP_CONFIG.companyName)) || 'Mis Sueños Couros'}`,
         `Destino: CEP ${cli.cep || ''} (${cli.cidade || ''} - ${cli.uf || ''})`,
         '',
         '--- DADOS DO DESTINATÁRIO ---',
@@ -14855,11 +14855,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         cli.telefone ? `Tel: ${cli.telefone}` : '',
         '',
         'REMETENTE:',
-        ((window.APP_CONFIG && window.APP_CONFIG.companyName) ? `${window.APP_CONFIG.companyName.toUpperCase()}${window.APP_CONFIG.userName ? ' (' + window.APP_CONFIG.userName + ')' : ''}` : 'MIS SUEÑOS COUROS & PELES (Marcos Nunes Machado)'),
-        ((window.APP_CONFIG && window.APP_CONFIG.companyAddress) || 'Rua Major João Villa Verde, nº 46 - Bairro Pitangueiras'),
-        ((window.APP_CONFIG && window.APP_CONFIG.companyCityState) || 'Santo Antônio da Patrulha - RS'),
-        ((window.APP_CONFIG && window.APP_CONFIG.companyCep) ? `CEP: ${window.APP_CONFIG.companyCep}` : 'CEP: 95500-000'),
-        ((window.APP_CONFIG && window.APP_CONFIG.companyPhone) ? `Telefone / WhatsApp: ${window.APP_CONFIG.companyPhone}` : 'Telefone / WhatsApp: (51) 99719-9204'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyName) ? `${window.APP_CONFIG.companyName.toUpperCase()}${window.APP_CONFIG.userName ? ' (' + window.APP_CONFIG.userName + ')' : ''}` : 'MIS SUEÑOS COUROS & PELES (Administrador)'),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyAddress) || ''),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyCityState) || ''),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyCep) ? `CEP: ${window.APP_CONFIG.companyCep}` : 'CEP: '),
+        ((window.APP_CONFIG && window.APP_CONFIG.companyPhone) ? `Telefone / WhatsApp: ${window.APP_CONFIG.companyPhone}` : 'Telefone / WhatsApp: '),
         '',
         pedido ? `Ref Pedido: ${pedido}` : '',
         conteudo ? `Conteúdo: ${conteudo}` : ''
@@ -15490,10 +15490,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // GESTÃO FINANCEIRA (CONTAS A PAGAR & RECEBER / FLUXO DE CAIXA)
     // ========================================================
     let listaFinanceiro = [
-      { id: 1, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1035', pessoa: 'ADILSON IFRAN MARTINS', categoria: 'Couros & Peles', data_vencimento: '2026-10-15', valor: 1072.00, status: 'PAGO' },
-      { id: 2, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1036', pessoa: 'ADEMIR DONATO', categoria: 'Loncas & Insumos', data_vencimento: '2026-10-25', valor: 656.00, status: 'PENDENTE' },
-      { id: 3, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1037', pessoa: 'ADEMILSON CLEMENTE DE LIMA', categoria: 'Vaqueta Tratada', data_vencimento: '2026-10-18', valor: 170.00, status: 'PAGO' },
-      { id: 4, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1038', pessoa: 'ADEMAR MELOS CARDOSO', categoria: 'Sola Bovina', data_vencimento: '2026-10-28', valor: 650.00, status: 'PENDENTE' },
+      { id: 1, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1035', pessoa: 'CLIENTE EXEMPLO 11', categoria: 'Couros & Peles', data_vencimento: '2026-10-15', valor: 1072.00, status: 'PAGO' },
+      { id: 2, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1036', pessoa: 'CLIENTE EXEMPLO 10', categoria: 'Loncas & Insumos', data_vencimento: '2026-10-25', valor: 656.00, status: 'PENDENTE' },
+      { id: 3, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1037', pessoa: 'CLIENTE EXEMPLO 09', categoria: 'Vaqueta Tratada', data_vencimento: '2026-10-18', valor: 170.00, status: 'PAGO' },
+      { id: 4, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1038', pessoa: 'CLIENTE EXEMPLO 08', categoria: 'Sola Bovina', data_vencimento: '2026-10-28', valor: 650.00, status: 'PENDENTE' },
       { id: 5, tipo: 'PAGAR', descricao: 'Compra Matéria-Prima Curtume', pessoa: 'Curtumes do Sul LTDA', categoria: 'Couro Cru', data_vencimento: '2026-10-20', valor: 1850.00, status: 'PAGO' },
       { id: 6, tipo: 'PAGAR', descricao: 'Tintas e Resinas Artesanais', pessoa: 'Insumos Químicos SP', categoria: 'Química & Acabamento', data_vencimento: '2026-10-30', valor: 420.00, status: 'PENDENTE' },
       { id: 7, tipo: 'PAGAR', descricao: 'Fretes & Logística Correios', pessoa: 'Correios / SuperFrete', categoria: 'Transportes', data_vencimento: '2026-10-16', valor: 380.00, status: 'PAGO' },
@@ -22994,7 +22994,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       } catch (err) {
         // Fallback offline de segurança para contingência PWA
         const usuariosOffline = [
-          { login: 'marcos', nome: 'Marcos Machado', papel: 'ADMIN', papelNome: 'Administrador Geral', papelCor: '#00d4ff', permissoes: { admin: true, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: true, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: true } },
+          { login: 'marcos', nome: 'Administrador', papel: 'ADMIN', papelNome: 'Administrador Geral', papelCor: '#00d4ff', permissoes: { admin: true, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: true, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: true } },
           { login: 'gustavo', nome: 'Gustavo Rosa', papel: 'ADMIN', papelNome: 'Administrador Geral', papelCor: '#00d4ff', permissoes: { admin: true, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: true, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: true } },
           { login: 'vendas', nome: 'Equipe de Vendas', papel: 'VENDAS', papelNome: 'Vendas & Atendimento', papelCor: '#10b981', permissoes: { admin: false, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: false, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: false } },
           { login: 'expedicao', nome: 'Equipe de Expedição', papel: 'EXPEDICAO', papelNome: 'Expedição & Logística', papelCor: '#f59e0b', permissoes: { admin: false, clientes_ver: true, clientes_criar: false, clientes_editar: false, clientes_excluir: false, pedidos_ver: true, pedidos_criar: false, pedidos_editar: true, fiscal_emitir: false, configuracoes: false } }
@@ -24735,7 +24735,7 @@ Agradecemos pela preferência! Ficamos à disposição.`;
         cidadeUf: storageEmpresa.companyCityState || cfg.companyCityState || cfg.cidade_uf_emitente || 'Sapiranga - RS',
         cep: storageEmpresa.companyCep || cfg.companyCep || cfg.cep_emitente || '93800-000',
         endereco: storageEmpresa.companyAddress || cfg.companyAddress || cfg.endereco_emitente || 'Sapiranga / RS',
-        telefone: storageEmpresa.companyPhone || cfg.companyPhone || cfg.telefone_emitente || '(51) 99719-9204',
+        telefone: storageEmpresa.companyPhone || cfg.companyPhone || cfg.telefone_emitente || '',
         email: cfg.email || 'contato@missuenos.com.br',
         site: cfg.site || 'www.missuenos.com.br',
         chavePix: cfg.chavePix || storageEmpresa.companyPixKey || '12.345.678/0001-90',

@@ -236,7 +236,7 @@ function sincronizarArquivosSecundarios() {
     fs.writeFileSync(path.join(DB_DIR, 'clientes.json'), JSON.stringify(todos, null, 2), 'utf-8');
 
     // 2. dados_clientes.js (para suporte offline via dois cliques no Windows)
-    const jsContent = `/**\n * Base de Clientes Mis Sueños (Offline)\n * Atualizado em: ${new Date().toISOString()}\n */\nwindow.CLIENTES_DATA = ${JSON.stringify(todos, null, 2)};\n`;
+    const jsContent = `/**\n * Base de Clientes Mis Sueños (Offline)\n * Atualizado em: ${new Date().toISOString()}\n */\nwindow.CLIENTES_DATA = [];\n`;
     fs.writeFileSync(path.join(PUBLIC_DIR, 'dados_clientes.js'), jsContent, 'utf-8');
 
     // 3. clientes.csv

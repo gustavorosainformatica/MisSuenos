@@ -17,6 +17,12 @@ public/uploads/*
 npm-debug.log*
 yarn-debug.log*
 .vercel
+
+# Blindagem Zero-PII: Proibido rastrear carteira de clientes ou exportações estáticas no Git
+public/dados_clientes.js
+database/*.csv
+database/*.json
+!database/schema.sql
 ENDEREÇOS DE ENVIO/
 
 # Ignorar apenas arquivos temporários de auth, nunca código-fonte

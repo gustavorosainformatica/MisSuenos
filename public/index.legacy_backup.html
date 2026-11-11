@@ -1538,8 +1538,8 @@
         <div class="brand-title">
           <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
             <h1>Mis Sueños Couros & Peles</h1>
-            <span class="brand-badge" style="background: rgba(180, 83, 9, 0.2); color: #f59e0b; border-color: rgba(180, 83, 9, 0.4);">Mercado Couro Brasil · Marcos Machado</span>
-            <span class="brand-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">📱 (51) 99719-9204</span>
+            <span class="brand-badge" style="background: rgba(180, 83, 9, 0.2); color: #f59e0b; border-color: rgba(180, 83, 9, 0.4);">Mercado Couro Brasil · Administrador</span>
+            <span class="brand-badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">📱 </span>
             <span class="brand-badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3);">📸 @misuenosdecoracoes</span>
           </div>
           <p>Loncas de Cabrito, Couros, Tentos, Ferramentas & Artesanato para Sogueiros e Trançadores | Envio Rápido para Todo o Brasil</p>
@@ -2319,7 +2319,7 @@
 
             <div style="font-size: 12px; color: var(--text-muted); line-height: 1.6; background: rgba(255, 255, 255, 0.03); padding: 14px; border-radius: var(--radius-sm);">
               <strong style="color: #fff;">💡 Dica para envio rápido de encomendas:</strong><br>
-              Para clientes que compram pelo WhatsApp (51 99719-9204), basta localizar o cliente pelo nome, clicar no botão <strong>"Nota"</strong> no cartão dele e exportar o arquivo TXT ou DPS imediatamente, economizando tempo de redigitação de endereço e CEP!
+              Para clientes que compram pelo WhatsApp (11 99999-0000), basta localizar o cliente pelo nome, clicar no botão <strong>"Nota"</strong> no cartão dele e exportar o arquivo TXT ou DPS imediatamente, economizando tempo de redigitação de endereço e CEP!
             </div>
           </div>
         </div>
@@ -2340,8 +2340,8 @@
               <div onclick="trocarPerfilEmpresa('missuenos')" id="card-perfil-missuenos" style="flex: 1; cursor: pointer; border: 2px solid #b45309; background: rgba(180, 83, 9, 0.1); padding: 16px; border-radius: var(--radius-sm); transition: var(--transition);">
                 <div style="font-weight: 700; color: #f59e0b; font-size: 14px; margin-bottom: 6px;">🪵 MIS SUEÑOS COUROS & PELES</div>
                 <div style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
-                  <strong>Responsável:</strong> Marcos Machado (Mercado Couro Brasil)<br>
-                  <strong>WhatsApp:</strong> (51) 99719-9204<br>
+                  <strong>Responsável:</strong> Administrador (Mercado Couro Brasil)<br>
+                  <strong>WhatsApp:</strong> <br>
                   <strong>Produtos:</strong> Loncas, Couros, Tentos, Ferramentas e Artesanato
                 </div>
               </div>
@@ -2370,7 +2370,7 @@
             <div class="form-row">
               <div class="form-group" style="flex: 2;">
                 <label>Contato / WhatsApp Comercial</label>
-                <input type="text" id="cfg-emitente-tel" value="(51) 99719-9204" style="width: 100%; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: #fff; padding: 10px; border-radius: var(--radius-sm); font-size: 13px;">
+                <input type="text" id="cfg-emitente-tel" value="" style="width: 100%; background: var(--bg-surface); border: 1px solid var(--border-subtle); color: #fff; padding: 10px; border-radius: var(--radius-sm); font-size: 13px;">
               </div>
               <div class="form-group" style="flex: 1;">
                 <label>Estado Emissor (UF)</label>
@@ -3153,9 +3153,9 @@
       missuenos: {
         id: 'missuenos',
         nome: 'MIS SUEÑOS COUROS & PELES',
-        subtitulo: 'Marcos Machado - Mercado Couro Brasil',
+        subtitulo: 'Administrador - Mercado Couro Brasil',
         cnpj: '00.000.000/0001-91',
-        telefone: '(51) 99719-9204',
+        telefone: '',
         uf: 'RS',
         cidade: 'Porto Alegre'
       },
@@ -3164,7 +3164,7 @@
         nome: 'GUSTAVO ROSA INFORMÁTICA',
         subtitulo: 'Suporte Técnico e Soluções em TI',
         cnpj: '00.000.000/0001-91',
-        telefone: '(51) 99719-9204',
+        telefone: '',
         uf: 'RS',
         cidade: 'Porto Alegre'
       }
@@ -3422,7 +3422,7 @@ ENDEREÇO: ${end} - ${cid}
 PRODUTO: ${desc}
 QUANTIDADE: ${qtd}
 TOTAL DA MERCADORIA: ${total}
-EMITENTE: MIS SUEÑOS COUROS & PELES (Marcos Machado) - WhatsApp: (51) 99719-9204
+EMITENTE: MIS SUEÑOS COUROS & PELES (Administrador) - WhatsApp: 
 ======================================================`;
 
       navigator.clipboard.writeText(texto).then(() => {
@@ -3520,7 +3520,7 @@ VALOR DO SERVIÇO: R$ ${valor}
 CÓDIGO TRIBUTAÇÃO NACIONAL: ${cod}
 DISCRIMINAÇÃO DOS SERVIÇOS:
 ${desc}
-EMITENTE: MIS SUEÑOS COUROS & PELES (Marcos Machado)
+EMITENTE: MIS SUEÑOS COUROS & PELES (Administrador)
 ======================================================`;
 
       navigator.clipboard.writeText(texto).then(() => {

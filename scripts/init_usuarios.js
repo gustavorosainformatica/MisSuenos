@@ -33,7 +33,7 @@ async function main() {
 
     const usuariosIniciais = [
       {
-        nome: 'Marcos Machado',
+        nome: 'Administrador',
         login: 'marcos',
         senha: 'admin123',
         papel: 'ADMIN',
