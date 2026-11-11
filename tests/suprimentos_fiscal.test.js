@@ -1140,6 +1140,247 @@ test('TICKET 07 - UI: JavaScript controller implementa cotação em 1 clique, ba
   assert.ok(html.includes('tabindex="-1" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);" onclick="enviarEtiquetaWhatsApp()"'), 'Botão de WhatsApp deve ter tabindex="-1"');
 });
 
+import {
+  parseOfx,
+  parseCsvBancario,
+  calcularScoreMatching,
+  conciliarExtratoComLancamentos
+} from '../lib/conciliacao_bancaria.js';
+
+test('TICKET 08 - CONCILIAÇÃO: Parser OFX extrai metadados, FITID, datas, valores e tipo (SGML/XML)', () => {
+  const exemploOfxSgml = `
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:102
+SECURITY:NONE
+ENCODING:USASCII
+CHARSET:1252
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+
+<OFX>
+<SIGNONMSGSRSV1>
+<SONRS>
+<STATUS>
+<CODE>0
+<SEVERITY>INFO
+</STATUS>
+<DTSERVER>20261110120000[-03:BRT]
+<LANGUAGE>POR
+</SONRS>
+</SIGNONMSGSRSV1>
+<BANKMSGSRSV1>
+<STMTTRNRS>
+<TRNUID>1001
+<STATUS>
+<CODE>0
+<SEVERITY>INFO
+</STATUS>
+<STMTRS>
+<CURDEF>BRL
+<BANKACCTFROM>
+<BANKID>341
+<BRANCHID>1234
+<ACCTID>56789-0
+<ACCTTYPE>CHECKING
+</BANKACCTFROM>
+<BANKTRANLIST>
+<DTSTART>20261101120000[-03:BRT]
+<DTEND>20261110120000[-03:BRT]
+<STMTTRN>
+<TRNTYPE>CREDIT
+<DTPOSTED>20261105120000[-03:BRT]
+<TRNAMT>450.00
+<FITID>202611050001
+<CHECKNUM>001
+<MEMO>PIX RECEBIDO - GUSTAVO ROSA
+</STMTTRN>
+<STMTTRN>
+<TRNTYPE>DEBIT
+<DTPOSTED>20261108120000[-03:BRT]
+<TRNAMT>-280.50
+<FITID>202611080002
+<MEMO>PAGTO FORNECEDOR COUROS LTDA
+</STMTTRN>
+</BANKTRANLIST>
+<LEDGERBAL>
+<BALAMT>5840.20
+<DTASOF>20261110120000[-03:BRT]
+</LEDGERBAL>
+</STMTRS>
+</STMTTRNRS>
+</BANKMSGSRSV1>
+</OFX>
+  `;
+
+  const parsed = parseOfx(exemploOfxSgml);
+
+  assert.strictEqual(parsed.success, true);
+  assert.strictEqual(parsed.banco, '341');
+  assert.strictEqual(parsed.conta, '56789-0');
+  assert.strictEqual(parsed.moeda, 'BRL');
+  assert.strictEqual(parsed.saldoFinal, 5840.20);
+  assert.strictEqual(parsed.totalTransacoes, 2);
+  assert.strictEqual(parsed.totalCreditos, 450.00);
+  assert.strictEqual(parsed.totalDebitos, 280.50);
+
+  // Transação 1: Crédito
+  const tr1 = parsed.transacoes[0];
+  assert.strictEqual(tr1.fitid, '202611050001');
+  assert.strictEqual(tr1.tipo, 'CREDITO');
+  assert.strictEqual(tr1.valor, 450.00);
+  assert.strictEqual(tr1.data, '2026-11-05');
+  assert.strictEqual(tr1.descricao, 'PIX RECEBIDO - GUSTAVO ROSA');
+
+  // Transação 2: Débito
+  const tr2 = parsed.transacoes[1];
+  assert.strictEqual(tr2.fitid, '202611080002');
+  assert.strictEqual(tr2.tipo, 'DEBITO');
+  assert.strictEqual(tr2.valor, 280.50);
+  assert.strictEqual(tr2.valor_bruto, -280.50);
+  assert.strictEqual(tr2.data, '2026-11-08');
+  assert.strictEqual(tr2.descricao, 'PAGTO FORNECEDOR COUROS LTDA');
+});
+
+test('TICKET 08 - CONCILIAÇÃO: Parser CSV detecta delimitador, trata formatos brasileiros e gera FITIDs', () => {
+  // Exemplo CSV estilo Nubank / Inter com ponto e vírgula
+  const csvPontoVirgula = `Data;Historico;Valor;Identificador
+05/11/2026;TRANSFERENCIA RECEBIDA - CLIENTE MARCOS;1250,00;NUB_001
+07/11/2026;PAGAMENTO DE BOLETO FORNECEDOR;-320,80;NUB_002
+10/11/2026;TARIFA MANUTENCAO CONTA;-12,50;NUB_003`;
+
+  const parsed = parseCsvBancario(csvPontoVirgula, { banco: 'NUBANK' });
+
+  assert.strictEqual(parsed.success, true);
+  assert.strictEqual(parsed.delimitador, ';');
+  assert.strictEqual(parsed.totalTransacoes, 3);
+  assert.strictEqual(parsed.totalCreditos, 1250.00);
+  assert.strictEqual(parsed.totalDebitos, 333.30); // 320.80 + 12.50 = 333.30
+
+  assert.strictEqual(parsed.transacoes[0].tipo, 'CREDITO');
+  assert.strictEqual(parsed.transacoes[0].valor, 1250.00);
+  assert.strictEqual(parsed.transacoes[0].data, '2026-11-05');
+  assert.strictEqual(parsed.transacoes[0].fitid, 'NUB_001');
+
+  assert.strictEqual(parsed.transacoes[1].tipo, 'DEBITO');
+  assert.strictEqual(parsed.transacoes[1].valor, 320.80);
+  assert.strictEqual(parsed.transacoes[1].data, '2026-11-07');
+
+  // Exemplo CSV com vírgula e colunas em inglês
+  const csvVirgula = `Date,Memo,Amount
+2026-11-09,"DEP PIX CLIENTE",800.00
+2026-11-10,"COMPRA MATERIAIS",-150.00`;
+
+  const parsedVirgula = parseCsvBancario(csvVirgula, { banco: 'INTER' });
+  assert.strictEqual(parsedVirgula.success, true);
+  assert.strictEqual(parsedVirgula.delimitador, ',');
+  assert.strictEqual(parsedVirgula.totalTransacoes, 2);
+  assert.strictEqual(parsedVirgula.transacoes[0].valor, 800.00);
+  assert.strictEqual(parsedVirgula.transacoes[1].valor, 150.00);
+});
+
+test('TICKET 08 - CONCILIAÇÃO: Motor Heurístico de Score (1.0 exato, 0.8 data próxima, 0.5 diferença de centavos, 0.0 incompatível)', () => {
+  const transacaoExtrato = {
+    tipo: 'CREDITO',
+    valor: 500.00,
+    data: '2026-11-10',
+    descricao: 'PIX RECEBIDO GUSTAVO ROSA'
+  };
+
+  // 1. Match Perfeito (Score 1.0)
+  const erpPerfeito = {
+    id: 101,
+    tipo: 'RECEBER',
+    valor: 500.00,
+    data_vencimento: '2026-11-10',
+    cliente_nome: 'GUSTAVO ROSA',
+    status: 'PENDENTE'
+  };
+  const scorePerfeito = calcularScoreMatching(transacaoExtrato, erpPerfeito);
+  assert.strictEqual(scorePerfeito.score, 1.0, 'Mesmo valor, data exata e cliente deve ter Score 1.0');
+  assert.strictEqual(scorePerfeito.confianca, 'ALTA');
+  assert.strictEqual(scorePerfeito.auto_conciliavel, true);
+
+  // 2. Match Forte com Data Próxima (Score 0.85 a 0.95)
+  const erpDataProxima = {
+    id: 102,
+    tipo: 'RECEBER',
+    valor: 500.00,
+    data_vencimento: '2026-11-12', // 2 dias depois
+    cliente_nome: 'GUSTAVO ROSA',
+    status: 'PENDENTE'
+  };
+  const scoreData = calcularScoreMatching(transacaoExtrato, erpDataProxima);
+  assert.ok(scoreData.score >= 0.85 && scoreData.score <= 0.95, 'Data em +/- 2 dias deve ter score forte');
+
+  // 3. Match com Divergência de Centavos / Tarifas (Score moderado ~0.65)
+  const erpCentavos = {
+    id: 103,
+    tipo: 'RECEBER',
+    valor: 501.50, // 1.50 de tarifa bancária
+    data_vencimento: '2026-11-10',
+    cliente_nome: 'GUSTAVO ROSA',
+    status: 'PENDENTE'
+  };
+  const scoreCentavos = calcularScoreMatching(transacaoExtrato, erpCentavos);
+  assert.ok(scoreCentavos.score >= 0.50 && scoreCentavos.score < 0.85, 'Diferença de centavos deve ter score moderado');
+
+  // 4. Fluxo Incompatível (Score 0.0)
+  const erpFluxoIncompativel = {
+    id: 104,
+    tipo: 'PAGAR', // Débito contra crédito
+    valor: 500.00,
+    data_vencimento: '2026-11-10',
+    cliente_nome: 'GUSTAVO ROSA'
+  };
+  const scoreIncompativel = calcularScoreMatching(transacaoExtrato, erpFluxoIncompativel);
+  assert.strictEqual(scoreIncompativel.score, 0.0);
+  assert.strictEqual(scoreIncompativel.confianca, 'INCOMPATIVEL');
+
+  // 5. Valor Totalmente Divergente (Score 0.0)
+  const erpValorDivergente = {
+    id: 105,
+    tipo: 'RECEBER',
+    valor: 1500.00,
+    data_vencimento: '2026-11-10'
+  };
+  const scoreValor = calcularScoreMatching(transacaoExtrato, erpValorDivergente);
+  assert.strictEqual(scoreValor.score, 0.0);
+});
+
+test('TICKET 08 - CONCILIAÇÃO: Reconciliação em lote sem duplicação de lançamentos casados', () => {
+  const transacoesExtrato = [
+    { fitid: 'EXT_01', tipo: 'CREDITO', valor: 200.00, data: '2026-11-10', descricao: 'DOC PEDIDO 101' },
+    { fitid: 'EXT_02', tipo: 'CREDITO', valor: 200.00, data: '2026-11-10', descricao: 'DOC PEDIDO 102' },
+    { fitid: 'EXT_03', tipo: 'DEBITO', valor: 90.00, data: '2026-11-11', descricao: 'TARIFA BANCARIA DESCONHECIDA' }
+  ];
+
+  const lancamentosErp = [
+    { id: 1, tipo: 'RECEBER', valor: 200.00, data_vencimento: '2026-11-10', descricao: 'PEDIDO 101', status: 'PENDENTE' },
+    { id: 2, tipo: 'RECEBER', valor: 200.00, data_vencimento: '2026-11-10', descricao: 'PEDIDO 102', status: 'PENDENTE' }
+  ];
+
+  const resultado = conciliarExtratoComLancamentos(transacoesExtrato, lancamentosErp);
+
+  assert.strictEqual(resultado.success, true);
+  assert.strictEqual(resultado.total_transacoes, 3);
+  assert.strictEqual(resultado.total_auto_conciliavel, 2);
+  assert.strictEqual(resultado.total_com_match, 2);
+  assert.strictEqual(resultado.total_sem_match, 1);
+
+  // Valida que as duas transações de 200 não casaram com o mesmo lançamento (id 1 e id 2 únicos)
+  const match1 = resultado.resultados[0];
+  const match2 = resultado.resultados[1];
+  assert.notStrictEqual(match1.sugestao.lancamento_id, match2.sugestao.lancamento_id, 'Não pode casar duas transações com o mesmo lançamento');
+
+  // Item 3 sem match
+  const match3 = resultado.resultados[2];
+  assert.strictEqual(match3.possui_match, false);
+  assert.strictEqual(match3.confianca, 'SEM_MATCH');
+});
+
+
 
 
 

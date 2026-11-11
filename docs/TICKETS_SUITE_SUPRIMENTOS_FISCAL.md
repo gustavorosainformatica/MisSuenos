@@ -135,7 +135,7 @@ flowchart LR
   3. Implementar motor de correspondência: Score 1.0 (mesmo valor e data exata), Score 0.8 (mesmo valor e data em janela de +/- 3 dias), Score 0.5 (mesmo cliente/fornecedor).
 - **Passo de Validação:**
   - Executar testes automatizados com extratos de exemplo (Itaú, Inter, Nubank) e verificar cálculo de score.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Implementado lib/conciliacao_bancaria.js com parsers OFX SGML/XML e CSV multiformato, motor de matching heurístico com scores 1.0/0.8/0.5/0.0 e reconciliação em lote anti-duplicação, com 4 testes aprovados em tests/suprimentos_fiscal.test.js)
 
 ### Ticket 9: API REST de Conciliação e Baixa em Lote no Financeiro
 - **Objetivo:** Implementar endpoints em `api/financeiro.js` para upload do extrato bancário, persistência das transações bancárias e execução de conciliação atômica em lote.
