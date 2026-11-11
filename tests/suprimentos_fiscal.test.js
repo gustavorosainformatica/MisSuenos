@@ -1103,5 +1103,43 @@ test('TICKET 06 - API: POST /api/logistica/gerar-etiqueta emite etiqueta térmic
   await db.run('DELETE FROM pedidos WHERE id = ?', [pedidoId]);
 });
 
+test('TICKET 07 - UI: Modal de Expedição possui painel de cotação multi-frete, container de cards e preview de rastreio', () => {
+  const htmlPath = path.resolve('public/index.html');
+  const html = fs.readFileSync(htmlPath, 'utf8');
+
+  // Elementos do painel de cotação multi-frete
+  assert.ok(html.includes('id="etiqueta-cep-destino"'), 'Deve conter input de CEP destino');
+  assert.ok(html.includes('id="etiqueta-dest-resumo"'), 'Deve conter resumo do destinatário');
+  assert.ok(html.includes('id="etiqueta-loading-cotacao"'), 'Deve conter feedback de loading da cotação');
+  assert.ok(html.includes('id="etiqueta-cards-cotacao"'), 'Deve conter container de cards de cotação');
+  assert.ok(html.includes('onclick="cotarFreteMultiProvedores()"'), 'Deve possuir botão disparando cotarFreteMultiProvedores');
+
+  // Preview com rastreio dinâmico
+  assert.ok(html.includes('id="etq-rastreio-badge-wrap"'), 'Deve conter badge de código de rastreio no preview');
+  assert.ok(html.includes('id="etq-rastreio-codigo"'), 'Deve conter elemento para o código de rastreamento oficial');
+
+  // Atalhos na tabela e no menu de contexto
+  assert.ok(html.includes('abrirModalCotarFretePedido(${ped.id})'), 'Tabela de pedidos deve conter botão de cotar frete');
+  assert.ok(html.includes('abrirModalCotarFretePedido(${p.id})'), 'Menu de contexto deve conter atalho de cotar frete');
+});
+
+test('TICKET 07 - UI: JavaScript controller implementa cotação em 1 clique, badges de menor preço e envio WhatsApp', () => {
+  const htmlPath = path.resolve('public/index.html');
+  const html = fs.readFileSync(htmlPath, 'utf8');
+
+  // Métodos do controller de expedição
+  assert.ok(html.includes('function abrirModalCotarFretePedido('), 'Deve implementar abrirModalCotarFretePedido');
+  assert.ok(html.includes('async function cotarFreteMultiProvedores('), 'Deve implementar cotarFreteMultiProvedores');
+  assert.ok(html.includes('function renderizarOpcoesFreteCotadas('), 'Deve implementar renderizarOpcoesFreteCotadas');
+  assert.ok(html.includes('async function selecionarOpcaoFrete('), 'Deve implementar selecionarOpcaoFrete');
+  assert.ok(html.includes('function enviarEtiquetaWhatsApp('), 'Deve implementar enviarEtiquetaWhatsApp');
+
+  // Badges visuais comparativas e ergonomia
+  assert.ok(html.includes('MENOR PREÇO'), 'Deve conter badge analítica de Menor Preço');
+  assert.ok(html.includes('MAIS RÁPIDO'), 'Deve conter badge analítica de Mais Rápido');
+  assert.ok(html.includes('tabindex="-1" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);" onclick="enviarEtiquetaWhatsApp()"'), 'Botão de WhatsApp deve ter tabindex="-1"');
+});
+
+
 
 

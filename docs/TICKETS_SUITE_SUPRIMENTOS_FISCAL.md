@@ -118,7 +118,7 @@ flowchart LR
   3. Garantir `tabindex="-1"` em botões secundários e atalho de WhatsApp com link de rastreamento formatado.
 - **Passo de Validação:**
   - Abrir o modal no navegador e verificar a cotação comparativa e o preview da etiqueta gerada.
-- **Status:** [ ] Pendente
+- **Status:** [X] Concluído (Implementado em public/index.html painel de cotação multi-frete em tempo real com Melhor Envio, SuperFrete, Correios CWS e Frenet, badges analíticas de menor preço e mais rápido, seleção em 1 clique com geração de etiqueta e persistência de rastreio, atalhos na tabela e menu de contexto, e 2 testes automatizados aprovados em tests/suprimentos_fiscal.test.js)
 
 ---
 

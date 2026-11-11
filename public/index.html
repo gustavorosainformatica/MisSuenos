@@ -7991,12 +7991,40 @@
         <div class="etiqueta-modal-grid">
           <!-- COLUNA DE CONTROLES E CONFIGURAÇÕES -->
           <div class="etiqueta-config-panel">
-            <div style="background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.25); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 8px;">
-              <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 3px;">
-                ⚡ Integração Logística Rápida
+            <!-- PAINEL COTAÇÃO MULTI-FRETE EM TEMPO REAL -->
+            <div style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.28); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <div style="font-size: 11px; font-weight: 800; color: #c084fc; text-transform: uppercase; display: flex; align-items: center; gap: 5px;">
+                  <span>⚡</span> Cotação Multi-Frete em Tempo Real
+                </div>
+                <span id="etiqueta-cotacao-badge" style="font-size: 10px; font-weight: 700; color: #34d399; background: rgba(16, 185, 129, 0.12); padding: 1px 6px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">4 Provedores Ativos</span>
               </div>
-              <div style="font-size: 11px; color: var(--text-muted); line-height: 1.35;">
-                Gere e imprima etiquetas térmicas ou A4 e copie os dados formatados diretamente para o <strong>Superfrete</strong>, <strong>Correios</strong> ou <strong>Melhor Envio</strong>.
+
+              <div style="display: grid; grid-template-columns: 130px 1fr auto; gap: 6px; align-items: flex-end;">
+                <div class="form-group" style="margin: 0;">
+                  <label class="form-label" style="margin-bottom: 2px; font-size: 10.5px;">CEP Destino</label>
+                  <input type="text" class="form-input" id="etiqueta-cep-destino" placeholder="00000-000" maxlength="9" oninput="aplicarMascaraCep(this)" style="padding: 6px 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center;">
+                </div>
+                <div class="form-group" style="margin: 0;">
+                  <label class="form-label" style="margin-bottom: 2px; font-size: 10.5px;">Destinatário / Local</label>
+                  <input type="text" class="form-input" id="etiqueta-dest-resumo" readonly tabindex="-1" placeholder="Destinatário" style="padding: 6px 8px; font-size: 11px; background: rgba(255,255,255,0.03); color: var(--text-muted);">
+                </div>
+                <button type="button" class="btn-top" tabindex="-1" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #7e22ce); color: #fff; border: 1px solid #c084fc; box-shadow: 0 0 10px rgba(168, 85, 247, 0.35); height: 32px;" onclick="cotarFreteMultiProvedores()">
+                  ⚡ Cotar
+                </button>
+              </div>
+
+              <!-- FEEDBACK DE CARREGAMENTO -->
+              <div id="etiqueta-loading-cotacao" style="display: none; padding: 12px 10px; text-align: center;">
+                <div class="loading-spinner" style="margin: 0 auto 6px auto; width: 20px; height: 20px; border-width: 2px; border-color: #c084fc transparent transparent transparent;"></div>
+                <span style="font-size: 11px; color: var(--text-muted);">Consultando Melhor Envio, SuperFrete, Correios CWS e Frenet...</span>
+              </div>
+
+              <!-- CONTAINER DE CARDS COMPARATIVOS DE FRETE -->
+              <div id="etiqueta-cards-cotacao" style="display: flex; flex-direction: column; gap: 5px; margin-top: 8px; max-height: 180px; overflow-y: auto; padding-right: 2px;">
+                <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 8px; border: 1px dashed rgba(255,255,255,0.08); border-radius: 4px;">
+                  Clique em <strong>⚡ Cotar</strong> para comparar opções de frete com 1 clique.
+                </div>
               </div>
             </div>
 
@@ -8057,18 +8085,23 @@
               </button>
 
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
-                <button type="button" class="btn-top" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: #0284c7; color: #fff; border: 1px solid #38bdf8;" onclick="copiarDadosSuperfrete()">
-                  ⚡ Copiar p/ Superfrete
+                <button type="button" class="btn-top" tabindex="-1" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);" onclick="enviarEtiquetaWhatsApp()">
+                  📲 Enviar WhatsApp
                 </button>
 
-                <button type="button" class="btn-top btn-row-action" style="justify-content: center; padding: 8px 10px; font-size: 11.5px;" onclick="copiarEtiquetaTextoCompleto()">
-                  📋 Copiar Texto Completo
+                <button type="button" class="btn-top" tabindex="-1" style="justify-content: center; padding: 8px 10px; font-size: 11.5px; background: #0284c7; color: #fff; border: 1px solid #38bdf8;" onclick="copiarDadosSuperfrete()">
+                  ⚡ Copiar p/ Superfrete
                 </button>
               </div>
 
-              <button type="button" class="btn-top btn-row-action" style="width: 100%; justify-content: center; padding: 8px 10px; font-size: 11.5px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" onclick="abrirSuperfreteWeb()">
-                🚀 Abrir Superfrete Web (superfrete.com/app) ↗
-              </button>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" style="justify-content: center; padding: 7px 10px; font-size: 11px;" onclick="copiarEtiquetaTextoCompleto()">
+                  📋 Copiar Texto
+                </button>
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" style="justify-content: center; padding: 7px 10px; font-size: 11px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary);" onclick="abrirSuperfreteWeb()">
+                  🚀 Superfrete Web ↗
+                </button>
+              </div>
             </div>
           </div>
 
@@ -8093,6 +8126,9 @@
                 </div>
                 <div class="etq-service-badge" id="etq-service-label">
                   SUPERFRETE / CORREIOS
+                </div>
+                <div id="etq-rastreio-badge-wrap" style="display: none; margin-top: 4px; padding: 2px 6px; background: #fff; border: 1px solid #000; border-radius: 3px; font-size: 10px; text-align: center;">
+                  <strong>RASTREIO:</strong> <span id="etq-rastreio-codigo" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; letter-spacing: 0.5px;">-</span>
                 </div>
                 <div class="etq-qrcode-box">
                   <svg width="40" height="40" viewBox="0 0 40 40" fill="#000">
@@ -12838,7 +12874,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
                 <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
                 ${btnWhatsLinha}
               </div>
-              <div>${btnRastreio}</div>
+              <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                ${btnRastreio}
+                <button type="button" tabindex="-1" onclick="event.stopPropagation(); abrirModalCotarFretePedido(${ped.id})" style="display: inline-flex; align-items: center; gap: 3px; background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer; margin-top: 4px;" title="Calcular frete multi-transportadora em tempo real">⚡ Cotar Frete</button>
+              </div>
             </td>
             <td data-col="data" style="color: var(--text-muted); font-size: 11.5px;">${dataPed}</td>
             <td data-col="cliente" style="font-weight: 700; color: #fff;">
@@ -14534,6 +14573,273 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     function abrirSuperfreteWeb() {
       window.open('https://superfrete.com/app', '_blank');
+    }
+
+    // =========================================================================
+    // PILAR 2 LOGÍSTICA: SELETOR MULTI-FRETE & ETIQUETAS (TICKET 7)
+    // =========================================================================
+    let cotacaoAtualEtiqueta = null;
+    let pedidoEtiquetaAtual = null;
+    let opcaoFreteSelecionada = null;
+
+    function abrirModalCotarFretePedido(pedId, autoCotar = true) {
+      const ped = (Array.isArray(listaPedidos) ? listaPedidos : []).find(p => String(p.id) === String(pedId));
+      if (!ped) {
+        mostrarToast('Pedido não localizado.');
+        return;
+      }
+      pedidoEtiquetaAtual = ped;
+      let cliente = (Array.isArray(clientes) ? clientes : []).find(c => {
+        if (ped.cliente_id && String(c.id) === String(ped.cliente_id)) return true;
+        return (c.nome || '').trim().toUpperCase() === (ped.cliente_nome || ped.cliente || '').trim().toUpperCase();
+      });
+      if (!cliente) {
+        cliente = {
+          id: null,
+          nome: ped.cliente_nome || ped.cliente,
+          cidade: ped.cidade || 'MUNICÍPIO',
+          uf: ped.uf || 'RS',
+          telefone: ped.telefone || ped.tel,
+          logradouro: 'Endereço do Destinatário',
+          numero: 'S/N',
+          bairro: 'Centro',
+          cep: '90000-000'
+        };
+      }
+      clienteEtiquetaAtual = cliente;
+
+      preencherEExibirEtiqueta({
+        cliente: cliente,
+        pedidoRef: ped.numero,
+        itens: ped.itens || 'Mercadorias / Insumos',
+        peso: '1.5 kg',
+        valor: `R$ ${formatarMoedaPtBr(ped.valor_total || ped.valor || 0)}`
+      });
+
+      // Preenche os campos do painel de cotação
+      const cepDestEl = document.getElementById('etiqueta-cep-destino');
+      if (cepDestEl) {
+        cepDestEl.value = cliente.cep || '90000-000';
+        if (typeof aplicarMascaraCep === 'function') aplicarMascaraCep(cepDestEl);
+      }
+      const destResumoEl = document.getElementById('etiqueta-dest-resumo');
+      if (destResumoEl) {
+        destResumoEl.value = `${cliente.nome || 'Cliente'} (${cliente.cidade || ''}-${cliente.uf || ''})`.toUpperCase();
+      }
+
+      if (autoCotar) {
+        setTimeout(() => cotarFreteMultiProvedores(), 150);
+      }
+    }
+
+    async function cotarFreteMultiProvedores() {
+      const cepEl = document.getElementById('etiqueta-cep-destino');
+      const cepDest = (cepEl?.value || '').replace(/\D/g, '');
+      if (!cepDest || cepDest.length !== 8) {
+        mostrarToast('Informe um CEP de destino válido com 8 dígitos.');
+        if (cepEl) cepEl.focus();
+        return;
+      }
+
+      const loadingEl = document.getElementById('etiqueta-loading-cotacao');
+      const cardsContainer = document.getElementById('etiqueta-cards-cotacao');
+      if (loadingEl) loadingEl.style.display = 'block';
+      if (cardsContainer) cardsContainer.innerHTML = '';
+
+      const pesoTexto = document.getElementById('etiqueta-peso')?.value || '1.5';
+      const pesoKg = parseFloat(pesoTexto.replace(/[^0-9.,]/g, '').replace(',', '.')) || 1.5;
+      const valorTexto = document.getElementById('etiqueta-valor')?.value || '0';
+      const valorDeclarado = parseFloat(valorTexto.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+
+      try {
+        const resp = await fetch('/api/logistica/cotar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cepDestino: cepDest,
+            pesoKg,
+            valorDeclarado
+          })
+        });
+        const data = await resp.json();
+        if (loadingEl) loadingEl.style.display = 'none';
+
+        if (!resp.ok || !data.success) {
+          mostrarToast(data.erro || 'Erro ao consultar cotações de frete.');
+          if (cardsContainer) {
+            cardsContainer.innerHTML = `<div style="font-size: 11px; color: #f87171; text-align: center; padding: 8px;">Falha ao cotar frete: ${data.erro || 'Serviço temporariamente indisponível'}</div>`;
+          }
+          return;
+        }
+
+        cotacaoAtualEtiqueta = data;
+        renderizarOpcoesFreteCotadas(data);
+      } catch (err) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        console.error('[ERRO COTAÇÃO MULTI-FRETE]', err);
+        mostrarToast('Falha de rede ao consultar cotações de frete.');
+      }
+    }
+
+    function renderizarOpcoesFreteCotadas(resultado) {
+      const cardsContainer = document.getElementById('etiqueta-cards-cotacao');
+      if (!cardsContainer) return;
+      if (!resultado.opcoes || resultado.opcoes.length === 0) {
+        cardsContainer.innerHTML = '<div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 8px;">Nenhuma opção de frete disponível para este destino.</div>';
+        return;
+      }
+
+      cardsContainer.innerHTML = resultado.opcoes.map((op, idx) => {
+        const isMenorPreco = op.menor_preco;
+        const isMaisRapido = op.mais_rapido;
+        const isRecomendado = op.recomendado_padrao;
+        let badgeDestaque = '';
+        if (isMenorPreco) {
+          badgeDestaque += '<span style="font-size: 9.5px; font-weight: 800; color: #facc15; background: rgba(250, 204, 21, 0.18); border: 1px solid rgba(250, 204, 21, 0.4); padding: 1px 5px; border-radius: 3px;">🏷️ MENOR PREÇO</span> ';
+        }
+        if (isMaisRapido) {
+          badgeDestaque += '<span style="font-size: 9.5px; font-weight: 800; color: #38bdf8; background: rgba(56, 189, 248, 0.18); border: 1px solid rgba(56, 189, 248, 0.4); padding: 1px 5px; border-radius: 3px;">⚡ MAIS RÁPIDO</span> ';
+        }
+        if (isRecomendado && !isMenorPreco && !isMaisRapido) {
+          badgeDestaque += '<span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1px 5px; border-radius: 3px;">⭐ PADRÃO</span> ';
+        }
+
+        const borderStyle = idx === 0 ? 'border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.08);' : 'border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);';
+        const btnText = idx === 0 ? '✓ Selecionado' : 'Selecionar';
+        const btnBg = idx === 0 ? 'background: #0284c7; color: #fff; border-color: #38bdf8;' : 'background: rgba(255,255,255,0.05); color: #fff; border-color: rgba(255,255,255,0.15);';
+
+        return `
+          <div class="card-opcao-frete ${idx === 0 ? 'selecionado' : ''}" id="card-frete-opcao-${idx}" onclick="selecionarOpcaoFrete(${idx})" style="display: flex; justify-content: space-between; align-items: center; padding: 7px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s ease; ${borderStyle}">
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap;">
+                <span style="font-size: 11.5px; font-weight: 700; color: #fff;">${op.transportadora || op.provedor_nome}</span>
+                <span style="font-size: 11px; color: var(--text-muted);">· ${op.servico_nome}</span>
+                ${badgeDestaque}
+              </div>
+              <div style="font-size: 10.5px; color: var(--text-muted);">
+                Prazo: <strong style="color: #cbd5e1;">${op.prazo_dias} dia(s) úteis</strong>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(op.preco)}</span>
+              <button type="button" tabindex="-1" class="btn-top" style="padding: 2px 8px; font-size: 10px; font-weight: 700; ${btnBg}">
+                ${btnText}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Seleciona automaticamente o primeiro (menor preço)
+      selecionarOpcaoFrete(0, false);
+    }
+
+    async function selecionarOpcaoFrete(index, emitirEtiqueta = true) {
+      if (!cotacaoAtualEtiqueta || !cotacaoAtualEtiqueta.opcoes || !cotacaoAtualEtiqueta.opcoes[index]) return;
+      const op = cotacaoAtualEtiqueta.opcoes[index];
+      opcaoFreteSelecionada = op;
+
+      // Atualiza visual dos cards
+      document.querySelectorAll('.card-opcao-frete').forEach((c, i) => {
+        if (i === index) {
+          c.classList.add('selecionado');
+          c.style.borderColor = '#38bdf8';
+          c.style.background = 'rgba(56, 189, 248, 0.08)';
+          const btn = c.querySelector('button');
+          if (btn) { btn.textContent = '✓ Selecionado'; btn.style.background = '#0284c7'; }
+        } else {
+          c.classList.remove('selecionado');
+          c.style.borderColor = 'rgba(255,255,255,0.08)';
+          c.style.background = 'rgba(255,255,255,0.03)';
+          const btn = c.querySelector('button');
+          if (btn) { btn.textContent = 'Selecionar'; btn.style.background = 'rgba(255,255,255,0.05)'; }
+        }
+      });
+
+      // Atualiza serviço e valor na pré-visualização da etiqueta
+      const labelServico = `${(op.transportadora || op.provedor_nome).toUpperCase()} · ${op.servico_nome.toUpperCase()}`;
+      const servicoEl = document.getElementById('etiqueta-servico');
+      if (servicoEl) {
+        // Adiciona option dinâmica se não existir
+        let opt = Array.from(servicoEl.options).find(o => o.value === labelServico);
+        if (!opt) {
+          opt = new Option(`🚚 ${labelServico} (R$ ${formatarMoedaPtBr(op.preco)})`, labelServico);
+          servicoEl.add(opt);
+        }
+        servicoEl.value = labelServico;
+      }
+      const previewBadge = document.getElementById('etq-service-label');
+      if (previewBadge) previewBadge.textContent = labelServico;
+
+      // Se houver pedido ativo e solicitado, chama a API para gerar etiqueta e atualizar o pedido para AGUARDANDO_ENVIO
+      if (emitirEtiqueta && pedidoEtiquetaAtual && pedidoEtiquetaAtual.id) {
+        try {
+          const formato = document.getElementById('etiqueta-formato')?.value || 'termica';
+          const formatoApi = formato === 'a4' ? 'folha_a4' : 'termica_100x150';
+          const res = await fetch('/api/logistica/gerar-etiqueta', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              pedidoId: pedidoEtiquetaAtual.id,
+              formato: formatoApi,
+              cotacao: {
+                transportadora: op.transportadora || op.provedor_nome,
+                servico_nome: op.servico_nome,
+                preco: op.preco,
+                prazo_dias: op.prazo_dias
+              }
+            })
+          });
+          const resData = await res.json();
+          if (res.ok && resData.sucesso && resData.etiqueta) {
+            const codRastreio = resData.etiqueta.codigo_rastreio;
+            pedidoEtiquetaAtual.codigo_rastreio = codRastreio;
+            pedidoEtiquetaAtual.transportadora = op.transportadora || op.provedor_nome;
+            pedidoEtiquetaAtual.status = 'AGUARDANDO_ENVIO';
+            pedidoEtiquetaAtual.status_texto = 'Aguardando Envio';
+
+            // Atualiza preview com o rastreio gerado
+            const elRastreioWrap = document.getElementById('etq-rastreio-badge-wrap');
+            const elRastreioCod = document.getElementById('etq-rastreio-codigo');
+            if (elRastreioWrap && elRastreioCod) {
+              elRastreioCod.textContent = codRastreio;
+              elRastreioWrap.style.display = 'block';
+            }
+            mostrarToast(`✅ Frete ${op.servico_nome} selecionado! Rastreio: ${codRastreio}`);
+          }
+        } catch (err) {
+          console.warn('[LOGISTICA] Não foi possível persistir etiqueta imediatamente via API:', err.message);
+        }
+      }
+    }
+
+    function enviarEtiquetaWhatsApp() {
+      if (!clienteEtiquetaAtual) {
+        mostrarToast('Nenhum cliente selecionado.');
+        return;
+      }
+      const rawTel = (clienteEtiquetaAtual.telefone || '').replace(/\D/g, '');
+      if (!rawTel) {
+        mostrarToast('Este destinatário não possui telefone/WhatsApp cadastrado.');
+        return;
+      }
+      const pedNum = document.getElementById('etiqueta-num-pedido')?.value || (pedidoEtiquetaAtual?.numero || '');
+      const transp = opcaoFreteSelecionada ? (opcaoFreteSelecionada.transportadora || opcaoFreteSelecionada.provedor_nome) : 'Correios';
+      const servico = opcaoFreteSelecionada ? opcaoFreteSelecionada.servico_nome : 'SEDEX';
+      const rastreio = pedidoEtiquetaAtual?.codigo_rastreio || document.getElementById('etq-rastreio-codigo')?.textContent || '';
+      const linkRastreio = transp.toUpperCase().includes('JADLOG')
+        ? `https://www.jadlog.com.br/jadlog/tracking?cte=${rastreio}`
+        : `https://rastreamento.correios.com.br/app/index.php?codigo=${rastreio}`;
+
+      let msg = `Olá, *${clienteEtiquetaAtual.nome}*! Tudo bem? 📦\n\n`;
+      msg += `Seu pedido *#${pedNum}* está pronto para envio via *${transp} (${servico})*!\n\n`;
+      if (rastreio && rastreio !== '-') {
+        msg += `🔍 Código de Rastreamento: *${rastreio}*\n`;
+        msg += `🚚 Acompanhe a entrega em: ${linkRastreio}\n\n`;
+      }
+      msg += `Agradecemos pela preferência e confiança! Conte sempre conosco. ✨`;
+
+      window.open(`https://wa.me/55${rawTel}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     // ========================================================
@@ -17120,6 +17426,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         </div>
         <button class="erp-context-item" onclick="abrirModalDocumentoPedido(${p.id}, 'espelho'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">📄 Espelho do Pedido A4 / PDF</button>
         <button class="erp-context-item" onclick="abrirModalDocumentoPedido(${p.id}, 'romaneio'); fecharContextMenu();" style="color: #fbbf24; font-weight: 700;">📦 Romaneio de Galpão A4</button>
+        <button class="erp-context-item" onclick="abrirModalCotarFretePedido(${p.id}); fecharContextMenu();" style="color: #c084fc; font-weight: 700;">⚡ Cotar Frete Multi-Transportadora</button>
         <button class="erp-context-item" onclick="abrirModalRastreio(${p.id}, '${p.codigo_rastreio || ''}'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">🚚 Rastrear Encomenda</button>
         <button class="erp-context-item" onclick="enviarRastreioWhatsApp(${p.id}); fecharContextMenu();" style="color: #34d399; font-weight: 700;">📱 Enviar Rastreio via WhatsApp</button>
         <button class="erp-context-item" onclick="abrirModalEditarPedido(${p.id}); fecharContextMenu();">✏️ Editar Pedido & Itens</button>

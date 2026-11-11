@@ -5,7 +5,7 @@
 
 ---
 
-## 1. O que foi Concluído (Tickets 1 ao 6)
+## 1. O que foi Concluído (Tickets 1 ao 7)
 
 - **[X] Ticket 1: Migração de Banco de Dados Multi-Módulos (`lib/db.js`):**
   - Criação das 5 novas tabelas: `fornecedores_produtos_vinculo`, `transportadoras_config`, `conciliacao_extratos`, `fiscal_config`, `fiscal_documentos`.
@@ -31,7 +31,11 @@
   - `GET /api/logistica/configuracoes`: Provedores homologados com mascaramento de tokens (`tk_***`).
   - `POST /api/logistica/configuracoes`: Ativação/desativação, ambiente e unicidade estrita de transportadora padrão (`padrao = 1`).
   - `POST /api/logistica/gerar-etiqueta`: Avanço do pedido para `AGUARDANDO_ENVIO` e gravação de código de rastreamento.
-  - Compatibilidade retroativa integral preservada para rotas legadas e Link & Track.
+- **[X] Ticket 7: Interface de Expedição, Seletor Multi-Frete e Emissão de Etiquetas (`public/index.html`):**
+  - Painel de cotação em tempo real integrado ao modal de etiquetas (`#etiqueta-cep-destino`, `#etiqueta-loading-cotacao`, `#etiqueta-cards-cotacao`).
+  - Badges comparativas analíticas (`🏷️ MENOR PREÇO`, `⚡ MAIS RÁPIDO`, `⭐ PADRÃO`).
+  - Seleção em 1 clique que atualiza o frete e gera o rastreamento via API avançando para `AGUARDANDO_ENVIO`.
+  - Preview dinâmico de etiqueta com código de rastreio, atalhos diretos na tabela de pedidos e menu de contexto, e botão de envio de rastreio via WhatsApp.
 
 ---
 
@@ -63,21 +67,18 @@
 
 ---
 
-## 4. Próximos Passos Imediatos (Na Reabertura)
+## 4. Próximos Passos Imediatos (Pilar 3: Conciliação Bancária)
 
-1. **Executar Ticket 7:** `Interface de Expedição, Seletor Multi-Frete e Emissão de Etiquetas`:
-   - Integrar ao painel/modal de pedidos (`public/index.html`) a cotação multi-frete com 1 clique chamando `/api/logistica/cotar`.
-   - Renderizar os cartões de frete com badges **Menor Preço** (dourado/verde) e **Mais Rápido** (azul).
-   - Permitir seleção em 1 clique que atualiza o valor do frete e a transportadora do pedido.
-   - Integrar alternador de etiquetas (Térmica 100x150 mm vs Folha A4 com Declaração de Conteúdo) e acionamento direto de impressão (`window.print()`).
-   - Botão de envio rápido de WhatsApp com código e link de rastreamento formatado.
-   - Garantir `tabindex="-1"` em botões secundários e sem spinners numéricos.
-2. **Executar Testes:** Criar testes para validar os novos elementos e fluxo do Ticket 7.
-3. **Sincronização Tríplice do Ticket 7:** Replicar para `MisSuenos-Dev` e `erp-base` (neutro), auditar deploy Vercel.
-4. **Prosseguir para os Pilares Seguintes:**
-   - Pilar 3: Conciliação Bancária OFX/CSV (Tickets 8, 9, 10).
-   - Pilar 4: Emissão Fiscal NF-e/NFC-e Oficial (Tickets 11, 12, 13).
-   - Finalização & Homologação Geral (Tickets 14, 15).
+1. **Executar Ticket 8:** `Parser OFX/CSV e Motor de Matching com Score de Confiança`:
+   - Implementar `lib/conciliacao_bancaria.js` com parsers robustos de arquivos `.OFX` (SGML e XML) e `.CSV` de extratos bancários.
+   - Algoritmo heurístico de pontuação (*score de matching*):
+     * Score 1.0: Mesmo valor e data exata.
+     * Score 0.8: Mesmo valor e data em janela de +/- 3 dias.
+     * Score 0.5: Mesmo cliente/fornecedor por identificação textual no memo.
+2. **Executar Ticket 9:** `API REST de Conciliação e Baixa em Lote no Financeiro`:
+   - Rotas `/api/conciliacao/upload`, `/api/conciliacao/sugerir-conciliacao` e `/api/conciliacao/confirmar-baixa`.
+3. **Executar Ticket 10:** `Interface de Conciliação Bancária com Arraste (Split-Screen)`:
+   - Tela split-view comparativa com matching visual e conciliação em 1 clique.
 
 ---
 
@@ -86,3 +87,4 @@
 - **Caixa Alta Universal:** Formulários e inputs devem manter `text-transform: uppercase !important;`.
 - **Neutralidade do `erp-base`:** Qualquer texto ou configuração com o nome "Mis Sueños" deve ser adaptado para "Empresa Modelo" ou fallback genérico ao replicar no `erp-base`.
 - **Schema `pedidos`:** A tabela `pedidos` não possui as colunas `endereco`, `bairro` ou `cep` (esses dados residem no cadastro de clientes ou no campo de observações), e o campo `itens` possui restrição `NOT NULL`.
+
