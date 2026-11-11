@@ -71,10 +71,10 @@
 
 ## 4. Próximos Passos Imediatos
 
-- [ ] **Melhorias Não-Bloqueantes do Code Review:**
-  - Aplicar `escapeHtml` nas variáveis de terceiros no gerador de DANFE HTML (`lib/fiscal_hub.js`).
-  - Adicionar cache em memória para cotações de frete concorrente de mesmo CEP/dimensões (`lib/logistica_gateway.js`).
-  - Envolver baixas em lote da conciliação bancária em transação SQLite (`BEGIN / COMMIT` em `api/financeiro.js`).
+- [x] **Melhorias Não-Bloqueantes do Code Review (Concluídas com Sucesso):**
+  - [x] Aplicado `escapeHtml` nas variáveis de terceiros no gerador de DANFE HTML ([`lib/fiscal_hub.js`](file:///d:/projetos-agy/MisSuenos/lib/fiscal_hub.js)).
+  - [x] Adicionado cache em memória com TTL (10 min) para cotações de frete concorrente ([`lib/logistica_hub.js`](file:///d:/projetos-agy/MisSuenos/lib/logistica_hub.js)).
+  - [x] Envolvidas baixas em lote da conciliação bancária em transação SQLite atômica (`BEGIN TRANSACTION / COMMIT / ROLLBACK` em [`api/financeiro.js`](file:///d:/projetos-agy/MisSuenos/api/financeiro.js)).
 - [ ] **Testes de Campo com o Usuário:**
   - Testar importação de um XML de fornecedor real via `#modal-importar-xml`.
   - Configurar tokens reais das transportadoras (Melhor Envio / Frenet) e credenciais SEFAZ caso o cliente queira sair do modo sandbox.
@@ -90,3 +90,4 @@
 - **Comandos de Execução:**
   - Testes: `npm test`
   - Servidor Local: `npm start` ou `node scripts/servidor_web.js`
+

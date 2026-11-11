@@ -4,7 +4,7 @@
  * Persistência unificada via lib/db.js (Turso Cloud ou SQLite Local)
  */
 
-import { query, get, run, registrarLog } from '../lib/db.js';
+import { query, get, run, execute, registrarLog } from '../lib/db.js';
 import {
   parseOfx,
   parseCsvBancario,
@@ -153,47 +153,54 @@ export default async function handler(req, res) {
       let totalBaixados = 0;
       let totalTarifasCriadas = 0;
 
-      for (const item of lote) {
-        const lancId = item.lancamento_id;
-        const fitid = item.fitid;
-        const dataPagamento = item.data_pagamento || hojeIso;
-        const difTarifa = parseFloat(item.diferenca_tarifa || 0);
+      await execute('BEGIN TRANSACTION');
+      try {
+        for (const item of lote) {
+          const lancId = item.lancamento_id;
+          const fitid = item.fitid;
+          const dataPagamento = item.data_pagamento || hojeIso;
+          const difTarifa = parseFloat(item.diferenca_tarifa || 0);
 
-        if (lancId) {
-          // Baixa no lançamento do ERP
-          await run(`
-            UPDATE financeiro_lancamentos 
-            SET status = 'PAGO', data_pagamento = ?, data_atualizacao = ?
-            WHERE id = ?
-          `, [dataPagamento, agora.toISOString(), lancId]);
-          totalBaixados++;
-
-          // Se houver diferença por tarifa bancária (ex: taxa boleto R$ 1,50)
-          if (difTarifa > 0) {
+          if (lancId) {
+            // Baixa no lançamento do ERP
             await run(`
-              INSERT INTO financeiro_lancamentos (
-                tipo, origem, descricao, categoria, valor, data_vencimento, data_pagamento, forma_pagamento, status, observacoes, data_cadastro
-              ) VALUES ('PAGAR', 'CONCILIACAO_TARIFA', ?, 'TARIFAS BANCÁRIAS', ?, ?, ?, 'DÉBITO EM CONTA', 'PAGO', ?, ?)
-            `, [
-              `TARIFA BANCÁRIA / DESCONTO (REF FITID ${fitid || lancId})`,
-              difTarifa,
-              dataPagamento,
-              dataPagamento,
-              `Ajuste automático de conciliação para o lançamento #${lancId}`,
-              agora.toISOString()
-            ]);
-            totalTarifasCriadas++;
+              UPDATE financeiro_lancamentos 
+              SET status = 'PAGO', data_pagamento = ?, data_atualizacao = ?
+              WHERE id = ?
+            `, [dataPagamento, agora.toISOString(), lancId]);
+            totalBaixados++;
+
+            // Se houver diferença por tarifa bancária (ex: taxa boleto R$ 1,50)
+            if (difTarifa > 0) {
+              await run(`
+                INSERT INTO financeiro_lancamentos (
+                  tipo, origem, descricao, categoria, valor, data_vencimento, data_pagamento, forma_pagamento, status, observacoes, data_cadastro
+                ) VALUES ('PAGAR', 'CONCILIACAO_TARIFA', ?, 'TARIFAS BANCÁRIAS', ?, ?, ?, 'DÉBITO EM CONTA', 'PAGO', ?, ?)
+              `, [
+                `TARIFA BANCÁRIA / DESCONTO (REF FITID ${fitid || lancId})`,
+                difTarifa,
+                dataPagamento,
+                dataPagamento,
+                `Ajuste automático de conciliação para o lançamento #${lancId}`,
+                agora.toISOString()
+              ]);
+              totalTarifasCriadas++;
+            }
+          }
+
+          // Atualiza a tabela conciliacao_extratos
+          if (fitid) {
+            await run(`
+              UPDATE conciliacao_extratos
+              SET status = 'CONCILIADO', transacao_financeiro_id = ?
+              WHERE fitid = ?
+            `, [lancId || null, fitid]);
           }
         }
-
-        // Atualiza a tabela conciliacao_extratos
-        if (fitid) {
-          await run(`
-            UPDATE conciliacao_extratos
-            SET status = 'CONCILIADO', transacao_financeiro_id = ?
-            WHERE fitid = ?
-          `, [lancId || null, fitid]);
-        }
+        await execute('COMMIT');
+      } catch (errTransacao) {
+        try { await execute('ROLLBACK'); } catch {}
+        throw errTransacao;
       }
 
       await registrarLog({

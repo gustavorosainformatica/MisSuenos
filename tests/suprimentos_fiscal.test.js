@@ -764,7 +764,8 @@ import {
   FrenetAdapter,
   LogisticaHub,
   cotarFreteMultiplo,
-  gerarDadosEtiqueta
+  gerarDadosEtiqueta,
+  limparCacheFrete
 } from '../lib/logistica_hub.js';
 
 test('TICKET 05 - LOGÍSTICA: Helpers de CEP, dimensões e cálculo de estimativa regional', () => {
@@ -1595,7 +1596,8 @@ import {
   formatarChaveAcesso,
   validarCertificadoA1,
   montarXmlNfe55,
-  gerarDanfeHtml
+  gerarDanfeHtml,
+  escapeHtml
 } from '../lib/fiscal_hub.js';
 import handlerNfe from '../api/nfe.js';
 
@@ -1806,4 +1808,131 @@ test('TICKET 13 - UI: JavaScript controller implementa pré-carregamento por ped
   assert.ok(html.includes('function abrirModalFiscalPorPedidoId('), 'Função abrirModalFiscalPorPedidoId deve estar definida');
   assert.ok(html.includes('function baixarXmlFiscal()'), 'Função baixarXmlFiscal deve estar definida');
   assert.ok(html.includes('/api/nfe'), 'Deve chamar a API /api/nfe no controller de emissão');
+});
+
+// =============================================================================
+// REFINAMENTOS DE QUALIDADE E ROBUSTEZ TÉCNICA (CODE REVIEW)
+// =============================================================================
+
+test('REFINAMENTO 01 - FISCAL: escapeHtml sanitiza caracteres especiais no template DANFE HTML', () => {
+  // Teste unitário da função de sanitização
+  const entrada = '<script>alert("XSS")</script>&"test"\'';
+  const saida = escapeHtml(entrada);
+  assert.strictEqual(saida, '&lt;script&gt;alert(&quot;XSS&quot;)&lt;/script&gt;&amp;&quot;test&quot;&#39;');
+
+  // Teste integrado na renderização do DANFE
+  const danfeHtml = gerarDanfeHtml({
+    chaveAcesso: '43261100000000000191550010000000011888888888',
+    numero: 1,
+    serie: 1,
+    destinatario: {
+      nome: 'GUSTAVO & CIA <TESTE>',
+      logradouro: 'RUA DAS INDÚSTRIAS "BLOCO A"',
+      documento: '000.000.000-00'
+    },
+    itens: [
+      {
+        codigo: 'SKU<01>',
+        descricao: 'PELE CAPRINA & COURO LEGÍTIMO',
+        quantidade: 1,
+        valor_unitario: 100,
+        valor_total: 100
+      }
+    ]
+  });
+
+  assert.ok(danfeHtml.includes('GUSTAVO &amp; CIA &lt;TESTE&gt;'), 'Nome do destinatário deve ser escapado em HTML');
+  assert.ok(danfeHtml.includes('RUA DAS INDÚSTRIAS &quot;BLOCO A&quot;'), 'Endereço deve ter aspas escapadas');
+  assert.ok(danfeHtml.includes('SKU&lt;01&gt;'), 'Código do produto deve ser escapado');
+  assert.ok(danfeHtml.includes('PELE CAPRINA &amp; COURO LEGÍTIMO'), 'Descrição deve ter & escapado');
+  assert.ok(!danfeHtml.includes('<TESTE>'), 'Tags raw não devem existir no HTML final');
+});
+
+test('REFINAMENTO 02 - LOGÍSTICA: Cache em memória com TTL acelera cotações repetidas de frete', async () => {
+  limparCacheFrete();
+  const hub = new LogisticaHub({ db });
+
+  const payload = {
+    cepOrigem: '93940-000',
+    cepDestino: '01001-000',
+    pesoKg: 0.8,
+    dimensoes: { c: 20, l: 15, a: 10 },
+    valorDeclarado: 150
+  };
+
+  // 1ª Chamada: Processamento real (de_cache = false)
+  const cotacao1 = await hub.cotarFreteMultiplo(payload);
+  assert.strictEqual(cotacao1.success, true);
+  assert.strictEqual(cotacao1.de_cache, false, 'Primeira cotação deve calcular normalmente sem cache');
+
+  // 2ª Chamada idêntica: Retorno instantâneo via Cache (de_cache = true)
+  const cotacao2 = await hub.cotarFreteMultiplo(payload);
+  assert.strictEqual(cotacao2.success, true);
+  assert.strictEqual(cotacao2.de_cache, true, 'Segunda cotação idêntica deve ser servida pelo cache');
+  assert.strictEqual(cotacao2.total_opcoes, cotacao1.total_opcoes);
+  assert.strictEqual(cotacao2.destaques.menor_preco.preco, cotacao1.destaques.menor_preco.preco);
+
+  // Limpeza de cache reseta o estado
+  limparCacheFrete();
+  const cotacao3 = await hub.cotarFreteMultiplo(payload);
+  assert.strictEqual(cotacao3.de_cache, false, 'Após limparCacheFrete, deve recalcular sem cache');
+});
+
+test('REFINAMENTO 03 - FINANCEIRO: Transação atômica na conciliação bancária em lote', async () => {
+  const fitidTeste = 'FITID_REFINAMENTO_03';
+  const agora = new Date().toISOString();
+
+  // Prepara lançamento financeiro
+  const resLanc = await db.run(`
+    INSERT INTO financeiro_lancamentos (
+      tipo, origem, descricao, categoria, valor, data_vencimento, forma_pagamento, status, data_cadastro
+    ) VALUES ('RECEBER', 'MANUAL', 'VENDA PARA CONCILIACAO ATOMICA', 'VENDAS', 120.00, '2026-11-15', 'BOLETO', 'PENDENTE', ?)
+  `, [agora]);
+  const lancId = resLanc.lastInsertRowid;
+
+  // Prepara extrato bancário
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
+  await db.run(`
+    INSERT INTO conciliacao_extratos (
+      fitid, tipo, data_transacao, valor, descricao, status, origem
+    ) VALUES (?, 'CREDITO', '2026-11-15', 118.50, 'CREDITO TITULO COBRANCA', 'PENDENTE', 'OFX')
+  `, [fitidTeste]);
+
+  // Executa reconciliação em lote via handlerFinanceiro
+  const req = {
+    method: 'POST',
+    url: '/api/financeiro/conciliacao/reconciliar-lote',
+    body: {
+      reconciliacoes: [
+        {
+          lancamento_id: lancId,
+          fitid: fitidTeste,
+          data_pagamento: '2026-11-15',
+          diferenca_tarifa: 1.50
+        }
+      ]
+    }
+  };
+  const res = criarMockRes();
+  await handlerFinanceiro(req, res);
+
+  assert.strictEqual(res.getStatusCode(), 200);
+  const data = res.getData();
+  assert.strictEqual(data.success, true);
+  assert.strictEqual(data.total_reconciliados, 1);
+  assert.strictEqual(data.total_tarifas_ajustadas, 1);
+
+  // Verifica que o lançamento original foi baixado para PAGO
+  const lancAtualizado = await db.get('SELECT * FROM financeiro_lancamentos WHERE id = ?', [lancId]);
+  assert.strictEqual(lancAtualizado.status, 'PAGO');
+
+  // Verifica que o extrato foi marcado como CONCILIADO
+  const extratoAtualizado = await db.get('SELECT * FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
+  assert.strictEqual(extratoAtualizado.status, 'CONCILIADO');
+  assert.strictEqual(extratoAtualizado.transacao_financeiro_id, lancId);
+
+  // Limpeza
+  await db.run('DELETE FROM financeiro_lancamentos WHERE id = ?', [lancId]);
+  await db.run("DELETE FROM financeiro_lancamentos WHERE origem = 'CONCILIACAO_TARIFA' AND observacoes LIKE ?", [`%#${lancId}%`]);
+  await db.run('DELETE FROM conciliacao_extratos WHERE fitid = ?', [fitidTeste]);
 });
