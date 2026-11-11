@@ -110,35 +110,76 @@ async function identificarItensEstoque(textoItens, itensDetalhados) {
 /**
  * Aplica movimentação de estoque (Reserva, Baixa Definitiva ou Estorno)
  */
-async function movimentarEstoquePedido(itensExtraidos, operacao) {
+async function movimentarEstoquePedido(itensExtraidos, operacao, docRef = '') {
   const agora = new Date().toISOString();
   for (const item of itensExtraidos) {
-    const prod = await get('SELECT id, estoque_atual, estoque_reservado FROM produtos WHERE id = ?', [item.id]);
+    const prod = await get('SELECT id, estoque_atual, estoque_reservado, preco_custo FROM produtos WHERE id = ?', [item.id]);
     if (!prod) continue;
 
-    let fisico = parseFloat(prod.estoque_atual || 0);
+    const saldoAnteriorFisico = parseFloat(prod.estoque_atual || 0);
+    let fisico = saldoAnteriorFisico;
     let reservado = Math.max(0, parseFloat(prod.estoque_reservado || 0));
+
+    let tipoKardex = null;
+    let motivoKardex = null;
+    let obsKardex = '';
 
     if (operacao === 'RESERVAR') {
       reservado += item.qtd;
     } else if (operacao === 'BAIXAR_DIRETO') {
       fisico = Math.max(0, fisico - item.qtd);
+      tipoKardex = 'SAIDA';
+      motivoKardex = 'VENDA_PEDIDO';
+      obsKardex = `Baixa de estoque por faturamento direto (${docRef || 'Pedido'})`;
     } else if (operacao === 'CONVERTER_RESERVA_EM_BAIXA') {
       reservado = Math.max(0, reservado - item.qtd);
       fisico = Math.max(0, fisico - item.qtd);
+      tipoKardex = 'SAIDA';
+      motivoKardex = 'VENDA_PEDIDO';
+      obsKardex = `Baixa de estoque por envio/entrega de pedido (${docRef || 'Pedido'})`;
     } else if (operacao === 'LIBERAR_RESERVA') {
       reservado = Math.max(0, reservado - item.qtd);
     } else if (operacao === 'ESTORNAR_BAIXA_PARA_RESERVA') {
       fisico += item.qtd;
       reservado += item.qtd;
+      tipoKardex = 'ENTRADA';
+      motivoKardex = 'DEVOLUCAO_CLIENTE';
+      obsKardex = `Estorno de baixa para reserva (${docRef || 'Pedido'})`;
     } else if (operacao === 'ESTORNAR_BAIXA_TOTAL') {
       fisico += item.qtd;
+      tipoKardex = 'ENTRADA';
+      motivoKardex = 'DEVOLUCAO_CLIENTE';
+      obsKardex = `Estorno de baixa total por cancelamento (${docRef || 'Pedido'})`;
     }
 
     await run(
       'UPDATE produtos SET estoque_atual = ?, estoque_reservado = ?, data_atualizacao = ? WHERE id = ?',
       [fisico, reservado, agora, prod.id]
     );
+
+    if (tipoKardex) {
+      try {
+        await run(`
+          INSERT INTO estoque_movimentacoes (
+            produto_id, tipo, origem, motivo, quantidade,
+            saldo_anterior, saldo_posterior, custo_unitario,
+            documento_referencia, observacoes, operador_nome, data_movimentacao
+          ) VALUES (?, ?, 'VENDA', ?, ?, ?, ?, ?, ?, ?, 'Sistema de Pedidos', datetime('now', 'localtime'))
+        `, [
+          prod.id,
+          tipoKardex,
+          motivoKardex,
+          item.qtd,
+          saldoAnteriorFisico,
+          fisico,
+          prod.preco_custo || 0,
+          docRef || 'PEDIDO',
+          obsKardex
+        ]);
+      } catch (errKardex) {
+        console.warn('[KARDEX PEDIDO AVISO]', errKardex.message);
+      }
+    }
   }
 }
 
@@ -279,9 +320,9 @@ export default async function handler(req, res) {
       const itensEstoque = await identificarItensEstoque(payload.itens, payload.itens_detalhados);
       if (itensEstoque.length > 0) {
         if (isStatusPendente(status)) {
-          await movimentarEstoquePedido(itensEstoque, 'RESERVAR');
+          await movimentarEstoquePedido(itensEstoque, 'RESERVAR', numero);
         } else if (isStatusConcluido(status)) {
-          await movimentarEstoquePedido(itensEstoque, 'BAIXAR_DIRETO');
+          await movimentarEstoquePedido(itensEstoque, 'BAIXAR_DIRETO', numero);
         }
       }
 
@@ -413,17 +454,18 @@ export default async function handler(req, res) {
       // Transição de Estoque quando o status muda
       if (statusAnterior !== novoStatus) {
         const itensEstoque = await identificarItensEstoque(payload.itens || pedidoExistente.itens, payload.itens_detalhados);
+        const pedidoNumeroRef = pedidoExistente?.numero || (`#PED-${idParam}`);
         if (itensEstoque.length > 0) {
           if (isStatusPendente(statusAnterior) && isStatusConcluido(novoStatus)) {
-            await movimentarEstoquePedido(itensEstoque, 'CONVERTER_RESERVA_EM_BAIXA');
+            await movimentarEstoquePedido(itensEstoque, 'CONVERTER_RESERVA_EM_BAIXA', pedidoNumeroRef);
           } else if (isStatusPendente(statusAnterior) && novoStatus === 'CANCELADO') {
-            await movimentarEstoquePedido(itensEstoque, 'LIBERAR_RESERVA');
+            await movimentarEstoquePedido(itensEstoque, 'LIBERAR_RESERVA', pedidoNumeroRef);
           } else if (isStatusConcluido(statusAnterior) && isStatusPendente(novoStatus)) {
-            await movimentarEstoquePedido(itensEstoque, 'ESTORNAR_BAIXA_PARA_RESERVA');
+            await movimentarEstoquePedido(itensEstoque, 'ESTORNAR_BAIXA_PARA_RESERVA', pedidoNumeroRef);
           } else if (isStatusConcluido(statusAnterior) && novoStatus === 'CANCELADO') {
-            await movimentarEstoquePedido(itensEstoque, 'ESTORNAR_BAIXA_TOTAL');
+            await movimentarEstoquePedido(itensEstoque, 'ESTORNAR_BAIXA_TOTAL', pedidoNumeroRef);
           } else if (statusAnterior === 'CANCELADO' && isStatusPendente(novoStatus)) {
-            await movimentarEstoquePedido(itensEstoque, 'RESERVAR');
+            await movimentarEstoquePedido(itensEstoque, 'RESERVAR', pedidoNumeroRef);
           }
         }
 

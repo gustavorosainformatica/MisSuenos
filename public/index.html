@@ -7047,7 +7047,7 @@
             <div id="ajuste-prod-subtitulo" style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">Carregando produto...</div>
           </div>
         </div>
-        <button class="modal-close-btn" type="button" onclick="fecharModalAjusteEstoque()">✕</button>
+        <button class="modal-close-btn" type="button" onclick="fecharModalAjusteEstoque()" tabindex="-1">✕</button>
       </div>
 
       <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
@@ -7062,13 +7062,13 @@
               Tipo de Movimentação *
             </label>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 4px; gap: 6px;">
-              <button type="button" id="btn-tipo-entrada" onclick="aoMudarTipoAjuste('ENTRADA')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.18); color: #34d399; transition: all 0.2s;">
+              <button type="button" id="btn-tipo-entrada" onclick="aoMudarTipoAjuste('ENTRADA')" tabindex="-1" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.18); color: #34d399; transition: all 0.2s;">
                 <span>🟢</span> Entrada
               </button>
-              <button type="button" id="btn-tipo-saida" onclick="aoMudarTipoAjuste('SAIDA')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;">
+              <button type="button" id="btn-tipo-saida" onclick="aoMudarTipoAjuste('SAIDA')" tabindex="-1" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;">
                 <span>🔴</span> Saída
               </button>
-              <button type="button" id="btn-tipo-balanco" onclick="aoMudarTipoAjuste('BALANCO')" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;" title="Definir o saldo físico real contado no galpão">
+              <button type="button" id="btn-tipo-balanco" onclick="aoMudarTipoAjuste('BALANCO')" tabindex="-1" style="padding: 9px 12px; border-radius: 6px; font-weight: 800; font-size: 12.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid transparent; background: transparent; color: #94a3b8; transition: all 0.2s;" title="Definir o saldo físico real contado no galpão">
                 <span>⚖️</span> Balanço
               </button>
             </div>
@@ -7099,7 +7099,7 @@
                 <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Doc. Referência / NF-e</span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Pedido, NF ou Recibo</span>
               </label>
-              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1042 / Pedido 105 / Lote 26" style="font-weight: 600;">
+              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1042 / Pedido 105 / Lote 26" style="font-weight: 600; text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()">
             </div>
           </div>
 
@@ -7129,13 +7129,13 @@
               <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Observações Técnicas / Lote (Opcional)</span>
               <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Gravado no extrato Kardex</span>
             </label>
-            <input type="text" class="form-input" id="ajuste-observacoes" placeholder="Ex: Lote de couros sem defeitos / conferência física realizada no setor A">
+            <input type="text" class="form-input" id="ajuste-observacoes" placeholder="Ex: Lote de couros sem defeitos / conferência física realizada no setor A" style="text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()">
           </div>
         </form>
       </div>
 
       <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
-        <button type="button" class="btn-top btn-row-action" onclick="fecharModalAjusteEstoque()">Cancelar</button>
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalAjusteEstoque()" tabindex="-1">Cancelar</button>
         <button type="button" class="btn-top btn-emerald-glow" id="btn-salvar-ajuste-estoque" onclick="document.getElementById('form-ajuste-estoque').requestSubmit()" style="font-weight: 800; font-size: 12.5px; padding: 9px 18px;">
           💾 Confirmar Movimentação & Atualizar Kardex
         </button>
@@ -7158,10 +7158,10 @@
           </div>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <button type="button" class="btn-top btn-row-action" onclick="exportarKardexCsv()" style="font-size: 11.5px; padding: 6px 12px; display: flex; align-items: center; gap: 6px;" title="Exportar Extrato para Planilha Excel (CSV com UTF-8 BOM)">
+          <button type="button" class="btn-top btn-row-action" onclick="exportarKardexCsv()" tabindex="-1" style="font-size: 11.5px; padding: 6px 12px; display: flex; align-items: center; gap: 6px;" title="Exportar Extrato para Planilha Excel (CSV com UTF-8 BOM)">
             <span>📊</span> Exportar CSV
           </button>
-          <button class="modal-close-btn" type="button" onclick="fecharModalFichaKardex()">✕</button>
+          <button class="modal-close-btn" type="button" onclick="fecharModalFichaKardex()" tabindex="-1">✕</button>
         </div>
       </div>
 
@@ -7193,19 +7193,19 @@
             
             <!-- SEGMENTED CONTROL LIMPO (PADRONIZAÇÃO OFICIAL DO ERP) -->
             <div style="display: flex; background: #090d16; border: 1px solid #334155; border-radius: 6px; padding: 3px; gap: 4px;">
-              <button type="button" class="btn-seg-kardex" id="btn-kardex-todos" onclick="filtrarTipoKardex('TODOS')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.18); color: #38bdf8; cursor: pointer; transition: all 0.2s;">
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-todos" onclick="filtrarTipoKardex('TODOS')" tabindex="-1" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid #38bdf8; background: rgba(56, 189, 248, 0.18); color: #38bdf8; cursor: pointer; transition: all 0.2s;">
                 Todos
               </button>
-              <button type="button" class="btn-seg-kardex" id="btn-kardex-entradas" onclick="filtrarTipoKardex('ENTRADA')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-entradas" onclick="filtrarTipoKardex('ENTRADA')" tabindex="-1" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
                 <span>🟢</span> Entradas
               </button>
-              <button type="button" class="btn-seg-kardex" id="btn-kardex-saidas" onclick="filtrarTipoKardex('SAIDA')" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
+              <button type="button" class="btn-seg-kardex" id="btn-kardex-saidas" onclick="filtrarTipoKardex('SAIDA')" tabindex="-1" style="padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 4px; border: 1px solid transparent; background: transparent; color: #94a3b8; cursor: pointer; transition: all 0.2s;">
                 <span>🔴</span> Saídas
               </button>
             </div>
           </div>
 
-          <button type="button" class="btn-top btn-emerald-glow" onclick="if(kardexProdutoAtivo?.id) { abrirModalAjusteEstoque(kardexProdutoAtivo.id); fecharModalFichaKardex(); }" style="font-weight: 800; font-size: 11.5px; padding: 7px 14px;">
+          <button type="button" class="btn-top btn-emerald-glow" onclick="if(kardexProdutoAtivo?.id) { abrirModalAjusteEstoque(kardexProdutoAtivo.id); fecharModalFichaKardex(); }" tabindex="-1" style="font-weight: 800; font-size: 11.5px; padding: 7px 14px;">
             <span>⚡</span> Novo Ajuste Neste Item
           </button>
         </div>
@@ -24038,7 +24038,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         aplicarTamanhoSalvoModal('modal-ajuste-estoque');
         modal.style.display = 'flex';
         modal.classList.add('active');
-        setTimeout(() => document.getElementById('ajuste-quantidade')?.focus(), 80);
+        setTimeout(() => { const el = document.getElementById('ajuste-quantidade'); if (el) { el.focus(); el.select(); } }, 80);
       }
     }
 
@@ -24337,6 +24337,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         modal.classList.add('active');
       }
       await carregarKardexProduto(produtoId);
+      setTimeout(() => { const el = document.getElementById('kardex-busca-filtro'); if (el) { el.focus(); el.select(); } }, 80);
     }
 
     function fecharModalFichaKardex() {

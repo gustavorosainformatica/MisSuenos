@@ -1,11 +1,40 @@
 # Registro de Transição de Contexto (Handoff)
 
-**Data / Hora:** 10 de Novembro de 2026 — 00:45 (BRT)  
-**Objetivo da Sessão:** Concepção, especificação técnica, decomposição em tickets e implementação completa do módulo de **DRE (Demonstração do Resultado do Exercício) Analítico** e **Fluxo de Caixa Projetado** no Mis Sueños ERP com sincronização na matriz neutra ERP Base e deploy na nuvem.
+**Data / Hora:** 11 de Novembro de 2026 — 18:25 (BRT)  
+**Objetivo da Sessão:** Execução completa dos Tickets 01 a 05 da **Fase 1 do Roadmap: Módulo Universal de Estoque & Ficha Kardex** com rastreabilidade patrimonial total, integração automática de vendas/compras ao Kardex, ergonomia de teclado (Tab/Focus) e suíte formal TDD com 116 testes aprovados.
 
 ---
 
-## 1. O que foi Concluído
+## 1. O que foi Concluído nesta Sessão (Estoque & Kardex)
+
+1. **Camada de Dados & DDL de Auditoria (Ticket 01):**
+   - Tabela `estoque_movimentacoes` consolidada com constraints de validação (`tipo IN ('ENTRADA', 'SAIDA')`, `quantidade > 0`, saldos anterior e posterior).
+   - Índice analítico `idx_estoque_mov_prod (produto_id, data_movimentacao DESC)`.
+   - SQLite configurado com `PRAGMA journal_mode = WAL;` e `PRAGMA busy_timeout = 5000;` para concorrência de processos.
+
+2. **Motor de Negócios & API REST (Ticket 02):**
+   - Endpoints `/api/estoque/movimentar`, `/api/estoque/kardex/:produto_id` e `/api/estoque/motivos`.
+   - Bloqueio estrito com HTTP 400 em tentativas de saída superiores ao saldo físico disponível.
+   - Normalização automática de origens (`AJUSTE_MANUAL`, `COMPRA`, `VENDA`, `INVENTARIO`, `PRODUCAO`, `LOCACAO`).
+   - Integração atômica no fechamento/estorno de pedidos (`VENDA_PEDIDO` e `DEVOLUCAO_CLIENTE`).
+
+3. **Suíte TDD de Testes Automatizados (Ticket 03):**
+   - Arquivo `tests/estoque_kardex.test.js` com 8 testes novos cobrindo entrada, saída, bloqueio de estoque insuficiente, filtros de data e integração com pedidos.
+   - **Total de 116 testes unitários e de integração passando com 100% de sucesso**.
+
+4. **Interface e Ergonomia de Teclado (Ticket 04):**
+   - Modais `#modal-ajuste-estoque` e `#modal-ficha-kardex` refinados com foco automático (`.select()`).
+   - `tabindex="-1"` em botões secundários (fechar, cancelar, abas de filtro e alternadores).
+   - Caixa alta universal em inputs de texto (`#ajuste-doc-ref`, `#ajuste-observacoes`).
+   - Exportação para planilha Excel via CSV com codificação UTF-8 BOM e delimitador `;`.
+   - Service Worker atualizado para `missuenos-pwa-v57`.
+
+5. **Validação Global e Documentação (Ticket 05):**
+   - Documento `docs/TICKETS_ESTOQUE_KARDEX.md` 100% concluído.
+
+---
+
+## 2. Histórico da Sessão Anterior (DRE & Fluxo de Caixa)
 
 1. **Validação e Sabatina Técnica (/grill-me):**
    - Sabatina interativa concluída definindo visões temporal diária (30 dias), mensal (6 meses) e híbrida.

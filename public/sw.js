@@ -3,7 +3,8 @@
 // garantindo que qualquer alteração apareça imediatamente sem necessidade de Control + F5.
 // v31: Expurgar cache agressivo, alinhar controles de janelas flutuantes e destravar redimensionamento
 // v56: Espelho do Pedido A4 (Layout Comercial) & Romaneio de Galpão (Checklist de Expedição)
-const CACHE_NAME = 'missuenos-pwa-v56';
+// v57: Módulo Universal de Estoque & Ficha Kardex com Rastreabilidade Total
+const CACHE_NAME = 'missuenos-pwa-v57';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
