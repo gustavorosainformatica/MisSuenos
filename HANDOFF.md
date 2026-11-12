@@ -1,43 +1,45 @@
 # Registro de Transição de Contexto (Handoff)
 
-**Data / Hora:** 12 de Novembro de 2026 — 00:20 (BRT)  
-**Objetivo da Sessão:** Code Review do Módulo de Estoque/Kardex, Diagnóstico e Correção da Persistência de Clientes (v58), Protocolo Global `vprint` (Lightshot/Clipboard), Correção de Atalhos do Windows e Deploy Auditado em Produção.
+**Data / Hora:** 12 de Novembro de 2026 — 10:05 (BRT)  
+**Objetivo da Sessão:** Implementação da Interface Responsiva Mobile-First (v59) via Fluxo de Engenharia de Matt Pocock (`/fluxo-engenharia` ➔ `/grill-me` ➔ `/to-spec` ➔ `/to-tickets` ➔ `/implement-spec`).
 
 ---
 
 ## 1. O que foi Concluído nesta Sessão
 
-1. **Revisão Técnica de Código (`/code-review`):**
-   - Auditoria completa da Ficha Kardex e motor de estoque (`api/estoque.js`, `api/pedidos.js`, `lib/db.js`, `public/index.html`).
-   - Avaliação de conformidade com as regras Nível 1 (Governança Global) e Nível 3 (`MisSuenos`).
-   - Veredito: Aprovado com ressalvas leves (polimento e sugestões não-bloqueantes).
+1. **Validação de Requisitos e Protótipo Visual Mobile (`/grill-me`):**
+   - Criação de simulador visual interativo de smartphone (iPhone 15 Pro) em `public/demo_mobile_comparativo.html`.
+   - Comparação lado a lado entre **Opção 1 (Bottom Sheet)** e **Opção 2 (Fullscreen Modal)**.
+   - Refinamento do layout da Opção 2 aprovado por Gustavo:
+     * Botão circular `✕` no topo esquerdo.
+     * Campo `Qtd` compacto (68px) alinhado ao lado do produto com texto centralizado em verde neon.
+     * Inclusão do dropdown de `Forma de Pagamento` (PIX à Vista, Cartão, Boleto e Dinheiro).
+     * Otimização de espaço vertical com mini-cards de frete e total lado a lado.
+     * Botão único confortável `[ 💾 Salvar Pedido ]` na base.
 
-2. **Diagnóstico e Correção Cirúrgica de Clientes (`/diagnosing-bugs`):**
-   - **Causa Raiz:** No endpoint `POST /api/clientes` ([`api/clientes.js`](file:///D:/projetos-agy/clientes/MisSuenos/api/clientes.js)), a instrução SQL declarava 24 colunas mas possuía apenas 23 placeholders (`?`) no bloco `VALUES`, disparando erro HTTP 500 no banco SQLite e fazendo o frontend salvar apenas em memória volátil de sessão.
-   - **Correção no Backend:** Alinhados exatamente os 24 placeholders no `INSERT INTO clientes`.
-   - **Correção no Frontend:** Adicionado `id="kpi-painel-total-clientes"` ao card do Dashboard e dinamizada a função `atualizarKpis()` para atualizar a contagem real na tela inicial.
-   - **Suíte de Testes:** Criado teste de integração [`tests/clientes_api.test.js`](file:///D:/projetos-agy/clientes/MisSuenos/tests/clientes_api.test.js). **Total de 117 testes unitários e de integração passando com 100% de sucesso**.
+2. **Especificação Técnica Formal (`/to-spec`):**
+   - Criação do documento `spec_mobile_first_erp.md` estabelecendo as metas, arquitetura, contratos CSS e regras de não-regressão desktop.
 
-3. **Criação da Skill e Protocolo Global `vprint`:**
-   - Criada a skill [`C:\Users\Usuario\.gemini\config\skills\vprint\SKILL.md`](file:///C:/Users/Usuario/.gemini/config/skills/vprint/SKILL.md) e a regra [`C:\Users\Usuario\.gemini\config\rules\protocolo-vprint.md`](file:///C:/Users/Usuario/.gemini/config/rules/protocolo-vprint.md).
-   - Registrado no [`~/.gemini/GEMINI.md`](file:///C:/Users/Usuario/.gemini/GEMINI.md) como protocolo global permanente de Nível 1.
-   - Suporte nativo ao **Lightshot** e atalho **`Win + Shift + S`** através da leitura direta da Área de Transferência do Windows via PowerShell.
+3. **Decomposição em Tarefas (`/to-tickets`):**
+   - Estruturação do plano de execução em 7 tickets atômicos e ordenados em `tickets_mobile_first_erp.md`.
 
-4. **Correção de Atalhos e Ícones da Área de Trabalho do Windows:**
-   - Atualizados os atalhos da Área de Trabalho para os novos caminhos da Governança em 3 Níveis (`D:\projetos-agy\sandbox\MisSuenos-Dev`).
-   - Vinculado o arquivo oficial de alta resolução `icon.ico` aos atalhos de produção e desenvolvimento.
-   - Disparada notificação via API do Windows Shell (`SHChangeNotify`) para reconstrução instantânea do cache de ícones do Desktop.
-
-5. **Sincronização Tríplice & Deploy Auditado na Nuvem (Vercel):**
-   - Service Worker atualizado para `missuenos-pwa-v58`.
-   - **`MisSuenos` (Produção):** Commit `24a8909` enviado para `origin main`.
-   - **Auditoria de Deploy:** Validado domínio [https://missuenos.vercel.app](https://missuenos.vercel.app) com HTTP `200 OK`, `missuenos-pwa-v58` ativo na Edge e confirmação de **1.142 clientes cadastrados** no banco Turso Cloud.
-   - **`erp-base` (Matriz Universal):** Commit `3e8cf25` propagando o ajuste dos 24 campos.
-   - **`MisSuenos-Dev` (Sandbox):** Commit `240c99e` atualizado na branch `dev`.
+4. **Implementação Metódica Orientada a Testes (`/implement-spec`):**
+   - **Ticket 1:** Criação de `public/mobile.css` com `@media (max-width: 768px)`, `100dvh`, prevenção de auto-zoom no iOS Safari (`font-size: 16px`), alvos de toque mínimos de `44px` e remoção universal de spinners numéricos.
+   - **Ticket 2:** Implementação da Bottom Navigation Bar com 5 abas (`[ 📊 Painel ]`, `[ 📦 Pedidos ]`, `[ ➕ Botão Central Verde Flutuante ]`, `[ 👥 Clientes ]`, `[ 🏷️ Estoque ]`).
+   - **Ticket 3:** Card View dinâmico para Pedidos e Clientes, ocultando as tabelas densas no mobile e renderizando cartões com status badges oficiais e acionamento direto do WhatsApp em 1 clique.
+   - **Ticket 4:** Modal de Pedidos em tela cheia ocupando `100dvh`, com campo `Forma de Pagamento` integrado e persistido.
+   - **Ticket 5:** Bottom Sheet deslizante para ações rápidas de 1 a 3 toques (Ajuste rápido de estoque no Kardex e rastreio) com alça de arraste superior.
+   - **Ticket 6:** Suporte à History API e evento `popstate` para que o botão nativo "Voltar" do celular feche modais sem sair da aplicação.
+   - **Ticket 7:** Suíte de testes `tests/mobile_first.test.js` com 13 novos testes automatizados (**130 testes totais passando com 100% de sucesso**), bump para `missuenos-pwa-v59` e deploy auditado no Vercel Edge.
 
 ---
 
-## 2. Arquivos Modificados / Criados
+## 2. Status dos Ambientes
+
+- **Produção (Vercel Edge):** [https://missuenos.vercel.app](https://missuenos.vercel.app) — `HTTP 200 OK`, `missuenos-pwa-v59` ativo com `mobile.css`.
+- **Protótipo Demonstrativo:** [https://missuenos.vercel.app/demo_mobile_comparativo.html](https://missuenos.vercel.app/demo_mobile_comparativo.html)
+- **Git Commit:** `82bb7a8` na branch `main` do repositório `MisSuenos`.
+
 
 - `api/clientes.js` - Ajuste do 24º placeholder (`?`) na query de inserção de novo cliente.
 - `public/index.html` - Identificador dinâmico no card do painel inicial, atualização de KPIs e menus de contexto.
