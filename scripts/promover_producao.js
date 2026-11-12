@@ -29,8 +29,8 @@ console.log(c.cyan + c.bold + '🚀 PROMOVER ATUALIZAÇÕES: AMBIENTE DE TESTES 
 console.log(c.dim + '   Gustavo Rosa Informática - Mis Sueños ERP' + c.reset);
 console.log(c.cyan + c.bold + '═'.repeat(70) + c.reset);
 
-const devDir = 'd:\\projetos-agy\\MisSuenos-Dev';
-const prodDir = 'd:\\projetos-agy\\MisSuenos';
+const devDir = 'D:\\projetos-agy\\sandbox\\MisSuenos-Dev';
+const prodDir = 'D:\\projetos-agy\\clientes\\MisSuenos';
 
 try {
   // 1. Verificar status em Dev
