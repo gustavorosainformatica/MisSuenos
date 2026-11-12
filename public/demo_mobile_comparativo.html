@@ -532,23 +532,23 @@
     .fs-body {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
     .fs-section {
       background: #0f172a;
       border: 1px solid #1e293b;
       border-radius: 12px;
-      padding: 12px;
+      padding: 10px 12px;
     }
     .fs-section-title {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
       color: #38bdf8;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     /* CARD DE VANTAGENS COMPARATIVAS */
@@ -695,7 +695,7 @@
               <input type="text" class="input-mobile" value="PEDRO CESAR ALMEIDA" style="text-transform: uppercase;">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 1fr 75px; gap: 8px;">
               <div class="form-group-mobile">
                 <label class="label-mobile">Produto Principal</label>
                 <select class="input-mobile" style="text-transform: uppercase;">
@@ -704,22 +704,24 @@
                 </select>
               </div>
               <div class="form-group-mobile">
-                <label class="label-mobile">Quantidade</label>
-                <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399;">
+                <label class="label-mobile" style="text-align: center;">Qtd</label>
+                <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399; text-align: center; padding: 10px 4px;">
               </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 1fr 110px; gap: 8px;">
               <div class="form-group-mobile">
                 <label class="label-mobile">Forma Pagto</label>
                 <select class="input-mobile">
-                  <option>PIX à Vista</option>
-                  <option>Cartão Crédito</option>
+                  <option>💳 PIX à Vista</option>
+                  <option>💳 Cartão Crédito</option>
+                  <option>📄 Boleto</option>
+                  <option>💵 Dinheiro</option>
                 </select>
               </div>
               <div class="form-group-mobile">
                 <label class="label-mobile">Valor Total</label>
-                <input type="text" class="input-mobile" value="R$ 230,00" readonly style="font-family: monospace; font-weight: 800; color: #38bdf8; background: #060911;">
+                <input type="text" class="input-mobile" value="R$ 230,00" readonly style="font-family: monospace; font-weight: 800; color: #38bdf8; background: #060911; text-align: right;">
               </div>
             </div>
 
@@ -795,65 +797,80 @@
             <!-- SEÇÃO 1: CLIENTE -->
             <div class="fs-section">
               <div class="fs-section-title">1. Dados do Destinatário</div>
-              <div class="form-group-mobile">
+              <div class="form-group-mobile" style="margin-bottom: 6px;">
                 <label class="label-mobile">Cliente Selecionado</label>
                 <input type="text" class="input-mobile" value="PEDRO CESAR ALMEIDA" style="text-transform: uppercase;">
               </div>
               <div style="font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between;">
                 <span>📍 Condor - RS</span>
-                <span style="color: #25d366;">WhatsApp Ativo</span>
+                <span style="color: #25d366; font-weight: 700;">WhatsApp Ativo</span>
               </div>
             </div>
 
             <!-- SEÇÃO 2: ITENS DO PEDIDO -->
             <div class="fs-section">
               <div class="fs-section-title">2. Itens & Produtos</div>
-              <div class="form-group-mobile">
-                <label class="label-mobile">Item Selecionado</label>
-                <select class="input-mobile">
-                  <option>Pele Caprina Ouro (R$ 115,00)</option>
-                  <option>Lonca de Potro (R$ 160,00)</option>
-                </select>
+              <div style="display: grid; grid-template-columns: 1fr 68px; gap: 8px; margin-bottom: 6px;">
+                <div class="form-group-mobile" style="margin-bottom: 0;">
+                  <label class="label-mobile">Item Selecionado</label>
+                  <select class="input-mobile">
+                    <option>Pele Caprina Ouro</option>
+                    <option>Lonca de Potro</option>
+                  </select>
+                </div>
+                <div class="form-group-mobile" style="margin-bottom: 0;">
+                  <label class="label-mobile" style="text-align: center;">Qtd</label>
+                  <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399; text-align: center; padding: 10px 4px;">
+                </div>
               </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                <div class="form-group-mobile">
-                  <label class="label-mobile">Qtd</label>
-                  <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399;">
-                </div>
-                <div class="form-group-mobile">
-                  <label class="label-mobile">Subtotal</label>
-                  <input type="text" class="input-mobile" value="R$ 230,00" readonly style="font-family: monospace; font-weight: 800; color: #38bdf8;">
-                </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #94a3b8; background: rgba(15, 23, 42, 0.6); padding: 5px 8px; border-radius: 6px; border-left: 2px solid #38bdf8;">
+                <span>Unitário: <strong style="color: #fff; font-family: monospace;">R$ 115,00</strong></span>
+                <span>Subtotal: <strong style="color: #38bdf8; font-family: monospace; font-weight: 800;">R$ 230,00</strong></span>
               </div>
             </div>
 
-            <!-- SEÇÃO 3: EXPEDIÇÃO & VALORES -->
+            <!-- SEÇÃO 3: EXPEDIÇÃO, PAGAMENTO & TOTAL -->
             <div class="fs-section">
-              <div class="fs-section-title">3. Frete & Total Geral</div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0;">
-                <span style="font-size: 12px; color: #94a3b8;">Frete Sedex</span>
-                <span style="font-family: monospace; font-weight: 700; color: #fff;">R$ 28,00</span>
+              <div class="fs-section-title">3. Pagamento & Total Geral</div>
+              
+              <!-- FORMA DE PAGAMENTO -->
+              <div class="form-group-mobile" style="margin-bottom: 8px;">
+                <label class="label-mobile">Forma de Pagamento</label>
+                <select class="input-mobile">
+                  <option selected>💳 PIX à Vista (5% Desconto)</option>
+                  <option>💳 Cartão de Crédito</option>
+                  <option>📄 Boleto Bancário</option>
+                  <option>💵 Dinheiro / Balcão</option>
+                </select>
               </div>
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.08);">
-                <span style="font-size: 13px; font-weight: 800; color: #fff;">TOTAL DO PEDIDO</span>
-                <span style="font-family: monospace; font-size: 18px; font-weight: 900; color: #34d399;">R$ 258,00</span>
+
+              <!-- FRETE E TOTAL LADO A LADO -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 6px 10px;">
+                  <span style="font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; display: block;">Frete Sedex</span>
+                  <span style="font-family: monospace; font-size: 13px; font-weight: 700; color: #fff;">R$ 28,00</span>
+                </div>
+                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 6px 10px; text-align: right;">
+                  <span style="font-size: 10px; color: #34d399; text-transform: uppercase; font-weight: 700; display: block;">Total do Pedido</span>
+                  <span style="font-family: monospace; font-size: 15px; font-weight: 900; color: #34d399;">R$ 258,00</span>
+                </div>
               </div>
 
               <!-- CHAVE INTELIGENTE: PAGO NA HORA? (OPÇÃO A ESCOLHIDA) -->
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0 2px 0; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 4px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0 2px 0; border-top: 1px solid rgba(255, 255, 255, 0.08);">
                 <div>
-                  <div style="font-size: 11.5px; font-weight: 800; color: #fff;">💳 Pago na hora?</div>
-                  <div style="font-size: 10px; color: #94a3b8;">SIM = Baixa direta · NÃO = Reserva</div>
+                  <div style="font-size: 11px; font-weight: 800; color: #fff;">💳 Pago na hora?</div>
+                  <div style="font-size: 9.5px; color: #94a3b8;">SIM = Baixa direta · NÃO = Reserva</div>
                 </div>
                 <div style="display: flex; background: #090d16; border: 1px solid #334155; border-radius: 8px; padding: 2px;">
-                  <button type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 6px; border: none; background: #10b981; color: #fff; cursor: pointer;">SIM</button>
-                  <button type="button" style="padding: 4px 10px; font-size: 11px; font-weight: 700; border-radius: 6px; border: none; background: transparent; color: #94a3b8; cursor: pointer;">NÃO</button>
+                  <button type="button" style="padding: 3px 9px; font-size: 10.5px; font-weight: 800; border-radius: 5px; border: none; background: #10b981; color: #fff; cursor: pointer;">SIM</button>
+                  <button type="button" style="padding: 3px 9px; font-size: 10.5px; font-weight: 700; border-radius: 5px; border: none; background: transparent; color: #94a3b8; cursor: pointer;">NÃO</button>
                 </div>
               </div>
             </div>
 
             <!-- BOTÃO ÚNICO INTELIGENTE E CONFORTÁVEL -->
-            <button type="button" class="btn-save-mobile" style="margin-top: 6px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 100%; color: #fff; border: none; padding: 13px; border-radius: 12px; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
+            <button type="button" class="btn-save-mobile" style="margin-top: 4px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); width: 100%; color: #fff; border: none; padding: 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);">
               <span>💾</span> Salvar Pedido
             </button>
           </div>
