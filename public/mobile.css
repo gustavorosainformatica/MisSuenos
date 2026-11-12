@@ -1,0 +1,475 @@
+/**
+ * Mis Sueños ERP - Camada de Responsividade Mobile-First
+ * Ativada exclusivamente em viewports <= 768px
+ * Padrão App Nativo (iOS / Android) com Zero Degradação Desktop
+ */
+
+:root {
+  --mobile-sat: env(safe-area-inset-top, 0px);
+  --mobile-sab: env(safe-area-inset-bottom, 0px);
+  --mobile-sal: env(safe-area-inset-left, 0px);
+  --mobile-sar: env(safe-area-inset-right, 0px);
+  --mobile-nav-height: 64px;
+}
+
+/* Oculto no desktop por padrão */
+.mobile-cards-container {
+  display: none;
+}
+
+/* ========================================================
+   REGRAS ATIVAS EM SMARTPHONES E TELAS ATÉ 768PX
+   ======================================================== */
+@media (max-width: 768px) {
+  /* 1. Viewport e Scroll Fluido */
+  html, body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    padding-bottom: calc(var(--mobile-nav-height) + var(--mobile-sab) + 12px) !important;
+  }
+
+  /* 2. Prevenção de Auto-Zoom no iOS Safari e Ergonomia de Toque (44px+) */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="date"],
+  select,
+  textarea,
+  .form-input,
+  .erp-select {
+    font-size: 16px !important; /* Previne auto-zoom indesejado do iOS Safari */
+    min-height: 44px !important; /* Touch target mínimo ergonômico W3C/Apple */
+    box-sizing: border-box;
+  }
+
+  /* 3. Remoção Universal de Spinners em Campos Numéricos */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield !important;
+  }
+
+  /* 4. Botões e Alvos de Ação Touch Friendly */
+  button,
+  .btn,
+  .btn-top,
+  .nav-tab,
+  .mob-nav-item {
+    touch-action: manipulation;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 5. Isolamento de Layout e Containers Mobile */
+  .erp-main-wrapper {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-bottom: calc(var(--mobile-nav-height) + var(--mobile-sab) + 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 6. Barra de Navegação Inferior (Mobile Bottom Navigation Bar) */
+  .mobile-bottom-nav {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 64px 1fr 1fr !important;
+    align-items: center !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: calc(var(--mobile-nav-height) + var(--mobile-sab)) !important;
+    background: rgba(11, 17, 32, 0.96) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6) !important;
+    z-index: 9990 !important;
+    padding-bottom: var(--mobile-sab) !important;
+    user-select: none !important;
+  }
+
+  .mob-nav-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+    color: #94a3b8 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    gap: 3px !important;
+    transition: all 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .mob-nav-item:active {
+    transform: scale(0.92);
+  }
+
+  .mob-nav-item.active {
+    color: #38bdf8 !important;
+  }
+
+  .mob-nav-item.active .mob-nav-icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4));
+  }
+
+  .mob-nav-item.active .mob-nav-label {
+    font-weight: 800 !important;
+    color: #38bdf8 !important;
+  }
+
+  .mob-nav-icon {
+    font-size: 19px !important;
+    line-height: 1 !important;
+    display: block !important;
+    transition: transform 0.15s ease !important;
+  }
+
+  .mob-nav-label {
+    font-size: 10px !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Botão Central FAB (Floating Action Button) - Verde Esmeralda */
+  .mob-nav-fab {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+  }
+
+  .mob-nav-fab-btn {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5), 0 0 0 3px rgba(11, 17, 32, 0.95) !important;
+    border: none !important;
+    cursor: pointer !important;
+    transform: translateY(-12px) !important;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    touch-action: manipulation !important;
+  }
+
+  .mob-nav-fab-btn:active {
+    transform: translateY(-8px) scale(0.92) !important;
+  }
+
+  /* 7. Card View (Substitui tabelas pesadas no celular) */
+  #modulo-pedidos-conteudo .erp-table-wrapper,
+  #modulo-clientes-conteudo .erp-table-wrapper {
+    display: none !important;
+  }
+
+  .mobile-cards-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 6px 0 24px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .mobile-card {
+    background: #0f1624 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    transition: transform 0.15s ease, border-color 0.15s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .mobile-card:active {
+    transform: scale(0.985);
+    border-color: rgba(56, 189, 248, 0.4) !important;
+  }
+
+  .card-top-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .card-ped-num {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #38bdf8 !important;
+  }
+
+  .card-badge {
+    font-size: 10.5px !important;
+    font-weight: 800 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+  }
+
+  .badge-amarelo {
+    background: rgba(250, 204, 21, 0.18) !important;
+    color: #facc15 !important;
+    border: 1px solid rgba(250, 204, 21, 0.4) !important;
+  }
+
+  .badge-verde {
+    background: rgba(16, 185, 129, 0.18) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+  }
+
+  .badge-azul {
+    background: rgba(56, 189, 248, 0.18) !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  }
+
+  .badge-laranja {
+    background: rgba(245, 158, 11, 0.18) !important;
+    color: #f59e0b !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  }
+
+  .badge-vermelho {
+    background: rgba(239, 68, 68, 0.18) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+  }
+
+  .card-cli-nome {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+    line-height: 1.3 !important;
+  }
+
+  .card-cidade {
+    font-size: 11.5px !important;
+    color: #94a3b8 !important;
+  }
+
+  .card-itens-preview {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border-left: 2px solid #38bdf8 !important;
+    padding: 6px 10px !important;
+    font-size: 11.5px !important;
+    color: #cbd5e1 !important;
+    border-radius: 0 6px 6px 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  .card-bottom-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 4px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .card-valor {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #34d399 !important;
+  }
+
+  .card-acoes-touch {
+    display: flex !important;
+    gap: 8px !important;
+  }
+
+  .btn-touch-action {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #fff !important;
+    padding: 7px 12px !important;
+    border-radius: 8px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    cursor: pointer !important;
+    min-height: 36px !important;
+  }
+
+  .btn-touch-whatsapp {
+    background: rgba(37, 211, 102, 0.15) !important;
+    border-color: rgba(37, 211, 102, 0.35) !important;
+    color: #25d366 !important;
+  }
+
+  /* 8. Modal de Pedidos em Tela Cheia (Fullscreen Modal - Opção 2 Validada) */
+  #modal-pedido.modal-overlay {
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    padding: 0 !important;
+    background: #090d16 !important;
+    z-index: 99999 !important;
+  }
+
+  #modal-pedido .modal-container {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    background: #090d16 !important;
+  }
+
+  #modal-pedido .modal-container::before {
+    display: none !important;
+  }
+
+  #modal-pedido .modal-header {
+    height: 52px !important;
+    min-height: 52px !important;
+    background: #0f172a !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 14px !important;
+    padding-top: var(--mobile-sat) !important;
+  }
+
+  #modal-pedido .modal-close-btn {
+    order: -1 !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #cbd5e1 !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+  }
+
+  #modal-pedido .modal-title {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    margin: 0 auto !important;
+  }
+
+  #modal-pedido .modal-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  #modal-pedido .modal-footer {
+    background: #0f172a !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 10px 14px !important;
+    padding-bottom: calc(10px + var(--mobile-sab)) !important;
+    display: flex !important;
+    justify-content: stretch !important;
+  }
+
+  #modal-pedido .modal-footer button[type="submit"],
+  #modal-pedido .modal-footer .btn-salvar-pedido-principal {
+    width: 100% !important;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    padding: 13px !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4) !important;
+    border: none !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  /* Compactar campo Qtd no mobile (68px) */
+  #modal-pedido #ped-add-qtd-input {
+    width: 68px !important;
+    text-align: center !important;
+    font-weight: 800 !important;
+    color: #34d399 !important;
+  }
+
+  /* 9. Bottom Sheet para Modais Rápidos (Estoque, Rastreio, etc) */
+  .modal-overlay:not(#modal-pedido) {
+    align-items: flex-end !important;
+    padding: 0 !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+  }
+
+  .modal-overlay:not(#modal-pedido) .modal-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 86vh !important;
+    margin: 0 !important;
+    resize: none !important;
+    border-bottom: none !important;
+    padding-bottom: calc(16px + var(--mobile-sab)) !important;
+    animation: slideUpSheetMobile 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .modal-overlay:not(#modal-pedido) .modal-container::before {
+    content: '' !important;
+    display: block !important;
+    width: 42px !important;
+    height: 5px !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-radius: 999px !important;
+    margin: 8px auto 4px auto !important;
+  }
+
+  @keyframes slideUpSheetMobile {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+}

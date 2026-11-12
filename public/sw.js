@@ -5,13 +5,15 @@
 // v56: Espelho do Pedido A4 (Layout Comercial) & Romaneio de Galpão (Checklist de Expedição)
 // v57: Módulo Universal de Estoque & Ficha Kardex com Rastreabilidade Total
 // v58: Correção na persistência de novos clientes e sincronização dinâmica de contadores
-const CACHE_NAME = 'missuenos-pwa-v58';
+// v59: Interface Responsiva Mobile-First (Card View, Bottom Nav 5 abas e Fullscreen Modal)
+const CACHE_NAME = 'missuenos-pwa-v59';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
   '/icon-192.png',
   '/icon-512.png',
-  '/logo.png'
+  '/logo.png',
+  '/mobile.css'
 ];
 
 // Instalação do Service Worker: ativa imediatamente e baixa apenas ícones estáticos

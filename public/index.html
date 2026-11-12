@@ -36,6 +36,7 @@
   <script src="app-config.js?v=2.6"></script>
   <script src="dados_clientes.js"></script>
   <script src="mapa_interativo.js"></script>
+  <link rel="stylesheet" href="mobile.css?v=1.0">
   <style>
     :root {
       --bg-app: #070a10;
@@ -5015,6 +5016,9 @@
           </table>
         </div>
 
+        <!-- VISUALIZAÇÃO EM CARDS MOBILE PARA CLIENTES (ATIVO EM <= 768PX) -->
+        <div class="mobile-cards-container" id="mobile-clientes-cards"></div>
+
         <div class="table-pagination">
           <div>
             Exibindo <span id="pag-inicio">1</span> a <span id="pag-fim">25</span> de <span id="pag-total">1.140</span> clientes
@@ -5294,6 +5298,9 @@
             </tbody>
           </table>
         </div>
+
+        <!-- VISUALIZAÇÃO EM CARDS MOBILE PARA PEDIDOS (ATIVO EM <= 768PX) -->
+        <div class="mobile-cards-container" id="mobile-pedidos-cards"></div>
       </section>
     </main>
 
@@ -8404,6 +8411,15 @@
 
           <!-- LINHA DE FECHAMENTO: STATUS + RASTREIO + FRETE + TOTAL ALINHADO À DIREITA (SOLICITAÇÃO DO ÁUDIO 2) -->
           <div style="display: flex; gap: 12px; margin-top: 14px; align-items: flex-end; flex-wrap: wrap;">
+            <div class="form-group" style="flex: 1; min-width: 150px;">
+              <label class="form-label" style="color: #38bdf8;">Forma de Pagamento</label>
+              <select class="form-input erp-select" id="form-ped-forma-pagamento" style="width: 100%;">
+                <option value="PIX" selected>⚡ PIX à Vista</option>
+                <option value="CARTAO">💳 Cartão de Crédito</option>
+                <option value="BOLETO">📄 Boleto Bancário</option>
+                <option value="DINHEIRO">💵 Dinheiro / Balcão</option>
+              </select>
+            </div>
             <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Status do Pedido</label>
               <select class="form-input erp-select" id="form-ped-status" style="width: 100%;">
@@ -10190,6 +10206,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('pag-total').textContent = total.toLocaleString('pt-BR');
       document.getElementById('pag-atual').textContent = `${paginaAtual} / ${totalPaginas}`;
       setTimeout(() => aplicarOrdemColunasSalva(document.getElementById('tabela-clientes')), 50);
+      renderCardsClientesMobile(paginaItens);
 
       document.getElementById('btn-ant').disabled = paginaAtual <= 1;
       document.getElementById('btn-prox').disabled = paginaAtual >= totalPaginas;
@@ -13194,6 +13211,117 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         `;
       }).join('');
       sincronizarTbodyComThead(document.getElementById('tabela-pedidos'));
+      renderCardsPedidosMobile(pedidosFiltrados);
+    }
+
+    function renderCardsPedidosMobile(lista) {
+      const container = document.getElementById('mobile-pedidos-cards');
+      if (!container) return;
+
+      const pedidosParaExibir = Array.isArray(lista) ? lista : (Array.isArray(pedidosFiltrados) ? pedidosFiltrados : []);
+
+      if (pedidosParaExibir.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 30px 16px; color: var(--text-muted); background: rgba(15,22,36,0.6); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);"><div style="font-size: 24px; margin-bottom: 6px;">📦</div><div style="font-size: 13px; font-weight: 700; color: #fff;">Nenhum pedido encontrado</div><div style="font-size: 11px; margin-top: 4px;">Clique no botão central <strong>+</strong> para emitir um novo pedido.</div></div>';
+        return;
+      }
+
+      container.innerHTML = pedidosParaExibir.map(ped => {
+        const statusTexto = ped.status_texto || ped.statusTexto || 'Pendente';
+        let badgeClass = 'badge-amarelo';
+        let badgeIcon = '💳';
+
+        if (ped.status === 'EM_SEPARACAO') {
+          badgeClass = 'badge-azul';
+          badgeIcon = '📦';
+        } else if (ped.status === 'AGUARDANDO_ENVIO') {
+          badgeClass = 'badge-laranja';
+          badgeIcon = '⏳';
+        } else if (ped.status === 'ENVIADO' || ped.status === 'EM_TRANSITO') {
+          badgeClass = 'badge-verde';
+          badgeIcon = '🚚';
+        } else if (ped.status === 'ENTREGUE') {
+          badgeClass = 'badge-verde';
+          badgeIcon = '✅';
+        } else if (ped.status === 'CANCELADO') {
+          badgeClass = 'badge-vermelho';
+          badgeIcon = '✕';
+        }
+
+        const valorNum = parseFloat(ped.valor_total || ped.valor || 0);
+        const dataPed = ped.data_pedido || ped.data || '-';
+        const clienteNome = ped.cliente_nome || ped.cliente || 'CLIENTE SEM NOME';
+        const rawTel = (ped.telefone || ped.telefone_limpo || ped.tel || '').replace(/\D/g, '');
+        const cidadeUf = [ped.cidade, ped.uf].filter(Boolean).join(' - ') || 'Local não informado';
+        const itensTexto = (ped.itens || '-').replace(/"/g, '&quot;');
+
+        const btnWhats = rawTel
+          ? '<a href="https://wa.me/55' + rawTel + '" target="_blank" onclick="event.stopPropagation()" class="btn-touch-action btn-touch-whatsapp" title="Abrir WhatsApp"><span>📱</span> Whats</a>'
+          : '';
+
+        const btnRastreio = ped.codigo_rastreio
+          ? '<button type="button" onclick="event.stopPropagation(); abrirModalRastreio(' + ped.id + ', \'' + ped.codigo_rastreio + '\')" class="btn-touch-action" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" title="Rastrear"><span>🚚</span> Rastreio</button>'
+          : '';
+
+        return '<div class="mobile-card" onclick="aoDuploCliqueLinhaPedido(event, ' + ped.id + ')" title="Toque para abrir e editar">' +
+          '<div class="card-top-row">' +
+            '<span class="card-ped-num">' + (ped.numero || '#PED') + '</span>' +
+            '<span class="card-badge ' + badgeClass + '">' + badgeIcon + ' ' + statusTexto + '</span>' +
+          '</div>' +
+          '<div class="card-cli-nome">' + clienteNome + '</div>' +
+          '<div class="card-cidade">📍 ' + cidadeUf + ' · <span style="color: #64748b;">' + dataPed + '</span></div>' +
+          '<div class="card-itens-preview">' + itensTexto + '</div>' +
+          '<div class="card-bottom-row">' +
+            '<span class="card-valor">R$ ' + formatarMoedaPtBr(valorNum) + '</span>' +
+            '<div class="card-acoes-touch">' +
+              btnWhats +
+              btnRastreio +
+              '<button type="button" onclick="event.stopPropagation(); aoDuploCliqueLinhaPedido(event, ' + ped.id + ')" class="btn-touch-action"><span>✏️</span> Abrir</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderCardsClientesMobile(lista) {
+      const container = document.getElementById('mobile-clientes-cards');
+      if (!container) return;
+
+      const itens = Array.isArray(lista) ? lista : [];
+      if (itens.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 30px 16px; color: var(--text-muted); background: rgba(15,22,36,0.6); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);"><div style="font-size: 24px; margin-bottom: 6px;">👥</div><div style="font-size: 13px; font-weight: 700; color: #fff;">Nenhum cliente localizado</div></div>';
+        return;
+      }
+
+      container.innerHTML = itens.map(c => {
+        const rawTel = (c.telefone || '').replace(/\D/g, '');
+        const doc = c.cpf || c.cnpj || 'SEM DOCUMENTO';
+        const cidadeUf = [c.cidade, c.uf].filter(Boolean).join(' - ') || 'Sem cidade';
+        const uf = (c.uf || 'RS').toUpperCase();
+
+        const btnWhats = rawTel
+          ? '<a href="https://wa.me/55' + rawTel + '" target="_blank" onclick="event.stopPropagation()" class="btn-touch-action btn-touch-whatsapp" title="Abrir WhatsApp"><span>📱</span> Whats</a>'
+          : '';
+
+        return '<div class="mobile-card" onclick="aoDuploCliqueLinhaCliente(event, ' + c.id + ')" title="Toque para ver a ficha">' +
+          '<div class="card-top-row">' +
+            '<span class="card-ped-num">#' + (c.id || '-') + '</span>' +
+            '<span class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);">📍 ' + uf + '</span>' +
+          '</div>' +
+          '<div class="card-cli-nome">' + (c.nome || 'CLIENTE SEM NOME') + '</div>' +
+          '<div class="card-cidade">' +
+            '<span style="font-family: \'JetBrains Mono\', monospace; font-size: 11px; color: #cbd5e1;">📄 ' + doc + '</span>' +
+            '<span style="margin: 0 4px; color: #475569;">•</span>' +
+            '<span>📍 ' + cidadeUf + '</span>' +
+          '</div>' +
+          '<div class="card-bottom-row">' +
+            '<span style="font-size: 12px; color: #94a3b8; font-weight: 600;">' + (c.telefone || 'Sem telefone') + '</span>' +
+            '<div class="card-acoes-touch">' +
+              btnWhats +
+              '<button type="button" onclick="event.stopPropagation(); aoDuploCliqueLinhaCliente(event, ' + c.id + ')" class="btn-touch-action"><span>👤</span> Ficha</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     function filtrarPedidosPorStatus(status, btn) {
@@ -13983,6 +14111,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const hoje = new Date();
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
       document.getElementById('form-ped-status').value = 'AGUARDANDO_PAGAMENTO';
+      if (document.getElementById('form-ped-forma-pagamento')) document.getElementById('form-ped-forma-pagamento').value = 'PIX';
 
       // Se passou clienteId, auto-preenche todos os dados do cliente selecionado
       if (clienteId) {
@@ -14045,6 +14174,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const valorPedido = parseFloat(ped.valor_total || ped.valor || 0);
       document.getElementById('form-ped-valor').value = formatarMoedaPtBr(valorPedido);
       document.getElementById('form-ped-status').value = ped.status || 'AGUARDANDO_PAGAMENTO';
+      if (document.getElementById('form-ped-forma-pagamento')) document.getElementById('form-ped-forma-pagamento').value = ped.forma_pagamento || 'PIX';
       document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
       document.getElementById('form-ped-obs').value = ped.observacoes || '';
 
@@ -14335,6 +14465,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           preco_unitario: i.preco
         })),
         valor_total: desformatarNumeroPtBr(document.getElementById('form-ped-valor').value),
+        forma_pagamento: document.getElementById('form-ped-forma-pagamento')?.value || 'PIX',
         valor_frete: desformatarNumeroPtBr(document.getElementById('form-ped-frete')?.value || 0),
         status: status,
         status_texto: statusMap[status] || 'Pendente',
@@ -19758,7 +19889,31 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         if (!silencioso && typeof mostrarToast === 'function') {
           mostrarToast('Atualizando aplicação e limpando cache...', 'info');
         }
-        if ('serviceWorker' in navigator) {
+        // =========================================================================
+    // NAVEGAÇÃO MOBILE: SUPORTE AO BOTÃO VOLTAR DO CELULAR (HISTORY API / POPSTATE)
+    // =========================================================================
+    window.addEventListener('popstate', function(event) {
+      const modaisAbertos = document.querySelectorAll('.modal-overlay.active');
+      if (modaisAbertos && modaisAbertos.length > 0) {
+        const ultimoModal = modaisAbertos[modaisAbertos.length - 1];
+        const closeBtn = ultimoModal.querySelector('.modal-close-btn');
+        if (closeBtn && typeof closeBtn.click === 'function') {
+          closeBtn.click();
+        } else {
+          ultimoModal.classList.remove('active');
+        }
+      }
+    });
+
+    function registrarHistoricoModal(nomeModal) {
+      if (window.innerWidth <= 768) {
+        try {
+          history.pushState({ modalAberto: nomeModal || true }, '');
+        } catch (e) {}
+      }
+    }
+
+    if ('serviceWorker' in navigator) {
           const regs = await navigator.serviceWorker.getRegistrations();
           for (const reg of regs) {
             await reg.update().catch(() => {});
@@ -25473,26 +25628,26 @@ Agradecemos pela preferência! Ficamos à disposição.`;
 
   <!-- BARRA DE NAVEGAÇÃO INFERIOR PARA CELULARES (SMARTPHONES E IPHONE) -->
   <nav class="mobile-bottom-nav" id="mobile-bottom-nav">
-    <a class="mob-nav-item active" id="mob-nav-clientes" onclick="navegarModuloMobile('clientes', this)">
-      <span class="mob-nav-icon">👥</span>
-      <span class="mob-nav-label">Clientes</span>
+    <a class="mob-nav-item active" id="mob-nav-painel" onclick="navegarModuloMobile('painel', this)">
+      <span class="mob-nav-icon">📊</span>
+      <span class="mob-nav-label">Painel</span>
     </a>
     <a class="mob-nav-item" id="mob-nav-pedidos" onclick="navegarModuloMobile('pedidos', this)">
-      <span class="mob-nav-icon">🛒</span>
+      <span class="mob-nav-icon">📦</span>
       <span class="mob-nav-label">Pedidos</span>
     </a>
     <div class="mob-nav-fab">
-      <button class="mob-nav-fab-btn" id="mob-nav-fab-btn" onclick="dispararAcaoRapidaMobile()" title="Nova Ação Rápida">
-        <span>➕</span>
+      <button type="button" class="mob-nav-fab-btn" id="mob-nav-fab-btn" onclick="dispararAcaoRapidaMobile()" title="Nova Ação Rápida">
+        <span>+</span>
       </button>
     </div>
-    <a class="mob-nav-item" id="mob-nav-produtos" onclick="navegarModuloMobile('produtos', this)">
-      <span class="mob-nav-icon">🪵</span>
-      <span class="mob-nav-label">Estoque</span>
+    <a class="mob-nav-item" id="mob-nav-clientes" onclick="navegarModuloMobile('clientes', this)">
+      <span class="mob-nav-icon">👥</span>
+      <span class="mob-nav-label">Clientes</span>
     </a>
-    <a class="mob-nav-item" id="mob-nav-financeiro" onclick="navegarModuloMobile('financeiro', this)">
-      <span class="mob-nav-icon">💰</span>
-      <span class="mob-nav-label">Finanças</span>
+    <a class="mob-nav-item" id="mob-nav-produtos" onclick="navegarModuloMobile('produtos', this)">
+      <span class="mob-nav-icon">🏷️</span>
+      <span class="mob-nav-label">Estoque</span>
     </a>
   </nav>
 
