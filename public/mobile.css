@@ -488,24 +488,41 @@
     color: #34d399 !important;
   }
 
-  /* 9. Bottom Sheet para Modais Rápidos (Estoque, Rastreio, etc) */
+  /* 9. Bottom Sheet para Modais Rápidos (Produtos, Clientes, Estoque, Rastreio, etc) */
   .modal-overlay:not(#modal-pedido) {
     align-items: flex-end !important;
     padding: 0 !important;
     background: rgba(0, 0, 0, 0.75) !important;
+    z-index: 99995 !important; /* Fica sempre acima da .mobile-bottom-nav (9990) */
   }
 
   .modal-overlay:not(#modal-pedido) .modal-container {
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 20px 20px 0 0 !important;
-    max-height: 86vh !important;
+    max-height: 90dvh !important;
     margin: 0 !important;
     resize: none !important;
     border-bottom: none !important;
-    padding-bottom: calc(16px + var(--mobile-sab)) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
     animation: slideUpSheetMobile 0.26s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7) !important;
+  }
+
+  .modal-overlay:not(#modal-pedido) .modal-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .modal-overlay:not(#modal-pedido) .modal-footer {
+    flex-shrink: 0 !important;
+    background: #0f172a !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 12px 14px calc(12px + var(--mobile-sab)) 14px !important;
   }
 
   .modal-overlay:not(#modal-pedido) .modal-container::before {

@@ -151,7 +151,7 @@ test('MOBILE TICKET 04: mobile.css adapta #modal-pedido para Fullscreen Modal co
   );
 });
 
-test('MOBILE TICKET 05: mobile.css estiliza modais rápidos como Bottom Sheet com alça e animação', () => {
+test('MOBILE TICKET 05: mobile.css estiliza modais rápidos como Bottom Sheet acima da bottom-nav com alça e animação', () => {
   const cssPath = path.join(rootDir, 'public', 'mobile.css');
   const cssContent = fs.readFileSync(cssPath, 'utf8');
 
@@ -162,6 +162,10 @@ test('MOBILE TICKET 05: mobile.css estiliza modais rápidos como Bottom Sheet co
   assert.ok(
     cssContent.includes('slideUpSheetMobile') || cssContent.includes('keyframes slideUp'),
     'mobile.css deve conter animação de subida suave do Bottom Sheet'
+  );
+  assert.ok(
+    cssContent.includes('99995'),
+    'mobile.css deve garantir z-index superior à bottom-nav para modais Bottom Sheet'
   );
 });
 
@@ -188,13 +192,13 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para v61 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v61/v62 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v61') || swContent.includes('missuenos-pwa-v60'),
-    'sw.js deve conter a versão atualizada missuenos-pwa-v61'
+    swContent.includes('missuenos-pwa-v62') || swContent.includes('missuenos-pwa-v61'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v62'
   );
   assert.ok(
     swContent.includes('/mobile.css'),

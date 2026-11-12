@@ -8,7 +8,8 @@
 // v59: Interface Responsiva Mobile-First (Card View, Bottom Nav 5 abas e Fullscreen Modal)
 // v60: Sanfona Retrátil de KPIs Mobile (Opção A) e Cabeçalho Unificado com Voltar ao Painel
 // v61: Correção estrutural do DOM mobile, Cards de Produtos/Estoque e isolamento de layout
-const CACHE_NAME = 'missuenos-pwa-v61';
+// v62: Correção de z-index e rodapé fixo dos modais Bottom Sheet acima da bottom-nav no celular
+const CACHE_NAME = 'missuenos-pwa-v62';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
