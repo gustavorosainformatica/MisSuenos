@@ -257,7 +257,7 @@ export default async function handler(req, res) {
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
           endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const resultado = await run(sqlInsert, [

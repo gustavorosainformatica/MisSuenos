@@ -5764,7 +5764,7 @@
             <span class="kpi-label">Base de Clientes</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de clientes">👥</div>
           </div>
-          <div class="kpi-number">1.140</div>
+          <div class="kpi-number" id="kpi-painel-total-clientes">1.140</div>
           <div class="kpi-trend"><span style="color: #34d399;">→ Ver CRM</span> <span style="color: var(--text-muted); font-weight: normal;">(Base Oficial · 🖱️)</span></div>
         </div>
 
@@ -10051,6 +10051,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     function atualizarKpis() {
       const total = clientes.length;
       document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
+      const elPainelCli = document.getElementById('kpi-painel-total-clientes');
+      if (elPainelCli) elPainelCli.textContent = total.toLocaleString('pt-BR');
+      const cardTotalCli = document.getElementById('card-kpi-cli-total');
+      if (cardTotalCli) cardTotalCli.title = `💡 Botão Esquerdo: Listar Todos (${total.toLocaleString('pt-BR')}) · Botão Direito (🖱️): Menu de Opções & Cadastro`;
       const elTot = document.getElementById('nav-total-clientes'); if (elTot) elTot.textContent = total.toLocaleString('pt-BR');
 
       const totalRs = clientes.filter(c => (c.uf || '').toUpperCase() === 'RS').length;
@@ -18697,7 +18701,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const menu = document.getElementById('erp-context-menu');
       if (!menu) return;
 
-      const totalClientes = (typeof clientes !== 'undefined' && clientes) ? clientes.length : 1140;
+      const totalClientes = (typeof clientes !== 'undefined' && Array.isArray(clientes)) ? clientes.length : 0;
       const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 170;
       const totalCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cnpj && c.cnpj.trim()).length : 29;
       const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 182;
@@ -19187,7 +19191,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>👥</span> <span>Atalhos Rápidos: Clientes</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => acaoKpiClientes('TODOS', document.getElementById('card-kpi-cli-total')), 80)">
-              <span>👥</span> <span>Abrir CRM (Todos os 1.140 Clientes)</span>
+              <span>👥</span> <span>Abrir CRM (Todos os ${totalClientes > 0 ? totalClientes.toLocaleString('pt-BR') : '1.140'} Clientes)</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs'), 80)">
               <span>📍</span> <span>Abrir Clientes do RS (693)</span>
