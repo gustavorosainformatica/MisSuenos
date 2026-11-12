@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparativo Visual UI/UX Mobile - Mis Sueños ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background: #060911;
+      color: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .topo-header {
+      text-align: center;
+      max-width: 900px;
+      margin-bottom: 24px;
+    }
+    .topo-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .topo-header h1 span.badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+    .topo-header p {
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    /* BARRA DE CONTROLE / SELETOR DE MODO */
+    .seletor-modo {
+      display: flex;
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 4px;
+      border-radius: 12px;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+    .btn-modo {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-modo:hover {
+      color: #fff;
+    }
+    .btn-modo.ativo {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: #38bdf8;
+      color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    }
+
+    /* CONTAINER DOS SMARTPHONES */
+    .phones-container {
+      display: flex;
+      gap: 36px;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    /* MOLDURA DO SMARTPHONE (PROPORÇÃO IPHONE 15 PRO) */
+    .phone-mockup {
+      width: 380px;
+      height: 760px;
+      background: #090d16;
+      border: 10px solid #1e293b;
+      border-radius: 48px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .phone-label {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .phone-label h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .phone-label p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* DYNAMIC ISLAND DO IPHONE */
+    .iphone-island {
+      width: 110px;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+    }
+    .island-cam {
+      width: 10px;
+      height: 10px;
+      background: #0c1527;
+      border-radius: 50%;
+    }
+
+    /* BARRA DE STATUS MOBILE */
+    .mobile-status-bar {
+      height: 44px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 24px 8px 24px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* TOPBAR DO ERP NO CELULAR */
+    .mobile-topbar {
+      height: 52px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+    .brand-mobile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-logo-circle {
+      width: 28px;
+      height: 28px;
+      background: radial-gradient(circle, #facc15 0%, #ca8a04 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: #000;
+      font-size: 12px;
+      border: 1px solid #fef08a;
+    }
+    .brand-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    /* CONTEÚDO SCROLLÁVEL DO CELULAR */
+    .mobile-viewport {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 14px 80px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+
+    /* CARDS DE PEDIDOS / CLIENTES NO CELULAR (CARD VIEW EMPILHADO) */
+    .mobile-order-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.2s;
+    }
+    .mobile-order-card:hover {
+      border-color: #38bdf8;
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-ped-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .card-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .badge-amarelo {
+      background: rgba(250, 204, 21, 0.18);
+      color: #facc15;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+    }
+    .badge-verde {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .badge-azul {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    .card-cli-nome {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .card-cidade {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .card-itens-preview {
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 2px solid #38bdf8;
+      padding: 5px 8px;
+      font-size: 11.5px;
+      color: #cbd5e1;
+      border-radius: 0 6px 6px 0;
+    }
+    .card-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .card-valor {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 800;
+      color: #34d399;
+    }
+    .card-acoes-touch {
+      display: flex;
+      gap: 6px;
+    }
+    .btn-touch-action {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .btn-touch-whatsapp {
+      background: rgba(37, 211, 102, 0.15);
+      border-color: rgba(37, 211, 102, 0.3);
+      color: #25d366;
+    }
+
+    /* BARRA INFERIOR COM BOTÃO CENTRAL [➕] (BOTTOM NAVIGATION ESTILO APP) */
+    .mobile-bottom-bar {
+      height: 64px;
+      background: rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 64px 1fr 1fr;
+      align-items: center;
+      padding-bottom: 8px;
+      z-index: 90;
+    }
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      color: #64748b;
+      font-size: 9.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .nav-tab.ativo {
+      color: #38bdf8;
+    }
+    .nav-tab-icon {
+      font-size: 18px;
+    }
+
+    /* BOTÃO CENTRAL FLUTUANTE [➕] */
+    .btn-central-plus {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-radius: 50%;
+      border: 3px solid #090d16;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: #fff;
+      font-weight: 900;
+      margin: -20px auto 0 auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn-central-plus:hover {
+      transform: scale(1.08);
+    }
+
+    /* ========================================================
+       OPÇÃO 1: BOTTOM SHEET (GAVETA DESLIZANTE QUE SOBE)
+       ======================================================== */
+    .sheet-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(3px);
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .bottom-sheet {
+      background: #0f172a;
+      border-radius: 24px 24px 0 0;
+      border-top: 1px solid rgba(56, 189, 248, 0.3);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+      max-height: 85%;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 18px 22px 18px;
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-handle {
+      width: 38px;
+      height: 5px;
+      background: #475569;
+      border-radius: 999px;
+      margin: 6px auto 12px auto;
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .sheet-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sheet-close {
+      background: #1e293b;
+      border: none;
+      color: #94a3b8;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* CAMPOS DO FORMULÁRIO MOBILE */
+    .form-group-mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .label-mobile {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .input-mobile {
+      background: #090d16;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+    }
+    .input-mobile:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    .btn-save-mobile {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ========================================================
+       OPÇÃO 2: MODAL EM TELA CHEIA (FULLSCREEN MOBILE PAGE)
+       ======================================================== */
+    .fullscreen-modal {
+      position: absolute;
+      inset: 0;
+      background: #090d16;
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .fs-header {
+      height: 52px;
+      background: #0f172a;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 14px;
+    }
+    .fs-back-btn {
+      background: transparent;
+      border: none;
+      color: #38bdf8;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .fs-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .fs-action-btn {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .fs-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .fs-section {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .fs-section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    /* CARD DE VANTAGENS COMPARATIVAS */
+    .comparativo-box {
+      max-width: 900px;
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 22px;
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .comparativo-box { grid-template-columns: 1fr; }
+    }
+    .col-vantagem h4 {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .col-vantagem ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .col-vantagem li {
+      font-size: 12.5px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topo-header">
+    <h1>
+      <span>📱 UI/UX Mobile: Mis Sueños ERP</span>
+      <span class="badge">Sabatina / Grill-Me</span>
+    </h1>
+    <p>Comparativo visual interativo entre as duas abordagens de formulário no smartphone com a Barra Inferior estilo App.</p>
+  </div>
+
+  <!-- SELETOR DE MODO -->
+  <div class="seletor-modo">
+    <button type="button" class="btn-modo ativo" id="btn-show-ambos" onclick="mudarVisualizacao('ambos')">
+      <span>👥</span> Comparar Lado a Lado
+    </button>
+    <button type="button" class="btn-modo" id="btn-show-sheet" onclick="mudarVisualizacao('sheet')">
+      <span>📱</span> Opção 1: Bottom Sheet (Gaveta)
+    </button>
+    <button type="button" class="btn-modo" id="btn-show-fs" onclick="mudarVisualizacao('fs')">
+      <span>📲</span> Opção 2: Modal Tela Cheia
+    </button>
+  </div>
+
+  <!-- CONTAINER DOS 2 SMARTPHONES -->
+  <div class="phones-container">
+
+    <!-- ========================================================
+         MOCKUP 1: OPÇÃO BOTTOM SHEET (GAVETA DESLIZANTE)
+         ======================================================== -->
+    <div class="phone-item" id="phone-sheet-item">
+      <div class="phone-label">
+        <h3 style="color: #38bdf8;">Opção 1: Bottom Sheet (Gaveta)</h3>
+        <p>A tela de fundo escurece e o formulário sobe suavemente pela base</p>
+      </div>
+
+      <div class="phone-mockup">
+        <div class="iphone-island"><div class="island-cam"></div></div>
+        
+        <div class="mobile-status-bar">
+          <span>09:41</span>
+          <span>5G 🔋</span>
+        </div>
+
+        <div class="mobile-topbar">
+          <div class="brand-mobile">
+            <div class="brand-logo-circle">M</div>
+            <div class="brand-title">MIS SUEÑOS</div>
+          </div>
+          <span style="font-size: 18px; color: #94a3b8;">🔔</span>
+        </div>
+
+        <!-- TELA DE FUNDO (LISTA DE PEDIDOS COM CARDS EMPILHADOS) -->
+        <div class="mobile-viewport">
+          <div class="mobile-order-card">
+            <div class="card-top">
+              <span class="card-ped-num">#PED-1048</span>
+              <span class="card-badge badge-amarelo">AGUARDANDO ENVIO</span>
+            </div>
+            <div class="card-cli-nome">MARCOS A. FAGUNDES</div>
+            <div class="card-cidade">Pelotas - RS · (53) 99123-4567</div>
+            <div class="card-itens-preview">1x Pele Caprina Ouro + Frete Sedex</div>
+            <div class="card-bottom-row">
+              <span class="card-valor">R$ 145,00</span>
+              <div class="card-acoes-touch">
+                <button type="button" class="btn-touch-action btn-touch-whatsapp">💬 Zap</button>
+                <button type="button" class="btn-touch-action">📦 Detalhes</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-order-card">
+            <div class="card-top">
+              <span class="card-ped-num">#PED-1047</span>
+              <span class="card-badge badge-verde">EMBALADO / PRONTO</span>
+            </div>
+            <div class="card-cli-nome">SELARIA SANTA FÉ</div>
+            <div class="card-cidade">Vacaria - RS</div>
+            <div class="card-itens-preview">3x Lonca de Potro Legítima</div>
+            <div class="card-bottom-row">
+              <span class="card-valor">R$ 480,00</span>
+              <div class="card-acoes-touch">
+                <button type="button" class="btn-touch-action">📦 Detalhes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAVETA (BOTTOM SHEET) ABERTA -->
+        <div class="sheet-overlay">
+          <div class="bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+              <div class="sheet-title">
+                <span>➕</span> Novo Pedido
+              </div>
+              <button type="button" class="sheet-close">✕</button>
+            </div>
+
+            <div class="form-group-mobile">
+              <label class="label-mobile">Cliente / Destinatário</label>
+              <input type="text" class="input-mobile" value="PEDRO CESAR ALMEIDA" style="text-transform: uppercase;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="form-group-mobile">
+                <label class="label-mobile">Produto Principal</label>
+                <select class="input-mobile" style="text-transform: uppercase;">
+                  <option>Pele Caprina Ouro</option>
+                  <option>Lonca de Potro</option>
+                </select>
+              </div>
+              <div class="form-group-mobile">
+                <label class="label-mobile">Quantidade</label>
+                <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399;">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="form-group-mobile">
+                <label class="label-mobile">Forma Pagto</label>
+                <select class="input-mobile">
+                  <option>PIX à Vista</option>
+                  <option>Cartão Crédito</option>
+                </select>
+              </div>
+              <div class="form-group-mobile">
+                <label class="label-mobile">Valor Total</label>
+                <input type="text" class="input-mobile" value="R$ 230,00" readonly style="font-family: monospace; font-weight: 800; color: #38bdf8; background: #060911;">
+              </div>
+            </div>
+
+            <button type="button" class="btn-save-mobile">
+              <span>💾</span> Salvar Pedido com Polegar
+            </button>
+          </div>
+        </div>
+
+        <!-- BARRA INFERIOR (BOTTOM BAR) -->
+        <div class="mobile-bottom-bar">
+          <div class="nav-tab">
+            <span class="nav-tab-icon">📊</span>
+            <span>Painel</span>
+          </div>
+          <div class="nav-tab ativo">
+            <span class="nav-tab-icon">📦</span>
+            <span>Pedidos</span>
+          </div>
+          <div class="btn-central-plus" title="Cadastrar">+</div>
+          <div class="nav-tab">
+            <span class="nav-tab-icon">👥</span>
+            <span>Clientes</span>
+          </div>
+          <div class="nav-tab">
+            <span class="nav-tab-icon">🏷️</span>
+            <span>Estoque</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MOCKUP 2: OPÇÃO MODAL EM TELA CHEIA (FULLSCREEN)
+         ======================================================== -->
+    <div class="phone-item" id="phone-fs-item">
+      <div class="phone-label">
+        <h3 style="color: #34d399;">Opção 2: Modal em Tela Cheia</h3>
+        <p>Ocupa 100% da viewport como se fosse uma tela de aplicativo dedicado</p>
+      </div>
+
+      <div class="phone-mockup">
+        <div class="iphone-island"><div class="island-cam"></div></div>
+        
+        <div class="mobile-status-bar">
+          <span>09:41</span>
+          <span>5G 🔋</span>
+        </div>
+
+        <!-- TELA CHEIA ATIVA -->
+        <div class="fullscreen-modal">
+          <div class="fs-header">
+            <button type="button" class="fs-back-btn">
+              <span>❮</span> Cancelar
+            </button>
+            <div class="fs-title">Novo Pedido</div>
+            <button type="button" class="fs-action-btn">Salvar</button>
+          </div>
+
+          <div class="fs-body">
+            <!-- SEÇÃO 1: CLIENTE -->
+            <div class="fs-section">
+              <div class="fs-section-title">1. Dados do Destinatário</div>
+              <div class="form-group-mobile">
+                <label class="label-mobile">Cliente Selecionado</label>
+                <input type="text" class="input-mobile" value="PEDRO CESAR ALMEIDA" style="text-transform: uppercase;">
+              </div>
+              <div style="font-size: 11px; color: #94a3b8; display: flex; justify-content: space-between;">
+                <span>📍 Condor - RS</span>
+                <span style="color: #25d366;">WhatsApp Ativo</span>
+              </div>
+            </div>
+
+            <!-- SEÇÃO 2: ITENS DO PEDIDO -->
+            <div class="fs-section">
+              <div class="fs-section-title">2. Itens & Produtos</div>
+              <div class="form-group-mobile">
+                <label class="label-mobile">Item Selecionado</label>
+                <select class="input-mobile">
+                  <option>Pele Caprina Ouro (R$ 115,00)</option>
+                  <option>Lonca de Potro (R$ 160,00)</option>
+                </select>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <div class="form-group-mobile">
+                  <label class="label-mobile">Qtd</label>
+                  <input type="number" class="input-mobile" value="2" style="font-family: monospace; font-size: 15px; font-weight: 800; color: #34d399;">
+                </div>
+                <div class="form-group-mobile">
+                  <label class="label-mobile">Subtotal</label>
+                  <input type="text" class="input-mobile" value="R$ 230,00" readonly style="font-family: monospace; font-weight: 800; color: #38bdf8;">
+                </div>
+              </div>
+            </div>
+
+            <!-- SEÇÃO 3: EXPEDIÇÃO & VALORES -->
+            <div class="fs-section">
+              <div class="fs-section-title">3. Frete & Total Geral</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0;">
+                <span style="font-size: 12px; color: #94a3b8;">Frete Sedex</span>
+                <span style="font-family: monospace; font-weight: 700; color: #fff;">R$ 28,00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.08);">
+                <span style="font-size: 13px; font-weight: 800; color: #fff;">TOTAL DO PEDIDO</span>
+                <span style="font-family: monospace; font-size: 18px; font-weight: 900; color: #34d399;">R$ 258,00</span>
+              </div>
+            </div>
+
+            <button type="button" class="btn-save-mobile" style="margin-top: 4px;">
+              <span>💾</span> Confirmar e Emitir Pedido
+            </button>
+          </div>
+        </div>
+
+        <!-- BARRA INFERIOR (BOTTOM BAR) -->
+        <div class="mobile-bottom-bar" style="display: none;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COMPARATIVO TÉCNICO DAS DUAS OPÇÕES -->
+  <div class="comparativo-box">
+    <div class="col-vantagem">
+      <h4><span>📱</span> Opção 1: Bottom Sheet (Gaveta)</h4>
+      <ul>
+        <li>✅ <strong>Ergonomia com uma só mão:</strong> Os campos e o botão "Salvar" ficam exatamente na metade inferior da tela, ao alcance natural do polegar.</li>
+        <li>✅ <strong>Sensação de rapidez:</strong> Não perde a referência da tela anterior; você vê a lista por trás embaçada.</li>
+        <li>✅ <strong>Ideal para:</strong> Ações rápidas de 3 a 5 campos (Ajuste Rápido de Estoque, Baixa de Pedido, Cadastro de Cliente Rápido).</li>
+        <li>⚠️ <em>Limitação:</em> Se o formulário tiver muitos campos ou itens longos, pode exigir rolagem interna.</li>
+      </ul>
+    </div>
+
+    <div class="col-vantagem">
+      <h4><span>📲</span> Opção 2: Modal em Tela Cheia (Fullscreen)</h4>
+      <ul>
+        <li>✅ <strong>Espaço máximo de digitação:</strong> Aproveita 100% da tela do iPhone/smartphone sem cortes ou sensação de aperto.</li>
+        <li>✅ <strong>Seções estruturadas:</strong> Permite dividir o pedido em blocos visuais claros (Destinatário, Itens, Frete e Pagamento).</li>
+        <li>✅ <strong>Ideal para:</strong> Formulários mais densos ou detalhados (ex: Pedido com 5 itens diferentes e cálculo de frete).</li>
+        <li>⚠️ <em>Limitação:</em> Exige alcançar o topo da tela para cancelar ou salvar (a menos que o botão de salvar fique flutuante no rodapé).</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function mudarVisualizacao(modo) {
+      const pSheet = document.getElementById('phone-sheet-item');
+      const pFs = document.getElementById('phone-fs-item');
+      const bAmbos = document.getElementById('btn-show-ambos');
+      const bSheet = document.getElementById('btn-show-sheet');
+      const bFs = document.getElementById('btn-show-fs');
+
+      [bAmbos, bSheet, bFs].forEach(b => b.classList.remove('ativo'));
+
+      if (modo === 'ambos') {
+        pSheet.style.display = 'block';
+        pFs.style.display = 'block';
+        bAmbos.classList.add('ativo');
+      } else if (modo === 'sheet') {
+        pSheet.style.display = 'block';
+        pFs.style.display = 'none';
+        bSheet.classList.add('ativo');
+      } else if (modo === 'fs') {
+        pSheet.style.display = 'none';
+        pFs.style.display = 'block';
+        bFs.classList.add('ativo');
+      }
+    }
+  </script>
+
+</body>
+</html>
