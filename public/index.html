@@ -4986,9 +4986,7 @@
           
         </button>
       </div>
-        </div>
       </div>
-        </div>
       </div>
 
       <div class="erp-scrollable-area">
@@ -5179,8 +5177,8 @@
           
         </button>
       </div>
-
-      
+      </div>
+      </div>
 
       <div class="erp-scrollable-area">
         <!-- DATA GRID DE PRODUTOS -->
@@ -5216,6 +5214,9 @@
             </tbody>
           </table>
         </div>
+
+        <!-- VISUALIZAÇÃO EM CARDS MOBILE PARA PRODUTOS & ESTOQUE (ATIVO EM <= 768PX) -->
+        <div class="mobile-cards-container" id="mobile-produtos-cards"></div>
       </section>
       </div> <!-- fim erp-scrollable-area produtos -->
     </main>
@@ -11188,6 +11189,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             </td>
           </tr>
         `;
+        renderCardsProdutosMobile([]);
         return;
       }
 
@@ -11246,6 +11248,54 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         `;
       }).join('');
       sincronizarTbodyComThead(document.getElementById('tabela-produtos'));
+      renderCardsProdutosMobile(produtosFiltrados);
+    }
+
+    function renderCardsProdutosMobile(lista) {
+      const container = document.getElementById('mobile-produtos-cards');
+      if (!container) return;
+
+      const itens = Array.isArray(lista) ? lista : [];
+      if (itens.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 30px 16px; color: var(--text-muted); background: rgba(15,22,36,0.6); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);"><div style="font-size: 24px; margin-bottom: 6px;">🪵</div><div style="font-size: 13px; font-weight: 700; color: #fff;">Nenhum produto encontrado</div></div>';
+        return;
+      }
+
+      container.innerHTML = itens.map(p => {
+        const estFisico = parseFloat(p.estoque_atual || 0);
+        const estReservado = parseFloat(p.estoque_reservado || 0);
+        const estDisponivel = p.estoque_disponivel !== undefined ? parseFloat(p.estoque_disponivel) : Math.max(0, estFisico - estReservado);
+        const min = parseFloat(p.estoque_minimo || 5);
+        const un = p.unidade_medida || p.unidade || 'UN';
+        const isBaixo = estDisponivel <= min;
+
+        const badgeClass = isBaixo ? 'badge-vermelho' : 'badge-verde';
+        const badgeTexto = (isBaixo ? '⚠️ Saldo: ' : '✅ Saldo: ') + estDisponivel + ' ' + un;
+        const sku = p.codigo_sku || p.codigo || '-';
+        const cat = p.categoria || 'Outros';
+        const ncm = p.ncm || '42050000';
+        const precoCusto = formatarMoedaPtBr(parseFloat(p.preco_custo || 0));
+        const precoVenda = formatarMoedaPtBr(parseFloat(p.preco_venda || 0));
+
+        return '<div class="mobile-card" onclick="aoDuploCliqueLinhaProduto(event, ' + p.id + ')" title="Toque para editar produto">' +
+          '<div class="card-top-row">' +
+            '<span class="card-ped-num">SKU: ' + sku + '</span>' +
+            '<span class="card-badge ' + badgeClass + '">' + badgeTexto + '</span>' +
+          '</div>' +
+          '<div class="card-cli-nome">' + (p.nome || 'PRODUTO SEM NOME') + '</div>' +
+          '<div class="card-cidade">' + cat + ' · <span style="font-family: \'JetBrains Mono\', monospace;">NCM: ' + ncm + '</span></div>' +
+          '<div class="card-bottom-row">' +
+            '<div>' +
+              '<div style="font-size: 10.5px; color: #94a3b8;">Custo: R$ ' + precoCusto + '</div>' +
+              '<span class="card-valor">Venda: R$ ' + precoVenda + '</span>' +
+            '</div>' +
+            '<div class="card-acoes-touch">' +
+              '<button type="button" onclick="event.stopPropagation(); abrirModalAjusteEstoque(' + p.id + ')" class="btn-touch-action" style="color: #38bdf8; border-color: rgba(56,189,248,0.4);" title="Ajustar Estoque"><span>⚡</span> Ajustar</button>' +
+              '<button type="button" onclick="event.stopPropagation(); abrirModalFichaKardex(' + p.id + ')" class="btn-touch-action" style="color: #fbbf24; border-color: rgba(245,158,11,0.4);" title="Ficha Kardex"><span>📑</span></button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     function filtrarProdutosPorCategoria(cat, btn) {

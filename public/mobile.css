@@ -82,13 +82,54 @@
 
   /* 5. Isolamento de Layout e Containers Mobile */
   .erp-main-wrapper {
+    display: block !important;
     margin-left: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 100vw !important;
     padding-left: 10px !important;
     padding-right: 10px !important;
     padding-bottom: calc(var(--mobile-nav-height) + var(--mobile-sab) + 16px) !important;
     box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .erp-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 8px 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .erp-scrollable-area {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .erp-table-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .table-top-actions {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    padding: 8px 4px !important;
+  }
+
+  .table-top-actions > div:last-child {
+    display: none !important; /* Oculta dicas de botão direito do mouse no mobile */
+  }
+
+  .table-pagination {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 12px 6px !important;
   }
 
   /* 6. Barra de Navegação Inferior (Mobile Bottom Navigation Bar) */
@@ -190,7 +231,8 @@
 
   /* 7. Card View (Substitui tabelas pesadas no celular) */
   #modulo-pedidos-conteudo .erp-table-wrapper,
-  #modulo-clientes-conteudo .erp-table-wrapper {
+  #modulo-clientes-conteudo .erp-table-wrapper,
+  #modulo-produtos-conteudo .erp-table-wrapper {
     display: none !important;
   }
 
@@ -553,5 +595,29 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* 11. Foco Total nas Abas Operacionais e Painel 2x2 no Mobile (v2 Aprovada) */
+  #modulo-pedidos-conteudo .kpis-com-mapa-wrapper,
+  #modulo-clientes-conteudo .mobile-kpi-accordion,
+  #modulo-produtos-conteudo .mobile-kpi-accordion {
+    display: none !important;
+  }
+
+  #modulo-painel-conteudo .erp-kpi-grid,
+  #modulo-painel-conteudo .kpis-com-mapa-wrapper .erp-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  #modulo-painel-conteudo .erp-kpi-card {
+    padding: 12px !important;
+    min-width: 0 !important;
+  }
+
+  #modulo-painel-conteudo .kpi-number {
+    font-size: 17px !important;
+    word-break: break-word !important;
   }
 }

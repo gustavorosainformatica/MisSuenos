@@ -93,6 +93,10 @@ test('MOBILE TICKET 03: Containers de cards mobile existem no index.html', () =>
     htmlContent.includes('mobile-clientes-cards'),
     'index.html deve conter o container id="mobile-clientes-cards"'
   );
+  assert.ok(
+    htmlContent.includes('mobile-produtos-cards'),
+    'index.html deve conter o container id="mobile-produtos-cards"'
+  );
 });
 
 test('MOBILE TICKET 03: mobile.css contém estilos para Card View e alternância com tabelas', () => {
@@ -109,13 +113,17 @@ test('MOBILE TICKET 03: mobile.css contém estilos para Card View e alternância
   );
 });
 
-test('MOBILE TICKET 03: Função renderCardsPedidosMobile existe e gera cards estruturados', () => {
+test('MOBILE TICKET 03: Funções renderCardsPedidosMobile e renderCardsProdutosMobile existem e geram cards estruturados', () => {
   const htmlPath = path.join(rootDir, 'public', 'index.html');
   const htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
   assert.ok(
     htmlContent.includes('function renderCardsPedidosMobile') || htmlContent.includes('renderCardsPedidosMobile ='),
     'index.html deve conter a função renderCardsPedidosMobile'
+  );
+  assert.ok(
+    htmlContent.includes('function renderCardsProdutosMobile') || htmlContent.includes('renderCardsProdutosMobile ='),
+    'index.html deve conter a função renderCardsProdutosMobile'
   );
 });
 
@@ -180,16 +188,44 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para missuenos-pwa-v59/v60 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v61 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v59') || swContent.includes('missuenos-pwa-v60'),
-    'sw.js deve conter a versão missuenos-pwa-v59 ou v60'
+    swContent.includes('missuenos-pwa-v61') || swContent.includes('missuenos-pwa-v60'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v61'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
     'sw.js deve incluir /mobile.css na lista de STATIC_ASSETS'
   );
+});
+
+test('MOBILE TICKET 08: Integridade estrutural do HTML (divs balanceadas nos módulos principais)', () => {
+  const htmlPath = path.join(rootDir, 'public', 'index.html');
+  const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+  const verificarBalanceamentoModulo = (idModulo) => {
+    const startTag = `<main class="erp-content" id="${idModulo}"`;
+    const idxStart = htmlContent.indexOf(startTag);
+    assert.ok(idxStart !== -1, `Módulo ${idModulo} deve existir no index.html`);
+
+    const idxEnd = htmlContent.indexOf('</main>', idxStart);
+    assert.ok(idxEnd !== -1, `Módulo ${idModulo} deve possuir tag de fechamento </main>`);
+
+    const trecho = htmlContent.slice(idxStart, idxEnd);
+    const aberturas = (trecho.match(/<div\b/gi) || []).length;
+    const fechamentos = (trecho.match(/<\/div>/gi) || []).length;
+
+    assert.equal(
+      aberturas,
+      fechamentos,
+      `O módulo ${idModulo} possui desbalanceamento de divs: ${aberturas} abertas vs ${fechamentos} fechadas`
+    );
+  };
+
+  verificarBalanceamentoModulo('modulo-clientes-conteudo');
+  verificarBalanceamentoModulo('modulo-produtos-conteudo');
+  verificarBalanceamentoModulo('modulo-pedidos-conteudo');
 });
