@@ -723,9 +723,14 @@
               </div>
             </div>
 
-            <button type="button" class="btn-save-mobile">
-              <span>💾</span> Salvar Pedido com Polegar
-            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px;">
+              <button type="button" class="btn-action-mobile" style="background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span>💾</span> Salvar
+              </button>
+              <button type="button" class="btn-action-mobile" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; border: none; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);">
+                <span>⚡</span> Emitir
+              </button>
+            </div>
           </div>
         </div>
 
@@ -771,14 +776,12 @@
 
         <!-- TELA CHEIA ATIVA -->
         <div class="fullscreen-modal">
-          <div class="fs-header">
+          <div class="fs-header" style="display: flex; justify-content: space-between; align-items: center; padding: 0 16px;">
             <button type="button" class="fs-close-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s;" title="Fechar">
               ✕
             </button>
             <div class="fs-title" style="font-size: 15px; font-weight: 800; color: #fff;">Novo Pedido</div>
-            <button type="button" class="fs-action-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; cursor: pointer; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);">
-              Salvar
-            </button>
+            <div style="width: 32px;"></div>
           </div>
 
           <div class="fs-body">
@@ -830,9 +833,14 @@
               </div>
             </div>
 
-            <button type="button" class="btn-save-mobile" style="margin-top: 4px;">
-              <span>💾</span> Confirmar e Emitir Pedido
-            </button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
+              <button type="button" class="btn-action-mobile" style="background: #1e293b; border: 1px solid #334155; color: #cbd5e1; padding: 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.2s;">
+                <span>💾</span> Salvar
+              </button>
+              <button type="button" class="btn-action-mobile" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; border: none; padding: 12px; border-radius: 12px; font-size: 13.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); transition: all 0.2s;">
+                <span>⚡</span> Emitir
+              </button>
+            </div>
           </div>
         </div>
 
