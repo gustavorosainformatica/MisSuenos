@@ -6,7 +6,8 @@
 // v57: Módulo Universal de Estoque & Ficha Kardex com Rastreabilidade Total
 // v58: Correção na persistência de novos clientes e sincronização dinâmica de contadores
 // v59: Interface Responsiva Mobile-First (Card View, Bottom Nav 5 abas e Fullscreen Modal)
-const CACHE_NAME = 'missuenos-pwa-v59';
+// v60: Sanfona Retrátil de KPIs Mobile (Opção A) e Cabeçalho Unificado com Voltar ao Painel
+const CACHE_NAME = 'missuenos-pwa-v60';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',

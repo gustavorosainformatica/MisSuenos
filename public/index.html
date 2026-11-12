@@ -4922,8 +4922,15 @@
 
     <!-- CONTEÚDO PRINCIPAL (CLIENTES & CRM) -->
     <main class="erp-content" id="modulo-clientes-conteudo" style="display: none;">
-      <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
-      <div class="kpis-com-mapa-wrapper">
+      <!-- SANFONA RETRÁTIL DE KPIS (CLIENTES - OPÇÃO A MOBILE) -->
+      <div class="mobile-kpi-accordion" id="kpi-accordion-clientes">
+        <button type="button" class="kpi-accordion-btn" id="btn-toggle-kpi-clientes" onclick="alternarSanfonaKpi('clientes')" tabindex="-1">
+          <span class="kpi-acc-label"><span>📊</span> <span>Indicadores da Carteira</span></span>
+          <span class="kpi-acc-status" id="label-status-kpi-clientes">▼ Toque para ver (4)</span>
+        </button>
+        <div class="kpi-accordion-body" id="body-kpi-clientes">
+          <!-- CARDS DE METRICAS EXECUTIVAS (CLICÁVEIS) -->
+          <div class="kpis-com-mapa-wrapper">
         <section class="erp-kpi-grid">
         <div class="erp-kpi-card kpi-active-filter" id="card-kpi-cli-total" onclick="acaoKpiClientes('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'base', this)" title="💡 Botão Esquerdo: Listar Todos (1.140) · Botão Direito (🖱️): Menu de Opções & Cadastro">
           <div class="kpi-top-row">
@@ -4979,13 +4986,16 @@
           
         </button>
       </div>
-
-      
+        </div>
+      </div>
+        </div>
+      </div>
 
       <div class="erp-scrollable-area">
         <!-- DATA GRID CORPORATIVA -->
         <section class="erp-table-card">
         <div class="table-top-actions">
+          <button type="button" class="btn-mobile-voltar-painel" onclick="voltarAoPainelMobile()" tabindex="-1"><span>←</span> <span>Voltar ao Painel</span></button>
           <div class="table-title">
             <span>📋 Clientes & Destinatários de Encomendas</span>
             <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
@@ -5106,8 +5116,15 @@
 
     <!-- MÓDULO DE PRODUTOS & ESTOQUE DE COUROS (ERP) -->
     <main class="erp-content" id="modulo-produtos-conteudo" style="display: none;">
-      <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
-      <div class="kpis-com-mapa-wrapper">
+      <!-- SANFONA RETRÁTIL DE KPIS (PRODUTOS/ESTOQUE - OPÇÃO A MOBILE) -->
+      <div class="mobile-kpi-accordion" id="kpi-accordion-produtos">
+        <button type="button" class="kpi-accordion-btn" id="btn-toggle-kpi-produtos" onclick="alternarSanfonaKpi('produtos')" tabindex="-1">
+          <span class="kpi-acc-label"><span>📊</span> <span>Indicadores de Estoque</span></span>
+          <span class="kpi-acc-status" id="label-status-kpi-produtos">▼ Toque para ver (4)</span>
+        </button>
+        <div class="kpi-accordion-body" id="body-kpi-produtos">
+          <!-- CARDS DE METRICAS DO ESTOQUE (CLICÁVEIS) -->
+          <div class="kpis-com-mapa-wrapper">
               <section class="erp-kpi-grid">
         <div class="erp-kpi-card kpi-active-filter" id="card-kpi-prod-total" onclick="acaoKpiProdutos('TODOS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'total', this)" title="💡 Botão Esquerdo: Catálogo Completo · Botão Direito (🖱️): Menu de Opções & Novo Item">
           <div class="kpi-top-row">
@@ -13213,6 +13230,26 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       sincronizarTbodyComThead(document.getElementById('tabela-pedidos'));
       renderCardsPedidosMobile(pedidosFiltrados);
     }
+
+        // =========================================================================
+    // SANFONA RETRÁTIL DE KPIS (OPÇÃO A MOBILE)
+    // =========================================================================
+    function alternarSanfonaKpi(modulo) {
+      const bodyEl = document.getElementById('body-kpi-' + modulo);
+      const statusEl = document.getElementById('label-status-kpi-' + modulo);
+      if (!bodyEl) return;
+
+      const expandido = bodyEl.classList.toggle('expanded');
+      if (statusEl) {
+        statusEl.textContent = expandido ? '▲ Recolher indicadores' : '▼ Toque para ver (4)';
+      }
+    }
+    window.alternarSanfonaKpi = alternarSanfonaKpi;
+
+    function voltarAoPainelMobile() {
+      trocarModulo('painel');
+    }
+    window.voltarAoPainelMobile = voltarAoPainelMobile;
 
     function renderCardsPedidosMobile(lista) {
       const container = document.getElementById('mobile-pedidos-cards');

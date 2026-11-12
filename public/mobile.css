@@ -17,6 +17,14 @@
   display: none;
 }
 
+.kpi-accordion-btn {
+  display: none;
+}
+
+.btn-mobile-voltar-painel {
+  display: none;
+}
+
 /* ========================================================
    REGRAS ATIVAS EM SMARTPHONES E TELAS ATÉ 768PX
    ======================================================== */
@@ -471,5 +479,79 @@
   @keyframes slideUpSheetMobile {
     from { transform: translateY(100%); }
     to { transform: translateY(0); }
+  }
+
+  .btn-mobile-voltar-painel {
+    display: flex !important;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f1f5f9;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-height: 44px;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+  .btn-mobile-voltar-painel:active {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: #38bdf8;
+    color: #38bdf8;
+  }
+
+  /* 10. Sanfona Retrátil de KPIs Mobile (Opção A - Tela Limpa) */
+  .mobile-kpi-accordion {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .kpi-accordion-btn {
+    display: flex !important;
+    width: 100%;
+    min-height: 44px;
+    background: #0d1527;
+    border: 1px dashed rgba(56, 189, 248, 0.4);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #38bdf8;
+    font-size: 12px;
+    font-weight: 700;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .kpi-accordion-btn:active {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: #38bdf8;
+  }
+
+  .kpi-accordion-body {
+    display: none;
+    margin-top: 8px;
+  }
+
+  .kpi-accordion-body.expanded {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    animation: slideDownKpi 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideDownKpi {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

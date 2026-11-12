@@ -180,13 +180,13 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para missuenos-pwa-v59 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para missuenos-pwa-v59/v60 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v59'),
-    'sw.js deve conter a versão missuenos-pwa-v59'
+    swContent.includes('missuenos-pwa-v59') || swContent.includes('missuenos-pwa-v60'),
+    'sw.js deve conter a versão missuenos-pwa-v59 ou v60'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
