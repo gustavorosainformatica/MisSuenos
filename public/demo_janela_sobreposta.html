@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Comparativo Visual das 3 Opções de Layout Mobile | Mis Sueños ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #040711;
+      color: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .demo-header {
+      text-align: center;
+      max-width: 900px;
+      margin-bottom: 20px;
+    }
+    .demo-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      margin-bottom: 8px;
+    }
+    .demo-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+    .demo-desc {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* SELETOR DE ABAS DAS 3 OPÇÕES */
+    .tab-selector {
+      display: flex;
+      gap: 10px;
+      background: #0d1527;
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 24px;
+      max-width: 900px;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .tab-btn {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .tab-btn.active {
+      background: #0284c7;
+      color: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+    }
+    .tab-sub {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    /* CONTAINER DO SMARTPHONE */
+    .simulator-container {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 900px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .phone-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* MOCKUP DO SMARTPHONE */
+    .smartphone-frame {
+      width: 375px;
+      height: 740px;
+      background: #070a10;
+      border: 10px solid #1e293b;
+      border-radius: 44px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NOTCH & STATUS BAR */
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 22px;
+      background: #1e293b;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 1000;
+    }
+    .phone-status-bar {
+      height: 38px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      z-index: 999;
+      background: #070a10;
+    }
+
+    /* CABEÇALHO SUPERIOR PADRONIZADO (A2 APROVADO) */
+    .screen-header-unified {
+      background: #0d1527;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 80;
+    }
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .header-title-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .count-chip {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .header-add-btn {
+      background: #10b981;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* BUSCA OBRIGATÓRIA */
+    .header-search-box {
+      position: relative;
+    }
+    .header-search-input {
+      width: 100%;
+      height: 36px;
+      background: #050811;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0 30px 0 32px;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .search-icon-pos {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #64748b;
+    }
+    .clear-icon-pos {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+
+    /* CONTEÚDO ROLÁVEL DO CELULAR */
+    .screen-scroll-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 12px 64px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* OPÇÃO A: BOTÃO RETRÁTIL SANFONA (ACCORDION) */
+    .accordion-kpi-trigger {
+      background: #0d1527;
+      border: 1px dashed rgba(56, 189, 248, 0.4);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #38bdf8;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .accordion-kpi-trigger:hover {
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .accordion-kpi-content {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 8px 0;
+      animation: fadeIn 0.2s ease;
+    }
+    .accordion-kpi-content.expanded {
+      display: grid;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .kpi-mini-box {
+      background: #0d1527;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .kpi-mini-title {
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .kpi-mini-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
+    }
+
+    /* CARD DE CLIENTE / PRODUTO */
+    .client-card-item {
+      background: #0b1120;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .client-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .client-card-id {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #64748b;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .client-card-uf {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .client-card-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #f8fafc;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .client-card-meta {
+      font-size: 11px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .client-card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .client-card-phone {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #cbd5e1;
+    }
+    .action-btn-group {
+      display: flex;
+      gap: 6px;
+    }
+    .btn-touch-sm {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f1f5f9;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-touch-whatsapp {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    /* MINI BOTTOM NAV */
+    .mini-bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: rgba(7, 10, 16, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding-bottom: 6px;
+      z-index: 50;
+    }
+    .mini-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      font-size: 9.5px;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .mini-nav-item.active {
+      color: #38bdf8;
+    }
+    .mini-fab {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: -18px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    /* CARD DE ANÁLISE / EXPLICAÇÃO */
+    .explanation-panel {
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .expl-card {
+      background: #090e17;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .expl-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .badge-opt-a { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+    .badge-opt-b { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-opt-c { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+
+    .expl-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .expl-desc {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .expl-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12.5px;
+    }
+    .expl-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: #cbd5e1;
+    }
+    .expl-list li strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-header">
+    <div class="demo-tag">Sabatina Técnica • /grill-me</div>
+    <h1 class="demo-title">Como Resolver a "Tela Cheia" no Celular?</h1>
+    <p class="demo-desc">
+      Toque nas opções abaixo para alternar a simulação interativa no smartphone e ver exatamente como cada alternativa se comporta na prática.
+    </p>
+  </div>
+
+  <!-- SELETOR DE ABAS INTERATIVAS -->
+  <div class="tab-selector">
+    <button class="tab-btn active" onclick="selecionarOpcao('A', this)">
+      <span>📊 Opção A: Sanfona Retrátil</span>
+      <span class="tab-sub">KPIs colapsados num botão que expande</span>
+    </button>
+    <button class="tab-btn" onclick="selecionarOpcao('B', this)">
+      <span>✨ Opção B: KPIs Só no Painel</span>
+      <span class="tab-sub">Lista 100% pura na aba Clientes/Estoque</span>
+    </button>
+    <button class="tab-btn" onclick="selecionarOpcao('C', this)">
+      <span>🪟 Opção C: Janela Sobreposta</span>
+      <span class="tab-sub">Abre sub-view ao tocar no Painel</span>
+    </button>
+  </div>
+
+  <div class="simulator-container">
+    
+    <!-- FRAME DO SMARTPHONE -->
+    <div class="phone-wrapper">
+      <div class="smartphone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-status-bar">
+          <span>11:30</span>
+          <span>4.5G 📶 84%</span>
+        </div>
+
+        <!-- CABEÇALHO UNIFICADO (A2 APROVADO) -->
+        <div class="screen-header-unified" id="mock-header">
+          <div class="header-top-row">
+            <button class="header-back-btn" onclick="simularVoltar()">
+              <span>←</span> <span>Voltar</span>
+            </button>
+            <div class="header-title-badge">
+              <span>👥 Clientes</span>
+              <span class="count-chip">1.142</span>
+            </div>
+            <button class="header-add-btn" title="Novo Cliente">
+              <span>+</span>
+            </button>
+          </div>
+          <div class="header-search-box">
+            <span class="search-icon-pos">🔍</span>
+            <input type="text" class="header-search-input" placeholder="BUSCAR POR NOME, CIDADE OU CPF...">
+            <span class="clear-icon-pos">✕</span>
+          </div>
+        </div>
+
+        <!-- CONTEÚDO DINÂMICO ROLÁVEL -->
+        <div class="screen-scroll-body" id="mock-body">
+          <!-- Conteúdo inserido dinamicamente via JS -->
+        </div>
+
+        <!-- BARRA INFERIOR DE 5 ABAS -->
+        <div class="mini-bottom-nav">
+          <div class="mini-nav-item" id="nav-p"><span>📊</span><span>Painel</span></div>
+          <div class="mini-nav-item" id="nav-ped"><span>📦</span><span>Pedidos</span></div>
+          <div class="mini-fab">+</div>
+          <div class="mini-nav-item active" id="nav-cli"><span>👥</span><span>Clientes</span></div>
+          <div class="mini-nav-item" id="nav-est"><span>🏷️</span><span>Estoque</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAINEL DE EXPLICAÇÃO TÉCNICA -->
+    <div class="explanation-panel" id="expl-panel">
+      <!-- Inserido dinamicamente via JS -->
+    </div>
+
+  </div>
+
+  <script>
+    // DADOS MOCK DE EXEMPLO ZERO-PII
+    const CLIENTES_MOCK = [
+      { id: 2306, nome: 'AIRTON MARTINS DE OLIVEIRA', uf: 'RS', cidade: 'SANTO ÂNGELO', tel: '(55) 99999-0001', doc: 'SEM DOCUMENTO' },
+      { id: 2307, nome: 'AIRTONS TIMÓTEO DA COSTA', uf: 'RS', cidade: 'ESTEIO', tel: '(51) 98888-0002', doc: 'SEM DOCUMENTO' },
+      { id: 2308, nome: 'ALBINO JOSÉ DOS SANTOS', uf: 'SC', cidade: 'LAGES', tel: '(49) 97777-0003', doc: '000.000.001-91' },
+      { id: 2309, nome: 'ALEXANDRE DE SOUZA RAMOS', uf: 'SP', cidade: 'SOROCABA', tel: '(15) 96666-0004', doc: '00.000.000/0001-91' },
+      { id: 2310, nome: 'ALFEU MENDES MACHADO', uf: 'RS', cidade: 'PASSO FUNDO', tel: '(54) 95555-0005', doc: 'SEM DOCUMENTO' }
+    ];
+
+    function gerarCardsHtml() {
+      return CLIENTES_MOCK.map(c => `
+        <div class="client-card-item">
+          <div class="client-card-top">
+            <span class="client-card-id">#${c.id}</span>
+            <span class="client-card-uf">${c.uf}</span>
+          </div>
+          <div class="client-card-name">${c.nome}</div>
+          <div class="client-card-meta">
+            <span>📄 ${c.doc}</span>
+            <span>•</span>
+            <span>📍 ${c.cidade} - ${c.uf}</span>
+          </div>
+          <div class="client-card-actions">
+            <span class="client-card-phone">${c.tel}</span>
+            <div class="action-btn-group">
+              <button class="btn-touch-sm btn-touch-whatsapp"><span>📱</span> Whats</button>
+              <button class="btn-touch-sm"><span>👤</span> Ficha</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selecionarOpcao(opcao, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const bodyEl = document.getElementById('mock-body');
+      const explEl = document.getElementById('expl-panel');
+
+      if (opcao === 'A') {
+        // OPÇÃO A: Sanfona Retrátil
+        bodyEl.innerHTML = `
+          <!-- BOTÃO SANFONA -->
+          <div class="accordion-kpi-trigger" id="acc-btn" onclick="toggleSanfona()">
+            <span>📊 Indicadores da Carteira (4)</span>
+            <span id="acc-arrow">▼ Toque para ver</span>
+          </div>
+
+          <!-- BLOCO RETRÁTIL EXPANDÍVEL -->
+          <div class="accordion-kpi-content" id="acc-content">
+            <div class="kpi-mini-box">
+              <div class="kpi-mini-title">Base Total</div>
+              <div class="kpi-mini-val">1.142</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-mini-title">Volume RS</div>
+              <div class="kpi-mini-val">695</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-mini-title">Estados</div>
+              <div class="kpi-mini-val">14 UFs</div>
+            </div>
+            <div class="kpi-mini-box">
+              <div class="kpi-mini-title">Documentos</div>
+              <div class="kpi-mini-val">201</div>
+            </div>
+          </div>
+
+          <!-- LISTA LIMPA -->
+          ${gerarCardsHtml()}
+        `;
+
+        explEl.innerHTML = `
+          <div class="expl-card">
+            <span class="expl-badge badge-opt-a">Opção A • Híbrida & Flexível</span>
+            <h2 class="expl-title">Botão Retrátil (Sanfona de Indicadores)</h2>
+            <p class="expl-desc">
+              A tela abre com <strong>90% do espaço dedicado aos clientes</strong>. Os 4 blocos de KPI ficam guardados dentro de um botão fino e elegante. Se você precisar checar os números ou o mapinha, basta dar 1 toque no botão para expandi-los; caso contrário, a lista fica totalmente limpa e espaçosa.
+            </p>
+            <ul class="expl-list">
+              <li>✅ <strong>Vantagem:</strong> Você não perde os números de vista, mas eles não roubam a tela se você só quiser achar um cliente.</li>
+              <li>✅ <strong>Ergonomia:</strong> Cabem 4 a 5 clientes de uma vez na rolagem.</li>
+              <li>💡 <strong>Experimente no celular ao lado:</strong> Toque em <em>"📊 Indicadores da Carteira"</em> para ver abrindo e fechando!</li>
+            </ul>
+          </div>
+        `;
+      } else if (opcao === 'B') {
+        // OPÇÃO B: KPIs Apenas no Painel
+        bodyEl.innerHTML = `
+          <div style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 4px;">
+            Exibindo 1.142 clientes ativos
+          </div>
+          ${gerarCardsHtml()}
+          ${gerarCardsHtml()}
+        `;
+
+        explEl.innerHTML = `
+          <div class="expl-card">
+            <span class="expl-badge badge-opt-b">Opção B • Máxima Limpeza & Foco Puro</span>
+            <h2 class="expl-title">KPIs Exclusivos no Painel Inicial</h2>
+            <p class="expl-desc">
+              Os 4 blocos de KPI são <strong>removidos por completo</strong> das telas de Clientes e Estoque no celular (eles continuam existindo normalmente no Painel Inicial e no Desktop). Ao tocar em Clientes, você vê <strong>exclusivamente a busca e os cards</strong> desde o primeiro pixel do topo.
+            </p>
+            <ul class="expl-list">
+              <li>✅ <strong>Vantagem:</strong> É a opção mais limpa e direta possível. Zero elementos intermediários.</li>
+              <li>✅ <strong>Capacidade:</strong> Cabem até 5 cards inteiros na tela sem precisar dar nem 1 pixel de scroll.</li>
+              <li>⚠️ <strong>Ponto de Atenção:</strong> Para ver estatísticas (quantos clientes no RS, quantos com CPF), você precisa ir na aba "📊 Painel".</li>
+            </ul>
+          </div>
+        `;
+      } else if (opcao === 'C') {
+        // OPÇÃO C: Janela Sobreposta disparada pelo Painel
+        bodyEl.innerHTML = `
+          <div style="background: rgba(2, 132, 199, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 6px;">
+            <div style="font-size: 11.5px; font-weight: 700; color: #38bdf8;">🪟 MODO JANELA SOBREPOSTA ATIVO</div>
+            <div style="font-size: 10.5px; color: #94a3b8; margin-top: 2px;">Você veio do Painel Inicial. O painel continua preservado embaixo.</div>
+          </div>
+          ${gerarCardsHtml()}
+        `;
+
+        explEl.innerHTML = `
+          <div class="expl-card">
+            <span class="expl-badge badge-opt-c">Opção C • Janela Sobreposta (Stack Modal)</span>
+            <h2 class="expl-title">Sub-View Deslizante do Painel</h2>
+            <p class="expl-desc">
+              A tela de Clientes normal continua igual à de hoje, MAS quando você estiver no <strong>Painel Inicial</strong> e clicar no botão <em>"Exibir Todos os Clientes"</em>, o sistema abre uma sub-janela deslizante que sobrepõe o Painel com fundo escuro.
+            </p>
+            <ul class="expl-list">
+              <li>✅ <strong>Vantagem:</strong> Ao tocar em <em>← Voltar</em>, fecha a janela e você retorna instantaneamente ao ponto exato do Painel.</li>
+              <li>⚠️ <strong>Ponto de Atenção:</strong> Se você clicar na aba <em>"👥 Clientes"</em> da barra inferior, a tela ainda continuará mostrando os 4 blocos de KPI grandões do seu print.</li>
+            </ul>
+          </div>
+        `;
+      }
+    }
+
+    function toggleSanfona() {
+      const content = document.getElementById('acc-content');
+      const arrow = document.getElementById('acc-arrow');
+      if (content.classList.contains('expanded')) {
+        content.classList.remove('expanded');
+        arrow.textContent = '▼ Toque para ver';
+      } else {
+        content.classList.add('expanded');
+        arrow.textContent = '▲ Recolher';
+      }
+    }
+
+    function simularVoltar() {
+      alert('Ação de Voltar disparada! Em um aplicativo real, fecharia a sobreposição e retornaria ao Painel.');
+    }
+
+    // Inicia na Opção A
+    selecionarOpcao('A');
+  </script>
+
+</body>
+</html>

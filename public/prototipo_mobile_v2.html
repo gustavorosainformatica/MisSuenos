@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protótipo Visual Mobile-First v2 | Mis Sueños ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    body {
+      background-color: #060911;
+      color: #f1f5f9;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .titulo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .seletor-container {
+      display: flex;
+      gap: 8px;
+      background: #0f172a;
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+      max-width: 820px;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-tab-tela {
+      flex: 1;
+      min-width: 130px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      transition: all 0.2s ease;
+    }
+    .btn-tab-tela:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-tab-tela.ativo {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border-color: #38bdf8;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
+    }
+
+    /* MOLDURA DO SMARTPHONE (DIMENSÕES REAIS ANDROID/IOS) */
+    .smartphone-moldura {
+      width: 380px;
+      height: 760px;
+      background: #070a12;
+      border: 11px solid #1e293b;
+      border-radius: 46px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* BARRA DE STATUS NATIVA */
+    .status-bar {
+      height: 38px;
+      padding: 0 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      background: #070a12;
+      z-index: 100;
+    }
+
+    /* CABEÇALHO UNIFICADO MOBILE */
+    .cabecalho-mobile {
+      background: #0d1527;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 90;
+    }
+    .cabecalho-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cabecalho-titulo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .badge-contador {
+      background: rgba(56, 189, 248, 0.2);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .busca-mobile {
+      position: relative;
+      width: 100%;
+    }
+    .busca-input {
+      width: 100%;
+      height: 36px;
+      background: #050811;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 8px;
+      padding: 0 12px 0 32px;
+      font-size: 12px;
+      color: #fff;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .busca-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    .icone-busca {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* ÁREA DE CONTEÚDO SCROLLÁVEL */
+    .conteudo-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 78px; /* Espaço para Bottom Nav */
+    }
+    .conteudo-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* CARDS DE PEDIDOS */
+    .card-pedido {
+      background: #0f1624;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease;
+    }
+    .card-pedido:active {
+      transform: scale(0.985);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .card-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+    .badge-status {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .status-aguardando-pag {
+      background: rgba(250, 204, 21, 0.18);
+      color: #facc15;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+    }
+    .status-separacao {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+    .status-aguardando-envio {
+      background: rgba(245, 158, 11, 0.18);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .status-enviado {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .card-cliente {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1.25;
+    }
+    .card-subinfo {
+      font-size: 11.5px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-itens {
+      background: rgba(15, 23, 42, 0.7);
+      border-left: 3px solid #38bdf8;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      color: #cbd5e1;
+      border-radius: 0 6px 6px 0;
+      line-height: 1.35;
+    }
+    .card-rodape {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      margin-top: 2px;
+    }
+    .card-valor {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 800;
+      color: #34d399;
+    }
+    .btn-whats-app {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.35);
+      color: #25d366;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .btn-acao-secundaria {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* CARDS DE CLIENTES (CONTATOS TOUCH-FRIENDLY) */
+    .card-cliente-item {
+      background: #0f1624;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    }
+    .cli-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .cli-nome {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .cli-id-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .cli-doc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #94a3b8;
+    }
+    .cli-cidade {
+      font-size: 11.5px;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cli-acoes-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    /* CARDS DE PRODUTOS/ESTOQUE */
+    .card-produto-item {
+      background: #0f1624;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .prod-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .prod-sku {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #38bdf8;
+      font-weight: 700;
+    }
+    .prod-badge-saldo {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .saldo-positivo {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .saldo-baixo {
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .prod-nome {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+    }
+    .prod-valores-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 6px;
+      font-size: 11.5px;
+    }
+
+    /* DASHBOARD / PAINEL */
+    .painel-grid-kpis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .kpi-mini-card {
+      background: #0f1624;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .kpi-mini-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+    .kpi-mini-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* MODAL FULLSCREEN NOVO PEDIDO */
+    .modal-fullscreen-mock {
+      background: #090d16;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header-mock {
+      background: #0f172a;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-body-mock {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .campo-mock {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .campo-mock label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+    .campo-mock input, .campo-mock select {
+      height: 42px;
+      background: #070a12;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0 10px;
+      color: #fff;
+      font-size: 13px;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .modal-footer-mock {
+      background: #0f172a;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 14px;
+    }
+    .btn-salvar-mock {
+      width: 100%;
+      height: 46px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+    }
+
+    /* BOTTOM NAVIGATION BAR (FIXA NO RODAPÉ) */
+    .bottom-nav-mobile {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(11, 17, 32, 0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid;
+      grid-template-columns: 1fr 1fr 64px 1fr 1fr;
+      align-items: center;
+      z-index: 100;
+    }
+    .nav-item-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #94a3b8;
+      cursor: pointer;
+      gap: 3px;
+      background: transparent;
+      border: none;
+      transition: all 0.15s;
+    }
+    .nav-item-btn.ativo {
+      color: #38bdf8;
+    }
+    .nav-item-btn.ativo .nav-icon {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 2px 6px rgba(56, 189, 248, 0.4));
+    }
+    .nav-icon {
+      font-size: 19px;
+      line-height: 1;
+    }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .nav-fab-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.5), 0 0 0 3px rgba(11, 17, 32, 0.95);
+      border: none;
+      cursor: pointer;
+      transform: translateY(-12px);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .nav-fab-btn:active {
+      transform: translateY(-8px) scale(0.92);
+    }
+
+    /* PAINEL DE EXPLICAÇÃO LATERAL */
+    .painel-explicativo {
+      max-width: 820px;
+      width: 100%;
+      margin-top: 24px;
+      background: #0d1527;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .painel-explicativo h3 {
+      font-size: 15px;
+      color: #38bdf8;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .painel-explicativo ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .painel-explicativo li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="titulo-badge">
+    <span>📐 Engenharia de Software • Matt Pocock Flow</span>
+  </div>
+  <h1 style="font-size: 20px; font-weight: 800; margin-bottom: 6px; text-align: center;">
+    Mis Sueños ERP • Protótipo de Telas Mobile-First v2
+  </h1>
+  <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px; text-align: center; max-width: 600px;">
+    Toque nos botões ou nas abas inferiores do smartphone para navegar entre as telas e validar o comportamento visual antes da aplicação.
+  </p>
+
+  <!-- SELETOR SUPERIOR DE TELAS -->
+  <div class="seletor-container">
+    <button class="btn-tab-tela ativo" onclick="mudarTela('pedidos')" id="tab-topo-pedidos">
+      <span>📦 Pedidos & Vendas</span>
+      <span style="font-size: 10px; opacity: 0.8;">Feed de cards de galpão</span>
+    </button>
+    <button class="btn-tab-tela" onclick="mudarTela('clientes')" id="tab-topo-clientes">
+      <span>👥 Clientes</span>
+      <span style="font-size: 10px; opacity: 0.8;">Lista touch sem tabela</span>
+    </button>
+    <button class="btn-tab-tela" onclick="mudarTela('estoque')" id="tab-topo-estoque">
+      <span>🪵 Estoque & Couros</span>
+      <span style="font-size: 10px; opacity: 0.8;">Catálogo e saldos</span>
+    </button>
+    <button class="btn-tab-tela" onclick="mudarTela('painel')" id="tab-topo-painel">
+      <span>📊 Painel / KPIs</span>
+      <span style="font-size: 10px; opacity: 0.8;">Dashboard consolidado</span>
+    </button>
+    <button class="btn-tab-tela" onclick="mudarTela('modal')" id="tab-topo-modal">
+      <span>➕ Modal Pedido</span>
+      <span style="font-size: 10px; opacity: 0.8;">Tela cheia ergonômica</span>
+    </button>
+  </div>
+
+  <!-- SMARTPHONE FRAME -->
+  <div class="smartphone-moldura">
+    
+    <!-- BARRA DE STATUS -->
+    <div class="status-bar">
+      <span>14:38</span>
+      <span>5G 📶 92% 🔋</span>
+    </div>
+
+    <!-- ==================== TELA 1: PEDIDOS ==================== -->
+    <div id="tela-pedidos" style="display: flex; flex-direction: column; height: 100%;">
+      <div class="cabecalho-mobile">
+        <div class="cabecalho-top">
+          <div class="cabecalho-titulo">
+            <span>📦 Vendas & Encomendas</span>
+            <span class="badge-contador">13</span>
+          </div>
+          <span style="font-size: 11px; color: #34d399; font-weight: 700;">● Online</span>
+        </div>
+        <div class="busca-mobile">
+          <span class="icone-busca">🔍</span>
+          <input type="text" class="busca-input" placeholder="Buscar por cliente, pedido..." value="">
+        </div>
+      </div>
+
+      <div class="conteudo-scroll">
+        <!-- Card 1 -->
+        <div class="card-pedido">
+          <div class="card-topo">
+            <span class="card-num">#PED-1047</span>
+            <span class="badge-status status-aguardando-pag">💳 Aguardando Pagamento</span>
+          </div>
+          <div class="card-cliente">José Avelino de Oliveira</div>
+          <div class="card-subinfo">
+            <span>📍 Lajeado - RS</span>
+            <span>•</span>
+            <span>11/11/2026</span>
+          </div>
+          <div class="card-itens">
+            1x Pele Caprina (R$ 115,00) • Frete R$ 30,00
+          </div>
+          <div class="card-rodape">
+            <span class="card-valor">R$ 145,00</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> Whats</button>
+              <button class="btn-acao-secundaria">✏️</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card-pedido">
+          <div class="card-topo">
+            <span class="card-num">#PED-1046</span>
+            <span class="badge-status status-separacao">📦 Em Separação</span>
+          </div>
+          <div class="card-cliente">Marcos Vinícius Silva</div>
+          <div class="card-subinfo">
+            <span>📍 Caxias do Sul - RS</span>
+            <span>•</span>
+            <span>10/11/2026</span>
+          </div>
+          <div class="card-itens">
+            2x Lonca de Potro Legítima • 1x Soquete
+          </div>
+          <div class="card-rodape">
+            <span class="card-valor">R$ 480,00</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> Whats</button>
+              <button class="btn-acao-secundaria">✏️</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card-pedido">
+          <div class="card-topo">
+            <span class="card-num">#PED-1045</span>
+            <span class="badge-status status-enviado">🚚 Enviado (Rastreio)</span>
+          </div>
+          <div class="card-cliente">Carlos Alberto Scherer</div>
+          <div class="card-subinfo">
+            <span>📍 Passo Fundo - RS</span>
+            <span>•</span>
+            <span>09/11/2026</span>
+          </div>
+          <div class="card-itens">
+            1x Meio Cortume Sovado Extra Macio
+          </div>
+          <div class="card-rodape">
+            <span class="card-valor">R$ 350,00</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> Whats</button>
+              <button class="btn-acao-secundaria">📦</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TELA 2: CLIENTES ==================== -->
+    <div id="tela-clientes" style="display: none; flex-direction: column; height: 100%;">
+      <div class="cabecalho-mobile">
+        <div class="cabecalho-top">
+          <div class="cabecalho-titulo">
+            <span>👥 Carteira de Clientes</span>
+            <span class="badge-contador">1.140</span>
+          </div>
+          <button style="background: #10b981; border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px; font-weight: 800; cursor: pointer;">+</button>
+        </div>
+        <div class="busca-mobile">
+          <span class="icone-busca">🔍</span>
+          <input type="text" class="busca-input" placeholder="Buscar por nome, CPF/CNPJ, cidade..." value="">
+        </div>
+      </div>
+
+      <div class="conteudo-scroll">
+        <!-- Cliente 1 -->
+        <div class="card-cliente-item">
+          <div class="cli-topo">
+            <div>
+              <div class="cli-nome">Acácio Pereira da Costa</div>
+              <div class="cli-doc">CPF: 123.456.789-00</div>
+            </div>
+            <span class="cli-id-badge">#2282</span>
+          </div>
+          <div class="cli-cidade">📍 Porto Alegre - RS</div>
+          <div class="cli-acoes-row">
+            <span style="font-size: 11px; color: #94a3b8;">📞 (51) 98765-4321</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> WhatsApp</button>
+              <button class="btn-acao-secundaria">📋 Pedidos</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cliente 2 -->
+        <div class="card-cliente-item">
+          <div class="cli-topo">
+            <div>
+              <div class="cli-nome">Adair José Santos</div>
+              <div class="cli-doc">CPF: 987.654.321-11</div>
+            </div>
+            <span class="cli-id-badge">#2448</span>
+          </div>
+          <div class="cli-cidade">📍 Santa Maria - RS</div>
+          <div class="cli-acoes-row">
+            <span style="font-size: 11px; color: #94a3b8;">📞 (55) 99123-8877</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> WhatsApp</button>
+              <button class="btn-acao-secundaria">📋 Pedidos</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cliente 3 -->
+        <div class="card-cliente-item">
+          <div class="cli-topo">
+            <div>
+              <div class="cli-nome">Selaria & Artefatos Gaudério Ltda</div>
+              <div class="cli-doc">CNPJ: 12.345.678/0001-90</div>
+            </div>
+            <span class="cli-id-badge">#2283</span>
+          </div>
+          <div class="cli-cidade">📍 Lajeado - RS</div>
+          <div class="cli-acoes-row">
+            <span style="font-size: 11px; color: #94a3b8;">📞 (51) 3714-0000</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-whats-app"><span>💬</span> WhatsApp</button>
+              <button class="btn-acao-secundaria">📋 Pedidos</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TELA 3: ESTOQUE ==================== -->
+    <div id="tela-estoque" style="display: none; flex-direction: column; height: 100%;">
+      <div class="cabecalho-mobile">
+        <div class="cabecalho-top">
+          <div class="cabecalho-titulo">
+            <span>🪵 Estoque & Couros</span>
+            <span class="badge-contador">40 NCM</span>
+          </div>
+          <button style="background: #10b981; border: none; color: #fff; width: 28px; height: 28px; border-radius: 6px; font-weight: 800; cursor: pointer;">+</button>
+        </div>
+        <div class="busca-mobile">
+          <span class="icone-busca">🔍</span>
+          <input type="text" class="busca-input" placeholder="Buscar produto ou SKU..." value="">
+        </div>
+      </div>
+
+      <div class="conteudo-scroll">
+        <!-- Item 1 -->
+        <div class="card-produto-item">
+          <div class="prod-topo">
+            <span class="prod-sku">SKU: CR-SOV-01</span>
+            <span class="prod-badge-saldo saldo-positivo">Saldo: 42 UN</span>
+          </div>
+          <div class="prod-nome">Couro Bovino Sovado Extra 3.5mm</div>
+          <div style="font-size: 11px; color: #94a3b8;">Categoria: Couros Nobres • NCM: 4104.11.00</div>
+          <div class="prod-valores-row">
+            <span style="color: #94a3b8;">Custo: R$ 180,00</span>
+            <span style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">Venda: R$ 320,00</span>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="card-produto-item">
+          <div class="prod-topo">
+            <span class="prod-sku">SKU: LNC-PTR-02</span>
+            <span class="prod-badge-saldo saldo-positivo">Saldo: 18 UN</span>
+          </div>
+          <div class="prod-nome">Lonca de Potro Legítima para Tentos</div>
+          <div style="font-size: 11px; color: #94a3b8;">Categoria: Loncas • NCM: 4106.31.00</div>
+          <div class="prod-valores-row">
+            <span style="color: #94a3b8;">Custo: R$ 90,00</span>
+            <span style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">Venda: R$ 180,00</span>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="card-produto-item">
+          <div class="prod-topo">
+            <span class="prod-sku">SKU: FR-ARG-05</span>
+            <span class="prod-badge-saldo saldo-baixo">Saldo: 3 UN (Baixo)</span>
+          </div>
+          <div class="prod-nome">Argola Inox 50mm para Freios</div>
+          <div style="font-size: 11px; color: #94a3b8;">Categoria: Ferragens • NCM: 7326.90.90</div>
+          <div class="prod-valores-row">
+            <span style="color: #94a3b8;">Custo: R$ 12,00</span>
+            <span style="color: #34d399; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 13.5px;">Venda: R$ 25,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TELA 4: PAINEL / KPIS ==================== -->
+    <div id="tela-painel" style="display: none; flex-direction: column; height: 100%;">
+      <div class="cabecalho-mobile">
+        <div class="cabecalho-top">
+          <div class="cabecalho-titulo">
+            <span>📊 Painel Executivo</span>
+          </div>
+          <span style="font-size: 11px; color: #38bdf8; font-weight: 700;">Novembro/2026</span>
+        </div>
+      </div>
+
+      <div class="conteudo-scroll">
+        <div class="painel-grid-kpis">
+          <div class="kpi-mini-card">
+            <span class="kpi-mini-label">Faturamento Total</span>
+            <span class="kpi-mini-val" style="color: #34d399;">R$ 6.052,00</span>
+            <span style="font-size: 10px; color: #94a3b8;">↑ 18% vs mês ant.</span>
+          </div>
+          <div class="kpi-mini-card">
+            <span class="kpi-mini-label">Volume Pedidos</span>
+            <span class="kpi-mini-val" style="color: #38bdf8;">13 pedidos</span>
+            <span style="font-size: 10px; color: #94a3b8;">100% no prazo</span>
+          </div>
+          <div class="kpi-mini-card">
+            <span class="kpi-mini-label">Aguardando Envio</span>
+            <span class="kpi-mini-val" style="color: #f59e0b;">3 pacotes</span>
+            <span style="font-size: 10px; color: #94a3b8;">Prontos na baia</span>
+          </div>
+          <div class="kpi-mini-card">
+            <span class="kpi-mini-label">Ticket Médio</span>
+            <span class="kpi-mini-val" style="color: #a78bfa;">R$ 465,53</span>
+            <span style="font-size: 10px; color: #94a3b8;">Alta rentabilidade</span>
+          </div>
+        </div>
+
+        <div style="background: #0f1624; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px;">
+          <div style="font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 8px;">
+            🇧🇷 Distribuição de Envios por Estado
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <span>Rio Grande do Sul (RS)</span>
+            <span style="font-weight: 800; color: #38bdf8;">60.8% (693)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <span>Santa Catarina (SC)</span>
+            <span style="font-weight: 800; color: #38bdf8;">18.2% (208)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; padding: 4px 0;">
+            <span>Paraná e Outros (PR / SP)</span>
+            <span style="font-weight: 800; color: #38bdf8;">21.0% (239)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TELA 5: MODAL FULLSCREEN ==================== -->
+    <div id="tela-modal" style="display: none; height: 100%;">
+      <div class="modal-fullscreen-mock">
+        <div class="modal-header-mock">
+          <button style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: #cbd5e1; width: 30px; height: 30px; border-radius: 50%; font-weight: 800; cursor: pointer;" onclick="mudarTela('pedidos')">✕</button>
+          <span style="font-size: 14px; font-weight: 800; color: #fff;">+ NOVO PEDIDO #PED-1048</span>
+          <span style="width: 30px;"></span>
+        </div>
+        <div class="modal-body-mock">
+          <div class="campo-mock">
+            <label>Cliente / Destinatário *</label>
+            <input type="text" value="JOSÉ AVELINO DE OLIVEIRA" placeholder="Selecione ou digite...">
+          </div>
+          <div class="campo-mock">
+            <label>Item / Produto *</label>
+            <input type="text" value="PELE CAPRINA CURTIDA" placeholder="Selecione o produto...">
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div class="campo-mock">
+              <label>Quantidade</label>
+              <input type="text" value="1 UN" style="text-align: center; color: #34d399; font-weight: 800;">
+            </div>
+            <div class="campo-mock">
+              <label>Preço Unitário</label>
+              <input type="text" value="R$ 115,00" style="text-align: right; color: #34d399; font-weight: 800;">
+            </div>
+          </div>
+          <div class="campo-mock">
+            <label>Forma de Pagamento</label>
+            <select>
+              <option>PIX (CHAVE CNPJ) - CONFIRMADO</option>
+              <option>A PRAZO (30 DIAS)</option>
+              <option>CARTÃO DE CRÉDITO</option>
+            </select>
+          </div>
+          <div class="campo-mock">
+            <label>Status Inicial</label>
+            <select>
+              <option>💳 AGUARDANDO PAGAMENTO</option>
+              <option>📦 EM SEPARAÇÃO</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer-mock">
+          <button class="btn-salvar-mock" onclick="alert('Pedido salvo com sucesso no protótipo!')">
+            <span>💾</span> Salvar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION BAR (FIXA NO RODAPÉ) -->
+    <div class="bottom-nav-mobile">
+      <button class="nav-item-btn" id="btn-nav-painel" onclick="mudarTela('painel')">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Painel</span>
+      </button>
+      <button class="nav-item-btn ativo" id="btn-nav-pedidos" onclick="mudarTela('pedidos')">
+        <span class="nav-icon">📦</span>
+        <span class="nav-label">Pedidos</span>
+      </button>
+      <div style="display: flex; justify-content: center;">
+        <button class="nav-fab-btn" onclick="mudarTela('modal')" title="Novo Pedido">+</button>
+      </div>
+      <button class="nav-item-btn" id="btn-nav-clientes" onclick="mudarTela('clientes')">
+        <span class="nav-icon">👥</span>
+        <span class="nav-label">Clientes</span>
+      </button>
+      <button class="nav-item-btn" id="btn-nav-estoque" onclick="mudarTela('estoque')">
+        <span class="nav-icon">🪵</span>
+        <span class="nav-label">Estoque</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- PAINEL EXPLICATIVO DA ARQUITETURA -->
+  <div class="painel-explicativo">
+    <h3>🛠️ Diagnóstico do Erro & Arquitetura Proposta para Correção Definitiva</h3>
+    <ul>
+      <li>
+        <span>❌</span>
+        <span><strong>Causa Raiz da Tela Estranha no Celular:</strong> No commit anterior, tags <code>&lt;/div&gt;</code> duplicadas fecharam prematuramente o container <code>#modulo-clientes-conteudo</code> e o <code>.erp-main-wrapper</code>. Isso fez a tabela desktop de clientes "vazar" para fora e ser forçada a renderizar lado a lado com a tela de Pedidos.</span>
+      </li>
+      <li>
+        <span>✅</span>
+        <span><strong>Correção 1 (Isolamento 100% Mobile):</strong> Cada aba (Pedidos, Clientes, Estoque e Painel) possui seu container individual em largura total (100% da tela), sem nenhuma sobreposição ou renderização lado a lado.</span>
+      </li>
+      <li>
+        <span>✅</span>
+        <span><strong>Correção 2 (Clientes em Cards Nativos):</strong> Em telas de smartphone (&le; 768px), a tabela desktop com 8 colunas é substituída por cartões verticais ergonômicos com nome em caixa alta, CPF/CNPJ, cidade/UF e atalho de WhatsApp com 1 clique.</span>
+      </li>
+      <li>
+        <span>✅</span>
+        <span><strong>Correção 3 (KPIs no Painel sem Poluição):</strong> As abas operacionais (Pedidos, Clientes e Estoque) focam 100% no feed de registros e busca rápida, enquanto os indicadores consolidados ficam na aba <strong>Painel</strong>, garantindo máxima densidade útil de tela.</span>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    function mudarTela(tela) {
+      const telas = ['pedidos', 'clientes', 'estoque', 'painel', 'modal'];
+      telas.forEach(t => {
+        const el = document.getElementById('tela-' + t);
+        if (el) el.style.display = (t === tela) ? 'flex' : 'none';
+        
+        const btnTopo = document.getElementById('tab-topo-' + t);
+        if (btnTopo) {
+          if (t === tela) btnTopo.classList.add('ativo');
+          else btnTopo.classList.remove('ativo');
+        }
+
+        const btnNav = document.getElementById('btn-nav-' + t);
+        if (btnNav) {
+          if (t === tela) btnNav.classList.add('ativo');
+          else btnNav.classList.remove('ativo');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

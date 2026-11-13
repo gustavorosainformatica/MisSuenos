@@ -1,0 +1,2165 @@
+{
+  "role": "RootWebArea",
+  "backendNodeId": 867,
+  "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+  "name": "Mis Sueños ERP | Gestão Integrada de Couros, Clientes & Fiscal",
+  "url": "https://missuenos.vercel.app/",
+  "children": [
+    {
+      "role": "complementary",
+      "backendNodeId": 1186,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "children": [
+        {
+          "role": "StaticText",
+          "backendNodeId": 1187,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "NAVEGAÇÃO DO ERP"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1188,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "✕",
+          "description": "Fechar Menu"
+        },
+        {
+          "role": "navigation",
+          "backendNodeId": 1190,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "children": [
+            {
+              "role": "StaticText",
+              "backendNodeId": 1191,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "MEU NEGÓCIO"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1193,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "📊"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1194,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Painel & Indicadores"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1195,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "CADASTROS"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1197,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "👥"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1198,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Clientes & CRM"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1199,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "VENDAS & ENCOMENDAS"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1201,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🛒"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1202,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Pedidos de Venda"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1203,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "ESTOQUE & PRODUTOS"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1205,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🪵"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1206,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Estoque de Couros"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1207,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "FINANÇAS & FISCAL"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1209,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "💰"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1210,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Financeiro & Compras"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1212,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🧾"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1213,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Central Fiscal (NF-e)"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1214,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "INTELIGÊNCIA & GESTÃO"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1216,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "📑"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 1217,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Central de Relatórios"
+            }
+          ]
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1218,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "MS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1219,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Administrador"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1220,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Gestão & Operação"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1221,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚪",
+          "description": "Sair do Sistema / Trocar Usuário"
+        }
+      ]
+    },
+    {
+      "role": "banner",
+      "backendNodeId": 1223,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "children": [
+        {
+          "role": "image",
+          "backendNodeId": 1224,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Logo",
+          "url": "https://missuenos.vercel.app/logo.png"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1225,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "☰"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1226,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "←",
+          "description": "Voltar para a tela anterior (Alt + ←)"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1228,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "→",
+          "description": "Avançar para a próxima tela (Alt + →)",
+          "disabled": true
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1230,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "↑",
+          "description": "Subir um nível (Ir para o Painel Inicial)"
+        },
+        {
+          "role": "navigation",
+          "backendNodeId": 1232,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Localização atual no ERP",
+          "children": [
+            {
+              "role": "StaticText",
+              "backendNodeId": 7741,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🏢"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 7742,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Mis Sueños"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 7743,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "›"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 7744,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "📦"
+            },
+            {
+              "role": "StaticText",
+              "backendNodeId": 7745,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "Pedidos de Venda"
+            }
+          ]
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1238,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🔍"
+        },
+        {
+          "role": "textbox",
+          "backendNodeId": 988,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Buscar clientes, produtos, pedidos...",
+          "multiline": false,
+          "readonly": false,
+          "required": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1241,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Ctrl+K"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1242,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Abrir Nova Janela Independente do ERP"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1244,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Menu do Sistema & Configurações"
+        }
+      ]
+    },
+    {
+      "role": "main",
+      "backendNodeId": 4620,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "children": [
+        {
+          "role": "StaticText",
+          "backendNodeId": 9298,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "FATURAMENTO TOTAL "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9299,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "✅ REAL"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9300,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "💵"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9301,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 7.091,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9302,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "→ Maior Valor"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9303,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "(Ranking · Botão Direito 🖱️)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9304,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "VOLUME DE PEDIDOS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9305,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9306,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "14"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9307,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Histórico Completo"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9308,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "(Clique p/ listar · Menu 🖱️)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9309,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "AGUARDANDO ENVIO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9310,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⏳"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9311,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "3"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9312,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "→ Em Separação"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9313,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "(Filtrar · Botão Direito 🖱️)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9314,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "TICKET MÉDIO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9315,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🎯"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9316,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 506,50"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9317,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "→ Acima da Média"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9318,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "(Segmentação · Menu 🖱️)"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4656,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Mapa do Brasil",
+          "description": "💡 Botão Esquerdo: Abrir Mapa Interativo · Botão Direito (🖱️): Opções Regionais & UFs"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9319,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 Gestão de Vendas, Encomendas & Entregas"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9320,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "14 pedidos no banco"
+        },
+        {
+          "role": "combobox",
+          "backendNodeId": 989,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Filtro de status",
+          "value": "🏷️ STATUS: TODOS",
+          "description": "Filtrar pedidos por etapa do galpão",
+          "expanded": false,
+          "haspopup": "menu",
+          "children": [
+            {
+              "role": "option",
+              "backendNodeId": 4666,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🏷️ STATUS: TODOS",
+              "selected": true
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4669,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "💳 Aguardando Pagamento",
+              "selected": false
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4672,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "📦 Em Separação",
+              "selected": false
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4675,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "⏳ Aguardando Envio",
+              "selected": false
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4678,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "🚚 Enviado",
+              "selected": false
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4681,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "✅ Entregue",
+              "selected": false
+            },
+            {
+              "role": "option",
+              "backendNodeId": 4684,
+              "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+              "name": "❌ Cancelado",
+              "selected": false
+            }
+          ]
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9321,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "💡 Passe o mouse em \"Itens\" para ver detalhes"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4693,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9322,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Nº PEDIDO "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9323,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9324,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "DATA "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9325,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9326,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "CLIENTE / DESTINATÁRIO "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9327,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9328,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "TOTAL (R$) "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9329,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9330,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "DESTINO (CIDADE/UF) "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9331,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4709,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Ordenar por Itens",
+          "description": "Clique para ordenar por Itens ou arraste para mover"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9334,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "STATUS "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9335,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⠿"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4718,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9336,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1048"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4723,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4724,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9339,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "12/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9340,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "JOSÉ ALCIELIO DOS SANTOS CUNHA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9341,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 1.040,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9342,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "PR"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9343,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " TAMARANA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9344,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (8 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9345,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "💳 Aguardando Pagamento"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4736,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9346,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1047"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4740,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4742,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4743,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9350,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "11/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9351,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "JOSÉ AVELINO DE OLIVEIRA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9352,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 145,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9353,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9354,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " LAJEADO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9355,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 1 item (1 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9356,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "💳 Aguardando Pagamento"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4755,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9357,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1046"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4759,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4761,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4762,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9361,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "10/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9362,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "PEDRO TURRA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9363,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 295,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9364,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "PR"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9365,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " VITORINO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9366,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (2 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9367,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4774,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9368,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1045"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4778,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4780,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4781,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9372,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "10/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9373,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "CARLOS EDUARDO DIAS MACHADO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9374,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 125,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9375,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9376,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " SERAFINA CORRÊA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9377,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 1 item (1 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9378,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "💳 Aguardando Pagamento"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4793,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9379,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1044"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4797,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4799,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4800,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9383,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "09/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9384,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "JOSÉ AVELINO DE OLIVEIRA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9385,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 145,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9386,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9387,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " LAJEADO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9388,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 1 item (1 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9389,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⏳ Aguardando Envio"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4812,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9390,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1043"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4817,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4818,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9393,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "04/11/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9394,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "TELMO MONTESDIOCA NUNES"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9395,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 305,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9396,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9397,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " ESTRELA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9398,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (5 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9399,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 Em Separação"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4830,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9400,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1035"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4834,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4836,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 QC654321987BR",
+          "description": "Clique para rastrear em tempo real"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4837,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9404,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "09/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9405,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADILSON IFRAN MARTINS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9406,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 1.720,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9407,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9408,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " SÃO BORJA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9409,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 3 itens (13 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9410,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4849,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9411,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1036"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4853,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4855,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 QD789123456BR",
+          "description": "Clique para rastrear em tempo real"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4856,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9415,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "10/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9416,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADEMIR DONATO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9417,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 656,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9418,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "GO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9419,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " JATAÍ"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9420,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (6 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9421,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4868,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9422,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1037"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4872,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4874,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 QC456789123BR",
+          "description": "Clique para rastrear em tempo real"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4875,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9426,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "11/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9427,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADEMILSON CLEMENTE DE LIMA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9428,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 170,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9429,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "SP"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9430,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " MACEDÔNIA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9431,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 1 item (2 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9432,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4887,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9433,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1038"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4891,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4893,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 SL987654321BR",
+          "description": "Clique para rastrear em tempo real"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4894,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9437,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "12/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9438,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADEMAR MELOS CARDOSO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9439,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 650,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9440,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9441,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " SÃO FRANCISCO DE PAULA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9442,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 1 item (1 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9443,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4906,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9444,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1039"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4910,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4912,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 QC123456789BR",
+          "description": "Clique para rastrear em tempo real"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4913,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9448,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "13/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9449,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADAMO CONSUL"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9450,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 245,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9451,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9452,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " TRAMANDAÍ"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9453,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (2 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9454,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🚚 Enviado"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4925,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9455,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1040"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4929,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4931,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4932,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9459,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "14/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9460,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADAM HUPPES"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9461,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 755,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9462,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "RS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9463,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " ESTRELA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9464,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (5 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9465,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⏳ Aguardando Envio"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4944,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9466,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1041"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4948,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4950,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4951,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9470,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "14/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9471,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ADAIR JOSÉ BRANCO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9472,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 455,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9473,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "SC"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9474,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " PONTE ALTA"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9475,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (2 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9476,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 Em Separação"
+        },
+        {
+          "role": "checkbox",
+          "backendNodeId": 4963,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9477,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "#PED-1042"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4967,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📱 WhatsApp",
+          "description": "Disparar comprovante e rastreio para o WhatsApp"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4969,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "+ Rastreio",
+          "description": "Adicionar código de rastreio"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 4970,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚡ Cotar Frete",
+          "description": "Calcular frete multi-transportadora em tempo real"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9481,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "15/10/2026"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9482,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "ACÁCIO BENEDITO RAMOS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9483,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "R$ 385,00"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9484,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "MG"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9485,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " CONCEIÇÃO DOS OUROS"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9486,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "📦 2 itens (3 un.)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 9487,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⏳ Aguardando Envio"
+        }
+      ]
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1628,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔊"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1629,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "PASSO 1 DE 6"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1630,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Iniciando demonstração guiada com áudio..."
+    },
+    {
+      "role": "button",
+      "backendNodeId": 1631,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "⏹️ Encerrar Tour"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1634,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🛡️"
+    },
+    {
+      "role": "heading",
+      "backendNodeId": 1635,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Assistente de Instalação: Políticas de Sessão & Credenciais",
+      "level": 2
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1638,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Configure como o Mis Sueños ERP autenticará os operadores neste terminal."
+    },
+    {
+      "role": "button",
+      "backendNodeId": 1639,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "✕",
+      "description": "Fechar"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1641,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "PASSO 1"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1642,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Política de Sessão no Terminal"
+    },
+    {
+      "role": "radio",
+      "backendNodeId": 1643,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "checked": true
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1644,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔒 Fechou o ERP = Exige Senha Novamente"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1645,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "sessionStorage"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1647,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Ao fechar a janela, navegador ou aplicativo, a sessão é encerrada. Ao reabrir, pede as credenciais imediatamente."
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1648,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "⏱️"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1649,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Timeout por Inatividade: "
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 10878,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "15 Minutos"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1651,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "ATIVO PARA TODOS"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1653,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Proteção corporativa ativa em todos os operadores. Caso o terminal fique ocioso pelo tempo definido, a tela bloqueia automaticamente."
+    },
+    {
+      "role": "radio",
+      "backendNodeId": 1654,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "checked": false
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1655,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "⚡ Manter Conectado (\"Lembrar de Mim\")"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1656,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "localStorage"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1658,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Não pede senha ao reabrir. Só exige login se o operador clicar expressamente no botão Sair."
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1659,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "PASSO 2"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1660,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Padrão de Credencial do Cliente"
+    },
+    {
+      "role": "radio",
+      "backendNodeId": 1661,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "checked": false
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1662,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔢 PIN de 4 a 6 Dígitos Numéricos"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1663,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Super Ágil"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1665,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Padrão tipo caixa / POS bancário. Permite digitação ultrarrápida de 4 a 6 números no teclado físico ou touch."
+    },
+    {
+      "role": "radio",
+      "backendNodeId": 1666,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "checked": true
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1667,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔤 Senha Simples (Sem Especiais)"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1668,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Letras + Números"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1670,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Mínimo de 4 a 6 caracteres. Aceita letras e números sem exigir caracteres especiais."
+    },
+    {
+      "role": "radio",
+      "backendNodeId": 1671,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "checked": false
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1672,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔐 Senha Forte Corporativa"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1673,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Alta Segurança"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1675,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Mínimo 8 caracteres, contendo maiúsculas, minúsculas, números e caracteres especiais (@#$%&*!)."
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1676,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "SIMULAÇÃO VISUAL EM TEMPO REAL"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1677,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Visual para o Operador: Senha Simples (Alfanumérica)"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1678,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🪵"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1679,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Mis Sueños ERP"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1680,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Terminal de Atendimento"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1681,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Usuário:"
+    },
+    {
+      "role": "textbox",
+      "backendNodeId": 1031,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "value": "marcos",
+      "multiline": false,
+      "readonly": true,
+      "required": false
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1684,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Senha (Letras e números):"
+    },
+    {
+      "role": "textbox",
+      "backendNodeId": 1032,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "value": "•••••••",
+      "multiline": false,
+      "readonly": true,
+      "required": false
+    },
+    {
+      "role": "button",
+      "backendNodeId": 1685,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Entrar no Sistema"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1687,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔒 "
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1688,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Política Ativa:"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1689,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": " Ao fechar a janela, o operador terá que digitar as credenciais novamente para reabrir (sessionStorage)."
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1690,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "As diretrizes serão salvas exclusivamente na memória local deste computador."
+    },
+    {
+      "role": "button",
+      "backendNodeId": 1691,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Cancelar"
+    },
+    {
+      "role": "button",
+      "backendNodeId": 1693,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "💾 Salvar e Aplicar neste Terminal"
+    },
+    {
+      "role": "image",
+      "backendNodeId": 1697,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Mis Sueños",
+      "url": "https://missuenos.vercel.app/logo.png"
+    },
+    {
+      "role": "heading",
+      "backendNodeId": 1698,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Mis Sueños ERP",
+      "level": 2
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1701,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "Autenticação Operacional Segura"
+    },
+    {
+      "role": "StaticText",
+      "backendNodeId": 1702,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "🔒 Fecha = Exige Senha • ⏱️ Timeout 15m • 🔤 Senha admin123"
+    },
+    {
+      "role": "form",
+      "backendNodeId": 892,
+      "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+      "name": "",
+      "children": [
+        {
+          "role": "button",
+          "backendNodeId": 1155,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🔤 Senha (admin123)"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1156,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🔢 PIN (4-6 Dígitos)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1705,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "OPERADOR / USUÁRIO"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1706,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Ficará memorizado neste terminal"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1707,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "👤"
+        },
+        {
+          "role": "textbox",
+          "backendNodeId": 893,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Digite seu usuário (ex: gustavo, marcos)",
+          "focused": true,
+          "multiline": false,
+          "readonly": false,
+          "required": true
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1710,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "SENHA PADRÃO (ADMIN123)"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1711,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "👁️ Ver"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1712,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🔒"
+        },
+        {
+          "role": "textbox",
+          "backendNodeId": 898,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Digite admin123 ou sua senha",
+          "multiline": false,
+          "readonly": false,
+          "required": false
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1157,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Entrar no Sistema"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1716,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "🔑 Primeiro Acesso / Credenciais Iniciais:"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1717,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "• Digite seu usuário na primeira vez para fixá-lo neste terminal."
+        },
+        {
+          "role": "LineBreak",
+          "backendNodeId": 7694,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "\n"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1718,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "• "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1719,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "Senha Padrão:"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 10909,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1720,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "admin123"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1721,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " • "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1722,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "PIN Padrão:"
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 10910,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": " "
+        },
+        {
+          "role": "StaticText",
+          "backendNodeId": 1723,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "123456"
+        },
+        {
+          "role": "button",
+          "backendNodeId": 1158,
+          "loaderId": "DC19B4F11CB4A29F2C82D0316D020956",
+          "name": "⚙️ Configurar Políticas de Acesso deste Terminal"
+        }
+      ]
+    }
+  ]
+}

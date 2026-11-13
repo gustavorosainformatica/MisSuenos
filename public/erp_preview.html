@@ -675,7 +675,8 @@
           <span>ERP Selaria & Couros</span>
         </div>
       </a>
-      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher Menu">◀</button>
+            <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher/Expandir Menu">◀</button>
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Recolher/Expandir Menu">◀</button>
     </div>
 
     <nav class="sidebar-nav">
@@ -720,7 +721,7 @@
         <div class="user-role">Mis Sueños Couros & Peles</div>
       </div>
     </div>
-  </aside>
+  <div class="sidebar-resize-handle" id="sidebar-resize-handle"></div></aside>
 
   <!-- ========================================================
        ÁREA PRINCIPAL (HEADER + CONTEÚDO)
@@ -1012,5 +1013,34 @@
     // Inicia render
     renderTabela();
   </script>
+<script>
+// Redimensionamento da sidebar (desktop)
+const sidebar = document.getElementById('erp-sidebar');
+const handle = document.getElementById('sidebar-resize-handle');
+let startX, startWidth;
+
+handle.addEventListener('mousedown', (e) => {
+  startX = e.clientX;
+  startWidth = parseInt(window.getComputedStyle(sidebar).width, 10);
+  document.documentElement.style.cursor = 'col-resize';
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+});
+
+function onMouseMove(e) {
+  const newWidth = startWidth + (e.clientX - startX);
+  const min = 200; // largura mínima
+  const max = 500; // largura máxima
+  if (newWidth >= min && newWidth <= max) {
+    sidebar.style.width = newWidth + 'px';
+  }
+}
+
+function onMouseUp() {
+  document.documentElement.style.cursor = '';
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+}
+</script>
 </body>
 </html>

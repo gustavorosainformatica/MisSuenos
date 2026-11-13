@@ -1,0 +1,1511 @@
+[
+  {
+    "tag": "INPUT",
+    "id": "topbar-search",
+    "name": "",
+    "placeholder": "Buscar clientes, produtos, pedidos..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "check-all",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "check-all-prod",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "app-config-razao-social",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-cnpj-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "app-config-user-name",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-ie-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-cidade-uf-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-cep-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-endereco-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-telefone-emitente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "cfg-ramo-preset",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-nome-fantasia",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-subtitulo",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-label-pedidos",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-label-produtos",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-label-clientes",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-categorias-padrao",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "cfg-unidades-padrao",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "minha-senha-atual",
+    "name": "",
+    "placeholder": "Sua senha atual"
+  },
+  {
+    "tag": "INPUT",
+    "id": "minha-nova-senha",
+    "name": "",
+    "placeholder": "Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)"
+  },
+  {
+    "tag": "INPUT",
+    "id": "minha-confirma-senha",
+    "name": "",
+    "placeholder": "Repita a nova senha"
+  },
+  {
+    "tag": "SELECT",
+    "id": "cfg-select-timeout-admin",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "sel-sub-relatorio",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rel-dt-inicio",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rel-dt-fim",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rel-busca-filtro",
+    "name": "",
+    "placeholder": "Filtrar lançamentos, contas ou categorias da DRE..."
+  },
+  {
+    "tag": "SELECT",
+    "id": "pacote-contador-mes",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "pacote-contador-ano",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "pacote-contador-regime",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-pref",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-nome",
+    "name": "",
+    "placeholder": "NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-apelido",
+    "name": "",
+    "placeholder": "EX: CHICO SELARIA, AGROPECUÁRIA..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-doc",
+    "name": "",
+    "placeholder": "000.000.000-00"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ie",
+    "name": "",
+    "placeholder": "OPCIONAL"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-telefone",
+    "name": "",
+    "placeholder": "(00) 00000-0000"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-email",
+    "name": "",
+    "placeholder": "FINANCEIRO@EMPRESA.COM"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-cep",
+    "name": "",
+    "placeholder": "00000-000"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-logradouro",
+    "name": "",
+    "placeholder": "RUA, AVENIDA, LINHA..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-numero",
+    "name": "",
+    "placeholder": "123 OU S/N"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-complemento",
+    "name": "",
+    "placeholder": "APTO, GALPÃO, PAVILHÃO..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-bairro",
+    "name": "",
+    "placeholder": "BAIRRO, DISTRITO OU INTERIOR"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-cidade",
+    "name": "",
+    "placeholder": "CIDADE"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-uf",
+    "name": "",
+    "placeholder": "RS"
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "form-obs",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "submodal-cli-obs-textarea",
+    "name": "",
+    "placeholder": "Exemplo:\n• Enviar via Transportadora Bauer ou Jadlog\n• Embalagem em rolo duplo impermeável\n• Recebimento no portão de fundos"
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-destinatario",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-documento",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-uf",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "fiscal-natureza",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "fiscal-frete",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-item",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-ncm",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fiscal-valor",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-nome",
+    "name": "",
+    "placeholder": "Ex: Lonca de Cabrito Selecionada Flor Limpa"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-sku",
+    "name": "",
+    "placeholder": "SKU-LON-001"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-ncm",
+    "name": "",
+    "placeholder": "42050000"
+  },
+  {
+    "tag": "SELECT",
+    "id": "form-prod-cat",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "form-prod-un",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-est",
+    "name": "",
+    "placeholder": "0"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-min",
+    "name": "",
+    "placeholder": "5"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-custo",
+    "name": "",
+    "placeholder": "0,00"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-prod-venda",
+    "name": "",
+    "placeholder": "0,00"
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "form-prod-desc",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "submodal-prod-desc-textarea",
+    "name": "",
+    "placeholder": "Exemplo:\n• Lonca de cabrito seleccionada, flor lisa sem marcas de ferro\n• Espessura calibrada: 1.2mm a 1.4mm\n• Curtimento 100% vegetal artesanal\n• Indicado para encordoamento e selaria fina"
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-prod-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-saldo-atual",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-tipo",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "ajuste-motivo",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-quantidade",
+    "name": "",
+    "placeholder": "Ex: 10"
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-doc-ref",
+    "name": "",
+    "placeholder": "Ex: NF-e 1042 / Pedido 105 / Lote 26"
+  },
+  {
+    "tag": "INPUT",
+    "id": "ajuste-observacoes",
+    "name": "",
+    "placeholder": "Ex: Lote de couros sem defeitos / conferência física realizada no setor A"
+  },
+  {
+    "tag": "INPUT",
+    "id": "kardex-busca-filtro",
+    "name": "",
+    "placeholder": "🔍 Filtrar por motivo, doc ou operador..."
+  },
+  {
+    "tag": "SELECT",
+    "id": "rastreio-input-transp",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rastreio-input-novo-codigo",
+    "name": "",
+    "placeholder": "Ex: NL184920485BR ou Código CTE"
+  },
+  {
+    "tag": "INPUT",
+    "id": "input-restaurar-backup-file",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "filtro-changelog",
+    "name": "",
+    "placeholder": "Filtrar novidades (ex: fiscal, estoque, backup, colunas, turso)..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-cep-destino",
+    "name": "",
+    "placeholder": "00000-000"
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-dest-resumo",
+    "name": "",
+    "placeholder": "Destinatário"
+  },
+  {
+    "tag": "SELECT",
+    "id": "etiqueta-servico",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "etiqueta-formato",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-conteudo",
+    "name": "",
+    "placeholder": "Ex: Artigos em Couro Legítimo / Insumos"
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-num-pedido",
+    "name": "",
+    "placeholder": "#PED-1044"
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-peso",
+    "name": "",
+    "placeholder": "Ex: 2.5 kg"
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-dimensoes",
+    "name": "",
+    "placeholder": "12 x 25 x 35 cm"
+  },
+  {
+    "tag": "INPUT",
+    "id": "etiqueta-valor",
+    "name": "",
+    "placeholder": "R$ 0,00"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-cliente-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-numero",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-cliente-nome",
+    "name": "",
+    "placeholder": "Digite o nome do cliente (busca sem acentos)..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-telefone",
+    "name": "",
+    "placeholder": "(00) 00000-0000"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-cidade",
+    "name": "",
+    "placeholder": "Cidade de entrega"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-uf",
+    "name": "",
+    "placeholder": "RS"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-data",
+    "name": "",
+    "placeholder": "DD/MM/AAAA"
+  },
+  {
+    "tag": "INPUT",
+    "id": "ped-add-produto-input",
+    "name": "",
+    "placeholder": "Clique para abrir a lista ou digite para buscar o produto..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "ped-add-qtd-input",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "ped-add-preco-input",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "form-ped-itens",
+    "name": "",
+    "placeholder": "Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..."
+  },
+  {
+    "tag": "SELECT",
+    "id": "form-ped-forma-pagamento",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "form-ped-status",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-rastreio",
+    "name": "",
+    "placeholder": "QC123456789BR"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-frete",
+    "name": "",
+    "placeholder": "0,00"
+  },
+  {
+    "tag": "INPUT",
+    "id": "form-ped-valor",
+    "name": "",
+    "placeholder": "0,00"
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "form-ped-obs",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "submodal-obs-textarea",
+    "name": "",
+    "placeholder": "Exemplo:\nPele Lonca média nº 585 - 1.2mm\nPele Sovada nº 204 - 2.5mm\nEnviar com embalagem reforçada via Bauer..."
+  },
+  {
+    "tag": "TEXTAREA",
+    "id": "submodal-pref-textarea",
+    "name": "",
+    "placeholder": "Exemplo:\n• Só aceita loncas claras sem marcas de fogo na área central\n• Padrão de espessura preferencial: 1.2mm a 1.4mm\n• Recebimento de mercadorias somente após as 14h\n• Contato compras: Sr. Marcelo"
+  },
+  {
+    "tag": "SELECT",
+    "id": "fin-tipo",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-descricao",
+    "name": "",
+    "placeholder": "Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso"
+  },
+  {
+    "tag": "SELECT",
+    "id": "fin-categoria",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-valor",
+    "name": "",
+    "placeholder": "0,00"
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-vencimento",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "fin-forma",
+    "name": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "fin-status",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-entidade",
+    "name": "",
+    "placeholder": "Nome do cliente ou fornecedor"
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-obs",
+    "name": "",
+    "placeholder": "Número de recibo, chave PIX, banco ou anotação interna..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "fin-recorrente",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "xml-file-input",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "conciliacao-file-input",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "conc-check-todos",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "admin-reset-user-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "admin-reset-nova-senha",
+    "name": "",
+    "placeholder": "Nova senha..."
+  },
+  {
+    "tag": "INPUT",
+    "id": "admin-reset-forcar-troca",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rbac-user-id",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "rbac-login",
+    "name": "",
+    "placeholder": "ex: vendas, financeiro"
+  },
+  {
+    "tag": "INPUT",
+    "id": "rbac-nome",
+    "name": "",
+    "placeholder": "Nome e sobrenome"
+  },
+  {
+    "tag": "INPUT",
+    "id": "rbac-senha",
+    "name": "",
+    "placeholder": "Digite a senha..."
+  },
+  {
+    "tag": "SELECT",
+    "id": "rbac-papel",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-clientes-criar",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-fiscal-emitir",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-produtos-custo",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-estoque-mov",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-financeiro-baixa",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "perm-configuracoes",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perfil-id-edicao",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perfil-chave",
+    "name": "",
+    "placeholder": "ex: SUPERVISOR"
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perfil-nome",
+    "name": "",
+    "placeholder": "ex: Supervisor de Operações"
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perfil-cor",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-admin",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-clientes-ver",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-clientes-criar",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-pedidos-ver",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-pedidos-criar",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-produtos-ver",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-produtos-custo",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-fiscal-emitir",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-configuracoes",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "novo-perm-usuarios-gerenciar",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "wizard-sessao",
+    "placeholder": ""
+  },
+  {
+    "tag": "SELECT",
+    "id": "wizard-select-timeout",
+    "name": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "wizard-sessao",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "wizard-senha",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "wizard-senha",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "wizard-senha",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": "•"
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": "•"
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "auth-login-input",
+    "name": "",
+    "placeholder": "Digite seu usuário (ex: gustavo, marcos)"
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "",
+    "name": "",
+    "placeholder": ""
+  },
+  {
+    "tag": "INPUT",
+    "id": "auth-senha-input",
+    "name": "",
+    "placeholder": "Digite admin123 ou sua senha"
+  },
+  {
+    "tag": "INPUT",
+    "id": "troca-nova-senha",
+    "name": "",
+    "placeholder": "Digite sua nova senha"
+  },
+  {
+    "tag": "INPUT",
+    "id": "troca-confirma-senha",
+    "name": "",
+    "placeholder": "Repita a nova senha"
+  }
+]

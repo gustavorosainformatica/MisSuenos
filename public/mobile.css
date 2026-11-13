@@ -693,3 +693,20 @@ th[data-col="itens"][role="button"]:focus-visible {
     height: 40px !important;
   }
 }
+
+/* ---------- Correção de corte de texto em campos de formulário ---------- */
+/* Garante que inputs, selects e textareas exibam todo o conteúdo */
+input,
+select,
+textarea {
+  overflow: visible !important;   /* impede corte por overflow:hidden */
+  white-space: normal !important; /* permite quebra de linha */
+  text-overflow: clip !important; /* remove reticências */
+}
+/* Caso exista classe que force truncamento (ex.: .truncate ou .text-ellipsis) */
+.truncate,
+.text-ellipsis {
+  overflow: visible !important;
+  white-space: normal !important;
+  text-overflow: clip !important;
+}
