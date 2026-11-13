@@ -20,7 +20,7 @@
   3. Criar `scripts/migrar_schema_auditoria.js` aplicando `ALTER TABLE` condicional nas bases SQLite local e Turso Cloud.
 - **Passo de Validação:**
   - Executar `node scripts/migrar_schema_auditoria.js` e validar criação dos índices e colunas sem erros.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (142 testes passando)
 
 ---
 
@@ -137,3 +137,4 @@
 - **Passo de Validação:**
   - Aplicação ativa e validada no ambiente de produção.
 - **Status:** [ ] Pendente
+
