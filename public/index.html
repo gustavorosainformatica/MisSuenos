@@ -13362,7 +13362,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             '<div class="card-acoes-touch">' +
               btnWhats +
               btnRastreio +
-              '<button type="button" onclick="event.stopPropagation(); aoDuploCliqueLinhaPedido(event, ' + ped.id + ')" class="btn-touch-action"><span>✏️</span> Abrir</button>' +
+              '<button type="button" onclick="event.stopPropagation(); abrirModalEditarPedido(' + ped.id + ')" class="btn-touch-action"><span>✏️</span> Abrir</button>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -13404,7 +13404,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             '<span style="font-size: 12px; color: #94a3b8; font-weight: 600;">' + (c.telefone || 'Sem telefone') + '</span>' +
             '<div class="card-acoes-touch">' +
               btnWhats +
-              '<button type="button" onclick="event.stopPropagation(); aoDuploCliqueLinhaCliente(event, ' + c.id + ')" class="btn-touch-action"><span>👤</span> Ficha</button>' +
+              '<button type="button" onclick="event.stopPropagation(); abrirModalEditarCliente(' + c.id + ')" class="btn-touch-action"><span>👤</span> Ficha</button>' +
             '</div>' +
           '</div>' +
         '</div>';

@@ -10,7 +10,8 @@
 // v61: Correção estrutural do DOM mobile, Cards de Produtos/Estoque e isolamento de layout
 // v62: Correção de z-index e rodapé fixo dos modais Bottom Sheet acima da bottom-nav no celular
 // v63: Limpeza da barra superior mobile (oculta nova janela, Ctrl+K, breadcrumb Windows e troca estrela por lupa)
-const CACHE_NAME = 'missuenos-pwa-v63';
+// v64: Correção do botão Abrir (Pedidos) e Ficha (Clientes) nos cards mobile
+const CACHE_NAME = 'missuenos-pwa-v64';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',

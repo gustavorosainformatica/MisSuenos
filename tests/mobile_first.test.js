@@ -192,17 +192,31 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para v63 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v64 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v63') || swContent.includes('missuenos-pwa-v62'),
-    'sw.js deve conter a versão atualizada missuenos-pwa-v63'
+    swContent.includes('missuenos-pwa-v64') || swContent.includes('missuenos-pwa-v63'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v64'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
     'sw.js deve incluir /mobile.css na lista de STATIC_ASSETS'
+  );
+});
+
+test('MOBILE TICKET 10: Botões Abrir e Ficha dos cards mobile chamam diretamente abrirModalEditarPedido/Cliente', () => {
+  const htmlPath = path.join(rootDir, 'public', 'index.html');
+  const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+  assert.ok(
+    htmlContent.includes('abrirModalEditarPedido('),
+    'Botão Abrir nos cards de pedidos deve chamar abrirModalEditarPedido diretamente'
+  );
+  assert.ok(
+    htmlContent.includes('abrirModalEditarCliente('),
+    'Botão Ficha nos cards de clientes deve chamar abrirModalEditarCliente diretamente'
   );
 });
 
