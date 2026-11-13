@@ -289,7 +289,7 @@ export default async function handler(req, res) {
         cepLimpo,
         enderecoFormatado,
         payload.observacoes || '',
-        payload.arquivo_origem || 'CADASTRO_MANUAL.docx',
+        payload.arquivo_origem || `CADASTRO_MANUAL_${Date.now()}_${Math.floor(Math.random() * 10000)}.docx`,
         dataHoje,
         payload.preferencias || ''
       ]);
