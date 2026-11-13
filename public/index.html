@@ -5293,8 +5293,19 @@
             <span>📦 Gestão de Vendas, Encomendas & Entregas</span>
             <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">0 pedidos no banco</span>
           </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <select id="filtro-status-pedidos-topo" onchange="filtrarPedidosPorStatus(this.value)" title="Filtrar pedidos por etapa do galpão" style="background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none;">
+              <option value="TODOS" style="background: #0f172a; color: #fff;">🏷️ STATUS: TODOS</option>
+              <option value="AGUARDANDO_PAGAMENTO" style="background: #0f172a; color: #facc15;">💳 Aguardando Pagamento</option>
+              <option value="EM_SEPARACAO" style="background: #0f172a; color: #38bdf8;">📦 Em Separação</option>
+              <option value="AGUARDANDO_ENVIO" style="background: #0f172a; color: #f59e0b;">⏳ Aguardando Envio</option>
+              <option value="ENVIADO" style="background: #0f172a; color: #34d399;">🚚 Enviado</option>
+              <option value="ENTREGUE" style="background: #0f172a; color: #10b981;">✅ Entregue</option>
+              <option value="CANCELADO" style="background: #0f172a; color: #f87171;">❌ Cancelado</option>
+            </select>
+          </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Controle operacional de pedidos de sogueiros, artesãos e lojistas
+            💡 Passe o mouse em "Itens" para ver detalhes
           </div>
         </div>
 
@@ -5308,7 +5319,7 @@
                 <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 115px; text-align: right;" data-col="total" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'valor')" title="Clique para ordenar por Total R$ ou arraste para mover">Total (R$) <span class="sort-icon" id="sort-pedidos-valor"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px;" data-col="destino" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cidade')" title="Clique para ordenar por Destino ou arraste para mover">Destino (Cidade/UF) <span class="sort-icon" id="sort-pedidos-cidade"></span><span class="th-grip-icon">⠿</span></th>
-                <th data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Descrição ou arraste para mover">Descrição <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 145px;" data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Itens ou arraste para mover">Itens <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px; text-align: center;" data-col="status" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'status')" title="Clique para ordenar por Status ou arraste para mover">Status <span class="sort-icon" id="sort-pedidos-status"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
             </thead>
@@ -13255,6 +13266,20 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           ? `<button type="button" onclick="event.stopPropagation(); enviarRastreioWhatsApp(${ped.id})" style="display: inline-flex; align-items: center; gap: 4px; background: rgba(16, 185, 129, 0.12); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 7px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer; margin-left: 6px;" title="Disparar comprovante e rastreio para o WhatsApp">📱 WhatsApp</button>`
           : '';
 
+        const rawItens = (ped.itens || '').trim();
+        const partesItens = rawItens ? rawItens.split(/\s*\+\s*/).filter(Boolean) : [];
+        const qtdTipos = partesItens.length;
+        const totalUnidades = partesItens.reduce((acc, parte) => {
+          const m = parte.match(/^(\d+(?:[.,]\d+)?)\s*[xX]\b/);
+          return acc + (m ? parseFloat(m[1].replace(',', '.')) : 1);
+        }, 0);
+        const labelChip = qtdTipos > 0
+          ? `📦 ${qtdTipos} ${qtdTipos === 1 ? 'item' : 'itens'} (${Number.isInteger(totalUnidades) ? totalUnidades : totalUnidades.toFixed(1)} un.)`
+          : '-';
+        const tooltipItens = partesItens.length > 0
+          ? partesItens.map(p => '• ' + p).join('\n').replace(/"/g, '&quot;')
+          : 'Sem itens informados';
+
         return `
           <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" oncontextmenu="abrirMenuAcoesPedido(event, ${ped.id}); return false;" title="Dois cliques para editar | Botão direito para ações rápidas" style="cursor: pointer;">
             <td data-col="check"><input type="checkbox" value="${ped.id}"></td>
@@ -13274,7 +13299,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             </td>
             <td data-col="total" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(valorNum)}</td>
             <td data-col="destino"><span class="uf-tag" style="margin-right: 4px;">${ped.uf || 'RS'}</span> ${ped.cidade || '-'}</td>
-            <td data-col="itens" style="color: var(--text-muted); font-size: 11.5px; max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${(ped.itens || '').replace(/"/g, '&quot;')}">${ped.itens || '-'}</td>
+            <td data-col="itens">
+              <span title="${tooltipItens}" style="display: inline-flex; align-items: center; gap: 4px; background: rgba(148, 163, 184, 0.12); border: 1px solid rgba(148, 163, 184, 0.25); color: #e2e8f0; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: help; white-space: nowrap;">${labelChip}</span>
+            </td>
             <td data-col="status" style="text-align: center;">${statusBadge}</td>
           </tr>
         `;
@@ -13415,6 +13442,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     function filtrarPedidosPorStatus(status, btn) {
       statusFiltroPedido = status;
+      const selectTopo = document.getElementById('filtro-status-pedidos-topo');
+      if (selectTopo && selectTopo.value !== status) {
+        selectTopo.value = status;
+      }
       document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
       aplicarFiltrosPedidos();

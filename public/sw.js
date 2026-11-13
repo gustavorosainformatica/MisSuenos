@@ -12,7 +12,8 @@
 // v63: Limpeza da barra superior mobile (oculta nova janela, Ctrl+K, breadcrumb Windows e troca estrela por lupa)
 // v64: Correção do botão Abrir (Pedidos) e Ficha (Clientes) nos cards mobile
 // v65: Habilitação de rolagem (.erp-scrollable-area) na tabela de Pedidos no desktop
-const CACHE_NAME = 'missuenos-pwa-v65';
+// v66: Tabela de Pedidos padrão moderno (chip compacto de Itens + filtro STATUS no topo)
+const CACHE_NAME = 'missuenos-pwa-v66';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',

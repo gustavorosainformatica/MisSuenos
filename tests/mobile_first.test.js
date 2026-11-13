@@ -192,17 +192,31 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para v65 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v66 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v65') || swContent.includes('missuenos-pwa-v64'),
-    'sw.js deve conter a versão atualizada missuenos-pwa-v65'
+    swContent.includes('missuenos-pwa-v66') || swContent.includes('missuenos-pwa-v65'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v66'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
     'sw.js deve incluir /mobile.css na lista de STATIC_ASSETS'
+  );
+});
+
+test('PEDIDOS DESKTOP: Seletor de filtro STATUS no topo e coluna Itens compacta implementados', () => {
+  const htmlPath = path.join(rootDir, 'public', 'index.html');
+  const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+  assert.ok(
+    htmlContent.includes('id="filtro-status-pedidos-topo"'),
+    'Deve existir o seletor id="filtro-status-pedidos-topo" no topo da tabela de pedidos'
+  );
+  assert.ok(
+    htmlContent.includes('AGUARDANDO_PAGAMENTO') && htmlContent.includes('EM_SEPARACAO') && htmlContent.includes('AGUARDANDO_ENVIO'),
+    'Seletor de status deve respeitar as etapas do funil do galpão'
   );
 });
 
