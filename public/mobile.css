@@ -734,3 +734,27 @@ textarea {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* BLINDAGEM VISUAL DE CASAS DO PIN & ACESSIBILIDADE */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.pin-digit-box, .pin-digit-simulador {
+  width: 38px !important;
+  height: 44px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  font-size: 18px !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
