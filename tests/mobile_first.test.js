@@ -192,13 +192,13 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para v64 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v65 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v64') || swContent.includes('missuenos-pwa-v63'),
-    'sw.js deve conter a versão atualizada missuenos-pwa-v64'
+    swContent.includes('missuenos-pwa-v65') || swContent.includes('missuenos-pwa-v64'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v65'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
@@ -250,6 +250,10 @@ test('MOBILE TICKET 08: Integridade estrutural do HTML (divs balanceadas nos mó
       aberturas,
       fechamentos,
       `O módulo ${idModulo} possui desbalanceamento de divs: ${aberturas} abertas vs ${fechamentos} fechadas`
+    );
+    assert.ok(
+      trecho.includes('erp-scrollable-area'),
+      `O módulo ${idModulo} deve possuir container .erp-scrollable-area para rolagem dos registros`
     );
   };
 
