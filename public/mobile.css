@@ -27,6 +27,9 @@
 
 
 /* ==== Acessibilidade Global ==== */
+#filtro-status-pedidos-topo {
+  color-scheme: dark !important;
+}
 /* foco visível para filtros e cabeçalhos interativos */
 #filtro-status-pedidos-topo:focus-visible {
   outline: 2px solid #ffb400; /* amarelo destaque */

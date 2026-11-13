@@ -5380,8 +5380,8 @@
             <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">0 pedidos no banco</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <select id="filtro-status-pedidos-topo" aria-label="Filtro de status" role="combobox" autofocus onchange="filtrarPedidosPorStatus(this.value)" title="Filtrar pedidos por etapa do galpão" style="background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45); color: #0a3b6f; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none;">
-              <option value="TODOS" style="background: #0f172a; color: #fff;">🏷️ STATUS: TODOS</option>
+            <select id="filtro-status-pedidos-topo" aria-label="Filtro de status" role="combobox" onchange="filtrarPedidosPorStatus(this.value)" title="Filtrar pedidos por etapa do galpão" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.5); color: #f8fafc; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); color-scheme: dark;">
+              <option value="TODOS" style="background: #0f172a; color: #f8fafc;">🏷️ STATUS: TODOS</option>
               <option value="AGUARDANDO_PAGAMENTO" style="background: #0f172a; color: #facc15;">💳 Aguardando Pagamento</option>
               <option value="EM_SEPARACAO" style="background: #0f172a; color: #38bdf8;">📦 Em Separação</option>
               <option value="AGUARDANDO_ENVIO" style="background: #0f172a; color: #f59e0b;">⏳ Aguardando Envio</option>
@@ -5399,7 +5399,7 @@
           <table class="erp-table" id="tabela-pedidos">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-pedidos" aria-label="Selecionar todos os pedidos"></th>
                 <th style="width: 110px;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'numero')" title="Clique para ordenar por Nº Pedido ou arraste para mover">Nº Pedido <span class="sort-icon" id="sort-pedidos-numero"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 90px;" data-col="data" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'data')" title="Clique para ordenar por Data ou arraste para mover">Data <span class="sort-icon" id="sort-pedidos-data"></span><span class="th-grip-icon">⠿</span></th>
                 <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
@@ -5859,7 +5859,7 @@
           <table class="erp-table" id="tabela-fiscal">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-fiscal" aria-label="Selecionar todos os documentos fiscais"></th>
                 <th style="width: 130px; cursor: pointer;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'numero')" title="Clique para ordenar por Número ou arraste para mover">Nº Nota / DPS <span class="sort-icon" id="sort-fiscal-numero"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 160px; cursor: pointer;" data-col="modelo" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'modelo')" title="Clique para ordenar por Modelo Fiscal ou arraste para mover">Modelo Fiscal <span class="sort-icon" id="sort-fiscal-modelo"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="cursor: pointer;" data-col="destinatario" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'destinatario')" title="Clique para ordenar por Destinatário (A-Z) ou arraste para mover">Destinatário / Tomador <span class="sort-icon" id="sort-fiscal-destinatario"></span><span class="th-grip-icon">⠿</span></th>
@@ -13748,12 +13748,30 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }).join('');
     }
 
-    function filtrarPedidosPorStatus(status, btn) {
-      statusFiltroPedido = status;
+    function atualizarEstiloFiltroStatusTopo(status) {
       const selectTopo = document.getElementById('filtro-status-pedidos-topo');
-      if (selectTopo && selectTopo.value !== status) {
+      if (!selectTopo) return;
+      if (selectTopo.value !== status) {
         selectTopo.value = status;
       }
+      const estilos = {
+        'TODOS': { cor: '#f8fafc', borda: 'rgba(56, 189, 248, 0.5)', bg: 'rgba(15, 23, 42, 0.9)' },
+        'AGUARDANDO_PAGAMENTO': { cor: '#facc15', borda: 'rgba(250, 204, 21, 0.65)', bg: 'rgba(250, 204, 21, 0.12)' },
+        'EM_SEPARACAO': { cor: '#38bdf8', borda: 'rgba(56, 189, 248, 0.65)', bg: 'rgba(56, 189, 248, 0.12)' },
+        'AGUARDANDO_ENVIO': { cor: '#f59e0b', borda: 'rgba(245, 158, 11, 0.65)', bg: 'rgba(245, 158, 11, 0.12)' },
+        'ENVIADO': { cor: '#34d399', borda: 'rgba(52, 211, 153, 0.65)', bg: 'rgba(52, 211, 153, 0.12)' },
+        'ENTREGUE': { cor: '#10b981', borda: 'rgba(16, 185, 129, 0.65)', bg: 'rgba(16, 185, 129, 0.12)' },
+        'CANCELADO': { cor: '#f87171', borda: 'rgba(248, 113, 113, 0.65)', bg: 'rgba(248, 113, 113, 0.12)' }
+      };
+      const st = estilos[status] || estilos['TODOS'];
+      selectTopo.style.color = st.cor;
+      selectTopo.style.borderColor = st.borda;
+      selectTopo.style.background = st.bg;
+    }
+
+    function filtrarPedidosPorStatus(status, btn) {
+      statusFiltroPedido = status;
+      atualizarEstiloFiltroStatusTopo(status);
       document.querySelectorAll('#modulo-pedidos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
       aplicarFiltrosPedidos();
@@ -19160,6 +19178,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         }
       }
       statusFiltroPedido = status;
+      if (typeof atualizarEstiloFiltroStatusTopo === 'function') {
+        atualizarEstiloFiltroStatusTopo(status);
+      }
       if (status === 'TODOS') {
         pedidosFiltrados = [...listaPedidos];
         mostrarToast(`📦 Exibindo histórico completo: ${pedidosFiltrados.length} pedidos em carteira.`);
