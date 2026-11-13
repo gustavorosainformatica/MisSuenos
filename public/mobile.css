@@ -25,9 +25,25 @@
   display: none;
 }
 
-/* ========================================================
-   REGRAS ATIVAS EM SMARTPHONES E TELAS ATÉ 768PX
-   ======================================================== */
+
+/* ==== Acessibilidade Global ==== */
+/* foco visível para filtros e cabeçalhos interativos */
+#filtro-status-pedidos-topo:focus-visible {
+  outline: 2px solid #ffb400; /* amarelo destaque */
+  outline-offset: 2px;
+}
+
+th[data-col="itens"][role="button"]:focus-visible {
+  outline: 2px solid #ffb400;
+  outline-offset: 2px;
+}
+
+/* garante que qualquer elemento focável tenha ponteiro de foco */
+:focus-visible {
+  outline: 2px solid #ffb400;
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
   /* 1. Viewport e Scroll Fluido */
   html, body {

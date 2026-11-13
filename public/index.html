@@ -5294,7 +5294,7 @@
             <span class="table-count-badge" id="table-badge-pedidos" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">0 pedidos no banco</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <select id="filtro-status-pedidos-topo" onchange="filtrarPedidosPorStatus(this.value)" title="Filtrar pedidos por etapa do galpão" style="background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none;">
+            <select id="filtro-status-pedidos-topo" aria-label="Filtro de status" role="combobox" autofocus onchange="filtrarPedidosPorStatus(this.value)" title="Filtrar pedidos por etapa do galpão" style="background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.45); color: #0a3b6f; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none;">
               <option value="TODOS" style="background: #0f172a; color: #fff;">🏷️ STATUS: TODOS</option>
               <option value="AGUARDANDO_PAGAMENTO" style="background: #0f172a; color: #facc15;">💳 Aguardando Pagamento</option>
               <option value="EM_SEPARACAO" style="background: #0f172a; color: #38bdf8;">📦 Em Separação</option>
@@ -5319,7 +5319,7 @@
                 <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 115px; text-align: right;" data-col="total" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'valor')" title="Clique para ordenar por Total R$ ou arraste para mover">Total (R$) <span class="sort-icon" id="sort-pedidos-valor"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px;" data-col="destino" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cidade')" title="Clique para ordenar por Destino ou arraste para mover">Destino (Cidade/UF) <span class="sort-icon" id="sort-pedidos-cidade"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 145px;" data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Itens ou arraste para mover">Itens <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 145px;" data-col="itens" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'itens')" title="Clique para ordenar por Itens ou arraste para mover" role="button" tabindex="0" aria-label="Ordenar por Itens">Itens <span class="sort-icon" id="sort-pedidos-itens"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px; text-align: center;" data-col="status" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'status')" title="Clique para ordenar por Status ou arraste para mover">Status <span class="sort-icon" id="sort-pedidos-status"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
             </thead>
