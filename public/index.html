@@ -4825,7 +4825,7 @@
       <div class="topbar-center">
         <div class="topbar-search-box">
           <span style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center;">🔍</span>
-          <input type="text" class="topbar-search-input" id="topbar-search" placeholder="Buscar clientes, produtos, pedidos..." oninput="filtrarTabela(this.value)">
+          <input type="text" class="topbar-search-input" id="topbar-search" placeholder="Buscar clientes, produtos, pedidos..." oninput="filtrarTabela(this.value)" aria-label="TOPBAR-SEARCH">
           <span class="kbd-shortcut">Ctrl+K</span>
         </div>
       </div>
@@ -5007,7 +5007,7 @@
           <table class="erp-table" id="tabela-clientes">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)" aria-label="TOPBAR-SEARCH"></th>
                 <th style="width: 75px; cursor: pointer;" data-col="id" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'id')" title="Clique para ordenar por ID ou arraste para mover">ID <span class="sort-icon" id="sort-clientes-id"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Razão Social <span class="sort-icon" id="sort-clientes-nome"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 140px; cursor: pointer;" data-col="doc" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'doc')" title="Clique para ordenar por CPF/CNPJ ou arraste para mover">CPF / CNPJ <span class="sort-icon" id="sort-clientes-doc"></span><span class="th-grip-icon">⠿</span></th>
@@ -5197,7 +5197,7 @@
           <table class="erp-table" id="tabela-produtos">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)" aria-label="TOPBAR-SEARCH"></th>
                 <th style="width: 115px; cursor: pointer;" data-col="sku" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'sku')" title="Clique para ordenar por SKU ou arraste para mover">SKU / Código <span class="sort-icon" id="sort-produtos-sku"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 95px; cursor: pointer;" data-col="ncm" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'ncm')" title="Clique para ordenar por NCM ou arraste para mover">NCM Fiscal <span class="sort-icon" id="sort-produtos-ncm"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Descrição Comercial <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
@@ -5313,7 +5313,7 @@
           <table class="erp-table" id="tabela-pedidos">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></th>
                 <th style="width: 110px;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'numero')" title="Clique para ordenar por Nº Pedido ou arraste para mover">Nº Pedido <span class="sort-icon" id="sort-pedidos-numero"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 90px;" data-col="data" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'data')" title="Clique para ordenar por Data ou arraste para mover">Data <span class="sort-icon" id="sort-pedidos-data"></span><span class="th-grip-icon">⠿</span></th>
                 <th data-col="cliente" onclick="aoClicarHeaderOrdenar('tabela-pedidos', 'cliente')" title="Clique para ordenar por Cliente (A-Z) ou arraste para mover">Cliente / Destinatário <span class="sort-icon" id="sort-pedidos-cliente"></span><span class="th-grip-icon">⠿</span></th>
@@ -5590,7 +5590,7 @@
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <label for="fluxo-saldo-inicial" style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase;">Saldo Atual Caixa (R$):</label>
-              <input type="text" id="fluxo-saldo-inicial" value="0,00" onchange="renderizarFluxoCaixaFinanceiro()" onblur="this.value = formatarMoedaPtBr(this.value)" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 6px; padding: 4px 8px; width: 120px; text-align: right;">
+              <input type="text" id="fluxo-saldo-inicial" value="0,00" onchange="renderizarFluxoCaixaFinanceiro()" onblur="this.value = formatarMoedaPtBr(this.value)" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 800; color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 6px; padding: 4px 8px; width: 120px; text-align: right;" aria-label="TOPBAR-SEARCH">
             </div>
             <button type="button" class="btn-top" tabindex="-1" onclick="exportarFluxoCaixaCsv()" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.4); font-weight: 700;" title="Exportar Projeção em Excel/CSV">
               📥 Excel (CSV)
@@ -5773,7 +5773,7 @@
           <table class="erp-table" id="tabela-fiscal">
             <thead>
               <tr>
-                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox"></th>
+                <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></th>
                 <th style="width: 130px; cursor: pointer;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'numero')" title="Clique para ordenar por Número ou arraste para mover">Nº Nota / DPS <span class="sort-icon" id="sort-fiscal-numero"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 160px; cursor: pointer;" data-col="modelo" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'modelo')" title="Clique para ordenar por Modelo Fiscal ou arraste para mover">Modelo Fiscal <span class="sort-icon" id="sort-fiscal-modelo"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="cursor: pointer;" data-col="destinatario" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'destinatario')" title="Clique para ordenar por Destinatário (A-Z) ou arraste para mover">Destinatário / Tomador <span class="sort-icon" id="sort-fiscal-destinatario"></span><span class="th-grip-icon">⠿</span></th>
@@ -6011,44 +6011,44 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Razão Social Emitente (NF-e) *</label>
-                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" required>
+                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" required aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">CNPJ / CPF do Emitente *</label>
-                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" inputmode="numeric" maxlength="18" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" required>
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" inputmode="numeric" maxlength="18" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" required aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Responsável Operacional *</label>
-                <input type="text" class="form-input" id="app-config-user-name" value="Administrador" required>
+                <input type="text" class="form-input" id="app-config-user-name" value="Administrador" required aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Inscrição Estadual (IE)</label>
-                <input type="text" class="form-input" id="cfg-ie-emitente" value="ISENTO">
+                <input type="text" class="form-input" id="cfg-ie-emitente" value="ISENTO" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Cidade / Estado (Origem)</label>
-                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="">
+                <input type="text" class="form-input" id="cfg-cidade-uf-emitente" value="" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">CEP de Postagem</label>
-                <input type="text" class="form-input" id="cfg-cep-emitente" value="" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" autocomplete="postal-code" style="font-family: 'JetBrains Mono', monospace;">
+                <input type="text" class="form-input" id="cfg-cep-emitente" value="" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" autocomplete="postal-code" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Endereço da Sede / Remetente</label>
-                <input type="text" class="form-input" id="cfg-endereco-emitente" value="">
+                <input type="text" class="form-input" id="cfg-endereco-emitente" value="" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Telefone / WhatsApp Comercial</label>
-                <input type="text" class="form-input" id="cfg-telefone-emitente" value="" inputmode="tel" maxlength="15" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+                <input type="text" class="form-input" id="cfg-telefone-emitente" value="" inputmode="tel" maxlength="15" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -6079,7 +6079,7 @@
           <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 18px;">
             <label class="form-label" style="color: #fbbf24; margin-bottom: 6px; display: block;">⚡ Camada 1: Aplicar Preset Rápido por Ramo de Atividade</label>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <select class="form-input" id="cfg-ramo-preset" style="flex: 1; min-width: 200px;">
+              <select class="form-input" id="cfg-ramo-preset" style="flex: 1; min-width: 200px;" aria-label="CFG-RAMO-PRESET">
                 <option value="couros">🪵 Couros, Selaria & Artesanato (Padrão Mis Sueños)</option>
                 <option value="informatica">💻 Assistência Técnica & Informática</option>
                 <option value="comercio">🛒 Comércio Varejista & Distribuidora</option>
@@ -6096,37 +6096,37 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Nome Fantasia do Sistema</label>
-                <input type="text" class="form-input" id="cfg-nome-fantasia" value="Mis Sueños" required>
+                <input type="text" class="form-input" id="cfg-nome-fantasia" value="Mis Sueños" required aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Subtítulo / Slogan Lateral</label>
-                <input type="text" class="form-input" id="cfg-subtitulo" value="Couros & Insumos • Sapiranga/RS">
+                <input type="text" class="form-input" id="cfg-subtitulo" value="Couros & Insumos • Sapiranga/RS" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
             <div class="form-grid-3">
               <div class="form-group">
                 <label class="form-label">Nome Menu Pedidos</label>
-                <input type="text" class="form-input" id="cfg-label-pedidos" value="Pedidos & Vendas">
+                <input type="text" class="form-input" id="cfg-label-pedidos" value="Pedidos & Vendas" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Nome Menu Estoque</label>
-                <input type="text" class="form-input" id="cfg-label-produtos" value="Catálogo & Estoque">
+                <input type="text" class="form-input" id="cfg-label-produtos" value="Catálogo & Estoque" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Nome Menu Clientes</label>
-                <input type="text" class="form-input" id="cfg-label-clientes" value="Clientes & CRM">
+                <input type="text" class="form-input" id="cfg-label-clientes" value="Clientes & CRM" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
             <div class="form-group">
               <label class="form-label">Categorias de Produtos (Separadas por vírgula)</label>
-              <input type="text" class="form-input" id="cfg-categorias-padrao" value="Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria">
+              <input type="text" class="form-input" id="cfg-categorias-padrao" value="Loncas,Couros & Peles,Tentos,Ferramentas,Bolsas & Mochilas,Carteiras & Acessórios,Selaria & Montaria" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group">
               <label class="form-label">Unidades de Medida (Separadas por vírgula)</label>
-              <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça">
+              <input type="text" class="form-input" id="cfg-unidades-padrao" value="UN,PAR,M2,KG,KIT,RL,Peça" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div style="margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -6200,15 +6200,15 @@
             <div class="form-grid-3">
               <div class="form-group">
                 <label class="form-label">Senha Atual *</label>
-                <input type="password" class="form-input" id="minha-senha-atual" required placeholder="Sua senha atual">
+                <input type="password" class="form-input" id="minha-senha-atual" required placeholder="Sua senha atual" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Nova Senha Pessoal *</label>
-                <input type="password" class="form-input" id="minha-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)">
+                <input type="password" class="form-input" id="minha-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Confirme a Nova Senha *</label>
-                <input type="password" class="form-input" id="minha-confirma-senha" required placeholder="Repita a nova senha">
+                <input type="password" class="form-input" id="minha-confirma-senha" required placeholder="Repita a nova senha" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -6269,7 +6269,7 @@
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
-              <select id="cfg-select-timeout-admin" onchange="alterarTimeoutAdmin(this.value)" style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; outline: none; cursor: pointer;">
+              <select id="cfg-select-timeout-admin" onchange="alterarTimeoutAdmin(this.value)" style="background: #0b1120; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 12.5px; font-weight: 700; padding: 8px 14px; border-radius: 8px; outline: none; cursor: pointer;" aria-label="CFG-RAMO-PRESET">
                 <option value="5">5 Minutos (Máxima Segurança)</option>
                 <option value="10">10 Minutos</option>
                 <option value="15" selected>15 Minutos (Padrão Recomendado)</option>
@@ -6322,7 +6322,7 @@
           <!-- SUB-SELETORES DINÂMICOS -->
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.4px;">Visão:</span>
-            <select class="form-input" id="sel-sub-relatorio" onchange="selecionarSubRelatorio(this.value)" style="padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; min-width: 260px; max-width: 360px; flex-shrink: 0; height: 32px; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color);">
+            <select class="form-input" id="sel-sub-relatorio" onchange="selecionarSubRelatorio(this.value)" style="padding: 5px 12px; font-size: 12px; font-weight: 700; border-radius: 6px; min-width: 260px; max-width: 360px; flex-shrink: 0; height: 32px; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color);" aria-label="CFG-RAMO-PRESET">
               <!-- Opções preenchidas dinamicamente via JS -->
             </select>
           </div>
@@ -6341,9 +6341,9 @@
 
           <!-- CAMPOS DE DATA PERSONALIZADA (INLINE QUANDO ATIVO) -->
           <div id="container-datas-custom" style="display: none; align-items: center; gap: 6px;">
-            <input type="date" id="rel-dt-inicio" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;">
+            <input type="date" id="rel-dt-inicio" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;" aria-label="TOPBAR-SEARCH">
             <span style="font-size: 11px; color: var(--text-muted);">até</span>
-            <input type="date" id="rel-dt-fim" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;">
+            <input type="date" id="rel-dt-fim" class="form-input" style="padding: 4px 8px; font-size: 11px; height: 30px; width: 125px;" aria-label="TOPBAR-SEARCH">
             <button type="button" class="btn-top" onclick="carregarRelatorioSelecionado()" style="padding: 4px 10px; font-size: 11px; height: 30px;">Filtrar</button>
           </div>
 
@@ -6376,7 +6376,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
           <div style="position: relative; width: 100%; max-width: 420px; display: flex; align-items: center;">
             <span style="position: absolute; left: 12px; font-size: 13px; color: var(--text-muted); pointer-events: none;">🔍</span>
-            <input type="text" id="rel-busca-filtro" oninput="filtrarTabelaRelatorioAoDigitar(this.value)" placeholder="Filtrar lançamentos, contas ou categorias da DRE..." class="form-input" style="width: 100%; box-sizing: border-box; padding-left: 36px; padding-right: 32px; font-size: 12px; height: 36px; border-radius: 8px;">
+            <input type="text" id="rel-busca-filtro" oninput="filtrarTabelaRelatorioAoDigitar(this.value)" placeholder="Filtrar lançamentos, contas ou categorias da DRE..." class="form-input" style="width: 100%; box-sizing: border-box; padding-left: 36px; padding-right: 32px; font-size: 12px; height: 36px; border-radius: 8px;" aria-label="TOPBAR-SEARCH">
             <button type="button" id="rel-btn-limpar-busca" onclick="limparBuscaRelatorio()" style="display: none; position: absolute; right: 10px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 14px; padding: 2px 6px; border-radius: 4px; transition: color 0.15s ease;" title="Limpar busca" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='var(--text-muted)'">✕</button>
           </div>
           <div style="display: flex; align-items: center; gap: 12px;">
@@ -6460,7 +6460,7 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Período Contábil</span>
               </label>
-              <select class="form-input erp-select" id="pacote-contador-mes" onchange="atualizarDadosModalPacoteContador()" style="font-weight: 600; width: 100%;">
+              <select class="form-input erp-select" id="pacote-contador-mes" onchange="atualizarDadosModalPacoteContador()" style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
                 <option value="11">Novembro (Mês Corrente)</option>
                 <option value="10" selected>Outubro (Mês Fechado)</option>
                 <option value="09">Setembro</option>
@@ -6474,7 +6474,7 @@
               <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
                 Ano
               </label>
-              <select class="form-input erp-select" id="pacote-contador-ano" onchange="atualizarDadosModalPacoteContador()" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; width: 100%;">
+              <select class="form-input erp-select" id="pacote-contador-ano" onchange="atualizarDadosModalPacoteContador()" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; width: 100%;" aria-label="CFG-RAMO-PRESET">
                 <option value="2026" selected>2026</option>
                 <option value="2025">2025</option>
               </select>
@@ -6484,7 +6484,7 @@
               <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
                 Regime Tributário Oficial
               </label>
-              <input type="text" class="form-input" id="pacote-contador-regime" readonly value="Simples Nacional • ME (Anexo II - Indústria)" style="background: rgba(255,255,255,0.03); color: #cbd5e1; font-weight: 600; font-size: 12px;">
+              <input type="text" class="form-input" id="pacote-contador-regime" readonly value="Simples Nacional • ME (Anexo II - Indústria)" style="background: rgba(255,255,255,0.03); color: #cbd5e1; font-weight: 600; font-size: 12px;" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -6592,8 +6592,8 @@
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
         <form id="form-cliente" onsubmit="salvarCliente(event)" autocomplete="off">
-          <input type="hidden" id="form-id">
-          <input type="hidden" id="form-pref">
+          <input type="hidden" id="form-id" aria-label="TOPBAR-SEARCH">
+          <input type="hidden" id="form-pref" aria-label="TOPBAR-SEARCH">
 
           <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
@@ -6604,11 +6604,11 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; text-transform: uppercase;">EMPRESA OU PESSOA</span>
               </label>
-              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="flex: 1.2; min-width: 220px;">
               <label class="form-label" style="margin-bottom: 3px;">APELIDO / FANTASIA / REFERÊNCIA</label>
-              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -6616,11 +6616,11 @@
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">CPF OU CNPJ</label>
-              <input type="text" class="form-input" id="form-doc" inputmode="numeric" maxlength="18" placeholder="000.000.000-00" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
+              <input type="text" class="form-input" id="form-doc" inputmode="numeric" maxlength="18" placeholder="000.000.000-00" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="width: 135px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">INSCRIÇÃO EST. (IE)</label>
-              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
+              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
@@ -6628,11 +6628,11 @@
                   <span>📱</span> TELEFONE / WHATS
                 </span>
               </label>
-              <input type="text" class="form-input" id="form-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;">
+              <input type="text" class="form-input" id="form-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399;" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="flex: 1; min-width: 200px;">
               <label class="form-label" style="margin-bottom: 3px;">E-MAIL PARA FATURAS / XML NF-E</label>
-              <input type="email" class="form-input" id="form-email" placeholder="FINANCEIRO@EMPRESA.COM" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
+              <input type="email" class="form-input" id="form-email" placeholder="FINANCEIRO@EMPRESA.COM" oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -6646,19 +6646,19 @@
             <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
               <div class="form-group" style="width: 115px; flex-shrink: 0;">
                 <label class="form-label" style="color: #38bdf8; margin-bottom: 3px;">CEP 🔍</label>
-                <input type="text" class="form-input" id="form-cep" inputmode="numeric" maxlength="9" placeholder="00000-000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" onblur="buscarCep(this.value)" autocomplete="postal-code" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
+                <input type="text" class="form-input" id="form-cep" inputmode="numeric" maxlength="9" placeholder="00000-000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCep(this)" onpaste="aoColarCep(event, this)" onblur="buscarCep(this.value)" autocomplete="postal-code" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="flex: 1; min-width: 260px;">
                 <label class="form-label" style="margin-bottom: 3px;">LOGRADOURO / RUA</label>
-                <input type="text" class="form-input" id="form-logradouro" placeholder="RUA, AVENIDA, LINHA..." oninput="this.value = this.value.toUpperCase()">
+                <input type="text" class="form-input" id="form-logradouro" placeholder="RUA, AVENIDA, LINHA..." oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="width: 90px; flex-shrink: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px;">NÚMERO</label>
-                <input type="text" class="form-input" id="form-numero" placeholder="123 OU S/N" oninput="this.value = this.value.toUpperCase()" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
+                <input type="text" class="form-input" id="form-numero" placeholder="123 OU S/N" oninput="this.value = this.value.toUpperCase()" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: bold;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="width: 160px; flex-shrink: 0;">
                 <label class="form-label" style="margin-bottom: 3px;">COMPLEMENTO</label>
-                <input type="text" class="form-input" id="form-complemento" placeholder="APTO, GALPÃO, PAVILHÃO..." oninput="this.value = this.value.toUpperCase()">
+                <input type="text" class="form-input" id="form-complemento" placeholder="APTO, GALPÃO, PAVILHÃO..." oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -6666,21 +6666,21 @@
             <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
               <div class="form-group" style="flex: 1.2; min-width: 180px;">
                 <label class="form-label" style="margin-bottom: 3px;">BAIRRO</label>
-                <input type="text" class="form-input" id="form-bairro" placeholder="BAIRRO, DISTRITO OU INTERIOR" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" class="form-input" id="form-bairro" placeholder="BAIRRO, DISTRITO OU INTERIOR" oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="flex: 1.6; min-width: 220px;">
                 <label class="form-label" style="margin-bottom: 3px;">CIDADE *</label>
-                <input type="text" class="form-input" id="form-cidade" required placeholder="CIDADE" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" class="form-input" id="form-cidade" required placeholder="CIDADE" oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="width: 65px; flex-shrink: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF *</label>
-                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" oninput="this.value = this.value.toUpperCase()" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;">
+                <input type="text" class="form-input" id="form-uf" required maxlength="2" placeholder="RS" oninput="this.value = this.value.toUpperCase()" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
           </div>
 
           <!-- CAMPO OCULTO DE OBSERVAÇÕES (GERENCIADO VIA SUB-MODAL) -->
-          <textarea id="form-obs" style="display: none;"></textarea>
+          <textarea id="form-obs" style="display: none;" aria-label="FORM-OBS"></textarea>
         </form>
       </div>
 
@@ -6743,7 +6743,7 @@
         <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
           Digite as instruções de entrega e logística:
         </label>
-        <textarea class="form-input" id="submodal-cli-obs-textarea" rows="6" placeholder="Exemplo:&#10;• Enviar via Transportadora Bauer ou Jadlog&#10;• Embalagem em rolo duplo impermeável&#10;• Recebimento no portão de fundos" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;"></textarea>
+        <textarea class="form-input" id="submodal-cli-obs-textarea" rows="6" placeholder="Exemplo:&#10;• Enviar via Transportadora Bauer ou Jadlog&#10;• Embalagem em rolo duplo impermeável&#10;• Recebimento no portão de fundos" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;" aria-label="FORM-OBS"></textarea>
       </div>
       <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalObsCliente()">Cancelar</button>
@@ -6785,21 +6785,21 @@
               </span>
               <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Tomador / Cliente</span>
             </label>
-            <input type="text" class="form-input" id="fiscal-destinatario" readonly style="background: rgba(255,255,255,0.03); color: #38bdf8; font-weight: 700;" value="Cliente Selecionado">
+            <input type="text" class="form-input" id="fiscal-destinatario" readonly style="background: rgba(255,255,255,0.03); color: #38bdf8; font-weight: 700;" value="Cliente Selecionado" aria-label="TOPBAR-SEARCH">
           </div>
 
           <div class="form-group" style="margin: 0;">
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
               Documento (CNPJ/CPF)
             </label>
-            <input type="text" class="form-input" id="fiscal-documento" readonly style="background: rgba(255,255,255,0.03); font-family: 'JetBrains Mono', monospace; font-weight: 700;" value="-">
+            <input type="text" class="form-input" id="fiscal-documento" readonly style="background: rgba(255,255,255,0.03); font-family: 'JetBrains Mono', monospace; font-weight: 700;" value="-" aria-label="TOPBAR-SEARCH">
           </div>
 
           <div class="form-group" style="margin: 0;">
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
               Destino / UF
             </label>
-            <input type="text" class="form-input" id="fiscal-uf" readonly style="background: rgba(255,255,255,0.03); text-align: center; font-weight: 800; font-family: 'JetBrains Mono', monospace;" value="RS">
+            <input type="text" class="form-input" id="fiscal-uf" readonly style="background: rgba(255,255,255,0.03); text-align: center; font-weight: 800; font-family: 'JetBrains Mono', monospace;" value="RS" aria-label="TOPBAR-SEARCH">
           </div>
         </div>
 
@@ -6809,7 +6809,7 @@
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
               Natureza da Operação / CFOP
             </label>
-            <select class="form-input erp-select" id="fiscal-natureza" style="font-weight: 600; width: 100%;">
+            <select class="form-input erp-select" id="fiscal-natureza" style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
               <option value="5101" selected>5.101 - Venda de Produção do Estabelecimento (Couros / Artesanato)</option>
               <option value="5102">5.102 - Venda de Mercadoria Adquirida de Terceiros</option>
               <option value="6101">6.101 - Venda Interestadual de Produção Própria</option>
@@ -6822,7 +6822,7 @@
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
               Modalidade de Frete
             </label>
-            <select class="form-input erp-select" id="fiscal-frete" style="font-weight: 600; width: 100%;">
+            <select class="form-input erp-select" id="fiscal-frete" style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
               <option value="0" selected>0 - Remetente (CIF c/ Frete Incluso)</option>
               <option value="1">1 - Destinatário (FOB)</option>
               <option value="9">9 - Sem Ocorrência de Frete</option>
@@ -6836,21 +6836,21 @@
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
               Descrição dos Produtos / Mercadorias *
             </label>
-            <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO" style="font-weight: 600;">
+            <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
           </div>
 
           <div class="form-group" style="margin: 0;">
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
               NCM *
             </label>
-            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" maxlength="10" oninput="validarNcmCampoFiscal(this)" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;">
+            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" maxlength="10" oninput="validarNcmCampoFiscal(this)" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;" aria-label="TOPBAR-SEARCH">
           </div>
 
           <div class="form-group" style="margin: 0;">
             <label class="form-label" style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase; margin-bottom: 3px; text-align: right;">
               Valor Total (R$) *
             </label>
-            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; text-align: right;" onblur="this.value = formatarMoedaPtBr(this.value)">
+            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; text-align: right;" onblur="this.value = formatarMoedaPtBr(this.value)" aria-label="TOPBAR-SEARCH">
           </div>
         </div>
 
@@ -6916,7 +6916,7 @@
 
       <div class="modal-body" style="padding: 16px 22px 14px 22px; gap: 12px;">
         <form id="form-produto" onsubmit="salvarProduto(event)" autocomplete="off">
-          <input type="hidden" id="form-prod-id">
+          <input type="hidden" id="form-prod-id" aria-label="TOPBAR-SEARCH">
 
           <!-- LINHA 1: NOME COMERCIAL (flex: 2.2) + SKU (170px) + NCM (130px) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
@@ -6927,20 +6927,20 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Catálogo & Vendas</span>
               </label>
-              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Selecionada Flor Limpa" autocomplete="off" style="font-weight: 600;">
+              <input type="text" class="form-input" id="form-prod-nome" required placeholder="Ex: Lonca de Cabrito Selecionada Flor Limpa" autocomplete="off" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="width: 170px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Código / SKU *</label>
               <div style="display: flex; gap: 6px;">
-                <input type="text" class="form-input" id="form-prod-sku" required placeholder="SKU-LON-001" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; width: 100%;">
+                <input type="text" class="form-input" id="form-prod-sku" required placeholder="SKU-LON-001" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; width: 100%;" aria-label="TOPBAR-SEARCH">
                 <button type="button" class="btn-top btn-row-action" title="Gerar Código Automático" onclick="gerarSkuAuto()" style="padding: 6px 9px;">⚡</button>
               </div>
             </div>
 
             <div class="form-group" style="width: 130px; flex-shrink: 0;">
               <label class="form-label" style="color: #fbbf24; margin-bottom: 3px;">NCM Fiscal *</label>
-              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; text-align: center;">
+              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; text-align: center;" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -6948,7 +6948,7 @@
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
             <div class="form-group" style="flex: 1.5; min-width: 180px;">
               <label class="form-label" style="margin-bottom: 3px;">Categoria do Produto *</label>
-              <select class="form-input" id="form-prod-cat" required>
+              <select class="form-input" id="form-prod-cat" required aria-label="CFG-RAMO-PRESET">
                 <option value="Loncas">Loncas & Peles Curtidas</option>
                 <option value="Couros & Peles">Couros & Peles Bovinas</option>
                 <option value="Tentos">Tentos & Tiras</option>
@@ -6959,7 +6959,7 @@
 
             <div class="form-group" style="width: 130px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Unid. Medida *</label>
-              <select class="form-input" id="form-prod-un" required>
+              <select class="form-input" id="form-prod-un" required aria-label="CFG-RAMO-PRESET">
                 <option value="Peça">Peça (UN)</option>
                 <option value="Metro">Metro (M)</option>
                 <option value="Rolo">Rolo (RL)</option>
@@ -6972,12 +6972,12 @@
 
             <div class="form-group" style="width: 140px; flex-shrink: 0;">
               <label class="form-label" style="color: #38bdf8; margin-bottom: 3px;">Saldo em Estoque *</label>
-              <input type="number" step="any" class="form-input" id="form-prod-est" required placeholder="0" style="color: #38bdf8; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center;">
+              <input type="number" step="any" class="form-input" id="form-prod-est" required placeholder="0" style="color: #38bdf8; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="width: 140px; flex-shrink: 0;">
               <label class="form-label" style="color: #f59e0b; margin-bottom: 3px;">Estoque Mínimo</label>
-              <input type="number" step="any" class="form-input" id="form-prod-min" required value="5" placeholder="5" style="color: #fbbf24; font-weight: 700; font-family: 'JetBrains Mono', monospace; text-align: center;">
+              <input type="number" step="any" class="form-input" id="form-prod-min" required value="5" placeholder="5" style="color: #fbbf24; font-weight: 700; font-family: 'JetBrains Mono', monospace; text-align: center;" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -6990,12 +6990,12 @@
             <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
               <div class="form-group" style="flex: 1; min-width: 150px;">
                 <label class="form-label" style="margin-bottom: 3px;">Preço de Custo (R$)</label>
-                <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+                <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;" aria-label="TOPBAR-SEARCH">
               </div>
 
               <div class="form-group" style="flex: 1; min-width: 150px;">
                 <label class="form-label" style="color: #34d399; margin-bottom: 3px;">Preço de Venda (R$) *</label>
-                <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="color: #34d399; font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4);">
+                <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="color: #34d399; font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4);" aria-label="TOPBAR-SEARCH">
               </div>
 
               <!-- BADGE DINÂMICO DE MARGEM BRUTA -->
@@ -7007,7 +7007,7 @@
           </div>
 
           <!-- CAMPO OCULTO DE OBSERVAÇÕES / DETALHES TÉCNICOS -->
-          <textarea id="form-prod-desc" style="display: none;"></textarea>
+          <textarea id="form-prod-desc" style="display: none;" aria-label="FORM-OBS"></textarea>
         </form>
       </div>
 
@@ -7057,7 +7057,7 @@
         <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
           Especificações e observações técnicas:
         </label>
-        <textarea class="form-input" id="submodal-prod-desc-textarea" rows="6" placeholder="Exemplo:&#10;• Lonca de cabrito seleccionada, flor lisa sem marcas de ferro&#10;• Espessura calibrada: 1.2mm a 1.4mm&#10;• Curtimento 100% vegetal artesanal&#10;• Indicado para encordoamento e selaria fina" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;"></textarea>
+        <textarea class="form-input" id="submodal-prod-desc-textarea" rows="6" placeholder="Exemplo:&#10;• Lonca de cabrito seleccionada, flor lisa sem marcas de ferro&#10;• Espessura calibrada: 1.2mm a 1.4mm&#10;• Curtimento 100% vegetal artesanal&#10;• Indicado para encordoamento e selaria fina" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 160px;" aria-label="FORM-OBS"></textarea>
       </div>
       <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalDescProduto()">Cancelar</button>
@@ -7090,9 +7090,9 @@
 
       <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
         <form id="form-ajuste-estoque" onsubmit="confirmarAjusteEstoque(event)">
-          <input type="hidden" id="ajuste-prod-id">
-          <input type="hidden" id="ajuste-saldo-atual" value="0">
-          <input type="hidden" id="ajuste-tipo" value="ENTRADA">
+          <input type="hidden" id="ajuste-prod-id" aria-label="TOPBAR-SEARCH">
+          <input type="hidden" id="ajuste-saldo-atual" value="0" aria-label="TOPBAR-SEARCH">
+          <input type="hidden" id="ajuste-tipo" value="ENTRADA" aria-label="TOPBAR-SEARCH">
 
           <!-- BARRA SELETORA SEGMENTADA MODERNA (SEGMENTED CONTROL LIMPO SEM PARÊNTESES) -->
           <div style="margin-bottom: 14px;">
@@ -7118,7 +7118,7 @@
               <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Motivo / Justificativa *</span>
               <span id="ajuste-motivo-dica" style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Classificação para o Kardex</span>
             </label>
-            <select class="form-input erp-select" id="ajuste-motivo" required style="font-weight: 600; width: 100%;">
+            <select class="form-input erp-select" id="ajuste-motivo" required style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
               <option value="">Selecione o motivo...</option>
             </select>
           </div>
@@ -7129,7 +7129,7 @@
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span id="ajuste-lbl-quantidade" style="color: #34d399; font-size: 11px; font-weight: 700; text-transform: uppercase;">Qtd a Adicionar *</span>
               </label>
-              <input type="number" step="any" min="0" class="form-input" id="ajuste-quantidade" required placeholder="Ex: 10" style="font-size: 15px; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center; color: #34d399;" oninput="aoAlterarQtdAjuste()">
+              <input type="number" step="any" min="0" class="form-input" id="ajuste-quantidade" required placeholder="Ex: 10" style="font-size: 15px; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center; color: #34d399;" oninput="aoAlterarQtdAjuste()" aria-label="TOPBAR-SEARCH">
             </div>
             
             <div class="form-group" style="margin: 0;">
@@ -7137,7 +7137,7 @@
                 <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Doc. Referência / NF-e</span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Pedido, NF ou Recibo</span>
               </label>
-              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1042 / Pedido 105 / Lote 26" style="font-weight: 600; text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()">
+              <input type="text" class="form-input" id="ajuste-doc-ref" placeholder="Ex: NF-e 1042 / Pedido 105 / Lote 26" style="font-weight: 600; text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -7167,7 +7167,7 @@
               <span style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase;">Observações Técnicas / Lote (Opcional)</span>
               <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Gravado no extrato Kardex</span>
             </label>
-            <input type="text" class="form-input" id="ajuste-observacoes" placeholder="Ex: Lote de couros sem defeitos / conferência física realizada no setor A" style="text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()">
+            <input type="text" class="form-input" id="ajuste-observacoes" placeholder="Ex: Lote de couros sem defeitos / conferência física realizada no setor A" style="text-transform: uppercase !important;" oninput="this.value = this.value.toUpperCase()" aria-label="TOPBAR-SEARCH">
           </div>
         </form>
       </div>
@@ -7227,7 +7227,7 @@
         <!-- BARRA DE FERRAMENTAS: BUSCA RÁPIDA + SEGMENTED CONTROL LIMPO + BOTÃO DE NOVO AJUSTE -->
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: #0b1120; border: 1px solid #334155; border-radius: 8px; padding: 8px 12px;">
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <input type="text" id="kardex-busca-filtro" class="form-input" placeholder="🔍 Filtrar por motivo, doc ou operador..." style="width: 270px; padding: 7px 12px; font-size: 12px;" oninput="filtrarLinhasKardex()">
+            <input type="text" id="kardex-busca-filtro" class="form-input" placeholder="🔍 Filtrar por motivo, doc ou operador..." style="width: 270px; padding: 7px 12px; font-size: 12px;" oninput="filtrarLinhasKardex()" aria-label="TOPBAR-SEARCH">
             
             <!-- SEGMENTED CONTROL LIMPO (PADRONIZAÇÃO OFICIAL DO ERP) -->
             <div style="display: flex; background: #090d16; border: 1px solid #334155; border-radius: 6px; padding: 3px; gap: 4px;">
@@ -7425,7 +7425,7 @@
             ⚙️ Vincular ou Alterar Código de Rastreio
           </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <select id="rastreio-input-transp" class="form-input erp-select" style="width: 180px; font-size: 12px; height: 35px;">
+            <select id="rastreio-input-transp" class="form-input erp-select" style="width: 180px; font-size: 12px; height: 35px;" aria-label="CFG-RAMO-PRESET">
               <option value="Correios (Sedex)">Correios (Sedex)</option>
               <option value="Correios (PAC)">Correios (PAC)</option>
               <option value="Jadlog">Jadlog</option>
@@ -7435,7 +7435,7 @@
               <option value="Retirada no Local">Retirada no Local</option>
               <option value="Entrega Própria">Entrega Própria / Motoboy</option>
             </select>
-            <input type="text" id="rastreio-input-novo-codigo" class="form-input" placeholder="Ex: NL184920485BR ou Código CTE" style="flex: 1; min-width: 200px; font-family: 'JetBrains Mono', monospace; font-size: 12px; height: 35px; text-transform: uppercase;">
+            <input type="text" id="rastreio-input-novo-codigo" class="form-input" placeholder="Ex: NL184920485BR ou Código CTE" style="flex: 1; min-width: 200px; font-family: 'JetBrains Mono', monospace; font-size: 12px; height: 35px; text-transform: uppercase;" aria-label="TOPBAR-SEARCH">
             <button type="button" onclick="salvarNovoCodigoRastreio()" class="btn-top btn-primary-glow" style="padding: 0 16px; height: 35px; font-size: 12px; font-weight: 700; background: #0284c7; color: #fff; border: 1px solid #38bdf8;">
               💾 Salvar Rastreio
             </button>
@@ -7660,7 +7660,7 @@
 
         <!-- RESTAURAÇÃO DE DADOS -->
         <div style="background: #0b1120; border: 1px dashed #334155; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
-          <input type="file" id="input-restaurar-backup-file" accept=".json,application/json" style="display: none;" onchange="processarArquivoRestauracaoBackup(this)">
+          <input type="file" id="input-restaurar-backup-file" accept=".json,application/json" style="display: none;" onchange="processarArquivoRestauracaoBackup(this)" aria-label="TOPBAR-SEARCH">
           <div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <strong style="color: #fff; font-size: 12.5px;">🔄 Restaurar Base de Dados</strong>
@@ -7910,7 +7910,7 @@
         <!-- BARRA DE PESQUISA RÁPIDA -->
         <div style="display: flex; align-items: center; gap: 10px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 8px 14px;">
           <span style="color: #94a3b8; font-size: 13px;">🔍</span>
-          <input type="text" id="filtro-changelog" placeholder="Filtrar novidades (ex: fiscal, estoque, backup, colunas, turso)..." onkeyup="filtrarNovidadesChangelog(this.value)" style="background: transparent; border: none; color: #fff; font-size: 12.5px; width: 100%; outline: none;">
+          <input type="text" id="filtro-changelog" placeholder="Filtrar novidades (ex: fiscal, estoque, backup, colunas, turso)..." onkeyup="filtrarNovidadesChangelog(this.value)" style="background: transparent; border: none; color: #fff; font-size: 12.5px; width: 100%; outline: none;" aria-label="TOPBAR-SEARCH">
         </div>
 
         <!-- TIMELINE DE VERSÕES -->
@@ -8050,11 +8050,11 @@
               <div style="display: grid; grid-template-columns: 130px 1fr auto; gap: 6px; align-items: flex-end;">
                 <div class="form-group" style="margin: 0;">
                   <label class="form-label" style="margin-bottom: 2px; font-size: 10.5px;">CEP Destino</label>
-                  <input type="text" class="form-input" id="etiqueta-cep-destino" placeholder="00000-000" maxlength="9" oninput="aplicarMascaraCep(this)" style="padding: 6px 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center;">
+                  <input type="text" class="form-input" id="etiqueta-cep-destino" placeholder="00000-000" maxlength="9" oninput="aplicarMascaraCep(this)" style="padding: 6px 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center;" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div class="form-group" style="margin: 0;">
                   <label class="form-label" style="margin-bottom: 2px; font-size: 10.5px;">Destinatário / Local</label>
-                  <input type="text" class="form-input" id="etiqueta-dest-resumo" readonly tabindex="-1" placeholder="Destinatário" style="padding: 6px 8px; font-size: 11px; background: rgba(255,255,255,0.03); color: var(--text-muted);">
+                  <input type="text" class="form-input" id="etiqueta-dest-resumo" readonly tabindex="-1" placeholder="Destinatário" style="padding: 6px 8px; font-size: 11px; background: rgba(255,255,255,0.03); color: var(--text-muted);" aria-label="TOPBAR-SEARCH">
                 </div>
                 <button type="button" class="btn-top" tabindex="-1" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #7e22ce); color: #fff; border: 1px solid #c084fc; box-shadow: 0 0 10px rgba(168, 85, 247, 0.35); height: 32px;" onclick="cotarFreteMultiProvedores()">
                   ⚡ Cotar
@@ -8079,7 +8079,7 @@
             <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 8px;">
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px;">Serviço de Frete / Transportadora</label>
-                <select class="form-input erp-select" id="etiqueta-servico" onchange="atualizarPreviewEtiqueta()" style="width: 100%; padding: 7px 10px; font-size: 12px; font-weight: 600;">
+                <select class="form-input erp-select" id="etiqueta-servico" onchange="atualizarPreviewEtiqueta()" style="width: 100%; padding: 7px 10px; font-size: 12px; font-weight: 600;" aria-label="CFG-RAMO-PRESET">
                   <option value="SUPERFRETE / CORREIOS" selected>🚚 Superfrete / Correios (c/ Desconto)</option>
                   <option value="CORREIOS SEDEX">⚡ Correios SEDEX (Expresso)</option>
                   <option value="CORREIOS PAC">📦 Correios PAC (Econômico)</option>
@@ -8090,7 +8090,7 @@
 
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px;">Formato da Etiqueta</label>
-                <select class="form-input erp-select" id="etiqueta-formato" onchange="atualizarFormatoImpressao(this.value)" style="width: 100%; padding: 7px 10px; font-size: 12px;">
+                <select class="form-input erp-select" id="etiqueta-formato" onchange="atualizarFormatoImpressao(this.value)" style="width: 100%; padding: 7px 10px; font-size: 12px;" aria-label="CFG-RAMO-PRESET">
                   <option value="termica" selected>🏷️ Térmica (100x150 mm)</option>
                   <option value="a4">📄 Folha A4 (Com guia de corte)</option>
                 </select>
@@ -8101,11 +8101,11 @@
             <div style="display: grid; grid-template-columns: 1fr 130px; gap: 8px; margin-bottom: 8px;">
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px;">Declaração de Conteúdo / Mercadoria</label>
-                <input type="text" class="form-input" id="etiqueta-conteudo" placeholder="Ex: Artigos em Couro Legítimo / Insumos" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;">
+                <input type="text" class="form-input" id="etiqueta-conteudo" placeholder="Ex: Artigos em Couro Legítimo / Insumos" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px; text-align: center;">Nº Pedido</label>
-                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="#PED-1044" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; text-align: center;">
+                <input type="text" class="form-input" id="etiqueta-num-pedido" placeholder="#PED-1044" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; text-align: center;" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -8113,15 +8113,15 @@
             <div style="display: grid; grid-template-columns: 105px 155px 1fr; gap: 8px; align-items: flex-end; margin-bottom: 12px;">
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px; text-align: center;">Peso Estimado</label>
-                <input type="text" class="form-input" id="etiqueta-peso" placeholder="Ex: 2.5 kg" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;">
+                <input type="text" class="form-input" id="etiqueta-peso" placeholder="Ex: 2.5 kg" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px; text-align: center;" title="Altura x Largura x Comprimento da caixa em centímetros">Dimensões (A x L x C)</label>
-                <input type="text" class="form-input" id="etiqueta-dimensoes" placeholder="12 x 25 x 35 cm" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;">
+                <input type="text" class="form-input" id="etiqueta-dimensoes" placeholder="12 x 25 x 35 cm" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: center;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="margin-bottom: 3px; text-align: right; color: #34d399;">Valor Declarado (R$)</label>
-                <input type="text" class="form-input" id="etiqueta-valor" placeholder="R$ 0,00" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; text-align: right;">
+                <input type="text" class="form-input" id="etiqueta-valor" placeholder="R$ 0,00" oninput="atualizarPreviewEtiqueta()" style="padding: 7px 10px; font-size: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; text-align: right;" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -8286,9 +8286,9 @@
 
       <div class="modal-body">
         <form id="form-pedido" onsubmit="salvarPedido(event)">
-          <input type="hidden" id="form-ped-id">
-          <input type="hidden" id="form-ped-cliente-id">
-          <input type="hidden" id="form-ped-numero">
+          <input type="hidden" id="form-ped-id" aria-label="TOPBAR-SEARCH">
+          <input type="hidden" id="form-ped-cliente-id" aria-label="TOPBAR-SEARCH">
+          <input type="hidden" id="form-ped-numero" aria-label="TOPBAR-SEARCH">
 
           <!-- LINHA 1: OS 5 CAMPOS INTEGRADOS LADO A LADO NA MESMA LINHA ÚNICA (CSS GRID BLINDADO) -->
           <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px; margin-bottom: 12px;">
@@ -8303,7 +8303,7 @@
                   <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Base oficial ou avulso</span>
                 </label>
                 <div style="position: relative;" id="wrap-autocomplete-cliente-ped">
-                  <input type="text" class="form-input" id="form-ped-cliente-nome" autocomplete="off" required placeholder="Digite o nome do cliente (busca sem acentos)..." oninput="filtrarSugestoesClientesPedido(this.value)" onfocus="filtrarSugestoesClientesPedido(this.value)" onkeydown="aoTeclarClientePedido(event)" style="width: 100%; box-sizing: border-box; padding-right: 26px;">
+                  <input type="text" class="form-input" id="form-ped-cliente-nome" autocomplete="off" required placeholder="Digite o nome do cliente (busca sem acentos)..." oninput="filtrarSugestoesClientesPedido(this.value)" onfocus="filtrarSugestoesClientesPedido(this.value)" onkeydown="aoTeclarClientePedido(event)" style="width: 100%; box-sizing: border-box; padding-right: 26px;" aria-label="TOPBAR-SEARCH">
                   <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.5; font-size: 11px;">🔍</span>
                   <div id="autocomplete-clientes-pedido" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #0f172a; border: 1px solid #38bdf8; border-radius: 8px; box-shadow: 0 12px 35px rgba(0,0,0,0.85); max-height: 240px; overflow-y: auto; z-index: 10000; display: none;"></div>
                 </div>
@@ -8319,25 +8319,25 @@
                     💾 Salva
                   </span>
                 </label>
-                <input type="text" class="form-input" id="form-ped-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399; width: 100%; box-sizing: border-box;">
+                <input type="text" class="form-input" id="form-ped-telefone" inputmode="tel" maxlength="15" placeholder="(00) 00000-0000" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarTelefone(this)" onpaste="aoColarTelefone(event, this)" onblur="formatarEValidarTelefone(this)" autocomplete="tel" style="font-family: 'JetBrains Mono', monospace; font-weight: 600; color: #34d399; width: 100%; box-sizing: border-box;" aria-label="TOPBAR-SEARCH">
               </div>
 
               <!-- 3. CIDADE DE ENTREGA -->
               <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="margin-bottom: 3px; white-space: nowrap;">Cidade de Entrega</label>
-                <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega" style="width: 100%; box-sizing: border-box;">
+                <input type="text" class="form-input" id="form-ped-cidade" placeholder="Cidade de entrega" style="width: 100%; box-sizing: border-box;" aria-label="TOPBAR-SEARCH">
               </div>
 
               <!-- 4. UF (COMPACTO 60PX) -->
               <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px;">UF</label>
-                <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 100%; box-sizing: border-box;">
+                <input type="text" class="form-input" id="form-ped-uf" maxlength="2" placeholder="RS" style="text-transform: uppercase; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 100%; box-sizing: border-box;" aria-label="TOPBAR-SEARCH">
               </div>
 
               <!-- 5. DATA DO PEDIDO -->
               <div class="form-group" style="margin: 0; min-width: 0;">
                 <label class="form-label" style="text-align: center; margin-bottom: 3px; white-space: nowrap;">Data Pedido</label>
-                <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace; width: 100%; box-sizing: border-box;">
+                <input type="text" class="form-input" id="form-ped-data" placeholder="DD/MM/AAAA" style="text-align: center; font-family: 'JetBrains Mono', monospace; width: 100%; box-sizing: border-box;" aria-label="TOPBAR-SEARCH">
               </div>
 
             </div>
@@ -8373,7 +8373,7 @@
 
                   <!-- MENU DROPDOWN PESQUISÁVEL INTEGRADO (COMBOBOX EDITÁVEL) -->
                   <div id="wrap-dropdown-prod-pedido" style="position: relative;">
-                    <input type="text" id="ped-add-produto-input" class="form-input" autocomplete="off" placeholder="Clique para abrir a lista ou digite para buscar o produto..." style="width: 100%; box-sizing: border-box; padding-right: 32px; cursor: pointer;" onclick="abrirDropdownProdutosPedido(this.value)" onfocus="abrirDropdownProdutosPedido(this.value)" oninput="filtrarDropdownProdutosPedido(this.value)" onkeydown="aoTeclarDropdownProdutosPedido(event)">
+                    <input type="text" id="ped-add-produto-input" class="form-input" autocomplete="off" placeholder="Clique para abrir a lista ou digite para buscar o produto..." style="width: 100%; box-sizing: border-box; padding-right: 32px; cursor: pointer;" onclick="abrirDropdownProdutosPedido(this.value)" onfocus="abrirDropdownProdutosPedido(this.value)" oninput="filtrarDropdownProdutosPedido(this.value)" onkeydown="aoTeclarDropdownProdutosPedido(event)" aria-label="TOPBAR-SEARCH">
                     <button type="button" tabindex="-1" onclick="toggleDropdownProdutosPedido(event)" title="Abrir menu dropdown de produtos" style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #38bdf8; cursor: pointer; padding: 6px 8px; font-size: 11px; line-height: 1; display: flex; align-items: center; justify-content: center;">
                       ▼
                     </button>
@@ -8386,14 +8386,14 @@
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: center;">
                     Qtd
                   </label>
-                  <input type="number" id="ped-add-qtd-input" min="1" step="any" value="" placeholder="" class="form-input no-spin" style="text-align: center; font-weight: 700; width: 100%; -moz-appearance: textfield;" oninput="atualizarSubtotalNovoItem()" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
+                  <input type="number" id="ped-add-qtd-input" min="1" step="any" value="" placeholder="" class="form-input no-spin" style="text-align: center; font-weight: 700; width: 100%; -moz-appearance: textfield;" oninput="atualizarSubtotalNovoItem()" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}" aria-label="TOPBAR-SEARCH">
                 </div>
 
                 <div style="width: 110px;">
                   <label style="display: block; font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 4px; text-align: right;">
                     Unit. (R$)
                   </label>
-                  <input type="text" inputmode="decimal" id="ped-add-preco-input" value="0,00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()" onblur="this.value = formatarMoedaPtBr(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}">
+                  <input type="text" inputmode="decimal" id="ped-add-preco-input" value="0,00" class="form-input" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; width: 100%;" oninput="atualizarSubtotalNovoItem()" onblur="this.value = formatarMoedaPtBr(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarItemAoPedidoAtual();}" aria-label="TOPBAR-SEARCH">
                 </div>
 
                 <div style="width: 100px; text-align: right;">
@@ -8436,7 +8436,7 @@
               <label class="form-label" style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
                 Texto completo do pedido (sincronizado automaticamente):
               </label>
-              <textarea class="form-input" id="form-ped-itens" rows="2" placeholder="Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..."></textarea>
+              <textarea class="form-input" id="form-ped-itens" rows="2" placeholder="Ex: 2x Lonca de Cabrito Selecionada + 1x Meio Couro Cru Sovado..." aria-label="FORM-OBS"></textarea>
             </div>
           </div>
 
@@ -8444,7 +8444,7 @@
           <div style="display: flex; gap: 12px; margin-top: 14px; align-items: flex-end; flex-wrap: wrap;">
             <div class="form-group" style="flex: 1; min-width: 150px;">
               <label class="form-label" style="color: #38bdf8;">Forma de Pagamento</label>
-              <select class="form-input erp-select" id="form-ped-forma-pagamento" style="width: 100%;">
+              <select class="form-input erp-select" id="form-ped-forma-pagamento" style="width: 100%;" aria-label="CFG-RAMO-PRESET">
                 <option value="PIX" selected>⚡ PIX à Vista</option>
                 <option value="CARTAO">💳 Cartão de Crédito</option>
                 <option value="BOLETO">📄 Boleto Bancário</option>
@@ -8453,7 +8453,7 @@
             </div>
             <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Status do Pedido</label>
-              <select class="form-input erp-select" id="form-ped-status" style="width: 100%;">
+              <select class="form-input erp-select" id="form-ped-status" style="width: 100%;" aria-label="CFG-RAMO-PRESET">
                 <option value="AGUARDANDO_PAGAMENTO">💳 Aguardando Pagamento</option>
                 <option value="EM_SEPARACAO">📦 Em Separação</option>
                 <option value="AGUARDANDO_ENVIO">⏳ Aguardando Envio</option>
@@ -8464,20 +8464,20 @@
             </div>
             <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label">Código de Rastreio (Opcional)</label>
-              <input type="text" class="form-input" id="form-ped-rastreio" placeholder="QC123456789BR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+              <input type="text" class="form-input" id="form-ped-rastreio" placeholder="QC123456789BR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="width: 130px; flex-shrink: 0;">
               <label class="form-label" style="text-align: right; color: #38bdf8;">Frete (R$)</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-ped-frete" value="0,00" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;" oninput="atualizarValorTotalPedidoComFrete()" onblur="this.value = formatarMoedaPtBr(this.value)">
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-frete" value="0,00" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;" oninput="atualizarValorTotalPedidoComFrete()" onblur="this.value = formatarMoedaPtBr(this.value)" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="width: 220px; flex-shrink: 0;">
               <label class="form-label" style="text-align: right; color: #34d399;">Valor Total (R$) * (Itens + Frete)</label>
-              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required tabindex="-1" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.3);" onblur="this.value = formatarMoedaPtBr(this.value)">
+              <input type="text" inputmode="decimal" class="form-input" id="form-ped-valor" required tabindex="-1" placeholder="0,00" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.3);" onblur="this.value = formatarMoedaPtBr(this.value)" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
           <!-- CAMPO OFICIAL DE OBSERVAÇÕES DO PEDIDO (EDITADO VIA SUB-MODAL DEDICADO) -->
-          <textarea id="form-ped-obs" style="display: none;"></textarea>
+          <textarea id="form-ped-obs" style="display: none;" aria-label="FORM-OBS"></textarea>
         </form>
       </div>
 
@@ -8545,7 +8545,7 @@
         <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
           Digite as anotações e pressione <strong>Enter</strong> para criar uma nova linha para cada pele:
         </label>
-        <textarea class="form-input" id="submodal-obs-textarea" rows="7" placeholder="Exemplo:&#10;Pele Lonca média nº 585 - 1.2mm&#10;Pele Sovada nº 204 - 2.5mm&#10;Enviar com embalagem reforçada via Bauer..." style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 180px;"></textarea>
+        <textarea class="form-input" id="submodal-obs-textarea" rows="7" placeholder="Exemplo:&#10;Pele Lonca média nº 585 - 1.2mm&#10;Pele Sovada nº 204 - 2.5mm&#10;Enviar com embalagem reforçada via Bauer..." style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 180px;" aria-label="FORM-OBS"></textarea>
       </div>
       <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalObsPedido()">Cancelar</button>
@@ -8572,7 +8572,7 @@
         <label class="form-label" style="font-size: 11.5px; color: #94a3b8; margin: 0;">
           Padrões de compra, exigências técnicas, tipos de pele/espessura e restrições:
         </label>
-        <textarea class="form-input" id="submodal-pref-textarea" rows="7" placeholder="Exemplo:&#10;• Só aceita loncas claras sem marcas de fogo na área central&#10;• Padrão de espessura preferencial: 1.2mm a 1.4mm&#10;• Recebimento de mercadorias somente após as 14h&#10;• Contato compras: Sr. Marcelo" style="border-color: rgba(245, 158, 11, 0.35); color: #fef3c7; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 180px;"></textarea>
+        <textarea class="form-input" id="submodal-pref-textarea" rows="7" placeholder="Exemplo:&#10;• Só aceita loncas claras sem marcas de fogo na área central&#10;• Padrão de espessura preferencial: 1.2mm a 1.4mm&#10;• Recebimento de mercadorias somente após as 14h&#10;• Contato compras: Sr. Marcelo" style="border-color: rgba(245, 158, 11, 0.35); color: #fef3c7; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.6; resize: vertical; height: 180px;" aria-label="FORM-OBS"></textarea>
       </div>
       <div class="modal-footer" style="padding: 12px 18px; background: #0a0f1d; border-top: 1px solid #1e293b; display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharSubmodalPrefCliente()">Fechar</button>
@@ -8730,7 +8730,7 @@
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
             <div class="form-group" style="width: 210px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Tipo de Lançamento *</label>
-              <select class="form-input erp-select" id="fin-tipo" required onchange="atualizarBadgeTipoFinanceiro(this.value)">
+              <select class="form-input erp-select" id="fin-tipo" required onchange="atualizarBadgeTipoFinanceiro(this.value)" aria-label="CFG-RAMO-PRESET">
                 <option value="RECEBER" selected>🟢 Conta a Receber (Entrada)</option>
                 <option value="PAGAR">🔴 Conta a Pagar (Saída / Despesa)</option>
               </select>
@@ -8743,12 +8743,12 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificação do título</span>
               </label>
-              <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso" autocomplete="off" style="font-weight: 600;">
+              <input type="text" class="form-input" id="fin-descricao" required placeholder="Ex: Venda Balcão / Frete Bauer / Compra de Sal Grosso" autocomplete="off" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="width: 210px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Categoria *</label>
-              <select class="form-input erp-select" id="fin-categoria">
+              <select class="form-input erp-select" id="fin-categoria" aria-label="CFG-RAMO-PRESET">
                 <option value="Vendas de Mercadorias" selected>Vendas de Mercadorias</option>
                 <option value="Matéria-Prima / Couros">Matéria-Prima / Couros</option>
                 <option value="Frete / Transportadora">Frete / Transportadora</option>
@@ -8764,17 +8764,17 @@
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
             <div class="form-group" style="width: 180px; flex-shrink: 0;">
               <label class="form-label" style="color: #34d399; margin-bottom: 3px;">Valor do Título (R$) *</label>
-              <input type="text" inputmode="decimal" class="form-input" id="fin-valor" required placeholder="0,00" onblur="this.value = formatarMoedaPtBr(this.value)" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); text-align: right;">
+              <input type="text" inputmode="decimal" class="form-input" id="fin-valor" required placeholder="0,00" onblur="this.value = formatarMoedaPtBr(this.value)" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4); text-align: right;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="width: 155px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Data de Vencimento *</label>
-              <input type="date" class="form-input" id="fin-vencimento" required style="font-family: 'JetBrains Mono', monospace; text-align: center;">
+              <input type="date" class="form-input" id="fin-vencimento" required style="font-family: 'JetBrains Mono', monospace; text-align: center;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="width: 180px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">Forma de Pagamento</label>
-              <select class="form-input erp-select" id="fin-forma">
+              <select class="form-input erp-select" id="fin-forma" aria-label="CFG-RAMO-PRESET">
                 <option value="PIX" selected>⚡ PIX Instantâneo</option>
                 <option value="BOLETO">📄 Boleto Bancário</option>
                 <option value="CARTAO">💳 Cartão de Crédito/Débito</option>
@@ -8785,7 +8785,7 @@
 
             <div class="form-group" style="flex: 1; min-width: 160px;">
               <label class="form-label" style="margin-bottom: 3px;">Status do Título</label>
-              <select class="form-input erp-select" id="fin-status" style="font-weight: 600;">
+              <select class="form-input erp-select" id="fin-status" style="font-weight: 600;" aria-label="CFG-RAMO-PRESET">
                 <option value="PENDENTE" selected>⏳ Pendente (Em Aberto)</option>
                 <option value="PAGO">✅ Já Quitado / Recebido</option>
               </select>
@@ -8796,19 +8796,19 @@
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
             <div class="form-group" style="flex: 1.2; min-width: 240px;">
               <label class="form-label" style="margin-bottom: 3px;">Cliente ou Fornecedor Vinculado</label>
-              <input type="text" class="form-input" id="fin-entidade" list="lista-clientes-datalist" placeholder="Nome do cliente ou fornecedor">
+              <input type="text" class="form-input" id="fin-entidade" list="lista-clientes-datalist" placeholder="Nome do cliente ou fornecedor" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="flex: 1.6; min-width: 280px;">
               <label class="form-label" style="margin-bottom: 3px;">Observações / Chave PIX / Recibo</label>
-              <input type="text" class="form-input" id="fin-obs" placeholder="Número de recibo, chave PIX, banco ou anotação interna...">
+              <input type="text" class="form-input" id="fin-obs" placeholder="Número de recibo, chave PIX, banco ou anotação interna..." aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
           <!-- LINHA 4: DESPESA / RECEITA RECORRENTE MENSAL (TICKET 3) -->
           <div style="display: flex; gap: 10px; align-items: center; margin-top: 12px; padding: 10px 14px; background: rgba(56, 189, 248, 0.06); border: 1px dashed rgba(56, 189, 248, 0.25); border-radius: 8px;">
             <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; font-size: 12.5px; font-weight: 700; color: #38bdf8;">
-              <input type="checkbox" id="fin-recorrente" style="width: 16px; height: 16px; accent-color: #38bdf8; cursor: pointer;" tabindex="-1">
+              <input type="checkbox" id="fin-recorrente" style="width: 16px; height: 16px; accent-color: #38bdf8; cursor: pointer;" tabindex="-1" aria-label="TOPBAR-SEARCH">
               <span>🔁 Despesa Recorrente Mensal (Fixa no Fluxo de Caixa Projetado)</span>
             </label>
             <span style="font-size: 11px; color: var(--text-muted); margin-left: auto;">(Replica automaticamente para os meses futuros)</span>
@@ -8866,7 +8866,7 @@
              ondragleave="aoSairXmlDropzone(event)"
              ondrop="aoSoltarArquivoXml(event)"
              style="border: 2px dashed #334155; border-radius: 8px; background: rgba(15, 23, 42, 0.6); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; transition: all 0.2s;">
-          <input type="file" id="xml-file-input" accept=".xml,text/xml" style="display: none;" onchange="lerArquivoXmlCompra(this)">
+          <input type="file" id="xml-file-input" accept=".xml,text/xml" style="display: none;" onchange="lerArquivoXmlCompra(this)" aria-label="TOPBAR-SEARCH">
           <div style="display: flex; align-items: center; gap: 12px;">
             <span style="font-size: 28px;">📄</span>
             <div>
@@ -9018,7 +9018,7 @@
              ondragleave="aoSairConciliacaoDropzone(event)"
              ondrop="aoSoltarArquivoConciliacao(event)"
              style="cursor: pointer; border: 2px dashed rgba(168, 85, 247, 0.5); background: rgba(168, 85, 247, 0.04); border-radius: 12px; padding: 22px; text-align: center; transition: all 0.2s ease;">
-          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)">
+          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)" aria-label="TOPBAR-SEARCH">
           <div style="font-size: 32px; margin-bottom: 6px;">📂</div>
           <div style="font-size: 14px; font-weight: 700; color: #e2e8f0;">
             Arraste e solte o arquivo de extrato bancário (<strong style="color: #c084fc;">.OFX</strong> ou <strong style="color: #38bdf8;">.CSV</strong>) aqui
@@ -9053,7 +9053,7 @@
         <div id="conciliacao-barra-acoes" style="display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding: 10px 14px; background: #0f172a; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
           <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
             <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: #e2e8f0; cursor: pointer; user-select: none;">
-              <input type="checkbox" id="conc-check-todos" onchange="aoAlternarTodosConciliacao(this.checked)" style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;">
+              <input type="checkbox" id="conc-check-todos" onchange="aoAlternarTodosConciliacao(this.checked)" style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;" aria-label="TOPBAR-SEARCH">
               <span>Selecionar Prontos para Baixa</span>
             </label>
             <div style="display: flex; gap: 6px;">
@@ -9129,7 +9129,7 @@
 
       <form id="form-admin-reset-senha" onsubmit="submeterAdminResetSenha(event)">
         <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
-          <input type="hidden" id="admin-reset-user-id">
+          <input type="hidden" id="admin-reset-user-id" aria-label="TOPBAR-SEARCH">
           <div id="admin-reset-msg" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 12px;"></div>
 
           <!-- CARD DO OPERADOR SELECIONADO -->
@@ -9158,13 +9158,13 @@
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Mínimo 4 caracteres</span>
               </label>
               <div style="display: flex; position: relative; align-items: center;">
-                <input type="password" id="admin-reset-nova-senha" class="form-input" placeholder="Nova senha..." style="width: 100%; padding-right: 36px; font-family: 'JetBrains Mono', monospace;">
+                <input type="password" id="admin-reset-nova-senha" class="form-input" placeholder="Nova senha..." style="width: 100%; padding-right: 36px; font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
                 <button type="button" onclick="toggleSenhaResetAdmin()" style="position: absolute; right: 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px;" title="Mostrar/ocultar senha">👁️</button>
               </div>
             </div>
 
             <label style="display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: #cbd5e1; cursor: pointer; margin-top: 10px;">
-              <input type="checkbox" id="admin-reset-forcar-troca" checked style="accent-color: #38bdf8; width: 14px; height: 14px;">
+              <input type="checkbox" id="admin-reset-forcar-troca" checked style="accent-color: #38bdf8; width: 14px; height: 14px;" aria-label="TOPBAR-SEARCH">
               Exigir alteração de senha no próximo acesso do colaborador
             </label>
           </div>
@@ -9204,7 +9204,7 @@
 
       <div class="modal-body" style="padding: 18px 22px; gap: 14px; overflow-y: auto;">
         <form id="form-usuario-rbac" onsubmit="salvarUsuarioRbac(event)" autocomplete="off">
-          <input type="hidden" id="rbac-user-id">
+          <input type="hidden" id="rbac-user-id" aria-label="TOPBAR-SEARCH">
 
           <!-- LINHA 1: LOGIN (40%) + NOME COMPLETO (60%) -->
           <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 12px; align-items: flex-end;">
@@ -9215,14 +9215,14 @@
                 </span>
                 <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Identificador / @</span>
               </label>
-              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: vendas, financeiro" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">
+              <input type="text" class="form-input" id="rbac-login" required placeholder="ex: vendas, financeiro" autocomplete="off" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;" aria-label="TOPBAR-SEARCH">
             </div>
 
             <div class="form-group" style="margin: 0;">
               <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
                 Nome Completo do Colaborador *
               </label>
-              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome e sobrenome" autocomplete="off" style="font-weight: 600;">
+              <input type="text" class="form-input" id="rbac-nome" required placeholder="Nome e sobrenome" autocomplete="off" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -9234,7 +9234,7 @@
                 <span id="rbac-senha-hint" style="color: var(--text-muted); font-size: 10px; font-weight: normal;">(Obrigatória)</span>
               </label>
               <div style="display: flex; position: relative; align-items: center;">
-                <input type="password" class="form-input" id="rbac-senha" placeholder="Digite a senha..." style="width: 100%; padding-right: 36px; font-family: 'JetBrains Mono', monospace;">
+                <input type="password" class="form-input" id="rbac-senha" placeholder="Digite a senha..." style="width: 100%; padding-right: 36px; font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
                 <button type="button" onclick="toggleSenhaUsuarioRbac()" style="position: absolute; right: 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 14px;" title="Mostrar/ocultar senha">👁️</button>
               </div>
             </div>
@@ -9243,7 +9243,7 @@
               <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
                 Papel & Cargo Oficial *
               </label>
-              <select class="form-input erp-select" id="rbac-papel" onchange="aoMudarPapelRbac(this.value)" style="font-weight: 600; width: 100%;">
+              <select class="form-input erp-select" id="rbac-papel" onchange="aoMudarPapelRbac(this.value)" style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
                 <option value="ADMIN">👑 Administrador Total</option>
                 <option value="VENDAS">💼 Vendas & Atendimento</option>
                 <option value="EXPEDICAO">📦 Expedição & Logística</option>
@@ -9263,7 +9263,7 @@
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-clientes-criar" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-clientes-criar" checked style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">👥 Clientes & Contatos</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Cadastrar e editar carteira</div>
@@ -9271,7 +9271,7 @@
               </label>
 
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-fiscal-emitir" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-fiscal-emitir" checked style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">🧾 Central Fiscal & NF-e</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Emitir e transmitir à SEFAZ</div>
@@ -9279,7 +9279,7 @@
               </label>
 
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-produtos-custo" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-produtos-custo" checked style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">🏷️ Preço de Custo & Margem</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Visualizar custos e lucros</div>
@@ -9287,7 +9287,7 @@
               </label>
 
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-estoque-mov" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-estoque-mov" checked style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">📦 Estoque & Expedição</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Ajustes e etiquetas de envio</div>
@@ -9295,7 +9295,7 @@
               </label>
 
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-financeiro-baixa" checked style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-financeiro-baixa" checked style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">💰 Baixas & Financeiro</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Lançar pagamentos e contas</div>
@@ -9303,7 +9303,7 @@
               </label>
 
               <label style="background: #1e293b; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                <input type="checkbox" id="perm-configuracoes" style="accent-color: #38bdf8; width: 15px; height: 15px;">
+                <input type="checkbox" id="perm-configuracoes" style="accent-color: #38bdf8; width: 15px; height: 15px;" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12px; color: #cbd5e1; font-weight: 600;">⚙️ Configurações & Sistema</div>
                   <div style="font-size: 10px; color: var(--text-muted);">Backups, perfis e licenças</div>
@@ -9371,20 +9371,20 @@
           </div>
 
           <form id="form-criar-perfil-rbac" onsubmit="salvarNovoPerfilRbac(event)">
-            <input type="hidden" id="novo-perfil-id-edicao">
+            <input type="hidden" id="novo-perfil-id-edicao" aria-label="TOPBAR-SEARCH">
             <div style="display: grid; grid-template-columns: 1fr 1.5fr 110px; gap: 10px; align-items: flex-end;">
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">Identificador / Chave *</label>
-                <input type="text" class="form-input" id="novo-perfil-chave" required placeholder="ex: SUPERVISOR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+                <input type="text" class="form-input" id="novo-perfil-chave" required placeholder="ex: SUPERVISOR" style="text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-weight: 700;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">Nome de Exibição *</label>
-                <input type="text" class="form-input" id="novo-perfil-nome" required placeholder="ex: Supervisor de Operações" style="font-weight: 600;">
+                <input type="text" class="form-input" id="novo-perfil-nome" required placeholder="ex: Supervisor de Operações" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group" style="margin: 0;">
                 <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">Cor do Badge</label>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                  <input type="color" id="novo-perfil-cor" value="#38bdf8" oninput="document.getElementById('novo-perfil-cor-hex').textContent = this.value.toUpperCase()" style="width: 40px; height: 34px; padding: 0; border: none; border-radius: 6px; cursor: pointer; background: transparent;">
+                  <input type="color" id="novo-perfil-cor" value="#38bdf8" oninput="document.getElementById('novo-perfil-cor-hex').textContent = this.value.toUpperCase()" style="width: 40px; height: 34px; padding: 0; border: none; border-radius: 6px; cursor: pointer; background: transparent;" aria-label="TOPBAR-SEARCH">
                   <span id="novo-perfil-cor-hex" style="font-size: 11px; color: #cbd5e1; font-weight: 700; font-family: 'JetBrains Mono', monospace;">#38BDF8</span>
                 </div>
               </div>
@@ -9394,34 +9394,34 @@
               <label class="form-label" style="margin-bottom: 10px; display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">🔒 Permissões Granulares Deste Perfil:</label>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; font-size: 12px; color: #cbd5e1;">
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-admin" style="accent-color: #38bdf8;"> 👑 Administrador Total
+                  <input type="checkbox" id="novo-perm-admin" style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 👑 Administrador Total
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-clientes-ver" checked style="accent-color: #38bdf8;"> 👥 Ver Clientes & CRM
+                  <input type="checkbox" id="novo-perm-clientes-ver" checked style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 👥 Ver Clientes & CRM
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-clientes-criar" checked style="accent-color: #38bdf8;"> ✏️ Cadastrar Clientes
+                  <input type="checkbox" id="novo-perm-clientes-criar" checked style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> ✏️ Cadastrar Clientes
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-pedidos-ver" checked style="accent-color: #38bdf8;"> 📦 Ver Pedidos
+                  <input type="checkbox" id="novo-perm-pedidos-ver" checked style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 📦 Ver Pedidos
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-pedidos-criar" checked style="accent-color: #38bdf8;"> ➕ Criar Pedidos
+                  <input type="checkbox" id="novo-perm-pedidos-criar" checked style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> ➕ Criar Pedidos
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-produtos-ver" checked style="accent-color: #38bdf8;"> 🏷️ Ver Produtos
+                  <input type="checkbox" id="novo-perm-produtos-ver" checked style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 🏷️ Ver Produtos
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-produtos-custo" style="accent-color: #38bdf8;"> 💰 Ver Preços de Custo
+                  <input type="checkbox" id="novo-perm-produtos-custo" style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 💰 Ver Preços de Custo
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-fiscal-emitir" style="accent-color: #38bdf8;"> 🧾 Emitir NF-e / Central Fiscal
+                  <input type="checkbox" id="novo-perm-fiscal-emitir" style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 🧾 Emitir NF-e / Central Fiscal
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-configuracoes" style="accent-color: #38bdf8;"> ⚙️ Acessar Configurações
+                  <input type="checkbox" id="novo-perm-configuracoes" style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> ⚙️ Acessar Configurações
                 </label>
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                  <input type="checkbox" id="novo-perm-usuarios-gerenciar" style="accent-color: #38bdf8;"> 🛡️ Gerenciar Operadores
+                  <input type="checkbox" id="novo-perm-usuarios-gerenciar" style="accent-color: #38bdf8;" aria-label="TOPBAR-SEARCH"> 🛡️ Gerenciar Operadores
                 </label>
               </div>
             </div>
@@ -10261,7 +10261,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
         return `
           <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas" style="cursor: pointer;">
-            <td data-col="check"><input type="checkbox" value="${c.id}"></td>
+            <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${c.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
             <td data-col="nome" style="font-weight: 700; color: #fff;">
               ${c.nome}
@@ -11235,7 +11235,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
         return `
           <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" oncontextmenu="abrirMenuAcoesProduto(event, ${p.id}); return false;" title="Dois cliques para editar este produto | Botão direito para ações rápidas" style="cursor: pointer;">
-            <td data-col="check"><input type="checkbox" value="${p.id}"></td>
+            <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${p.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="sku" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
             <td data-col="ncm"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
             <td data-col="nome">
@@ -13282,7 +13282,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
         return `
           <tr ondblclick="aoDuploCliqueLinhaPedido(event, ${ped.id})" oncontextmenu="abrirMenuAcoesPedido(event, ${ped.id}); return false;" title="Dois cliques para editar | Botão direito para ações rápidas" style="cursor: pointer;">
-            <td data-col="check"><input type="checkbox" value="${ped.id}"></td>
+            <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${ped.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="numero">
               <div style="display: flex; align-items: center; gap: 4px;">
                 <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">${ped.numero}</span>
@@ -14155,12 +14155,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <td style="text-align: center;">
               <div style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
                 <button type="button" tabindex="-1" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, -1)" title="Diminuir 1 un">−</button>
-                <input type="number" min="1" step="1" value="${qtdNum}" class="no-spin" style="width: 48px; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; padding: 3px; -moz-appearance: textfield; -webkit-appearance: none;" onchange="alterarQtdItemPedidoDireto(${idx}, this.value)">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="number" min="1" step="1" value="${qtdNum}" class="no-spin" style="width: 48px; text-align: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #fff; border-radius: 4px; padding: 3px; -moz-appearance: textfield; -webkit-appearance: none;" onchange="alterarQtdItemPedidoDireto(${idx}, this.value)" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <button type="button" tabindex="-1" class="btn-row-action" style="padding: 2px 7px; font-weight: 800; font-size: 11px; line-height: 1;" onclick="alterarQtdItemPedido(${idx}, 1)" title="Aumentar 1 un">+</button>
               </div>
             </td>
             <td style="text-align: right;">
-              <input type="text" inputmode="decimal" value="${formatarMoedaPtBr(precoNum)}" style="width: 85px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #34d399; border-radius: 4px; padding: 3px 5px;" onchange="alterarPrecoItemPedido(${idx}, this.value)" onblur="this.value = formatarMoedaPtBr(this.value)">
+              <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" inputmode="decimal" value="${formatarMoedaPtBr(precoNum)}" style="width: 85px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; background: rgba(0,0,0,0.35); border: 1px solid var(--border-color); color: #34d399; border-radius: 4px; padding: 3px 5px;" onchange="alterarPrecoItemPedido(${idx}, this.value)" onblur="this.value = formatarMoedaPtBr(this.value)" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
             </td>
             <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px;">
               R$ ${formatarMoedaPtBr(subtotal)}
@@ -14686,7 +14686,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
         return `
           <tr>
-            <td data-col="check"><input type="checkbox" value="${f.id}"></td>
+            <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${f.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="numero">
               <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff;">${f.numero}</span>
@@ -16551,7 +16551,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             ${qtdXml} <span style="font-size: 10px; color: var(--text-muted);">${unXml}</span>
           </td>
           <td style="text-align: center;">
-            <input type="number" step="any" min="0.0001" id="xml-item-fator-${idx}" value="${fator}" class="form-input no-spin" style="width: 70px; text-align: center; font-weight: 700; padding: 4px 6px; font-size: 12px; -moz-appearance: textfield;" oninput="aoMudarFatorConversaoItem(this, ${idx})" title="Fator de conversão (ex: 1 caixa = 12 unidades)">
+            <input type="number" step="any" min="0.0001" id="xml-item-fator-${idx}" value="${fator}" class="form-input no-spin" style="width: 70px; text-align: center; font-weight: 700; padding: 4px 6px; font-size: 12px; -moz-appearance: textfield;" oninput="aoMudarFatorConversaoItem(this, ${idx})" title="Fator de conversão (ex: 1 caixa = 12 unidades)" aria-label="TOPBAR-SEARCH">
           </td>
           <td style="text-align: center;">
             <span id="xml-item-estoque-final-${idx}" class="badge-ped" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 800;">
@@ -16569,14 +16569,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           </td>
           <td style="position: relative;">
             <div style="display: flex; align-items: center; position: relative;">
-              <input type="text" id="xml-item-prod-input-${idx}" class="form-input" value="${textoInputProd}" autocomplete="off" placeholder="Buscar produto no catálogo..." style="width: 100%; box-sizing: border-box; padding-right: 28px; font-size: 11px; cursor: pointer; text-transform: uppercase;" onclick="abrirDropdownComboboxXmlItem(${idx}, event)" onfocus="abrirDropdownComboboxXmlItem(${idx}, event)" oninput="filtrarDropdownComboboxXmlItem(${idx}, this.value)" onkeydown="aoTeclarComboboxXmlItem(event, ${idx})">
+              <input type="text" id="xml-item-prod-input-${idx}" class="form-input" value="${textoInputProd}" autocomplete="off" placeholder="Buscar produto no catálogo..." style="width: 100%; box-sizing: border-box; padding-right: 28px; font-size: 11px; cursor: pointer; text-transform: uppercase;" onclick="abrirDropdownComboboxXmlItem(${idx}, event)" onfocus="abrirDropdownComboboxXmlItem(${idx}, event)" oninput="filtrarDropdownComboboxXmlItem(${idx}, this.value)" onkeydown="aoTeclarComboboxXmlItem(event, ${idx})" aria-label="TOPBAR-SEARCH">
               <button type="button" tabindex="-1" onclick="abrirDropdownComboboxXmlItem(${idx}, event)" title="Abrir catálogo ERP" style="position: absolute; right: 2px; background: none; border: none; color: #38bdf8; cursor: pointer; padding: 4px 6px; font-size: 10px; line-height: 1;">
                 ▼
               </button>
             </div>
           </td>
           <td>
-            <select class="form-input erp-select" id="xml-item-destino-${idx}" style="font-size: 11px; padding: 4px 6px; width: 100%;">
+            <select class="form-input erp-select" id="xml-item-destino-${idx}" style="font-size: 11px; padding: 4px 6px; width: 100%;" aria-label="CFG-RAMO-PRESET">
               <option value="ESTOQUE_PRODUTO" ${it.destino_entrada === 'ESTOQUE_PRODUTO' || !it.destino_entrada ? 'selected' : ''}>🟢 Estoque (Venda)</option>
               <option value="MATERIAIS" ${it.destino_entrada === 'MATERIAIS' ? 'selected' : ''}>🟡 Matéria-Prima</option>
               <option value="USO_CONSUMO" ${it.destino_entrada === 'USO_CONSUMO' ? 'selected' : ''}>⚪ Uso / Consumo</option>
@@ -17122,7 +17122,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const dropzone = document.getElementById('conciliacao-dropzone');
       if (dropzone) {
         dropzone.innerHTML = `
-          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)">
+          <input type="file" id="conciliacao-file-input" accept=".ofx,.csv,.txt" style="display: none;" onchange="aoSelecionarArquivoConciliacao(event)" aria-label="TOPBAR-SEARCH">
           <div style="font-size: 32px; margin-bottom: 6px;">📂</div>
           <div style="font-size: 14px; font-weight: 700; color: #e2e8f0;">
             Arraste e solte o arquivo de extrato bancário (<strong style="color: #c084fc;">.OFX</strong> ou <strong style="color: #38bdf8;">.CSV</strong>) aqui
@@ -17280,9 +17280,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return `
           <tr style="border-bottom: 1px solid rgba(255,255,255,0.06); background: ${selecionado ? 'rgba(168, 85, 247, 0.06)' : 'transparent'};">
             <td style="padding: 10px 14px; text-align: center;">
-              <input type="checkbox" ${selecionado ? 'checked' : ''} ${!sug ? 'disabled' : ''} 
+              <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" ${selecionado ? 'checked' : ''} ${!sug ? 'disabled' : ''} 
                      onchange="aoAlternarSelecaoConciliacao(${idxOriginal}, this.checked)"
-                     style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;">
+                     style="width: 16px; height: 16px; accent-color: #a855f7; cursor: pointer;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
             </td>
             <td style="padding: 10px 14px;">
               <div style="display: flex; align-items: center; gap: 8px;">
@@ -17309,7 +17309,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
                   <span style="font-size: 10.5px; color: #94a3b8;">R$</span>
                   <input type="number" step="0.01" min="0" id="conc-dif-taxa-${idxOriginal}" value="${diferencaTaxa.toFixed(2)}"
                          style="width: 75px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; color: #fff; font-size: 11.5px; padding: 4px 6px; text-align: right; font-family: monospace;"
-                         title="Diferença ou taxa bancária cobrada">
+                         title="Diferença ou taxa bancária cobrada" aria-label="TOPBAR-SEARCH">
                 </div>
               ` : '<span style="color: #475569;">-</span>'}
             </td>
@@ -17753,7 +17753,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           <div class="col-custom-item ${item.locked ? 'locked' : ''}" style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span class="th-grip-icon" style="font-size: 14px; margin: 0; color: #94a3b8; cursor: grab;">⠿</span>
-              <input type="checkbox" id="chk-col-${item.key}" ${item.visible ? 'checked' : ''} ${disabledCheck} onchange="alternarVisibilidadeColuna(${index}, this.checked)" style="accent-color: #38bdf8; width: 16px; height: 16px; cursor: ${item.locked ? 'not-allowed' : 'pointer'};">
+              <input type="checkbox" id="chk-col-${item.key}" ${item.visible ? 'checked' : ''} ${disabledCheck} onchange="alternarVisibilidadeColuna(${index}, this.checked)" style="accent-color: #38bdf8; width: 16px; height: 16px; cursor: ${item.locked ? 'not-allowed' : 'pointer'};" aria-label="TOPBAR-SEARCH">
               <label for="chk-col-${item.key}" style="font-size: 12.5px; font-weight: 600; color: #fff; cursor: ${item.locked ? 'default' : 'pointer'};">
                 ${item.label}
               </label>
@@ -20153,7 +20153,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <div style="display: flex; flex-direction: column; gap: 10px;">
               <!-- OPÇÃO 1: FECHOU O ERP -->
               <div onclick="wizardSelecionarSessao('fechou')" id="wizard-sessao-fechou" class="wizard-option-card selected" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-sessao" checked style="margin-top: 3px; accent-color: #0284c7;">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-sessao" checked style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
                     <span>🔒 Fechou o ERP = Exige Senha Novamente</span>
@@ -20175,7 +20175,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
                   </div>
                   <div id="wizard-controle-timeout-gustavo" style="display: none; align-items: center; gap: 6px;">
                     <span style="font-size: 11px; color: #fbbf24; font-weight: 700;">Ajustar (Admin Gustavo):</span>
-                    <select id="wizard-select-timeout" onchange="alterarTimeoutAdmin(this.value)" style="background: #0f172a; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 11px; padding: 3px 6px; border-radius: 6px; outline: none; cursor: pointer;">
+                    <select id="wizard-select-timeout" onchange="alterarTimeoutAdmin(this.value)" style="background: #0f172a; border: 1px solid rgba(56, 189, 248, 0.4); color: #fff; font-size: 11px; padding: 3px 6px; border-radius: 6px; outline: none; cursor: pointer;" aria-label="CFG-RAMO-PRESET">
                       <option value="5">5 Minutos</option>
                       <option value="10">10 Minutos</option>
                       <option value="15" selected>15 Minutos (Padrão)</option>
@@ -20192,7 +20192,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
               <!-- OPÇÃO 3: PERMANENTE -->
               <div onclick="wizardSelecionarSessao('permanente')" id="wizard-sessao-permanente" class="wizard-option-card" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-sessao" style="margin-top: 3px; accent-color: #0284c7;">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-sessao" style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
                     <span>⚡ Manter Conectado ("Lembrar de Mim")</span>
@@ -20216,7 +20216,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <div style="display: flex; flex-direction: column; gap: 10px;">
               <!-- OPÇÃO A: PIN 6 DÍGITOS -->
               <div onclick="wizardSelecionarTipoSenha('pin')" id="wizard-senha-pin" class="wizard-option-card selected" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-senha" checked style="margin-top: 3px; accent-color: #0284c7;">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-senha" checked style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
                     <span>🔢 PIN de 4 a 6 Dígitos Numéricos</span>
@@ -20230,7 +20230,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
               <!-- OPÇÃO B: SENHA SIMPLES -->
               <div onclick="wizardSelecionarTipoSenha('simples')" id="wizard-senha-simples" class="wizard-option-card" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-senha" style="margin-top: 3px; accent-color: #0284c7;">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-senha" style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
                     <span>🔤 Senha Simples (Sem Especiais)</span>
@@ -20244,7 +20244,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
               <!-- OPÇÃO C: SENHA FORTE -->
               <div onclick="wizardSelecionarTipoSenha('forte')" id="wizard-senha-forte" class="wizard-option-card" style="display: flex; align-items: flex-start; gap: 12px;">
-                <input type="radio" name="wizard-senha" style="margin-top: 3px; accent-color: #0284c7;">
+                <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-senha" style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
                     <span>🔐 Senha Forte Corporativa</span>
@@ -20283,12 +20283,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <div id="sim-box-pin" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
                 <label style="font-size: 11.5px; font-weight: 700; color: #cbd5e1;">Digite seu PIN (4 a 6 dígitos):</label>
                 <div style="display: flex; gap: 6px;">
-                  <input type="password" maxlength="1" value="1" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="2" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="3" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" value="4" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" value="1" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" value="2" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" value="3" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" value="4" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 46px; font-size: 20px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div style="font-size: 10.5px; color: #64748b; text-align: center;">Autenticação rápida estilo terminal (4 a 6 dígitos)</div>
               </div>
@@ -20297,11 +20297,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <div id="sim-box-simples" style="display: none; flex-direction: column; gap: 10px;">
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Usuário:</label>
-                  <input type="text" value="marcos" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" value="marcos" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Senha (Letras e números):</label>
-                  <input type="password" value="mis2026" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" value="mis2026" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <button type="button" style="width: 100%; padding: 10px; border-radius: 8px; background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; border: none; margin-top: 4px;">Entrar no Sistema</button>
               </div>
@@ -20310,11 +20310,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <div id="sim-box-forte" style="display: none; flex-direction: column; gap: 10px;">
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Usuário Corporativo:</label>
-                  <input type="text" value="gustavo.admin" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" value="gustavo.admin" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Senha Forte (@#$%!):</label>
-                  <input type="password" value="Mis@2026#Patrulha" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" value="Mis@2026#Patrulha" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <div style="display: flex; justify-content: space-between; font-size: 10px;">
@@ -20419,7 +20419,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           </div>
           <div style="position: relative;">
             <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.7;">👤</span>
-            <input type="text" id="auth-login-input" value="" required autocomplete="username" placeholder="Digite seu usuário (ex: gustavo, marcos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; aoSairLoginOperador(this.value);" oninput="aoDigitarLoginOperadorDebounced(this.value)">
+            <input type="text" id="auth-login-input" value="" required autocomplete="username" placeholder="Digite seu usuário (ex: gustavo, marcos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'; aoSairLoginOperador(this.value);" oninput="aoDigitarLoginOperadorDebounced(this.value)" aria-label="TOPBAR-SEARCH">
           </div>
         </div>
 
@@ -20427,10 +20427,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <div id="auth-bloco-pin" style="margin-bottom: 20px;">
           <label id="auth-label-pin" style="display: block; text-align: center; color: #cbd5e1; font-size: 12px; font-weight: 700; margin-bottom: 10px;">Digite seu PIN de 4 Dígitos:</label>
           <div id="auth-pin-boxes-container" style="display: flex; justify-content: center; gap: 8px;">
-            <input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="0" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
-            <input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="1" inputmode="numeric" pattern="[0-9]*">
-            <input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="2" inputmode="numeric" pattern="[0-9]*">
-            <input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="3" inputmode="numeric" pattern="[0-9]*">
+            <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="0" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+            <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="1" inputmode="numeric" pattern="[0-9]*" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+            <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="2" inputmode="numeric" pattern="[0-9]*" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+            <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="3" inputmode="numeric" pattern="[0-9]*" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
           </div>
           <div id="auth-hint-pin" style="text-align: center; font-size: 10.5px; color: #64748b; margin-top: 8px;">Autenticação instantânea estilo iOS ao completar os dígitos</div>
         </div>
@@ -20443,7 +20443,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           </div>
           <div style="position: relative;">
             <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 15px; opacity: 0.7;">🔒</span>
-            <input type="password" id="auth-senha-input" autocomplete="current-password" placeholder="Sua senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" oninput="aoDigitarSenhaInput(this.value)">
+            <input type="password" id="auth-senha-input" autocomplete="current-password" placeholder="Sua senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 42px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" oninput="aoDigitarSenhaInput(this.value)" aria-label="TOPBAR-SEARCH">
           </div>
 
           <!-- MEDIDOR DE FORÇA (MODO SENHA FORTE) -->
@@ -20513,7 +20513,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <div style="margin-bottom: 16px;">
           <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Nova Senha</label>
           <div style="position: relative;">
-            <input type="password" id="troca-nova-senha" required placeholder="Digite sua nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <input type="password" id="troca-nova-senha" required placeholder="Digite sua nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
             <span onclick="alternarVisibilidadeCampo('troca-nova-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
           </div>
         </div>
@@ -20522,7 +20522,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <div style="margin-bottom: 20px;">
           <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Confirme a Nova Senha</label>
           <div style="position: relative;">
-            <input type="password" id="troca-confirma-senha" required placeholder="Repita a nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <input type="password" id="troca-confirma-senha" required placeholder="Repita a nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 14px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#f59e0b'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
             <span onclick="alternarVisibilidadeCampo('troca-confirma-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
           </div>
         </div>
@@ -22011,7 +22011,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         let html = '';
         for (let i = 0; i < qtd; i++) {
           const autoComp = i === 0 ? ' autocomplete="one-time-code"' : '';
-          html += `<input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="${i}" inputmode="numeric" pattern="[0-9]*"${autoComp}>`;
+          html += `<label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" maxlength="1" class="pin-digit-box" data-pin-idx="${i}" inputmode="numeric" pattern="[0-9]*"${autoComp} id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">`;
         }
         container.innerHTML = html;
       }
