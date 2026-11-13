@@ -175,3 +175,4 @@ export async function registrarLog({
 Com a especificação formalmente registrada em [SPEC_AUDITORIA_BACKUP.md](file:///d:/projetos-agy/clientes/MisSuenos/SPEC_AUDITORIA_BACKUP.md), o próximo passo é executar:
 
 > **`/to-tickets`** para fatiar esta especificação em tickets de implementação atômicos, testáveis e ordenados.
+

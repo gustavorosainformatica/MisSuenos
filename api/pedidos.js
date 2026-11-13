@@ -357,9 +357,24 @@ export default async function handler(req, res) {
       }
 
       await registrarLog({
+        usuarioId: payload.usuario_id ? Number(payload.usuario_id) : null,
+        usuarioNome: payload.usuario_nome || 'ADMINISTRADOR',
+        modulo: 'PEDIDOS',
+        tipoAcao: 'CRIACAO',
+        referenciaId: numero,
+        descricao: `Pedido ${numero} cadastrado para ${payload.cliente_nome.trim()} (R$ ${valorTotal.toFixed(2)} | ${statusTexto}) | Itens reservados: ${itensEstoque.length}`,
+        dadosNovos: {
+          id: novoId,
+          numero,
+          cliente_id: payload.cliente_id ? Number(payload.cliente_id) : null,
+          cliente_nome: payload.cliente_nome.trim(),
+          valor_total: valorTotal,
+          status,
+          status_texto: statusTexto,
+          itens: payload.itens
+        },
         clienteId: payload.cliente_id ? Number(payload.cliente_id) : null,
         clienteNome: payload.cliente_nome.trim(),
-        tipoAcao: 'NOVO_PEDIDO',
         camposAlterados: ['pedido_criado', 'estoque_reservado', 'conta_receber_gerada'],
         detalhes: `Pedido ${numero} cadastrado (R$ ${valorTotal.toFixed(2)} | ${statusTexto}) | Itens reservados: ${itensEstoque.length}`,
         req
@@ -487,10 +502,17 @@ export default async function handler(req, res) {
       }
 
       await registrarLog({
+        usuarioId: payload.usuario_id ? Number(payload.usuario_id) : null,
+        usuarioNome: payload.usuario_nome || 'ADMINISTRADOR',
+        modulo: 'PEDIDOS',
+        tipoAcao: statusAnterior !== novoStatus ? 'STATUS_CHANGE' : 'EDICAO',
+        referenciaId: pedidoExistente.numero,
+        descricao: `Pedido ${pedidoExistente.numero} atualizado (${statusAnterior} -> ${novoStatus})`,
+        dadosAnteriores: pedidoExistente,
+        dadosNovos: { ...pedidoExistente, ...payload, status: novoStatus, status_texto: statusTexto },
+        camposAlterados: campos.map(c => c.split(' =')[0]),
         clienteId: pedidoExistente.cliente_id,
         clienteNome: pedidoExistente.cliente_nome,
-        tipoAcao: 'ATUALIZAR_PEDIDO',
-        camposAlterados: campos.map(c => c.split(' =')[0]),
         detalhes: `Pedido ${pedidoExistente.numero} atualizado (${statusAnterior} -> ${novoStatus})`,
         req
       }).catch(() => {});
@@ -520,9 +542,15 @@ export default async function handler(req, res) {
       await run('DELETE FROM pedidos WHERE id = ?', [idParam]);
 
       await registrarLog({
+        usuarioId: null,
+        usuarioNome: 'ADMINISTRADOR',
+        modulo: 'PEDIDOS',
+        tipoAcao: 'EXCLUSAO',
+        referenciaId: pedidoExistente.numero,
+        descricao: `Pedido ${pedidoExistente.numero} excluído do banco e reserva liberada`,
+        dadosAnteriores: pedidoExistente,
         clienteId: pedidoExistente.cliente_id,
         clienteNome: pedidoExistente.cliente_nome,
-        tipoAcao: 'EXCLUIR_PEDIDO',
         camposAlterados: ['pedido_excluido'],
         detalhes: `Pedido ${pedidoExistente.numero} excluído do banco e reserva liberada`,
         req

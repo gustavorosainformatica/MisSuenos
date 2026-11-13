@@ -710,3 +710,27 @@ textarea {
   white-space: normal !important;
   text-overflow: clip !important;
 }
+
+
+/* RESPONSIVIDADE DO MODAL DE AUDITORIA (FASE 2) */
+@media (max-width: 768px) {
+  #modal-auditoria-sistema .modal-container {
+    width: 98vw !important;
+    max-height: 96vh !important;
+  }
+  #modal-auditoria-sistema .audit-tab-nav {
+    padding: 0 10px !important;
+    overflow-x: auto;
+  }
+  #modal-auditoria-sistema .audit-tab-btn {
+    padding: 10px 12px !important;
+    font-size: 11.5px !important;
+    white-space: nowrap;
+  }
+  #modal-auditoria-sistema #painel-auditoria-logs > div:first-child {
+    grid-template-columns: 1fr !important;
+  }
+  #diff-grid-comparativo {
+    grid-template-columns: 1fr !important;
+  }
+}

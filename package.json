@@ -14,7 +14,9 @@
     "migrar:turso": "infisical run --silent -- node scripts/migrar_turso.js",
     "migrar:v2": "node scripts/migrar_schema_v2.js",
     "importar:ncm": "node scripts/importar_ncm.js",
-    "configurar-ramo": "node scripts/configurar_ramo.js"
+    "configurar-ramo": "node scripts/configurar_ramo.js",
+    "backup:r2": "node scripts/executar_backup_r2.js",
+    "migrar:auditoria": "node scripts/migrar_schema_auditoria.js"
   },
   "keywords": [
     "clientes",

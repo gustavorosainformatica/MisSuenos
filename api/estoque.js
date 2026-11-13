@@ -339,9 +339,14 @@ export default async function handler(req, res) {
 
       // Registro de Auditoria Global
       await registrarLog({
-        clienteId: null,
-        clienteNome: `Estoque: ${produto.nome} (${produto.codigo_sku})`,
-        tipoAcao: `ESTOQUE_${tipoNormalizado}`,
+        usuarioId: operadorId ? Number(operadorId) : null,
+        usuarioNome: operadorNome || 'ADMINISTRADOR',
+        modulo: 'ESTOQUE',
+        tipoAcao: tipoNormalizado === 'ENTRADA' ? 'ENTRADA_ESTOQUE' : 'SAIDA_ESTOQUE',
+        referenciaId: produto.codigo_sku || `PROD #${produto.id}`,
+        descricao: `Estoque ${tipoNormalizado}: ${produto.nome} (${saldoAnterior} -> ${saldoPosterior} un) | Motivo: ${motivo}`,
+        dadosAnteriores: { produto_id: produto.id, estoque_atual: saldoAnterior },
+        dadosNovos: { produto_id: produto.id, estoque_atual: saldoPosterior, movimentado: qtdNum, tipo: tipoNormalizado },
         camposAlterados: `estoque_atual: ${saldoAnterior} -> ${saldoPosterior} (${tipoNormalizado === 'ENTRADA' ? '+' : '-'}${qtdNum})`,
         detalhes: `Motivo: ${motivo} | Ref: ${documento_referencia || 'N/A'} | Obs: ${observacoes || 'N/A'}`,
         req

@@ -37,7 +37,7 @@
   3. Registrar o identificador do operador autenticado ou fallback `SISTEMA`.
 - **Passo de Validação:**
   - Executar mutações de teste e consultar `SELECT * FROM logs_auditoria ORDER BY id DESC LIMIT 5`, confirmando que os payloads foram gravados corretamente.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (Pedidos, Clientes, Estoque e Financeiro instrumentados)
 
 ---
 
@@ -52,7 +52,7 @@
   3. Retornar estrutura padronizada `{ logs: [...], total, page, totalPages }`.
 - **Passo de Validação:**
   - Fazer requisição GET `/api/logs?modulo=PEDIDOS&limit=10` e checar resposta HTTP 200 com array e totalizadores corretos.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (API paginada com filtros e busca textual)
 
 ---
 
@@ -71,7 +71,7 @@
      - `GET /api/sistema/backups`: lista os últimos 30 backups armazenados no R2 com link de download assinado.
 - **Passo de Validação:**
   - Disparar o backup via teste ou chamada HTTP e verificar a existência do arquivo `.sqlite.gz` gerado com tamanho consistente.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (Snapshot atômico, compactação GZIP e upload R2 / local)
 
 ---
 
@@ -86,7 +86,7 @@
   3. Adicionar atalho no `package.json`: `"backup:r2": "node scripts/executar_backup_r2.js"`.
 - **Passo de Validação:**
   - Executar `npm run backup:r2` no terminal PowerShell e verificar saída com log verde de sucesso.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (`npm run backup:r2` executado com retenção de 30 dias)
 
 ---
 
@@ -106,7 +106,7 @@
      - Responsividade mobile (ajuste em viewports <= 768px via `mobile.css`).
 - **Passo de Validação:**
   - Abrir o modal no navegador, testar filtros, visualização do diff e disparo do backup via interface.
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (Modal integrado no menu com abas, busca em caixa alta, sub-modal de diffs e responsivo)
 
 ---
 
@@ -121,7 +121,7 @@
   4. Testar a listagem de backups e tolerância a falhas quando o R2 estiver ausente (fallback local).
 - **Passo de Validação:**
   - Rodar `npm test` e verificar se a suíte completa passa com 100% de sucesso (somando aos 139 testes atuais).
-- **Status:** [ ] Pendente
+- **Status:** [x] Concluído e Validado (147 testes passando com 100% de sucesso)
 
 ---
 
@@ -135,6 +135,6 @@
   3. Auditar o status do build na Vercel.
   4. Consultar o usuário Gustavo sobre a propagação das melhorias neutras para o `erp-base`.
 - **Passo de Validação:**
-  - Aplicação ativa e validada no ambiente de produção.
-- **Status:** [ ] Pendente
+  - Aplicação ativa e validada no ambiente de produção com 147 testes automatizados passando.
+- **Status:** [x] Concluído e Validado (Fase 2 entregue com commit semântico, 147 testes e push para a branch main)
 

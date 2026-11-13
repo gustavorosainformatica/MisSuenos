@@ -7,9 +7,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { query, get, run, modoAtivo } from '../lib/db.js';
-import { salvarArquivo, getStorageStatus } from '../lib/storage.js';
+import { salvarArquivo, getStorageStatus, listarArquivos } from '../lib/storage.js';
+import { registrarLog } from '../lib/audit.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,10 +52,10 @@ function calcularTamanhoDiretorio(dirPath) {
             const stats = fs.statSync(itemPath);
             totalBytes += stats.size;
             totalArquivos++;
-          } catch {}
+          } catch { }
         }
       }
-    } catch {}
+    } catch { }
   }
 
   lerDirRecursivo(dirPath);
@@ -144,7 +146,7 @@ export async function obterMetricasArmazenamento() {
     try {
       const dbStats = fs.statSync(DB_PATH);
       sqliteLocalBytes = dbStats.size;
-    } catch {}
+    } catch { }
   }
   if (sqliteLocalBytes === 0) {
     sqliteLocalBytes = bancoBytesEstimados;
@@ -163,7 +165,7 @@ export async function obterMetricasArmazenamento() {
       totalAnexosArquivos = Math.max(totalAnexosArquivos, Number(sumAnexos.total || 0));
       totalAnexosBytes = Math.max(totalAnexosBytes, Number(sumAnexos.total_bytes || 0));
     }
-  } catch {}
+  } catch { }
 
   const r2Percentual = (totalAnexosBytes / R2_LIMITE_BYTES) * 100;
 
@@ -194,7 +196,7 @@ export async function obterMetricasArmazenamento() {
         bytes_estimados: estBytes,
         tamanho_formatado: formatarBytes(estBytes)
       });
-    } catch {}
+    } catch { }
   }
 
   for (const t of tabelas) {
@@ -276,7 +278,7 @@ export async function otimizarBanco() {
     const pCount = Number(pc?.[0]?.page_count || Object.values(pc?.[0] || {})[0] || 0);
     const pSize = Number(ps?.[0]?.page_size || Object.values(ps?.[0] || {})[0] || 4096);
     bytesAntes = pCount * pSize;
-  } catch {}
+  } catch { }
 
   try {
     await run('VACUUM');
@@ -291,7 +293,7 @@ export async function otimizarBanco() {
     const pCount = Number(pc?.[0]?.page_count || Object.values(pc?.[0] || {})[0] || 0);
     const pSize = Number(ps?.[0]?.page_size || Object.values(ps?.[0] || {})[0] || 4096);
     bytesDepois = pCount * pSize;
-  } catch {}
+  } catch { }
 
   const tempoMs = Date.now() - inicio;
   const bytesLiberados = Math.max(0, bytesAntes - bytesDepois);
@@ -384,7 +386,7 @@ export async function arquivarELimparLogs({ diasRetencao = 90, forcarTodos = fal
   let otimizacaoRes = null;
   try {
     otimizacaoRes = await otimizarBanco();
-  } catch {}
+  } catch { }
 
   const storageStatus = getStorageStatus();
 
@@ -405,7 +407,88 @@ export async function arquivarELimparLogs({ diasRetencao = 90, forcarTodos = fal
 }
 
 /**
- * 4. Handler Principal Vercel Serverless / Node.js
+ * 4. Rotinas de Backup Automático & Sob Demanda (Cloudflare R2 / Fallback Local)
+ */
+export async function gerarBackupSistema({ usuarioId = null, usuarioNome = 'ADMINISTRADOR', req = null } = {}) {
+  let bufferBanco = null;
+  const modo = modoAtivo();
+
+  if (fs.existsSync(DB_PATH)) {
+    bufferBanco = fs.readFileSync(DB_PATH);
+  } else {
+    // Se estiver em modo Turso ou sem arquivo local físico, faz dump estruturado das tabelas
+    const tabelas = ['clientes', 'pedidos', 'produtos', 'estoque_movimentacoes', 'financeiro_lancamentos', 'fornecedores', 'configuracoes_sistema', 'usuarios', 'logs_auditoria'];
+    const dump = {};
+    for (const tab of tabelas) {
+      try {
+        dump[tab] = await query(`SELECT * FROM ${tab}`);
+      } catch { }
+    }
+    bufferBanco = Buffer.from(JSON.stringify(dump, null, 2), 'utf-8');
+  }
+
+  // Compactação GZIP de alta performance
+  const bufferGzip = zlib.gzipSync(bufferBanco);
+
+  const agora = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const timestampStr = `${agora.getFullYear()}-${pad(agora.getMonth() + 1)}-${pad(agora.getDate())}_${pad(agora.getHours())}${pad(agora.getMinutes())}${pad(agora.getSeconds())}`;
+  const ext = fs.existsSync(DB_PATH) ? 'sqlite.gz' : 'json.gz';
+  const nomeArquivo = `backup_missuenos_${timestampStr}.${ext}`;
+
+  const uploadRes = await salvarArquivo({
+    buffer: bufferGzip,
+    nomeOriginal: nomeArquivo,
+    mimetype: 'application/gzip',
+    pasta: 'backups',
+    preservarNomeExato: true
+  });
+
+  await registrarLog({
+    usuarioId: usuarioId ? Number(usuarioId) : null,
+    usuarioNome,
+    modulo: 'SISTEMA',
+    tipoAcao: 'BACKUP_CRIADO',
+    referenciaId: nomeArquivo,
+    descricao: `Backup atômico do banco gerado (${formatarBytes(bufferGzip.length)} compactado)`,
+    dadosNovos: {
+      arquivo: nomeArquivo,
+      tamanho_original: bufferBanco.length,
+      tamanho_compactado: bufferGzip.length,
+      provedor: uploadRes.provedor,
+      modo_banco: modo
+    },
+    req
+  });
+
+  return {
+    sucesso: true,
+    arquivo: nomeArquivo,
+    tamanhoBytes: bufferGzip.length,
+    tamanhoFormatado: formatarBytes(bufferGzip.length),
+    tamanhoOriginalBytes: bufferBanco.length,
+    tamanhoOriginalFormatado: formatarBytes(bufferBanco.length),
+    taxaCompactacao: `${((1 - (bufferGzip.length / bufferBanco.length)) * 100).toFixed(1)}%`,
+    provedor: uploadRes.provedor,
+    urlDownload: uploadRes.url,
+    dataHora: agora.toISOString()
+  };
+}
+
+export async function listarBackupsSistema() {
+  const lista = await listarArquivos('backups');
+  return {
+    sucesso: true,
+    total: lista.length,
+    backups: lista.map(item => ({
+      ...item,
+      tamanhoFormatado: formatarBytes(item.tamanho)
+    }))
+  };
+}
+
+/**
+ * 5. Handler Principal Vercel Serverless / Node.js
  */
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
@@ -425,9 +508,20 @@ export default async function handler(req, res) {
 
   const url = new URL(req.url, 'http://localhost');
   const pathname = url.pathname;
+  const acaoQuery = url.searchParams.get('acao');
 
-  // ROTA 1: Telemetria de Armazenamento & Quotas (GET)
+  // ROTA 1: GET (Telemetria OU Listagem de Backups)
   if (req.method === 'GET') {
+    if (pathname.includes('/backups') || acaoQuery === 'backups') {
+      try {
+        const backups = await listarBackupsSistema();
+        return responder(res, 200, backups);
+      } catch (err) {
+        console.error('[ERRO API SISTEMA BACKUPS]', err);
+        return responder(res, 500, { error: 'Falha ao listar backups', detalhes: err.message });
+      }
+    }
+
     try {
       const metricas = await obterMetricasArmazenamento();
       return responder(res, 200, metricas);
@@ -437,11 +531,20 @@ export default async function handler(req, res) {
     }
   }
 
-  // ROTA 2: Rotinas de Manutenção (POST: otimizar ou limpar-logs)
+  // ROTA 2: POST (Rotinas de Manutenção, Otimização e Backup)
   if (req.method === 'POST') {
     try {
       const body = await parseBody(req);
-      const acao = body.acao || url.searchParams.get('acao') || (pathname.includes('otimizar') ? 'otimizar' : 'limpar_logs');
+      const acao = body.acao || acaoQuery || (pathname.includes('backup') ? 'backup' : (pathname.includes('otimizar') ? 'otimizar' : 'limpar_logs'));
+
+      if (acao === 'backup' || pathname.includes('/backup')) {
+        const resultado = await gerarBackupSistema({
+          usuarioId: body.usuario_id,
+          usuarioNome: body.usuario_nome || 'ADMINISTRADOR',
+          req
+        });
+        return responder(res, 201, resultado);
+      }
 
       if (acao === 'otimizar') {
         const resultado = await otimizarBanco();
@@ -455,7 +558,7 @@ export default async function handler(req, res) {
         return responder(res, 200, resultado);
       }
 
-      return responder(res, 400, { error: 'Ação não reconhecida. Use "otimizar" ou "limpar_logs".' });
+      return responder(res, 400, { error: 'Ação não reconhecida. Use "backup", "otimizar" ou "limpar_logs".' });
     } catch (err) {
       console.error('[ERRO API SISTEMA MANUTENCAO]', err);
       return responder(res, 500, { error: 'Falha na rotina de manutenção', detalhes: err.message });

@@ -369,9 +369,15 @@ export default async function handler(req, res) {
       ]);
 
       await registrarLog({
+        usuarioId: body.usuario_id ? Number(body.usuario_id) : null,
+        usuarioNome: body.usuario_nome || 'ADMINISTRADOR',
+        modulo: 'FINANCEIRO',
+        tipoAcao: `CRIACAO_${tipo}`,
+        referenciaId: `FIN #${info.lastInsertRowid}`,
+        descricao: `${tipo}: ${descricao} | R$ ${valor.toFixed(2)} | Venc: ${dataVencimento}`,
+        dadosNovos: { id: info.lastInsertRowid, tipo, descricao, valor, status, data_vencimento: dataVencimento },
         clienteId: body.cliente_id ? Number(body.cliente_id) : null,
         clienteNome: body.cliente_nome || body.fornecedor_nome || 'Financeiro',
-        tipoAcao: `FINANCEIRO_NOVO_${tipo}`,
         camposAlterados: ['lancamento_criado'],
         detalhes: `${tipo}: ${descricao} | R$ ${valor.toFixed(2)} | Venc: ${dataVencimento}`,
         req
@@ -424,10 +430,17 @@ export default async function handler(req, res) {
       `, [descricao, categoria, valor, dataVencimento, dataPagamento, formaPagamento, novoStatus, obs, agora.toISOString(), targetId]);
 
       await registrarLog({
+        usuarioId: body.usuario_id ? Number(body.usuario_id) : null,
+        usuarioNome: body.usuario_nome || 'ADMINISTRADOR',
+        modulo: 'FINANCEIRO',
+        tipoAcao: novoStatus === 'PAGO' ? 'BAIXA_TITULO' : 'EDICAO_LANCAMENTO',
+        referenciaId: `FIN #${targetId}`,
+        descricao: `Lançamento #${targetId} (${descricao}) -> ${novoStatus} (R$ ${valor.toFixed(2)})`,
+        dadosAnteriores: atual,
+        dadosNovos: { ...atual, descricao, categoria, valor, status: novoStatus, data_pagamento: dataPagamento },
+        camposAlterados: ['status', 'pagamento'],
         clienteId: atual.cliente_id,
         clienteNome: atual.cliente_nome || atual.fornecedor_nome || 'Financeiro',
-        tipoAcao: 'FINANCEIRO_ATUALIZADO',
-        camposAlterados: ['status', 'pagamento'],
         detalhes: `Lançamento #${targetId} (${descricao}) -> ${novoStatus} (R$ ${valor.toFixed(2)})`,
         req
       }).catch(() => {});
@@ -438,7 +451,19 @@ export default async function handler(req, res) {
     // 4. DELETE: Excluir lançamento
     if (req.method === 'DELETE') {
       if (!idParam) return responder(res, 400, { error: 'ID obrigatório para exclusão.' });
+      const atualDel = await get('SELECT * FROM financeiro_lancamentos WHERE id = ?', [idParam]);
       await run('DELETE FROM financeiro_lancamentos WHERE id = ?', [idParam]);
+      if (atualDel) {
+        await registrarLog({
+          usuarioNome: 'ADMINISTRADOR',
+          modulo: 'FINANCEIRO',
+          tipoAcao: 'EXCLUSAO',
+          referenciaId: `FIN #${idParam}`,
+          descricao: `Exclusão do lançamento financeiro #${idParam} (${atualDel.descricao} - R$ ${Number(atualDel.valor || 0).toFixed(2)})`,
+          dadosAnteriores: atualDel,
+          req
+        }).catch(() => {});
+      }
       return responder(res, 200, { success: true, id: idParam });
     }
 

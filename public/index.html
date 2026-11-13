@@ -2533,6 +2533,67 @@
       max-width: 98vw;
       max-height: 92vh;
     }
+    /* ESTILOS DO MODAL DE AUDITORIA & BACKUPS R2 (FASE 2) */
+    #modal-auditoria-sistema .modal-container {
+      width: min(1040px, 96vw);
+      max-width: 98vw;
+      max-height: 92vh;
+    }
+    .audit-tab-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0 22px;
+      background: #0f172a;
+    }
+    .audit-tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #94a3b8;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .audit-tab-btn.active {
+      color: #38bdf8;
+      border-bottom-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.06);
+    }
+    .audit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+    .audit-badge-pedidos { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .audit-badge-clientes { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+    .audit-badge-estoque { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .audit-badge-financeiro { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+    .audit-badge-sistema { background: rgba(14, 165, 233, 0.15); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.3); }
+    .audit-diff-card-antes {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .audit-diff-card-depois {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
     #modal-personalizar-colunas .modal-container {
       width: min(560px, 95vw);
       max-width: 98vw;
@@ -4887,6 +4948,11 @@
 
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalBackupDados();">
               <span class="gear-dd-left"><span>💾</span> <span>Backup & Exportação</span></span>
+            </button>
+
+            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalAuditoriaSistema();" title="Trilha de auditoria completa e backups automáticos no Cloudflare R2">
+              <span class="gear-dd-left"><span>🛡️</span> <span>Auditoria & Backups R2</span></span>
+              <span class="gear-dd-badge badge-emerald">Fase 2</span>
             </button>
 
             <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalArmazenamento();">
@@ -7846,6 +7912,228 @@
       </div>
     </div>
   </div>
+
+  
+  <!-- MODAL DE AUDITORIA & BACKUPS R2 (FASE 2) -->
+  <div class="modal-overlay" id="modal-auditoria-sistema">
+    <div class="modal-container" style="max-width: 1040px; width: 96%; max-height: 92vh; display: flex; flex-direction: column;">
+      <div class="modal-resize-handle" data-modal="modal-auditoria-sistema" title="Arraste para ajustar o tamanho da janela (salvo automaticamente como padrão | duplo clique para restaurar)">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🛡️</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 15px; font-weight: 800; color: #fff;">Trilha de Auditoria & Central de Backups R2</span>
+              <span class="badge-ped" style="font-size: 10px; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">
+                🛡️ ZERO-PII ATIVO
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: #38bdf8; font-weight: 600; margin-top: 2px;">
+              Rastreabilidade de Ações, Diffs de Alterações e Snapshots no Cloudflare R2
+            </div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" tabindex="-1" onclick="fecharModalAuditoriaSistema()">✕</button>
+      </div>
+
+      <!-- ABAS SUPERIORES -->
+      <div class="audit-tab-nav">
+        <button type="button" class="audit-tab-btn active" id="tab-btn-auditoria-logs" onclick="alternarAbaAuditoria('logs')" tabindex="-1">
+          <span>🕵️</span> Trilha de Atividades
+        </button>
+        <button type="button" class="audit-tab-btn" id="tab-btn-auditoria-backups" onclick="alternarAbaAuditoria('backups')" tabindex="-1">
+          <span>☁️</span> Snapshots & Backups R2
+        </button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 22px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 14px;">
+        
+        <!-- PAINEL 1: LOGS DE AUDITORIA -->
+        <div id="painel-auditoria-logs" style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- FILTROS -->
+          <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 14px; display: grid; grid-template-columns: 2fr 1fr 1fr auto auto; gap: 10px; align-items: center;">
+            <div>
+              <label style="font-size: 10.5px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 3px; display: block;">Buscar no Histórico:</label>
+              <input type="text" id="filtro-audit-busca" class="form-input" placeholder="BUSCAR POR OPERADOR, PEDIDO, CLIENTE..." style="width: 100%; text-transform: uppercase !important; font-size: 12px; padding: 6px 10px;" oninput="this.value = this.value.toUpperCase();" onkeydown="if (event.key === 'Enter') carregarLogsAuditoria(1);" />
+            </div>
+
+            <div>
+              <label style="font-size: 10.5px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 3px; display: block;">Módulo:</label>
+              <select id="filtro-audit-modulo" class="form-input" style="width: 100%; font-size: 12px; padding: 6px 8px;" onchange="carregarLogsAuditoria(1);">
+                <option value="">TODOS OS MÓDULOS</option>
+                <option value="PEDIDOS">PEDIDOS</option>
+                <option value="CLIENTES">CLIENTES</option>
+                <option value="ESTOQUE">ESTOQUE</option>
+                <option value="FINANCEIRO">FINANCEIRO</option>
+                <option value="SISTEMA">SISTEMA</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="font-size: 10.5px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 3px; display: block;">Tipo de Ação:</label>
+              <select id="filtro-audit-acao" class="form-input" style="width: 100%; font-size: 12px; padding: 6px 8px;" onchange="carregarLogsAuditoria(1);">
+                <option value="">TODAS AS AÇÕES</option>
+                <option value="CRIACAO">CRIAÇÃO</option>
+                <option value="EDICAO">EDIÇÃO</option>
+                <option value="EXCLUSAO">EXCLUSÃO</option>
+                <option value="STATUS_CHANGE">MUDANÇA DE STATUS</option>
+                <option value="ESTORNO">ESTORNO</option>
+                <option value="BACKUP_CRIADO">BACKUP CRIADO</option>
+              </select>
+            </div>
+
+            <div style="display: flex; gap: 6px; align-self: flex-end;">
+              <button type="button" class="btn-top btn-primary-glow" tabindex="-1" onclick="carregarLogsAuditoria(1)" style="font-size: 11px; padding: 6px 12px;" title="Aplicar filtros de busca">
+                <span>🔍</span> Filtrar
+              </button>
+              <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="limparFiltrosAuditoria()" style="font-size: 11px; padding: 6px 10px;" title="Limpar todos os filtros">
+                <span>🔄</span> Limpar
+              </button>
+            </div>
+          </div>
+
+          <!-- TABELA DE LOGS -->
+          <div class="erp-table-wrapper" style="border: 1px solid #334155; border-radius: 8px; overflow-x: auto; background: #111827; min-height: 280px; max-height: 480px;">
+            <table class="erp-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+              <thead>
+                <tr>
+                  <th style="padding: 8px 10px; width: 140px; font-size: 11px;">Data / Hora</th>
+                  <th style="padding: 8px 10px; width: 130px; font-size: 11px;">Operador</th>
+                  <th style="padding: 8px 10px; width: 100px; font-size: 11px;">Módulo</th>
+                  <th style="padding: 8px 10px; width: 110px; font-size: 11px;">Ação</th>
+                  <th style="padding: 8px 10px; width: 120px; font-size: 11px;">Referência</th>
+                  <th style="padding: 8px 10px; font-size: 11px;">Descrição</th>
+                  <th style="padding: 8px 10px; width: 80px; text-align: center; font-size: 11px;">Diff</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-logs-auditoria-corpo">
+                <tr>
+                  <td colspan="7" style="padding: 30px; text-align: center; color: var(--text-muted);">
+                    Carregando trilha de auditoria...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- PAGINAÇÃO -->
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-muted); padding-top: 4px;">
+            <div>
+              Total: <strong id="audit-total-registros" style="color: #fff; font-family: 'JetBrains Mono', monospace;">0</strong> eventos registrados
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="btn-top btn-row-action" id="btn-audit-anterior" tabindex="-1" onclick="navegarPaginaAuditoria(-1)" disabled style="padding: 4px 10px; font-size: 11px;">
+                ◀ Anterior
+              </button>
+              <span id="audit-pag-indicador" style="font-weight: 700; color: #cbd5e1; font-family: 'JetBrains Mono', monospace;">Página 1 de 1</span>
+              <button type="button" class="btn-top btn-row-action" id="btn-audit-proximo" tabindex="-1" onclick="navegarPaginaAuditoria(1)" disabled style="padding: 4px 10px; font-size: 11px;">
+                Próxima ▶
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAINEL 2: CENTRAL DE BACKUPS R2 -->
+        <div id="painel-auditoria-backups" style="display: none; flex-direction: column; gap: 14px;">
+          <!-- CARD DE AÇÃO RÁPIDA -->
+          <div style="background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 280px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong style="color: #fff; font-size: 13.5px;">📦 Snapshot Compactado do Banco (.sqlite.gz)</strong>
+                <span class="badge-ped" style="font-size: 9.5px; background: rgba(56, 189, 248, 0.2); color: #38bdf8;">RETENÇÃO 30 DIAS</span>
+              </div>
+              <div style="font-size: 11px; color: #cbd5e1; margin-top: 3px; line-height: 1.4;">
+                Cria um snapshot consistente e atômico da base de dados, compacta via GZIP (economia ~75%) e faz upload direto para o bucket seguro Cloudflare R2 com link assinado.
+              </div>
+            </div>
+            <button type="button" class="btn-top btn-primary-glow" id="btn-gerar-backup-sistema" tabindex="-1" onclick="gerarBackupAgoraSistema()" style="font-size: 12px; padding: 8px 18px; font-weight: 800; white-space: nowrap;">
+              <span>⚡</span> Gerar Backup Agora
+            </button>
+          </div>
+
+          <!-- HISTÓRICO DE BACKUPS -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.3px;">
+                📑 Snapshots Disponíveis no Cloudflare R2 / Armazenamento:
+              </div>
+              <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="carregarListaBackupsSistema()" style="padding: 4px 10px; font-size: 11px;">
+                <span>🔄</span> Atualizar Lista
+              </button>
+            </div>
+
+            <div class="erp-table-wrapper" style="border: 1px solid #334155; border-radius: 8px; overflow-x: auto; background: #111827; min-height: 220px; max-height: 380px;">
+              <table class="erp-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                  <tr>
+                    <th style="padding: 8px 12px; font-size: 11px;">Nome do Arquivo</th>
+                    <th style="padding: 8px 12px; width: 120px; font-size: 11px;">Tamanho</th>
+                    <th style="padding: 8px 12px; width: 160px; font-size: 11px;">Data / Hora</th>
+                    <th style="padding: 8px 12px; width: 120px; font-size: 11px;">Provedor</th>
+                    <th style="padding: 8px 12px; width: 120px; text-align: center; font-size: 11px;">Download</th>
+                  </tr>
+                </thead>
+                <tbody id="lista-backups-sistema-corpo">
+                  <tr>
+                    <td colspan="5" style="padding: 24px; text-align: center; color: var(--text-muted);">
+                      Carregando snapshots...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); gap: 10px;">
+        <span style="font-size: 11px; color: var(--text-muted);">
+          Auditoria Blindada • Máscara preventiva Zero-PII ativa em todas as visualizações
+        </span>
+        <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="fecharModalAuditoriaSistema()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUB-MODAL: DETALHES DO DIFF DE AUDITORIA (ANTES VS DEPOIS) -->
+  <div class="modal-overlay" id="modal-detalhes-diff-auditoria" style="z-index: 10500;">
+    <div class="modal-container" style="max-width: 760px; width: 94%; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header" style="padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #0f172a;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 18px;">🔍</span>
+          <div>
+            <strong style="color: #fff; font-size: 14px;">Comparativo de Alteração (Diff Visual)</strong>
+            <div id="diff-subtitulo-evento" style="font-size: 11px; color: #38bdf8;">Evento #0</div>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" tabindex="-1" onclick="fecharModalDetalhesDiffAuditoria()">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 16px 18px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 12px;">
+        <div id="diff-container-metadados" style="font-size: 11.5px; color: #cbd5e1; background: #1e293b; padding: 10px 14px; border-radius: 8px; border: 1px solid #334155;">
+          <!-- Metadados do evento -->
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" id="diff-grid-comparativo">
+          <div class="audit-diff-card-antes">
+            <div style="font-weight: 800; color: #ef4444; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+              <span>🔴</span> Estado Anterior (Antes):
+            </div>
+            <pre id="diff-dados-anteriores" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #fca5a5; white-space: pre-wrap; word-break: break-all; margin: 0; max-height: 320px; overflow-y: auto;"></pre>
+          </div>
+          <div class="audit-diff-card-depois">
+            <div style="font-weight: 800; color: #34d399; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+              <span>🟢</span> Novo Estado (Depois):
+            </div>
+            <pre id="diff-dados-novos" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #86efac; white-space: pre-wrap; word-break: break-all; margin: 0; max-height: 320px; overflow-y: auto;"></pre>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 10px 18px; display: flex; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.08);">
+        <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="fecharModalDetalhesDiffAuditoria()">Fechar Inspeção</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- MODAL DE ALERTA PREVENTIVO DE QUOTA (25%, 50%, 75%) -->
   <div class="modal-overlay" id="modal-alerta-quota">
@@ -21436,6 +21724,349 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     // ========================================================
+    
+    // ========================================================
+    // CONTROLADORES DA TRILHA DE AUDITORIA & BACKUPS R2 (FASE 2)
+    // ========================================================
+    let auditoriaCacheLogs = [];
+    let auditoriaPaginaAtual = 1;
+    let auditoriaTotalPaginas = 1;
+
+    function abrirModalAuditoriaSistema(aba = 'logs') {
+      aplicarTamanhoSalvoModal('modal-auditoria-sistema');
+      const modal = document.getElementById('modal-auditoria-sistema');
+      if (modal) {
+        const _cnt = modal.querySelector('.modal-container');
+        if (_cnt) { _cnt.dataset.justOpened = 'true'; setTimeout(() => { if (_cnt) delete _cnt.dataset.justOpened; }, 1200); }
+        modal.classList.add('active');
+        alternarAbaAuditoria(aba);
+        setTimeout(() => {
+          const inp = document.getElementById('filtro-audit-busca');
+          if (inp) { inp.focus(); if (inp.select) inp.select(); }
+        }, 50);
+        if (aba === 'logs') {
+          carregarLogsAuditoria(1);
+        } else {
+          carregarListaBackupsSistema();
+        }
+      }
+    }
+
+    function fecharModalAuditoriaSistema() {
+      const modal = document.getElementById('modal-auditoria-sistema');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function alternarAbaAuditoria(aba) {
+      const btnLogs = document.getElementById('tab-btn-auditoria-logs');
+      const btnBackups = document.getElementById('tab-btn-auditoria-backups');
+      const painelLogs = document.getElementById('painel-auditoria-logs');
+      const painelBackups = document.getElementById('painel-auditoria-backups');
+
+      if (aba === 'backups') {
+        if (btnLogs) btnLogs.classList.remove('active');
+        if (btnBackups) btnBackups.classList.add('active');
+        if (painelLogs) painelLogs.style.display = 'none';
+        if (painelBackups) painelBackups.style.display = 'flex';
+        carregarListaBackupsSistema();
+      } else {
+        if (btnLogs) btnLogs.classList.add('active');
+        if (btnBackups) btnBackups.classList.remove('active');
+        if (painelLogs) painelLogs.style.display = 'flex';
+        if (painelBackups) painelBackups.style.display = 'none';
+        carregarLogsAuditoria(auditoriaPaginaAtual);
+      }
+    }
+
+    async function carregarLogsAuditoria(pagina = 1) {
+      auditoriaPaginaAtual = pagina;
+      const tbody = document.getElementById('tabela-logs-auditoria-corpo');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="7" style="padding: 24px; text-align: center; color: var(--text-muted);">Consultando trilha de auditoria...</td></tr>';
+      }
+
+      const busca = (document.getElementById('filtro-audit-busca')?.value || '').trim();
+      const modulo = (document.getElementById('filtro-audit-modulo')?.value || '').trim();
+      const acao = (document.getElementById('filtro-audit-acao')?.value || '').trim();
+
+      const params = new URLSearchParams();
+      params.set('page', String(pagina));
+      params.set('limit', '25');
+      if (busca) params.set('busca', busca);
+      if (modulo) params.set('modulo', modulo);
+      if (acao) params.set('tipo_acao', acao);
+
+      try {
+        const resp = await fetch(`/api/logs?${params.toString()}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        auditoriaCacheLogs = Array.isArray(data.logs) ? data.logs : [];
+        auditoriaTotalPaginas = data.totalPages || 1;
+
+        const totalEl = document.getElementById('audit-total-registros');
+        if (totalEl) totalEl.textContent = String(data.total || 0);
+
+        const pagInd = document.getElementById('audit-pag-indicador');
+        if (pagInd) pagInd.textContent = `Página ${data.page || 1} de ${auditoriaTotalPaginas}`;
+
+        const btnAnt = document.getElementById('btn-audit-anterior');
+        if (btnAnt) btnAnt.disabled = (data.page <= 1);
+
+        const btnProx = document.getElementById('btn-audit-proximo');
+        if (btnProx) btnProx.disabled = (data.page >= auditoriaTotalPaginas);
+
+        renderizarTabelaLogsAuditoria(auditoriaCacheLogs);
+      } catch (err) {
+        console.error('[AUDITORIA] Falha ao carregar logs:', err);
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="7" style="padding: 20px; text-align: center; color: #ef4444;">Erro ao consultar registros de auditoria: ${err.message}</td></tr>`;
+        }
+      }
+    }
+
+    function renderizarTabelaLogsAuditoria(logs) {
+      const tbody = document.getElementById('tabela-logs-auditoria-corpo');
+      if (!tbody) return;
+
+      if (!logs || logs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="padding: 28px; text-align: center; color: var(--text-muted);">Nenhum registro de auditoria encontrado para os filtros selecionados.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = logs.map(l => {
+        const mod = (l.modulo || 'SISTEMA').toUpperCase();
+        let badgeClass = 'audit-badge-sistema';
+        if (mod === 'PEDIDOS') badgeClass = 'audit-badge-pedidos';
+        else if (mod === 'CLIENTES') badgeClass = 'audit-badge-clientes';
+        else if (mod === 'ESTOQUE') badgeClass = 'audit-badge-estoque';
+        else if (mod === 'FINANCEIRO') badgeClass = 'audit-badge-financeiro';
+
+        const temDiff = Boolean(l.dados_anteriores || l.dados_novos);
+        const dataFmt = formatarDataHoraAudit(l.data_hora);
+
+        return `
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+            <td style="padding: 8px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #cbd5e1; white-space: nowrap;">
+              ${dataFmt}
+            </td>
+            <td style="padding: 8px 10px; font-weight: 600; color: #fff; white-space: nowrap;">
+              ${escapeHtmlAudit(l.usuario_nome || 'SISTEMA')}
+            </td>
+            <td style="padding: 8px 10px; white-space: nowrap;">
+              <span class="audit-badge ${badgeClass}">${mod}</span>
+            </td>
+            <td style="padding: 8px 10px; font-size: 11px; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; white-space: nowrap;">
+              ${escapeHtmlAudit(l.tipo_acao || '-')}
+            </td>
+            <td style="padding: 8px 10px; font-size: 11px; color: #38bdf8; font-weight: 700; font-family: 'JetBrains Mono', monospace; white-space: nowrap;">
+              ${escapeHtmlAudit(l.referencia_id || '-')}
+            </td>
+            <td style="padding: 8px 10px; color: #cbd5e1; font-size: 11.5px; line-height: 1.3;">
+              ${escapeHtmlAudit(l.descricao || '')}
+            </td>
+            <td style="padding: 8px 10px; text-align: center; white-space: nowrap;">
+              ${temDiff ? `
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="visualizarDiffAuditoria(${l.id})" style="padding: 3px 7px; font-size: 10px;" title="Ver detalhes e diff da alteração">
+                  🔍 Diff
+                </button>
+              ` : '<span style="color: var(--text-muted); font-size: 10px;">-</span>'}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function formatarDataHoraAudit(str) {
+      if (!str) return '-';
+      try {
+        const d = new Date(str);
+        if (isNaN(d.getTime())) return str;
+        const pad = n => String(n).padStart(2, '0');
+        return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+      } catch {
+        return str;
+      }
+    }
+
+    function escapeHtmlAudit(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function navegarPaginaAuditoria(delta) {
+      const novaPagina = auditoriaPaginaAtual + delta;
+      if (novaPagina >= 1 && novaPagina <= auditoriaTotalPaginas) {
+        carregarLogsAuditoria(novaPagina);
+      }
+    }
+
+    function limparFiltrosAuditoria() {
+      const busca = document.getElementById('filtro-audit-busca');
+      const modulo = document.getElementById('filtro-audit-modulo');
+      const acao = document.getElementById('filtro-audit-acao');
+      if (busca) busca.value = '';
+      if (modulo) modulo.value = '';
+      if (acao) acao.value = '';
+      carregarLogsAuditoria(1);
+    }
+
+    function visualizarDiffAuditoria(logId) {
+      const log = auditoriaCacheLogs.find(l => l.id === logId);
+      if (!log) return;
+
+      const sub = document.getElementById('diff-subtitulo-evento');
+      if (sub) sub.textContent = `Evento #${log.id} • ${log.modulo} / ${log.tipo_acao} (${log.referencia_id || 'SEM REF'})`;
+
+      const meta = document.getElementById('diff-container-metadados');
+      if (meta) {
+        meta.innerHTML = `
+          <div><strong>Operador:</strong> ${escapeHtmlAudit(log.usuario_nome || 'SISTEMA')} • <strong>Data/Hora:</strong> ${formatarDataHoraAudit(log.data_hora)}</div>
+          <div style="margin-top: 3px;"><strong>Descrição:</strong> ${escapeHtmlAudit(log.descricao || '-')}</div>
+          ${log.ip_origem ? `<div style="margin-top: 2px; font-size: 10.5px; color: var(--text-muted);">IP: ${escapeHtmlAudit(log.ip_origem)}</div>` : ''}
+        `;
+      }
+
+      const preAntes = document.getElementById('diff-dados-anteriores');
+      const preDepois = document.getElementById('diff-dados-novos');
+
+      let strAntes = 'Nenhum dado anterior registrado.';
+      if (log.dados_anteriores) {
+        try {
+          const parsed = typeof log.dados_anteriores === 'string' ? JSON.parse(log.dados_anteriores) : log.dados_anteriores;
+          strAntes = JSON.stringify(parsed, null, 2);
+        } catch {
+          strAntes = String(log.dados_anteriores);
+        }
+      }
+
+      let strDepois = 'Nenhum dado novo registrado.';
+      if (log.dados_novos) {
+        try {
+          const parsed = typeof log.dados_novos === 'string' ? JSON.parse(log.dados_novos) : log.dados_novos;
+          strDepois = JSON.stringify(parsed, null, 2);
+        } catch {
+          strDepois = String(log.dados_novos);
+        }
+      }
+
+      if (preAntes) preAntes.textContent = strAntes;
+      if (preDepois) preDepois.textContent = strDepois;
+
+      const modalDiff = document.getElementById('modal-detalhes-diff-auditoria');
+      if (modalDiff) modalDiff.classList.add('active');
+    }
+
+    function fecharModalDetalhesDiffAuditoria() {
+      const modalDiff = document.getElementById('modal-detalhes-diff-auditoria');
+      if (modalDiff) modalDiff.classList.remove('active');
+    }
+
+    async function carregarListaBackupsSistema() {
+      const tbody = document.getElementById('lista-backups-sistema-corpo');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-muted);">Consultando backups disponíveis...</td></tr>';
+      }
+
+      try {
+        const resp = await fetch('/api/sistema?acao=backups');
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        const lista = Array.isArray(data.backups) ? data.backups : [];
+
+        if (!tbody) return;
+
+        if (lista.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="padding: 24px; text-align: center; color: var(--text-muted);">Nenhum backup em arquivo gerado ainda. Clique em "Gerar Backup Agora" para criar o primeiro snapshot.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = lista.map(b => {
+          const prov = (b.provedor || 'LOCAL').toUpperCase();
+          const provBadge = prov.includes('R2') 
+            ? '<span class="audit-badge" style="background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3);">☁️ R2</span>'
+            : '<span class="audit-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);">💾 DISCO</span>';
+
+          const dataMod = formatarDataHoraAudit(b.ultimaModificacao);
+
+          return `
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+              <td style="padding: 8px 12px; font-weight: 700; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+                ${escapeHtmlAudit(b.nome)}
+              </td>
+              <td style="padding: 8px 12px; color: #34d399; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                ${escapeHtmlAudit(b.tamanhoFormatado || '-')}
+              </td>
+              <td style="padding: 8px 12px; color: #cbd5e1; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                ${dataMod}
+              </td>
+              <td style="padding: 8px 12px;">
+                ${provBadge}
+              </td>
+              <td style="padding: 8px 12px; text-align: center;">
+                <a href="${b.urlDownload || '#'}" download="${escapeHtmlAudit(b.nome)}" target="_blank" class="btn-top btn-emerald-glow" tabindex="-1" style="display: inline-flex; text-decoration: none; padding: 4px 10px; font-size: 11px; font-weight: 700;">
+                  <span>📥</span> Baixar
+                </a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('[BACKUP] Falha ao listar backups:', err);
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="5" style="padding: 20px; text-align: center; color: #ef4444;">Erro ao listar backups: ${err.message}</td></tr>`;
+        }
+      }
+    }
+
+    async function gerarBackupAgoraSistema() {
+      const btn = document.getElementById('btn-gerar-backup-sistema');
+      const textoOriginal = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span> Gerando Snapshot...';
+      }
+
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('📦 Compactando banco de dados e preparando snapshot...');
+      }
+
+      try {
+        const resp = await fetch('/api/sistema', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ acao: 'backup', usuario_nome: typeof usuarioLogado === 'object' && usuarioLogado?.nome ? usuarioLogado.nome : 'ADMINISTRADOR' })
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json().catch(() => ({}));
+          throw new Error(errData.error || `HTTP ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        if (typeof mostrarToast === 'function') {
+          mostrarToast(`✅ Backup criado com sucesso! (${data.tamanhoFormatado || ''} • ${data.taxaCompactacao || ''} economia)`);
+        }
+
+        carregarListaBackupsSistema();
+      } catch (err) {
+        console.error('[BACKUP] Falha ao gerar backup:', err);
+        if (typeof mostrarToast === 'function') {
+          mostrarToast(`❌ Falha ao gerar backup: ${err.message}`);
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = textoOriginal;
+        }
+      }
+    }
+
+
     // CONTROLADORES DE EXPERIÊNCIA MOBILE (SMARTPHONE & IPHONE)
     // ========================================================
     let moduloAtivoMobile = 'clientes';
