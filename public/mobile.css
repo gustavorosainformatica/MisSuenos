@@ -637,4 +637,43 @@
     font-size: 17px !important;
     word-break: break-word !important;
   }
+
+  /* 12. Barra Superior Limpa no Mobile (Zero Sobreposição e Zero Elementos Desktop) */
+  .erp-topbar {
+    height: auto !important;
+    min-height: 54px !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+
+  #topbar-windows-nav,
+  #btn-top-nova-janela,
+  .erp-topbar .kbd-shortcut {
+    display: none !important;
+  }
+
+  .topbar-left {
+    gap: 8px !important;
+  }
+
+  .topbar-right {
+    gap: 6px !important;
+    margin-left: auto !important;
+  }
+
+  .topbar-center {
+    order: 3 !important;
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    margin: 0 !important;
+  }
+
+  .topbar-search-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 40px !important;
+  }
 }

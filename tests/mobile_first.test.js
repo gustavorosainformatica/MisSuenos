@@ -192,17 +192,27 @@ test('MOBILE TICKET 06: Não-regressão desktop garantida (mobile-cards-containe
   );
 });
 
-test('MOBILE TICKET 07: Service Worker atualizado para v61/v62 e inclui mobile.css', () => {
+test('MOBILE TICKET 07: Service Worker atualizado para v63 e inclui mobile.css', () => {
   const swPath = path.join(rootDir, 'public', 'sw.js');
   const swContent = fs.readFileSync(swPath, 'utf8');
 
   assert.ok(
-    swContent.includes('missuenos-pwa-v62') || swContent.includes('missuenos-pwa-v61'),
-    'sw.js deve conter a versão atualizada missuenos-pwa-v62'
+    swContent.includes('missuenos-pwa-v63') || swContent.includes('missuenos-pwa-v62'),
+    'sw.js deve conter a versão atualizada missuenos-pwa-v63'
   );
   assert.ok(
     swContent.includes('/mobile.css'),
     'sw.js deve incluir /mobile.css na lista de STATIC_ASSETS'
+  );
+});
+
+test('MOBILE TICKET 09: Barra superior mobile oculta elementos exclusivos de desktop (nova janela, Ctrl+K e breadcrumb Windows)', () => {
+  const cssPath = path.join(rootDir, 'public', 'mobile.css');
+  const cssContent = fs.readFileSync(cssPath, 'utf8');
+
+  assert.ok(
+    cssContent.includes('#btn-top-nova-janela') && cssContent.includes('.kbd-shortcut') && cssContent.includes('#topbar-windows-nav'),
+    'mobile.css deve ocultar #btn-top-nova-janela, .kbd-shortcut e #topbar-windows-nav no mobile'
   );
 });
 

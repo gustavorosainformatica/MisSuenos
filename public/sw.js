@@ -9,7 +9,8 @@
 // v60: Sanfona Retrátil de KPIs Mobile (Opção A) e Cabeçalho Unificado com Voltar ao Painel
 // v61: Correção estrutural do DOM mobile, Cards de Produtos/Estoque e isolamento de layout
 // v62: Correção de z-index e rodapé fixo dos modais Bottom Sheet acima da bottom-nav no celular
-const CACHE_NAME = 'missuenos-pwa-v62';
+// v63: Limpeza da barra superior mobile (oculta nova janela, Ctrl+K, breadcrumb Windows e troca estrela por lupa)
+const CACHE_NAME = 'missuenos-pwa-v63';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',

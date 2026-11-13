@@ -3253,7 +3253,7 @@
         max-width: 100% !important;
         flex: 1 !important;
       }
-      .topbar-right .btn-top:not(#btn-top-configuracoes):not(#btn-top-nova-janela) {
+      .topbar-right .btn-top:not(#btn-top-configuracoes) {
         display: none !important; /* Ações agora no FAB e no Bottom Nav */
       }
       .status-pill {
@@ -4824,15 +4824,15 @@
       <!-- CENTRO: OMNIBAR CENTRAL FLUTUANTE (PADRÃO LINEAR.APP) -->
       <div class="topbar-center">
         <div class="topbar-search-box">
-          <span style="font-size: 13px; color: var(--primary); display: flex; align-items: center;">✨</span>
-          <input type="text" class="topbar-search-input" id="topbar-search" placeholder="Buscar clientes, produtos, pedidos... (Ctrl+K)" oninput="filtrarTabela(this.value)">
+          <span style="font-size: 13px; color: var(--text-muted); display: flex; align-items: center;">🔍</span>
+          <input type="text" class="topbar-search-input" id="topbar-search" placeholder="Buscar clientes, produtos, pedidos..." oninput="filtrarTabela(this.value)">
           <span class="kbd-shortcut">Ctrl+K</span>
         </div>
       </div>
 
       <div class="topbar-right">
-        <!-- NOVO BOTÃO: ABRIR NOVA JANELA INDEPENDENTE (INSTÂNCIA) -->
-        <button type="button" class="btn-top btn-icon-only" id="btn-top-nova-janela" onclick="confirmarAbrirNovaJanela()" title="Abrir Nova Janela Independente do ERP" style="display: inline-flex !important; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 7px; border-radius: 8px; flex-shrink: 0; background: rgba(0, 212, 255, 0.12) !important; border: 1px solid rgba(0, 212, 255, 0.35) !important; color: #00d4ff !important; cursor: pointer;">
+        <!-- NOVO BOTÃO: ABRIR NOVA JANELA INDEPENDENTE (INSTÂNCIA - EXCLUSIVO DESKTOP) -->
+        <button type="button" class="btn-top btn-icon-only" id="btn-top-nova-janela" onclick="confirmarAbrirNovaJanela()" title="Abrir Nova Janela Independente do ERP" style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 7px; border-radius: 8px; flex-shrink: 0; background: rgba(0, 212, 255, 0.12) !important; border: 1px solid rgba(0, 212, 255, 0.35) !important; color: #00d4ff !important; cursor: pointer;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
             <rect x="8" y="8" width="13" height="13" rx="2"></rect>
             <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
