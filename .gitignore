@@ -13,6 +13,8 @@ public/uploads/*
 # Arquivos de banco local SQLite temporários e logs
 *.sqlite
 *.db
+*.db-shm
+*.db-wal
 *.log
 npm-debug.log*
 yarn-debug.log*
