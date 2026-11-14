@@ -4037,16 +4037,23 @@
     }
 
     /* ========================================================
-       PAINEL & INDICADORES: MÓDULO EXECUTIVO SEM BARRA DE ROLAGEM
-       (SOMENTE NESSA TELA, CONFORME SOLICITAÇÃO ESPECÍFICA DO USUÁRIO)
+       REMOÇÃO TOTAL DA BARRA DE ROLAGEM NO PAINEL EXECUTIVO
+       (ZERO ROLAGEM VERTICAL E HORIZONTAL)
        ======================================================== */
+    #modulo-painel-conteudo {
+      overflow: hidden !important;
+      height: 100% !important;
+      max-height: 100vh !important;
+    }
+
     #modulo-painel-conteudo .erp-scrollable-area {
       overflow-y: hidden !important;
       overflow-x: hidden !important;
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
-      padding: 10px 24px 14px 24px !important;
-      gap: 10px !important;
+      padding: 8px 24px 10px 24px !important;
+      gap: 8px !important;
+      max-height: calc(100vh - 120px) !important;
     }
 
     #modulo-painel-conteudo .erp-scrollable-area::-webkit-scrollbar {
@@ -4055,6 +4062,65 @@
       height: 0 !important;
       background: transparent !important;
     }
+
+    /* BOTÕES DA CENTRAL DE AÇÕES DO PAINEL EXECUTIVO (4 COLUNAS EM 1 CLIQUE) */
+    .painel-acoes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .btn-painel-acao {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+    .btn-painel-acao:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: rgba(56, 189, 248, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+    .btn-painel-acao .acao-icon {
+      font-size: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-painel-acao .acao-textos strong {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .btn-painel-acao .acao-textos span {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+    .btn-painel-acao.btn-acao-cat .acao-icon { background: rgba(192, 132, 252, 0.15); border-color: rgba(192, 132, 252, 0.35); }
+    .btn-painel-acao.btn-acao-prod .acao-icon { background: rgba(56, 189, 248, 0.15); border-color: rgba(56, 189, 248, 0.35); }
+    .btn-painel-acao.btn-acao-ped .acao-icon { background: rgba(52, 211, 153, 0.15); border-color: rgba(52, 211, 153, 0.35); }
+    .btn-painel-acao.btn-acao-cli .acao-icon { background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.35); }
+    .btn-painel-acao.btn-acao-fin .acao-icon { background: rgba(251, 191, 36, 0.15); border-color: rgba(251, 191, 36, 0.35); }
+    .btn-painel-acao.btn-acao-nfe .acao-icon { background: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.35); }
+    .btn-painel-acao.btn-acao-ofx .acao-icon { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); }
+    .btn-painel-acao.btn-acao-ajuste .acao-icon { background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.35); }
 
     /* Calibração equilibrada de ícones e compactação do painel executivo */
     #modulo-painel-conteudo .kpis-com-mapa-wrapper {
@@ -6180,13 +6246,13 @@
           <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Vendas</span> <span style="color: var(--text-muted); font-weight: normal;">(Pedidos Ativos · 🖱️)</span></div>
         </div>
 
-        <div class="erp-kpi-card" id="card-kpi-painel-produtos" style="cursor: pointer;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'produtos', this)" title="💡 Botão Esquerdo: Abrir Estoque · Botão Direito (🖱️): Atalhos Rápidos & Alertas">
+        <div class="erp-kpi-card" id="card-kpi-painel-produtos" style="cursor: pointer;" onclick="abrirModalGestaoCategorias()" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'produtos', this)" title="💡 Clique: Central de Gestão de Categorias · Botão Direito (🖱️): Atalhos de Estoque">
           <div class="kpi-top-row">
-            <span class="kpi-label">Estoque de Couros</span>
-            <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos de estoque">🪵</div>
+            <span class="kpi-label">Estoque & Categorias</span>
+            <div class="kpi-icon-pill" title="Clique para gerenciar categorias">🏷️</div>
           </div>
-          <div class="kpi-number">11 Itens</div>
-          <div class="kpi-trend"><span style="color: #38bdf8;">→ Ver Estoque</span> <span style="color: var(--text-muted); font-weight: normal;">(Catálogo & Lotes · 🖱️)</span></div>
+          <div class="kpi-number" id="kpi-painel-total-produtos">41 Itens</div>
+          <div class="kpi-trend"><span id="kpi-painel-trend-categorias" style="color: #c084fc;">5 Categorias</span> <span style="color: var(--text-muted); font-weight: normal;">(Gerenciar 🖱️)</span></div>
         </div>
 
         <div class="erp-kpi-card" id="card-kpi-painel-fiscal" style="cursor: pointer;" onclick="trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)'))" oncontextmenu="abrirMenuContextoKpi(event, 'painel', 'fiscal', this)" title="💡 Botão Esquerdo: Abrir Fiscal · Botão Direito (🖱️): Atalhos Rápidos & Emissão">
@@ -6310,24 +6376,86 @@
         </div>
       </section>
 
-      <!-- ATALHOS RAPIDOS DO ERP -->
-      <section class="erp-table-card painel-secao-acoes" style="padding: 10px 18px;">
-        <h3 style="color: #fff; font-size: 13px; margin-bottom: 8px;">⚡ Ações Rápidas de Operação Diária</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-          <button class="btn-top btn-primary-glow" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalNovoCliente()">
-            ➕ Novo Cadastro de Cliente
+      <!-- ATALHOS RAPIDOS DO ERP (CENTRAL DE AÇÕES E CADASTROS DO SISTEMA) -->
+      <section class="erp-table-card painel-secao-acoes" style="padding: 8px 18px; margin-top: 2px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h3 style="color: #fff; font-size: 12px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 6px; text-transform: uppercase;">
+            <span>⚡</span> Central de Ações & Cadastros Rápidos
+          </h3>
+          <span style="font-size: 10.5px; color: #34d399; font-weight: 700;">● Acesso Direto em 1 Clique</span>
+        </div>
+
+        <div class="painel-acoes-grid">
+          <!-- 1. GESTÃO DE CATEGORIAS -->
+          <button type="button" class="btn-painel-acao btn-acao-cat" onclick="abrirModalGestaoCategorias()" title="Cadastrar ou Gerenciar Categorias de Produtos">
+            <span class="acao-icon">🏷️</span>
+            <div class="acao-textos">
+              <strong>Categorias</strong>
+              <span>Gestão do Catálogo</span>
+            </div>
           </button>
-          <button class="btn-top btn-emerald-glow" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalNovoPedido()">
-            📦 Cadastrar Novo Pedido
+
+          <!-- 2. NOVO PRODUTO -->
+          <button type="button" class="btn-painel-acao btn-acao-prod" onclick="abrirModalNovoProduto()" title="Cadastrar Novo Produto no Estoque">
+            <span class="acao-icon">📦</span>
+            <div class="acao-textos">
+              <strong>Novo Produto</strong>
+              <span>Ficha & Estoque</span>
+            </div>
           </button>
-          <button class="btn-top" style="background: #a855f7; color: #fff; padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="abrirModalFiscal()">
-            🧾 Emitir Nota Fiscal (NF-e)
+
+          <!-- 3. NOVO PEDIDO -->
+          <button type="button" class="btn-painel-acao btn-acao-ped" onclick="abrirModalNovoPedido()" title="Cadastrar Novo Pedido de Venda">
+            <span class="acao-icon">➕</span>
+            <div class="acao-textos">
+              <strong>Novo Pedido</strong>
+              <span>Venda & Encomenda</span>
+            </div>
           </button>
-          <button class="btn-top btn-row-action" style="padding: 9px 12px; justify-content: center; font-size: 12px;" onclick="trocarModulo('produtos', document.querySelector('.sidebar-nav a:nth-child(6)'))">
-            🪵 Consultar Estoque de Couros
+
+          <!-- 4. NOVO CLIENTE -->
+          <button type="button" class="btn-painel-acao btn-acao-cli" onclick="abrirModalNovoCliente()" title="Cadastrar Novo Cliente no CRM">
+            <span class="acao-icon">👥</span>
+            <div class="acao-textos">
+              <strong>Novo Cliente</strong>
+              <span>Carteira CRM</span>
+            </div>
           </button>
-          <button class="btn-top btn-row-action" style="padding: 9px 12px; justify-content: center; font-size: 12px; border-color: rgba(0, 212, 255, 0.4); color: var(--primary); background: rgba(0, 212, 255, 0.08);" onclick="trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
-            🗺️ Visualizar Mapa de Clientes (Calor)
+
+          <!-- 5. LANÇAMENTO FINANCEIRO -->
+          <button type="button" class="btn-painel-acao btn-acao-fin" onclick="abrirModalLancamentoFinanceiro()" title="Lançar Conta a Pagar ou Receber">
+            <span class="acao-icon">💰</span>
+            <div class="acao-textos">
+              <strong>Financeiro</strong>
+              <span>Pagar & Receber</span>
+            </div>
+          </button>
+
+          <!-- 6. EMITIR NOTA FISCAL -->
+          <button type="button" class="btn-painel-acao btn-acao-nfe" onclick="abrirModalFiscal()" title="Emitir Nota Fiscal (NF-e Modelo 55)">
+            <span class="acao-icon">🧾</span>
+            <div class="acao-textos">
+              <strong>Emitir NF-e</strong>
+              <span>SEFAZ RS Modelo 55</span>
+            </div>
+          </button>
+
+          <!-- 7. CONCILIAÇÃO BANCÁRIA -->
+          <button type="button" class="btn-painel-acao btn-acao-ofx" onclick="abrirModalConciliacaoBancaria()" title="Conciliação Bancária OFX / CSV">
+            <span class="acao-icon">🏦</span>
+            <div class="acao-textos">
+              <strong>Conciliação</strong>
+              <span>Extrato OFX / CSV</span>
+            </div>
+          </button>
+
+          <!-- 8. AJUSTE DE ESTOQUE -->
+          <button type="button" class="btn-painel-acao btn-acao-ajuste" onclick="abrirModalAjusteEstoque()" title="Ajuste Rápido de Estoque (Kardex)">
+            <span class="acao-icon">⚡</span>
+            <div class="acao-textos">
+              <strong>Ajuste Estoque</strong>
+              <span>Entrada / Balanço</span>
+            </div>
           </button>
         </div>
       </section>
@@ -10783,6 +10911,14 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
       const elPainelCli = document.getElementById('kpi-painel-total-clientes');
       if (elPainelCli) elPainelCli.textContent = total.toLocaleString('pt-BR');
+
+      const elPainelProd = document.getElementById('kpi-painel-total-produtos');
+      if (elPainelProd && window.produtos) elPainelProd.textContent = `${produtos.length} Itens`;
+      const elPainelCat = document.getElementById('kpi-painel-trend-categorias');
+      if (elPainelCat && typeof obterCategoriasComContagem === 'function') {
+        const totalCats = obterCategoriasComContagem().length;
+        elPainelCat.textContent = `${totalCats} Categorias`;
+      }
       const cardTotalCli = document.getElementById('card-kpi-cli-total');
       if (cardTotalCli) cardTotalCli.title = `💡 Botão Esquerdo: Listar Todos (${total.toLocaleString('pt-BR')}) · Botão Direito (🖱️): Menu de Opções & Cadastro`;
       const elTot = document.getElementById('nav-total-clientes'); if (elTot) elTot.textContent = total.toLocaleString('pt-BR');
