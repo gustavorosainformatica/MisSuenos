@@ -5499,6 +5499,11 @@
             <span>🪵 Tabela de Produtos & Controle de Estoque (Mis Sueños)</span>
             <span class="table-count-badge" id="table-badge-produtos">0 produtos</span>
           </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <select id="filtro-categoria-produtos-topo" aria-label="Filtro de categoria" role="combobox" onchange="filtrarProdutosPorCategoria(this.value)" title="Filtrar produtos por categoria" style="background: rgba(15, 23, 42, 0.9); border: 1.5px solid rgba(56, 189, 248, 0.5); color: #f8fafc; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; outline: none; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); color-scheme: dark;">
+              <option value="TODAS" style="background: #0f172a; color: #f8fafc;">🏷️ CATEGORIA: TODAS</option>
+            </select>
+          </div>
           <div style="font-size: 11px; color: var(--text-muted);">
             💡 Dois cliques na linha para editar · Botão direito para ações rápidas (Ajuste Rápido, Kardex)
           </div>
@@ -5510,20 +5515,7 @@
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)" aria-label="TOPBAR-SEARCH"></th>
                 <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Produto ou arraste para mover">Produto / Item <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 185px; position: relative;" data-col="categoria" class="th-categoria-com-filtro">
-                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 4px; width: 100%;">
-                    <span onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" style="cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="Clique para ordenar por Categoria (A-Z / Z-A) ou arraste para mover">
-                      Categoria <span class="sort-icon" id="sort-produtos-categoria"></span>
-                    </span>
-                    <div style="display: inline-flex; align-items: center; gap: 4px;">
-                      <button type="button" class="btn-th-filter-cat" id="btn-filtro-cat-produtos" onclick="toggleDropdownCategoriasProdutos(event)" title="Clique para escolher uma categoria específica" tabindex="-1">
-                        <span id="label-filtro-cat-produtos">▾ Filtrar</span>
-                      </button>
-                      <span class="th-grip-icon" title="Arraste para mover a coluna">⠿</span>
-                    </div>
-                  </div>
-                  <div class="cat-dropdown-menu" id="dropdown-menu-categorias-produtos" onclick="event.stopPropagation()"></div>
-                </th>
+                <th style="width: 140px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-produtos-categoria"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 160px; text-align: right; cursor: pointer;" data-col="venda" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'venda')" title="Clique para ordenar por Preço ou arraste para mover">Preço de Venda <span class="sort-icon" id="sort-produtos-venda"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 220px; text-align: center; cursor: pointer;" data-col="saldos" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'saldos')" title="Clique para ordenar por Saldo em Estoque ou arraste para mover">Saldos (Físico / Disp.) <span class="sort-icon" id="sort-produtos-saldos"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
@@ -11727,6 +11719,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const baixoEstoque = produtos.filter(p => (p.estoque_atual || 0) <= (p.estoque_minimo || 5)).length;
       document.getElementById('kpi-prod-baixo-estoque').textContent = baixoEstoque.toString();
       document.getElementById('table-badge-produtos').textContent = `${total} produtos`;
+      if (typeof atualizarSelectCategoriasTopo === 'function') atualizarSelectCategoriasTopo();
       setTimeout(() => aplicarOrdemColunasSalva(document.getElementById('tabela-produtos')), 50);
     }
 
@@ -11844,133 +11837,63 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     /* =========================================================================
-       MENU DROPDOWN DE FILTRO POR CATEGORIA NO CABEÇALHO (ESTOQUE)
+       FILTRO DINÂMICO DE CATEGORIAS NO TOPO DO ESTOQUE (PADRÃO STATUS PEDIDOS)
        ========================================================================= */
-    function toggleDropdownCategoriasProdutos(e) {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-      const menu = document.getElementById('dropdown-menu-categorias-produtos');
-      if (!menu) return;
+    function atualizarSelectCategoriasTopo() {
+      const selectTopo = document.getElementById('filtro-categoria-produtos-topo');
+      if (!selectTopo) return;
 
-      const estaAberto = menu.classList.contains('aberto');
-      if (estaAberto) {
-        menu.classList.remove('aberto');
-        return;
-      }
+      const valorAtual = selectTopo.value || categoriaFiltroProd || 'TODAS';
+      const categorias = Array.from(new Set((produtos || []).map(p => p.categoria).filter(Boolean))).sort();
 
-      const contagemPorCat = {};
-      (produtos || []).forEach(p => {
-        const c = p.categoria || 'Outros';
-        contagemPorCat[c] = (contagemPorCat[c] || 0) + 1;
-      });
-
-      const categorias = Object.keys(contagemPorCat).sort();
-      const totalGeral = (produtos || []).length;
-      const catAtiva = categoriaFiltroProd || 'TODAS';
-
-      let html = `
-        <div class="cat-dropdown-header">
-          <span>CATEGORIAS DE ESTOQUE</span>
-          <span style="cursor: pointer; color: #94a3b8; font-size: 13px; padding: 2px;" onclick="fecharDropdownCategoriasProdutos(event)" title="Fechar">✕</span>
-        </div>
-        <div class="cat-dropdown-list">
-          <div class="cat-dropdown-item ${catAtiva === 'TODAS' ? 'selecionado' : ''}" onclick="selecionarCategoriaProdutosHeader('TODAS')">
-            <span>✨ Todas as Categorias</span>
-            <span class="cat-count-badge">${totalGeral}</span>
-          </div>
-      `;
-
+      let html = '<option value="TODAS" style="background: #0f172a; color: #f8fafc;">🏷️ CATEGORIA: TODAS</option>';
       categorias.forEach(cat => {
-        const count = contagemPorCat[cat];
-        const isSel = (catAtiva === cat);
-        let tagIcon = '🟣';
-        if (cat === 'Couros & Peles') tagIcon = '🟠';
-        else if (cat === 'Loncas') tagIcon = '🔵';
-        else if (cat === 'Tentos') tagIcon = '🟤';
-        else if (cat === 'Ferragens') tagIcon = '🟢';
-        else if (cat === 'Artefatos') tagIcon = '🟣';
-
-        html += `
-          <div class="cat-dropdown-item ${isSel ? 'selecionado' : ''}" onclick="selecionarCategoriaProdutosHeader('${cat.replace(/'/g, "\\'")}')">
-            <span>${tagIcon} ${cat}</span>
-            <span class="cat-count-badge">${count}</span>
-          </div>
-        `;
+        let emoji = '🟣';
+        if (cat === 'Couros & Peles') emoji = '🟠';
+        else if (cat === 'Loncas') emoji = '🔵';
+        else if (cat === 'Tentos') emoji = '🟤';
+        else if (cat === 'Ferragens') emoji = '🟢';
+        else if (cat === 'Artefatos') emoji = '🟣';
+        html += `<option value="${cat.replace(/"/g, '&quot;')}" style="background: #0f172a; color: #f8fafc;">${emoji} ${cat.toUpperCase()}</option>`;
       });
 
-      html += `
-        </div>
-        <div class="cat-dropdown-footer">
-          <button type="button" class="btn-limpar-filtro-cat" onclick="selecionarCategoriaProdutosHeader('TODAS')">
-            Limpar Filtro (Ver Todos)
-          </button>
-        </div>
-      `;
-
-      menu.innerHTML = html;
-      menu.classList.add('aberto');
+      selectTopo.innerHTML = html;
+      selectTopo.value = valorAtual;
+      atualizarEstiloFiltroCategoriaTopo(valorAtual);
     }
 
-    function fecharDropdownCategoriasProdutos(e) {
-      if (e) e.stopPropagation();
-      const menu = document.getElementById('dropdown-menu-categorias-produtos');
-      if (menu) menu.classList.remove('aberto');
-    }
-
-    function selecionarCategoriaProdutosHeader(cat) {
-      fecharDropdownCategoriasProdutos();
-      if (typeof filtrarProdutosPorCategoria === 'function') {
-        filtrarProdutosPorCategoria(cat);
+    function atualizarEstiloFiltroCategoriaTopo(cat) {
+      const selectTopo = document.getElementById('filtro-categoria-produtos-topo');
+      if (!selectTopo) return;
+      if (selectTopo.value !== cat) {
+        selectTopo.value = cat;
       }
-      atualizarBotaoFiltroCategoriaHeader();
-    }
-
-    function atualizarBotaoFiltroCategoriaHeader() {
-      const btn = document.getElementById('btn-filtro-cat-produtos');
-      const label = document.getElementById('label-filtro-cat-produtos');
-      if (!btn || !label) return;
-
-      if (!categoriaFiltroProd || categoriaFiltroProd === 'TODAS') {
-        btn.classList.remove('ativo');
-        label.textContent = '▾ Filtrar';
-        btn.title = 'Clique para escolher uma categoria específica';
+      if (!cat || cat === 'TODAS') {
+        selectTopo.style.color = '#f8fafc';
+        selectTopo.style.borderColor = 'rgba(56, 189, 248, 0.5)';
+        selectTopo.style.background = 'rgba(15, 23, 42, 0.9)';
       } else {
-        btn.classList.add('ativo');
-        label.textContent = `✓ ${categoriaFiltroProd} ▾`;
-        btn.title = `Filtro ativo: ${categoriaFiltroProd} (Clique para alterar ou limpar)`;
+        selectTopo.style.color = '#c084fc';
+        selectTopo.style.borderColor = 'rgba(192, 132, 252, 0.65)';
+        selectTopo.style.background = 'rgba(168, 85, 247, 0.12)';
       }
 
       const badge = document.getElementById('table-badge-produtos');
       if (badge) {
-        if (!categoriaFiltroProd || categoriaFiltroProd === 'TODAS') {
+        if (!cat || cat === 'TODAS') {
           badge.textContent = `${produtos.length} produtos`;
         } else {
-          badge.textContent = `${produtosFiltrados.length} de ${produtos.length} produtos (${categoriaFiltroProd})`;
+          badge.textContent = `${produtosFiltrados.length} de ${produtos.length} produtos (${cat})`;
         }
       }
     }
-
-    document.addEventListener('click', (e) => {
-      const menu = document.getElementById('dropdown-menu-categorias-produtos');
-      if (menu && menu.classList.contains('aberto')) {
-        if (!e.target.closest('#dropdown-menu-categorias-produtos') && !e.target.closest('#btn-filtro-cat-produtos')) {
-          menu.classList.remove('aberto');
-        }
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        fecharDropdownCategoriasProdutos();
-      }
-    });
 
     function filtrarProdutosPorCategoria(cat, btn) {
       categoriaFiltroProd = cat;
       document.querySelectorAll('#modulo-produtos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
+
+      atualizarEstiloFiltroCategoriaTopo(cat);
 
       if (cat === 'TODAS') {
         produtosFiltrados = [...produtos];
@@ -11978,9 +11901,6 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         produtosFiltrados = produtos.filter(p => p.categoria === cat);
       }
       renderTabelaProdutos();
-      if (typeof atualizarBotaoFiltroCategoriaHeader === 'function') {
-        atualizarBotaoFiltroCategoriaHeader();
-      }
     }
 
     function abrirModalNovoProduto() {

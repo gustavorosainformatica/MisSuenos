@@ -9,33 +9,25 @@ const __dirname = path.dirname(__filename);
 const indexPath = path.join(__dirname, '..', 'public', 'index.html');
 const indexHtml = fs.readFileSync(indexPath, 'utf-8');
 
-test('Validação do Filtro Dinâmico de Categorias no Cabeçalho de Estoque', async (t) => {
-  await t.test('deve conter botão de filtro dedicado e container do dropdown no th de Categoria', () => {
-    assert.match(indexHtml, /id="btn-filtro-cat-produtos"/,
-      'Botão #btn-filtro-cat-produtos deve estar presente');
-    assert.match(indexHtml, /id="dropdown-menu-categorias-produtos"/,
-      'Container #dropdown-menu-categorias-produtos deve estar presente');
-    assert.match(indexHtml, /aoClicarHeaderOrdenar\('tabela-produtos',\s*'categoria'\)/,
-      'Ação de ordenação deve permanecer intacta');
+test('Validação do Filtro Dinâmico de Categorias no Topo do Estoque (Padrão Pedidos de Venda)', async (t) => {
+  await t.test('deve conter o elemento select com seta id="filtro-categoria-produtos-topo" na toolbar', () => {
+    assert.match(indexHtml, /<select[^>]*id="filtro-categoria-produtos-topo"[^>]*onchange="filtrarProdutosPorCategoria\(this\.value\)"/,
+      'Elemento select de categorias deve estar presente na barra superior da tabela');
   });
 
-  await t.test('deve conter estilos CSS para o botão e dropdown flutuante moderno', () => {
-    assert.match(indexHtml, /\.btn-th-filter-cat\s*\{[^}]*cursor:\s*pointer/s,
-      'Estilo do botão de filtro deve estar definido com cursor pointer');
-    assert.match(indexHtml, /\.btn-th-filter-cat\.ativo\s*\{/s,
-      'Estilo de estado ativo para botão de filtro deve estar definido');
-    assert.match(indexHtml, /\.cat-dropdown-menu\s*\{[^}]*position:\s*absolute/s,
-      'Estilo do menu suspenso deve estar definido');
+  await t.test('cabeçalho de Categoria deve estar limpo sem botão "Filtrar" mantendo ordenação e grip', () => {
+    assert.doesNotMatch(indexHtml, /id="btn-filtro-cat-produtos"/,
+      'Não deve conter o botão "Filtrar" antigo no cabeçalho');
+    assert.match(indexHtml, /<th[^>]*data-col="categoria"[^>]*onclick="aoClicarHeaderOrdenar\('tabela-produtos',\s*'categoria'\)"[^>]*>Categoria\s*<span[^>]*id="sort-produtos-categoria"><\/span><span[^>]*class="th-grip-icon">⠿<\/span><\/th>/,
+      'Cabeçalho de Categoria deve ser limpo e suportar ordenação normalmente');
   });
 
-  await t.test('deve conter as funções JS para abrir, fechar e selecionar categoria com contagem', () => {
-    assert.match(indexHtml, /function toggleDropdownCategoriasProdutos/,
-      'Função toggleDropdownCategoriasProdutos deve estar definida');
-    assert.match(indexHtml, /function fecharDropdownCategoriasProdutos/,
-      'Função fecharDropdownCategoriasProdutos deve estar definida');
-    assert.match(indexHtml, /function selecionarCategoriaProdutosHeader/,
-      'Função selecionarCategoriaProdutosHeader deve estar definida');
-    assert.match(indexHtml, /function atualizarBotaoFiltroCategoriaHeader/,
-      'Função atualizarBotaoFiltroCategoriaHeader deve estar definida');
+  await t.test('deve conter as funções JS para popular categorias e estilizar o select', () => {
+    assert.match(indexHtml, /function atualizarSelectCategoriasTopo\(\)/,
+      'Função atualizarSelectCategoriasTopo deve estar definida');
+    assert.match(indexHtml, /function atualizarEstiloFiltroCategoriaTopo\(cat\)/,
+      'Função atualizarEstiloFiltroCategoriaTopo deve estar definida');
+    assert.match(indexHtml, /atualizarEstiloFiltroCategoriaTopo\(cat\);/,
+      'filtrarProdutosPorCategoria deve sincronizar o estilo do select do topo');
   });
 });
