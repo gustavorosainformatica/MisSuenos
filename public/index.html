@@ -2672,20 +2672,87 @@
       padding: 10px 20px !important;
     }
     #modal-etiqueta .etiqueta-modal-grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 18px;
+      display: flex;
+      flex-direction: row;
+      gap: 0;
       height: 100%;
+      position: relative;
+      align-items: stretch;
+      overflow: hidden;
+    }
+    #modal-etiqueta .etiqueta-config-panel {
+      width: 380px;
+      min-width: 280px;
+      max-width: 70%;
+      flex: 0 0 380px;
+      overflow-y: auto;
+      padding-right: 12px;
+      box-sizing: border-box;
+    }
+    #modal-etiqueta .etiqueta-split-resizer {
+      width: 14px;
+      margin: 0 2px;
+      cursor: col-resize;
+      position: relative;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      background: transparent;
+      touch-action: none;
+    }
+    #modal-etiqueta .etiqueta-split-resizer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 2px;
+      transition: background 0.15s, box-shadow 0.15s, width 0.15s;
+    }
+    #modal-etiqueta .etiqueta-split-resizer::after {
+      content: '⠿';
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1;
+      background: #0b1324;
+      padding: 6px 2px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      z-index: 2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      transition: all 0.15s;
+    }
+    #modal-etiqueta .etiqueta-split-resizer:hover::before,
+    #modal-etiqueta .etiqueta-split-resizer.dragging::before {
+      background: #38bdf8;
+      width: 3px;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+    }
+    #modal-etiqueta .etiqueta-split-resizer:hover::after,
+    #modal-etiqueta .etiqueta-split-resizer.dragging::after {
+      color: #38bdf8;
+      border-color: #38bdf8;
+      background: #0f172a;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
     }
     #modal-etiqueta .etiqueta-preview-wrapper {
-      padding: 8px 14px !important;
-      overflow: hidden !important;
+      flex: 1 1 0;
+      min-width: 300px;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      padding: 8px 14px 8px 16px !important;
       max-height: none !important;
       height: 100%;
+      box-sizing: border-box;
     }
     @media screen {
       #modal-etiqueta .etiqueta-fisica.formato-termica {
@@ -2946,6 +3013,7 @@
       #modal-etiqueta .modal-header,
       #modal-etiqueta .modal-footer,
       #modal-etiqueta .etiqueta-config-panel,
+      #modal-etiqueta .etiqueta-split-resizer,
       #modal-etiqueta .etiqueta-preview-wrapper > div:first-child {
         display: none !important;
       }
@@ -3450,8 +3518,21 @@
 
       /* Ajuste no Modal de Etiqueta no Mobile */
       #modal-etiqueta .etiqueta-modal-grid {
-        grid-template-columns: 1fr !important;
+        flex-direction: column !important;
         height: auto !important;
+      }
+      #modal-etiqueta .etiqueta-config-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+        padding-right: 0 !important;
+      }
+      #modal-etiqueta .etiqueta-split-resizer {
+        display: none !important;
+      }
+      #modal-etiqueta .etiqueta-preview-wrapper {
+        width: 100% !important;
+        padding-left: 0 !important;
       }
     }
 
@@ -5862,7 +5943,7 @@
         <div class="table-top-actions">
           <div class="table-title">
             <span>🧾 Registro de Notas Fiscais Eletrônicas Emitidas</span>
-            <span class="table-count-badge" id="table-badge-fiscal" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">199 notas (🧪 DADOS FICTÍCIOS / TESTE)</span>
+            <span class="table-count-badge" id="table-badge-fiscal">0 documentos</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
             💡 Dois cliques para ver DANFE · Botão direito para opções (XML, Chave SEFAZ) · Integrado à SEFAZ
@@ -8471,6 +8552,9 @@
             </div>
           </div>
 
+          <!-- DIVISÓRIA ARRASTÁVEL (SPLIT-RESIZER ESQUERDA/DIREITA) -->
+          <div class="etiqueta-split-resizer" id="etiqueta-split-resizer" title="Arraste para a esquerda ou direita para ajustar a largura dos painéis (salvo automaticamente | duplo clique para restaurar)"></div>
+
           <!-- COLUNA DIREITA: PRÉ-VISUALIZAÇÃO DA ETIQUETA FÍSICA -->
           <div class="etiqueta-preview-wrapper">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
@@ -10375,6 +10459,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         renderTabelaPedidos();
       } else if (modulo === 'fiscal') {
         renderTabelaFiscal();
+        if (typeof carregarFiscalApi === 'function') carregarFiscalApi();
       } else if (modulo === 'painel') {
         if (typeof atualizarCotacoesMercado === 'function') {
           atualizarCotacoesMercado();
@@ -11506,8 +11591,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       const baixoEstoque = produtos.filter(p => (p.estoque_atual || 0) <= (p.estoque_minimo || 5)).length;
       document.getElementById('kpi-prod-baixo-estoque').textContent = baixoEstoque.toString();
-      const totalTestes = produtos.filter(p => p.is_teste == 1 || p.is_teste === true || p.id <= 11).length;
-      document.getElementById('table-badge-produtos').textContent = totalTestes > 0 ? `${total} produtos (${totalTestes} de demonstração / teste)` : `${total} produtos`;
+      document.getElementById('table-badge-produtos').textContent = `${total} produtos`;
       setTimeout(() => aplicarOrdemColunasSalva(document.getElementById('tabela-produtos')), 50);
     }
 
@@ -14994,17 +15078,42 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // ========================================================
     // GESTÃO FISCAL & DOCUMENTOS ELETRÔNICOS (ERP)
     // ========================================================
-    const listaFiscal = [
-      { id: 1, numero: 'NF-e 001.428', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014281001234567', destinatario: 'CLIENTE EXEMPLO 01', doc: 'Sem CPF', uf: 'MG', data: '15/10/2026', valor: 385.00, status: 'Autorizada' },
-      { id: 2, numero: 'NF-e 001.427', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014271001234568', destinatario: 'CLIENTE EXEMPLO 02', doc: 'Sem CPF', uf: 'SC', data: '14/10/2026', valor: 455.00, status: 'Autorizada' },
-      { id: 3, numero: 'DPS 000.412', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-412', destinatario: 'CLIENTE EXEMPLO 03', doc: 'Sem CPF', uf: 'RS', data: '14/10/2026', valor: 180.00, status: 'Autorizada' },
-      { id: 4, numero: 'NF-e 001.426', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014261001234569', destinatario: 'CLIENTE EXEMPLO 04', doc: '000.000.001-91', uf: 'PR', data: '13/10/2026', valor: 590.00, status: 'Autorizada' },
-      { id: 5, numero: 'NF-e 001.425', modelo: 'NFE_PRODUTO', modeloTexto: 'NF-e Modelo 55 (Produtos)', chave: '43261000000000000191550010000014251001234570', destinatario: 'CLIENTE EXEMPLO 05', doc: '000.000.002-72', uf: 'RS', data: '12/10/2026', valor: 280.00, status: 'Autorizada' },
-      { id: 6, numero: 'DPS 000.411', modelo: 'NFSE_SERVICO', modeloTexto: 'NFS-e Portal Nacional (Serviços)', chave: 'DPS-4314902-2026-411', destinatario: 'CLIENTE EXEMPLO 06', doc: 'Sem CPF', uf: 'MG', data: '11/10/2026', valor: 220.00, status: 'Autorizada' }
-    ];
-
-    let fiscalFiltrado = [...listaFiscal];
+    let listaFiscal = [];
+    let fiscalFiltrado = [];
     let tipoFiltroFiscal = 'TODAS';
+
+    async function carregarFiscalApi() {
+      try {
+        const resp = await fetch('/api/nfe');
+        if (resp.ok) {
+          const dados = await resp.json();
+          listaFiscal = (dados.documentos || []).map(d => ({
+            id: d.id,
+            numero: `NF-e ${String(d.numero || d.id).padStart(6, '0')}`,
+            modelo: d.tipo === 'NFSE_SERVICO' ? 'NFSE_SERVICO' : 'NFE_PRODUTO',
+            modeloTexto: d.tipo === 'NFSE_SERVICO' ? 'NFS-e Portal Nacional' : 'NF-e Modelo 55 (Produtos)',
+            chave: d.chave_acesso,
+            destinatario: d.destinatario || 'CLIENTE FINAL',
+            doc: d.doc || 'ISENTO',
+            uf: d.uf || 'RS',
+            data: d.emitido_em ? new Date(d.emitido_em).toLocaleDateString('pt-BR') : '-',
+            valor: parseFloat(d.valor || 0),
+            status: d.status || 'Autorizada'
+          }));
+        }
+      } catch (err) {
+        console.warn('Falha ao carregar notas fiscais da API:', err);
+      }
+      fiscalFiltrado = [...listaFiscal];
+      const badge = document.getElementById('table-badge-fiscal');
+      if (badge) {
+        badge.textContent = `${listaFiscal.length} ${listaFiscal.length === 1 ? 'documento' : 'documentos'}`;
+        badge.style.background = '';
+        badge.style.color = '';
+        badge.style.border = '';
+      }
+      renderTabelaFiscal();
+    }
 
     function renderTabelaFiscal() {
       const tbody = document.getElementById('erp-fiscal-body');
@@ -15032,7 +15141,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <td data-col="numero">
               <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff;">${f.numero}</span>
-                <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>
               </div>
               <div style="color: var(--text-muted); font-size: 11px; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">
                 Emissão: ${f.data}
@@ -15049,7 +15157,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(f.valor)}</td>
             <td data-col="situacao" style="text-align: center;">
               <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
-                🟢 Autorizada (Ambiente Teste)
+                🟢 Autorizada
               </span>
             </td>
           </tr>
@@ -15315,8 +15423,122 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       window.open(`https://wa.me/55${tel}`, '_blank');
     }
 
+    /* =========================================================================
+       SPLIT-RESIZER HORIZONTAL DO MODAL DE ETIQUETA (#modal-etiqueta)
+       Permite arrastar a divisória entre o painel de configurações e o preview
+       ========================================================================= */
+    const STORAGE_KEY_SPLIT_ETIQUETA = 'erp_split_width_etiqueta';
+    const LARGURA_PADRAO_SPLIT_ETIQUETA = 380; // px
+    const MIN_LARGURA_SPLIT_ETIQUETA = 280;   // px
+    const MIN_LARGURA_PREVIEW_ETIQUETA = 320; // px
+
+    function aplicarLarguraSalvaSplitEtiqueta() {
+      const panel = document.querySelector('#modal-etiqueta .etiqueta-config-panel');
+      const grid = document.querySelector('#modal-etiqueta .etiqueta-modal-grid');
+      if (!panel || !grid) return;
+
+      const salva = localStorage.getItem(STORAGE_KEY_SPLIT_ETIQUETA);
+      let largura = salva ? parseInt(salva, 10) : LARGURA_PADRAO_SPLIT_ETIQUETA;
+
+      const gridRect = grid.getBoundingClientRect();
+      const larguraMax = gridRect.width > 0 ? Math.max(MIN_LARGURA_SPLIT_ETIQUETA, gridRect.width - MIN_LARGURA_PREVIEW_ETIQUETA) : 700;
+
+      if (isNaN(largura) || largura < MIN_LARGURA_SPLIT_ETIQUETA) largura = MIN_LARGURA_SPLIT_ETIQUETA;
+      if (largura > larguraMax) largura = larguraMax;
+
+      panel.style.width = `${largura}px`;
+      panel.style.flex = `0 0 ${largura}px`;
+    }
+
+    function inicializarSplitResizerEtiqueta() {
+      const resizer = document.getElementById('etiqueta-split-resizer');
+      const panel = document.querySelector('#modal-etiqueta .etiqueta-config-panel');
+      const grid = document.querySelector('#modal-etiqueta .etiqueta-modal-grid');
+      if (!resizer || !panel || !grid) return;
+
+      let isDragging = false;
+      let startX = 0;
+      let startWidth = 0;
+
+      const onMouseDown = (e) => {
+        if (e.type === 'mousedown' && e.button !== 0) return;
+        isDragging = true;
+        startX = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+        startWidth = panel.getBoundingClientRect().width;
+
+        resizer.classList.add('dragging');
+        document.body.classList.add('resizing-col');
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('touchmove', onTouchMove, { passive: false });
+        window.addEventListener('touchend', onMouseUp);
+      };
+
+      const handleMove = (clientX) => {
+        if (!isDragging) return;
+        const deltaX = clientX - startX;
+        const gridRect = grid.getBoundingClientRect();
+        const maxW = (gridRect.width > 0) ? (gridRect.width - MIN_LARGURA_PREVIEW_ETIQUETA) : 700;
+        let newWidth = startWidth + deltaX;
+
+        if (newWidth < MIN_LARGURA_SPLIT_ETIQUETA) newWidth = MIN_LARGURA_SPLIT_ETIQUETA;
+        if (newWidth > maxW) newWidth = maxW;
+
+        panel.style.width = `${newWidth}px`;
+        panel.style.flex = `0 0 ${newWidth}px`;
+      };
+
+      const onMouseMove = (e) => {
+        handleMove(e.clientX);
+      };
+
+      const onTouchMove = (e) => {
+        if (e.touches && e.touches.length > 0) {
+          e.preventDefault();
+          handleMove(e.touches[0].clientX);
+        }
+      };
+
+      const onMouseUp = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        resizer.classList.remove('dragging');
+        document.body.classList.remove('resizing-col');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('touchend', onMouseUp);
+
+        const finalWidth = Math.round(panel.getBoundingClientRect().width);
+        localStorage.setItem(STORAGE_KEY_SPLIT_ETIQUETA, String(finalWidth));
+      };
+
+      resizer.addEventListener('dblclick', () => {
+        localStorage.removeItem(STORAGE_KEY_SPLIT_ETIQUETA);
+        panel.style.width = `${LARGURA_PADRAO_SPLIT_ETIQUETA}px`;
+        panel.style.flex = `0 0 ${LARGURA_PADRAO_SPLIT_ETIQUETA}px`;
+        if (typeof mostrarToast === 'function') {
+          mostrarToast('Largura padrão do painel de logística restaurada (380px)!');
+        }
+      });
+
+      resizer.addEventListener('mousedown', onMouseDown);
+      resizer.addEventListener('touchstart', onMouseDown, { passive: true });
+
+      aplicarLarguraSalvaSplitEtiqueta();
+    }
+
     function preencherEExibirEtiqueta(dados) {
       aplicarTamanhoSalvoModal('modal-etiqueta');
+      if (typeof aplicarLarguraSalvaSplitEtiqueta === 'function') {
+        aplicarLarguraSalvaSplitEtiqueta();
+      }
       const cli = dados.cliente;
       document.getElementById('etiqueta-num-pedido').value = dados.pedidoRef || '';
       document.getElementById('etiqueta-conteudo').value = dados.itens || 'Artigos em Couro / Sola / Insumos';
@@ -16111,17 +16333,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // ========================================================
     // GESTÃO FINANCEIRA (CONTAS A PAGAR & RECEBER / FLUXO DE CAIXA)
     // ========================================================
-    let listaFinanceiro = [
-      { id: 1, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1035', pessoa: 'CLIENTE EXEMPLO 11', categoria: 'Couros & Peles', data_vencimento: '2026-10-15', valor: 1072.00, status: 'PAGO' },
-      { id: 2, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1036', pessoa: 'CLIENTE EXEMPLO 10', categoria: 'Loncas & Insumos', data_vencimento: '2026-10-25', valor: 656.00, status: 'PENDENTE' },
-      { id: 3, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1037', pessoa: 'CLIENTE EXEMPLO 09', categoria: 'Vaqueta Tratada', data_vencimento: '2026-10-18', valor: 170.00, status: 'PAGO' },
-      { id: 4, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1038', pessoa: 'CLIENTE EXEMPLO 08', categoria: 'Sola Bovina', data_vencimento: '2026-10-28', valor: 650.00, status: 'PENDENTE' },
-      { id: 5, tipo: 'PAGAR', descricao: 'Compra Matéria-Prima Curtume', pessoa: 'Curtumes do Sul LTDA', categoria: 'Couro Cru', data_vencimento: '2026-10-20', valor: 1850.00, status: 'PAGO' },
-      { id: 6, tipo: 'PAGAR', descricao: 'Tintas e Resinas Artesanais', pessoa: 'Insumos Químicos SP', categoria: 'Química & Acabamento', data_vencimento: '2026-10-30', valor: 420.00, status: 'PENDENTE' },
-      { id: 7, tipo: 'PAGAR', descricao: 'Fretes & Logística Correios', pessoa: 'Correios / SuperFrete', categoria: 'Transportes', data_vencimento: '2026-10-16', valor: 380.00, status: 'PAGO' },
-      { id: 8, tipo: 'RECEBER', descricao: 'Venda Pedido #PED-1039', pessoa: 'ADECIR JOSÉ PIEREZAN', categoria: 'Meio Couro', data_vencimento: '2026-11-02', valor: 940.00, status: 'PENDENTE' }
-    ];
-    let financeiroFiltrado = [...listaFinanceiro];
+    let listaFinanceiro = [];
+    let financeiroFiltrado = [];
     let filtroFinanceiroStatus = 'TODOS';
 
     async function carregarFinanceiroApi() {
@@ -16130,12 +16343,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         if (resp.ok) {
           const dados = await resp.json();
           const items = Array.isArray(dados) ? dados : (dados.lancamentos || []);
-          if (items.length > 0) {
-            listaFinanceiro = items;
-          }
+          listaFinanceiro = items;
         }
-      } catch (_) {
-        // Fallback para lista local em memória
+      } catch (err) {
+        console.warn('Falha ao carregar financeiro da API:', err);
       }
       filtrarFinanceiro(filtroFinanceiroStatus);
       atualizarKpisFinanceiro();
@@ -20268,6 +20479,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     carregarDadosApi();
     carregarProdutosApi();
     carregarPedidosApi();
+    if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
+    if (typeof carregarFiscalApi === 'function') carregarFiscalApi();
+    if (typeof inicializarSplitResizerEtiqueta === 'function') inicializarSplitResizerEtiqueta();
 
 
     /* =========================================================================
