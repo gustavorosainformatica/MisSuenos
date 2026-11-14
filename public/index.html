@@ -1514,6 +1514,128 @@
       color: #00d4ff;
       font-weight: 800;
     }
+    /* BOTÃO E DROPDOWN DE FILTRO DE CATEGORIAS NO CABEÇALHO */
+    .btn-th-filter-cat {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #cbd5e1;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 700;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      line-height: 1.3;
+      user-select: none;
+    }
+    .btn-th-filter-cat:hover {
+      background: rgba(192, 132, 252, 0.18);
+      border-color: #c084fc;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(192, 132, 252, 0.35);
+      transform: scale(1.03);
+    }
+    .btn-th-filter-cat.ativo {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(147, 51, 234, 0.2));
+      border-color: #c084fc;
+      color: #f3e8ff;
+      box-shadow: 0 0 12px rgba(192, 132, 252, 0.5);
+    }
+    .cat-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 5px;
+      width: 240px;
+      background: #0d1527;
+      border: 1px solid rgba(192, 132, 252, 0.35);
+      border-radius: 8px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 15px rgba(168, 85, 247, 0.25);
+      z-index: 1050;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .cat-dropdown-menu.aberto {
+      display: flex;
+      animation: fadeInDownCat 0.15s ease-out forwards;
+    }
+    @keyframes fadeInDownCat {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cat-dropdown-header {
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #c084fc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.5px;
+    }
+    .cat-dropdown-list {
+      max-height: 230px;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+    .cat-dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      color: #cbd5e1;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.12s ease;
+    }
+    .cat-dropdown-item:hover {
+      background: rgba(192, 132, 252, 0.14);
+      color: #fff;
+      padding-left: 15px;
+    }
+    .cat-dropdown-item.selecionado {
+      background: rgba(192, 132, 252, 0.22);
+      color: #f3e8ff;
+      font-weight: 800;
+    }
+    .cat-count-badge {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .cat-dropdown-footer {
+      padding: 7px 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: flex-end;
+    }
+    .btn-limpar-filtro-cat {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      font-size: 10.5px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 6px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .btn-limpar-filtro-cat:hover {
+      background: rgba(239, 68, 68, 0.15);
+    }
     table.erp-table tbody tr {
       cursor: pointer;
       transition: background 0.12s ease;
@@ -5388,7 +5510,20 @@
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)" aria-label="TOPBAR-SEARCH"></th>
                 <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Produto ou arraste para mover">Produto / Item <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 140px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-produtos-categoria"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 185px; position: relative;" data-col="categoria" class="th-categoria-com-filtro">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 4px; width: 100%;">
+                    <span onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" style="cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" title="Clique para ordenar por Categoria (A-Z / Z-A) ou arraste para mover">
+                      Categoria <span class="sort-icon" id="sort-produtos-categoria"></span>
+                    </span>
+                    <div style="display: inline-flex; align-items: center; gap: 4px;">
+                      <button type="button" class="btn-th-filter-cat" id="btn-filtro-cat-produtos" onclick="toggleDropdownCategoriasProdutos(event)" title="Clique para escolher uma categoria específica" tabindex="-1">
+                        <span id="label-filtro-cat-produtos">▾ Filtrar</span>
+                      </button>
+                      <span class="th-grip-icon" title="Arraste para mover a coluna">⠿</span>
+                    </div>
+                  </div>
+                  <div class="cat-dropdown-menu" id="dropdown-menu-categorias-produtos" onclick="event.stopPropagation()"></div>
+                </th>
                 <th style="width: 160px; text-align: right; cursor: pointer;" data-col="venda" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'venda')" title="Clique para ordenar por Preço ou arraste para mover">Preço de Venda <span class="sort-icon" id="sort-produtos-venda"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 220px; text-align: center; cursor: pointer;" data-col="saldos" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'saldos')" title="Clique para ordenar por Saldo em Estoque ou arraste para mover">Saldos (Físico / Disp.) <span class="sort-icon" id="sort-produtos-saldos"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
@@ -11708,6 +11843,130 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }).join('');
     }
 
+    /* =========================================================================
+       MENU DROPDOWN DE FILTRO POR CATEGORIA NO CABEÇALHO (ESTOQUE)
+       ========================================================================= */
+    function toggleDropdownCategoriasProdutos(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const menu = document.getElementById('dropdown-menu-categorias-produtos');
+      if (!menu) return;
+
+      const estaAberto = menu.classList.contains('aberto');
+      if (estaAberto) {
+        menu.classList.remove('aberto');
+        return;
+      }
+
+      const contagemPorCat = {};
+      (produtos || []).forEach(p => {
+        const c = p.categoria || 'Outros';
+        contagemPorCat[c] = (contagemPorCat[c] || 0) + 1;
+      });
+
+      const categorias = Object.keys(contagemPorCat).sort();
+      const totalGeral = (produtos || []).length;
+      const catAtiva = categoriaFiltroProd || 'TODAS';
+
+      let html = `
+        <div class="cat-dropdown-header">
+          <span>CATEGORIAS DE ESTOQUE</span>
+          <span style="cursor: pointer; color: #94a3b8; font-size: 13px; padding: 2px;" onclick="fecharDropdownCategoriasProdutos(event)" title="Fechar">✕</span>
+        </div>
+        <div class="cat-dropdown-list">
+          <div class="cat-dropdown-item ${catAtiva === 'TODAS' ? 'selecionado' : ''}" onclick="selecionarCategoriaProdutosHeader('TODAS')">
+            <span>✨ Todas as Categorias</span>
+            <span class="cat-count-badge">${totalGeral}</span>
+          </div>
+      `;
+
+      categorias.forEach(cat => {
+        const count = contagemPorCat[cat];
+        const isSel = (catAtiva === cat);
+        let tagIcon = '🟣';
+        if (cat === 'Couros & Peles') tagIcon = '🟠';
+        else if (cat === 'Loncas') tagIcon = '🔵';
+        else if (cat === 'Tentos') tagIcon = '🟤';
+        else if (cat === 'Ferragens') tagIcon = '🟢';
+        else if (cat === 'Artefatos') tagIcon = '🟣';
+
+        html += `
+          <div class="cat-dropdown-item ${isSel ? 'selecionado' : ''}" onclick="selecionarCategoriaProdutosHeader('${cat.replace(/'/g, "\\'")}')">
+            <span>${tagIcon} ${cat}</span>
+            <span class="cat-count-badge">${count}</span>
+          </div>
+        `;
+      });
+
+      html += `
+        </div>
+        <div class="cat-dropdown-footer">
+          <button type="button" class="btn-limpar-filtro-cat" onclick="selecionarCategoriaProdutosHeader('TODAS')">
+            Limpar Filtro (Ver Todos)
+          </button>
+        </div>
+      `;
+
+      menu.innerHTML = html;
+      menu.classList.add('aberto');
+    }
+
+    function fecharDropdownCategoriasProdutos(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('dropdown-menu-categorias-produtos');
+      if (menu) menu.classList.remove('aberto');
+    }
+
+    function selecionarCategoriaProdutosHeader(cat) {
+      fecharDropdownCategoriasProdutos();
+      if (typeof filtrarProdutosPorCategoria === 'function') {
+        filtrarProdutosPorCategoria(cat);
+      }
+      atualizarBotaoFiltroCategoriaHeader();
+    }
+
+    function atualizarBotaoFiltroCategoriaHeader() {
+      const btn = document.getElementById('btn-filtro-cat-produtos');
+      const label = document.getElementById('label-filtro-cat-produtos');
+      if (!btn || !label) return;
+
+      if (!categoriaFiltroProd || categoriaFiltroProd === 'TODAS') {
+        btn.classList.remove('ativo');
+        label.textContent = '▾ Filtrar';
+        btn.title = 'Clique para escolher uma categoria específica';
+      } else {
+        btn.classList.add('ativo');
+        label.textContent = `✓ ${categoriaFiltroProd} ▾`;
+        btn.title = `Filtro ativo: ${categoriaFiltroProd} (Clique para alterar ou limpar)`;
+      }
+
+      const badge = document.getElementById('table-badge-produtos');
+      if (badge) {
+        if (!categoriaFiltroProd || categoriaFiltroProd === 'TODAS') {
+          badge.textContent = `${produtos.length} produtos`;
+        } else {
+          badge.textContent = `${produtosFiltrados.length} de ${produtos.length} produtos (${categoriaFiltroProd})`;
+        }
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('dropdown-menu-categorias-produtos');
+      if (menu && menu.classList.contains('aberto')) {
+        if (!e.target.closest('#dropdown-menu-categorias-produtos') && !e.target.closest('#btn-filtro-cat-produtos')) {
+          menu.classList.remove('aberto');
+        }
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        fecharDropdownCategoriasProdutos();
+      }
+    });
+
     function filtrarProdutosPorCategoria(cat, btn) {
       categoriaFiltroProd = cat;
       document.querySelectorAll('#modulo-produtos-conteudo .toolbar-filters .erp-filter-chip').forEach(b => b.classList.remove('active'));
@@ -11719,6 +11978,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         produtosFiltrados = produtos.filter(p => p.categoria === cat);
       }
       renderTabelaProdutos();
+      if (typeof atualizarBotaoFiltroCategoriaHeader === 'function') {
+        atualizarBotaoFiltroCategoriaHeader();
+      }
     }
 
     function abrirModalNovoProduto() {
