@@ -1514,6 +1514,66 @@
       color: #00d4ff;
       font-weight: 800;
     }
+    /* COMBOBOX E DROPDOWN DE CATEGORIA NO FORMULÁRIO DO PRODUTO (OPÇÃO 3) */
+    .dropdown-cat-menu {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: #0f172a;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 8px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      padding: 6px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+    .dropdown-cat-header {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 4px;
+    }
+    .dropdown-cat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dropdown-cat-item:hover, .dropdown-cat-item.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: #fff;
+    }
+    .btn-criar-cat-dropdown {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(192, 132, 252, 0.2));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .btn-criar-cat-dropdown:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(192, 132, 252, 0.35));
+      border-color: #38bdf8;
+    }
+
     /* BOTÃO E DROPDOWN DE FILTRO DE CATEGORIAS NO CABEÇALHO */
     .btn-th-filter-cat {
       display: inline-flex;
@@ -5447,14 +5507,14 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card" id="card-kpi-prod-categorias" onclick="acaoKpiProdutos('CATEGORIAS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'categorias', this)" title="💡 Botão Esquerdo: Agrupar por Categorias · Botão Direito (🖱️): Filtrar por Categoria Específica">
+        <div class="erp-kpi-card" id="card-kpi-prod-categorias" onclick="abrirModalGestaoCategorias()" oncontextmenu="abrirMenuContextoKpi(event, 'produtos', 'categorias', this)" title="💡 Clique: Central de Gestão de Categorias · Botão Direito (🖱️): Filtrar por Categoria Específica" style="cursor: pointer;">
           <div class="kpi-top-row">
             <span class="kpi-label">Categorias Ativas</span>
-            <div class="kpi-icon-pill" title="Clique com o botão direito para filtrar por categoria">🏷️</div>
+            <div class="kpi-icon-pill" title="Clique para gerenciar categorias">🏷️</div>
           </div>
-          <div class="kpi-number" id="kpi-prod-categorias">4</div>
+          <div class="kpi-number" id="kpi-prod-categorias">5 Categorias</div>
           <div class="kpi-trend">
-            <span>Loncas · Couros · Ferragens (Menu 🖱️)</span>
+            <span style="color: #38bdf8;">⚙️ Gerenciar Categorias (Clique)</span>
           </div>
         </div>
 
@@ -7251,15 +7311,38 @@
 
           <!-- LINHA 2: CATEGORIA (flex: 1.5) + UNIDADE (130px) + ESTOQUE ATUAL (140px) + ESTOQUE MÍNIMO (140px) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
-            <div class="form-group" style="flex: 1.5; min-width: 180px;">
-              <label class="form-label" style="margin-bottom: 3px;">Categoria do Produto *</label>
-              <select class="form-input" id="form-prod-cat" required aria-label="CFG-RAMO-PRESET">
-                <option value="Loncas">Loncas & Peles Curtidas</option>
-                <option value="Couros & Peles">Couros & Peles Bovinas</option>
-                <option value="Tentos">Tentos & Tiras</option>
-                <option value="Ferramentas">Ferramentas & Acessórios</option>
-                <option value="Outros">Outros Artigos</option>
-              </select>
+            <div class="form-group" style="flex: 1.5; min-width: 220px; position: relative;">
+              <label class="form-label" style="margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #38bdf8; display: flex; align-items: center; gap: 4px;">
+                  <span>🏷️</span> Categoria do Produto *
+                </span>
+                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal;">Selecione ou digite nova</span>
+              </label>
+              <div style="display: flex; gap: 6px; position: relative;">
+                <div style="flex: 1; position: relative; display: flex; align-items: center;">
+                  <span id="form-prod-cat-badge-icon" style="position: absolute; left: 10px; pointer-events: none; font-size: 13px;">🏷️</span>
+                  <input type="text" class="form-input" id="form-prod-cat" required placeholder="Selecione ou digite..."
+                    autocomplete="off"
+                    style="width: 100%; padding-left: 32px; padding-right: 28px; font-weight: 700; text-transform: uppercase;"
+                    onfocus="abrirDropdownCategoriaProduto()"
+                    oninput="filtrarDropdownCategoriaProduto(this.value)"
+                    onkeydown="aoTeclarDropdownCategoriaProduto(event)"
+                    aria-label="Categoria do Produto">
+                  <span style="position: absolute; right: 10px; pointer-events: none; color: #38bdf8; font-size: 11px;">▼</span>
+                </div>
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="abrirModalGestaoCategorias()" title="Central de Gestão de Categorias" style="padding: 6px 10px; font-size: 13px; color: #38bdf8;">⚙️</button>
+
+                <!-- DROPDOWN FLUTUANTE DE CATEGORIAS -->
+                <div id="dropdown-cat-produto" class="dropdown-cat-menu" style="display: none;">
+                  <div class="dropdown-cat-header">Categorias Cadastradas</div>
+                  <div id="dropdown-cat-produto-lista"></div>
+                  <div id="dropdown-cat-produto-criar" style="display: none; border-top: 1px dashed rgba(255,255,255,0.12); padding-top: 6px; margin-top: 4px;">
+                    <button type="button" class="btn-criar-cat-dropdown" tabindex="-1" onclick="criarCategoriaNoDropdown()">
+                      <span>➕</span> Criar nova categoria: <strong id="dropdown-cat-nome-novo" style="color: #38bdf8;"></strong>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="form-group" style="width: 130px; flex-shrink: 0;">
@@ -7584,6 +7667,75 @@
           <span>🔒</span> Extrato patrimonial imutável para conformidade contábil e auditoria.
         </div>
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalFichaKardex()">Fechar Extrato</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GESTÃO CENTRALIZADA DE CATEGORIAS DE ESTOQUE (OPÇÃO 3) -->
+  <div class="modal-overlay" id="modal-gestao-categorias">
+    <div class="modal-container" style="max-width: 780px; width: 95%; max-height: 90vh;">
+      <div class="modal-resize-handle" data-modal="modal-gestao-categorias" title="Arraste para redimensionar">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>🏷️</span>
+          <span>Gestão Centralizada de Categorias do Catálogo</span>
+        </div>
+        <button type="button" class="modal-close-btn" tabindex="-1" onclick="fecharModalGestaoCategorias()" title="Fechar">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 18px 22px; gap: 14px;">
+        <!-- BARRA SUPERIOR DE CADASTRO RÁPIDO -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 14px; display: grid; grid-template-columns: 2fr 1.2fr 80px auto; gap: 10px; align-items: flex-end;">
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="margin-bottom: 3px; color: #38bdf8;">Nome da Nova Categoria *</label>
+            <input type="text" class="form-input" id="form-nova-cat-nome" placeholder="EX: CINTOS & FIVELAS" style="text-transform: uppercase; font-weight: 700;" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault(); salvarNovaCategoriaModal();}">
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="margin-bottom: 3px;">Cor / Badge</label>
+            <select class="form-input erp-select" id="form-nova-cat-cor" onchange="aoMudarCorNovaCat(this.value)">
+              <option value="purple">🟣 Roxo / Púrpura</option>
+              <option value="orange">🟠 Laranja Couro</option>
+              <option value="blue">🔵 Azul Ciano</option>
+              <option value="amber">🟡 Dourado / Âmbar</option>
+              <option value="emerald">🟢 Verde Esmeralda</option>
+              <option value="rose">🔴 Vermelho / Rosa</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin: 0;">
+            <label class="form-label" style="margin-bottom: 3px; text-align: center;">Ícone</label>
+            <input type="text" class="form-input" id="form-nova-cat-icone" value="🟣" style="text-align: center; font-size: 14px;" maxlength="2">
+          </div>
+
+          <button type="button" class="btn-top btn-emerald-glow" onclick="salvarNovaCategoriaModal()" style="height: 38px; display: flex; align-items: center; gap: 6px; font-weight: 800;">
+            <span>➕</span> Cadastrar
+          </button>
+        </div>
+
+        <!-- TABELA DE CATEGORIAS -->
+        <div style="border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; max-height: 400px; overflow-y: auto;">
+          <table class="data-table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background: rgba(15, 23, 42, 0.95); position: sticky; top: 0; z-index: 2;">
+                <th style="padding: 10px 14px; text-align: left; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Categoria</th>
+                <th style="padding: 10px 14px; text-align: center; width: 150px; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Total de Produtos</th>
+                <th style="padding: 10px 14px; text-align: center; width: 140px; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Filtro Topo</th>
+                <th style="padding: 10px 14px; text-align: right; width: 180px; font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-gestao-categorias">
+              <!-- Renderizado via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 11px; color: #94a3b8;" id="rodape-gestao-categorias-info">
+          Categorias sincronizadas em tempo real com o banco de dados
+        </div>
+        <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="fecharModalGestaoCategorias()">Fechar Janela</button>
       </div>
     </div>
   </div>
@@ -11837,29 +11989,371 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     /* =========================================================================
-       FILTRO DINÂMICO DE CATEGORIAS NO TOPO DO ESTOQUE (PADRÃO STATUS PEDIDOS)
+       GESTOR INTEGRADO DE CATEGORIAS (OPÇÃO 3: COMBOBOX + CENTRAL DE GESTÃO)
        ========================================================================= */
+    const MAPA_CORES_EMOJIS_CATEGORIAS = {
+      'ARTEFATOS': { emoji: '🟣', cor: 'purple' },
+      'COUROS & PELES': { emoji: '🟠', cor: 'orange' },
+      'LONCAS': { emoji: '🔵', cor: 'blue' },
+      'TENTOS': { emoji: '🟤', cor: 'tentos' },
+      'FERRAMENTAS': { emoji: '🟡', cor: 'amber' }
+    };
+
+    function obterIconeECorCategoria(nomeCat) {
+      if (!nomeCat) return { emoji: '🏷️', cor: 'blue' };
+      const normalizado = String(nomeCat).trim().toUpperCase();
+      if (MAPA_CORES_EMOJIS_CATEGORIAS[normalizado]) {
+        return MAPA_CORES_EMOJIS_CATEGORIAS[normalizado];
+      }
+      if (normalizado.includes('COURO') || normalizado.includes('PELE')) return { emoji: '🟠', cor: 'orange' };
+      if (normalizado.includes('LONCA')) return { emoji: '🔵', cor: 'blue' };
+      if (normalizado.includes('TENTO')) return { emoji: '🟤', cor: 'tentos' };
+      if (normalizado.includes('FERRAMENTA')) return { emoji: '🟡', cor: 'amber' };
+      if (normalizado.includes('ARTEFATO') || normalizado.includes('BOLSA') || normalizado.includes('CARTEIRA')) return { emoji: '🟣', cor: 'purple' };
+      if (normalizado.includes('CINTO') || normalizado.includes('FIVELA')) return { emoji: '🟢', cor: 'emerald' };
+      return { emoji: '🏷️', cor: 'blue' };
+    }
+
+    function atualizarIconeCategoriaInput(nomeCat) {
+      const iconEl = document.getElementById('form-prod-cat-badge-icon');
+      if (iconEl) {
+        const info = obterIconeECorCategoria(nomeCat);
+        iconEl.textContent = info.emoji;
+      }
+    }
+
+    function obterCategoriasComContagem() {
+      const mapa = new Map();
+      (produtos || []).forEach(p => {
+        if (p.categoria && String(p.categoria).trim()) {
+          const cat = String(p.categoria).trim().toUpperCase();
+          mapa.set(cat, (mapa.get(cat) || 0) + 1);
+        }
+      });
+
+      try {
+        const extras = JSON.parse(localStorage.getItem('missuenos_categorias_custom') || '[]');
+        extras.forEach(c => {
+          const catNorm = String(c).trim().toUpperCase();
+          if (!mapa.has(catNorm)) {
+            mapa.set(catNorm, 0);
+          }
+        });
+      } catch (e) {}
+
+      if (mapa.size === 0) {
+        ['ARTEFATOS', 'COUROS & PELES', 'FERRAMENTAS', 'LONCAS', 'TENTOS'].forEach(c => mapa.set(c, 0));
+      }
+
+      const lista = [];
+      mapa.forEach((total, nome) => {
+        const info = obterIconeECorCategoria(nome);
+        lista.push({ nome, total, emoji: info.emoji, cor: info.cor });
+      });
+
+      return lista.sort((a, b) => a.nome.localeCompare(b.nome));
+    }
+
+    /* COMBOBOX DE CATEGORIA NO FORMULÁRIO DO PRODUTO */
+    function abrirDropdownCategoriaProduto() {
+      const dd = document.getElementById('dropdown-cat-produto');
+      if (!dd) return;
+      dd.style.display = 'block';
+      const val = document.getElementById('form-prod-cat')?.value || '';
+      renderizarItensDropdownCategoriaProduto(val);
+    }
+
+    function fecharDropdownCategoriaProduto() {
+      const dd = document.getElementById('dropdown-cat-produto');
+      if (dd) dd.style.display = 'none';
+    }
+
+    function filtrarDropdownCategoriaProduto(val) {
+      const dd = document.getElementById('dropdown-cat-produto');
+      if (dd) dd.style.display = 'block';
+      renderizarItensDropdownCategoriaProduto(val);
+      atualizarIconeCategoriaInput(val);
+    }
+
+    function renderizarItensDropdownCategoriaProduto(filtro = '') {
+      const listaContainer = document.getElementById('dropdown-cat-produto-lista');
+      const boxCriar = document.getElementById('dropdown-cat-produto-criar');
+      const labelNovo = document.getElementById('dropdown-cat-nome-novo');
+      if (!listaContainer) return;
+
+      const todas = obterCategoriasComContagem();
+      const termo = (filtro || '').trim().toUpperCase();
+      const filtradas = todas.filter(c => c.nome.includes(termo));
+
+      if (filtradas.length === 0) {
+        listaContainer.innerHTML = `<div style="padding: 8px 10px; font-size: 11px; color: #94a3b8; text-align: center;">Nenhuma categoria encontrada com "${termo}"</div>`;
+      } else {
+        listaContainer.innerHTML = filtradas.map(c => `
+          <div class="dropdown-cat-item" onclick="selecionarCategoriaProduto('${c.nome.replace(/'/g, "\\'")}', '${c.emoji}')">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700;">
+              <span>${c.emoji}</span>
+              <span>${c.nome}</span>
+            </div>
+            <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #94a3b8;">${c.total} prod.</span>
+          </div>
+        `).join('');
+      }
+
+      const existeExato = todas.some(c => c.nome === termo);
+      if (boxCriar && labelNovo) {
+        if (termo.length >= 2 && !existeExato) {
+          boxCriar.style.display = 'block';
+          labelNovo.textContent = `"${termo}"`;
+        } else {
+          boxCriar.style.display = 'none';
+        }
+      }
+    }
+
+    function selecionarCategoriaProduto(nome, emoji) {
+      const input = document.getElementById('form-prod-cat');
+      if (input) {
+        input.value = nome.toUpperCase();
+        atualizarIconeCategoriaInput(nome);
+      }
+      fecharDropdownCategoriaProduto();
+      const unEl = document.getElementById('form-prod-un');
+      if (unEl) unEl.focus();
+    }
+
+    function criarCategoriaNoDropdown() {
+      const input = document.getElementById('form-prod-cat');
+      if (!input) return;
+      const novoNome = input.value.trim().toUpperCase();
+      if (!novoNome) return;
+
+      adicionarCategoriaCustom(novoNome);
+      selecionarCategoriaProduto(novoNome);
+      atualizarSelectCategoriasTopo();
+      if (typeof mostrarToast === 'function') {
+        mostrarToast(`✨ Categoria "${novoNome}" criada com sucesso!`);
+      }
+    }
+
+    function aoTeclarDropdownCategoriaProduto(e) {
+      if (e.key === 'Enter') {
+        const boxCriar = document.getElementById('dropdown-cat-produto-criar');
+        const input = document.getElementById('form-prod-cat');
+        const termo = (input?.value || '').trim().toUpperCase();
+        const todas = obterCategoriasComContagem();
+        const exato = todas.find(c => c.nome === termo);
+
+        if (exato) {
+          e.preventDefault();
+          selecionarCategoriaProduto(exato.nome, exato.emoji);
+        } else if (boxCriar && boxCriar.style.display !== 'none') {
+          e.preventDefault();
+          criarCategoriaNoDropdown();
+        } else {
+          fecharDropdownCategoriaProduto();
+        }
+      } else if (e.key === 'Escape') {
+        fecharDropdownCategoriaProduto();
+      }
+    }
+
+    // Fechar dropdown de categorias ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#form-prod-cat') && !e.target.closest('#dropdown-cat-produto')) {
+        fecharDropdownCategoriaProduto();
+      }
+    });
+
+    /* CENTRAL DE GESTÃO DE CATEGORIAS */
+    function abrirModalGestaoCategorias() {
+      const modal = document.getElementById('modal-gestao-categorias');
+      if (!modal) return;
+      renderizarTabelaGestaoCategorias();
+      modal.classList.add('active');
+      const inputNome = document.getElementById('form-nova-cat-nome');
+      if (inputNome) {
+        setTimeout(() => { inputNome.focus(); }, 60);
+      }
+    }
+
+    function fecharModalGestaoCategorias() {
+      const modal = document.getElementById('modal-gestao-categorias');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function renderizarTabelaGestaoCategorias() {
+      const tbody = document.getElementById('tbody-gestao-categorias');
+      const rodape = document.getElementById('rodape-gestao-categorias-info');
+      if (!tbody) return;
+
+      const categorias = obterCategoriasComContagem();
+      let totalProdGeral = 0;
+
+      tbody.innerHTML = categorias.map(c => {
+        totalProdGeral += c.total;
+        return `
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
+            <td style="padding: 11px 14px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 15px;">${c.emoji}</span>
+                <strong style="color: #fff; font-size: 12px; letter-spacing: 0.3px;">${c.nome}</strong>
+              </div>
+            </td>
+            <td style="padding: 11px 14px; text-align: center;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 12px;">${c.total} unid.</span>
+            </td>
+            <td style="padding: 11px 14px; text-align: center;">
+              <span class="badge-ped" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-size: 10px; padding: 2px 7px;">Ativo ⌵</span>
+            </td>
+            <td style="padding: 11px 14px; text-align: right;">
+              <div style="display: inline-flex; gap: 6px;">
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="renomearCategoriaModal('${c.nome.replace(/'/g, "\\'")}')" title="Renomear Categoria">✏️ Renomear</button>
+                <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="excluirCategoriaModal('${c.nome.replace(/'/g, "\\'")}', ${c.total})" title="Excluir Categoria" style="color: #f43f5e;">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      if (rodape) {
+        rodape.textContent = `${categorias.length} categorias cadastradas • ${totalProdGeral} produtos vinculados`;
+      }
+    }
+
+    function aoMudarCorNovaCat(cor) {
+      const mapaIcones = {
+        purple: '🟣', orange: '🟠', blue: '🔵', amber: '🟡', emerald: '🟢', rose: '🔴'
+      };
+      const inp = document.getElementById('form-nova-cat-icone');
+      if (inp && mapaIcones[cor]) {
+        inp.value = mapaIcones[cor];
+      }
+    }
+
+    function salvarNovaCategoriaModal() {
+      const inp = document.getElementById('form-nova-cat-nome');
+      if (!inp) return;
+      const nome = (inp.value || '').trim().toUpperCase();
+      if (!nome) {
+        if (typeof mostrarToast === 'function') mostrarToast('⚠️ Digite o nome da categoria!');
+        inp.focus();
+        return;
+      }
+
+      const todas = obterCategoriasComContagem();
+      if (todas.some(c => c.nome === nome)) {
+        if (typeof mostrarToast === 'function') mostrarToast(`⚠️ A categoria "${nome}" já existe!`);
+        inp.focus();
+        return;
+      }
+
+      adicionarCategoriaCustom(nome);
+      inp.value = '';
+      renderizarTabelaGestaoCategorias();
+      atualizarSelectCategoriasTopo();
+      if (typeof mostrarToast === 'function') {
+        mostrarToast(`✅ Categoria "${nome}" cadastrada com sucesso!`);
+      }
+    }
+
+    async function renomearCategoriaModal(nomeAntigo) {
+      const novoNome = prompt(`Renomear categoria "${nomeAntigo}" para:`, nomeAntigo);
+      if (!novoNome || !novoNome.trim()) return;
+      const novoNorm = novoNome.trim().toUpperCase();
+      if (novoNorm === nomeAntigo) return;
+
+      try {
+        const resp = await fetch('/api/produtos/renomear-categoria', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nomeAntigo, novoNome: novoNorm })
+        });
+        const json = await resp.json();
+        if (json.success) {
+          (produtos || []).forEach(p => {
+            if (p.categoria && p.categoria.toUpperCase() === nomeAntigo) {
+              p.categoria = novoNorm;
+            }
+          });
+          atualizarCategoriaCustom(nomeAntigo, novoNorm);
+          renderizarTabelaGestaoCategorias();
+          atualizarSelectCategoriasTopo();
+          if (typeof renderTabelaProdutos === 'function') renderTabelaProdutos();
+          if (typeof mostrarToast === 'function') {
+            mostrarToast(`✏️ Categoria renomeada para "${novoNorm}" (${json.changes} produtos atualizados)!`);
+          }
+        } else {
+          alert('Erro ao renomear: ' + (json.error || 'Falha no servidor'));
+        }
+      } catch (err) {
+        alert('Falha na comunicação com o servidor: ' + err.message);
+      }
+    }
+
+    function excluirCategoriaModal(nome, total) {
+      if (total > 0) {
+        alert(`Não é possível excluir a categoria "${nome}" pois ela possui ${total} produto(s) associado(s).\n\nReclassifique os produtos para outra categoria antes de excluir.`);
+        return;
+      }
+      if (confirm(`Deseja realmente remover a categoria "${nome}"?`)) {
+        removerCategoriaCustom(nome);
+        renderizarTabelaGestaoCategorias();
+        atualizarSelectCategoriasTopo();
+        if (typeof mostrarToast === 'function') {
+          mostrarToast(`🗑️ Categoria "${nome}" removida com sucesso.`);
+        }
+      }
+    }
+
+    function adicionarCategoriaCustom(nome) {
+      try {
+        const norm = String(nome).trim().toUpperCase();
+        const lista = JSON.parse(localStorage.getItem('missuenos_categorias_custom') || '[]');
+        if (!lista.includes(norm)) {
+          lista.push(norm);
+          localStorage.setItem('missuenos_categorias_custom', JSON.stringify(lista));
+        }
+      } catch (e) {}
+    }
+
+    function atualizarCategoriaCustom(antigo, novo) {
+      try {
+        let lista = JSON.parse(localStorage.getItem('missuenos_categorias_custom') || '[]');
+        lista = lista.map(c => c === antigo ? novo : c);
+        if (!lista.includes(novo)) lista.push(novo);
+        localStorage.setItem('missuenos_categorias_custom', JSON.stringify(lista));
+      } catch (e) {}
+    }
+
+    function removerCategoriaCustom(nome) {
+      try {
+        let lista = JSON.parse(localStorage.getItem('missuenos_categorias_custom') || '[]');
+        lista = lista.filter(c => c !== nome);
+        localStorage.setItem('missuenos_categorias_custom', JSON.stringify(lista));
+      } catch (e) {}
+    }
+
+    /* FILTRO DINÂMICO DE CATEGORIAS NO TOPO DO ESTOQUE */
     function atualizarSelectCategoriasTopo() {
       const selectTopo = document.getElementById('filtro-categoria-produtos-topo');
       if (!selectTopo) return;
 
       const valorAtual = selectTopo.value || categoriaFiltroProd || 'TODAS';
-      const categorias = Array.from(new Set((produtos || []).map(p => p.categoria).filter(Boolean))).sort();
+      const categorias = obterCategoriasComContagem();
 
       let html = '<option value="TODAS" style="background: #0f172a; color: #f8fafc;">🏷️ CATEGORIA: TODAS</option>';
       categorias.forEach(cat => {
-        let emoji = '🟣';
-        if (cat === 'Couros & Peles') emoji = '🟠';
-        else if (cat === 'Loncas') emoji = '🔵';
-        else if (cat === 'Tentos') emoji = '🟤';
-        else if (cat === 'Ferragens') emoji = '🟢';
-        else if (cat === 'Artefatos') emoji = '🟣';
-        html += `<option value="${cat.replace(/"/g, '&quot;')}" style="background: #0f172a; color: #f8fafc;">${emoji} ${cat.toUpperCase()}</option>`;
+        html += `<option value="${cat.nome.replace(/"/g, '&quot;')}" style="background: #0f172a; color: #f8fafc;">${cat.emoji} ${cat.nome}</option>`;
       });
 
       selectTopo.innerHTML = html;
       selectTopo.value = valorAtual;
       atualizarEstiloFiltroCategoriaTopo(valorAtual);
+
+      const kpiTotalEl = document.getElementById('kpi-prod-categorias');
+      if (kpiTotalEl) {
+        kpiTotalEl.textContent = `${categorias.length} Categorias`;
+      }
     }
 
     function atualizarEstiloFiltroCategoriaTopo(cat) {
@@ -11921,6 +12415,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
       atualizarMargemProduto();
       atualizarBadgeDescProduto();
+      const catInp = document.getElementById('form-prod-cat');
+      if (catInp) {
+        catInp.value = 'LONCAS';
+        atualizarIconeCategoriaInput('LONCAS');
+      }
       document.getElementById('modal-produto').classList.add('active');
       focarPrimeiroCampoModal(document.getElementById('modal-produto'));
     }
@@ -11939,7 +12438,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const ncmEl = document.getElementById('form-prod-ncm');
       if (ncmEl) ncmEl.value = prod.ncm || '42050000';
       document.getElementById('form-prod-nome').value = prod.nome || '';
-      document.getElementById('form-prod-cat').value = prod.categoria || 'Loncas';
+      const catInpEdit = document.getElementById('form-prod-cat');
+      if (catInpEdit) {
+        catInpEdit.value = (prod.categoria || 'LONCAS').toUpperCase();
+        atualizarIconeCategoriaInput(catInpEdit.value);
+      }
       document.getElementById('form-prod-un').value = prod.unidade_medida || prod.unidade || 'UN';
       document.getElementById('form-prod-min').value = prod.estoque_minimo || 5;
       document.getElementById('form-prod-custo').value = formatarMoedaPtBr(prod.preco_custo || 0);
