@@ -1,80 +1,82 @@
 # Registro de Transição de Contexto (Handoff)
 
-**Data / Hora:** 12 de Novembro de 2026 — 10:05 (BRT)  
-**Objetivo da Sessão:** Implementação da Interface Responsiva Mobile-First (v59) via Fluxo de Engenharia de Matt Pocock (`/fluxo-engenharia` ➔ `/grill-me` ➔ `/to-spec` ➔ `/to-tickets` ➔ `/implement-spec`).
+**Data / Hora:** 14 de Novembro de 2026 — 13:20 (BRT)  
+**Objetivo da Sessão:** Resolução da inconsistência matemática nos KPIs e menus de documentos fiscais ($1.160$ vs $1.143$), modernização clean do Painel Executivo (Overflow Zero + AwesomeAPI), filtro dinâmico de categorias no estoque (padrão status de pedidos), gestão integrada de categorias (Combobox + Central) e sincronização com o ERP Base e Governança Global do Antigravity.
 
 ---
 
 ## 1. O que foi Concluído nesta Sessão
 
-1. **Validação de Requisitos e Protótipo Visual Mobile (`/grill-me`):**
-   - Criação de simulador visual interativo de smartphone (iPhone 15 Pro) em `public/demo_mobile_comparativo.html`.
-   - Comparação lado a lado entre **Opção 1 (Bottom Sheet)** e **Opção 2 (Fullscreen Modal)**.
-   - Refinamento do layout da Opção 2 aprovado por Gustavo:
-     * Botão circular `✕` no topo esquerdo.
-     * Campo `Qtd` compacto (68px) alinhado ao lado do produto com texto centralizado em verde neon.
-     * Inclusão do dropdown de `Forma de Pagamento` (PIX à Vista, Cartão, Boleto e Dinheiro).
-     * Otimização de espaço vertical com mini-cards de frete e total lado a lado.
-     * Botão único confortável `[ 💾 Salvar Pedido ]` na base.
+1. **Correção Matemática Estrita dos Documentos Fiscais & CRM:**
+   - **Diagnóstico da Causa Raiz:** $17$ clientes da base possuem **ambos CPF e CNPJ cadastrados**.
+   - O card do topo somava cegamente $173 + 29 = 202$ documentos (dupla contagem dos 17) e os rótulos do menu diziam *"Apenas CPF (173)"* e *"Apenas CNPJ (29)"*, gerando a soma contraditória $173 + 29 + 958 = 1.160$.
+   - **Particionamento Disjunto Oficial (100% Exato):**
+     * **Com Documento Fiscal (CPF ou CNPJ):** $185$ clientes ($156 + 12 + 17 = 185$).
+     * **Apenas CPF (Pessoa Física pura):** $156$ clientes.
+     * **Apenas CNPJ (Pessoa Jurídica pura):** $12$ clientes.
+     * **Ambos Cadastrados (CPF e CNPJ):** $17$ clientes.
+     * **Pendentes de Documento:** $958$ clientes.
+     * **Total Geral:** $185 + 958 = \mathbf{1.143}$ clientes ($156 + 12 + 17 + 958 = \mathbf{1.143}$).
+   - **Card Principal:** Passou a exibir **185** no número do KPI com subtítulo `173 CPFs · 29 CNPJs` e tooltip `(17 possuem ambos)`. Ao clicar, filtra a tabela para exatamente 185 linhas (correspondência 1:1).
 
-2. **Especificação Técnica Formal (`/to-spec`):**
-   - Criação do documento `spec_mobile_first_erp.md` estabelecendo as metas, arquitetura, contratos CSS e regras de não-regressão desktop.
+2. **Modernização do Painel Executivo (Dashboard):**
+   - Removido bloco redundante de "Pedidos Recentes" (já atendido pelo módulo de Pedidos).
+   - Preservadas as cotações financeiras ao vivo do Mercado de Câmbio (Dólar, Euro e Bitcoin via AwesomeAPI).
+   - Central de Ações Rápidas de Operação Diária em 1 clique expandida para 8 módulos essenciais.
+   - Layout clean sem barras de rolagem desnecessárias (`overflow: hidden`).
 
-3. **Decomposição em Tarefas (`/to-tickets`):**
-   - Estruturação do plano de execução em 7 tickets atômicos e ordenados em `tickets_mobile_first_erp.md`.
+3. **Filtro de Categorias no Topo do Estoque & Gestão Integrada:**
+   - Padronizado na barra superior (`toolbar-filters`) com seletor `<select id="filtro-categoria-produtos-topo">` estilizado com ícone e badge (`🏷️ CATEGORIA: TODAS ▼`), idêntico ao padrão de Status dos Pedidos.
+   - Cabeçalhos de tabela (`<th>`) limpos, sem botões soltos de texto.
+   - Combobox pesquisável no formulário de produtos com opção imediata `+ Nova Categoria`, sincronizada com a Central de Categorias do Sistema.
 
-4. **Implementação Metódica Orientada a Testes (`/implement-spec`):**
-   - **Ticket 1:** Criação de `public/mobile.css` com `@media (max-width: 768px)`, `100dvh`, prevenção de auto-zoom no iOS Safari (`font-size: 16px`), alvos de toque mínimos de `44px` e remoção universal de spinners numéricos.
-   - **Ticket 2:** Implementação da Bottom Navigation Bar com 5 abas (`[ 📊 Painel ]`, `[ 📦 Pedidos ]`, `[ ➕ Botão Central Verde Flutuante ]`, `[ 👥 Clientes ]`, `[ 🏷️ Estoque ]`).
-   - **Ticket 3:** Card View dinâmico para Pedidos e Clientes, ocultando as tabelas densas no mobile e renderizando cartões com status badges oficiais e acionamento direto do WhatsApp em 1 clique.
-   - **Ticket 4:** Modal de Pedidos em tela cheia ocupando `100dvh`, com campo `Forma de Pagamento` integrado e persistido.
-   - **Ticket 5:** Bottom Sheet deslizante para ações rápidas de 1 a 3 toques (Ajuste rápido de estoque no Kardex e rastreio) com alça de arraste superior.
-   - **Ticket 6:** Suporte à History API e evento `popstate` para que o botão nativo "Voltar" do celular feche modais sem sair da aplicação.
-   - **Ticket 7:** Suíte de testes `tests/mobile_first.test.js` com 13 novos testes automatizados (**130 testes totais passando com 100% de sucesso**), bump para `missuenos-pwa-v59` e deploy auditado no Vercel Edge.
+4. **Sincronização Tríplice Completa:**
+   - `MisSuenos` (Produção): Commit `5b5da09`, 183 testes passando, deploy auditado na Vercel com sucesso e validado via HTTP.
+   - `erp-base` (Matriz Neutra): Commit `623169b`, 184 testes passando, sincronizados Kardex em pedidos, auditoria rica e mobile.
+   - `MisSuenos-Dev` (Sandbox): Commit `241000b`, 183 testes passando.
 
----
-
-## 2. Status dos Ambientes
-
-- **Produção (Vercel Edge):** [https://missuenos.vercel.app](https://missuenos.vercel.app) — `HTTP 200 OK`, `missuenos-pwa-v59` ativo com `mobile.css`.
-- **Protótipo Demonstrativo:** [https://missuenos.vercel.app/demo_mobile_comparativo.html](https://missuenos.vercel.app/demo_mobile_comparativo.html)
-- **Git Commit:** `82bb7a8` na branch `main` do repositório `MisSuenos`.
-
-
-- `api/clientes.js` - Ajuste do 24º placeholder (`?`) na query de inserção de novo cliente.
-- `public/index.html` - Identificador dinâmico no card do painel inicial, atualização de KPIs e menus de contexto.
-- `public/sw.js` - Incremento de versão para `missuenos-pwa-v58`.
-- `tests/clientes_api.test.js` - Teste automatizado de criação, persistência e incremento de clientes.
-- `scripts/promover_producao.js` - Atualização dos caminhos internos de diretório conforme a Governança em 3 Níveis.
-- `~/.gemini/config/skills/vprint/SKILL.md` - Definição da nova habilidade de captura de tela.
-- `~/.gemini/config/rules/protocolo-vprint.md` - Regra de aplicação obrigatória do comando `vprint`.
-- `~/.gemini/GEMINI.md` - Registro do protocolo global `vprint`.
-- `HANDOFF.md` - Registro consolidado de transição de contexto.
+5. **Governança Global do Antigravity IDE (Nível 1):**
+   - Nova regra criada em `~/.gemini/config/rules/consistencia-matematica-kpis-e-filtros.md`.
+   - Atualizadas as regras `ergonomia-teclado-e-dropdown-pesquisavel.md` e `modernidade-e-inovacao-continua.md`.
+   - Memória Global `~/.gemini/GEMINI.md` atualizada na seção Nível 1.
 
 ---
 
-## 3. Estado Atual e Decisões Críticas
+## 2. Arquivos Modificados / Criados
 
-- **Ambiente de Produção Ativo:**
-  - URL: [https://missuenos.vercel.app](https://missuenos.vercel.app) (Status `200 OK`, Service Worker `v58`).
-  - Total real em produção: **1.142 clientes** (incluindo os cadastros recentes de Pedro Cesar Almeida e Lorenzo M. Almeida).
-- **Repositórios Sincronizados:**
-  - `D:\projetos-agy\clientes\MisSuenos` (Produção) ➔ 100% limpo, branch `main`.
-  - `D:\projetos-agy\sandbox\MisSuenos-Dev` (Testes) ➔ 100% limpo, branch `dev`.
-  - `D:\projetos-agy\erp-base` (Template Neutro) ➔ 100% limpo, branch `main`.
-- **Testes Automatizados:** 117 testes passando com 100% de sucesso (~4.1s).
+- `public/index.html` - Correção matemática dos KPIs fiscais, menus disjuntos, gestão de categorias e dashboard clean.
+- `public/exemplos_menus_kpis_todos.html` - Alinhamento dos exemplos de menus com os subconjuntos disjuntos.
+- `tests/calculos_documentos_kpis.test.js` - Nova suíte de testes de integridade matemática e aditividade disjunta.
+- `api/pedidos.js` (no `erp-base`) - Sincronização do motor Kardex de movimentação de estoque por pedido.
+- `api/estoque.js`, `api/clientes.js`, `api/financeiro.js` (no `erp-base`) - Sincronização de validações e auditoria rica.
+- `public/mobile.css` e `public/sw.js` (no `erp-base`) - Sincronização das melhorias de responsividade mobile.
+- `tests/clientes_api.test.js` e `tests/estoque_kardex.test.js` (no `erp-base`) - Sincronização de testes de backend.
+- `~/.gemini/config/rules/consistencia-matematica-kpis-e-filtros.md` - Nova diretriz global de consistência matemática.
+- `~/.gemini/config/rules/ergonomia-teclado-e-dropdown-pesquisavel.md` - Seção E (Toolbar filters vs cabeçalhos limpos).
+- `~/.gemini/config/rules/modernidade-e-inovacao-continua.md` - Seção C (Dashboards Executivos Clean / Overflow Zero).
+- `~/.gemini/GEMINI.md` - Síntese das novas convenções globais de Nível 1.
 
 ---
 
-## 4. Próximos Passos Imediatos (Para Amanhã)
+## 3. Estado Atual dos Ambientes
 
-- [ ] **Novo Módulo do Roadmap (Fase 2):** Escolher o próximo ciclo de desenvolvimento via `/grill-me` (sugestões prioritárias: **Conciliação Bancária OFX Automática** ou **Expedição & Baia de Saída / Etiquetas**).
-- [ ] **Polimento de Estoque:** Aplicar as melhorias leves apontadas no Code Review (retornar `origemNormalizada` em `api/estoque.js`).
-- [ ] **Validação Operacional com o Cliente:** Demonstrar o funcionamento em produção com a base de 1.142 clientes e Ficha Kardex ativa.
+- **Produção (Vercel):** [https://missuenos.vercel.app](https://missuenos.vercel.app) — `HTTP 200 OK` auditado no commit `5b5da09`.
+- **Repositório MisSuenos:** Branch `main` limpa e atualizada com `origin/main`.
+- **Repositório ERP Base:** Branch `main` limpa e atualizada com `origin/main` (commit `623169b`).
+- **Repositório Sandbox Dev:** Branch `dev` limpa e atualizada com `origin/dev` (commit `241000b`).
+- **Testes Automatizados:** 183 testes passando no `MisSuenos`, 184 testes passando no `erp-base`.
+
+---
+
+## 4. Próximos Passos Sugeridos
+
+- [ ] Avaliar se outros módulos (ex: Financeiro / Pedidos) possuem métricas que possam se beneficiar do padrão de particionamento disjunto nos menus de contexto.
+- [ ] Monitorar a resposta do usuário final no manuseio da Central de Categorias e cotações ao vivo.
+- [ ] Dar prosseguimento às próximas fases do Roadmap conforme demanda de Gustavo.
 
 ---
 
 ## 5. Cuidados e Observações Técnicas
 
-- **Captura com Lightshot / vprint:** Em qualquer sessão futura, ao tirar print com Lightshot ou `Win + Shift + S`, basta digitar `vprint` no chat para inspeção imediata.
-- **Cota Serverless Vercel:** Mantido consumo estrito de apenas 1 Serverless Function através do Dispatcher Central (`api/index.js`).
+- **Zero-PII:** Manter sempre o isolamento estrito de dados sensíveis e nunca comitar carteiras reais em `public/dados_clientes.js`.
+- **Protocolo de Hashtag (`#`):** Diretrizes globais decretadas com `#` devem continuar sendo gravadas diretamente no `~/.gemini/GEMINI.md`.
