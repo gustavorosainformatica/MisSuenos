@@ -5085,7 +5085,7 @@
             <span class="table-count-badge" id="table-badge-contagem">1.140 registros</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Layout corporativo de alta densidade · Clique com botão direito nas colunas para opções
+            💡 Dois cliques para editar · Botão direito na linha para ações rápidas (Etiqueta, NF-e, WhatsApp)
           </div>
         </div>
 
@@ -5100,7 +5100,6 @@
                 <th style="width: 160px; cursor: pointer;" data-col="cidade" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'cidade')" title="Clique para ordenar por Cidade ou arraste para mover">Cidade <span class="sort-icon" id="sort-clientes-cidade"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 65px; text-align: center; cursor: pointer;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'uf')" title="Clique para ordenar por UF ou arraste para mover">UF <span class="sort-icon" id="sort-clientes-uf"></span><span class="th-grip-icon">⠿</span></th>
                 <th style="width: 150px;" data-col="tel">Telefone / WhatsApp</th>
-                <th style="text-align: right; width: 60px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
               </tr>
             </thead>
             <!-- Tabela Clientes -->
@@ -10553,7 +10552,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (paginaItens.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum cliente localizado com os filtros selecionados.
             </td>
           </tr>
@@ -10568,7 +10567,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const uf = (c.uf || 'RS').toUpperCase();
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas" style="cursor: pointer;">
+          <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas (Etiqueta, NF-e, WhatsApp)" style="cursor: pointer;">
             <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${c.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
             <td data-col="nome" style="font-weight: 700; color: #fff;">
@@ -10579,9 +10578,6 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             <td data-col="cidade">${c.cidade || '-'}</td>
             <td data-col="uf" style="text-align: center;"><span class="uf-tag">${uf}</span></td>
             <td data-col="tel">${telLink}</td>
-            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" onclick="abrirMenuAcoesCliente(event, ${c.id})" style="padding: 4px 9px; font-weight: bold; font-size: 14px;" title="Ações Rápidas (Etiqueta, NF-e, WhatsApp)">⋮</button>
-            </td>
           </tr>
         `;
       }).join('');
@@ -16522,7 +16518,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // COM PROTEÇÃO CONTRA DESSINCRONIZAÇÃO E AUTO-ALINHAMENTO
     // ========================================================
     const ORDEM_PADRAO_TABELAS = {
-      'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel', 'acoes'],
+      'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel'],
       'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status'],
       'tabela-produtos': ['check', 'sku', 'ncm', 'nome', 'categoria', 'unidade', 'custo', 'venda', 'saldos', 'acoes'],
       'tabela-financeiro': ['tipo', 'descricao', 'pessoa', 'categoria', 'vencimento', 'valor', 'situacao', 'acoes'],
@@ -16540,8 +16536,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         'doc': { label: 'CPF / CNPJ', locked: false },
         'cidade': { label: 'Cidade', locked: false },
         'uf': { label: 'UF (Estado)', locked: false },
-        'tel': { label: 'Telefone / WhatsApp', locked: false },
-        'acoes': { label: 'Ações Rápidas (Menu ⋮)', locked: false }
+        'tel': { label: 'Telefone / WhatsApp', locked: false }
       },
       'tabela-pedidos': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
@@ -18872,10 +18867,15 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         // Sanitização automática de localStorage legado ou corrompido em tabela-clientes
         if (tabela.id === 'tabela-clientes') {
           const contemTextosAntigos = ordemDesejada.some(k => k === 'ID' || k === 'Ações' || k === 'acoes_fim' || k === 'Nome / Razão Social' || k.includes('CPF'));
-          if (contemTextosAntigos || (ordemDesejada.includes('acoes') && ordemDesejada.indexOf('acoes') < ordemDesejada.indexOf('id'))) {
+          if (contemTextosAntigos) {
             localStorage.removeItem('erp_col_order_tabela-clientes');
             sincronizarTbodyComThead(tabela);
             return;
+          }
+          if (ordemDesejada.includes('acoes')) {
+            const filtrada = ordemDesejada.filter(k => k !== 'acoes');
+            localStorage.setItem('erp_col_order_tabela-clientes', JSON.stringify(filtrada));
+            ordemDesejada = filtrada;
           }
         }
         // Sanitização automática para tabela-pedidos (remove coluna ações antiga se presente)
