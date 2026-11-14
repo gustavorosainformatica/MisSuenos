@@ -5408,14 +5408,14 @@
           </div>
         </div>
 
-        <div class="erp-kpi-card" id="card-kpi-docs" onclick="acaoKpiClientes('COM_DOC', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'docs', this)" title="💡 Botão Esquerdo: Com CPF/CNPJ (199) · Botão Direito (🖱️): Menu de Documentação Fiscal">
+        <div class="erp-kpi-card" id="card-kpi-docs" onclick="acaoKpiClientes('COM_DOC', this)" oncontextmenu="abrirMenuContextoKpi(event, 'clientes', 'docs', this)" title="💡 Botão Esquerdo: Com CPF/CNPJ (185) · Botão Direito (🖱️): Menu de Documentação Fiscal">
           <div class="kpi-top-row">
             <span class="kpi-label">Documentos Fiscais</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para menu de filtros fiscais">📄</div>
           </div>
-          <div class="kpi-number" id="kpi-docs">199</div>
+          <div class="kpi-number" id="kpi-docs">185</div>
           <div class="kpi-trend">
-            <span id="kpi-docs-detalhe">170 CPFs · 29 CNPJs (Botão Direito 🖱️)</span>
+            <span id="kpi-docs-detalhe">173 CPFs · 29 CNPJs (Botão Direito 🖱️)</span>
           </div>
         </div>
       </section>
@@ -10933,8 +10933,13 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       const cpfs = clientes.filter(c => c.cpf && c.cpf.trim()).length;
       const cnpjs = clientes.filter(c => c.cnpj && c.cnpj.trim()).length;
-      document.getElementById('kpi-docs').textContent = (cpfs + cnpjs).toLocaleString('pt-BR');
-      document.getElementById('kpi-docs-detalhe').textContent = `${cpfs} CPFs · ${cnpjs} CNPJs`;
+      const comDoc = clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length;
+      const elKpiDocs = document.getElementById('kpi-docs');
+      if (elKpiDocs) elKpiDocs.textContent = comDoc.toLocaleString('pt-BR');
+      const elKpiDocsDet = document.getElementById('kpi-docs-detalhe');
+      if (elKpiDocsDet) elKpiDocsDet.textContent = `${cpfs} CPFs · ${cnpjs} CNPJs`;
+      const cardDocs = document.getElementById('card-kpi-docs');
+      if (cardDocs) cardDocs.title = `💡 Botão Esquerdo: Filtrar com CPF/CNPJ (${comDoc.toLocaleString('pt-BR')}) · Botão Direito (🖱️): Menu de Documentação Fiscal`;
 
       // Atualiza o mapa de calor se disponível
       if (typeof renderizarMapaCalor === 'function') {
@@ -10967,9 +10972,12 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const temCpf = !!(c.cpf && c.cpf.trim());
         const temCnpj = !!(c.cnpj && c.cnpj.trim());
         if (docFiltro === 'COM_DOC' && !temCpf && !temCnpj) return false;
-        if (docFiltro === 'CPF' && !temCpf) return false;
-        if (docFiltro === 'CNPJ' && !temCnpj) return false;
+        if ((docFiltro === 'CPF' || docFiltro === 'APENAS_CPF') && (!temCpf || temCnpj)) return false;
+        if ((docFiltro === 'CNPJ' || docFiltro === 'APENAS_CNPJ') && (!temCnpj || temCpf)) return false;
+        if (docFiltro === 'AMBOS' && (!temCpf || !temCnpj)) return false;
         if (docFiltro === 'SEM_DOC' && (temCpf || temCnpj)) return false;
+        if (docFiltro === 'TODOS_CPF' && !temCpf) return false;
+        if (docFiltro === 'TODOS_CNPJ' && !temCnpj) return false;
         if (termo) {
           const texto = normalizarTextoBusca(`${c.nome || ''} ${c.razao_social || ''} ${c.cidade || ''} ${c.uf || ''} ${c.cpf || ''} ${c.cnpj || ''} ${c.telefone || ''} ${c.apelido_referencia || ''}`);
           if (!texto.includes(termo)) return false;
@@ -20377,13 +20385,19 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
 
       if (tipo === 'COM_DOC') {
-        mostrarToast(`📄 Filtrado: exibindo ${filtrados.length} clientes com CPF ou CNPJ cadastrado.`);
-      } else if (tipo === 'CPF') {
-        mostrarToast(`👤 Filtrado: exibindo ${filtrados.length} clientes com CPF (Pessoa Física).`);
-      } else if (tipo === 'CNPJ') {
-        mostrarToast(`🏢 Filtrado: exibindo ${filtrados.length} clientes com CNPJ (Pessoa Jurídica).`);
+        mostrarToast(`📄 Filtrado: exibindo ${filtrados.length} clientes com documento fiscal (CPF ou CNPJ).`);
+      } else if (tipo === 'APENAS_CPF' || tipo === 'CPF') {
+        mostrarToast(`👤 Filtrado: exibindo ${filtrados.length} clientes apenas com CPF (Pessoa Física).`);
+      } else if (tipo === 'APENAS_CNPJ' || tipo === 'CNPJ') {
+        mostrarToast(`🏢 Filtrado: exibindo ${filtrados.length} clientes apenas com CNPJ (Pessoa Jurídica).`);
+      } else if (tipo === 'AMBOS') {
+        mostrarToast(`📑 Filtrado: exibindo ${filtrados.length} clientes com ambos os documentos (CPF e CNPJ).`);
       } else if (tipo === 'SEM_DOC') {
-        mostrarToast(`⚠️ Filtrado: exibindo ${filtrados.length} clientes pendentes de CPF/CNPJ.`);
+        mostrarToast(`⚠️ Filtrado: exibindo ${filtrados.length} clientes pendentes de documento fiscal.`);
+      } else if (tipo === 'TODOS_CPF') {
+        mostrarToast(`👤 Filtrado: exibindo todos os ${filtrados.length} clientes com CPF cadastrado.`);
+      } else if (tipo === 'TODOS_CNPJ') {
+        mostrarToast(`🏢 Filtrado: exibindo todos os ${filtrados.length} clientes com CNPJ cadastrado.`);
       } else {
         mostrarToast(`👥 Exibindo todos os ${filtrados.length} clientes cadastrados.`);
       }
@@ -20591,10 +20605,13 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (!menu) return;
 
       const totalClientes = (typeof clientes !== 'undefined' && Array.isArray(clientes)) ? clientes.length : 0;
-      const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 170;
+      const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 173;
       const totalCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cnpj && c.cnpj.trim()).length : 29;
-      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 182;
-      const semDoc = totalClientes - comDoc;
+      const apenasCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim() && (!c.cnpj || !c.cnpj.trim())).length : 156;
+      const apenasCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (!c.cpf || !c.cpf.trim()) && c.cnpj && c.cnpj.trim()).length : 12;
+      const ambosDocs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim() && c.cnpj && c.cnpj.trim()).length : 17;
+      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 185;
+      const semDoc = totalClientes > 0 ? (totalClientes - comDoc) : 958;
 
       let html = '';
 
@@ -20708,13 +20725,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>📄</span> <span>Filtro de Documentação Fiscal</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs')">
-              <span>✅</span> <span>Apenas com CPF ou CNPJ (${comDoc})</span>
+              <span>✅</span> <span>Com CPF ou CNPJ (${comDoc})</span>
             </button>
-            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CPF', 'card-kpi-docs')">
-              <span>👤</span> <span>Apenas CPF (${totalCpfs})</span>
+            <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarCompletudeEToast('APENAS_CPF', 'card-kpi-docs')">
+              <span>👤</span> <span>Apenas CPF (Pessoa Física: ${apenasCpfs})</span>
             </button>
-            <button type="button" class="erp-context-item" style="color: #60a5fa;" onclick="fecharContextMenu(); filtrarCompletudeEToast('CNPJ', 'card-kpi-docs')">
-              <span>🏢</span> <span>Apenas CNPJ (${totalCnpjs})</span>
+            <button type="button" class="erp-context-item" style="color: #60a5fa;" onclick="fecharContextMenu(); filtrarCompletudeEToast('APENAS_CNPJ', 'card-kpi-docs')">
+              <span>🏢</span> <span>Apenas CNPJ (Pessoa Jurídica: ${apenasCnpjs})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #c084fc;" onclick="fecharContextMenu(); filtrarCompletudeEToast('AMBOS', 'card-kpi-docs')">
+              <span>📑</span> <span>Ambos Cadastrados (CPF e CNPJ: ${ambosDocs})</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); filtrarCompletudeEToast('SEM_DOC', 'card-kpi-docs')">
               <span>⚠️</span> <span>Pendentes de Documento (${semDoc})</span>
@@ -20722,6 +20742,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             <div class="erp-context-divider"></div>
             <button type="button" class="erp-context-item" style="color: #cbd5e1;" onclick="fecharContextMenu(); filtrarCompletudeEToast('TODOS', null)">
               <span>👥</span> <span>Exibir Todos os Clientes (${totalClientes})</span>
+            </button>
+            <div class="erp-context-divider"></div>
+            <div style="font-size: 10px; font-weight: 600; color: #64748b; padding: 4px 10px 2px 10px; text-transform: uppercase; letter-spacing: 0.5px;">
+              Total Geral por Tipo (com sobreposição)
+            </div>
+            <button type="button" class="erp-context-item" style="color: #94a3b8; font-size: 12px;" onclick="fecharContextMenu(); filtrarCompletudeEToast('TODOS_CPF', 'card-kpi-docs')">
+              <span>🔍</span> <span>Todos que contêm CPF (${totalCpfs})</span>
+            </button>
+            <button type="button" class="erp-context-item" style="color: #94a3b8; font-size: 12px;" onclick="fecharContextMenu(); filtrarCompletudeEToast('TODOS_CNPJ', 'card-kpi-docs')">
+              <span>🔍</span> <span>Todos que contêm CNPJ (${totalCnpjs})</span>
             </button>
           `;
         }
@@ -21086,7 +21116,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>📍</span> <span>Abrir Clientes do RS (693)</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs'), 80)">
-              <span>📄</span> <span>Abrir Clientes com CPF/CNPJ (199)</span>
+              <span>📄</span> <span>Abrir Clientes com CPF/CNPJ (${comDoc > 0 ? comDoc.toLocaleString('pt-BR') : '185'})</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
               <span>🗺️</span> <span>Abrir Mapa de Calor do Brasil</span>

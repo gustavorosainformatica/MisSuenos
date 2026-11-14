@@ -442,12 +442,17 @@
         } else if (cardKey === 'docs') {
           html = `
             <div class="erp-context-header"><span>📄</span> <span>Filtro de Documentação Fiscal</span></div>
-            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('✅ Filtrado: 182 clientes com CPF ou CNPJ cadastrado.')"><span>✅</span> <span>Apenas com CPF ou CNPJ (182)</span></button>
-            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('👤 Filtrado: 170 clientes Pessoa Física com CPF.')"><span>👤</span> <span>Apenas CPF (170)</span></button>
-            <button class="erp-context-item" style="color: #60a5fa;" onclick="fecharMenu(); registrarLog('🏢 Filtrado: 29 clientes Pessoa Jurídica com CNPJ.')"><span>🏢</span> <span>Apenas CNPJ (29)</span></button>
+            <button class="erp-context-item" style="color: #34d399;" onclick="fecharMenu(); registrarLog('✅ Filtrado: 182 clientes com CPF ou CNPJ cadastrado.')"><span>✅</span> <span>Com CPF ou CNPJ (182)</span></button>
+            <button class="erp-context-item" style="color: #38bdf8;" onclick="fecharMenu(); registrarLog('👤 Filtrado: 153 clientes apenas com CPF (Pessoa Física).')"><span>👤</span> <span>Apenas CPF (Pessoa Física: 153)</span></button>
+            <button class="erp-context-item" style="color: #60a5fa;" onclick="fecharMenu(); registrarLog('🏢 Filtrado: 12 clientes apenas com CNPJ (Pessoa Jurídica).')"><span>🏢</span> <span>Apenas CNPJ (Pessoa Jurídica: 12)</span></button>
+            <button class="erp-context-item" style="color: #c084fc;" onclick="fecharMenu(); registrarLog('📑 Filtrado: 17 clientes com ambos (CPF e CNPJ).')"><span>📑</span> <span>Ambos Cadastrados (CPF e CNPJ: 17)</span></button>
             <button class="erp-context-item" style="color: #f87171;" onclick="fecharMenu(); registrarLog('⚠️ Filtrado: 958 clientes pendentes de CPF/CNPJ.')"><span>⚠️</span> <span>Pendentes de Documento (958)</span></button>
             <div class="erp-context-divider"></div>
-            <button class="erp-context-item" style="color: #cbd5e1;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os Clientes (1140)</span></button>
+            <button class="erp-context-item" style="color: #cbd5e1;" onclick="fecharMenu(); registrarLog('👥 Exibindo todos os 1.140 clientes cadastrados.')"><span>👥</span> <span>Exibir Todos os Clientes (1.140)</span></button>
+            <div class="erp-context-divider"></div>
+            <div style="font-size: 10px; font-weight: 600; color: #64748b; padding: 4px 10px 2px 10px; text-transform: uppercase; letter-spacing: 0.5px;">Total Geral por Tipo</div>
+            <button class="erp-context-item" style="color: #94a3b8; font-size: 12px;" onclick="fecharMenu(); registrarLog('🔍 Filtrado: todos os 170 clientes com CPF.')"><span>🔍</span> <span>Todos que contêm CPF (170)</span></button>
+            <button class="erp-context-item" style="color: #94a3b8; font-size: 12px;" onclick="fecharMenu(); registrarLog('🔍 Filtrado: todos os 29 clientes com CNPJ.')"><span>🔍</span> <span>Todos que contêm CNPJ (29)</span></button>
           `;
         }
       } else if (mod === 'produtos') {
