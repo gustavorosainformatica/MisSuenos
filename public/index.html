@@ -5119,12 +5119,10 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all" onclick="alternarTodosCheckboxes(this)" aria-label="TOPBAR-SEARCH"></th>
-                <th style="width: 75px; cursor: pointer;" data-col="id" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'id')" title="Clique para ordenar por ID ou arraste para mover">ID <span class="sort-icon" id="sort-clientes-id"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Razão Social <span class="sort-icon" id="sort-clientes-nome"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 140px; cursor: pointer;" data-col="doc" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'doc')" title="Clique para ordenar por CPF/CNPJ ou arraste para mover">CPF / CNPJ <span class="sort-icon" id="sort-clientes-doc"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 160px; cursor: pointer;" data-col="cidade" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'cidade')" title="Clique para ordenar por Cidade ou arraste para mover">Cidade <span class="sort-icon" id="sort-clientes-cidade"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 65px; text-align: center; cursor: pointer;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'uf')" title="Clique para ordenar por UF ou arraste para mover">UF <span class="sort-icon" id="sort-clientes-uf"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 150px;" data-col="tel">Telefone / WhatsApp</th>
+                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Cliente / Razão Social <span class="sort-icon" id="sort-clientes-nome"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 150px; cursor: pointer;" data-col="doc" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'doc')" title="Clique para ordenar por CPF/CNPJ ou arraste para mover">CPF / CNPJ <span class="sort-icon" id="sort-clientes-doc"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 180px; cursor: pointer;" data-col="cidade_uf" onclick="aoClicarHeaderOrdenar('tabela-clientes', 'cidade')" title="Clique para ordenar por Cidade/UF ou arraste para mover">Cidade / UF <span class="sort-icon" id="sort-clientes-cidade"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 160px;" data-col="tel">Telefone / WhatsApp</th>
               </tr>
             </thead>
             <!-- Tabela Clientes -->
@@ -5547,7 +5545,7 @@
             <span class="table-count-badge" id="table-badge-financeiro">0 lançamentos</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Baixa rápida em 1 clique e rastreabilidade por Pedido ou Nota Fiscal de Compra
+            💡 Dois cliques para ver detalhes · Clique na Situação para baixar · Botão direito para opções
           </div>
         </div>
 
@@ -5555,14 +5553,11 @@
           <table class="erp-table" id="tabela-financeiro">
             <thead>
               <tr>
-                <th style="width: 120px; cursor: pointer;" data-col="tipo" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'tipo')" title="Clique para ordenar por Tipo ou arraste para mover">Tipo / Origem <span class="sort-icon" id="sort-financeiro-tipo"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="cursor: pointer;" data-col="descricao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'descricao')" title="Clique para ordenar por Descrição ou arraste para mover">Descrição do Lançamento <span class="sort-icon" id="sort-financeiro-descricao"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 190px; cursor: pointer;" data-col="pessoa" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'pessoa')" title="Clique para ordenar por Cliente/Fornecedor ou arraste para mover">Cliente / Fornecedor <span class="sort-icon" id="sort-financeiro-pessoa"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 120px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-financeiro-categoria"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 110px; text-align: center; cursor: pointer;" data-col="vencimento" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'vencimento')" title="Clique para ordenar por Vencimento ou arraste para mover">Vencimento <span class="sort-icon" id="sort-financeiro-vencimento"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 120px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor (R$) <span class="sort-icon" id="sort-financeiro-valor"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 125px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'situacao')" title="Clique para ordenar por Situação ou arraste para mover">Situação <span class="sort-icon" id="sort-financeiro-situacao"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="text-align: right; width: 170px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
+                <th style="cursor: pointer;" data-col="descricao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'descricao')" title="Clique para ordenar por Lançamento/Pessoa ou arraste para mover">Lançamento & Pessoa <span class="sort-icon" id="sort-financeiro-descricao"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-financeiro-categoria"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 120px; text-align: center; cursor: pointer;" data-col="vencimento" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'vencimento')" title="Clique para ordenar por Vencimento ou arraste para mover">Vencimento <span class="sort-icon" id="sort-financeiro-vencimento"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 160px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor <span class="sort-icon" id="sort-financeiro-valor"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 130px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-financeiro', 'situacao')" title="Clique para ordenar por Situação ou arraste para mover">Situação <span class="sort-icon" id="sort-financeiro-situacao"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
             </thead>
             <tbody id="erp-financeiro-body">
@@ -5870,7 +5865,7 @@
             <span class="table-count-badge" id="table-badge-fiscal" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);">199 notas (🧪 DADOS FICTÍCIOS / TESTE)</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Emissão rápida integrada à SEFAZ Estadual e ao Portal Nacional da NFS-e
+            💡 Dois cliques para ver DANFE · Botão direito para opções (XML, Chave SEFAZ) · Integrado à SEFAZ
           </div>
         </div>
 
@@ -5879,14 +5874,11 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-fiscal" aria-label="Selecionar todos os documentos fiscais"></th>
-                <th style="width: 130px; cursor: pointer;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'numero')" title="Clique para ordenar por Número ou arraste para mover">Nº Nota / DPS <span class="sort-icon" id="sort-fiscal-numero"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 160px; cursor: pointer;" data-col="modelo" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'modelo')" title="Clique para ordenar por Modelo Fiscal ou arraste para mover">Modelo Fiscal <span class="sort-icon" id="sort-fiscal-modelo"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="cursor: pointer;" data-col="destinatario" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'destinatario')" title="Clique para ordenar por Destinatário (A-Z) ou arraste para mover">Destinatário / Tomador <span class="sort-icon" id="sort-fiscal-destinatario"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 60px; text-align: center; cursor: pointer;" data-col="uf" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'uf')" title="Clique para ordenar por UF ou arraste para mover">UF <span class="sort-icon" id="sort-fiscal-uf"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 100px; text-align: center; cursor: pointer;" data-col="data" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'data')" title="Clique para ordenar por Data de Emissão ou arraste para mover">Data Emissão <span class="sort-icon" id="sort-fiscal-data"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 110px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor (R$) <span class="sort-icon" id="sort-fiscal-valor"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 140px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'situacao')" title="Clique para ordenar por Situação SEFAZ ou arraste para mover">Situação SEFAZ <span class="sort-icon" id="sort-fiscal-situacao"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="text-align: right; width: 160px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
+                <th style="width: 145px; cursor: pointer;" data-col="numero" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'numero')" title="Clique para ordenar por Número ou arraste para mover">Nº Documento / Emissão <span class="sort-icon" id="sort-fiscal-numero"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 155px; cursor: pointer;" data-col="modelo" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'modelo')" title="Clique para ordenar por Modelo Fiscal ou arraste para mover">Modelo Fiscal <span class="sort-icon" id="sort-fiscal-modelo"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="cursor: pointer;" data-col="destinatario" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'destinatario')" title="Clique para ordenar por Destinatário (A-Z) ou arraste para mover">Destinatário & Destino <span class="sort-icon" id="sort-fiscal-destinatario"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 125px; text-align: right; cursor: pointer;" data-col="valor" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'valor')" title="Clique para ordenar por Valor ou arraste para mover">Valor (R$) <span class="sort-icon" id="sort-fiscal-valor"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 145px; text-align: center; cursor: pointer;" data-col="situacao" onclick="aoClicarHeaderOrdenar('tabela-fiscal', 'situacao')" title="Clique para ordenar por Situação SEFAZ ou arraste para mover">Situação SEFAZ <span class="sort-icon" id="sort-fiscal-situacao"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
             </thead>
             <tbody id="erp-fiscal-body">
@@ -10572,7 +10564,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (paginaItens.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum cliente localizado com os filtros selecionados.
             </td>
           </tr>
@@ -10585,18 +10577,23 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const rawTel = (c.telefone || '').replace(/\D/g, '');
         const telLink = rawTel ? `<a href="https://wa.me/55${rawTel}" target="_blank" style="color: #38bdf8; text-decoration: none;" title="Abrir WhatsApp">💬 ${c.telefone}</a>` : '<span style="color: var(--text-faint);">-</span>';
         const uf = (c.uf || 'RS').toUpperCase();
+        const cidadeNome = c.cidade || '-';
 
         return `
           <tr ondblclick="aoDuploCliqueLinhaCliente(event, ${c.id})" oncontextmenu="abrirMenuAcoesCliente(event, ${c.id}); return false;" title="Dois cliques para abrir e editar a ficha deste cliente | Botão direito para ações rápidas (Etiqueta, NF-e, WhatsApp)" style="cursor: pointer;">
             <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${c.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
-            <td data-col="id" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8;">#${c.id || '-'}</td>
-            <td data-col="nome" style="font-weight: 700; color: #fff;">
-              ${c.nome}
-              ${c.apelido_referencia ? `<span style="font-weight: 400; font-size: 11px; color: var(--text-muted); margin-left: 4px;">(${c.apelido_referencia})</span>` : ''}
+            <td data-col="nome">
+              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.25);">#${c.id || '-'}</span>
+                <strong style="color: #fff; font-size: 12.5px;">${c.nome}</strong>
+                ${c.apelido_referencia ? `<span style="font-weight: 400; font-size: 11px; color: var(--text-muted);">(${c.apelido_referencia})</span>` : ''}
+              </div>
             </td>
-            <td data-col="doc" style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">${doc}</td>
-            <td data-col="cidade">${c.cidade || '-'}</td>
-            <td data-col="uf" style="text-align: center;"><span class="uf-tag">${uf}</span></td>
+            <td data-col="doc" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #cbd5e1;">${doc}</td>
+            <td data-col="cidade_uf">
+              <span class="uf-tag" style="margin-right: 4px;">${uf}</span>
+              <span style="color: #e2e8f0; font-size: 12px;">${cidadeNome}</span>
+            </td>
             <td data-col="tel">${telLink}</td>
           </tr>
         `;
@@ -15013,41 +15010,77 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const tbody = document.getElementById('erp-fiscal-body');
       if (!tbody) return;
 
+      if (fiscalFiltrado.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              Nenhum documento fiscal localizado com os filtros selecionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = fiscalFiltrado.map(f => {
         const modBadge = f.modelo === 'NFE_PRODUTO'
           ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🪵 NF-e SEFAZ (55)</span>`
           : `<span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🧾 NFS-e Portal Nacional</span>`;
 
         return `
-          <tr>
+          <tr ondblclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}')" oncontextmenu="abrirMenuAcoesFiscal(event, ${f.id}); return false;" title="Dois cliques para ver DANFE | Botão direito para opções (XML, Chave SEFAZ)" style="cursor: pointer;">
             <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${f.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="numero">
               <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff;">${f.numero}</span>
                 <span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.5); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.3px;">🧪 TESTE / FICTÍCIO</span>
               </div>
+              <div style="color: var(--text-muted); font-size: 11px; margin-top: 3px; font-family: 'JetBrains Mono', monospace;">
+                Emissão: ${f.data}
+              </div>
             </td>
             <td data-col="modelo">${modBadge}</td>
             <td data-col="destinatario">
-              <div style="font-weight: 700; color: #fff;">${f.destinatario}</div>
-              <div style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">${f.doc}</div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="uf-tag">${f.uf}</span>
+                <strong style="color: #fff; font-size: 12.5px;">${f.destinatario}</strong>
+              </div>
+              <div style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 3px;">${f.doc}</div>
             </td>
-            <td data-col="uf" style="text-align: center;"><span class="uf-tag">${f.uf}</span></td>
-            <td data-col="data" style="color: var(--text-muted); font-size: 11.5px; text-align: center;">${f.data}</td>
             <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(f.valor)}</td>
             <td data-col="situacao" style="text-align: center;">
               <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
                 🟢 Autorizada (Ambiente Teste)
               </span>
             </td>
-            <td data-col="acoes" style="text-align: right;">
-              <button class="btn-row-action" title="Visualizar DANFE" onclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}')">📄 DANFE</button>
-              <button class="btn-row-action" title="Baixar XML" onclick="alert('Download do XML assinado da ${f.numero}')">📥 XML</button>
-            </td>
           </tr>
         `;
       }).join('');
       sincronizarTbodyComThead(document.getElementById('tabela-fiscal'));
+    }
+
+    function abrirMenuAcoesFiscal(e, id) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      const f = listaFiscal.find(item => String(item.id) === String(id));
+      if (!f) return;
+
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          📄 Documento Fiscal #${f.numero} (${f.modelo})
+        </div>
+        <button class="erp-context-item" onclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">
+          📄 Visualizar DANFE (Impressão)
+        </button>
+        <button class="erp-context-item" onclick="alert('Download do XML assinado da ${f.numero}'); fecharContextMenu();" style="color: #34d399; font-weight: 600;">
+          📥 Baixar Arquivo XML
+        </button>
+        <button class="erp-context-item" onclick="if (navigator.clipboard) navigator.clipboard.writeText('${f.chave}'); mostrarToast('Chave de acesso copiada!'); fecharContextMenu();" style="color: #e2e8f0;">
+          📋 Copiar Chave de Acesso (44 dígitos)
+        </button>
+      `;
+      if (typeof posicionarContextMenu === 'function') {
+        posicionarContextMenu(e, itens);
+      }
     }
 
     function filtrarFiscalPorTipo(tipo, btn) {
@@ -16148,7 +16181,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (financeiroFiltrado.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum lançamento localizado com os filtros selecionados.
             </td>
           </tr>
@@ -16159,32 +16192,67 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       tbody.innerHTML = financeiroFiltrado.map(l => {
         const isRec = l.tipo === 'RECEBER';
         const tipoBadge = isRec
-          ? `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10.5px;">🟢 A Receber</span>`
-          : `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10.5px;">🔴 A Pagar</span>`;
+          ? `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: 800; font-size: 9.5px; letter-spacing: 0.5px;">RECEITA</span>`
+          : `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 1px 6px; border-radius: 4px; font-weight: 800; font-size: 9.5px; letter-spacing: 0.5px;">DESPESA</span>`;
 
         const sitBadge = l.status === 'PAGO'
-          ? `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">✅ Liquidado</span>`
-          : `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">⏳ Em Aberto</span>`;
+          ? `<span onclick="alternarBaixaFinanceiro(${l.id}); event.stopPropagation();" title="Clique para reabrir lançamento" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 9px; border-radius: 4px; font-weight: 700; font-size: 10.5px; cursor: pointer;">✅ Liquidado</span>`
+          : `<span onclick="alternarBaixaFinanceiro(${l.id}); event.stopPropagation();" title="Clique para dar baixa rápida" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 3px 9px; border-radius: 4px; font-weight: 700; font-size: 10.5px; cursor: pointer;">⏳ Em Aberto</span>`;
 
+        const sinal = isRec ? '+' : '-';
         const valColor = isRec ? '#34d399' : '#f87171';
         const vencFmt = l.data_vencimento ? l.data_vencimento.split('-').reverse().join('/') : '-';
 
+        // Pessoa / Entidade com fallback limpo (acaba com o bug do undefined)
+        let pessoaNome = (l.cliente_nome || l.fornecedor_nome || l.pessoa || '').toUpperCase().trim();
+        if (!pessoaNome || pessoaNome === 'UNDEFINED') {
+          pessoaNome = isRec ? 'CLIENTE DIVERSOS' : 'FORNECEDOR DIVERSOS';
+        }
+
+        const descTexto = (l.descricao || '').trim();
+
         return `
-          <tr>
-            <td data-col="tipo">${tipoBadge}</td>
-            <td data-col="descricao" style="font-weight: 700; color: #fff;">${l.descricao}</td>
-            <td data-col="pessoa" style="color: var(--text-muted); font-size: 11.5px;">${l.pessoa}</td>
-            <td data-col="categoria"><span style="background: rgba(0, 212, 255, 0.1); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.25); padding: 2px 6px; border-radius: 4px; font-size: 10.5px;">${l.categoria}</span></td>
-            <td data-col="vencimento" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">${vencFmt}</td>
-            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: ${valColor};">R$ ${formatarMoedaPtBr(l.valor)}</td>
-            <td data-col="situacao" style="text-align: center;">${sitBadge}</td>
-            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" title="Dar baixa / Alterar Situação" onclick="alternarBaixaFinanceiro(${l.id})">💰 Baixar</button>
+          <tr oncontextmenu="abrirMenuAcoesFinanceiro(event, ${l.id}); return false;" title="Botão direito para ações rápidas (Baixar, Excluir) | Clique na Situação para baixar" style="cursor: pointer;">
+            <td data-col="descricao">
+              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                ${tipoBadge}
+                <strong style="color: #fff; font-size: 12.5px;">${pessoaNome}</strong>
+              </div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: ${isRec ? '#38bdf8' : 'var(--text-muted)'}; margin-top: 3px;">
+                ${descTexto}
+              </div>
             </td>
+            <td data-col="categoria"><span style="background: rgba(0, 212, 255, 0.08); color: #38bdf8; border: 1px solid rgba(0, 212, 255, 0.25); padding: 2px 7px; border-radius: 4px; font-size: 10.5px;">${l.categoria || 'Geral'}</span></td>
+            <td data-col="vencimento" style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">${vencFmt}</td>
+            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 13px; color: ${valColor};">${sinal} R$ ${formatarMoedaPtBr(l.valor)}</td>
+            <td data-col="situacao" style="text-align: center;">${sitBadge}</td>
           </tr>
         `;
       }).join('');
       sincronizarTbodyComThead(document.getElementById('tabela-financeiro'));
+    }
+
+    function abrirMenuAcoesFinanceiro(e, id) {
+      if (e && e.preventDefault) e.preventDefault();
+      if (e && e.stopPropagation) e.stopPropagation();
+      const l = listaFinanceiro.find(item => String(item.id) === String(id));
+      if (!l) return;
+
+      const isLiquidado = l.status === 'PAGO';
+      const itens = `
+        <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          💰 Lançamento #${l.id} (${l.tipo})
+        </div>
+        <button class="erp-context-item" onclick="alternarBaixaFinanceiro(${l.id}); fecharContextMenu();" style="color: ${isLiquidado ? '#fbbf24' : '#34d399'}; font-weight: 700;">
+          ${isLiquidado ? '↩️ Reabrir Lançamento (Pendente)' : '✅ Liquidar / Dar Baixa Imediata'}
+        </button>
+        <button class="erp-context-item" onclick="trocarAbaFinanceiro('dre'); fecharContextMenu();" style="color: #38bdf8; font-weight: 600;">
+          📊 Ver Demonstrativo no DRE
+        </button>
+      `;
+      if (typeof posicionarContextMenu === 'function') {
+        posicionarContextMenu(e, itens);
+      }
     }
 
     function alternarBaixaFinanceiro(id) {
@@ -16435,9 +16503,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           valB = (b.cpf || b.cnpj || '').trim();
           return clientesOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
         }
-        if (coluna === 'cidade') {
-          valA = (a.cidade || '').trim();
-          valB = (b.cidade || '').trim();
+        if (coluna === 'cidade' || coluna === 'cidade_uf') {
+          valA = ((a.cidade || '') + ' ' + (a.uf || '')).trim();
+          valB = ((b.cidade || '') + ' ' + (b.uf || '')).trim();
           return clientesOrdemAsc ? valA.localeCompare(valB, 'pt-BR') : valB.localeCompare(valA, 'pt-BR');
         }
         if (coluna === 'uf') {
@@ -16530,11 +16598,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // COM PROTEÇÃO CONTRA DESSINCRONIZAÇÃO E AUTO-ALINHAMENTO
     // ========================================================
     const ORDEM_PADRAO_TABELAS = {
-      'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel'],
+      'tabela-clientes': ['check', 'nome', 'doc', 'cidade_uf', 'tel'],
       'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status'],
       'tabela-produtos': ['check', 'nome', 'categoria', 'venda', 'saldos'],
-      'tabela-financeiro': ['tipo', 'descricao', 'pessoa', 'categoria', 'vencimento', 'valor', 'situacao', 'acoes'],
-      'tabela-fiscal': ['check', 'numero', 'modelo', 'destinatario', 'uf', 'data', 'valor', 'situacao', 'acoes']
+      'tabela-financeiro': ['descricao', 'categoria', 'vencimento', 'valor', 'situacao'],
+      'tabela-fiscal': ['check', 'numero', 'modelo', 'destinatario', 'valor', 'situacao']
     };
 
     // ========================================================
@@ -16543,11 +16611,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     const DICIONARIO_COLUNAS_ERP = {
       'tabela-clientes': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
-        'id': { label: 'ID do Cliente', locked: false },
-        'nome': { label: 'Nome / Razão Social', locked: true },
+        'nome': { label: 'Cliente & Razão Social', locked: true },
         'doc': { label: 'CPF / CNPJ', locked: false },
-        'cidade': { label: 'Cidade', locked: false },
-        'uf': { label: 'UF (Estado)', locked: false },
+        'cidade_uf': { label: 'Cidade / UF', locked: false },
         'tel': { label: 'Telefone / WhatsApp', locked: false }
       },
       'tabela-pedidos': {
@@ -16568,25 +16634,19 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         'saldos': { label: 'Saldos (Físico / Disp.)', locked: false }
       },
       'tabela-financeiro': {
-        'tipo': { label: 'Tipo / Origem (Receber/Pagar)', locked: false },
-        'descricao': { label: 'Descrição do Lançamento', locked: true },
-        'pessoa': { label: 'Cliente / Fornecedor', locked: false },
+        'descricao': { label: 'Lançamento & Pessoa', locked: true },
         'categoria': { label: 'Categoria Contábil', locked: false },
         'vencimento': { label: 'Data de Vencimento', locked: false },
         'valor': { label: 'Valor (R$)', locked: false },
-        'situacao': { label: 'Situação (Liquidado/Aberto)', locked: false },
-        'acoes': { label: 'Ações (Baixar)', locked: false }
+        'situacao': { label: 'Situação / Status', locked: false }
       },
       'tabela-fiscal': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
-        'numero': { label: 'Nº Nota / DPS', locked: true },
+        'numero': { label: 'Nº Nota & Emissão', locked: true },
         'modelo': { label: 'Modelo Fiscal (55 / NFS-e)', locked: false },
-        'destinatario': { label: 'Destinatário / Tomador', locked: false },
-        'uf': { label: 'UF (Estado)', locked: false },
-        'data': { label: 'Data de Emissão', locked: false },
+        'destinatario': { label: 'Destinatário & Destino', locked: false },
         'valor': { label: 'Valor Total (R$)', locked: false },
-        'situacao': { label: 'Situação SEFAZ', locked: false },
-        'acoes': { label: 'Ações (DANFE, XML)', locked: false }
+        'situacao': { label: 'Situação SEFAZ', locked: false }
       }
     };
 
@@ -19054,16 +19114,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
         // Sanitização automática de localStorage legado ou corrompido em tabela-clientes
         if (tabela.id === 'tabela-clientes') {
-          const contemTextosAntigos = ordemDesejada.some(k => k === 'ID' || k === 'Ações' || k === 'acoes_fim' || k === 'Nome / Razão Social' || k.includes('CPF'));
+          const contemTextosAntigos = ordemDesejada.some(k => k === 'id' || k === 'ID' || k === 'cidade' || k === 'uf' || k === 'Ações' || k === 'acoes_fim' || k === 'Nome / Razão Social' || k.includes('CPF') || k === 'acoes');
           if (contemTextosAntigos) {
             localStorage.removeItem('erp_col_order_tabela-clientes');
+            localStorage.removeItem('erp_col_widths_tabela-clientes');
             sincronizarTbodyComThead(tabela);
             return;
-          }
-          if (ordemDesejada.includes('acoes')) {
-            const filtrada = ordemDesejada.filter(k => k !== 'acoes');
-            localStorage.setItem('erp_col_order_tabela-clientes', JSON.stringify(filtrada));
-            ordemDesejada = filtrada;
           }
         }
         // Sanitização automática para tabela-pedidos (remove coluna ações antiga se presente)
@@ -19079,6 +19135,28 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           if (contemLegadas) {
             localStorage.removeItem('erp_col_order_tabela-produtos');
             localStorage.removeItem('erp_col_widths_tabela-produtos');
+            sincronizarTbodyComThead(tabela);
+            return;
+          }
+        }
+
+        // Sanitização automática para tabela-financeiro (adota padrão moderno de 5 colunas)
+        if (tabela.id === 'tabela-financeiro') {
+          const contemLegadas = ordemDesejada.some(k => k === 'acoes' || k === 'tipo' || k === 'pessoa');
+          if (contemLegadas) {
+            localStorage.removeItem('erp_col_order_tabela-financeiro');
+            localStorage.removeItem('erp_col_widths_tabela-financeiro');
+            sincronizarTbodyComThead(tabela);
+            return;
+          }
+        }
+
+        // Sanitização automática para tabela-fiscal (adota padrão moderno de 6 colunas)
+        if (tabela.id === 'tabela-fiscal') {
+          const contemLegadas = ordemDesejada.some(k => k === 'acoes' || k === 'uf' || k === 'data');
+          if (contemLegadas) {
+            localStorage.removeItem('erp_col_order_tabela-fiscal');
+            localStorage.removeItem('erp_col_widths_tabela-fiscal');
             sincronizarTbodyComThead(tabela);
             return;
           }
