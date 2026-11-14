@@ -74,6 +74,40 @@ export default async function handler(req, res) {
   const idParam = url.searchParams.get('id') || req.query?.id || (matchPathId ? matchPathId[1] : null);
 
   try {
+    // Endpoint especializado: Listar categorias únicas com contagem
+    if (req.method === 'GET' && (url.pathname === '/api/produtos/categorias' || url.pathname.endsWith('/categorias'))) {
+      const rows = await query(`
+        SELECT categoria, COUNT(*) as total 
+        FROM produtos 
+        WHERE ativo = 1 AND categoria IS NOT NULL AND TRIM(categoria) != '' 
+        GROUP BY categoria 
+        ORDER BY categoria ASC
+      `);
+      return responder(res, 200, rows);
+    }
+
+    // Endpoint especializado: Renomear categoria em lote
+    if ((req.method === 'POST' || req.method === 'PUT') && (url.pathname === '/api/produtos/renomear-categoria' || url.pathname.endsWith('/renomear-categoria'))) {
+      const payload = await parseBody(req);
+      const { nomeAntigo, novoNome } = payload;
+      if (!nomeAntigo || !novoNome) {
+        return responder(res, 400, { error: 'nomeAntigo e novoNome são obrigatórios.' });
+      }
+      const antigo = String(nomeAntigo).trim();
+      const novo = String(novoNome).trim();
+      const result = await run('UPDATE produtos SET categoria = ? WHERE UPPER(TRIM(categoria)) = UPPER(TRIM(?))', [novo, antigo]);
+      const totalAlterados = result.rowsAffected !== undefined ? result.rowsAffected : (result.changes || 0);
+      await registrarLog({
+        clienteId: null,
+        clienteNome: 'Estoque / Categorias',
+        tipoAcao: 'RENOMEAR_CATEGORIA',
+        camposAlterados: ['categoria'],
+        detalhes: `Categoria renomeada de "${antigo}" para "${novo}" (${totalAlterados} produtos atualizados)`,
+        req
+      }).catch(() => {});
+      return responder(res, 200, { success: true, changes: totalAlterados, rowsAffected: totalAlterados, nomeAntigo: antigo, novoNome: novo });
+    }
+
     if (req.method === 'GET') {
       if (idParam) {
         const prod = await get('SELECT * FROM produtos WHERE id = ?', [idParam]);
