@@ -5299,7 +5299,7 @@
             <span class="table-count-badge" id="table-badge-produtos">0 produtos</span>
           </div>
           <div style="font-size: 11px; color: var(--text-muted);">
-            💡 Gestão integrada de couros, loncas e ferramentas
+            💡 Dois cliques na linha para editar · Botão direito para ações rápidas (Ajuste Rápido, Kardex)
           </div>
         </div>
 
@@ -5308,15 +5308,10 @@
             <thead>
               <tr>
                 <th style="width: 35px;" class="th-nao-arrastavel" data-col="check"><input type="checkbox" id="check-all-prod" onclick="alternarCheckboxesProdutos(this)" aria-label="TOPBAR-SEARCH"></th>
-                <th style="width: 115px; cursor: pointer;" data-col="sku" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'sku')" title="Clique para ordenar por SKU ou arraste para mover">SKU / Código <span class="sort-icon" id="sort-produtos-sku"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 95px; cursor: pointer;" data-col="ncm" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'ncm')" title="Clique para ordenar por NCM ou arraste para mover">NCM Fiscal <span class="sort-icon" id="sort-produtos-ncm"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Nome (A-Z) ou arraste para mover">Nome / Descrição Comercial <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 135px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-produtos-categoria"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 70px;" data-col="unidade">Unid.</th>
-                <th style="width: 105px; text-align: right; cursor: pointer;" data-col="custo" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'custo')" title="Clique para ordenar por Custo ou arraste para mover">Preço Custo <span class="sort-icon" id="sort-produtos-custo"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 115px; text-align: right; cursor: pointer;" data-col="venda" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'venda')" title="Clique para ordenar por Venda ou arraste para mover">Preço Venda <span class="sort-icon" id="sort-produtos-venda"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="width: 175px; text-align: center; cursor: pointer;" data-col="saldos" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'saldos')" title="Clique para ordenar por Saldo em Estoque ou arraste para mover">Saldos (Físico / Disp.) <span class="sort-icon" id="sort-produtos-saldos"></span><span class="th-grip-icon">⠿</span></th>
-                <th style="text-align: right; width: 160px;" class="th-nao-arrastavel" data-col="acoes">Ações</th>
+                <th style="cursor: pointer;" data-col="nome" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'nome')" title="Clique para ordenar por Produto ou arraste para mover">Produto / Item <span class="sort-icon" id="sort-produtos-nome"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 140px; cursor: pointer;" data-col="categoria" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'categoria')" title="Clique para ordenar por Categoria ou arraste para mover">Categoria <span class="sort-icon" id="sort-produtos-categoria"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 160px; text-align: right; cursor: pointer;" data-col="venda" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'venda')" title="Clique para ordenar por Preço ou arraste para mover">Preço de Venda <span class="sort-icon" id="sort-produtos-venda"></span><span class="th-grip-icon">⠿</span></th>
+                <th style="width: 220px; text-align: center; cursor: pointer;" data-col="saldos" onclick="aoClicarHeaderOrdenar('tabela-produtos', 'saldos')" title="Clique para ordenar por Saldo em Estoque ou arraste para mover">Saldos (Físico / Disp.) <span class="sort-icon" id="sort-produtos-saldos"></span><span class="th-grip-icon">⠿</span></th>
               </tr>
             </thead>
             <tbody id="erp-produtos-body">
@@ -11526,7 +11521,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (produtosFiltrados.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
               Nenhum produto cadastrado ou localizado com os filtros atuais.
             </td>
           </tr>
@@ -11557,34 +11552,26 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           ? `<div style="margin-top: 4px;"><span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; font-family: monospace;">⏳ ${estReservado} reservado(s)</span></div>`
           : `<div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Físico: ${estFisico} ${un}</div>`;
 
-        const precoCusto = parseFloat(p.preco_custo || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const precoVenda = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const ncmCodigo = p.ncm || '42050000';
         const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
-          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" oncontextmenu="abrirMenuAcoesProduto(event, ${p.id}); return false;" title="Dois cliques para editar este produto | Botão direito para ações rápidas" style="cursor: pointer;">
+          <tr ondblclick="aoDuploCliqueLinhaProduto(event, ${p.id})" oncontextmenu="abrirMenuAcoesProduto(event, ${p.id}); return false;" title="Dois cliques para editar este produto | Botão direito para ações rápidas (Ajuste Rápido, Kardex)" style="cursor: pointer;">
             <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${p.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
-            <td data-col="sku" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #38bdf8; font-size: 11px;">${skuCodigo}</td>
-            <td data-col="ncm"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #fbbf24; background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 6px; border-radius: 4px;">${ncmCodigo}</span></td>
             <td data-col="nome">
-              <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span style="font-weight: 700; color: #fff;">${p.nome}</span>
+              <div style="font-weight: 700; color: #fff; font-size: 13px;">${p.nome}</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #38bdf8; margin-top: 2px;">
+                ${skuCodigo}
               </div>
-              ${p.descricao ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; max-width: 320px; white-space: normal;">${p.descricao}</div>` : ''}
             </td>
             <td data-col="categoria"><span style="font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; ${catCor}">${cat}</span></td>
-            <td data-col="unidade"><span style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted); font-size: 11px;">${un}</span></td>
-            <td data-col="custo" style="text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">R$ ${precoCusto}</td>
-            <td data-col="venda" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${precoVenda}</td>
+            <td data-col="venda" style="text-align: right;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 13px;">R$ ${precoVenda}</span>
+              <span style="font-size: 10px; color: var(--text-muted);"> / ${un.toLowerCase()}</span>
+            </td>
             <td data-col="saldos" style="text-align: center;">
               ${dispBadge}
               ${reservadoBadge}
-            </td>
-            <td data-col="acoes" style="text-align: right; white-space: nowrap;">
-              <button class="btn-row-action" onclick="abrirModalAjusteEstoque(${p.id})" style="padding: 3px 8px; color: #38bdf8; font-weight: 800; font-size: 11px; margin-right: 3px;" title="⚡ Ajuste Rápido de Estoque">⚡</button>
-              <button class="btn-row-action" onclick="abrirModalFichaKardex(${p.id})" style="padding: 3px 8px; color: #fbbf24; font-weight: 800; font-size: 11px; margin-right: 3px;" title="📑 Ver Ficha Kardex">📑</button>
-              <button class="btn-row-action" onclick="abrirMenuAcoesProduto(event, ${p.id})" style="padding: 3px 8px; font-weight: bold; font-size: 13px;" title="Mais Ações do Produto">⋮</button>
             </td>
           </tr>
         `;
@@ -16545,7 +16532,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     const ORDEM_PADRAO_TABELAS = {
       'tabela-clientes': ['check', 'id', 'nome', 'doc', 'cidade', 'uf', 'tel'],
       'tabela-pedidos': ['check', 'numero', 'data', 'cliente', 'total', 'destino', 'itens', 'status'],
-      'tabela-produtos': ['check', 'sku', 'ncm', 'nome', 'categoria', 'unidade', 'custo', 'venda', 'saldos', 'acoes'],
+      'tabela-produtos': ['check', 'nome', 'categoria', 'venda', 'saldos'],
       'tabela-financeiro': ['tipo', 'descricao', 'pessoa', 'categoria', 'vencimento', 'valor', 'situacao', 'acoes'],
       'tabela-fiscal': ['check', 'numero', 'modelo', 'destinatario', 'uf', 'data', 'valor', 'situacao', 'acoes']
     };
@@ -16575,15 +16562,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       },
       'tabela-produtos': {
         'check': { label: 'Seleção (Checkbox)', locked: true },
-        'sku': { label: 'SKU / Código', locked: false },
-        'ncm': { label: 'NCM Fiscal', locked: false },
-        'nome': { label: 'Nome / Descrição Comercial', locked: true },
+        'nome': { label: 'Produto / Item', locked: true },
         'categoria': { label: 'Categoria', locked: false },
-        'unidade': { label: 'Unidade de Medida', locked: false },
-        'custo': { label: 'Preço de Custo', locked: false },
         'venda': { label: 'Preço de Venda', locked: false },
-        'saldos': { label: 'Saldos (Físico / Disp.)', locked: false },
-        'acoes': { label: 'Ações (Editar, Excluir)', locked: false }
+        'saldos': { label: 'Saldos (Físico / Disp.)', locked: false }
       },
       'tabela-financeiro': {
         'tipo': { label: 'Tipo / Origem (Receber/Pagar)', locked: false },
@@ -19089,6 +19071,17 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           const filtrada = ordemDesejada.filter(k => k !== 'acoes');
           localStorage.setItem('erp_col_order_tabela-pedidos', JSON.stringify(filtrada));
           ordemDesejada = filtrada;
+        }
+
+        // Sanitização automática para tabela-produtos (remove colunas legadas e adota padrão moderno de 5 colunas)
+        if (tabela.id === 'tabela-produtos') {
+          const contemLegadas = ordemDesejada.some(k => k === 'acoes' || k === 'unidade' || k === 'ncm' || k === 'custo' || k === 'sku');
+          if (contemLegadas) {
+            localStorage.removeItem('erp_col_order_tabela-produtos');
+            localStorage.removeItem('erp_col_widths_tabela-produtos');
+            sincronizarTbodyComThead(tabela);
+            return;
+          }
         }
 
         // Reordena thead
