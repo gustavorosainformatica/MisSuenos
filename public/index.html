@@ -1449,6 +1449,31 @@
       text-transform: uppercase;
       font-size: 10.5px;
       letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    /* Redimensionamento de Colunas (Estilo Windows Explorer / Excel) */
+    .th-resizer {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      height: 100%;
+      cursor: col-resize;
+      user-select: none;
+      z-index: 10;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
+    .th-resizer:hover,
+    .th-resizer.is-resizing {
+      border-right: 2px solid #00d4ff;
+      background: rgba(0, 212, 255, 0.15);
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    }
+    body.is-resizing-col,
+    body.is-resizing-col * {
+      cursor: col-resize !important;
+      user-select: none !important;
     }
 
     /* Suporte a Ordenação e Arraste de Colunas em Todas as Tabelas do ERP */
@@ -18752,7 +18777,188 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     function inicializarArrasteColunasGlobal() {
       document.querySelectorAll('table.erp-table').forEach(tabela => {
         habilitarArrasteColunasTabela(tabela);
+        habilitarRedimensionamentoTabela(tabela);
       });
+    }
+
+    // ========================================================
+    // MOTOR DE REDIMENSIONAMENTO E AUTO-AJUSTE (ESTILO WINDOWS)
+    // ========================================================
+    function habilitarRedimensionamentoTabela(tabela) {
+      if (!tabela || !tabela.id) return;
+      const ths = tabela.querySelectorAll('thead th');
+
+      ths.forEach((th) => {
+        // Ignora colunas protegidas (checkbox de seleção múltipla)
+        if (th.classList.contains('th-nao-arrastavel') || th.querySelector('input[type="checkbox"]')) {
+          return;
+        }
+
+        // Evita reinjetar alça se já existir
+        let resizer = th.querySelector('.th-resizer');
+        if (!resizer) {
+          resizer = document.createElement('div');
+          resizer.className = 'th-resizer';
+          resizer.draggable = false;
+          resizer.title = 'Arraste para redimensionar ou dê dois cliques para auto-ajustar (estilo Windows)';
+          th.appendChild(resizer);
+        }
+
+        if (resizer._bound) return;
+        resizer._bound = true;
+
+        // 1. Início do Arraste Manual
+        resizer.addEventListener('mousedown', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          iniciarArrasteLarguraColuna(e, th, resizer, tabela);
+        });
+
+        // 2. Bloqueio estrito de arraste nativo e clique acidental no cabeçalho
+        resizer.addEventListener('dragstart', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        });
+        resizer.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+
+        // 3. Auto-Ajuste com Duplo Clique (Auto-Fit Windows)
+        resizer.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          autoAjustarLarguraColuna(th, tabela);
+        });
+      });
+
+      // Aplica larguras previamente salvas no localStorage
+      aplicarLargurasColunasSalvas(tabela);
+    }
+
+    function iniciarArrasteLarguraColuna(e, th, resizer, tabela) {
+      const startX = e.pageX;
+      const startWidth = th.offsetWidth;
+      resizer.classList.add('is-resizing');
+      document.body.classList.add('is-resizing-col');
+
+      function onMouseMove(moveEvent) {
+        const diff = moveEvent.pageX - startX;
+        const newWidth = Math.max(50, Math.min(600, startWidth + diff));
+        th.style.width = newWidth + 'px';
+        th.style.minWidth = newWidth + 'px';
+      }
+
+      function onMouseUp() {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+        resizer.classList.remove('is-resizing');
+        document.body.classList.remove('is-resizing-col');
+        salvarLargurasColunasTabela(tabela);
+      }
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    }
+
+    function autoAjustarLarguraColuna(th, tabela) {
+      if (!th || !tabela) return;
+      const colKey = th.dataset.col;
+      const colIndex = th.cellIndex;
+
+      // Cria span invisível para medição precisa no DOM
+      const measurer = document.createElement('span');
+      measurer.style.visibility = 'hidden';
+      measurer.style.position = 'absolute';
+      measurer.style.whiteSpace = 'nowrap';
+      measurer.style.font = window.getComputedStyle(th).font || '12px Inter, sans-serif';
+      document.body.appendChild(measurer);
+
+      // Mede o próprio título do cabeçalho
+      measurer.innerText = th.textContent.replace(/[▲▼⠿]/g, '').trim();
+      let maxWidth = measurer.offsetWidth + 32; // + respiro de ícones de sort e grip
+
+      // Mede as células visíveis da coluna no tbody
+      const rows = tabela.querySelectorAll('tbody tr');
+      const maxRowsToSample = Math.min(rows.length, 50); // Amostra até 50 linhas para velocidade instantânea
+      for (let i = 0; i < maxRowsToSample; i++) {
+        const row = rows[i];
+        if (row.style.display === 'none') continue;
+        let cell = null;
+        if (colKey) {
+          cell = row.querySelector(`td[data-col="${colKey}"]`);
+        }
+        if (!cell && colIndex >= 0 && row.cells[colIndex]) {
+          cell = row.cells[colIndex];
+        }
+        if (cell) {
+          measurer.style.font = window.getComputedStyle(cell).font || '12px Inter, sans-serif';
+          measurer.innerText = cell.textContent.trim();
+          const w = measurer.offsetWidth + 24; // + padding horizontal
+          if (w > maxWidth) maxWidth = w;
+        }
+      }
+
+      document.body.removeChild(measurer);
+
+      // Aplica com clamp seguro (50px a 500px)
+      const idealWidth = Math.max(50, Math.min(500, maxWidth));
+      th.style.width = idealWidth + 'px';
+      th.style.minWidth = idealWidth + 'px';
+      salvarLargurasColunasTabela(tabela);
+      if (typeof mostrarToast === 'function') {
+        mostrarToast(`Largura auto-ajustada: ${idealWidth}px`);
+      }
+    }
+
+    function salvarLargurasColunasTabela(tabela) {
+      if (!tabela || !tabela.id) return;
+      const ths = tabela.querySelectorAll('thead th');
+      const larguras = {};
+      ths.forEach(th => {
+        const col = th.dataset.col;
+        if (col && th.style.width) {
+          const w = parseInt(th.style.width, 10);
+          if (!isNaN(w) && w > 0) {
+            larguras[col] = w;
+          }
+        }
+      });
+      localStorage.setItem('erp_col_widths_' + tabela.id, JSON.stringify(larguras));
+    }
+
+    function aplicarLargurasColunasSalvas(tabela) {
+      if (!tabela || !tabela.id) return;
+      const salvo = localStorage.getItem('erp_col_widths_' + tabela.id);
+      if (!salvo) return;
+      try {
+        const larguras = JSON.parse(salvo);
+        if (typeof larguras !== 'object' || larguras === null) return;
+        tabela.querySelectorAll('thead th').forEach(th => {
+          const col = th.dataset.col;
+          if (col && larguras[col]) {
+            const w = parseInt(larguras[col], 10);
+            if (!isNaN(w) && w >= 40 && w <= 800) {
+              th.style.width = w + 'px';
+              th.style.minWidth = w + 'px';
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('[ERRO APLICAR LARGURAS SALVAS]', e);
+      }
+    }
+
+    function restaurarLargurasPadraoTabela(tabelaId) {
+      const tabela = document.getElementById(tabelaId);
+      if (!tabela) return;
+      localStorage.removeItem('erp_col_widths_' + tabelaId);
+      tabela.querySelectorAll('thead th').forEach(th => {
+        th.style.width = '';
+        th.style.minWidth = '';
+      });
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('📏 Larguras das colunas restauradas para o padrão de fábrica!');
+      }
     }
 
     function habilitarArrasteColunasTabela(tabela) {
@@ -19910,6 +20116,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <button type="button" class="erp-context-item" style="color: #f87171;" onclick="fecharContextMenu(); restaurarOrdemPadraoColunas('${tabelaId}')">
           <span>🏭</span>
           <span>Redefinir para Padrão de Fábrica</span>
+        </button>
+        <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); restaurarLargurasPadraoTabela('${tabelaId}')">
+          <span>📏</span>
+          <span>Restaurar Larguras Padrão</span>
         </button>
       `;
 
