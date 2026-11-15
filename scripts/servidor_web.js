@@ -46,6 +46,7 @@ const { default: handlerSistema } = await import('../api/sistema.js');
 const { default: handlerRelatorios } = await import('../api/relatorios.js');
 const { default: handlerEstoque } = await import('../api/estoque.js');
 const { default: handlerLogistica } = await import('../api/logistica.js');
+const { default: handlerProducao } = await import('../api/producao.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -323,6 +324,9 @@ async function tratarRequisicao(req, res) {
       return res.end(fs.readFileSync(docsPath, 'utf8'));
     }
   }
+  if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
+    return handlerProducao(req, res);
+  }
   if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
     return handlerProdutos(req, res);
   }
@@ -346,6 +350,9 @@ async function tratarRequisicao(req, res) {
   }
   if (pathname === '/api/logistica' || pathname.startsWith('/api/logistica/')) {
     return handlerLogistica(req, res);
+  }
+  if (pathname === '/api/producao' || pathname.startsWith('/api/producao/')) {
+    return handlerProducao(req, res);
   }
   // ROTA ESPECIAL: Abrir Nova Janela Nativa no Desktop (sem barra de URL)
   if ((pathname === '/api/sistema/abrir-janela' || pathname === '/api/sistema/nova-janela') && (method === 'POST' || method === 'GET')) {

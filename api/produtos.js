@@ -156,6 +156,12 @@ export default async function handler(req, res) {
       const qtdMinimaAtacado = (payload.qtd_minima_atacado !== undefined && payload.qtd_minima_atacado !== null && String(payload.qtd_minima_atacado).trim() !== '')
         ? Math.max(1, parseFloat(payload.qtd_minima_atacado))
         : 5.0;
+      const custoAdicional = (payload.custo_adicional_producao !== undefined && payload.custo_adicional_producao !== null && String(payload.custo_adicional_producao).trim() !== '')
+        ? Math.max(0, parseFloat(payload.custo_adicional_producao))
+        : 0;
+      const tipoItem = (payload.tipo_item && ['SIMPLES', 'FABRICADO', 'INSUMO'].includes(String(payload.tipo_item).toUpperCase().trim()))
+        ? String(payload.tipo_item).toUpperCase().trim()
+        : 'SIMPLES';
       const estoque = parseFloat(payload.estoque_atual || 0);
       const reservado = Math.max(0, parseFloat(payload.estoque_reservado || 0));
       const estoqueMin = parseFloat(payload.estoque_minimo || 5);
@@ -164,10 +170,10 @@ export default async function handler(req, res) {
       const info = await run(`
         INSERT INTO produtos (
           codigo_sku, nome, categoria, unidade_medida, ncm,
-          preco_custo, preco_venda, preco_atacado, qtd_minima_atacado, estoque_atual, estoque_reservado, estoque_minimo,
+          preco_custo, preco_venda, preco_atacado, qtd_minima_atacado, custo_adicional_producao, tipo_item, estoque_atual, estoque_reservado, estoque_minimo,
           descricao, ativo, data_cadastro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, estoque, reservado, estoqueMin, desc, agora]);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, estoque, reservado, estoqueMin, desc, agora]);
 
       await registrarLog({
         clienteId: null,
@@ -208,6 +214,12 @@ export default async function handler(req, res) {
       const qtdMinimaAtacado = payload.qtd_minima_atacado !== undefined
         ? ((payload.qtd_minima_atacado !== null && String(payload.qtd_minima_atacado).trim() !== '') ? Math.max(1, parseFloat(payload.qtd_minima_atacado)) : 5.0)
         : (atual.qtd_minima_atacado || 5.0);
+      const custoAdicional = payload.custo_adicional_producao !== undefined
+        ? ((payload.custo_adicional_producao !== null && String(payload.custo_adicional_producao).trim() !== '') ? Math.max(0, parseFloat(payload.custo_adicional_producao)) : 0)
+        : (atual.custo_adicional_producao || 0);
+      const tipoItem = payload.tipo_item !== undefined
+        ? (['SIMPLES', 'FABRICADO', 'INSUMO'].includes(String(payload.tipo_item).toUpperCase().trim()) ? String(payload.tipo_item).toUpperCase().trim() : 'SIMPLES')
+        : (atual.tipo_item || 'SIMPLES');
       const estoque = payload.estoque_atual !== undefined ? parseFloat(payload.estoque_atual || 0) : parseFloat(atual.estoque_atual || 0);
       const reservado = payload.estoque_reservado !== undefined ? Math.max(0, parseFloat(payload.estoque_reservado || 0)) : Math.max(0, parseFloat(atual.estoque_reservado || 0));
       const min = payload.estoque_minimo !== undefined ? parseFloat(payload.estoque_minimo || 5) : parseFloat(atual.estoque_minimo || 5);
@@ -216,10 +228,10 @@ export default async function handler(req, res) {
       await run(`
         UPDATE produtos SET
           codigo_sku = ?, nome = ?, categoria = ?, unidade_medida = ?, ncm = ?,
-          preco_custo = ?, preco_venda = ?, preco_atacado = ?, qtd_minima_atacado = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
+          preco_custo = ?, preco_venda = ?, preco_atacado = ?, qtd_minima_atacado = ?, custo_adicional_producao = ?, tipo_item = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
           descricao = ?, data_atualizacao = ?
         WHERE id = ?
-      `, [sku, nome, categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, estoque, reservado, min, desc, agora, idParam]);
+      `, [sku, nome, categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, estoque, reservado, min, desc, agora, idParam]);
 
       await registrarLog({
         clienteId: null,
