@@ -116,3 +116,55 @@ test('CLIENTES API 01: POST /api/clientes deve persistir novo cliente com 24 col
   const countFinalRes = await db.get('SELECT count(*) as total FROM clientes');
   assert.strictEqual(Number(countFinalRes.total), totalAntes, 'Contagem deve retornar ao valor original após limpeza');
 });
+
+test('CLIENTES API 02: POST e PUT devem persistir campo tabela_preco (VAREJO vs ATACADO)', async () => {
+  await db.inicializarTabelas();
+
+  // 1. Cria cliente com perfil ATACADO
+  const reqPost = {
+    method: 'POST',
+    url: '/api/clientes',
+    headers: { host: 'localhost:3000' },
+    body: {
+      nome: 'CLIENTE ATACADISTA TESTE TDD',
+      apelido_referencia: 'DISTRIBUIDORA GAÚCHA',
+      razao_social: 'DISTRIBUIDORA GAUCHA LTDA',
+      cnpj: '00.000.000/0001-91',
+      telefone: '(55) 99999-1111',
+      cidade: 'PORTO ALEGRE',
+      uf: 'RS',
+      tabela_preco: 'ATACADO'
+    }
+  };
+  const resPost = criarMockRes();
+  await handlerClientes(reqPost, resPost);
+
+  assert.strictEqual(resPost.getStatusCode(), 201);
+  const dataPost = resPost.getData();
+  const clienteId = dataPost.id;
+
+  const clienteCadastrado = await db.get('SELECT * FROM clientes WHERE id = ?', [clienteId]);
+  assert.strictEqual(clienteCadastrado.tabela_preco, 'ATACADO', 'Deve gravar tabela_preco = ATACADO');
+
+  // 2. Atualiza via PUT para VAREJO
+  const reqPut = {
+    method: 'PUT',
+    url: `/api/clientes?id=${clienteId}`,
+    headers: { host: 'localhost:3000' },
+    query: { id: String(clienteId) },
+    body: {
+      tabela_preco: 'VAREJO'
+    }
+  };
+  const resPut = criarMockRes();
+  await handlerClientes(reqPut, resPut);
+
+  assert.strictEqual(resPut.getStatusCode(), 200);
+  const clienteAtualizado = await db.get('SELECT * FROM clientes WHERE id = ?', [clienteId]);
+  assert.strictEqual(clienteAtualizado.tabela_preco, 'VAREJO', 'Deve atualizar tabela_preco para VAREJO');
+
+  // Limpeza
+  await db.run('DELETE FROM logs_auditoria WHERE cliente_id = ?', [clienteId]);
+  await db.run('DELETE FROM clientes WHERE id = ?', [clienteId]);
+});
+

@@ -150,6 +150,12 @@ export default async function handler(req, res) {
       const ncm = (payload.ncm || '41131090').replace(/\D/g, '').slice(0, 8) || '41131090';
       const custo = parseFloat(payload.preco_custo || 0);
       const venda = parseFloat(payload.preco_venda || 0);
+      const atacado = (payload.preco_atacado !== undefined && payload.preco_atacado !== null && String(payload.preco_atacado).trim() !== '')
+        ? parseFloat(payload.preco_atacado)
+        : null;
+      const qtdMinimaAtacado = (payload.qtd_minima_atacado !== undefined && payload.qtd_minima_atacado !== null && String(payload.qtd_minima_atacado).trim() !== '')
+        ? Math.max(1, parseFloat(payload.qtd_minima_atacado))
+        : 5.0;
       const estoque = parseFloat(payload.estoque_atual || 0);
       const reservado = Math.max(0, parseFloat(payload.estoque_reservado || 0));
       const estoqueMin = parseFloat(payload.estoque_minimo || 5);
@@ -158,10 +164,10 @@ export default async function handler(req, res) {
       const info = await run(`
         INSERT INTO produtos (
           codigo_sku, nome, categoria, unidade_medida, ncm,
-          preco_custo, preco_venda, estoque_atual, estoque_reservado, estoque_minimo,
+          preco_custo, preco_venda, preco_atacado, qtd_minima_atacado, estoque_atual, estoque_reservado, estoque_minimo,
           descricao, ativo, data_cadastro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, estoque, reservado, estoqueMin, desc, agora]);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, estoque, reservado, estoqueMin, desc, agora]);
 
       await registrarLog({
         clienteId: null,
@@ -196,6 +202,12 @@ export default async function handler(req, res) {
       const ncm = payload.ncm !== undefined ? (String(payload.ncm).replace(/\D/g, '').slice(0, 8) || '41131090') : (atual.ncm || '41131090');
       const custo = payload.preco_custo !== undefined ? parseFloat(payload.preco_custo || 0) : parseFloat(atual.preco_custo || 0);
       const venda = payload.preco_venda !== undefined ? parseFloat(payload.preco_venda || 0) : parseFloat(atual.preco_venda || 0);
+      const atacado = payload.preco_atacado !== undefined
+        ? ((payload.preco_atacado !== null && String(payload.preco_atacado).trim() !== '') ? parseFloat(payload.preco_atacado) : null)
+        : atual.preco_atacado;
+      const qtdMinimaAtacado = payload.qtd_minima_atacado !== undefined
+        ? ((payload.qtd_minima_atacado !== null && String(payload.qtd_minima_atacado).trim() !== '') ? Math.max(1, parseFloat(payload.qtd_minima_atacado)) : 5.0)
+        : (atual.qtd_minima_atacado || 5.0);
       const estoque = payload.estoque_atual !== undefined ? parseFloat(payload.estoque_atual || 0) : parseFloat(atual.estoque_atual || 0);
       const reservado = payload.estoque_reservado !== undefined ? Math.max(0, parseFloat(payload.estoque_reservado || 0)) : Math.max(0, parseFloat(atual.estoque_reservado || 0));
       const min = payload.estoque_minimo !== undefined ? parseFloat(payload.estoque_minimo || 5) : parseFloat(atual.estoque_minimo || 5);
@@ -204,10 +216,10 @@ export default async function handler(req, res) {
       await run(`
         UPDATE produtos SET
           codigo_sku = ?, nome = ?, categoria = ?, unidade_medida = ?, ncm = ?,
-          preco_custo = ?, preco_venda = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
+          preco_custo = ?, preco_venda = ?, preco_atacado = ?, qtd_minima_atacado = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
           descricao = ?, data_atualizacao = ?
         WHERE id = ?
-      `, [sku, nome, categoria, un, ncm, custo, venda, estoque, reservado, min, desc, agora, idParam]);
+      `, [sku, nome, categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, estoque, reservado, min, desc, agora, idParam]);
 
       await registrarLog({
         clienteId: null,

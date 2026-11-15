@@ -7088,9 +7088,9 @@
           <input type="hidden" id="form-id" aria-label="TOPBAR-SEARCH">
           <input type="hidden" id="form-pref" aria-label="TOPBAR-SEARCH">
 
-          <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) -->
+          <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) + TABELA DE PREÇO (165px) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
-            <div class="form-group" style="flex: 2; min-width: 320px;">
+            <div class="form-group" style="flex: 2; min-width: 280px;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                 <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
                   <span>👤</span> NOME / RAZÃO SOCIAL *
@@ -7099,9 +7099,18 @@
               </label>
               <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
             </div>
-            <div class="form-group" style="flex: 1.2; min-width: 220px;">
+            <div class="form-group" style="flex: 1.2; min-width: 200px;">
               <label class="form-label" style="margin-bottom: 3px;">APELIDO / FANTASIA / REFERÊNCIA</label>
               <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
+            </div>
+            <div class="form-group" style="width: 165px; flex-shrink: 0;">
+              <label class="form-label" style="color: #fbbf24; margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">
+                <span>🏷️</span> TABELA DE PREÇO
+              </label>
+              <select class="form-input" id="form-tabela-preco" style="font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.35);">
+                <option value="VAREJO" selected>VAREJO (PADRÃO)</option>
+                <option value="ATACADO">ATACADO</option>
+              </select>
             </div>
           </div>
 
@@ -7503,21 +7512,33 @@
               <span>💰</span> <span>Formação de Preço & Rentabilidade</span>
             </div>
 
-            <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
-              <div class="form-group" style="flex: 1; min-width: 150px;">
+            <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
+              <div class="form-group" style="flex: 1; min-width: 130px;">
                 <label class="form-label" style="margin-bottom: 3px;">Preço de Custo (R$)</label>
                 <input type="text" inputmode="decimal" class="form-input" id="form-prod-custo" placeholder="0,00" value="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;" aria-label="TOPBAR-SEARCH">
               </div>
 
-              <div class="form-group" style="flex: 1; min-width: 150px;">
+              <div class="form-group" style="flex: 1; min-width: 130px;">
                 <label class="form-label" style="color: #34d399; margin-bottom: 3px;">Preço de Venda (R$) *</label>
                 <input type="text" inputmode="decimal" class="form-input" id="form-prod-venda" required placeholder="0,00" oninput="atualizarMargemProduto()" onblur="this.value = formatarMoedaPtBr(this.value); atualizarMargemProduto();" style="color: #34d399; font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; background: rgba(52, 211, 153, 0.08); border-color: rgba(52, 211, 153, 0.4);" aria-label="TOPBAR-SEARCH">
               </div>
 
+              <div class="form-group" style="flex: 1; min-width: 130px;">
+                <label class="form-label" style="color: #fbbf24; margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">
+                  <span>🏷️</span> Preço Atacado (R$)
+                </label>
+                <input type="text" inputmode="decimal" class="form-input" id="form-prod-atacado" placeholder="0,00 (OPCIONAL)" onblur="if(this.value && this.value.trim()){ this.value = formatarMoedaPtBr(this.value); }" style="color: #fbbf24; font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.35);" aria-label="TOPBAR-SEARCH">
+              </div>
+
+              <div class="form-group" style="width: 110px; flex-shrink: 0;">
+                <label class="form-label" style="color: #fbbf24; margin-bottom: 3px; text-align: center;">Qtd Mín Atac</label>
+                <input type="number" step="any" min="1" class="form-input no-spin" id="form-prod-qtd-min-atacado" placeholder="5" value="5" style="color: #fbbf24; font-weight: 800; font-family: 'JetBrains Mono', monospace; text-align: center; background: rgba(251, 191, 36, 0.08); border-color: rgba(251, 191, 36, 0.35); -moz-appearance: textfield; -webkit-appearance: none;" aria-label="TOPBAR-SEARCH">
+              </div>
+
               <!-- BADGE DINÂMICO DE MARGEM BRUTA -->
-              <div id="card-prod-margem" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 7px 14px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 140px; height: 38px;">
+              <div id="card-prod-margem" style="background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; padding: 7px 12px; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 130px; height: 38px;">
                 <span style="font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Margem Bruta</span>
-                <span id="badge-prod-margem-val" style="font-size: 13.5px; font-weight: 800; font-family: 'JetBrains Mono', monospace;">+0,0% (R$ 0,00)</span>
+                <span id="badge-prod-margem-val" style="font-size: 13px; font-weight: 800; font-family: 'JetBrains Mono', monospace;">+0,0% (R$ 0,00)</span>
               </div>
             </div>
           </div>
@@ -9155,7 +9176,7 @@
 
           <!-- SEÇÃO INTERATIVA DE GESTÃO DE ITENS DO PEDIDO (ADICIONAR / ALTERAR / EXCLUIR) -->
           <div style="margin-top: 16px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
               <div style="display: flex; align-items: center; gap: 8px;">
                 <label class="form-label" style="margin: 0; font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
                   <span>🛍️</span>
@@ -9163,9 +9184,18 @@
                 </label>
                 <span id="ped-itens-badge" class="nav-badge" style="background: rgba(0, 212, 255, 0.15); color: #38bdf8; font-size: 10.5px;">0 itens</span>
               </div>
-              <button type="button" tabindex="-1" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="alternarModoTextoItensPedido()" title="Alternar entre modo visual e texto bruto">
-                📝 Modo Texto Livre
-              </button>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 6px; background: rgba(251, 191, 36, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 6px; padding: 2px 8px;">
+                  <span style="font-size: 11px; font-weight: 700; color: #fbbf24;">🏷️ TABELA:</span>
+                  <select id="form-ped-tabela-preco" onchange="aoMudarTabelaPrecoPedido(this.value)" style="background: transparent; color: #fbbf24; border: none; font-size: 11.5px; font-weight: 800; cursor: pointer; outline: none;">
+                    <option value="VAREJO" selected style="background: #0f172a; color: #fff;">VAREJO (PADRÃO)</option>
+                    <option value="ATACADO" style="background: #0f172a; color: #fbbf24;">ATACADO</option>
+                  </select>
+                </div>
+                <button type="button" tabindex="-1" class="btn-row-action" style="font-size: 11px; padding: 3px 8px;" onclick="alternarModoTextoItensPedido()" title="Alternar entre modo visual e texto bruto">
+                  📝 Modo Texto Livre
+                </button>
+              </div>
             </div>
 
             <!-- BARRA DE ADIÇÃO RÁPIDA: MENU DROPDOWN PESQUISÁVEL COM BUSCA PELO NOME -->
@@ -11391,6 +11421,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
       document.getElementById('form-cliente').reset();
       document.getElementById('form-id').value = '';
+      if (document.getElementById('form-tabela-preco')) document.getElementById('form-tabela-preco').value = 'VAREJO';
       if (document.getElementById('form-email')) document.getElementById('form-email').value = '';
       if (document.getElementById('form-pref')) document.getElementById('form-pref').value = '';
       if (document.getElementById('form-obs')) document.getElementById('form-obs').value = '';
@@ -11414,6 +11445,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-id').value = cliente.id || '';
       document.getElementById('form-nome').value = (cliente.nome || '').toUpperCase();
       document.getElementById('form-apelido').value = (cliente.apelido_referencia || '').toUpperCase();
+      if (document.getElementById('form-tabela-preco')) document.getElementById('form-tabela-preco').value = (cliente.tabela_preco || 'VAREJO').toUpperCase();
       document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
       formatarEValidarDoc(document.getElementById('form-doc'));
       document.getElementById('form-ie').value = (cliente.ie || '').toUpperCase();
@@ -11526,6 +11558,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         cidade: (document.getElementById('form-cidade')?.value || '').trim().toUpperCase(),
         uf: (document.getElementById('form-uf')?.value || 'RS').trim().toUpperCase(),
         email: document.getElementById('form-email') ? document.getElementById('form-email').value.trim().toUpperCase() : '',
+        tabela_preco: (document.getElementById('form-tabela-preco')?.value || 'VAREJO').toUpperCase(),
         observacoes: (document.getElementById('form-obs')?.value || '').trim().toUpperCase(),
         preferencias: document.getElementById('form-pref') ? document.getElementById('form-pref').value.trim() : (clienteAtualEditando?.preferencias || '')
       };
@@ -12058,6 +12091,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           : `<div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Físico: ${estFisico} ${un}</div>`;
 
         const precoVenda = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const atacadoSubtext = (p.preco_atacado !== undefined && p.preco_atacado !== null && p.preco_atacado > 0)
+          ? `<div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #fbbf24; margin-top: 2px;" title="Preço de atacado para pedidos ou quantidades >= ${p.qtd_minima_atacado || 5}">🏷️ R$ ${parseFloat(p.preco_atacado).toLocaleString('pt-BR', { minimumFractionDigits: 2 })} <span style="font-size: 9px; opacity: 0.85;">(${p.qtd_minima_atacado || 5}+)</span></div>`
+          : '';
         const skuCodigo = p.codigo_sku || p.codigo || '-';
 
         return `
@@ -12073,6 +12109,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             <td data-col="venda" style="text-align: right;">
               <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 13px;">R$ ${precoVenda}</span>
               <span style="font-size: 10px; color: var(--text-muted);"> / ${un.toLowerCase()}</span>
+              ${atacadoSubtext}
             </td>
             <td data-col="saldos" style="text-align: center;">
               ${dispBadge}
@@ -12549,6 +12586,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('modal-prod-titulo').textContent = 'Novo Produto';
       document.getElementById('form-produto').reset();
       document.getElementById('form-prod-id').value = '';
+      const atcEl = document.getElementById('form-prod-atacado');
+      if (atcEl) atcEl.value = '';
+      const qtdAtcEl = document.getElementById('form-prod-qtd-min-atacado');
+      if (qtdAtcEl) qtdAtcEl.value = '5';
       const ncmEl = document.getElementById('form-prod-ncm');
       if (ncmEl) ncmEl.value = '42050000';
       gerarSkuAuto();
@@ -12591,6 +12632,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-prod-min').value = prod.estoque_minimo || 5;
       document.getElementById('form-prod-custo').value = formatarMoedaPtBr(prod.preco_custo || 0);
       document.getElementById('form-prod-venda').value = formatarMoedaPtBr(prod.preco_venda || 0);
+      const atcEl = document.getElementById('form-prod-atacado');
+      if (atcEl) atcEl.value = (prod.preco_atacado !== undefined && prod.preco_atacado !== null && prod.preco_atacado > 0) ? formatarMoedaPtBr(prod.preco_atacado) : '';
+      const qtdAtcEl = document.getElementById('form-prod-qtd-min-atacado');
+      if (qtdAtcEl) qtdAtcEl.value = prod.qtd_minima_atacado || 5;
       document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
       document.getElementById('form-prod-desc').value = prod.descricao || '';
       const bSku = document.getElementById('modal-prod-badge-sku');
@@ -12728,6 +12773,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         estoque_minimo: parseFloat(document.getElementById('form-prod-min').value || 5),
         preco_custo: desformatarNumeroPtBr(document.getElementById('form-prod-custo').value),
         preco_venda: desformatarNumeroPtBr(document.getElementById('form-prod-venda').value),
+        preco_atacado: (document.getElementById('form-prod-atacado')?.value || '').trim() ? desformatarNumeroPtBr(document.getElementById('form-prod-atacado').value) : null,
+        qtd_minima_atacado: Math.max(1, parseFloat(document.getElementById('form-prod-qtd-min-atacado')?.value || 5)),
         estoque_atual: parseFloat(document.getElementById('form-prod-est').value || 0),
         descricao: document.getElementById('form-prod-desc').value.trim().toUpperCase()
       };
@@ -12931,6 +12978,58 @@ function calcularAjusteEstoque(saldoAtual, tipo, valorOuContagem) {
   }
 
   return { novoSaldo: saldo, diferenca: 0, tipoOperacao: 'NENHUMA' };
+}
+
+function resolverPrecoItem({ produto = {}, cliente = null, tabelaPedido = null, qtd = 1 } = {}) {
+  const precoVenda = typeof produto.preco_venda === 'number'
+    ? produto.preco_venda
+    : (typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(produto.preco_venda || 0) : parseFloat(produto.preco_venda) || 0);
+
+  const atacadoBruto = (produto.preco_atacado !== undefined && produto.preco_atacado !== null && String(produto.preco_atacado).trim() !== '')
+    ? (typeof produto.preco_atacado === 'number' ? produto.preco_atacado : (typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(produto.preco_atacado) : parseFloat(produto.preco_atacado) || null))
+    : null;
+  const precoAtacado = (atacadoBruto !== null && !isNaN(atacadoBruto) && atacadoBruto > 0)
+    ? atacadoBruto
+    : null;
+
+  const qtdMinimaAtacado = (produto.qtd_minima_atacado !== undefined && produto.qtd_minima_atacado !== null && !isNaN(produto.qtd_minima_atacado))
+    ? Math.max(1, parseFloat(produto.qtd_minima_atacado))
+    : 5.0;
+
+  const qtdNum = Math.max(0, parseFloat(qtd) || 0);
+  const modoPedido = tabelaPedido
+    ? String(tabelaPedido).toUpperCase()
+    : (cliente?.tabela_preco ? String(cliente.tabela_preco).toUpperCase() : 'VAREJO');
+
+  const elegivelAtacado = (modoPedido === 'ATACADO') || (qtdNum >= qtdMinimaAtacado);
+
+  if (elegivelAtacado) {
+    if (precoAtacado !== null) {
+      return {
+        precoUnitario: precoAtacado,
+        tabelaAplicada: 'ATACADO',
+        fallbackUsado: false,
+        subtotal: Number((qtdNum * precoAtacado).toFixed(2)),
+        gatilho: modoPedido === 'ATACADO' ? (tabelaPedido ? 'PEDIDO' : 'CLIENTE') : 'QUANTIDADE'
+      };
+    } else {
+      return {
+        precoUnitario: precoVenda,
+        tabelaAplicada: 'ATACADO_FALLBACK',
+        fallbackUsado: true,
+        subtotal: Number((qtdNum * precoVenda).toFixed(2)),
+        gatilho: 'FALLBACK_VAREJO'
+      };
+    }
+  }
+
+  return {
+    precoUnitario: precoVenda,
+    tabelaAplicada: 'VAREJO',
+    fallbackUsado: false,
+    subtotal: Number((qtdNum * precoVenda).toFixed(2)),
+    gatilho: 'VAREJO'
+  };
 }
 
 function parseTextoParaItens(textoItens, valorTotal) {
@@ -13359,6 +13458,58 @@ function calcularAjusteEstoque(saldoAtual, tipo, valorOuContagem) {
   }
 
   return { novoSaldo: saldo, diferenca: 0, tipoOperacao: 'NENHUMA' };
+}
+
+function resolverPrecoItem({ produto = {}, cliente = null, tabelaPedido = null, qtd = 1 } = {}) {
+  const precoVenda = typeof produto.preco_venda === 'number'
+    ? produto.preco_venda
+    : (typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(produto.preco_venda || 0) : parseFloat(produto.preco_venda) || 0);
+
+  const atacadoBruto = (produto.preco_atacado !== undefined && produto.preco_atacado !== null && String(produto.preco_atacado).trim() !== '')
+    ? (typeof produto.preco_atacado === 'number' ? produto.preco_atacado : (typeof desformatarNumeroPtBr === 'function' ? desformatarNumeroPtBr(produto.preco_atacado) : parseFloat(produto.preco_atacado) || null))
+    : null;
+  const precoAtacado = (atacadoBruto !== null && !isNaN(atacadoBruto) && atacadoBruto > 0)
+    ? atacadoBruto
+    : null;
+
+  const qtdMinimaAtacado = (produto.qtd_minima_atacado !== undefined && produto.qtd_minima_atacado !== null && !isNaN(produto.qtd_minima_atacado))
+    ? Math.max(1, parseFloat(produto.qtd_minima_atacado))
+    : 5.0;
+
+  const qtdNum = Math.max(0, parseFloat(qtd) || 0);
+  const modoPedido = tabelaPedido
+    ? String(tabelaPedido).toUpperCase()
+    : (cliente?.tabela_preco ? String(cliente.tabela_preco).toUpperCase() : 'VAREJO');
+
+  const elegivelAtacado = (modoPedido === 'ATACADO') || (qtdNum >= qtdMinimaAtacado);
+
+  if (elegivelAtacado) {
+    if (precoAtacado !== null) {
+      return {
+        precoUnitario: precoAtacado,
+        tabelaAplicada: 'ATACADO',
+        fallbackUsado: false,
+        subtotal: Number((qtdNum * precoAtacado).toFixed(2)),
+        gatilho: modoPedido === 'ATACADO' ? (tabelaPedido ? 'PEDIDO' : 'CLIENTE') : 'QUANTIDADE'
+      };
+    } else {
+      return {
+        precoUnitario: precoVenda,
+        tabelaAplicada: 'ATACADO_FALLBACK',
+        fallbackUsado: true,
+        subtotal: Number((qtdNum * precoVenda).toFixed(2)),
+        gatilho: 'FALLBACK_VAREJO'
+      };
+    }
+  }
+
+  return {
+    precoUnitario: precoVenda,
+    tabelaAplicada: 'VAREJO',
+    fallbackUsado: false,
+    subtotal: Number((qtdNum * precoVenda).toFixed(2)),
+    gatilho: 'VAREJO'
+  };
 }
 
 function parseTextoParaItens(textoItens, valorTotal) {
@@ -14866,6 +15017,15 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       atualizarBadgesObsEPreferencias();
 
+      // Sincroniza tabela de preço do pedido com o perfil do cliente
+      const selTabPed = document.getElementById('form-ped-tabela-preco');
+      if (selTabPed && cli.tabela_preco) {
+        selTabPed.value = (cli.tabela_preco || 'VAREJO').toUpperCase();
+        if (typeof recalcularPrecosItensPedido === 'function') {
+          recalcularPrecosItensPedido();
+        }
+      }
+
       // Pula o foco suavemente para o campo de produtos
       const prodInp = document.getElementById('ped-add-produto-input');
       if (prodInp) prodInp.focus();
@@ -15034,8 +15194,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return;
       }
 
+      const cliId = document.getElementById('form-ped-cliente-id')?.value;
+      const cli = cliId ? (Array.isArray(clientes) ? clientes.find(c => String(c.id) === String(cliId)) : null) : null;
+      const tabelaPedido = document.getElementById('form-ped-tabela-preco')?.value || 'VAREJO';
+
       wrap.innerHTML = filtrados.map((p, idx) => {
-        const precoFmt = parseFloat(p.preco_venda || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const resPreco = resolverPrecoItem({ produto: p, cliente: cli, tabelaPedido, qtd: 1 });
+        const precoFmt = parseFloat(resPreco.precoUnitario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const isAtacado = resPreco.tabelaAplicada === 'ATACADO';
+        const precoColor = isAtacado ? '#fbbf24' : '#34d399';
+        const tagAtacado = isAtacado ? `<span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.3); padding: 1px 4px; border-radius: 3px; margin-left: 4px;">ATACADO</span>` : '';
         const estDisp = p.estoque_disponivel !== undefined ? p.estoque_disponivel : Math.max(0, (p.estoque_atual || 0) - (p.estoque_reservado || 0));
         const skuHtml = p.codigo_sku 
           ? `<span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #38bdf8; background: rgba(0, 212, 255, 0.12); border: 1px solid rgba(0, 212, 255, 0.25); padding: 1px 6px; border-radius: 4px; margin-right: 6px;">${p.codigo_sku}</span>` 
@@ -15052,7 +15220,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             </div>
             <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
               <span style="font-size: 11px; color: ${estoqueColor}; font-weight: 600;">Disp: ${estDisp} ${p.unidade_medida || 'UN'}</span>
-              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; font-size: 12.5px;">R$ ${precoFmt}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: ${precoColor}; font-size: 12.5px;">R$ ${precoFmt}${tagAtacado}</span>
             </div>
           </div>
         `;
@@ -15130,11 +15298,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         inp.value = (prod.nome || '').toUpperCase();
         inp.dataset.produtoId = prod.id;
       }
-      if (precoInp) {
-        precoInp.value = formatarMoedaPtBr(prod.preco_venda || 0);
-      }
       if (qtdInp) {
         if (!qtdInp.value || parseFloat(qtdInp.value) <= 0) qtdInp.value = '1';
+      }
+      if (precoInp) {
+        const cliId = document.getElementById('form-ped-cliente-id')?.value;
+        const cli = cliId ? (Array.isArray(clientes) ? clientes.find(c => String(c.id) === String(cliId)) : null) : null;
+        const tabelaPedido = document.getElementById('form-ped-tabela-preco')?.value || 'VAREJO';
+        const qtdAtual = parseFloat(qtdInp?.value || 1);
+        const resPreco = resolverPrecoItem({ produto: prod, cliente: cli, tabelaPedido, qtd: qtdAtual });
+        precoInp.value = formatarMoedaPtBr(resPreco.precoUnitario);
       }
       if (tagTipo) {
         const estDisp = prod.estoque_disponivel !== undefined ? prod.estoque_disponivel : Math.max(0, (prod.estoque_atual || 0) - (prod.estoque_reservado || 0));
@@ -15270,9 +15443,32 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return normalizarTextoBusca(i.nome) === normalizarTextoBusca(finalNome);
       });
 
+      const cliId = document.getElementById('form-ped-cliente-id')?.value;
+      const cli = cliId ? (Array.isArray(clientes) ? clientes.find(c => String(c.id) === String(cliId)) : null) : null;
+      const tabelaPedido = document.getElementById('form-ped-tabela-preco')?.value || 'VAREJO';
+
+      let precoFinal = preco;
+      let tabelaItem = 'VAREJO';
+      let fallbackUsado = false;
+
+      if (prod) {
+        const novaQtd = itemExistente ? itemExistente.qtd + qtd : qtd;
+        const resolucao = resolverPrecoItem({
+          produto: prod,
+          cliente: cli,
+          tabelaPedido,
+          qtd: novaQtd
+        });
+        precoFinal = resolucao.precoUnitario;
+        tabelaItem = resolucao.tabelaAplicada;
+        fallbackUsado = resolucao.fallbackUsado;
+      }
+
       if (itemExistente) {
         itemExistente.qtd += qtd;
-        if (preco > 0) itemExistente.preco = preco;
+        itemExistente.preco = precoFinal;
+        itemExistente.tabela_item = tabelaItem;
+        itemExistente.fallback_usado = fallbackUsado;
       } else {
         itensPedidoAtual.push({
           id: finalId,
@@ -15280,7 +15476,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           nome: finalNome,
           sku: finalSku,
           qtd,
-          preco
+          preco: precoFinal,
+          tabela_item: tabelaItem,
+          fallback_usado: fallbackUsado
         });
       }
 
@@ -15308,6 +15506,52 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       adicionarItemAoPedidoAtual();
     }
 
+    function aoMudarTabelaPrecoPedido(novaTabela) {
+      recalcularPrecosItensPedido();
+      mostrarToast(`🏷️ Tabela do pedido definida para ${novaTabela}. Preços recalculados.`);
+    }
+
+    function recalcularPrecoItemPorIndex(index) {
+      const item = itensPedidoAtual[index];
+      if (!item) return;
+
+      // Se não tiver produto_id explícito, tenta localizar pelo nome no catálogo
+      if (!item.produto_id && item.nome) {
+        const prodMatch = (Array.isArray(produtos) ? produtos : []).find(p => normalizarTextoBusca(p.nome) === normalizarTextoBusca(item.nome));
+        if (prodMatch) {
+          item.produto_id = prodMatch.id;
+          item.sku = prodMatch.codigo_sku || item.sku;
+        }
+      }
+
+      if (!item.produto_id) return;
+      const prod = (Array.isArray(produtos) ? produtos : []).find(p => Number(p.id) === Number(item.produto_id));
+      if (!prod) return;
+
+      const cliId = document.getElementById('form-ped-cliente-id')?.value;
+      const cli = cliId ? (Array.isArray(clientes) ? clientes.find(c => String(c.id) === String(cliId)) : null) : null;
+      const tabelaPedido = document.getElementById('form-ped-tabela-preco')?.value || 'VAREJO';
+
+      const res = resolverPrecoItem({
+        produto: prod,
+        cliente: cli,
+        tabelaPedido,
+        qtd: item.qtd
+      });
+      item.preco = res.precoUnitario;
+      item.tabela_item = res.tabelaAplicada;
+      item.fallback_usado = res.fallbackUsado;
+      item.gatilho = res.gatilho;
+    }
+
+    function recalcularPrecosItensPedido() {
+      if (!Array.isArray(itensPedidoAtual) || itensPedidoAtual.length === 0) return;
+      itensPedidoAtual.forEach((item, idx) => {
+        recalcularPrecoItemPorIndex(idx);
+      });
+      atualizarTabelaItensPedido();
+    }
+
     function alterarQtdItemPedido(index, delta) {
       if (!itensPedidoAtual[index]) return;
       const novaQtd = itensPedidoAtual[index].qtd + delta;
@@ -15317,6 +15561,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         }
       } else {
         itensPedidoAtual[index].qtd = novaQtd;
+        recalcularPrecoItemPorIndex(index);
       }
       atualizarTabelaItensPedido();
     }
@@ -15326,6 +15571,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const n = parseFloat(novaQtdVal);
       if (!isNaN(n) && n > 0) {
         itensPedidoAtual[index].qtd = n;
+        recalcularPrecoItemPorIndex(index);
       }
       atualizarTabelaItensPedido();
     }
@@ -15388,12 +15634,19 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           ? `<span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1px 5px; border-radius: 4px; margin-right: 6px;">AVULSO</span>`
           : '';
 
+        const tagAtacado = (item.tabela_item === 'ATACADO')
+          ? `<span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.35); padding: 1px 5px; border-radius: 4px; margin-left: 6px;">🏷️ ATACADO</span>`
+          : (item.fallback_usado
+            ? `<span style="font-size: 9px; font-weight: 700; color: #94a3b8; background: rgba(148, 163, 184, 0.12); border: 1px solid rgba(148, 163, 184, 0.25); padding: 1px 5px; border-radius: 4px; margin-left: 6px;" title="Produto sem preço de atacado cadastrado. Utilizando preço de venda.">⚠️ VAREJO (FALLBACK)</span>`
+            : '');
+
         return `
           <tr>
             <td>
               <div style="display: flex; align-items: center; flex-wrap: wrap;">
                 ${skuTag}
                 <span style="font-weight: 700; color: #fff;">${item.nome}</span>
+                ${tagAtacado}
               </div>
             </td>
             <td style="text-align: center;">
@@ -15476,6 +15729,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       document.getElementById('form-ped-data').value = `${String(hoje.getDate()).padStart(2, '0')}/${String(hoje.getMonth() + 1).padStart(2, '0')}/${hoje.getFullYear()}`;
       document.getElementById('form-ped-status').value = 'AGUARDANDO_PAGAMENTO';
       if (document.getElementById('form-ped-forma-pagamento')) document.getElementById('form-ped-forma-pagamento').value = 'PIX';
+      const tabPedEl = document.getElementById('form-ped-tabela-preco');
+      if (tabPedEl) tabPedEl.value = 'VAREJO';
 
       // Se passou clienteId, auto-preenche todos os dados do cliente selecionado
       if (clienteId) {
@@ -15486,6 +15741,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           document.getElementById('form-ped-cidade').value = cli.cidade || '';
           document.getElementById('form-ped-uf').value = (cli.uf || 'RS').toUpperCase();
           document.getElementById('form-ped-telefone').value = cli.telefone || '';
+          if (tabPedEl && cli.tabela_preco) tabPedEl.value = (cli.tabela_preco || 'VAREJO').toUpperCase();
         }
       }
 
@@ -15541,9 +15797,34 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (document.getElementById('form-ped-forma-pagamento')) document.getElementById('form-ped-forma-pagamento').value = ped.forma_pagamento || 'PIX';
       document.getElementById('form-ped-rastreio').value = ped.codigo_rastreio || '';
       document.getElementById('form-ped-obs').value = ped.observacoes || '';
+      const tabPedEdit = document.getElementById('form-ped-tabela-preco');
+      if (tabPedEdit) tabPedEdit.value = (ped.tabela_preco_aplicada || 'VAREJO').toUpperCase();
 
-      // Popula a tabela interativa de itens
-      itensPedidoAtual = parseTextoParaItens(ped.itens, valorPedido);
+      // Popula a tabela interativa de itens (prioriza itens_detalhados se existir)
+      if (ped.itens_detalhados) {
+        try {
+          const parsed = typeof ped.itens_detalhados === 'string' ? JSON.parse(ped.itens_detalhados) : ped.itens_detalhados;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            itensPedidoAtual = parsed.map(i => ({
+              id: i.produto_id ? String(i.produto_id) : (i.id || 'item_' + Math.random()),
+              produto_id: i.produto_id || null,
+              nome: i.nome,
+              sku: i.sku || '',
+              qtd: parseFloat(i.qtd) || 1,
+              preco: parseFloat(i.preco_unitario !== undefined ? i.preco_unitario : i.preco) || 0,
+              tabela_item: i.tabela_item || 'VAREJO',
+              fallback_usado: !!i.fallback_usado,
+              subtotal: parseFloat(i.subtotal) || ((parseFloat(i.qtd) || 1) * (parseFloat(i.preco_unitario || i.preco) || 0))
+            }));
+          } else {
+            itensPedidoAtual = parseTextoParaItens(ped.itens, valorPedido);
+          }
+        } catch {
+          itensPedidoAtual = parseTextoParaItens(ped.itens, valorPedido);
+        }
+      } else {
+        itensPedidoAtual = parseTextoParaItens(ped.itens, valorPedido);
+      }
       atualizarTabelaItensPedido();
       atualizarBadgesObsEPreferencias();
 
@@ -15822,11 +16103,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         uf: document.getElementById('form-ped-uf').value.trim().toUpperCase(),
         telefone: aplicarMascaraTelefoneValor(document.getElementById('form-ped-telefone').value.trim()),
         itens: itensTexto,
+        tabela_preco_aplicada: document.getElementById('form-ped-tabela-preco')?.value || 'VAREJO',
         itens_detalhados: itensPedidoAtual.map(i => ({
           produto_id: i.produto_id,
           nome: (i.nome || '').toUpperCase(),
+          sku: i.sku || '',
           qtd: i.qtd,
-          preco_unitario: i.preco
+          tabela_item: i.tabela_item || 'VAREJO',
+          fallback_usado: !!i.fallback_usado,
+          preco_unitario: i.preco,
+          subtotal: i.subtotal || (i.qtd * i.preco)
         })),
         valor_total: desformatarNumeroPtBr(document.getElementById('form-ped-valor').value),
         forma_pagamento: document.getElementById('form-ped-forma-pagamento')?.value || 'PIX',
