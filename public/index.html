@@ -12276,6 +12276,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         fecharModalCliente();
         fecharModalFiscal();
         fecharModalProduto();
+        if (typeof fecharModalBom === 'function') fecharModalBom();
+        if (typeof fecharModalProducao === 'function') fecharModalProducao();
       }
     });
 
