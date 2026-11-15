@@ -25,6 +25,7 @@ import handlerSistema from './sistema.js';
 import handlerRelatorios from './relatorios.js';
 import handlerEstoque from './estoque.js';
 import handlerLogistica from './logistica.js';
+import handlerProducao from './producao.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -84,6 +85,9 @@ export default async function handler(req, res) {
     if (pathname === '/api/pedidos' || pathname.startsWith('/api/pedidos/')) {
       return await handlerPedidos(req, res);
     }
+    if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
+      return await handlerProducao(req, res);
+    }
     if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
       return await handlerProdutos(req, res);
     }
@@ -116,6 +120,9 @@ export default async function handler(req, res) {
     }
     if (pathname === '/api/logistica' || pathname.startsWith('/api/logistica/')) {
       return await handlerLogistica(req, res);
+    }
+    if (pathname === '/api/producao' || pathname.startsWith('/api/producao/')) {
+      return await handlerProducao(req, res);
     }
 
     // Rota não encontrada
