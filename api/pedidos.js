@@ -276,13 +276,17 @@ export default async function handler(req, res) {
       };
       const statusTexto = payload.status_texto || statusMap[status] || 'Aguardando Pagamento';
       const valorTotal = desformatarNumeroPtBr(payload.valor_total !== undefined ? payload.valor_total : (payload.valor || 0));
+      const tabelaAplicada = (payload.tabela_preco_aplicada || 'VAREJO').toUpperCase() === 'ATACADO' ? 'ATACADO' : 'VAREJO';
+      const itensDetalhadosJson = payload.itens_detalhados 
+        ? (typeof payload.itens_detalhados === 'string' ? payload.itens_detalhados : JSON.stringify(payload.itens_detalhados))
+        : null;
 
       const info = await run(`
         INSERT INTO pedidos (
           numero, cliente_id, cliente_nome, cidade, uf, telefone,
           itens, valor_total, valor_frete, status, status_texto, codigo_rastreio,
-          observacoes, data_pedido, data_atualizacao
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          observacoes, tabela_preco_aplicada, itens_detalhados, data_pedido, data_atualizacao
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         numero,
         payload.cliente_id ? Number(payload.cliente_id) : null,
@@ -297,6 +301,8 @@ export default async function handler(req, res) {
         statusTexto,
         payload.codigo_rastreio ? payload.codigo_rastreio.trim() : '',
         payload.observacoes ? payload.observacoes.trim() : '',
+        tabelaAplicada,
+        itensDetalhadosJson,
         payload.data_pedido || dataFormatada,
         agora.toISOString()
       ]);
@@ -426,7 +432,7 @@ export default async function handler(req, res) {
       const camposPossiveis = [
         'cliente_id', 'cliente_nome', 'cidade', 'uf', 'telefone',
         'itens', 'valor_total', 'valor_frete', 'status', 'status_texto', 'codigo_rastreio',
-        'observacoes', 'data_pedido'
+        'observacoes', 'data_pedido', 'tabela_preco_aplicada', 'itens_detalhados'
       ];
 
       for (const campo of camposPossiveis) {
@@ -436,6 +442,11 @@ export default async function handler(req, res) {
             params.push(desformatarNumeroPtBr(payload[campo]));
           } else if (campo === 'cliente_id') {
             params.push(payload[campo] ? Number(payload[campo]) : null);
+          } else if (campo === 'tabela_preco_aplicada') {
+            params.push((payload[campo] || 'VAREJO').toUpperCase() === 'ATACADO' ? 'ATACADO' : 'VAREJO');
+          } else if (campo === 'itens_detalhados') {
+            const jsonVal = typeof payload[campo] === 'string' ? payload[campo] : JSON.stringify(payload[campo]);
+            params.push(jsonVal);
           } else {
             params.push(payload[campo]);
           }

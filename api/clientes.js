@@ -114,7 +114,7 @@ export default async function handler(req, res) {
       // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
       const monitorados = [
         'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
-        'telefone', 'email', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias'
+        'telefone', 'email', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias', 'tabela_preco'
       ];
       const dados = {};
       monitorados.forEach(c => {
@@ -142,6 +142,7 @@ export default async function handler(req, res) {
         dados.cep ? `- CEP ${dados.cep}` : ''
       ].filter(Boolean);
       const enderecoFormatado = partesEnd.join(' ') || clienteAntigo.endereco_completo || '';
+      const tabelaPreco = (dados.tabela_preco || 'VAREJO').toUpperCase() === 'ATACADO' ? 'ATACADO' : 'VAREJO';
 
       const sqlUpdate = `
         UPDATE clientes SET
@@ -166,7 +167,8 @@ export default async function handler(req, res) {
           cep_limpo = ?,
           endereco_completo = ?,
           observacoes = ?,
-          preferencias = ?
+          preferencias = ?,
+          tabela_preco = ?
         WHERE id = ?
       `;
 
@@ -193,6 +195,7 @@ export default async function handler(req, res) {
         enderecoFormatado,
         dados.observacoes,
         dados.preferencias || '',
+        tabelaPreco,
         id
       ]);
 
@@ -255,6 +258,7 @@ export default async function handler(req, res) {
       ].filter(Boolean);
       const enderecoFormatado = partesEnd.join(' ') || payload.endereco_completo || '';
       const dataHoje = new Date().toISOString().split('T')[0];
+      const tabelaPreco = (payload.tabela_preco || 'VAREJO').toUpperCase() === 'ATACADO' ? 'ATACADO' : 'VAREJO';
 
       const sqlInsert = `
         INSERT INTO clientes (
@@ -263,8 +267,9 @@ export default async function handler(req, res) {
           telefone, telefone_limpo, email,
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
-          endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias,
+          tabela_preco
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const resultado = await run(sqlInsert, [
@@ -291,7 +296,8 @@ export default async function handler(req, res) {
         payload.observacoes || '',
         payload.arquivo_origem || `CADASTRO_MANUAL_${Date.now()}_${Math.floor(Math.random() * 10000)}.docx`,
         dataHoje,
-        payload.preferencias || ''
+        payload.preferencias || '',
+        tabelaPreco
       ]);
 
       const novoId = resultado.lastInsertRowid;
