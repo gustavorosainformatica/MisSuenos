@@ -110,6 +110,95 @@ export default async function handler(req, res) {
         return responder(res, 404, { error: `Documento fiscal com chave "${chave}" não encontrado.` });
       }
 
+      // Recupera itens reais persistidos no documento fiscal
+      let itensDanfe = [];
+      if (doc.itens_json) {
+        try {
+          const parsed = JSON.parse(doc.itens_json);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            itensDanfe = parsed.map((it, idx) => ({
+              codigo: it.codigo || it.codigo_produto || `SKU-${idx + 1}`,
+              descricao: it.descricao || it.nome || 'PRODUTO',
+              ncm: String(it.ncm || '42050000').replace(/\D/g, ''),
+              cfop: it.cfop || '5102',
+              unidade: it.unidade || 'UN',
+              quantidade: Number(it.quantidade || 1),
+              valor_unitario: Number(it.valor_unitario || it.preco_unitario || it.preco || 0),
+              valor_total: Number(it.valor_total || it.subtotal || ((Number(it.quantidade || 1)) * Number(it.valor_unitario || it.preco_unitario || 0)))
+            }));
+          }
+        } catch {
+          itensDanfe = [];
+        }
+      }
+
+      // Fallback gracioso para documentos fiscais legados (anteriores à migração multi-itens)
+      if (itensDanfe.length === 0) {
+        itensDanfe = [
+          {
+            codigo: '01',
+            descricao: 'ARTIGOS DE COURO E SELARIA MIS SUEÑOS',
+            ncm: '42050000',
+            cfop: '5102',
+            unidade: 'UN',
+            quantidade: 1,
+            valor_unitario: Number(doc.valor_total || 100.00),
+            valor_total: Number(doc.valor_total || 100.00)
+          }
+        ];
+      }
+
+      // Recupera dados do Destinatário
+      let destDanfe = {
+        nome: 'CLIENTE CONSUMIDOR',
+        documento: '11122233344',
+        uf: 'RS',
+        cidade: 'Sapiranga',
+        logradouro: 'Rua Principal',
+        numero: 'S/N',
+        bairro: 'Centro',
+        cep: '93800-000',
+        telefone: '-'
+      };
+
+      if (doc.destinatario_json) {
+        try {
+          const destParsed = JSON.parse(doc.destinatario_json);
+          destDanfe = {
+            ...destDanfe,
+            ...destParsed,
+            nome: destParsed.nome || destParsed.razao_social || destDanfe.nome,
+            documento: destParsed.documento || destParsed.cpf || destParsed.cnpj || destDanfe.documento
+          };
+        } catch {}
+      } else if (doc.pedido_id) {
+        try {
+          const ped = await get('SELECT cliente_nome, cliente_id, uf, cidade, logradouro, numero, bairro, cep, telefone FROM pedidos WHERE id = ?', [doc.pedido_id]);
+          if (ped) {
+            destDanfe.nome = ped.cliente_nome || destDanfe.nome;
+            destDanfe.uf = ped.uf || destDanfe.uf;
+            destDanfe.cidade = ped.cidade || destDanfe.cidade;
+            if (ped.cliente_id) {
+              const cli = await get('SELECT nome, cpf, cnpj, uf, cidade, cep, logradouro, numero, bairro, telefone FROM clientes WHERE id = ?', [ped.cliente_id]);
+              if (cli) {
+                destDanfe.nome = cli.nome || destDanfe.nome;
+                destDanfe.documento = cli.cpf || cli.cnpj || destDanfe.documento;
+                destDanfe.uf = cli.uf || destDanfe.uf;
+                destDanfe.cidade = cli.cidade || destDanfe.cidade;
+                destDanfe.cep = cli.cep || destDanfe.cep;
+                destDanfe.logradouro = cli.logradouro || destDanfe.logradouro;
+                destDanfe.numero = cli.numero || destDanfe.numero;
+                destDanfe.bairro = cli.bairro || destDanfe.bairro;
+                destDanfe.telefone = cli.telefone || destDanfe.telefone;
+              }
+            }
+          }
+        } catch {}
+      }
+
+      const valorTotalNota = Number(doc.valor_total || itensDanfe.reduce((acc, it) => acc + (it.valor_total || 0), 0));
+      const valorFreteNota = Number(doc.valor_frete || 0);
+
       const htmlDanfe = gerarDanfeHtml({
         chaveAcesso: doc.chave_acesso,
         numero: doc.numero,
@@ -124,24 +213,11 @@ export default async function handler(req, res) {
           cidade: 'Sapiranga',
           cep: '93800-000'
         },
-        destinatario: {
-          nome: 'CLIENTE CONSUMIDOR',
-          documento: '11122233344'
-        },
-        itens: [
-          {
-            codigo: '01',
-            descricao: 'ARTIGOS DE COURO E SELARIA MIS SUEÑOS',
-            ncm: '42050000',
-            cfop: '5102',
-            unidade: 'UN',
-            quantidade: 1,
-            valor_unitario: 100.00,
-            valor_total: 100.00
-          }
-        ],
+        destinatario: destDanfe,
+        itens: itensDanfe,
         totais: {
-          valor_total: 100.00
+          valor_total: valorTotalNota,
+          valor_frete: valorFreteNota
         }
       });
 
@@ -279,15 +355,34 @@ export default async function handler(req, res) {
           });
         }
 
-        // Valida NCMs de 8 dígitos
-        for (const it of itensTratados) {
+        // Valida e sanitiza NCMs e atributos de cada item
+        const itensErros = [];
+        for (let i = 0; i < itensTratados.length; i++) {
+          const it = itensTratados[i];
           if (!it.ncm && (it.produto_id || it.id || it.codigo)) {
             const prodDb = it.produto_id || it.id
               ? await get('SELECT ncm, codigo, unidade FROM produtos WHERE id = ?', [it.produto_id || it.id])
               : await get('SELECT ncm, codigo, unidade FROM produtos WHERE codigo = ?', [it.codigo]);
             if (prodDb?.ncm) it.ncm = prodDb.ncm;
           }
-          if (!it.ncm) it.ncm = '42050000';
+          const ncmLimpo = String(it.ncm || '').replace(/\D/g, '');
+          if (ncmLimpo.length !== 8) {
+            // Se não tiver NCM, fallback padrão de couro 42050000 apenas se não informado
+            if (!it.ncm) {
+              it.ncm = '42050000';
+            } else {
+              itensErros.push(`Item #${i + 1} (${it.descricao || it.nome || 'Produto'}) possui NCM inválido ("${it.ncm}"). Requer 8 dígitos.`);
+            }
+          } else {
+            it.ncm = ncmLimpo;
+          }
+        }
+
+        if (itensErros.length > 0) {
+          return responder(res, 400, {
+            error: 'Validação Fiscal de NCM Reprovada.',
+            detalhes: itensErros
+          });
         }
 
         // Emite via Hub Fiscal
@@ -299,18 +394,38 @@ export default async function handler(req, res) {
           numero
         });
 
-        // Persiste em fiscal_documentos com as colunas reais da tabela
+        const vFrete = parseFloat(valores?.valorFrete || payload.valorFrete || 0);
+        const itensJson = JSON.stringify(itensTratados);
+        const destinatarioJson = JSON.stringify({
+          id: cliente.id || null,
+          nome: cliente.nome || cliente.razao_social || 'CONSUMIDOR FINAL',
+          documento: cliente.documento || cliente.cpf || cliente.cnpj || '',
+          uf: cliente.uf || 'RS',
+          cidade: cliente.cidade || 'Sapiranga',
+          cep: cliente.cep || '',
+          logradouro: cliente.logradouro || '',
+          numero: cliente.numero || '',
+          bairro: cliente.bairro || '',
+          telefone: cliente.telefone || ''
+        });
+
+        // Persiste em fiscal_documentos com as colunas reais da tabela (incluindo itens_json e destinatario_json)
         await run(`
           INSERT INTO fiscal_documentos (
             tipo, serie, numero, chave_acesso, pedido_id,
             status, motivo_status, protocolo_autorizacao,
-            xml_assinado, danfe_pdf_url, emitido_em
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            xml_assinado, danfe_pdf_url, itens_json, destinatario_json,
+            valor_total, valor_frete, emitido_em
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(chave_acesso) DO UPDATE SET
             status = excluded.status,
             motivo_status = excluded.motivo_status,
             protocolo_autorizacao = excluded.protocolo_autorizacao,
-            xml_assinado = excluded.xml_assinado
+            xml_assinado = excluded.xml_assinado,
+            itens_json = excluded.itens_json,
+            destinatario_json = excluded.destinatario_json,
+            valor_total = excluded.valor_total,
+            valor_frete = excluded.valor_frete
         `, [
           'NFE_55',
           String(serie),
@@ -322,6 +437,10 @@ export default async function handler(req, res) {
           emissao.protocolo,
           emissao.xml,
           `/api/nfe/danfe/${emissao.chaveAcesso}`,
+          itensJson,
+          destinatarioJson,
+          emissao.valorTotal,
+          vFrete,
           agoraIso
         ]);
 

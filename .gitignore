@@ -30,3 +30,6 @@ ENDEREÇOS DE ENVIO/
 # Ignorar apenas arquivos temporários de auth, nunca código-fonte
 auth_token*.json
 .auth/
+.~lock.*#
+~$*
+
