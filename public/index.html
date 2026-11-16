@@ -7561,6 +7561,17 @@
                 <span id="badge-prod-margem-val" style="font-size: 13px; font-weight: 800; font-family: 'JetBrains Mono', monospace;">+0,0% (R$ 0,00)</span>
               </div>
             </div>
+
+            <!-- OPÇÃO DE RASTREABILIDADE POR LOTE -->
+            <div style="margin-top: 10px; display: flex; align-items: center; justify-content: space-between; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 6px; padding: 8px 12px;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; margin: 0;">
+                <input type="checkbox" id="form-prod-controla-lote" style="width: 17px; height: 17px; accent-color: #38bdf8; cursor: pointer;">
+                <span style="font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase;">
+                  🏷️ Rastreabilidade por Lote (Couros, Peles e Insumos com Curtume)
+                </span>
+              </label>
+              <span style="font-size: 10.5px; color: var(--text-muted);">Exige seleção de lote na produção e venda</span>
+            </div>
           </div>
 
           <!-- CAMPO OCULTO DE OBSERVAÇÕES / DETALHES TÉCNICOS -->
@@ -7579,6 +7590,9 @@
           </button>
           <button type="button" class="btn-top btn-row-action" id="btn-prod-abrir-bom" onclick="abrirModalBomProdutoAtual()" style="border-color: rgba(245, 158, 11, 0.45); color: #fbbf24;" title="Configurar Ficha Técnica e Insumos da Composição">
             <span>🛠️</span> Ficha Técnica (BOM)
+          </button>
+          <button type="button" class="btn-top btn-row-action" id="btn-prod-abrir-lotes" onclick="abrirModalLotesProdutoAtual()" style="border-color: rgba(56, 189, 248, 0.45); color: #38bdf8;" title="Gerenciar Lotes, Curtumes e Tonalidades">
+            <span>🏷️</span> Lotes & Curtumes
           </button>
           <span style="color: #334155; margin: 0 2px;">|</span>
           <button type="button" class="btn-ped-obs-action" id="btn-prod-abrir-desc" onclick="abrirSubmodalDescProduto()" title="Detalhes técnicos de curtimento, espessura e acabamento">
@@ -7979,6 +7993,150 @@
 
       <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end; align-items: center;">
         <button type="button" class="btn-top btn-row-action" onclick="fecharModalProducao()" tabindex="-1">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL: RASTREABILIDADE POR LOTE E CURTUME (BATCH TRACKING)
+       ========================================================================= -->
+  <div class="modal-overlay" id="modal-lotes-produto">
+    <div class="modal-container" style="max-width: 980px; width: 95%; max-height: 94vh;">
+      <div class="modal-resize-handle" data-modal="modal-lotes-produto" title="Arraste para redimensionar (salvo automaticamente)">◢</div>
+      <div class="modal-header" style="padding: 14px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;">🏷️</span>
+          <div>
+            <div style="font-size: 15px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;">
+              <span>Rastreabilidade por Lote:</span>
+              <strong id="modal-lotes-prod-nome" style="color: #38bdf8;">Produto</strong>
+              <span id="modal-lotes-prod-sku" class="badge-ped" style="font-size: 11px;">SKU</span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); font-weight: 500; margin-top: 2px;">
+              Controle de curtumes de origem, tonalidades e entradas físicas por lote (PEPS / FIFO)
+            </div>
+          </div>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="fecharModalLotes()" tabindex="-1">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px 22px; display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 14px; overflow-y: auto;">
+        <!-- CARDS DE RESUMO DO PRODUTO -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+          <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Estoque Geral</div>
+            <div id="modal-lotes-card-estoque-geral" style="font-size: 18px; font-weight: 800; color: #38bdf8; font-family: 'JetBrains Mono', monospace; margin-top: 2px;">0 UN</div>
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Saldo em Lotes Ativos</div>
+            <div id="modal-lotes-card-saldo-lotes" style="font-size: 18px; font-weight: 800; color: #34d399; font-family: 'JetBrains Mono', monospace; margin-top: 2px;">0 UN</div>
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Lotes Ativos com Saldo</div>
+            <div id="modal-lotes-card-qtd-ativos" style="font-size: 18px; font-weight: 800; color: #fbbf24; font-family: 'JetBrains Mono', monospace; margin-top: 2px;">0</div>
+          </div>
+          <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 10px 14px;">
+            <div style="font-size: 10.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">Total Lotes Cadastrados</div>
+            <div id="modal-lotes-card-total-lotes" style="font-size: 18px; font-weight: 800; color: #c084fc; font-family: 'JetBrains Mono', monospace; margin-top: 2px;">0</div>
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO RÁPIDO PARA REGISTRAR NOVO LOTE -->
+        <div style="background: rgba(30, 41, 59, 0.45); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 14px 16px;">
+          <div style="font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+            <span>➕ Registrar Novo Lote de Entrada</span>
+            <span style="font-size: 10.5px; color: var(--text-muted); font-weight: normal;">Gera entrada no Kardex e incrementa o estoque</span>
+          </div>
+
+          <form id="form-novo-lote" onsubmit="salvarNovoLote(event)" autocomplete="off">
+            <input type="hidden" id="form-lote-produto-id">
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px; color: #38bdf8;">Número do Lote</label>
+                <div style="display: flex; gap: 4px;">
+                  <input type="text" class="form-input" id="form-lote-numero" placeholder="Auto: #LOTE-AAAA-MM-XXXX" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; width: 100%;">
+                  <button type="button" class="btn-top btn-row-action" tabindex="-1" onclick="gerarNumeroLoteInputAuto()" title="Gerar código de lote preventivo" style="padding: 6px 9px;">⚡</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px; color: #34d399;">Quantidade Inicial *</label>
+                <input type="number" step="any" min="0.0001" class="form-input no-spin" id="form-lote-qtd" required placeholder="Ex: 10" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; text-align: center; -moz-appearance: textfield; -webkit-appearance: none;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px;">Custo Unitário (R$)</label>
+                <input type="text" inputmode="decimal" class="form-input" id="form-lote-custo" placeholder="0,00" onblur="if(this.value && this.value.trim()){ this.value = formatarMoedaPtBr(this.value); }" style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px;">Data de Entrada</label>
+                <input type="date" class="form-input" id="form-lote-data-entrada" style="font-family: 'JetBrains Mono', monospace;">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 10px;">
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px; color: #fbbf24;">Curtume / Fornecedor Origem</label>
+                <input type="text" class="form-input" id="form-lote-curtume" placeholder="EX: CURTUME MODELO RS" style="font-weight: 700; text-transform: uppercase;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px; color: #c084fc;">Tonalidade / Variante</label>
+                <input type="text" class="form-input" id="form-lote-tonalidade" placeholder="EX: PINHÃO NOBRE, CARAMELO, HAVANA" style="font-weight: 700; text-transform: uppercase;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" style="font-size: 11px; margin-bottom: 3px;">Observações</label>
+                <input type="text" class="form-input" id="form-lote-obs" placeholder="Detalhes de flor, espessura ou lote de curtume" style="text-transform: uppercase;">
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+              <button type="submit" class="btn-top btn-primary-glow" style="padding: 7px 18px; font-size: 12.5px;">
+                💾 Registrar Lote & Entrada
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TABELA DE LOTES CADASTRADOS -->
+        <div style="display: flex; flex-direction: column; flex: 1; min-height: 200px;">
+          <div style="font-size: 12px; font-weight: 800; color: #fff; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
+            <span>📋 Lotes Cadastrados (Ordenação PEPS)</span>
+            <span style="font-size: 11px; color: var(--text-muted);" id="modal-lotes-contador-linhas">0 lotes</span>
+          </div>
+
+          <div style="overflow-x: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+            <table class="erp-table" id="tabela-lotes-produto" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="background: rgba(15, 23, 42, 0.85); border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <th style="padding: 8px 12px; text-align: left; font-size: 11px; color: #94a3b8;">LOTE</th>
+                  <th style="padding: 8px 12px; text-align: left; font-size: 11px; color: #94a3b8;">CURTUME / ORIGEM</th>
+                  <th style="padding: 8px 12px; text-align: left; font-size: 11px; color: #94a3b8;">TONALIDADE</th>
+                  <th style="padding: 8px 12px; text-align: center; font-size: 11px; color: #94a3b8;">DATA ENTRADA</th>
+                  <th style="padding: 8px 12px; text-align: right; font-size: 11px; color: #94a3b8;">QTD INICIAL</th>
+                  <th style="padding: 8px 12px; text-align: right; font-size: 11px; color: #34d399;">SALDO DISPONÍVEL</th>
+                  <th style="padding: 8px 12px; text-align: right; font-size: 11px; color: #94a3b8;">CUSTO UNIT.</th>
+                  <th style="padding: 8px 12px; text-align: center; font-size: 11px; color: #94a3b8;">STATUS</th>
+                  <th style="padding: 8px 12px; text-align: center; font-size: 11px; color: #94a3b8;">AÇÕES</th>
+                </tr>
+              </thead>
+              <tbody id="modal-lotes-tabela-body">
+                <tr>
+                  <td colspan="9" style="padding: 24px; text-align: center; color: var(--text-muted);">
+                    Carregando lotes...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 12px 22px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: flex-end; align-items: center;">
+        <button type="button" class="btn-top btn-row-action" onclick="fecharModalLotes()" tabindex="-1">Fechar</button>
       </div>
     </div>
   </div>
@@ -12278,6 +12436,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         fecharModalProduto();
         if (typeof fecharModalBom === 'function') fecharModalBom();
         if (typeof fecharModalProducao === 'function') fecharModalProducao();
+        if (typeof fecharModalLotes === 'function') fecharModalLotes();
       }
     });
 
@@ -12863,6 +13022,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (qtdAtcEl) qtdAtcEl.value = '5';
       const cAdicEl = document.getElementById('form-prod-custo-adicional');
       if (cAdicEl) cAdicEl.value = '0,00';
+      const cLoteEl = document.getElementById('form-prod-controla-lote');
+      if (cLoteEl) cLoteEl.checked = false;
       const ncmEl = document.getElementById('form-prod-ncm');
       if (ncmEl) ncmEl.value = '42050000';
       gerarSkuAuto();
@@ -12911,6 +13072,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (qtdAtcEl) qtdAtcEl.value = prod.qtd_minima_atacado || 5;
       const cAdicEl = document.getElementById('form-prod-custo-adicional');
       if (cAdicEl) cAdicEl.value = formatarMoedaPtBr(prod.custo_adicional_producao || 0);
+      const cLoteEl = document.getElementById('form-prod-controla-lote');
+      if (cLoteEl) cLoteEl.checked = prod.controla_lote === 1;
       document.getElementById('form-prod-est').value = prod.estoque_atual || 0;
       document.getElementById('form-prod-desc').value = prod.descricao || '';
       const bSku = document.getElementById('modal-prod-badge-sku');
@@ -13051,6 +13214,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         preco_atacado: (document.getElementById('form-prod-atacado')?.value || '').trim() ? desformatarNumeroPtBr(document.getElementById('form-prod-atacado').value) : null,
         qtd_minima_atacado: Math.max(1, parseFloat(document.getElementById('form-prod-qtd-min-atacado')?.value || 5)),
         custo_adicional_producao: desformatarNumeroPtBr(document.getElementById('form-prod-custo-adicional')?.value || 0),
+        controla_lote: document.getElementById('form-prod-controla-lote')?.checked ? 1 : 0,
         estoque_atual: parseFloat(document.getElementById('form-prod-est').value || 0),
         descricao: document.getElementById('form-prod-desc').value.trim().toUpperCase()
       };
@@ -13834,6 +13998,231 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         }
       } catch (err) {
         alert('Erro ao atualizar política: ' + err.message);
+      }
+    }
+
+    // =========================================================================
+    // RASTREABILIDADE POR LOTE E CURTUME (BATCH TRACKING)
+    // =========================================================================
+    let lotesProdutoAtual = [];
+
+    function abrirModalLotesProdutoAtual() {
+      const prodId = document.getElementById('form-prod-id')?.value;
+      if (!prodId) {
+        alert('Salve o produto antes de gerenciar seus lotes e curtumes.');
+        return;
+      }
+      abrirModalLotes(prodId);
+    }
+
+    async function abrirModalLotes(produtoId) {
+      const prod = (produtos || []).find(p => String(p.id) === String(produtoId));
+      if (!prod) return;
+
+      aplicarTamanhoSalvoModal('modal-lotes-produto');
+      document.getElementById('form-lote-produto-id').value = produtoId;
+      document.getElementById('modal-lotes-prod-nome').textContent = prod.nome;
+      document.getElementById('modal-lotes-prod-sku').textContent = prod.codigo_sku || 'SKU';
+      document.getElementById('modal-lotes-card-estoque-geral').textContent = `${prod.estoque_atual || 0} ${prod.unidade_medida || 'UN'}`;
+
+      // Reset form novo lote
+      document.getElementById('form-novo-lote').reset();
+      document.getElementById('form-lote-numero').value = '';
+      document.getElementById('form-lote-qtd').value = '';
+      document.getElementById('form-lote-custo').value = formatarMoedaPtBr(prod.preco_custo || 0);
+      document.getElementById('form-lote-data-entrada').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('form-lote-curtume').value = '';
+      document.getElementById('form-lote-tonalidade').value = '';
+      document.getElementById('form-lote-obs').value = '';
+
+      document.getElementById('modal-lotes-produto').classList.add('active');
+      focarPrimeiroCampoModal(document.getElementById('modal-lotes-produto'));
+
+      await carregarLotesProduto(produtoId);
+    }
+
+    function fecharModalLotes() {
+      document.getElementById('modal-lotes-produto').classList.remove('active');
+    }
+
+    async function gerarNumeroLoteInputAuto() {
+      const d = new Date();
+      const anoMes = d.toISOString().slice(0, 7);
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('form-lote-numero').value = `#LOTE-${anoMes}-${rand}`;
+    }
+
+    async function carregarLotesProduto(produtoId) {
+      const tbody = document.getElementById('modal-lotes-tabela-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td colspan="9" style="padding: 24px; text-align: center; color: var(--text-muted);">Carregando lotes...</td></tr>`;
+
+      try {
+        const resp = await fetch(`/api/produtos/${produtoId}/lotes`);
+        if (resp.ok) {
+          const data = await resp.json();
+          lotesProdutoAtual = data.lotes || [];
+          const stats = data.estatisticas || {};
+
+          document.getElementById('modal-lotes-card-saldo-lotes').textContent = `${stats.saldo_total_lotes || 0} ${data.produto?.unidade_medida || 'UN'}`;
+          document.getElementById('modal-lotes-card-qtd-ativos').textContent = stats.lotes_ativos_com_saldo || 0;
+          document.getElementById('modal-lotes-card-total-lotes').textContent = stats.total_lotes || 0;
+          document.getElementById('modal-lotes-contador-linhas').textContent = `${lotesProdutoAtual.length} lote(s) cadastrado(s)`;
+
+          renderizarTabelaLotes(lotesProdutoAtual);
+        } else {
+          tbody.innerHTML = `<tr><td colspan="9" style="padding: 24px; text-align: center; color: #f87171;">Falha ao carregar lotes da API.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="9" style="padding: 24px; text-align: center; color: #f87171;">Erro de rede ao carregar lotes: ${err.message}</td></tr>`;
+      }
+    }
+
+    function renderizarTabelaLotes(lotes) {
+      const tbody = document.getElementById('modal-lotes-tabela-body');
+      if (!tbody) return;
+
+      if (!lotes || lotes.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="padding: 28px; text-align: center; color: var(--text-muted);">
+              Nenhum lote registrado para este produto.<br>
+              <span style="font-size: 11px;">Utilize o formulário acima para dar entrada no primeiro lote de curtume.</span>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = lotes.map(l => {
+        const saldo = parseFloat(l.quantidade_atual) || 0;
+        const inicial = parseFloat(l.quantidade_inicial) || 0;
+        const isAtivo = l.status === 'ATIVO';
+        const isBloqueado = l.status === 'BLOQUEADO';
+        
+        let statusBadge = '';
+        if (isBloqueado) {
+          statusBadge = `<span style="background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-family: monospace; font-size: 10.5px;">BLOQUEADO</span>`;
+        } else if (saldo <= 0) {
+          statusBadge = `<span style="background: rgba(100, 116, 139, 0.2); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.35); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-family: monospace; font-size: 10.5px;">ESGOTADO</span>`;
+        } else {
+          statusBadge = `<span style="background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 7px; border-radius: 4px; font-weight: 800; font-family: monospace; font-size: 10.5px;">ATIVO</span>`;
+        }
+
+        const dataFormatada = l.data_entrada ? l.data_entrada.split('-').reverse().join('/') : '-';
+        const custoFormatado = `R$ ${(parseFloat(l.custo_unitario) || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+        const botaoStatus = isBloqueado
+          ? `<button type="button" class="btn-table-action" onclick="alternarStatusLote(${l.id}, 'ATIVO')" title="Desbloquear lote para uso operacional" style="color: #34d399; border-color: rgba(52, 211, 153, 0.4);">🔓 Desbloquear</button>`
+          : (saldo > 0 ? `<button type="button" class="btn-table-action" onclick="alternarStatusLote(${l.id}, 'BLOQUEADO')" title="Bloquear lote por defeito ou inspeção" style="color: #f87171; border-color: rgba(239, 68, 68, 0.4);">🔒 Bloquear</button>` : `<span style="color: var(--text-muted); font-size: 10px;">-</span>`);
+
+        return `
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8;">
+              ${l.numero_lote}
+            </td>
+            <td style="padding: 8px 12px; font-weight: 700; color: #fff;">
+              ${l.curtume_origem || '<span style="color: var(--text-muted); font-weight: normal;">NÃO INFORMADO</span>'}
+            </td>
+            <td style="padding: 8px 12px;">
+              ${l.tonalidade ? `<span class="badge-ped" style="color: #c084fc; border-color: rgba(192, 132, 252, 0.35);">${l.tonalidade}</span>` : '<span style="color: var(--text-muted);">-</span>'}
+            </td>
+            <td style="padding: 8px 12px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">
+              ${dataFormatada}
+            </td>
+            <td style="padding: 8px 12px; text-align: right; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">
+              ${inicial}
+            </td>
+            <td style="padding: 8px 12px; text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: ${saldo > 0 ? '#34d399' : '#94a3b8'}; font-size: 13px;">
+              ${saldo}
+            </td>
+            <td style="padding: 8px 12px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #fbbf24;">
+              ${custoFormatado}
+            </td>
+            <td style="padding: 8px 12px; text-align: center;">
+              ${statusBadge}
+            </td>
+            <td style="padding: 8px 12px; text-align: center;">
+              ${botaoStatus}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function salvarNovoLote(e) {
+      e.preventDefault();
+      const produtoId = parseInt(document.getElementById('form-lote-produto-id')?.value || '0', 10);
+      if (!produtoId) return;
+
+      const qtd = parseFloat(document.getElementById('form-lote-qtd')?.value || '0');
+      if (isNaN(qtd) || qtd <= 0) {
+        alert('A quantidade inicial deve ser maior que zero.');
+        return;
+      }
+
+      const payload = {
+        numero_lote: document.getElementById('form-lote-numero')?.value.trim().toUpperCase(),
+        quantidade: qtd,
+        custo_unitario: desformatarNumeroPtBr(document.getElementById('form-lote-custo')?.value),
+        data_entrada: document.getElementById('form-lote-data-entrada')?.value,
+        curtume_origem: document.getElementById('form-lote-curtume')?.value.trim().toUpperCase(),
+        tonalidade: document.getElementById('form-lote-tonalidade')?.value.trim().toUpperCase(),
+        observacoes: document.getElementById('form-lote-obs')?.value.trim(),
+        operador_nome: typeof usuarioLogado !== 'undefined' && usuarioLogado ? (usuarioLogado.nome || usuarioLogado.login) : 'OPERADOR'
+      };
+
+      try {
+        const resp = await fetch(`/api/produtos/${produtoId}/lotes`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok && data.success) {
+          mostrarToast(`🏷️ Lote ${data.lote?.numero_lote} registrado com sucesso! Entrada de ${qtd} un gerada no Kardex.`);
+          
+          // Limpa campos
+          document.getElementById('form-lote-numero').value = '';
+          document.getElementById('form-lote-qtd').value = '';
+          document.getElementById('form-lote-obs').value = '';
+
+          await carregarLotesProduto(produtoId);
+          await carregarProdutosApi();
+        } else {
+          alert('Erro ao registrar lote: ' + (data.error || 'Falha na gravação'));
+        }
+      } catch (err) {
+        alert('Falha de rede ao registrar lote: ' + err.message);
+      }
+    }
+
+    async function alternarStatusLote(loteId, novoStatus) {
+      const confirmMsg = novoStatus === 'BLOQUEADO'
+        ? 'Deseja realmente BLOQUEAR este lote? Ele não poderá ser consumido em produções nem vendido até que seja desbloqueado.'
+        : 'Deseja DESBLOQUEAR este lote para uso operacional?';
+
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const resp = await fetch(`/api/lotes/${loteId}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: novoStatus })
+        });
+
+        const data = await resp.json().catch(() => ({}));
+        if (resp.ok && data.success) {
+          mostrarToast(`Status do lote atualizado para ${novoStatus}!`);
+          const produtoId = parseInt(document.getElementById('form-lote-produto-id')?.value || '0', 10);
+          if (produtoId) await carregarLotesProduto(produtoId);
+        } else {
+          alert('Erro ao atualizar status do lote: ' + (data.error || 'Falha na requisição'));
+        }
+      } catch (err) {
+        alert('Falha de conexão: ' + err.message);
       }
     }
 
@@ -21091,6 +21480,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           🪵 ${(p.nome || 'Produto').substring(0, 20)}
         </div>
         <button class="erp-context-item" onclick="abrirModalAjusteEstoque(${p.id}); fecharContextMenu();" style="color: #38bdf8; font-weight: 800;">⚡ Ajuste de Estoque</button>
+        <button class="erp-context-item" onclick="abrirModalLotes(${p.id}); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">🏷️ Rastreabilidade por Lote</button>
         <button class="erp-context-item" onclick="abrirModalFichaKardex(${p.id}); fecharContextMenu();" style="color: #fbbf24; font-weight: 700;">📑 Ver Ficha Kardex</button>
         <button class="erp-context-item" onclick="abrirModalBom(${p.id}); fecharContextMenu();" style="color: #c084fc; font-weight: 700;">🛠️ Ficha Técnica (BOM)</button>
         <button class="erp-context-item" onclick="abrirModalProducaoComProduto(${p.id}); fecharContextMenu();" style="color: #34d399; font-weight: 800;">⚡ Produzir este Item</button>
