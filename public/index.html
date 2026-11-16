@@ -7345,34 +7345,62 @@
           </div>
         </div>
 
-        <!-- LINHA 3: DISCRIMINAÇÃO DO ITEM + NCM + VALOR TOTAL -->
-        <div style="display: grid; grid-template-columns: 1fr 130px 160px; gap: 10px; align-items: flex-end;">
-          <div class="form-group" style="margin: 0;">
-            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; margin-bottom: 3px;">
-              Descrição dos Produtos / Mercadorias *
-            </label>
-            <input type="text" class="form-input" id="fiscal-item" value="LONCA DE CABRITO LEGITIMA PARA ARTESANATO" style="font-weight: 600;" aria-label="TOPBAR-SEARCH">
+        <!-- LINHA 3: TABELA RICA DE ITENS / PRODUTOS DISCRIMINADOS NA NF-E -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px; margin: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 12px; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;">
+                📦 Produtos e Mercadorias da NF-e (<span id="fiscal-qtd-itens-badge">1</span>)
+              </span>
+              <span style="font-size: 10.5px; color: #94a3b8;">Discriminação obrigatória SEFAZ por NCM</span>
+            </div>
+            <button type="button" tabindex="-1" class="btn-top" style="font-size: 11px; padding: 4px 10px; background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);" onclick="adicionarLinhaItemFiscal()">
+              <span>➕</span> Adicionar Item
+            </button>
           </div>
 
-          <div class="form-group" style="margin: 0;">
-            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #fbbf24; text-transform: uppercase; margin-bottom: 3px; text-align: center;">
-              NCM *
-            </label>
-            <input type="text" class="form-input" id="fiscal-ncm" value="4106.31.10" maxlength="10" oninput="validarNcmCampoFiscal(this)" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24;" aria-label="TOPBAR-SEARCH">
+          <!-- TABELA DE ITENS COM SCROLL SUAVE -->
+          <div style="max-height: 220px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; background: rgba(0,0,0,0.2);">
+            <table class="tabela-erp" id="tabela-itens-fiscal" style="width: 100%; border-collapse: collapse; font-size: 11.5px;">
+              <thead>
+                <tr style="background: rgba(30, 41, 59, 0.95); position: sticky; top: 0; z-index: 2;">
+                  <th style="width: 90px; padding: 6px 8px; text-align: left;">SKU/CÓD</th>
+                  <th style="padding: 6px 8px; text-align: left;">DESCRIÇÃO DA MERCADORIA *</th>
+                  <th style="width: 115px; padding: 6px 8px; text-align: center; color: #fbbf24;">NCM *</th>
+                  <th style="width: 50px; padding: 6px 8px; text-align: center;">UN</th>
+                  <th style="width: 65px; padding: 6px 8px; text-align: right;">QTD</th>
+                  <th style="width: 95px; padding: 6px 8px; text-align: right;">V. UNIT (R$)</th>
+                  <th style="width: 100px; padding: 6px 8px; text-align: right;">SUBTOTAL</th>
+                  <th style="width: 38px; padding: 6px 4px; text-align: center;"></th>
+                </tr>
+              </thead>
+              <tbody id="fiscal-itens-tbody">
+                <!-- Linhas populadas dinamicamente -->
+              </tbody>
+            </table>
           </div>
 
-          <div class="form-group" style="margin: 0;">
-            <label class="form-label" style="font-size: 11px; font-weight: 700; color: #34d399; text-transform: uppercase; margin-bottom: 3px; text-align: right;">
-              Valor Total (R$) *
-            </label>
-            <input type="text" inputmode="decimal" class="form-input" id="fiscal-valor" value="250,00" style="font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px; color: #34d399; text-align: right;" onblur="this.value = formatarMoedaPtBr(this.value)" aria-label="TOPBAR-SEARCH">
+          <!-- TOTALIZADORES DOS ITENS E DO FRETE -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; gap: 14px; align-items: center; font-size: 11.5px;">
+              <span style="color: #94a3b8;">Itens: <strong id="fiscal-subtotal-produtos" style="color: #fff; font-family: 'JetBrains Mono', monospace;">R$ 0,00</strong></span>
+              <span style="color: #94a3b8;">Frete: <strong id="fiscal-subtotal-frete" style="color: #38bdf8; font-family: 'JetBrains Mono', monospace;">R$ 0,00</strong></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 11.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Total da NF-e:</span>
+              <span id="fiscal-valor-total-exibicao" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #34d399;">R$ 0,00</span>
+              <!-- Inputs de compatibilidade -->
+              <input type="hidden" id="fiscal-item" value="">
+              <input type="hidden" id="fiscal-ncm" value="41063110" oninput="validarNcmCampoFiscal(this)">
+              <input type="hidden" id="fiscal-valor" value="0,00">
+            </div>
           </div>
         </div>
 
         <!-- ALERTA PREVENTIVO DE NCM INVÁLIDO (TICKET 13) -->
         <div id="fiscal-alerta-ncm" style="display: none; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #f87171; align-items: center; gap: 8px;">
           <span>⚠️</span>
-          <span><strong>NCM Inválido:</strong> O código NCM deve conter exatamente 8 dígitos numéricos oficiais. Corrija antes de transmitir à SEFAZ.</span>
+          <span><strong>Bloqueio Fiscal SEFAZ:</strong> Há itens sem código NCM de 8 dígitos numéricos válidos. Corrija o campo destacado antes de transmitir à SEFAZ.</span>
         </div>
 
         <!-- CARD DA CHAVE DE ACESSO DE 44 DÍGITOS E PROTOCOLO -->
@@ -12129,25 +12157,183 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     let pedidoFiscalVinculadoId = null;
+    let valorFreteFiscalVinculado = 0;
+
+    function formatarMascaraNcm(val) {
+      const digitos = String(val || '').replace(/\D/g, '').slice(0, 8);
+      if (digitos.length <= 4) return digitos;
+      if (digitos.length <= 6) return `${digitos.slice(0, 4)}.${digitos.slice(4)}`;
+      return `${digitos.slice(0, 4)}.${digitos.slice(4, 6)}.${digitos.slice(6, 8)}`;
+    }
 
     function validarNcmCampoFiscal(inputEl) {
       if (!inputEl) return true;
       const ncmLimpo = String(inputEl.value || '').replace(/\D/g, '');
-      const alerta = document.getElementById('fiscal-alerta-ncm');
-      const btnTransmitir = document.getElementById('btn-transmitir-nfe');
+      
+      // Autoformatação visual progressiva
+      if (inputEl.value !== formatarMascaraNcm(inputEl.value)) {
+        inputEl.value = formatarMascaraNcm(inputEl.value);
+      }
 
       if (ncmLimpo.length !== 8) {
         inputEl.style.borderColor = '#ef4444';
         inputEl.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.25)';
-        if (alerta) alerta.style.display = 'flex';
-        if (btnTransmitir) btnTransmitir.disabled = true;
-        return false;
       } else {
         inputEl.style.borderColor = '#fbbf24';
         inputEl.style.boxShadow = 'none';
+      }
+
+      auditarNcmsItensFiscais();
+      return ncmLimpo.length === 8;
+    }
+
+    function auditarNcmsItensFiscais() {
+      const alerta = document.getElementById('fiscal-alerta-ncm');
+      const btnTransmitir = document.getElementById('btn-transmitir-nfe');
+      const linhas = document.querySelectorAll('#fiscal-itens-tbody tr');
+      
+      let temErroNcm = false;
+      let qtdItens = 0;
+
+      linhas.forEach((tr, idx) => {
+        qtdItens++;
+        const inpNcm = tr.querySelector('.fiscal-item-ncm');
+        if (inpNcm) {
+          const limpo = String(inpNcm.value || '').replace(/\D/g, '');
+          if (limpo.length !== 8) {
+            temErroNcm = true;
+            inpNcm.style.borderColor = '#ef4444';
+          }
+        }
+      });
+
+      // Atualiza badge de quantidade de itens
+      const badgeQtd = document.getElementById('fiscal-qtd-itens-badge');
+      if (badgeQtd) badgeQtd.textContent = String(qtdItens);
+
+      if (temErroNcm || qtdItens === 0) {
+        if (alerta) alerta.style.display = 'flex';
+        if (btnTransmitir) btnTransmitir.disabled = true;
+      } else {
         if (alerta) alerta.style.display = 'none';
         if (btnTransmitir) btnTransmitir.disabled = false;
-        return true;
+      }
+
+      // Sincroniza hidden inputs de retrocompatibilidade
+      const primeiraLinha = linhas[0];
+      if (primeiraLinha) {
+        const inpItemHidden = document.getElementById('fiscal-item');
+        const inpNcmHidden = document.getElementById('fiscal-ncm');
+        const desc = primeiraLinha.querySelector('.fiscal-item-desc')?.value;
+        const ncm = primeiraLinha.querySelector('.fiscal-item-ncm')?.value;
+        if (inpItemHidden && desc) inpItemHidden.value = desc;
+        if (inpNcmHidden && ncm) inpNcmHidden.value = String(ncm).replace(/\D/g, '');
+      }
+    }
+
+    function recalcularTotaisModalFiscal() {
+      const linhas = document.querySelectorAll('#fiscal-itens-tbody tr');
+      let somaProdutos = 0;
+
+      linhas.forEach(tr => {
+        const inpQtd = tr.querySelector('.fiscal-item-qtd');
+        const inpVUnit = tr.querySelector('.fiscal-item-vunit');
+        const inpSub = tr.querySelector('.fiscal-item-subtot');
+
+        const qtd = desformatarNumeroPtBr(inpQtd?.value || '1');
+        const vUnit = desformatarNumeroPtBr(inpVUnit?.value || '0');
+        const sub = Math.round((qtd * vUnit) * 100) / 100;
+
+        if (inpSub) inpSub.value = Number(sub).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        somaProdutos += sub;
+      });
+
+      const frete = Number(valorFreteFiscalVinculado || 0);
+      const totalNfe = Math.round((somaProdutos + frete) * 100) / 100;
+
+      const elSubProd = document.getElementById('fiscal-subtotal-produtos');
+      if (elSubProd) elSubProd.textContent = Number(somaProdutos).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      const elSubFrete = document.getElementById('fiscal-subtotal-frete');
+      if (elSubFrete) elSubFrete.textContent = Number(frete).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      const elTotal = document.getElementById('fiscal-valor-total-exibicao');
+      if (elTotal) elTotal.textContent = Number(totalNfe).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      const inpHiddenValor = document.getElementById('fiscal-valor');
+      if (inpHiddenValor) inpHiddenValor.value = Number(totalNfe).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      auditarNcmsItensFiscais();
+    }
+
+    function adicionarLinhaItemFiscal(dados = {}) {
+      const tbody = document.getElementById('fiscal-itens-tbody');
+      if (!tbody) return;
+
+      const idx = tbody.children.length + 1;
+      const codigo = dados.codigo || dados.codigo_sku || dados.sku || `SKU-0${idx}`;
+      const descricao = (dados.descricao || dados.nome || dados.titulo || 'PRODUTOS ARTESANAIS EM COURO').toUpperCase();
+      let ncm = String(dados.ncm || '').replace(/\D/g, '');
+      if (!ncm && (dados.produto_id || dados.id || codigo)) {
+        // Tenta achar em produtos cadastrados na memória
+        if (typeof produtos !== 'undefined' && Array.isArray(produtos)) {
+          const prodCad = produtos.find(p => String(p.id) === String(dados.produto_id || dados.id) || p.codigo === codigo);
+          if (prodCad?.ncm) ncm = String(prodCad.ncm).replace(/\D/g, '');
+        }
+      }
+      if (!ncm) ncm = '41063110'; // Fallback couro curtido legítimo
+
+      const unidade = (dados.unidade || 'UN').toUpperCase();
+      const qtd = Number(dados.quantidade || dados.qtd || 1);
+      const precoUnit = Number(dados.valor_unitario || dados.preco_unitario || dados.preco || 0);
+      const subtotal = Number(dados.valor_total || dados.subtotal || (qtd * precoUnit));
+
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+      tr.innerHTML = `
+        <td style="padding: 4px 6px;">
+          <input type="text" class="form-input fiscal-item-codigo" value="${codigo}" style="font-size: 11px; padding: 4px 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; width: 100%; text-transform: uppercase;">
+        </td>
+        <td style="padding: 4px 6px;">
+          <input type="text" class="form-input fiscal-item-desc" value="${descricao}" style="font-size: 11px; padding: 4px 6px; font-weight: 600; width: 100%; text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
+        </td>
+        <td style="padding: 4px 6px; text-align: center;">
+          <input type="text" class="form-input fiscal-item-ncm" value="${formatarMascaraNcm(ncm)}" maxlength="10" oninput="validarNcmCampoFiscal(this)" style="font-size: 11px; padding: 4px 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-align: center; color: #fbbf24; width: 100%;">
+        </td>
+        <td style="padding: 4px 6px; text-align: center;">
+          <input type="text" class="form-input fiscal-item-un" value="${unidade}" maxlength="4" style="font-size: 11px; padding: 4px 4px; text-align: center; font-weight: 700; width: 100%; text-transform: uppercase;">
+        </td>
+        <td style="padding: 4px 6px; text-align: right;">
+          <input type="text" inputmode="decimal" class="form-input fiscal-item-qtd" value="${qtd}" oninput="recalcularTotaisModalFiscal()" style="font-size: 11px; padding: 4px 6px; font-family: 'JetBrains Mono', monospace; text-align: right; width: 100%;">
+        </td>
+        <td style="padding: 4px 6px; text-align: right;">
+          <input type="text" inputmode="decimal" class="form-input fiscal-item-vunit" value="${precoUnit.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}" oninput="recalcularTotaisModalFiscal()" onblur="this.value = formatarMoedaPtBr(this.value); recalcularTotaisModalFiscal()" style="font-size: 11px; padding: 4px 6px; font-family: 'JetBrains Mono', monospace; text-align: right; width: 100%;">
+        </td>
+        <td style="padding: 4px 6px; text-align: right;">
+          <input type="text" class="form-input fiscal-item-subtot" readonly tabindex="-1" value="${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}" style="font-size: 11px; padding: 4px 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #34d399; text-align: right; width: 100%; background: rgba(255,255,255,0.02);">
+        </td>
+        <td style="padding: 4px 2px; text-align: center;">
+          <button type="button" tabindex="-1" class="btn-top" onclick="removerLinhaItemFiscal(this)" style="font-size: 11px; padding: 3px 6px; background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3);" title="Remover item da nota fiscal">
+            🗑️
+          </button>
+        </td>
+      `;
+
+      tbody.appendChild(tr);
+      validarNcmCampoFiscal(tr.querySelector('.fiscal-item-ncm'));
+      recalcularTotaisModalFiscal();
+    }
+
+    function removerLinhaItemFiscal(btn) {
+      const tr = btn.closest('tr');
+      const tbody = document.getElementById('fiscal-itens-tbody');
+      if (tr && tbody) {
+        tr.remove();
+        if (tbody.children.length === 0) {
+          adicionarLinhaItemFiscal();
+        } else {
+          recalcularTotaisModalFiscal();
+        }
       }
     }
 
@@ -12181,23 +12367,62 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
       abrirModalFiscal(clienteFiscalSelecionado.id);
 
-      // Preenche os dados do pedido
-      const inpItem = document.getElementById('fiscal-item');
-      const inpValor = document.getElementById('fiscal-valor');
-      const selCfop = document.getElementById('fiscal-natureza');
-      const inpNcm = document.getElementById('fiscal-ncm');
-
-      if (inpItem) inpItem.value = pedido.itens || 'PRODUTOS ARTESANAIS EM COURO';
-      if (inpValor) inpValor.value = Number(pedido.valor_total || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      // Preenche os totalizadores e frete
+      valorFreteFiscalVinculado = Number(pedido.valor_frete || 0);
 
       // CFOP automático: se destinatário RS -> 5101/5102; fora do RS -> 6101/6102
+      const selCfop = document.getElementById('fiscal-natureza');
       const ufDest = (pedido.uf || clienteFiscalSelecionado.uf || 'RS').toUpperCase();
       if (selCfop) {
         selCfop.value = ufDest === 'RS' ? '5102' : '6102';
       }
 
-      // Validação preventiva dos NCMs dos itens
-      validarNcmCampoFiscal(inpNcm);
+      // Popula tabela de itens discriminados
+      const tbody = document.getElementById('fiscal-itens-tbody');
+      if (tbody) tbody.innerHTML = '';
+
+      let itensCarregados = [];
+      if (pedido.itens_detalhados) {
+        try {
+          itensCarregados = typeof pedido.itens_detalhados === 'string'
+            ? JSON.parse(pedido.itens_detalhados)
+            : pedido.itens_detalhados;
+        } catch {
+          itensCarregados = [];
+        }
+      }
+
+      // Se não houver itens_detalhados, tenta quebrar o texto legado
+      if (!Array.isArray(itensCarregados) || itensCarregados.length === 0) {
+        if (typeof parseTextoParaItens === 'function' && pedido.itens) {
+          itensCarregados = parseTextoParaItens(pedido.itens, pedido.valor_total);
+        } else if (pedido.itens) {
+          const linhasTexto = String(pedido.itens).split('\n').map(l => l.trim()).filter(Boolean);
+          itensCarregados = linhasTexto.map((linha, idx) => ({
+            codigo: `SKU-0${idx + 1}`,
+            descricao: linha,
+            ncm: '41063110',
+            quantidade: 1,
+            valor_unitario: Number(pedido.valor_total || 0) / (linhasTexto.length || 1),
+            valor_total: Number(pedido.valor_total || 0) / (linhasTexto.length || 1)
+          }));
+        }
+      }
+
+      if (Array.isArray(itensCarregados) && itensCarregados.length > 0) {
+        itensCarregados.forEach(it => adicionarLinhaItemFiscal(it));
+      } else {
+        adicionarLinhaItemFiscal({
+          descricao: pedido.itens || 'PRODUTOS ARTESANAIS EM COURO',
+          ncm: '41063110',
+          quantidade: 1,
+          valor_unitario: Number(pedido.valor_total || 0),
+          valor_total: Number(pedido.valor_total || 0)
+        });
+      }
+
+      recalcularTotaisModalFiscal();
+      auditarNcmsItensFiscais();
     }
 
     function baixarXmlFiscal() {
@@ -12229,20 +12454,68 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         chavePrev.textContent = gerarChaveAcessoSimulada('43', cliente?.cnpj || cliente?.cpf || '00000000000191');
       }
 
+      // Se a tabela estiver vazia, adiciona uma linha inicial
+      const tbody = document.getElementById('fiscal-itens-tbody');
+      if (tbody && tbody.children.length === 0) {
+        adicionarLinhaItemFiscal();
+      }
+
       document.getElementById('modal-fiscal').classList.add('active');
     }
 
     function fecharModalFiscal() {
       document.getElementById('modal-fiscal').classList.remove('active');
       clienteFiscalSelecionado = null;
+      pedidoFiscalVinculadoId = null;
+      valorFreteFiscalVinculado = 0;
     }
 
     // Transmissão real do documento fiscal via API REST
     async function transmitirNfeModal() {
-      const inpNcm = document.getElementById('fiscal-ncm');
-      if (!validarNcmCampoFiscal(inpNcm)) {
-        mostrarToast('⚠️ Bloqueio Fiscal: O código NCM deve ter exatamente 8 dígitos!');
-        inpNcm?.focus();
+      const linhas = document.querySelectorAll('#fiscal-itens-tbody tr');
+      if (!linhas || linhas.length === 0) {
+        mostrarToast('Adicione ao menos um produto antes de emitir a nota fiscal.');
+        return;
+      }
+
+      // Validação preventiva de NCM de todas as linhas
+      let ncmInvalidoEncontrado = false;
+      const produtosParaEnviar = [];
+
+      linhas.forEach((tr, idx) => {
+        const inpCodigo = tr.querySelector('.fiscal-item-codigo');
+        const inpDesc = tr.querySelector('.fiscal-item-desc');
+        const inpNcm = tr.querySelector('.fiscal-item-ncm');
+        const inpUn = tr.querySelector('.fiscal-item-un');
+        const inpQtd = tr.querySelector('.fiscal-item-qtd');
+        const inpVUnit = tr.querySelector('.fiscal-item-vunit');
+        const inpSub = tr.querySelector('.fiscal-item-subtot');
+
+        const ncmLimpo = String(inpNcm?.value || '').replace(/\D/g, '');
+        if (ncmLimpo.length !== 8) {
+          ncmInvalidoEncontrado = true;
+          if (inpNcm) inpNcm.style.borderColor = '#ef4444';
+        }
+
+        const qtd = desformatarNumeroPtBr(inpQtd?.value || '1');
+        const vUnit = desformatarNumeroPtBr(inpVUnit?.value || '0');
+        const vTot = desformatarNumeroPtBr(inpSub?.value || String(qtd * vUnit));
+
+        produtosParaEnviar.push({
+          codigo: inpCodigo?.value.trim().toUpperCase() || `SKU-0${idx + 1}`,
+          descricao: inpDesc?.value.trim().toUpperCase() || 'MERCADORIA EM COURO',
+          ncm: ncmLimpo,
+          cfop: document.getElementById('fiscal-natureza')?.value || '5102',
+          unidade: inpUn?.value.trim().toUpperCase() || 'UN',
+          quantidade: qtd,
+          valor_unitario: vUnit,
+          valor_total: vTot
+        });
+      });
+
+      if (ncmInvalidoEncontrado) {
+        mostrarToast('⚠️ Bloqueio Fiscal: Há itens com NCM incompleto (exige 8 dígitos). Corrija antes de transmitir!');
+        auditarNcmsItensFiscais();
         return;
       }
 
@@ -12251,10 +12524,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         return;
       }
 
-      const valorNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor')?.value || '0');
-      const itemDesc = document.getElementById('fiscal-item')?.value || 'PRODUTOS ARTESANAIS EM COURO';
-      const ncmVal = (document.getElementById('fiscal-ncm')?.value || '41063110').replace(/\D/g, '');
-      const cfopVal = document.getElementById('fiscal-natureza')?.value || '5102';
+      const valorTotalNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor')?.value || '0');
+      const freteNum = Number(valorFreteFiscalVinculado || 0);
       const btn = document.getElementById('btn-transmitir-nfe');
 
       try {
@@ -12271,19 +12542,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
             tipoNota: 'NFE_PRODUTO',
             pedidoId: pedidoFiscalVinculadoId || null,
             cliente: clienteFiscalSelecionado,
-            valores: { valorTotal: valorNum },
-            produtos: [
-              {
-                codigo: 'ITEM-01',
-                descricao: itemDesc,
-                ncm: ncmVal,
-                cfop: cfopVal,
-                unidade: 'UN',
-                quantidade: 1,
-                valor_unitario: valorNum,
-                valor_total: valorNum
-              }
-            ]
+            valores: {
+              valorTotal: valorTotalNum,
+              valorFrete: freteNum
+            },
+            produtos: produtosParaEnviar
           })
         });
 
