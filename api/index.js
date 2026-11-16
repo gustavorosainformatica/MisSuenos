@@ -26,6 +26,7 @@ import handlerRelatorios from './relatorios.js';
 import handlerEstoque from './estoque.js';
 import handlerLogistica from './logistica.js';
 import handlerProducao from './producao.js';
+import handlerLotes from './lotes.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -87,6 +88,12 @@ export default async function handler(req, res) {
     }
     if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
       return await handlerProducao(req, res);
+    }
+    if (pathname.match(/^\/api\/produtos\/\d+\/lotes/)) {
+      return await handlerLotes(req, res);
+    }
+    if (pathname === '/api/lotes' || pathname.startsWith('/api/lotes/')) {
+      return await handlerLotes(req, res);
     }
     if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
       return await handlerProdutos(req, res);

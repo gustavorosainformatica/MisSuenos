@@ -162,6 +162,7 @@ export default async function handler(req, res) {
       const tipoItem = (payload.tipo_item && ['SIMPLES', 'FABRICADO', 'INSUMO'].includes(String(payload.tipo_item).toUpperCase().trim()))
         ? String(payload.tipo_item).toUpperCase().trim()
         : 'SIMPLES';
+      const controlaLote = (payload.controla_lote === 1 || payload.controla_lote === true || payload.controla_lote === '1') ? 1 : 0;
       const estoque = parseFloat(payload.estoque_atual || 0);
       const reservado = Math.max(0, parseFloat(payload.estoque_reservado || 0));
       const estoqueMin = parseFloat(payload.estoque_minimo || 5);
@@ -170,10 +171,10 @@ export default async function handler(req, res) {
       const info = await run(`
         INSERT INTO produtos (
           codigo_sku, nome, categoria, unidade_medida, ncm,
-          preco_custo, preco_venda, preco_atacado, qtd_minima_atacado, custo_adicional_producao, tipo_item, estoque_atual, estoque_reservado, estoque_minimo,
+          preco_custo, preco_venda, preco_atacado, qtd_minima_atacado, custo_adicional_producao, tipo_item, controla_lote, estoque_atual, estoque_reservado, estoque_minimo,
           descricao, ativo, data_cadastro
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, estoque, reservado, estoqueMin, desc, agora]);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+      `, [sku, payload.nome.trim(), categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, controlaLote, estoque, reservado, estoqueMin, desc, agora]);
 
       await registrarLog({
         clienteId: null,
@@ -220,6 +221,9 @@ export default async function handler(req, res) {
       const tipoItem = payload.tipo_item !== undefined
         ? (['SIMPLES', 'FABRICADO', 'INSUMO'].includes(String(payload.tipo_item).toUpperCase().trim()) ? String(payload.tipo_item).toUpperCase().trim() : 'SIMPLES')
         : (atual.tipo_item || 'SIMPLES');
+      const controlaLote = payload.controla_lote !== undefined
+        ? ((payload.controla_lote === 1 || payload.controla_lote === true || payload.controla_lote === '1') ? 1 : 0)
+        : (atual.controla_lote || 0);
       const estoque = payload.estoque_atual !== undefined ? parseFloat(payload.estoque_atual || 0) : parseFloat(atual.estoque_atual || 0);
       const reservado = payload.estoque_reservado !== undefined ? Math.max(0, parseFloat(payload.estoque_reservado || 0)) : Math.max(0, parseFloat(atual.estoque_reservado || 0));
       const min = payload.estoque_minimo !== undefined ? parseFloat(payload.estoque_minimo || 5) : parseFloat(atual.estoque_minimo || 5);
@@ -228,10 +232,10 @@ export default async function handler(req, res) {
       await run(`
         UPDATE produtos SET
           codigo_sku = ?, nome = ?, categoria = ?, unidade_medida = ?, ncm = ?,
-          preco_custo = ?, preco_venda = ?, preco_atacado = ?, qtd_minima_atacado = ?, custo_adicional_producao = ?, tipo_item = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
+          preco_custo = ?, preco_venda = ?, preco_atacado = ?, qtd_minima_atacado = ?, custo_adicional_producao = ?, tipo_item = ?, controla_lote = ?, estoque_atual = ?, estoque_reservado = ?, estoque_minimo = ?,
           descricao = ?, data_atualizacao = ?
         WHERE id = ?
-      `, [sku, nome, categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, estoque, reservado, min, desc, agora, idParam]);
+      `, [sku, nome, categoria, un, ncm, custo, venda, atacado, qtdMinimaAtacado, custoAdicional, tipoItem, controlaLote, estoque, reservado, min, desc, agora, idParam]);
 
       await registrarLog({
         clienteId: null,

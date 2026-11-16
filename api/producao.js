@@ -6,6 +6,7 @@
  */
 
 import { query, get, run, execute, registrarLog } from '../lib/db.js';
+import { alocarLotesPeps, gerarNumeroLotePreventivo } from '../lib/calculos_erp.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -294,12 +295,30 @@ export default async function handler(req, res) {
 
         await run("UPDATE produtos SET estoque_atual = ?, data_atualizacao = datetime('now', 'localtime') WHERE id = ?", [saldoPosterior, insumo.produto_filho_id]);
 
+        // Reverter lotes dos insumos se existirem
+        let loteRefId = null;
+        let loteRefNum = null;
+        if (Array.isArray(insumo.lotes_alocados)) {
+          for (const aloc of insumo.lotes_alocados) {
+            if (aloc.lote_id && aloc.quantidade > 0) {
+              await run(`
+                UPDATE produtos_lotes 
+                SET quantidade_atual = quantidade_atual + ?, status = 'ATIVO'
+                WHERE id = ?
+              `, [aloc.quantidade, aloc.lote_id]);
+            }
+          }
+          loteRefId = insumo.lotes_alocados[0]?.lote_id || null;
+          loteRefNum = insumo.lotes_alocados.map(a => a.numero_lote).join(', ');
+        }
+
         await run(`
           INSERT INTO estoque_movimentacoes (
             produto_id, tipo, origem, motivo, quantidade,
             saldo_anterior, saldo_posterior, custo_unitario,
-            documento_referencia, observacoes, operador_nome, data_movimentacao
-          ) VALUES (?, 'ENTRADA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+            documento_referencia, lote_id, numero_lote,
+            observacoes, operador_nome, data_movimentacao
+          ) VALUES (?, 'ENTRADA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
         `, [
           insumo.produto_filho_id,
           `ESTORNO DE PRODUÇÃO ${ordem.numero}`,
@@ -308,7 +327,9 @@ export default async function handler(req, res) {
           saldoPosterior,
           parseFloat(insumo.preco_custo || 0),
           `ESTORNO-${ordem.numero}`,
-          `Devolução de insumo por estorno da ordem ${ordem.numero}. Motivo: ${motivoEstorno}`,
+          loteRefId,
+          loteRefNum,
+          `Devolução de insumo por estorno da ordem ${ordem.numero}. Motivo: ${motivoEstorno}${loteRefNum ? ` (Lotes: ${loteRefNum})` : ''}`,
           body.operador_nome || 'SISTEMA'
         ]);
       }
@@ -320,12 +341,24 @@ export default async function handler(req, res) {
 
       await run("UPDATE produtos SET estoque_atual = ?, data_atualizacao = datetime('now', 'localtime') WHERE id = ?", [saldoAcabadoPosterior, ordem.produto_id]);
 
+      // Se gerou lote de produto acabado, abater ou marcar esgotado
+      const loteAcabado = await get("SELECT id, quantidade_atual, numero_lote FROM produtos_lotes WHERE produto_id = ? AND observacoes LIKE ?", [ordem.produto_id, `%${ordem.numero}%`]);
+      let loteAcabadoId = null;
+      let loteAcabadoNum = null;
+      if (loteAcabado) {
+        loteAcabadoId = loteAcabado.id;
+        loteAcabadoNum = loteAcabado.numero_lote;
+        const novoSaldoLote = Math.max(0, parseFloat(loteAcabado.quantidade_atual || 0) - ordem.quantidade);
+        await run("UPDATE produtos_lotes SET quantidade_atual = ?, status = CASE WHEN ? = 0 THEN 'ESGOTADO' ELSE status END WHERE id = ?", [novoSaldoLote, novoSaldoLote, loteAcabado.id]);
+      }
+
       await run(`
         INSERT INTO estoque_movimentacoes (
           produto_id, tipo, origem, motivo, quantidade,
           saldo_anterior, saldo_posterior, custo_unitario,
-          documento_referencia, observacoes, operador_nome, data_movimentacao
-        ) VALUES (?, 'SAIDA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+          documento_referencia, lote_id, numero_lote,
+          observacoes, operador_nome, data_movimentacao
+        ) VALUES (?, 'SAIDA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
       `, [
         ordem.produto_id,
         `ESTORNO DE PRODUÇÃO ${ordem.numero}`,
@@ -334,7 +367,9 @@ export default async function handler(req, res) {
         saldoAcabadoPosterior,
         parseFloat(ordem.custo_unitario_final || 0),
         `ESTORNO-${ordem.numero}`,
-        `Estorno de produto acabado da ordem ${ordem.numero}. Motivo: ${motivoEstorno}`,
+        loteAcabadoId,
+        loteAcabadoNum,
+        `Estorno de produto acabado da ordem ${ordem.numero}. Motivo: ${motivoEstorno}${loteAcabadoNum ? ` (Lote: ${loteAcabadoNum})` : ''}`,
         body.operador_nome || 'SISTEMA'
       ]);
 
@@ -487,18 +522,45 @@ export default async function handler(req, res) {
 
         // 1. Baixar insumos no Kardex (SAIDA)
         for (const item of snapshotItensConsumidos) {
-          const prodInsumo = await get("SELECT estoque_atual FROM produtos WHERE id = ?", [item.produto_filho_id]);
+          const prodInsumo = await get("SELECT estoque_atual, controla_lote FROM produtos WHERE id = ?", [item.produto_filho_id]);
           const saldoAnterior = prodInsumo ? parseFloat(prodInsumo.estoque_atual || 0) : 0;
           const saldoPosterior = saldoAnterior - item.quantidade_total;
 
           await run("UPDATE produtos SET estoque_atual = ?, data_atualizacao = datetime('now', 'localtime') WHERE id = ?", [saldoPosterior, item.produto_filho_id]);
 
+          // Se o insumo controla lote, alocar via PEPS e abater dos lotes
+          let alocacoesLote = [];
+          if (prodInsumo && prodInsumo.controla_lote === 1) {
+            const lotesDisponiveis = await query(`
+              SELECT * FROM produtos_lotes
+              WHERE produto_id = ? AND status = 'ATIVO' AND quantidade_atual > 0
+              ORDER BY data_entrada ASC, id ASC
+            `, [item.produto_filho_id]);
+
+            const resPeps = alocarLotesPeps(lotesDisponiveis, item.quantidade_total);
+            alocacoesLote = resPeps.alocacoes;
+
+            for (const aloc of alocacoesLote) {
+              await run(`
+                UPDATE produtos_lotes 
+                SET quantidade_atual = quantidade_atual - ?,
+                    status = CASE WHEN quantidade_atual - ? <= 0 THEN 'ESGOTADO' ELSE 'ATIVO' END
+                WHERE id = ?
+              `, [aloc.quantidade, aloc.quantidade, aloc.lote_id]);
+            }
+          }
+          item.lotes_alocados = alocacoesLote;
+
+          const loteRefId = alocacoesLote.length > 0 ? alocacoesLote[0].lote_id : null;
+          const loteRefNum = alocacoesLote.length > 0 ? alocacoesLote.map(a => a.numero_lote).join(', ') : null;
+
           await run(`
             INSERT INTO estoque_movimentacoes (
               produto_id, tipo, origem, motivo, quantidade,
               saldo_anterior, saldo_posterior, custo_unitario,
-              documento_referencia, observacoes, operador_nome, data_movimentacao
-            ) VALUES (?, 'SAIDA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+              documento_referencia, lote_id, numero_lote,
+              observacoes, operador_nome, data_movimentacao
+            ) VALUES (?, 'SAIDA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
           `, [
             item.produto_filho_id,
             `PRODUÇÃO ${numeroOrdem}: ${qtdProduzir}x ${produto.nome}`,
@@ -507,7 +569,9 @@ export default async function handler(req, res) {
             saldoPosterior,
             item.preco_custo,
             numeroOrdem,
-            `Consumo de insumo na ordem ${numeroOrdem}`,
+            loteRefId,
+            loteRefNum,
+            `Consumo de insumo na ordem ${numeroOrdem}${loteRefNum ? ` (Lotes: ${loteRefNum})` : ''}`,
             body.operador_nome || 'SISTEMA'
           ]);
         }
@@ -522,12 +586,38 @@ export default async function handler(req, res) {
           WHERE id = ?
         `, [saldoAcabadoPosterior, custoUnitarioFinal, produtoId]);
 
+        // Se o produto acabado controlar lote, gera novo lote rastreável de produção
+        let loteAcabadoId = null;
+        let loteAcabadoNum = null;
+        if (produto.controla_lote === 1) {
+          const lotesExistentes = await query("SELECT numero_lote FROM produtos_lotes WHERE numero_lote IS NOT NULL");
+          loteAcabadoNum = gerarNumeroLotePreventivo(lotesExistentes, 'LOTE-PROD');
+          const dataHoje = new Date().toISOString().slice(0, 10);
+          const insLoteAcabado = await run(`
+            INSERT INTO produtos_lotes (
+              produto_id, numero_lote, quantidade_inicial, quantidade_atual,
+              data_entrada, curtume_origem, tonalidade, custo_unitario,
+              status, observacoes, data_cadastro
+            ) VALUES (?, ?, ?, ?, ?, 'FABRICAÇÃO PRÓPRIA', 'PADRÃO', ?, 'ATIVO', ?, datetime('now', 'localtime'))
+          `, [
+            produtoId,
+            loteAcabadoNum,
+            qtdProduzir,
+            qtdProduzir,
+            dataHoje,
+            custoUnitarioFinal,
+            `Ordem de Produção ${numeroOrdem}`
+          ]);
+          loteAcabadoId = insLoteAcabado.lastInsertRowid;
+        }
+
         await run(`
           INSERT INTO estoque_movimentacoes (
             produto_id, tipo, origem, motivo, quantidade,
             saldo_anterior, saldo_posterior, custo_unitario,
-            documento_referencia, observacoes, operador_nome, data_movimentacao
-          ) VALUES (?, 'ENTRADA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+            documento_referencia, lote_id, numero_lote,
+            observacoes, operador_nome, data_movimentacao
+          ) VALUES (?, 'ENTRADA', 'PRODUCAO', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
         `, [
           produtoId,
           `PRODUÇÃO ${numeroOrdem} CONCLUÍDA`,
@@ -536,7 +626,9 @@ export default async function handler(req, res) {
           saldoAcabadoPosterior,
           custoUnitarioFinal,
           numeroOrdem,
-          `Entrada de produto acabado gerado pela ordem ${numeroOrdem}`,
+          loteAcabadoId,
+          loteAcabadoNum,
+          `Entrada de produto acabado gerado pela ordem ${numeroOrdem}${loteAcabadoNum ? ` (Lote: ${loteAcabadoNum})` : ''}`,
           body.operador_nome || 'SISTEMA'
         ]);
 

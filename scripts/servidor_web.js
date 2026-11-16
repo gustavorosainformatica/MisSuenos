@@ -47,6 +47,7 @@ const { default: handlerRelatorios } = await import('../api/relatorios.js');
 const { default: handlerEstoque } = await import('../api/estoque.js');
 const { default: handlerLogistica } = await import('../api/logistica.js');
 const { default: handlerProducao } = await import('../api/producao.js');
+const { default: handlerLotes } = await import('../api/lotes.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
@@ -326,6 +327,12 @@ async function tratarRequisicao(req, res) {
   }
   if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
     return handlerProducao(req, res);
+  }
+  if (pathname.match(/^\/api\/produtos\/\d+\/lotes/)) {
+    return handlerLotes(req, res);
+  }
+  if (pathname === '/api/lotes' || pathname.startsWith('/api/lotes/')) {
+    return handlerLotes(req, res);
   }
   if (pathname === '/api/produtos' || pathname.startsWith('/api/produtos/')) {
     return handlerProdutos(req, res);
