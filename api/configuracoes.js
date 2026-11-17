@@ -114,6 +114,10 @@ export default async function handler(req, res) {
       const padrao = PRESETS_RAMO[config.ramo_preset] || PRESETS_RAMO.couros;
       const configuracaoCompleta = { ...padrao, ...config };
 
+      for (const chave of Object.keys(configuracaoCompleta)) {
+        if (/(token|secret|senha|password|api.?key|private.?key|certificado|certificate)/i.test(chave)) configuracaoCompleta[chave] = '';
+      }
+
       return responder(res, 200, {
         configuracoes: configuracaoCompleta,
         presets: PRESETS_RAMO

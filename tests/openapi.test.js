@@ -49,8 +49,9 @@ test('OPENAPI TDD 04: Esquemas de segurança para API fechada', () => {
   const json = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
   assert.ok(json.components.securitySchemes, 'DEVE possuir esquemas de segurança');
-  assert.ok(json.components.securitySchemes.ApiKeyAuth, 'DEVE conter esquema ApiKeyAuth (X-API-KEY)');
-  assert.ok(json.components.securitySchemes.BearerAuth, 'DEVE conter esquema BearerAuth');
+  assert.ok(json.components.securitySchemes.CookieSessionAuth, 'DEVE documentar autenticação por cookie de sessão');
+  assert.equal(json.components.securitySchemes.CookieSessionAuth.in, 'cookie');
+  assert.match(json.components.securitySchemes.CookieSessionAuth.description, /X-CSRF-Token/);
 });
 
 test('OPENAPI TDD 05: Interface do Scalar api-docs.html existe e está configurada', () => {

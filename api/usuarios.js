@@ -5,7 +5,8 @@
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
-import { gerarHashSenha, validarTokenSessao, PAPEIS_SISTEMA } from '../lib/auth.js';
+import { gerarHashSenha, PAPEIS_SISTEMA } from '../lib/auth.js';
+import { validarSessaoRequisicao } from '../lib/sessoes.js';
 
 async function obterTodosPapeis() {
   const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
@@ -61,11 +62,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
-    
-    // Validação de token de operador
-    const sessao = validarTokenSessao(token);
+    const sessao = await validarSessaoRequisicao(req);
     if (!sessao) {
       return responder(res, 401, { error: 'Autenticação necessária' });
     }
@@ -96,7 +93,7 @@ export default async function handler(req, res) {
         return responder(res, 404, { error: 'Operador não encontrado.' });
       }
 
-      const novaSenha = (bodyRequisicao.novaSenha || 'admin123').trim();
+      const novaSenha = String(bodyRequisicao.novaSenha || '').trim();
       if (!novaSenha || novaSenha.length < 4) {
         return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres.' });
       }
@@ -112,16 +109,18 @@ export default async function handler(req, res) {
         WHERE id = ?
       `, [novoHash, agora, forcarTroca, tamanhoPin, targetId]);
 
+      await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
+
       registrarLog({
         clienteId: operador.id,
         tipoAcao: 'ADMIN_RESET_SENHA',
-        detalhes: `Administrador @${operador.login} redefiniu a senha do operador @${targetUser.login} (Nova senha: ${novaSenha} | Forçar troca: ${forcarTroca})`,
+        detalhes: `Administrador @${operador.login} redefiniu a senha do operador @${targetUser.login} (Forçar troca: ${forcarTroca})`,
         req
       }).catch(() => {});
 
       return responder(res, 200, {
         success: true,
-        mensagem: `Senha de @${targetUser.login} redefinida com sucesso para "${novaSenha}".`
+        mensagem: `Senha de @${targetUser.login} redefinida com sucesso.`
       });
     }
 
@@ -324,6 +323,9 @@ export default async function handler(req, res) {
         SET nome = ?, papel = ?, ativo = ?, permissoes = ?, senha_hash = ?, data_atualizacao = ?
         WHERE id = ?
       `, [nome, papel, ativo, permissoes, novoHash, agora, targetId]);
+      if (!ativo || (body.senha && body.senha.trim().length >= 4)) {
+        await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
+      }
 
       const papelInfo = todosPapeis[papel] || {};
       registrarLog({
@@ -354,6 +356,7 @@ export default async function handler(req, res) {
       }
 
       await run('UPDATE usuarios SET ativo = 0 WHERE id = ?', [targetId]);
+      await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [new Date().toISOString(), targetId]);
 
       registrarLog({
         tipoAcao: 'USUARIO_DESATIVADO',

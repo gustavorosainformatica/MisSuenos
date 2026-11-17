@@ -145,8 +145,9 @@ async function consultarRastreio(codigo) {
   const timeout = setTimeout(() => controller.abort(), 4000);
 
   try {
-    const user = process.env.LINKENTRACK_USER || 'teste';
-    const token = process.env.LINKENTRACK_TOKEN || '1abcd00b2731640e886fb41a8a9671ad143c57b304e1e7fc79340e24e7699f22';
+    const user = process.env.LINKENTRACK_USER;
+    const token = process.env.LINKENTRACK_TOKEN;
+    if (!user || !token) throw new Error('Integração sem credenciais configuradas no ambiente.');
 
     const resp = await fetch(`https://api.linkentrack.com/v1/traces?user=${encodeURIComponent(user)}&token=${encodeURIComponent(token)}&codigo=${encodeURIComponent(codLimpo)}`, {
       signal: controller.signal,

@@ -10434,7 +10434,7 @@
           <!-- RESET RÁPIDO PARA ADMIN123 -->
           <div style="background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
             <div>
-              <strong style="color: #fff; font-size: 12.5px; display: block;">⚡ Reset Padrão (admin123)</strong>
+              <strong style="color: #fff; font-size: 12.5px; display: block;">⚡ Redefinir senha temporária</strong>
               <span style="font-size: 11px; color: #94a3b8;">Redefine imediatamente e exige nova senha no próximo acesso.</span>
             </div>
             <button type="button" class="btn-top" style="background: #0284c7; color: #fff; border-color: #0284c7; font-size: 11px; padding: 6px 12px; white-space: nowrap; font-weight: 700;" onclick="executarResetRapidoAdminPadrao()">
@@ -10793,6 +10793,31 @@
 
   <!-- LOGICA DO SISTEMA ERP -->
   <script>
+    // Sessões usam cookie HttpOnly; a página mantém apenas o token CSRF em memória.
+    let csrfTokenSessao = null;
+    const requisicaoFetchOriginal = window.fetch.bind(window);
+    window.fetch = async function(input, init = {}) {
+      let url;
+      try { url = new URL(typeof input === 'string' ? input : input.url, window.location.href); }
+      catch { return requisicaoFetchOriginal(input, init); }
+      if (url.origin !== window.location.origin || !url.pathname.startsWith('/api/')) {
+        return requisicaoFetchOriginal(input, init);
+      }
+
+      const headers = new Headers(typeof Request !== 'undefined' && input instanceof Request ? input.headers : undefined);
+      new Headers(init.headers || {}).forEach((valor, chave) => headers.set(chave, valor));
+      headers.delete('Authorization');
+      const metodo = String(init.method || (typeof Request !== 'undefined' && input instanceof Request ? input.method : 'GET')).toUpperCase();
+      if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(metodo) && csrfTokenSessao) {
+        headers.set('X-CSRF-Token', csrfTokenSessao);
+      }
+      const resposta = await requisicaoFetchOriginal(input, { ...init, headers, credentials: 'same-origin' });
+      if (resposta.status === 401 && url.pathname !== '/api/auth') {
+        window.dispatchEvent(new Event('erp-sessao-expirada'));
+      }
+      return resposta;
+    };
+
     // ========================================================
     // PADRONIZAÇÃO MONETÁRIA E NUMÉRICA BRASILEIRA (pt-BR)
     // Exemplo: 16.383,02 (Ponto como milhar, vírgula como decimal)
@@ -23976,7 +24001,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <!-- SELETOR RÁPIDO DE MODO DE ENTRADA (SENHA OU PIN) -->
         <div style="display: flex; gap: 8px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
           <button type="button" id="tab-modo-senha" onclick="alternarModoEntrada('simples')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid rgba(56, 189, 248, 0.4); cursor: pointer; transition: 0.2s; background: rgba(2, 132, 199, 0.25); color: #38bdf8;">
-            🔤 Senha (admin123)
+            🔤 Senha de Acesso
           </button>
           <button type="button" id="tab-modo-pin" onclick="alternarModoEntrada('pin')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">
             🔢 PIN (4-6 Dígitos)
@@ -24041,11 +24066,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         </button>
 
         <!-- Dica de Acessos Homologados -->
-        <div id="auth-dica-homologados" style="margin-top: 16px; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;">
-          <strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">🔑 Primeiro Acesso / Credenciais Iniciais:</strong>
-          • Digite seu usuário na primeira vez para fixá-lo neste terminal.<br>
-          • <strong>Senha Padrão:</strong> <code style="color: #38bdf8;">admin123</code> • <strong>PIN Padrão:</strong> <code style="color: #34d399;">123456</code>
-        </div>
+        <div id="auth-dica-homologados" style="margin-top: 16px; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;"><strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">Primeiro acesso:</strong>Use as credenciais fornecidas pelo administrador do sistema.</div>
 
         <!-- LINK PARA CONFIGURAR POLÍTICAS DESTE TERMINAL -->
         <div style="text-align: center; margin-top: 14px;">
@@ -24997,10 +25018,23 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     // LOGOUT DO SISTEMA
-    function fazerLogoutSistema() {
+    async function encerrarSessaoNoServidor() {
+      try {
+        await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ acao: 'logout' }),
+          keepalive: true
+        });
+      } catch (erro) {
+        console.warn('[AUTH] Encerramento remoto da sessão não confirmado.');
+      }
+    }
+
+    async function fazerLogoutSistema() {
       if (confirm('Deseja realmente encerrar a sessão do operador atual?')) {
-        localStorage.removeItem('missuenos_token');
-        localStorage.removeItem('missuenos_user');
+        await encerrarSessaoNoServidor();
+        limparSessaoAtiva();
         usuarioLogado = null;
         if (typeof mostrarToast === 'function') mostrarToast('Sessão encerrada com sucesso.');
         if (typeof exibirTelaLogin === 'function') exibirTelaLogin();
@@ -25415,6 +25449,15 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     };
 
     let usuarioLogado = null;
+    let sessaoCookieAtiva = false;
+
+    window.addEventListener('erp-sessao-expirada', () => {
+      csrfTokenSessao = null;
+      sessaoCookieAtiva = false;
+      usuarioLogado = null;
+      limparSessaoAtiva();
+      exibirTelaLogin();
+    });
 
     
     // =========================================================================
@@ -25499,37 +25542,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function obterTokenAtivo() {
-      const cfg = obterConfigSeguranca();
-      let token = cfg.sessao === 'fechou'
-        ? sessionStorage.getItem('missuenos_token')
-        : localStorage.getItem('missuenos_token');
-
-      // Fallback seguro: se não encontrar no storage preferencial, verifica o alternativo
-      if (!token) {
-        token = localStorage.getItem('missuenos_token') || sessionStorage.getItem('missuenos_token');
-      }
-
-      if (!token) return null;
-
-      // Validação do Timeout por Inatividade Universal (ativo para todos os usuários)
-      const timeoutMs = obterTimeoutInatividadeMs();
-      if (timeoutMs > 0) {
-        const ultimaAtividade = Number(localStorage.getItem('missuenos_ultima_atividade') || Date.now());
-        if (Date.now() - ultimaAtividade > timeoutMs) {
-          console.warn('[AUTH] Sessão expirada por inatividade de ' + (timeoutMs / 60000) + ' minutos.');
-          limparSessaoAtiva();
-          return null;
-        }
-      }
-
-      return token;
+      return sessaoCookieAtiva && usuarioLogado ? 'COOKIE_SESSION' : null;
     }
 
     function gravarTokenAtivo(token, user) {
       const cfg = obterConfigSeguranca();
       const userJson = JSON.stringify(user);
+      sessaoCookieAtiva = true;
 
-      // Memoriza operador do terminal para reaberturas e reinicializações
       if (user && user.login) {
         try {
           localStorage.setItem('missuenos_terminal_operador', JSON.stringify({
@@ -25539,29 +25559,25 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             papelNome: user.papelNome || user.papel || 'Operador',
             papelCor: user.papelCor || '#38bdf8'
           }));
-        } catch (e) {
-          console.warn('Erro ao memorizar operador:', e);
-        }
+        } catch (e) { console.warn('Erro ao memorizar operador:', e); }
       }
 
-      // Registra timestamp inicial de atividade
       localStorage.setItem('missuenos_ultima_atividade', String(Date.now()));
-
+      sessionStorage.removeItem('missuenos_token');
+      localStorage.removeItem('missuenos_token');
+      localStorage.removeItem('missuenos_token_expiry');
       if (cfg.sessao === 'fechou') {
-        sessionStorage.setItem('missuenos_token', token);
         sessionStorage.setItem('missuenos_user', userJson);
-        // Remove do localStorage para garantir destruição ao fechar janela
-        localStorage.removeItem('missuenos_token');
-        localStorage.removeItem('missuenos_token_expiry');
+        localStorage.removeItem('missuenos_user');
       } else {
-        localStorage.setItem('missuenos_token', token);
         localStorage.setItem('missuenos_user', userJson);
-        localStorage.removeItem('missuenos_token_expiry');
-        sessionStorage.removeItem('missuenos_token');
+        sessionStorage.removeItem('missuenos_user');
       }
     }
 
     function limparSessaoAtiva() {
+      sessaoCookieAtiva = false;
+      csrfTokenSessao = null;
       sessionStorage.removeItem('missuenos_token');
       sessionStorage.removeItem('missuenos_user');
       localStorage.removeItem('missuenos_token');
@@ -25570,21 +25586,20 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function renovarTimeoutInatividade() {
-      const token = sessionStorage.getItem('missuenos_token') || localStorage.getItem('missuenos_token');
-      if (token) {
+      if (sessaoCookieAtiva) {
         localStorage.setItem('missuenos_ultima_atividade', String(Date.now()));
       }
     }
 
-    function checarExpiracaoInatividade() {
-      const token = sessionStorage.getItem('missuenos_token') || localStorage.getItem('missuenos_token');
-      if (!token) return;
+    async function checarExpiracaoInatividade() {
+      if (!sessaoCookieAtiva) return;
 
       const timeoutMs = obterTimeoutInatividadeMs();
       if (timeoutMs > 0) {
         const ultimaAtividade = Number(localStorage.getItem('missuenos_ultima_atividade') || Date.now());
         if (Date.now() - ultimaAtividade > timeoutMs) {
           console.warn('[AUTH] Bloqueio de segurança automático por inatividade.');
+          await encerrarSessaoNoServidor();
           limparSessaoAtiva();
           usuarioLogado = null;
           exibirTelaLogin();
@@ -25751,7 +25766,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         const timeoutMin = obterTimeoutInatividadeMinutos();
         let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : '⚡ Permanente';
         let txtTimeout = timeoutMin === 0 ? '' : ` • ⏱️ Timeout ${timeoutMin}m`;
-        let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 4-6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha admin123' : '🔐 Senha Forte');
+        let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 4-6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha de Acesso' : '🔐 Senha Forte');
         badge.textContent = `${txtSessao}${txtTimeout} • ${txtSenha}`;
       }
 
@@ -25832,7 +25847,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
         const senhaInp = document.getElementById('auth-senha-input');
         if (senhaInp) {
-          senhaInp.placeholder = 'Digite admin123 ou sua senha';
+          senhaInp.placeholder = 'Digite sua senha de acesso';
         }
 
         if (cfg.tipoSenha === 'forte') {
@@ -25840,7 +25855,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           if (labelSenha) labelSenha.textContent = 'Senha Forte Corporativa (@#$%!)';
         } else {
           if (blocoForca) blocoForca.style.display = 'none';
-          if (labelSenha) labelSenha.textContent = 'Senha Padrão (admin123)';
+          if (labelSenha) labelSenha.textContent = 'Senha de Acesso';
         }
 
         setTimeout(() => {
@@ -25905,7 +25920,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
-    let tamanhoPinAtual = 4;
+    let tamanhoPinAtual = 6;
 
     function renderizarCaixasPin(tamanho) {
       const qtd = (tamanho === 4 || tamanho === 5 || tamanho === 6) ? tamanho : 4;
@@ -25934,41 +25949,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       configurarEventosPin();
     }
 
-    async function consultarTamanhoPinOperador(login) {
-      const loginNorm = (login || '').trim().toLowerCase();
-      if (!loginNorm) return;
-      try {
-        const res = await fetch(`/api/auth?info_operador=${encodeURIComponent(loginNorm)}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.tamanhoPin) {
-            renderizarCaixasPin(data.tamanhoPin);
-            let op = null;
-            try { op = JSON.parse(localStorage.getItem('missuenos_terminal_operador')); } catch {}
-            if (op && op.login === data.login) {
-              op.tamanhoPin = data.tamanhoPin;
-              localStorage.setItem('missuenos_terminal_operador', JSON.stringify(op));
-            }
-          }
-        }
-      } catch {}
+    function consultarTamanhoPinOperador() {
+      if (tamanhoPinAtual !== 6) renderizarCaixasPin(6);
     }
 
     let timerDebounceLoginOp = null;
-    function aoDigitarLoginOperadorDebounced(val) {
-      clearTimeout(timerDebounceLoginOp);
-      const l = (val || '').trim().toLowerCase();
-      if (l.length >= 3) {
-        timerDebounceLoginOp = setTimeout(() => {
-          consultarTamanhoPinOperador(l);
-        }, 300);
-      }
-    }
+    function aoDigitarLoginOperadorDebounced() {}
 
-    function aoSairLoginOperador(val) {
-      const l = (val || '').trim().toLowerCase();
-      if (l) consultarTamanhoPinOperador(l);
-    }
+    function aoSairLoginOperador() { consultarTamanhoPinOperador(); }
 
     function obterPinCompleto() {
       let pin = '';
@@ -26677,10 +26665,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     async function executarResetRapidoAdminPadrao() {
       const userId = document.getElementById('admin-reset-user-id').value;
       const userName = document.getElementById('admin-reset-user-nome').textContent;
-      if (!confirm(`Deseja realmente redefinir a senha de "${userName}" para a senha padrão "admin123"?\n\nO operador será obrigado a criar uma nova senha pessoal no próximo login.`)) {
-        return;
-      }
-      await enviarRequisicaoAdminReset(userId, 'admin123', true);
+      const novaSenha = window.prompt('Defina uma senha temporária para ' + userName + ' (mínimo 4 caracteres):');
+      if (!novaSenha || novaSenha.trim().length < 4) return;
+      if (!confirm('Redefinir a senha de ' + userName + ' e exigir troca no próximo acesso?')) return;
+      await enviarRequisicaoAdminReset(userId, novaSenha.trim(), true);
     }
 
     async function submeterAdminResetSenha(e) {
@@ -26877,6 +26865,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         }
 
         // Sucesso
+        csrfTokenSessao = data.csrfToken || null;
         msgBox.textContent = '🎉 Senha atualizada com sucesso!';
         msgBox.style.display = 'block';
         msgBox.style.background = 'rgba(16, 185, 129, 0.15)';
@@ -26957,131 +26946,79 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (e) e.preventDefault();
       const erroBox = document.getElementById('troca-senha-erro');
       const btn = document.getElementById('btn-salvar-nova-senha');
-      const novaSenhaInp = document.getElementById('troca-nova-senha');
-      const confirmaInp = document.getElementById('troca-confirma-senha');
-
-      const novaSenha = (novaSenhaInp ? novaSenhaInp.value : '').trim();
-      const confirma = (confirmaInp ? confirmaInp.value : '').trim();
-
+      const novaSenha = (document.getElementById('troca-nova-senha')?.value || '').trim();
+      const confirma = (document.getElementById('troca-confirma-senha')?.value || '').trim();
       erroBox.style.display = 'none';
 
-      if (!novaSenha || novaSenha.length < 4) {
-        erroBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres.';
-        erroBox.style.display = 'block';
-        return;
-      }
-
-      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
-      if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
-        erroBox.textContent = 'A nova senha não pode ser igual a uma senha padrão. Escolha uma senha pessoal diferente.';
-        erroBox.style.display = 'block';
-        return;
-      }
-
-      if (novaSenha !== confirma) {
-        erroBox.textContent = 'As duas senhas digitadas não coincidem. Digite novamente com atenção.';
-        erroBox.style.display = 'block';
-        return;
-      }
+      if (novaSenha.length < 4) { erroBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres.'; erroBox.style.display = 'block'; return; }
+      if (novaSenha !== confirma) { erroBox.textContent = 'As senhas não coincidem.'; erroBox.style.display = 'block'; return; }
 
       btn.disabled = true;
-      btn.textContent = 'Salvando Nova Senha...';
-
+      btn.textContent = 'Salvando nova senha...';
       try {
         const res = await fetch('/api/auth', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + tokenPendenteTrocaSenha
-          },
-          body: JSON.stringify({
-            acao: 'trocar_senha',
-            token: tokenPendenteTrocaSenha,
-            novaSenha: novaSenha
-          })
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ acao: 'trocar_senha', novaSenha })
         });
         const data = await res.json();
-
         if (!res.ok || !data.success) {
-          erroBox.textContent = data.error || 'Falha ao salvar nova senha.';
+          erroBox.textContent = data.error || 'Falha ao salvar a nova senha.';
           erroBox.style.display = 'block';
           btn.disabled = false;
-          btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
+          btn.textContent = 'Salvar Nova Senha e Acessar Sistema';
           return;
         }
 
-        // Sucesso: aplica sessão e perfil
-        gravarTokenAtivo(tokenPendenteTrocaSenha, usuarioPendenteTrocaSenha);
-        usuarioLogado = usuarioPendenteTrocaSenha;
-
-        ocultarModalTrocaSenhaObrigatoria();
-        ocultarTelaLogin();
-        aplicarPerfilUsuario(usuarioLogado);
-
-        btn.disabled = false;
-        btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
-
-        if (typeof exibirToast === 'function') {
-          exibirToast('🎉 Nova senha cadastrada com sucesso! Bem-vindo ao ERP.', 'sucesso');
-        } else {
-          alert('Nova senha cadastrada com sucesso! Bem-vindo ao Mis Sueños ERP.');
-        }
-      } catch (err) {
-        // Fallback contingência
-        gravarTokenAtivo(tokenPendenteTrocaSenha, usuarioPendenteTrocaSenha);
+        csrfTokenSessao = data.csrfToken || null;
+        gravarTokenAtivo('COOKIE_SESSION', usuarioPendenteTrocaSenha);
         usuarioLogado = usuarioPendenteTrocaSenha;
         ocultarModalTrocaSenhaObrigatoria();
         ocultarTelaLogin();
         aplicarPerfilUsuario(usuarioLogado);
         btn.disabled = false;
-        btn.textContent = '💾 Salvar Nova Senha e Acessar Sistema';
+        btn.textContent = 'Salvar Nova Senha e Acessar Sistema';
+        if (typeof exibirToast === 'function') exibirToast('Nova senha cadastrada com sucesso!', 'sucesso');
+      } catch (erro) {
+        erroBox.textContent = 'Não foi possível concluir a troca de senha. Verifique a conexão e tente novamente.';
+        erroBox.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Salvar Nova Senha e Acessar Sistema';
       }
     }
 
     async function checarAutenticacao() {
       atualizarCardsConfigSeguranca();
       adaptarInterfaceLogin();
+      renderizarCaixasPin(6);
 
-      // Se for a primeira instalação neste terminal e ainda não configurado, abre o assistente
-      if (localStorage.getItem('missuenos_security_configured') !== 'true') {
-        abrirWizardSeguranca();
-      }
+      if (localStorage.getItem('missuenos_security_configured') !== 'true') abrirWizardSeguranca();
 
-      const token = obterTokenAtivo();
-      const cfg = obterConfigSeguranca();
-      const userCache = cfg.sessao === 'fechou' ? sessionStorage.getItem('missuenos_user') : localStorage.getItem('missuenos_user');
-
-      if (userCache) {
-        try {
-          usuarioLogado = JSON.parse(userCache);
-          aplicarPerfilUsuario(usuarioLogado);
-        } catch {}
-      }
-
-      if (!token) {
-        exibirTelaLogin();
-        return;
-      }
-
+      sessaoCookieAtiva = false;
+      usuarioLogado = null;
       try {
-        const res = await fetch('/api/auth', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
+        const res = await fetch('/api/auth', { cache: 'no-store' });
         const data = await res.json();
-        if (data.autenticado && data.usuario) {
-          usuarioLogado = data.usuario;
-          gravarTokenAtivo(token, usuarioLogado);
-          aplicarPerfilUsuario(usuarioLogado);
-          ocultarTelaLogin();
-        } else {
+        if (!res.ok || !data.autenticado || !data.usuario) {
+          limparSessaoAtiva();
           exibirTelaLogin();
+          return;
         }
-      } catch (e) {
-        if (usuarioLogado) {
-          ocultarTelaLogin();
-        } else {
-          exibirTelaLogin();
+        csrfTokenSessao = data.csrfToken || null;
+        if (data.exigirTrocaSenha) {
+          tokenPendenteTrocaSenha = 'COOKIE_SESSION';
+          usuarioPendenteTrocaSenha = data.usuario;
+          abrirModalTrocaSenhaObrigatoria(data.usuario, 'COOKIE_SESSION');
+          return;
         }
+        usuarioLogado = data.usuario;
+        gravarTokenAtivo('COOKIE_SESSION', usuarioLogado);
+        aplicarPerfilUsuario(usuarioLogado);
+        ocultarTelaLogin();
+      } catch (erro) {
+        limparSessaoAtiva();
+        usuarioLogado = null;
+        exibirTelaLogin();
       }
     }
 
@@ -27142,7 +27079,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     async function processarAutenticacao(login, senha) {
       const erroBox = document.getElementById('auth-erro-msg');
       const btn = document.getElementById('btn-submit-login');
-
       erroBox.style.display = 'none';
       btn.disabled = true;
       btn.textContent = 'Autenticando...';
@@ -27154,7 +27090,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           body: JSON.stringify({ login, senha })
         });
         const data = await res.json();
-
         if (!res.ok || !data.success) {
           erroBox.textContent = data.error || 'Credenciais incorretas.';
           erroBox.style.display = 'block';
@@ -27165,57 +27100,35 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           return;
         }
 
-        // Se utilizou qualquer senha padrão, força a criação imediata de nova senha
-        const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
-        if (data.exigirTrocaSenha || SENHAS_PADRAO.includes(senha.toLowerCase())) {
+        csrfTokenSessao = data.csrfToken || null;
+        if (data.exigirTrocaSenha) {
           btn.disabled = false;
           btn.textContent = 'Entrar no Sistema';
-          abrirModalTrocaSenhaObrigatoria(data.usuario, data.token);
+          abrirModalTrocaSenhaObrigatoria(data.usuario, 'COOKIE_SESSION');
           return;
         }
 
-        gravarTokenAtivo(data.token, data.usuario);
+        gravarTokenAtivo('COOKIE_SESSION', data.usuario);
         usuarioLogado = data.usuario;
-
         aplicarPerfilUsuario(usuarioLogado);
         ocultarTelaLogin();
         btn.disabled = false;
         btn.textContent = 'Entrar no Sistema';
-
-        // Redireciona sempre para o Painel & Indicadores ao efetuar login
         const navPainelPosLogin = document.getElementById('nav-item-painel');
         if (navPainelPosLogin) trocarModulo('painel', navPainelPosLogin);
-      } catch (err) {
-        // Fallback offline de segurança para contingência PWA
-        const usuariosOffline = [
-          { login: 'marcos', nome: 'Administrador', papel: 'ADMIN', papelNome: 'Administrador Geral', papelCor: '#00d4ff', permissoes: { admin: true, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: true, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: true } },
-          { login: 'gustavo', nome: 'Gustavo Rosa', papel: 'ADMIN', papelNome: 'Administrador Geral', papelCor: '#00d4ff', permissoes: { admin: true, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: true, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: true } },
-          { login: 'vendas', nome: 'Equipe de Vendas', papel: 'VENDAS', papelNome: 'Vendas & Atendimento', papelCor: '#10b981', permissoes: { admin: false, clientes_ver: true, clientes_criar: true, clientes_editar: true, clientes_excluir: false, pedidos_ver: true, pedidos_criar: true, pedidos_editar: true, fiscal_emitir: true, configuracoes: false } },
-          { login: 'expedicao', nome: 'Equipe de Expedição', papel: 'EXPEDICAO', papelNome: 'Expedição & Logística', papelCor: '#f59e0b', permissoes: { admin: false, clientes_ver: true, clientes_criar: false, clientes_editar: false, clientes_excluir: false, pedidos_ver: true, pedidos_criar: false, pedidos_editar: true, fiscal_emitir: false, configuracoes: false } }
-        ];
-        const match = usuariosOffline.find(u => u.login.toLowerCase() === login.toLowerCase() && (senha === '123456' || senha.includes('123')));
-        if (match) {
-          const offlineToken = 'offline_' + match.login + '_' + Date.now();
-          gravarTokenAtivo(offlineToken, match);
-          usuarioLogado = match;
-          aplicarPerfilUsuario(usuarioLogado);
-          ocultarTelaLogin();
-          btn.disabled = false;
-          btn.textContent = 'Entrar no Sistema';
-          const navPainelOffline = document.getElementById('nav-item-painel');
-          if (navPainelOffline) trocarModulo('painel', navPainelOffline);
-          return;
-        }
-
-        erroBox.textContent = 'Falha ao conectar ao servidor de autenticação.';
+      } catch (erro) {
+        csrfTokenSessao = null;
+        sessaoCookieAtiva = false;
+        erroBox.textContent = 'Não foi possível conectar ao servidor de autenticação.';
         erroBox.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Entrar no Sistema';
       }
     }
 
-    function efetuarLogout() {
+    async function efetuarLogout() {
       if (confirm('Deseja realmente sair da sua sessão atual?')) {
+        await encerrarSessaoNoServidor();
         limparSessaoAtiva();
         usuarioLogado = null;
         exibirTelaLogin();
@@ -27227,11 +27140,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     // Configura os ouvintes das caixinhas de PIN ao inicializar
     document.addEventListener('DOMContentLoaded', () => {
-      configurarEventosPin();
+      renderizarCaixasPin(6);
       atualizarCardsConfigSeguranca();
     });
     setTimeout(() => {
-      configurarEventosPin();
+      renderizarCaixasPin(6);
       atualizarCardsConfigSeguranca();
     }, 500);
 
