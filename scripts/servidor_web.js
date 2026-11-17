@@ -33,6 +33,7 @@ const DB_PATH = path.join(DB_DIR, 'clientes.db');
 // evitando que anexos sejam gravados no Turso enquanto o restante fica no banco local.
 // Import dinâmico: a variável precisa existir ANTES de lib/db.js ser carregado.
 process.env.FORCAR_SQLITE_LOCAL = process.env.FORCAR_SQLITE_LOCAL || '1';
+const { garantirAcessoApi } = await import('../lib/api_security.js');
 const { default: handlerAnexos } = await import('../api/anexos.js');
 const { default: handlerPedidos } = await import('../api/pedidos.js');
 const { default: handlerAuth } = await import('../api/auth.js');
@@ -269,7 +270,7 @@ function responderJson(res, statusCode, data) {
     'Expires': '0',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    'Access-Control-Allow-Headers': 'Content-Type, X-CSRF-Token'
   });
   res.end(JSON.stringify(data));
 }
@@ -298,7 +299,7 @@ async function tratarRequisicao(req, res) {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, X-CSRF-Token'
     });
     return res.end();
   }
@@ -314,7 +315,6 @@ async function tratarRequisicao(req, res) {
       return res.end(fs.readFileSync(openapiPath, 'utf8'));
     }
   }
-
   if (pathname === '/api-docs' || pathname === '/api/docs') {
     const docsPath = path.join(PUBLIC_DIR, 'api-docs.html');
     if (fs.existsSync(docsPath)) {
@@ -325,6 +325,7 @@ async function tratarRequisicao(req, res) {
       return res.end(fs.readFileSync(docsPath, 'utf8'));
     }
   }
+  if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) return;
   if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
     return handlerProducao(req, res);
   }

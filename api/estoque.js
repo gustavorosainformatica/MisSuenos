@@ -10,7 +10,6 @@
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
-import { validarTokenSessao } from '../lib/auth.js';
 
 // Catálogo de Motivos Universais para múltiplos modelos de negócio
 export const MOTIVOS_UNIVERSAIS = {
@@ -142,16 +141,8 @@ export default async function handler(req, res) {
   const pathname = urlObj.pathname;
   const method = req.method;
 
-  // Identificação do Operador
-  let operador = null;
-  const authHeader = req.headers?.authorization;
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    const token = authHeader.split(' ')[1];
-    const sessao = validarTokenSessao(token);
-    if (sessao) {
-      operador = await get('SELECT id, nome, login, papel FROM usuarios WHERE id = ?', [sessao.usuarioId]);
-    }
-  }
+  // O dispatcher valida a sessão e injeta o operador autenticado.
+  const operador = req.operador || null;
 
   const operadorNome = operador ? `${operador.nome} (${operador.login})` : 'Operador do Sistema';
   const operadorId = operador ? operador.id : null;

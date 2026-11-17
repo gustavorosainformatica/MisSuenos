@@ -16,8 +16,7 @@
     }
   ],
   "security": [
-    { "ApiKeyAuth": [] },
-    { "BearerAuth": [] }
+    { "CookieSessionAuth": [] }
   ],
   "tags": [
     { "name": "Vendas & Pedidos", "description": "Gestão de pedidos comerciais, funil de expedição e reserva de estoque" },
@@ -316,17 +315,11 @@
   },
   "components": {
     "securitySchemes": {
-      "ApiKeyAuth": {
+      "CookieSessionAuth": {
         "type": "apiKey",
-        "in": "header",
-        "name": "X-API-KEY",
-        "description": "Chave de autorização fornecida para integrações internas e externas"
-      },
-      "BearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "Token de sessão administrativa"
+        "in": "cookie",
+        "name": "__Host-erp_session",
+        "description": "Sessão HttpOnly; requisições de escrita também exigem o cabeçalho X-CSRF-Token"
       }
     },
     "schemas": {

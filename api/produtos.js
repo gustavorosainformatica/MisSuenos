@@ -53,6 +53,17 @@ function enriquecerProduto(p) {
   };
 }
 
+function ocultarCustos(produto, operador, permissoesEfetivas = {}) {
+  if (!produto || operador?.papel === 'ADMIN') return produto;
+  let permissoes = permissoesEfetivas;
+  if (!Object.keys(permissoes).length) permissoes = operador?.permissoes || {};
+  try { if (typeof permissoes === 'string') permissoes = JSON.parse(permissoes || '{}'); } catch { permissoes = {}; }
+  if (permissoes.produtos_custo === true) return produto;
+  const seguro = { ...produto };
+  for (const campo of ['preco_custo', 'custo_adicional_producao', 'margem_lucro', 'lucro_unitario']) delete seguro[campo];
+  return seguro;
+}
+
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     if (typeof res.status === 'function') {
@@ -112,7 +123,7 @@ export default async function handler(req, res) {
       if (idParam) {
         const prod = await get('SELECT * FROM produtos WHERE id = ?', [idParam]);
         if (!prod) return responder(res, 404, { error: 'Produto não encontrado' });
-        return responder(res, 200, enriquecerProduto(prod));
+        return responder(res, 200, ocultarCustos(enriquecerProduto(prod), req.operador, req.permissoes));
       }
 
       const q = url.searchParams.get('q');
@@ -134,7 +145,7 @@ export default async function handler(req, res) {
 
       sql += ' ORDER BY categoria ASC, nome ASC';
       const produtos = await query(sql, params);
-      return responder(res, 200, produtos.map(enriquecerProduto));
+      return responder(res, 200, produtos.map(produto => ocultarCustos(enriquecerProduto(produto), req.operador, req.permissoes)));
     }
 
     if (req.method === 'POST' && !idParam) {

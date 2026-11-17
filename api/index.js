@@ -11,6 +11,7 @@
  */
 
 import handlerAuth from './auth.js';
+import { garantirAcessoApi } from '../lib/api_security.js';
 import handlerUsuarios from './usuarios.js';
 import handlerClientes from './clientes.js';
 import handlerPedidos from './pedidos.js';
@@ -36,13 +37,13 @@ export default async function handler(req, res) {
     if (typeof res.status === 'function') {
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-Token, X-Requested-With');
       return res.status(204).end();
     }
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With'
+      'Access-Control-Allow-Headers': 'Content-Type, X-CSRF-Token, X-Requested-With'
     });
     return res.end();
   }
@@ -74,6 +75,7 @@ export default async function handler(req, res) {
         return res.end(conteudo);
       }
     }
+    if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) { return; }
     if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
       return await handlerAuth(req, res);
     }

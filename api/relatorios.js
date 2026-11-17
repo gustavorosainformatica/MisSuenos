@@ -15,7 +15,6 @@
 
 import { query, get, registrarLog } from '../lib/db.js';
 import { calcularDreAnalitico, projetarFluxoCaixa, formatarMoedaPtBr } from '../lib/calculos_erp.js';
-import { validarTokenSessao } from '../lib/auth.js';
 
 function responder(res, status, data, headers = {}) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -142,21 +141,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
-    const sessao = validarTokenSessao(token);
-
-    let operador = null;
-    let podeVerCustos = true;
-
-    if (sessao) {
-      operador = await get('SELECT id, nome, login, papel, permissoes FROM usuarios WHERE id = ?', [sessao.usuarioId]);
-      if (operador) {
-        let perms = {};
-        try { perms = typeof operador.permissoes === 'string' ? JSON.parse(operador.permissoes || '{}') : operador.permissoes; } catch {}
-        podeVerCustos = operador.papel === 'ADMIN' || !!perms.produtos_custo;
-      }
-    }
+    const operador = req.operador || null;
+    const podeVerCustos = operador?.papel === 'ADMIN' || req.permissoes?.produtos_custo === true;
 
     const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const tipo = (urlObj.searchParams.get('tipo') || 'vendas_curva_abc').toLowerCase();

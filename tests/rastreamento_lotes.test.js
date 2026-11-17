@@ -6,6 +6,8 @@ import {
   gerarNumeroLotePreventivo
 } from '../lib/calculos_erp.js';
 import * as db from '../lib/db.js';
+import { gerarHashSenha } from '../lib/auth.js';
+import { criarSessao } from '../lib/sessoes.js';
 import handlerLotes from '../api/lotes.js';
 import handlerProducao from '../api/producao.js';
 import handlerIndex from '../api/index.js';
@@ -422,14 +424,25 @@ test('TDD LOTE 11: Interface index.html possui modal-lotes-produto, controles e 
 });
 
 test('TDD LOTE 12: Dispatcher Central (api/index.js) roteia rotas de lotes com Vercel Hobby Compliance', async () => {
-  const req = {
-    method: 'GET',
-    url: '/api/lotes/disponiveis'
-  };
-  const res = criarMockRes();
-
-  await handlerIndex(req, res);
-
-  assert.equal(res.getStatusCode(), 200);
-  assert.ok(Array.isArray(res.getData()));
+  const loginTeste = 'operador_teste_dispatch_lotes';
+  await db.inicializarTabelas();
+  await db.run('DELETE FROM usuarios WHERE login = ?', [loginTeste]);
+  await db.run(`INSERT INTO usuarios (nome, login, senha_hash, papel, ativo, data_cadastro, permissoes)
+    VALUES (?, ?, ?, 'ADMIN', 1, ?, '{}')`, ['Operador Sintético', loginTeste, gerarHashSenha('Senha Sintetica 46'), new Date().toISOString()]);
+  const operador = await db.get('SELECT id FROM usuarios WHERE login = ?', [loginTeste]);
+  const sessao = await criarSessao(operador.id);
+  try {
+    const req = {
+      method: 'GET',
+      url: '/api/lotes/disponiveis',
+      headers: { cookie: `erp_session=${encodeURIComponent(sessao.token)}` }
+    };
+    const res = criarMockRes();
+    await handlerIndex(req, res);
+    assert.equal(res.getStatusCode(), 200);
+    assert.ok(Array.isArray(res.getData()));
+  } finally {
+    await db.run('DELETE FROM sessoes_operadores WHERE usuario_id = ?', [operador.id]);
+    await db.run('DELETE FROM usuarios WHERE id = ?', [operador.id]);
+  }
 });
