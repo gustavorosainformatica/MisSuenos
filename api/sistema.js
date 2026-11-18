@@ -511,6 +511,27 @@ export default async function handler(req, res) {
   const acaoQuery = url.searchParams.get('acao');
 
   // ROTA 1: GET (Telemetria OU Listagem de Backups)
+  // Diagnóstico de conexão estritamente somente leitura para homologação.
+  if (req.method === 'GET' && url.searchParams.get('acao') === 'health') {
+    try {
+      const resultado = await query('SELECT 1 AS conexao');
+      const conectado = Number(resultado?.[0]?.conexao) === 1;
+      return responder(res, conectado ? 200 : 503, {
+        sucesso: conectado,
+        banco: modoAtivo(),
+        conexao: conectado ? 'ativa' : 'indisponivel'
+      });
+    } catch {
+      console.error('[HEALTHCHECK] Falha ao consultar o banco de dados.');
+      return responder(res, 503, {
+        sucesso: false,
+        banco: modoAtivo(),
+        conexao: 'indisponivel'
+      });
+    }
+  }
+
+  // ROTA 1: Telemetria de Armazenamento & Quotas (GET)
   if (req.method === 'GET') {
     if (pathname.includes('/backups') || acaoQuery === 'backups') {
       try {
