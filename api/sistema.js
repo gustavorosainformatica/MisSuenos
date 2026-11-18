@@ -517,13 +517,41 @@ export default async function handler(req, res) {
       return responder(res, 404, { error: 'Endpoint não encontrado.' });
     }
 
+    const databaseHost = String(process.env.TURSO_DATABASE_URL || '')
+      .replace(/^libsql:\/\//i, '')
+      .split(/[/:]/)[0]
+      .toLowerCase();
+    if (!databaseHost.startsWith('missuenos-homologacao-')) {
+      return responder(res, 409, {
+        sucesso: false,
+        banco: 'Turso Cloud',
+        conexao: 'nao_verificada',
+        schema: 'nao_consultado'
+      });
+    }
+
     try {
       const resultado = await query('SELECT 1 AS conexao');
       const conectado = Number(resultado?.[0]?.conexao) === 1;
-      return responder(res, conectado ? 200 : 503, {
-        sucesso: conectado,
+      const tabelasEsperadas = [
+        'arquivos_anexos', 'clientes', 'compras_xml', 'conciliacao_extratos',
+        'configuracoes_sistema', 'estoque_movimentacoes', 'financeiro_lancamentos',
+        'fiscal_config', 'fiscal_documentos', 'fornecedores', 'fornecedores_produtos_vinculo',
+        'logs_auditoria', 'pedidos', 'producao_ordens', 'produtos', 'produtos_bom',
+        'produtos_lotes', 'sessoes_operadores', 'transportadoras_config', 'usuarios'
+      ];
+      const tabelasBanco = await query("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'");
+      const tabelasExistentes = new Set(tabelasBanco.map((tabela) => tabela.name));
+      const tabelasAusentes = tabelasEsperadas.filter((tabela) => !tabelasExistentes.has(tabela));
+      const schemaOk = tabelasAusentes.length === 0;
+      const pronto = conectado && schemaOk;
+      return responder(res, pronto ? 200 : 503, {
+        sucesso: pronto,
         banco: modoAtivo(),
-        conexao: conectado ? 'ativa' : 'indisponivel'
+        conexao: conectado ? 'ativa' : 'indisponivel',
+        schema: schemaOk ? 'completo' : 'incompleto',
+        tabelasEsperadas: tabelasEsperadas.length,
+        tabelasAusentes
       });
     } catch {
       console.error('[HEALTHCHECK] Falha ao consultar o banco de dados.');
