@@ -536,7 +536,7 @@ export default async function handler(req, res) {
       const tabelasEsperadas = [
         'arquivos_anexos', 'clientes', 'compras_xml', 'conciliacao_extratos',
         'configuracoes_sistema', 'estoque_movimentacoes', 'financeiro_lancamentos',
-        'fiscal_config', 'fiscal_documentos', 'fornecedores', 'fornecedores_produtos_vinculo',
+        'fiscal_config', 'fiscal_documentos', 'fiscal_operacoes_wlg', 'fornecedores', 'fornecedores_produtos_vinculo',
         'logs_auditoria', 'pedidos', 'producao_ordens', 'produtos', 'produtos_bom',
         'produtos_lotes', 'sessoes_operadores', 'transportadoras_config', 'usuarios'
       ];

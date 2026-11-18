@@ -1,16 +1,9 @@
-/**
- * Vercel Serverless Function: /api/nfe
- * Central Fiscal Unificada (Tickets 11 & 12):
- * - Emissão de NF-e Modelo 55 (Produtos / SEFAZ) com Chave de 44 dígitos
- * - Emissão de NFS-e (Serviços / Portal Nacional DPS)
- * - Consulta de Protocolo, Download de XML e Visualização/Impressão de DANFE A4
- * - Blindagem de Numeração Comercial UNIQUE
- * - Persistência atômica em fiscal_documentos e logs de auditoria
- */
+/** Gateway fiscal WLG para NF-e modelo 55, restrito a homologação. */
 
-import { query, get, run, registrarLog } from '../lib/db.js';
-import { FiscalHub, formatarChaveAcesso, gerarDanfeHtml } from '../lib/fiscal_hub.js';
-import { calcularCfopVenda, validarItensFiscais } from '../lib/wlg.js';
+import { query, get, run } from '../lib/db.js';
+import crypto from 'node:crypto';
+import { formatarChaveAcesso } from '../lib/fiscal_hub.js';
+import { validarPayloadNfeWlg, emitirNfeWlg, consultarOperacaoWlg, obterArtefatoNfeWlg, obterConfiguracaoWlg } from '../lib/wlg.js';
 
 function responder(res, status, data, contentType = 'application/json; charset=utf-8') {
   if (typeof res.status === 'function' && typeof res.json === 'function' && contentType.startsWith('application/json')) {
@@ -26,6 +19,20 @@ function responder(res, status, data, contentType = 'application/json; charset=u
     return res.end(typeof data === 'string' ? data : JSON.stringify(data));
   }
   return res;
+}
+
+function responderBinario(res, buffer, contentType, filename) {
+  const headers = {
+    'Content-Type': contentType,
+    'Content-Disposition': `attachment; filename="${filename}"`,
+    'Cache-Control': 'private, no-store, max-age=0'
+  };
+  if (typeof res.status === 'function' && typeof res.send === 'function') {
+    for (const [nome, valor] of Object.entries(headers)) res.setHeader?.(nome, valor);
+    return res.status(200).send(buffer);
+  }
+  res.writeHead(200, headers);
+  return res.end(buffer);
 }
 
 function parseUrl(req) {
@@ -52,27 +59,6 @@ async function parseBody(req) {
   });
 }
 
-/**
- * Calcula o próximo número fiscal disponível para o modelo especificado
- * Blindagem preventiva contra colisão e duplicação UNIQUE
- */
-async function obterProximoNumeroFiscal(tipo = 'NFE_55', serie = 1) {
-  try {
-    const docs = await query('SELECT numero FROM fiscal_documentos WHERE tipo = ? AND serie = ?', [String(tipo), String(serie)]);
-    let maior = 0;
-    for (const d of docs) {
-      const match = String(d.numero || '').match(/\d+/);
-      if (match) {
-        const n = parseInt(match[0], 10);
-        if (n > maior) maior = n;
-      }
-    }
-    return maior + 1;
-  } catch {
-    return 1;
-  }
-}
-
 export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     if (typeof res.status === 'function') {
@@ -95,179 +81,129 @@ export default async function handler(req, res) {
   const matchXml = pathname.match(/^\/api\/nfe\/xml\/([0-9a-zA-Z]+)$/);
   const matchStatus = pathname.match(/^\/api\/nfe\/status\/([0-9a-zA-Z]+)$/);
 
-  const chaveDanfe = matchDanfe ? matchDanfe[1] : (url.searchParams.get('chave') || req.query?.chave);
   const acao = url.searchParams.get('acao') || req.query?.acao;
 
   try {
-    // =========================================================================
-    // 1. GET: VISUALIZAÇÃO / IMPRESSÃO DE DANFE HTML
-    // =========================================================================
-    if ((matchDanfe || (acao === 'danfe' && chaveDanfe)) && req.method === 'GET') {
-      const chave = matchDanfe ? matchDanfe[1] : chaveDanfe;
-      const doc = await get('SELECT * FROM fiscal_documentos WHERE chave_acesso = ? OR id = ? OR pedido_id = ?', [chave, chave, chave]);
-
-      if (!doc) {
-        return responder(res, 404, { error: `Documento fiscal com chave "${chave}" não encontrado.` });
-      }
-
-      // Recupera itens reais persistidos no documento fiscal
-      let itensDanfe = [];
-      if (doc.itens_json) {
-        try {
-          const parsed = JSON.parse(doc.itens_json);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            itensDanfe = parsed.map((it, idx) => ({
-              codigo: it.codigo || it.codigo_produto || `SKU-${idx + 1}`,
-              descricao: it.descricao || it.nome || 'PRODUTO',
-              ncm: String(it.ncm || '42050000').replace(/\D/g, ''),
-              cfop: it.cfop || '5102',
-              unidade: it.unidade || 'UN',
-              quantidade: Number(it.quantidade || 1),
-              valor_unitario: Number(it.valor_unitario || it.preco_unitario || it.preco || 0),
-              valor_total: Number(it.valor_total || it.subtotal || ((Number(it.quantidade || 1)) * Number(it.valor_unitario || it.preco_unitario || 0)))
-            }));
-          }
-        } catch {
-          itensDanfe = [];
-        }
-      }
-
-      // Fallback gracioso para documentos fiscais legados (anteriores à migração multi-itens)
-      if (itensDanfe.length === 0) {
-        itensDanfe = [
-          {
-            codigo: '01',
-            descricao: 'ARTIGOS DE COURO E SELARIA MIS SUEÑOS',
-            ncm: '42050000',
-            cfop: '5102',
-            unidade: 'UN',
-            quantidade: 1,
-            valor_unitario: Number(doc.valor_total || 100.00),
-            valor_total: Number(doc.valor_total || 100.00)
-          }
-        ];
-      }
-
-      // Recupera dados do Destinatário
-      let destDanfe = {
-        nome: 'CLIENTE CONSUMIDOR',
-        documento: '11122233344',
-        uf: 'RS',
-        cidade: 'Sapiranga',
-        logradouro: 'Rua Principal',
-        numero: 'S/N',
-        bairro: 'Centro',
-        cep: '93800-000',
-        telefone: '-'
-      };
-
-      if (doc.destinatario_json) {
-        try {
-          const destParsed = JSON.parse(doc.destinatario_json);
-          destDanfe = {
-            ...destDanfe,
-            ...destParsed,
-            nome: destParsed.nome || destParsed.razao_social || destDanfe.nome,
-            documento: destParsed.documento || destParsed.cpf || destParsed.cnpj || destDanfe.documento
-          };
-        } catch {}
-      } else if (doc.pedido_id) {
-        try {
-          const ped = await get('SELECT cliente_nome, cliente_id, uf, cidade, logradouro, numero, bairro, cep, telefone FROM pedidos WHERE id = ?', [doc.pedido_id]);
-          if (ped) {
-            destDanfe.nome = ped.cliente_nome || destDanfe.nome;
-            destDanfe.uf = ped.uf || destDanfe.uf;
-            destDanfe.cidade = ped.cidade || destDanfe.cidade;
-            if (ped.cliente_id) {
-              const cli = await get('SELECT nome, cpf, cnpj, uf, cidade, cep, logradouro, numero, bairro, telefone FROM clientes WHERE id = ?', [ped.cliente_id]);
-              if (cli) {
-                destDanfe.nome = cli.nome || destDanfe.nome;
-                destDanfe.documento = cli.cpf || cli.cnpj || destDanfe.documento;
-                destDanfe.uf = cli.uf || destDanfe.uf;
-                destDanfe.cidade = cli.cidade || destDanfe.cidade;
-                destDanfe.cep = cli.cep || destDanfe.cep;
-                destDanfe.logradouro = cli.logradouro || destDanfe.logradouro;
-                destDanfe.numero = cli.numero || destDanfe.numero;
-                destDanfe.bairro = cli.bairro || destDanfe.bairro;
-                destDanfe.telefone = cli.telefone || destDanfe.telefone;
-              }
-            }
-          }
-        } catch {}
-      }
-
-      const valorTotalNota = Number(doc.valor_total || itensDanfe.reduce((acc, it) => acc + (it.valor_total || 0), 0));
-      const valorFreteNota = Number(doc.valor_frete || 0);
-
-      const htmlDanfe = gerarDanfeHtml({
-        chaveAcesso: doc.chave_acesso,
-        numero: doc.numero,
-        serie: doc.serie,
-        dataEmissao: doc.emitido_em,
-        protocolo: doc.protocolo_autorizacao || '143260000000001',
-        emitente: {
-          cnpj: '00.000.000/0001-91',
-          razaoSocial: 'MIS SUEÑOS COUROS & PELES',
-          ie: 'ISENTO',
-          uf: 'RS',
-          cidade: 'Sapiranga',
-          cep: '93800-000'
-        },
-        destinatario: destDanfe,
-        itens: itensDanfe,
-        totais: {
-          valor_total: valorTotalNota,
-          valor_frete: valorFreteNota
-        }
-      });
-
-      return responder(res, 200, htmlDanfe, 'text/html; charset=utf-8');
+    // Rotas legadas nunca podem fabricar XML, DANFE, protocolo ou dados do emitente.
+    // Os caminhos por chave só servem artefatos associados a uma autorização WLG confirmada.
+    const chaveConsulta = String(matchDanfe?.[1] || matchXml?.[1] || matchStatus?.[1] || url.searchParams.get('chave') || req.query?.chave || '').replace(/\D/g, '');
+    if ((matchDanfe || acao === 'danfe') && req.method === 'GET') {
+      if (!/^\d{44}$/.test(chaveConsulta)) return responder(res, 400, { error: 'Chave de acesso inválida.' });
+      const operacao = await get("SELECT id FROM fiscal_operacoes_wlg WHERE chave_nfe = ? AND status = 'AUTORIZADO'", [chaveConsulta]);
+      if (!operacao) return responder(res, 404, { error: 'DANFE oficial não encontrado. O sistema não gera DANFE local para documentos legados.' });
+      const arquivo = await obterArtefatoNfeWlg(chaveConsulta, 'danfe');
+      return responderBinario(res, arquivo.buffer, arquivo.contentType, `nfe-${operacao.id}.pdf`);
     }
 
-    // =========================================================================
-    // 2. GET: DOWNLOAD DO XML OFICIAL DA NOTA
-    // =========================================================================
-    if ((matchXml || (acao === 'xml' && url.searchParams.get('chave'))) && req.method === 'GET') {
-      const chave = matchXml ? matchXml[1] : url.searchParams.get('chave');
-      const doc = await get('SELECT * FROM fiscal_documentos WHERE chave_acesso = ? OR pedido_id = ?', [chave, chave]);
-
-      if (!doc) {
-        return responder(res, 404, { error: `XML da nota fiscal "${chave}" não encontrado.` });
-      }
-
-      const xml = doc.xml_assinado || '<NFe><infNFe>XML NÃO DISPONÍVEL</infNFe></NFe>';
-      return responder(res, 200, xml, 'application/xml; charset=utf-8');
+    if ((matchXml || acao === 'xml') && req.method === 'GET') {
+      if (!/^\d{44}$/.test(chaveConsulta)) return responder(res, 400, { error: 'Chave de acesso inválida.' });
+      const operacao = await get("SELECT id FROM fiscal_operacoes_wlg WHERE chave_nfe = ? AND status = 'AUTORIZADO'", [chaveConsulta]);
+      if (!operacao) return responder(res, 404, { error: 'XML oficial não encontrado. O sistema não fabrica XML para documentos legados.' });
+      const arquivo = await obterArtefatoNfeWlg(chaveConsulta, 'xml');
+      return responderBinario(res, arquivo.buffer, arquivo.contentType, `nfe-${operacao.id}.xml`);
     }
 
-    // =========================================================================
-    // 3. GET: CONSULTA DE STATUS DE PROTOCOLO E DETALHES
-    // =========================================================================
-    if ((matchStatus || (acao === 'status' && url.searchParams.get('chave'))) && req.method === 'GET') {
-      const chave = matchStatus ? matchStatus[1] : url.searchParams.get('chave');
-      const doc = await get('SELECT * FROM fiscal_documentos WHERE chave_acesso = ? OR pedido_id = ?', [chave, chave]);
+    if ((matchStatus || acao === 'status') && req.method === 'GET') {
+      if (!/^\d{44}$/.test(chaveConsulta)) return responder(res, 400, { error: 'Chave de acesso inválida.' });
+      const operacao = await get('SELECT id, status, codigo_status, chave_nfe, protocolo, data_autorizacao FROM fiscal_operacoes_wlg WHERE chave_nfe = ?', [chaveConsulta]);
+      if (!operacao) return responder(res, 404, { error: 'Operação WLG não encontrada para esta chave.' });
+      return responder(res, 200, { success: true, documento: { id: operacao.id, chaveAcesso: operacao.chave_nfe, status: operacao.status, codigoStatus: operacao.codigo_status, protocolo: operacao.protocolo, dataAutorizacao: operacao.data_autorizacao } });
+    }
 
-      if (!doc) {
-        return responder(res, 404, { error: `Documento fiscal "${chave}" não encontrado.` });
+    if (acao === 'wlg_emitir' && req.method === 'POST') {
+      const body = await parseBody(req);
+      const chaveCliente = String(body.chaveIdempotencia || '').trim();
+      if (!/^[a-zA-Z0-9_-]{16,200}$/.test(chaveCliente) || !body.documentoWlg || typeof body.documentoWlg !== 'object') {
+        return responder(res, 400, { error: 'Informe chaveIdempotencia (16 a 200 caracteres) e documentoWlg.' });
+      }
+      const configWlg = obterConfiguracaoWlg();
+      if (configWlg.ambiente !== 2) return responder(res, 409, { error: 'Este endpoint aceita somente homologação (ambiente 2).' });
+      try { validarPayloadNfeWlg(body.documentoWlg); }
+      catch (error) { return responder(res, 400, { error: error.message }); }
+
+      const chaveHash = crypto.createHash('sha256').update(chaveCliente).digest('hex');
+      const idInterno = crypto.randomUUID();
+      await run(`INSERT OR IGNORE INTO fiscal_operacoes_wlg
+        (id, chave_idempotencia_hash, ambiente, status) VALUES (?, ?, 2, 'PENDENTE')`, [idInterno, chaveHash]);
+      const operacaoExistente = await get('SELECT id, status, operation_id FROM fiscal_operacoes_wlg WHERE chave_idempotencia_hash = ?', [chaveHash]);
+      if (!operacaoExistente) return responder(res, 500, { error: 'Não foi possível registrar a operação fiscal.' });
+      if (operacaoExistente.id !== idInterno) {
+        return responder(res, 200, { success: true, reutilizada: true, operacaoId: operacaoExistente.id, status: operacaoExistente.status });
       }
 
+      try {
+        const resultado = await emitirNfeWlg(body.documentoWlg);
+        const status = resultado.status === 'PROCESSANDO' ? 'PROCESSANDO' : 'PENDENTE_CONFIRMACAO';
+        await run(`UPDATE fiscal_operacoes_wlg SET operation_id = ?, status = ?, atualizado_em = CURRENT_TIMESTAMP WHERE id = ?`, [resultado.operationId, status, idInterno]);
+        return responder(res, 202, { success: true, operacaoId: idInterno, status });
+      } catch (error) {
+        // Falha de rede pode ocorrer após aceitação externa; não repetir automaticamente.
+        const inconclusivo = error?.code === 'WLG_ENVIO_INCONCLUSIVO';
+        const status = inconclusivo ? 'PENDENTE_CONFIRMACAO' : 'ERRO_ENVIO';
+        await run(`UPDATE fiscal_operacoes_wlg SET status = ?, atualizado_em = CURRENT_TIMESTAMP WHERE id = ?`, [status, idInterno]);
+        return responder(res, 502, {
+          error: inconclusivo ? 'Resultado do envio inconclusivo. Consulte a operação antes de tentar novamente.' : 'A WLG não aceitou a emissão. Revise a configuração e o documento.',
+          operacaoId: idInterno,
+          status
+        });
+      }
+    }
+
+    if (acao === 'wlg_consultar' && req.method === 'GET') {
+      const idInterno = String(url.searchParams.get('operacaoId') || req.query?.operacaoId || '').trim();
+      const operacao = await get('SELECT * FROM fiscal_operacoes_wlg WHERE id = ?', [idInterno]);
+      if (!operacao) return responder(res, 404, { error: 'Operação fiscal não encontrada.' });
+      if (!operacao.operation_id) {
+        return responder(res, 202, { success: true, operacaoId: operacao.id, status: operacao.status });
+      }
+
+      const resultado = await consultarOperacaoWlg(operacao.operation_id);
+      let status = 'PROCESSANDO';
+      let chaveNfe = null;
+      let protocolo = null;
+      let dataAutorizacao = null;
+      if (resultado.status === 'ERRO') status = 'REJEITADO';
+      if (resultado.status === 'SUCCESSO') {
+        if (resultado.codigoStatus === 100 && /^\d{44}$/.test(String(resultado.chaveNfe || ''))) {
+          status = 'AUTORIZADO';
+          chaveNfe = resultado.chaveNfe;
+          protocolo = resultado.protocolo;
+          dataAutorizacao = resultado.dataAutorizacao || resultado.dataProtocolo;
+        } else {
+          status = 'ERRO_CONSULTA';
+        }
+      }
+      await run(`UPDATE fiscal_operacoes_wlg SET status = ?, codigo_status = ?, chave_nfe = ?, protocolo = ?, data_autorizacao = ?, atualizado_em = CURRENT_TIMESTAMP WHERE id = ?`, [
+        status, resultado.codigoStatus, chaveNfe, protocolo, dataAutorizacao, operacao.id
+      ]);
       return responder(res, 200, {
         success: true,
-        documento: {
-          id: doc.id,
-          tipo: doc.tipo,
-          serie: doc.serie,
-          numero: doc.numero,
-          chaveAcesso: doc.chave_acesso,
-          chaveFormatada: formatarChaveAcesso(doc.chave_acesso),
-          status: doc.status,
-          motivo: doc.motivo_status,
-          protocolo: doc.protocolo_autorizacao,
-          dataEmissao: doc.emitido_em,
-          links: {
-            danfe: `/api/nfe/danfe/${doc.chave_acesso}`,
-            xml: `/api/nfe/xml/${doc.chave_acesso}`
-          }
-        }
+        operacaoId: operacao.id,
+        status,
+        codigoStatus: resultado.codigoStatus,
+        chaveNfe,
+        protocolo,
+        dataAutorizacao,
+        motivo: status === 'REJEITADO' ? 'A SEFAZ rejeitou a operação. Consulte o código de status no portal WLG.' : null
+      });
+    }
+
+    if (acao === 'wlg_artefato' && req.method === 'GET') {
+      const idInterno = String(url.searchParams.get('operacaoId') || '').trim();
+      const tipoArtefato = String(url.searchParams.get('tipo') || '').toLowerCase();
+      const operacao = await get('SELECT id, status, chave_nfe FROM fiscal_operacoes_wlg WHERE id = ?', [idInterno]);
+      if (!operacao) return responder(res, 404, { error: 'Operação fiscal não encontrada.' });
+      if (operacao.status !== 'AUTORIZADO' || !operacao.chave_nfe) {
+        return responder(res, 409, { error: 'O artefato só fica disponível após autorização confirmada pela WLG.' });
+      }
+      const arquivo = await obterArtefatoNfeWlg(operacao.chave_nfe, tipoArtefato);
+      const filename = `nfe-${operacao.id}.${arquivo.extensao}`;
+      return responderBinario(res, arquivo.buffer, arquivo.contentType, filename);
+    }
+
+    if (req.method === 'POST') {
+      return responder(res, 410, {
+        error: 'A rota legada de emissão fiscal está desativada. A emissão NF-e deve usar o fluxo WLG assíncrono de homologação; NFS-e não está habilitada neste adapter.'
       });
     }
 
@@ -275,297 +211,58 @@ export default async function handler(req, res) {
     // 4. GET: LISTAGEM DE DOCUMENTOS FISCAIS EMITIDOS
     // =========================================================================
     if (req.method === 'GET') {
-      const statusFiltro = url.searchParams.get('status');
+      const statusFiltro = String(url.searchParams.get('status') || '').toUpperCase();
       let sql = 'SELECT id, tipo, serie, numero, chave_acesso, pedido_id, status, motivo_status, protocolo_autorizacao, danfe_pdf_url, emitido_em FROM fiscal_documentos';
-      const params = [];
-      if (statusFiltro) {
-        sql += ' WHERE status = ?';
-        params.push(statusFiltro.toUpperCase());
-      }
+      if (statusFiltro === 'LEGADO_NAO_VERIFICADO') sql += ' WHERE 1 = 1';
+      else if (statusFiltro) sql += ' WHERE 1 = 0';
       sql += ' ORDER BY id DESC LIMIT 100';
 
-      const docs = await query(sql, params);
+      const docs = await query(sql);
+      let sqlOperacoes = 'SELECT id, status, codigo_status, chave_nfe, protocolo, data_autorizacao, criado_em, atualizado_em FROM fiscal_operacoes_wlg';
+      const paramsOperacoes = [];
+      if (statusFiltro && statusFiltro !== 'LEGADO_NAO_VERIFICADO') {
+        sqlOperacoes += ' WHERE status = ?';
+        paramsOperacoes.push(statusFiltro.toUpperCase());
+      } else if (statusFiltro === 'LEGADO_NAO_VERIFICADO') {
+        sqlOperacoes += ' WHERE 1 = 0';
+      }
+      sqlOperacoes += ' ORDER BY atualizado_em DESC LIMIT 100';
+      const operacoesWlg = await query(sqlOperacoes, paramsOperacoes);
+      const documentosLegados = docs.map(d => ({
+        ...d,
+        status: 'LEGADO_NAO_VERIFICADO',
+        motivo_status: 'Documento legado sem confirmação verificável pela integração WLG.',
+        chaveFormatada: formatarChaveAcesso(d.chave_acesso),
+        links: null
+      }));
+      const documentosWlg = operacoesWlg.map(op => ({
+        id: op.id,
+        tipo: 'NFE_WLG',
+        serie: null,
+        numero: null,
+        chave_acesso: op.chave_nfe,
+        pedido_id: null,
+        status: op.status,
+        codigo_status: op.codigo_status,
+        protocolo_autorizacao: op.protocolo,
+        emitido_em: op.data_autorizacao || op.atualizado_em || op.criado_em,
+        chaveFormatada: formatarChaveAcesso(op.chave_nfe),
+        links: op.status === 'AUTORIZADO' && op.chave_nfe ? {
+          danfe: `/api/nfe/danfe/${op.chave_nfe}`,
+          xml: `/api/nfe/xml/${op.chave_nfe}`
+        } : null
+      }));
+      const documentos = [...documentosWlg, ...documentosLegados]
+        .sort((a, b) => String(b.emitido_em || '').localeCompare(String(a.emitido_em || '')))
+        .slice(0, 100);
       return responder(res, 200, {
         success: true,
-        total: docs.length,
-        documentos: docs.map(d => ({
-          ...d,
-          chaveFormatada: formatarChaveAcesso(d.chave_acesso),
-          links: {
-            danfe: `/api/nfe/danfe/${d.chave_acesso}`,
-            xml: `/api/nfe/xml/${d.chave_acesso}`
-          }
-        }))
+        total: documentos.length,
+        documentos
       });
     }
 
     // =========================================================================
-    // 5. POST: TRANSMISSÃO E EMISSÃO DE NOTA FISCAL (NF-e 55 ou NFS-e DPS)
-    // =========================================================================
-    if (req.method === 'POST') {
-      const payload = await parseBody(req);
-      const {
-        tipoNota = 'NFE_PRODUTO',
-        pedidoId = null,
-        cliente,
-        produtos = [],
-        servico = null,
-        valores = {},
-        emitente = null
-      } = payload;
-
-      if (!cliente) {
-        return responder(res, 400, { error: 'Dados do cliente/destinatário são obrigatórios para emissão fiscal.' });
-      }
-
-      const agora = new Date();
-      const agoraIso = agora.toISOString();
-
-      // Configuração e dados do Emitente
-      const emitenteFinal = {
-        cnpj: (emitente?.cnpj || '00000000000191').replace(/\D/g, ''),
-        razaoSocial: emitente?.razaoSocial || 'MIS SUEÑOS COUROS & PELES',
-        ie: (emitente?.ie || 'ISENTO').replace(/\D/g, '') || 'ISENTO',
-        uf: emitente?.uf || 'RS',
-        cidade: emitente?.cidade || 'Sapiranga',
-        codigoIbge: emitente?.codigoIbge || '4319901'
-      };
-
-      const hub = new FiscalHub({ emitente: emitenteFinal });
-
-      // =======================================================================
-      // A. EMISSÃO DE NF-e MODELO 55 (PRODUTOS)
-      // =======================================================================
-      if (tipoNota === 'NFE_PRODUTO' || tipoNota === 'NFE') {
-        const serie = payload.serie || 1;
-        const numero = payload.numero || await obterProximoNumeroFiscal('NFE_55', serie);
-
-        // Prepara e enriquece lista de itens
-        const itensTratados = Array.isArray(produtos) && produtos.length > 0 ? produtos : [];
-        if (itensTratados.length === 0) {
-          const vTot = parseFloat(valores?.valorTotal || 0);
-          itensTratados.push({
-            codigo: 'COD-01',
-            descricao: payload.descricaoMercadoria || 'Artigos de Couro e Selaria',
-            ncm: payload.ncm || '42050000',
-            quantidade: 1,
-            valor_unitario: vTot,
-            valor_total: vTot,
-            unidade: 'UN'
-          });
-        }
-
-        // Valida e sanitiza NCMs e atributos de cada item
-        const itensErros = [];
-        for (let i = 0; i < itensTratados.length; i++) {
-          const it = itensTratados[i];
-          if (!it.ncm && (it.produto_id || it.id || it.codigo)) {
-            const prodDb = it.produto_id || it.id
-              ? await get('SELECT ncm, codigo, unidade FROM produtos WHERE id = ?', [it.produto_id || it.id])
-              : await get('SELECT ncm, codigo, unidade FROM produtos WHERE codigo = ?', [it.codigo]);
-            if (prodDb?.ncm) it.ncm = prodDb.ncm;
-          }
-          const ncmLimpo = String(it.ncm || '').replace(/\D/g, '');
-          if (ncmLimpo.length !== 8) {
-            // Se não tiver NCM, fallback padrão de couro 42050000 apenas se não informado
-            if (!it.ncm) {
-              it.ncm = '42050000';
-            } else {
-              itensErros.push(`Item #${i + 1} (${it.descricao || it.nome || 'Produto'}) possui NCM inválido ("${it.ncm}"). Requer 8 dígitos.`);
-            }
-          } else {
-            it.ncm = ncmLimpo;
-          }
-        }
-
-        if (itensErros.length > 0) {
-          return responder(res, 400, {
-            error: 'Validação Fiscal de NCM Reprovada.',
-            detalhes: itensErros
-          });
-        }
-
-        // Emite via Hub Fiscal
-        const emissao = await hub.emitirNfe({
-          pedido: { id: pedidoId },
-          itens: itensTratados,
-          cliente,
-          serie,
-          numero
-        });
-
-        const vFrete = parseFloat(valores?.valorFrete || payload.valorFrete || 0);
-        const itensJson = JSON.stringify(itensTratados);
-        const destinatarioJson = JSON.stringify({
-          id: cliente.id || null,
-          nome: cliente.nome || cliente.razao_social || 'CONSUMIDOR FINAL',
-          documento: cliente.documento || cliente.cpf || cliente.cnpj || '',
-          uf: cliente.uf || 'RS',
-          cidade: cliente.cidade || 'Sapiranga',
-          cep: cliente.cep || '',
-          logradouro: cliente.logradouro || '',
-          numero: cliente.numero || '',
-          bairro: cliente.bairro || '',
-          telefone: cliente.telefone || ''
-        });
-
-        // Persiste em fiscal_documentos com as colunas reais da tabela (incluindo itens_json e destinatario_json)
-        await run(`
-          INSERT INTO fiscal_documentos (
-            tipo, serie, numero, chave_acesso, pedido_id,
-            status, motivo_status, protocolo_autorizacao,
-            xml_assinado, danfe_pdf_url, itens_json, destinatario_json,
-            valor_total, valor_frete, emitido_em
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT(chave_acesso) DO UPDATE SET
-            status = excluded.status,
-            motivo_status = excluded.motivo_status,
-            protocolo_autorizacao = excluded.protocolo_autorizacao,
-            xml_assinado = excluded.xml_assinado,
-            itens_json = excluded.itens_json,
-            destinatario_json = excluded.destinatario_json,
-            valor_total = excluded.valor_total,
-            valor_frete = excluded.valor_frete
-        `, [
-          'NFE_55',
-          String(serie),
-          String(numero),
-          emissao.chaveAcesso,
-          pedidoId,
-          emissao.status,
-          'Autorizado o uso da NF-e',
-          emissao.protocolo,
-          emissao.xml,
-          `/api/nfe/danfe/${emissao.chaveAcesso}`,
-          itensJson,
-          destinatarioJson,
-          emissao.valorTotal,
-          vFrete,
-          agoraIso
-        ]);
-
-        // Se houver pedido vinculado, atualiza observações do pedido
-        if (pedidoId) {
-          await run(`
-            UPDATE pedidos 
-            SET observacoes = COALESCE(observacoes, '') || ?
-            WHERE id = ?
-          `, [` [NF-e #${numero} Chave: ${emissao.chaveAcesso}]`, pedidoId]).catch(() => {});
-        }
-
-        await registrarLog({
-          clienteId: cliente.id || null,
-          clienteNome: cliente.nome,
-          tipoAcao: 'EMISSAO_NFE_PRODUTO',
-          camposAlterados: ['chave_acesso', 'numero', 'serie', 'status'],
-          detalhes: `NF-e Modelo 55 emitida | NF #${numero} Série ${serie} | Chave: ${emissao.chaveAcesso} | R$ ${emissao.valorTotal.toFixed(2)}`,
-          req
-        }).catch(() => {});
-
-        return responder(res, 201, {
-          success: true,
-          tipoNota: 'NFE_PRODUTO',
-          numeroNfe: numero,
-          serieNfe: serie,
-          chaveAcesso: emissao.chaveAcesso,
-          chaveFormatada: emissao.chaveFormatada,
-          protocolo: emissao.protocolo,
-          status: emissao.status,
-          valorTotal: emissao.valorTotal,
-          cfopAplicado: emissao.cfopAplicado,
-          links: {
-            danfe: `/api/nfe/danfe/${emissao.chaveAcesso}`,
-            xml: `/api/nfe/xml/${emissao.chaveAcesso}`
-          },
-          danfeHtml: emissao.danfeHtml,
-          xml: emissao.xml
-        });
-      }
-
-      // =======================================================================
-      // B. EMISSÃO DE NFS-e (SERVIÇOS / RECEITA FEDERAL DPS)
-      // =======================================================================
-      if (tipoNota === 'NFSE_SERVICO' || tipoNota === 'NFSE') {
-        const valorServico = parseFloat(valores?.valorTotal || servico?.valor || 0);
-        const numeroDps = Math.floor(100000 + Math.random() * 900000);
-        const serieDps = '1';
-        const chaveDps = `DPS${numeroDps}`;
-
-        const xmlDps = `<?xml version="1.0" encoding="UTF-8"?>
-<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.00">
-  <infDPS id="${chaveDps}">
-    <tpAmb>1</tpAmb>
-    <dhEmi>${agoraIso}</dhEmi>
-    <verAplic>1.0.0</verAplic>
-    <serie>${serieDps}</serie>
-    <nDPS>${numeroDps}</nDPS>
-    <dCompet>${agoraIso.slice(0, 10)}</dCompet>
-    <tpEmit>1</tpEmit>
-    <prest>
-      <CNPJ>${emitenteFinal.cnpj}</CNPJ>
-      <xNome>${emitenteFinal.razaoSocial}</xNome>
-    </prest>
-    <toma>
-      <xNome>${cliente.nome}</xNome>
-    </toma>
-    <valores>
-      <vServPrest>${valorServico.toFixed(2)}</vServPrest>
-    </valores>
-  </infDPS>
-</DPS>`;
-
-        await run(`
-          INSERT INTO fiscal_documentos (
-            tipo, serie, numero, chave_acesso, pedido_id,
-            status, motivo_status, protocolo_autorizacao,
-            xml_assinado, danfe_pdf_url, emitido_em
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-          ON CONFLICT(chave_acesso) DO UPDATE SET
-            status = excluded.status,
-            motivo_status = excluded.motivo_status,
-            protocolo_autorizacao = excluded.protocolo_autorizacao,
-            xml_assinado = excluded.xml_assinado
-        `, [
-          'NFSE_DPS',
-          serieDps,
-          String(numeroDps),
-          chaveDps,
-          pedidoId,
-          'AUTORIZADO',
-          'DPS Autorizada no Portal Nacional',
-          `REC-DPS-${numeroDps}`,
-          xmlDps,
-          null,
-          agoraIso
-        ]);
-
-        await registrarLog({
-          clienteId: cliente.id || null,
-          clienteNome: cliente.nome,
-          tipoAcao: 'EMISSAO_NFSE_SERVICO',
-          camposAlterados: ['dps', 'valor'],
-          detalhes: `NFS-e Portal Nacional emitida | DPS #${numeroDps} | R$ ${valorServico.toFixed(2)}`,
-          req
-        }).catch(() => {});
-
-        return responder(res, 201, {
-          success: true,
-          tipoNota: 'NFSE_SERVICO',
-          numeroDps,
-          serieDps,
-          chaveAcesso: chaveDps,
-          status: 'AUTORIZADO',
-          valorTotal: valorServico,
-          xmlDps,
-          links: {
-            xml: `/api/nfe/xml/${chaveDps}`
-          }
-        });
-      }
-
-      return responder(res, 400, { error: 'Tipo de nota inválido. Escolha NFE_PRODUTO ou NFSE_SERVICO.' });
-    }
-
     return responder(res, 405, { error: 'Método não permitido.' });
 
   } catch (err) {
