@@ -513,6 +513,10 @@ export default async function handler(req, res) {
   // ROTA 1: GET (Telemetria OU Listagem de Backups)
   // Diagnóstico de conexão estritamente somente leitura para homologação.
   if (req.method === 'GET' && url.searchParams.get('acao') === 'health') {
+    if (process.env.VERCEL_ENV !== 'preview' || process.env.VERCEL_GIT_COMMIT_REF !== 'dev') {
+      return responder(res, 404, { error: 'Endpoint não encontrado.' });
+    }
+
     try {
       const resultado = await query('SELECT 1 AS conexao');
       const conectado = Number(resultado?.[0]?.conexao) === 1;
