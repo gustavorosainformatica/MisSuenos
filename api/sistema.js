@@ -511,6 +511,59 @@ export default async function handler(req, res) {
   const acaoQuery = url.searchParams.get('acao');
 
   // ROTA 1: GET (Telemetria OU Listagem de Backups)
+  // Diagnóstico de conexão estritamente somente leitura para homologação.
+  if (req.method === 'GET' && url.searchParams.get('acao') === 'health') {
+    if (process.env.VERCEL_ENV !== 'preview' || process.env.VERCEL_GIT_COMMIT_REF !== 'dev') {
+      return responder(res, 404, { error: 'Endpoint não encontrado.' });
+    }
+
+    const databaseHost = String(process.env.TURSO_DATABASE_URL || '')
+      .replace(/^libsql:\/\//i, '')
+      .split(/[/:]/)[0]
+      .toLowerCase();
+    if (!databaseHost.startsWith('missuenos-homologacao-')) {
+      return responder(res, 409, {
+        sucesso: false,
+        banco: 'Turso Cloud',
+        conexao: 'nao_verificada',
+        schema: 'nao_consultado'
+      });
+    }
+
+    try {
+      const resultado = await query('SELECT 1 AS conexao');
+      const conectado = Number(resultado?.[0]?.conexao) === 1;
+      const tabelasEsperadas = [
+        'arquivos_anexos', 'clientes', 'compras_xml', 'conciliacao_extratos',
+        'configuracoes_sistema', 'estoque_movimentacoes', 'financeiro_lancamentos',
+        'fiscal_config', 'fiscal_documentos', 'fiscal_operacoes_wlg', 'fornecedores', 'fornecedores_produtos_vinculo',
+        'logs_auditoria', 'pedidos', 'producao_ordens', 'produtos', 'produtos_bom',
+        'produtos_lotes', 'sessoes_operadores', 'transportadoras_config', 'usuarios'
+      ];
+      const tabelasBanco = await query("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'");
+      const tabelasExistentes = new Set(tabelasBanco.map((tabela) => tabela.name));
+      const tabelasAusentes = tabelasEsperadas.filter((tabela) => !tabelasExistentes.has(tabela));
+      const schemaOk = tabelasAusentes.length === 0;
+      const pronto = conectado && schemaOk;
+      return responder(res, pronto ? 200 : 503, {
+        sucesso: pronto,
+        banco: modoAtivo(),
+        conexao: conectado ? 'ativa' : 'indisponivel',
+        schema: schemaOk ? 'completo' : 'incompleto',
+        tabelasEsperadas: tabelasEsperadas.length,
+        tabelasAusentes
+      });
+    } catch {
+      console.error('[HEALTHCHECK] Falha ao consultar o banco de dados.');
+      return responder(res, 503, {
+        sucesso: false,
+        banco: modoAtivo(),
+        conexao: 'indisponivel'
+      });
+    }
+  }
+
+  // ROTA 1: Telemetria de Armazenamento & Quotas (GET)
   if (req.method === 'GET') {
     if (pathname.includes('/backups') || acaoQuery === 'backups') {
       try {

@@ -11,6 +11,7 @@
  */
 
 import handlerAuth from './auth.js';
+import { garantirAcessoApi } from '../lib/api_security.js';
 import handlerUsuarios from './usuarios.js';
 import handlerClientes from './clientes.js';
 import handlerPedidos from './pedidos.js';
@@ -27,7 +28,6 @@ import handlerEstoque from './estoque.js';
 import handlerLogistica from './logistica.js';
 import handlerProducao from './producao.js';
 import handlerLotes from './lotes.js';
-import { garantirAcessoApi } from '../lib/api_security.js';
 import fs from 'fs';
 import path from 'path';
 
@@ -75,9 +75,7 @@ export default async function handler(req, res) {
         return res.end(conteudo);
       }
     }
-    if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) {
-      return;
-    }
+    if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) { return; }
     if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
       return await handlerAuth(req, res);
     }

@@ -60,12 +60,22 @@ if (!fs.existsSync(pastaPerfil)) {
   fs.mkdirSync(pastaPerfil, { recursive: true });
 }
 
+// Limpa dados de sessão anteriores para impedir que o Chromium restaure abas ou sessões antigas
+try {
+  const sessDir = path.join(pastaPerfil, 'Default', 'Sessions');
+  const sessStorDir = path.join(pastaPerfil, 'Default', 'Session Storage');
+  if (fs.existsSync(sessDir)) fs.rmSync(sessDir, { recursive: true, force: true });
+  if (fs.existsSync(sessStorDir)) fs.rmSync(sessStorDir, { recursive: true, force: true });
+} catch {}
+
 const browserArgs = [
   `--app=http://localhost:${PORT}`,
   `--user-data-dir=${pastaPerfil}`,
   '--no-first-run',
   '--no-default-browser-check',
-  '--disable-http-cache'
+  '--disable-http-cache',
+  '--no-restore-session-state',
+  '--disable-session-crashed-bubble'
 ];
 
 // Função para testar se o servidor já está ativo e respondendo

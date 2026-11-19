@@ -5126,9 +5126,37 @@
       }
     }
 
+    /* ========================================================
+       BLINDAGEM VISUAL: NÃO MOSTRAR A JANELA DO SISTEMA POR TRÁS DO LOGIN
+       ======================================================== */
+    body.nao-autenticado .erp-sidebar,
+    body.nao-autenticado .erp-main-wrapper,
+    body.nao-autenticado .erp-topbar,
+    body.nao-autenticado #sidebar-hover-backdrop,
+    body.nao-autenticado #topbar-windows-nav,
+    body.nao-autenticado .erp-scrollable-area {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    #modal-auth-login {
+      background: #070d18 !important;
+      background: radial-gradient(circle at 50% 35%, #0f1c34 0%, #070d18 80%) !important;
+    }
+
+    #auth-seletor-modo-container {
+      display: none !important;
+    }
+    #tab-modo-senha.modo-oculto,
+    #tab-modo-pin.modo-oculto {
+      display: none !important;
+    }
+
 </style>
 </head>
-<body>
+<body class="nao-autenticado">
 
   <!-- SIDEBAR DO ERP -->
   <aside class="erp-sidebar" id="erp-sidebar">
@@ -6137,49 +6165,49 @@
               <section class="erp-kpi-grid">
         <div class="erp-kpi-card" id="card-kpi-fisc-emitir" onclick="abrirModalFiscal()" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'emitir', this)" title="💡 Botão Esquerdo: Emissor Rápido · Botão Direito (🖱️): Menu de Emissão NF-e & NFS-e">
           <div class="kpi-top-row">
-            <span class="kpi-label">Status da Conexão Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #34d399; background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🟢 100% ON</span></span>
+            <span class="kpi-label">Integração Fiscal <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">HOMOLOGAÇÃO</span></span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para menu de emissão fiscal">🧾</div>
           </div>
-          <div class="kpi-number" style="font-size: 19px; color: #34d399;">SEFAZ RS + Nacional</div>
+          <div class="kpi-number" style="font-size: 19px; color: #fbbf24;">WLG · NF-e 55</div>
           <div class="kpi-trend">
-            <span style="color: #38bdf8;">+ Emitir Nota</span>
-            <span style="color: var(--text-muted); font-weight: normal;">(Clique p/ abrir · Menu 🖱️)</span>
+            <span style="color: #fbbf24;">Tela bloqueada</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Aguardando configuração fiscal aprovada</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-fisc-total" onclick="acaoKpiFiscal('TODAS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'total', this)" title="💡 Botão Esquerdo: Todas as 199 Notas · Botão Direito (🖱️): Filtros por Status (Autorizada, Cancelada)">
+        <div class="erp-kpi-card kpi-active-filter" id="card-kpi-fisc-total" onclick="acaoKpiFiscal('TODAS', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'total', this)" title="Registros da Central Fiscal; histórico legado não equivale a autorização verificada.">
           <div class="kpi-top-row">
-            <span class="kpi-label">Total Documentos Emitidos <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">Registros Fiscais <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">INCLUI LEGADO</span></span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para filtros de notas emitidas">📄</div>
           </div>
-          <div class="kpi-number">199 Notas</div>
+          <div class="kpi-number" id="kpi-fisc-total-numero">0 registros</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">→ Mostrar Todas (199)</span>
+            <span style="color: #fbbf24;" id="kpi-fisc-total-trend">→ Mostrar registros</span>
             <span style="color: var(--text-muted); font-weight: normal;">(Menu 🖱️)</span>
           </div>
         </div>
 
-        <div class="erp-kpi-card" id="card-kpi-fisc-nfe" onclick="acaoKpiFiscal('NFE_PRODUTO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'nfe', this)" title="💡 Botão Esquerdo: Modelo 55 SEFAZ (162) · Botão Direito (🖱️): Status SEFAZ RS & Exportação">
+        <div class="erp-kpi-card" id="card-kpi-fisc-nfe" onclick="acaoKpiFiscal('NFE_PRODUTO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'nfe', this)" title="Operações processadas pela integração WLG.">
           <div class="kpi-top-row">
-            <span class="kpi-label">NF-e Mercadorias (SEFAZ) <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">NF-e WLG (Homologação)</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para ações de NF-e">🪵</div>
           </div>
-          <div class="kpi-number">162 Notas</div>
+          <div class="kpi-number" id="kpi-fisc-nfe-numero">0 operações WLG</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">→ Filtrar Modelo 55</span>
-            <span style="color: var(--text-muted); font-weight: normal;">(162 · Menu 🖱️)</span>
+            <span style="color: #fbbf24;">→ Filtrar NF-e</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Inclui autorizações e rejeições WLG</span>
           </div>
         </div>
 
         <div class="erp-kpi-card" id="card-kpi-fisc-nfse" onclick="acaoKpiFiscal('NFSE_SERVICO', this)" oncontextmenu="abrirMenuContextoKpi(event, 'fiscal', 'nfse', this)" title="💡 Botão Esquerdo: NFS-e Nacional (37) · Botão Direito (🖱️): Consultas & Ações do Portal NFS-e">
           <div class="kpi-top-row">
-            <span class="kpi-label">NFS-e Portal Nacional <span style="font-size: 9.5px; font-weight: 800; color: #fbbf24; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); padding: 1px 5px; border-radius: 4px; margin-left: 4px;">🧪 TESTE</span></span>
+            <span class="kpi-label">NFS-e</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para ações de NFS-e">🧾</div>
           </div>
-          <div class="kpi-number">37 DPS</div>
+          <div class="kpi-number">Não habilitada</div>
           <div class="kpi-trend">
-            <span style="color: #fbbf24;">→ Filtrar NFS-e</span>
-            <span style="color: var(--text-muted); font-weight: normal;">(37 · Menu 🖱️)</span>
+            <span style="color: #fbbf24;">Fora da integração WLG</span>
+            <span style="color: var(--text-muted); font-weight: normal;">Sem emissão habilitada</span>
           </div>
         </div>
       </section>
@@ -6264,8 +6292,8 @@
             <span class="kpi-label">Central Fiscal</span>
             <div class="kpi-icon-pill" title="Clique com o botão direito para atalhos fiscais">🧾</div>
           </div>
-          <div class="kpi-number">199 Notas</div>
-          <div class="kpi-trend"><span style="color: #34d399;">→ Ver Fiscal</span> <span style="color: var(--text-muted); font-weight: normal;">(SEFAZ RS 🟢 · 🖱️)</span></div>
+          <div class="kpi-number" id="kpi-painel-total-fiscal">—</div>
+          <div class="kpi-trend"><span style="color: #fbbf24;">→ Ver Fiscal</span> <span style="color: var(--text-muted); font-weight: normal;">WLG em homologação</span></div>
         </div>
       </section>
 
@@ -6517,11 +6545,11 @@
             <div class="form-grid-2">
               <div class="form-group">
                 <label class="form-label">Razão Social Emitente (NF-e) *</label>
-                <input type="text" class="form-input" id="app-config-razao-social" value="MIS SUEÑOS COUROS & PELES" required aria-label="TOPBAR-SEARCH">
+                <input type="text" class="form-input" id="app-config-razao-social" value="" placeholder="PREENCHIDO PELO CADASTRO DA EMPRESA" required aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">CNPJ / CPF do Emitente *</label>
-                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="00.000.000/0001-91" inputmode="numeric" maxlength="18" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" required aria-label="TOPBAR-SEARCH">
+                <input type="text" class="form-input" id="cfg-cnpj-emitente" value="" inputmode="numeric" maxlength="18" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" required aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -6532,7 +6560,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Inscrição Estadual (IE)</label>
-                <input type="text" class="form-input" id="cfg-ie-emitente" value="ISENTO" aria-label="TOPBAR-SEARCH">
+                <input type="text" class="form-input" id="cfg-ie-emitente" value="" aria-label="TOPBAR-SEARCH">
               </div>
             </div>
 
@@ -6691,12 +6719,12 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
             <div>
               <h3 style="color: #fff; font-size: 16px; margin-bottom: 4px;">🔑 Minha Conta & Alteração de Senha</h3>
-              <p style="color: var(--text-muted); font-size: 12px; margin: 0;">
-                Atualize sua senha de acesso. Por conformidade, cada operador pode alterar sua senha uma vez a cada 30 dias.
+              <p style="color: var(--text-muted); font-size: 12px; margin: 0;" id="minha-senha-subtitulo">
+                Atualize sua senha de acesso a qualquer momento. Administradores possuem permissão irrestrita sem limite de dias ou meses.
               </p>
             </div>
-            <span id="badge-status-troca-senha" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">
-              ✓ Disponível para Alteração
+            <span id="badge-status-troca-senha" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px;">
+              👑 Super Administrador (Acesso Total)
             </span>
           </div>
 
@@ -6720,7 +6748,7 @@
 
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 6px;">
               <div style="font-size: 11.5px; color: var(--text-muted);" id="minha-senha-info-regra">
-                🛡️ Limite: 1 alteração por mês. Última alteração: <span id="minha-senha-data-txt" style="color: #38bdf8; font-weight: 700;">Nenhuma</span>.
+                👑 <strong>Privilégio Administrador:</strong> Você pode alterar sua senha a qualquer momento e redefinir a senha de qualquer operador.
               </div>
               <button type="submit" id="btn-salvar-minha-senha" class="btn-top btn-primary-glow">
                 💾 Atualizar Minha Senha
@@ -6998,22 +7026,22 @@
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;" id="pacote-contador-kpis">
             <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px;">
               <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Notas Saída</div>
-              <div id="pacote-kpi-notas" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #38bdf8; margin: 3px 0;">199 notas</div>
+              <div id="pacote-kpi-notas" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #38bdf8; margin: 3px 0;">—</div>
               <div style="font-size: 10px; color: var(--text-muted);">100% Autorizadas</div>
             </div>
             <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px;">
               <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Faturamento Bruto</div>
-              <div id="pacote-kpi-faturamento" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #34d399; margin: 3px 0;">R$ 48.750,00</div>
+              <div id="pacote-kpi-faturamento" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #34d399; margin: 3px 0;">—</div>
               <div style="font-size: 10px; color: var(--text-muted);">Base de Cálculo</div>
             </div>
             <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px;">
               <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">DAS Estimado</div>
-              <div id="pacote-kpi-das" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #a78bfa; margin: 3px 0;">R$ 1.950,00</div>
+              <div id="pacote-kpi-das" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #a78bfa; margin: 3px 0;">—</div>
               <div style="font-size: 10px; color: var(--text-muted);">Alíquota Efetiva: 4,00%</div>
             </div>
             <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 14px;">
               <div style="font-size: 10.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Volume Faturado</div>
-              <div id="pacote-kpi-volume" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #fbbf24; margin: 3px 0;">412 peças</div>
+              <div id="pacote-kpi-volume" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #fbbf24; margin: 3px 0;">—</div>
               <div style="font-size: 10px; color: var(--text-muted);">Couros e Artesanatos</div>
             </div>
           </div>
@@ -7035,7 +7063,7 @@
                   <div style="color: var(--text-muted); font-size: 11px;">Arquivos XML com protocolo de autorização SEFAZ</div>
                 </div>
               </div>
-              <span id="pacote-badge-xml-count" class="badge-ped" style="font-size: 10.5px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">199 XMLs</span>
+              <span id="pacote-badge-xml-count" class="badge-ped" style="font-size: 10.5px; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Sem documentos validados</span>
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px;">
@@ -7325,7 +7353,8 @@
               Natureza da Operação / CFOP
             </label>
             <select class="form-input erp-select" id="fiscal-natureza" style="font-weight: 600; width: 100%;" aria-label="CFG-RAMO-PRESET">
-              <option value="5101" selected>5.101 - Venda de Produção do Estabelecimento (Couros / Artesanato)</option>
+              <option value="" selected>SELECIONE CONFORME ORIENTAÇÃO CONTÁBIL</option>
+              <option value="5101">5.101 - Venda de Produção do Estabelecimento</option>
               <option value="5102">5.102 - Venda de Mercadoria Adquirida de Terceiros</option>
               <option value="6101">6.101 - Venda Interestadual de Produção Própria</option>
               <option value="6102">6.102 - Venda Interestadual de Terceiros</option>
@@ -7391,7 +7420,7 @@
               <span id="fiscal-valor-total-exibicao" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 800; color: #34d399;">R$ 0,00</span>
               <!-- Inputs de compatibilidade -->
               <input type="hidden" id="fiscal-item" value="">
-              <input type="hidden" id="fiscal-ncm" value="41063110" oninput="validarNcmCampoFiscal(this)">
+      <input type="hidden" id="fiscal-ncm" value="" oninput="validarNcmCampoFiscal(this)">
               <input type="hidden" id="fiscal-valor" value="0,00">
             </div>
           </div>
@@ -7410,7 +7439,7 @@
               Chave de Acesso da NF-e (44 Dígitos):
             </div>
             <div id="fiscal-chave-acesso-preview" style="font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px; margin-top: 3px;">
-              4326 1195 5000 0001 9055 0010 0000 1044 1982 7461 0293
+              NÃO EMITIDA
             </div>
           </div>
           <button type="button" class="btn-top btn-row-action" onclick="copiarChaveAcessoFiscal()" style="padding: 4px 10px; font-size: 11px;">
@@ -7436,8 +7465,8 @@
 
         <div style="display: flex; gap: 8px;">
           <button type="button" class="btn-top btn-row-action" onclick="fecharModalFiscal()">Cancelar</button>
-          <button type="button" class="btn-top btn-emerald-glow" id="btn-transmitir-nfe" onclick="transmitirNfeModal()" style="font-weight: 800; font-size: 12.5px; padding: 8px 18px;">
-            <span>🚀</span> Transmitir NF-e para a SEFAZ
+          <button type="button" class="btn-top btn-emerald-glow" id="btn-transmitir-nfe" onclick="transmitirNfeModal()" title="Homologação WLG conectada; emissão pelo ERP aguarda configuração tributária aprovada" style="font-weight: 800; font-size: 12.5px; padding: 8px 18px;">
+            <span>🧾</span> Revisar configuração fiscal
           </button>
         </div>
       </div>
@@ -7482,8 +7511,8 @@
             </div>
 
             <div class="form-group" style="width: 130px; flex-shrink: 0;">
-              <label class="form-label" style="color: #fbbf24; margin-bottom: 3px;">NCM Fiscal *</label>
-              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" required placeholder="42050000" value="42050000" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; text-align: center;" aria-label="TOPBAR-SEARCH">
+              <label class="form-label" style="color: #fbbf24; margin-bottom: 3px;">NCM Fiscal</label>
+              <input type="text" class="form-input" id="form-prod-ncm" maxlength="8" placeholder="INFORME NCM VALIDADO" value="" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24; text-align: center;" aria-label="TOPBAR-SEARCH">
             </div>
           </div>
 
@@ -12126,22 +12155,12 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     // Modal Fiscal (NF-e)
     let ultimaNotaFiscalGerada = null;
 
-    function gerarChaveAcessoSimulada(uf = '43', cnpj = '00000000000191') {
-      const anoMes = new Date().toISOString().slice(2, 7).replace('-', '');
-      const mod = '55';
-      const serie = '001';
-      const numNfe = String(Math.floor(1000 + Math.random() * 9000)).padStart(9, '0');
-      const tpEmis = '1';
-      const cNF = String(Math.floor(10000000 + Math.random() * 90000000));
-      const cDV = String(Math.floor(Math.random() * 9));
-      const chaveLimpa = `${uf}${anoMes}${cnpj.replace(/\D/g, '').padEnd(14, '0')}${mod}${serie}${numNfe}${tpEmis}${cNF}${cDV}`.slice(0, 44);
-      return chaveLimpa.replace(/(\d{4})/g, '$1 ').trim();
-    }
-
     function copiarChaveAcessoFiscal() {
       const ch = (document.getElementById('fiscal-chave-acesso-preview')?.textContent || '').replace(/\s+/g, '');
-      if (ch && navigator.clipboard) {
+      if (ultimaNotaFiscalGerada?.status === 'AUTORIZADO' && /^\d{44}$/.test(ch) && navigator.clipboard) {
         navigator.clipboard.writeText(ch).then(() => mostrarToast('📋 Chave de acesso copiada com sucesso!'));
+      } else {
+        mostrarToast('A chave estará disponível somente após autorização confirmada pela WLG.');
       }
     }
 
@@ -12162,11 +12181,14 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     function imprimirDanfeFiscal() {
-      mostrarToast('🖨️ Abrindo visualizador de DANFE da NF-e...');
-      window.print();
+      mostrarToast('O DANFE estará disponível somente após autorização confirmada pela WLG.');
     }
 
     function enviarNfeWhatsAppFiscal() {
+      if (ultimaNotaFiscalGerada?.status !== 'AUTORIZADO' || !ultimaNotaFiscalGerada?.danfeUrl) {
+        mostrarToast('Não há DANFE oficial autorizado para compartilhar.');
+        return;
+      }
       if (!clienteFiscalSelecionado) {
         mostrarToast('Selecione um cliente para enviar via WhatsApp.');
         return;
@@ -12176,7 +12198,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         mostrarToast('Cliente não possui telefone/WhatsApp cadastrado.');
         return;
       }
-      const chave = (document.getElementById('fiscal-chave-acesso-preview')?.textContent || '').replace(/\s+/g, '');
+      const chave = String(ultimaNotaFiscalGerada.chaveAcesso || '');
+      if (!/^\d{44}$/.test(chave)) {
+        mostrarToast('A chave oficial não está disponível para compartilhamento.');
+        return;
+      }
       const msg = encodeURIComponent(`Olá ${clienteFiscalSelecionado.nome}! Sua Nota Fiscal Eletrônica (NF-e) foi emitida com sucesso pelo Mis Sueños Couros.\n\nChave de Acesso: ${chave}\n\nConsulte no portal oficial: https://www.nfe.fazenda.gov.br`);
       window.open(`https://wa.me/55${tel}?text=${msg}`, '_blank');
     }
@@ -12306,8 +12332,6 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           if (prodCad?.ncm) ncm = String(prodCad.ncm).replace(/\D/g, '');
         }
       }
-      if (!ncm) ncm = '41063110'; // Fallback couro curtido legítimo
-
       const unidade = (dados.unidade || 'UN').toUpperCase();
       const qtd = Number(dados.quantidade || dados.qtd || 1);
       const precoUnit = Number(dados.valor_unitario || dados.preco_unitario || dados.preco || 0);
@@ -12395,12 +12419,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       // Preenche os totalizadores e frete
       valorFreteFiscalVinculado = Number(pedido.valor_frete || 0);
 
-      // CFOP automático: se destinatário RS -> 5101/5102; fora do RS -> 6101/6102
+      // Não inferir CFOP por UF: origem da mercadoria e operação precisam de validação fiscal.
       const selCfop = document.getElementById('fiscal-natureza');
-      const ufDest = (pedido.uf || clienteFiscalSelecionado.uf || 'RS').toUpperCase();
-      if (selCfop) {
-        selCfop.value = ufDest === 'RS' ? '5102' : '6102';
-      }
+      if (selCfop) selCfop.value = '';
 
       // Popula tabela de itens discriminados
       const tbody = document.getElementById('fiscal-itens-tbody');
@@ -12426,7 +12447,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           itensCarregados = linhasTexto.map((linha, idx) => ({
             codigo: `SKU-0${idx + 1}`,
             descricao: linha,
-            ncm: '41063110',
+            ncm: '',
             quantidade: 1,
             valor_unitario: Number(pedido.valor_total || 0) / (linhasTexto.length || 1),
             valor_total: Number(pedido.valor_total || 0) / (linhasTexto.length || 1)
@@ -12439,7 +12460,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       } else {
         adicionarLinhaItemFiscal({
           descricao: pedido.itens || 'PRODUTOS ARTESANAIS EM COURO',
-          ncm: '41063110',
+          ncm: '',
           quantidade: 1,
           valor_unitario: Number(pedido.valor_total || 0),
           valor_total: Number(pedido.valor_total || 0)
@@ -12451,7 +12472,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     function baixarXmlFiscal() {
-      if (ultimaNotaFiscalGerada?.chaveAcesso) {
+      if (ultimaNotaFiscalGerada?.status === 'AUTORIZADO' && /^\d{44}$/.test(String(ultimaNotaFiscalGerada.chaveAcesso || ''))) {
         window.open(`/api/nfe/xml/${ultimaNotaFiscalGerada.chaveAcesso}`, '_blank');
       } else {
         mostrarToast('Nenhum XML de nota autorizada disponível para download.');
@@ -12475,8 +12496,12 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       }
 
       const chavePrev = document.getElementById('fiscal-chave-acesso-preview');
-      if (chavePrev) {
-        chavePrev.textContent = gerarChaveAcessoSimulada('43', cliente?.cnpj || cliente?.cpf || '00000000000191');
+      if (chavePrev) chavePrev.textContent = ultimaNotaFiscalGerada?.status === 'AUTORIZADO' ? ultimaNotaFiscalGerada.chaveAcesso : 'NÃO EMITIDA';
+
+      // Se a tabela estiver vazia, adiciona uma linha inicial
+      const tbody = document.getElementById('fiscal-itens-tbody');
+      if (tbody && tbody.children.length === 0) {
+        adicionarLinhaItemFiscal();
       }
 
       // Se a tabela estiver vazia, adiciona uma linha inicial
@@ -12495,180 +12520,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       valorFreteFiscalVinculado = 0;
     }
 
-    // Transmissão real do documento fiscal via API REST
-    async function transmitirNfeModal() {
-      const linhas = document.querySelectorAll('#fiscal-itens-tbody tr');
-      if (!linhas || linhas.length === 0) {
-        mostrarToast('Adicione ao menos um produto antes de emitir a nota fiscal.');
-        return;
-      }
-
-      // Validação preventiva de NCM de todas as linhas
-      let ncmInvalidoEncontrado = false;
-      const produtosParaEnviar = [];
-
-      linhas.forEach((tr, idx) => {
-        const inpCodigo = tr.querySelector('.fiscal-item-codigo');
-        const inpDesc = tr.querySelector('.fiscal-item-desc');
-        const inpNcm = tr.querySelector('.fiscal-item-ncm');
-        const inpUn = tr.querySelector('.fiscal-item-un');
-        const inpQtd = tr.querySelector('.fiscal-item-qtd');
-        const inpVUnit = tr.querySelector('.fiscal-item-vunit');
-        const inpSub = tr.querySelector('.fiscal-item-subtot');
-
-        const ncmLimpo = String(inpNcm?.value || '').replace(/\D/g, '');
-        if (ncmLimpo.length !== 8) {
-          ncmInvalidoEncontrado = true;
-          if (inpNcm) inpNcm.style.borderColor = '#ef4444';
-        }
-
-        const qtd = desformatarNumeroPtBr(inpQtd?.value || '1');
-        const vUnit = desformatarNumeroPtBr(inpVUnit?.value || '0');
-        const vTot = desformatarNumeroPtBr(inpSub?.value || String(qtd * vUnit));
-
-        produtosParaEnviar.push({
-          codigo: inpCodigo?.value.trim().toUpperCase() || `SKU-0${idx + 1}`,
-          descricao: inpDesc?.value.trim().toUpperCase() || 'MERCADORIA EM COURO',
-          ncm: ncmLimpo,
-          cfop: document.getElementById('fiscal-natureza')?.value || '5102',
-          unidade: inpUn?.value.trim().toUpperCase() || 'UN',
-          quantidade: qtd,
-          valor_unitario: vUnit,
-          valor_total: vTot
-        });
-      });
-
-      if (ncmInvalidoEncontrado) {
-        mostrarToast('⚠️ Bloqueio Fiscal: Há itens com NCM incompleto (exige 8 dígitos). Corrija antes de transmitir!');
-        auditarNcmsItensFiscais();
-        return;
-      }
-
-      if (!clienteFiscalSelecionado) {
-        mostrarToast('Selecione um cliente antes de transmitir a nota fiscal.');
-        return;
-      }
-
-      const valorTotalNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor')?.value || '0');
-      const freteNum = Number(valorFreteFiscalVinculado || 0);
-      const btn = document.getElementById('btn-transmitir-nfe');
-
-      try {
-        if (btn) {
-          btn.disabled = true;
-          btn.innerHTML = '<span>⏳</span> Transmitindo à SEFAZ...';
-        }
-        mostrarToast('🏛️ Transmitindo NF-e Modelo 55 para autorização na SEFAZ...');
-
-        const resp = await fetch('/api/nfe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            tipoNota: 'NFE_PRODUTO',
-            pedidoId: pedidoFiscalVinculadoId || null,
-            cliente: clienteFiscalSelecionado,
-            valores: {
-              valorTotal: valorTotalNum,
-              valorFrete: freteNum
-            },
-            produtos: produtosParaEnviar
-          })
-        });
-
-        const dados = await resp.json();
-        if (resp.ok && dados.success) {
-          ultimaNotaFiscalGerada = dados;
-          mostrarToast(`✅ NF-e #${dados.numeroNfe} autorizada com sucesso na SEFAZ!`);
-
-          // Atualiza card visual da chave de acesso
-          const chaveEl = document.getElementById('fiscal-chave-acesso-preview');
-          if (chaveEl) chaveEl.textContent = dados.chaveFormatada || dados.chaveAcesso;
-
-          const badgeStatus = document.getElementById('fiscal-badge-ambiente');
-          if (badgeStatus) {
-            badgeStatus.innerHTML = `🟢 AUTORIZADA · PROTOCOLO ${dados.protocolo || ''}`;
-            badgeStatus.style.background = 'rgba(16, 185, 129, 0.2)';
-            badgeStatus.style.color = '#34d399';
-          }
-
-          // Atualiza botão de DANFE para abrir a rota oficial
-          const btnDanfe = document.getElementById('btn-fiscal-imprimir-danfe');
-          if (btnDanfe) {
-            btnDanfe.onclick = () => window.open(dados.links.danfe, '_blank');
-          }
-
-          // Se tiver pedido vinculado, recarrega lista de pedidos
-          if (typeof carregarPedidosApi === 'function') await carregarPedidosApi();
-          if (typeof renderizarPedidos === 'function') renderizarPedidos();
-
-        } else {
-          mostrarToast('Erro ao emitir nota: ' + (dados.error || 'Falha no processamento fiscal'));
-        }
-      } catch (err) {
-        console.error('[FISCAL] Erro de comunicação:', err);
-        mostrarToast('Falha na comunicação com a API Fiscal: ' + err.message);
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = '<span>🚀</span> Transmitir NF-e para a SEFAZ';
-        }
-      }
+    // Mantém a emissão bloqueada até os parâmetros tributários aprovados serem configurados no ERP.
+    function transmitirNfeModal() {
+      mostrarToast('WLG validada em homologação. A emissão pelo ERP aguarda a configuração tributária aprovada por produto e o mapeamento de pagamento. Nenhuma nota foi enviada.');
     }
-
-    async function transmitirNfeModalLegado() {
-      if (!clienteFiscalSelecionado) {
-        alert('Selecione um cliente na tabela antes de transmitir a nota fiscal.');
-        return;
-      }
-      const valorNum = desformatarNumeroPtBr(document.getElementById('fiscal-valor').value);
-      const itemDesc = document.getElementById('fiscal-item').value || 'PRODUTOS ARTESANAIS EM COURO';
-      const btn = document.getElementById('btn-transmitir-nfe');
-
-      try {
-        if (btn) btn.disabled = true;
-        mostrarToast('Processando documento fiscal no Portal Nacional...');
-
-        const ncmVal = document.getElementById('fiscal-ncm')?.value.trim() || '41063110';
-        const cfopVal = document.getElementById('fiscal-natureza')?.value || '5101';
-        const freteVal = document.getElementById('fiscal-frete')?.value || '0';
-
-        const resp = await fetch('/api/nfe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            tipoNota: 'NFE_PRODUTO',
-            cliente: clienteFiscalSelecionado,
-            valores: { valorTotal: valorNum },
-            produtos: [{ descricao: itemDesc, valor: valorNum, ncm: ncmVal, cfop: cfopVal }],
-            modalidadeFrete: freteVal
-          })
-        });
-
-        const dados = await resp.json();
-        if (resp.ok && dados.success) {
-          ultimaNotaFiscalGerada = dados;
-          mostrarToast(`NF-e #${dados.numeroNfe} gerada com sucesso!`);
-          if (dados.txtSefaz) {
-            const blob = new Blob([dados.txtSefaz], { type: 'text/plain;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `NFe_${dados.numeroNfe}_${clienteFiscalSelecionado.nome.replace(/\s+/g, '_')}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-          }
-          fecharModalFiscal();
-        } else {
-          alert('Erro ao emitir nota: ' + (dados.error || 'Falha no processamento fiscal'));
-        }
-      } catch (err) {
-        alert('Falha na comunicação fiscal: ' + err.message);
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
-
     // Exportação em formato CSV
     function exportarCsv() {
       if (filtrados.length === 0) return alert('Nenhum dado para exportar.');
@@ -12862,7 +12717,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const badgeTexto = (isBaixo ? '⚠️ Saldo: ' : '✅ Saldo: ') + estDisponivel + ' ' + un;
         const sku = p.codigo_sku || p.codigo || '-';
         const cat = p.categoria || 'Outros';
-        const ncm = p.ncm || '42050000';
+        const ncm = p.ncm || 'NÃO INFORMADO';
         const precoCusto = formatarMoedaPtBr(parseFloat(p.preco_custo || 0));
         const precoVenda = formatarMoedaPtBr(parseFloat(p.preco_venda || 0));
 
@@ -13313,7 +13168,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const cLoteEl = document.getElementById('form-prod-controla-lote');
       if (cLoteEl) cLoteEl.checked = false;
       const ncmEl = document.getElementById('form-prod-ncm');
-      if (ncmEl) ncmEl.value = '42050000';
+      if (ncmEl) ncmEl.value = '';
       gerarSkuAuto();
       const bSku = document.getElementById('modal-prod-badge-sku');
       if (bSku) {
@@ -13343,7 +13198,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-prod-id').value = prod.id || '';
       document.getElementById('form-prod-sku').value = prod.codigo_sku || prod.codigo || '';
       const ncmEl = document.getElementById('form-prod-ncm');
-      if (ncmEl) ncmEl.value = prod.ncm || '42050000';
+      if (ncmEl) ncmEl.value = prod.ncm || '';
       document.getElementById('form-prod-nome').value = prod.nome || '';
       const catInpEdit = document.getElementById('form-prod-cat');
       if (catInpEdit) {
@@ -13492,7 +13347,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const id = document.getElementById('form-prod-id').value;
       const payload = {
         codigo_sku: document.getElementById('form-prod-sku').value.trim().toUpperCase(),
-        ncm: (document.getElementById('form-prod-ncm')?.value || '42050000').replace(/\D/g, ''),
+        ncm: (document.getElementById('form-prod-ncm')?.value || '').replace(/\D/g, ''),
         nome: document.getElementById('form-prod-nome').value.trim().toUpperCase(),
         categoria: (document.getElementById('form-prod-cat').value || '').toUpperCase(),
         unidade_medida: (document.getElementById('form-prod-un').value || '').toUpperCase(),
@@ -17837,17 +17692,29 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           const dados = await resp.json();
           listaFiscal = (dados.documentos || []).map(d => ({
             id: d.id,
-            numero: `NF-e ${String(d.numero || d.id).padStart(6, '0')}`,
+            numero: d.numero ? `NF-e ${String(d.numero).padStart(6, '0')}` : `OPERAÇÃO ${String(d.id).slice(0, 8)}`,
             modelo: d.tipo === 'NFSE_SERVICO' ? 'NFSE_SERVICO' : 'NFE_PRODUTO',
+            origemFiscal: d.tipo === 'NFE_WLG' ? 'WLG' : 'LEGADO',
             modeloTexto: d.tipo === 'NFSE_SERVICO' ? 'NFS-e Portal Nacional' : 'NF-e Modelo 55 (Produtos)',
-            chave: d.chave_acesso,
-            destinatario: d.destinatario || 'CLIENTE FINAL',
-            doc: d.doc || 'ISENTO',
-            uf: d.uf || 'RS',
+            chave: d.status === 'AUTORIZADO' ? d.chave_acesso : null,
+            links: d.links || null,
+            destinatario: d.destinatario || 'DADO NÃO DISPONÍVEL',
+            doc: d.doc || '',
+            uf: d.uf || '—',
             data: d.emitido_em ? new Date(d.emitido_em).toLocaleDateString('pt-BR') : '-',
-            valor: parseFloat(d.valor || 0),
-            status: d.status || 'Autorizada'
+            valor: d.valor === undefined || d.valor === null ? null : parseFloat(d.valor),
+            status: d.status || 'LEGADO_NAO_VERIFICADO'
           }));
+          const kpiTotal = document.getElementById('kpi-fisc-total-numero');
+          const kpiTotalTrend = document.getElementById('kpi-fisc-total-trend');
+          const kpiNfe = document.getElementById('kpi-fisc-nfe-numero');
+          const kpiPainelFiscal = document.getElementById('kpi-painel-total-fiscal');
+          const totalRegistros = listaFiscal.length;
+          const totalOperacoesWlg = listaFiscal.filter(d => d.origemFiscal === 'WLG').length;
+          if (kpiTotal) kpiTotal.textContent = `${totalRegistros} registros`;
+          if (kpiTotalTrend) kpiTotalTrend.textContent = `→ Mostrar registros (${totalRegistros})`;
+          if (kpiNfe) kpiNfe.textContent = `${totalOperacoesWlg} operações WLG`;
+          if (kpiPainelFiscal) kpiPainelFiscal.textContent = `${totalRegistros} registros`;
         }
       } catch (err) {
         console.warn('Falha ao carregar notas fiscais da API:', err);
@@ -17883,8 +17750,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           ? `<span style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🪵 NF-e SEFAZ (55)</span>`
           : `<span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 10px;">🧾 NFS-e Portal Nacional</span>`;
 
+        const podeAbrirArtefato = f.status === 'AUTORIZADO' && Boolean(f.chave);
+        const acaoDuploClique = podeAbrirArtefato ? `window.open('/api/nfe/danfe/${f.chave}', '_blank')` : `mostrarToast('Documento sem autorização WLG verificável; artefatos indisponíveis.')`;
+        const situacao = f.status === 'AUTORIZADO' ? 'AUTORIZADA' : f.status === 'PROCESSANDO' || f.status === 'PENDENTE_CONFIRMACAO' ? 'EM PROCESSAMENTO' : f.status === 'REJEITADO' ? 'REJEITADA' : f.status === 'LEGADO_NAO_VERIFICADO' ? 'LEGADO · VERIFICAR' : 'ERRO / PENDENTE';
+        const corSituacao = f.status === 'AUTORIZADO' ? '#34d399' : f.status === 'REJEITADO' ? '#f87171' : f.status === 'LEGADO_NAO_VERIFICADO' ? '#cbd5e1' : '#fbbf24';
         return `
-          <tr ondblclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}')" oncontextmenu="abrirMenuAcoesFiscal(event, ${f.id}); return false;" title="Dois cliques para ver DANFE | Botão direito para opções (XML, Chave SEFAZ)" style="cursor: pointer;">
+          <tr ondblclick="${acaoDuploClique}" oncontextmenu="abrirMenuAcoesFiscal(event, '${String(f.id).replace(/'/g, '')}'); return false;" title="${podeAbrirArtefato ? 'Dois cliques para abrir o DANFE oficial' : 'Documento sem autorização WLG verificável'}" style="cursor: pointer;">
             <td data-col="check"><label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="checkbox" value="${f.id}" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH"></td>
             <td data-col="numero">
               <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
@@ -17902,10 +17773,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               </div>
               <div style="font-size: 10.5px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 3px;">${f.doc}</div>
             </td>
-            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">R$ ${formatarMoedaPtBr(f.valor)}</td>
+            <td data-col="valor" style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399;">${f.valor === null ? '—' : `R$ ${formatarMoedaPtBr(f.valor)}`}</td>
             <td data-col="situacao" style="text-align: center;">
-              <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
-                🟢 Autorizada
+              <span style="background: rgba(148, 163, 184, 0.12); color: ${corSituacao}; border: 1px solid ${corSituacao}55; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 10px;">
+                ${situacao}
               </span>
             </td>
           </tr>
@@ -17924,15 +17795,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <div style="font-size: 11px; font-weight: 800; color: #38bdf8; padding: 6px 12px; border-bottom: 1px solid rgba(255,255,255,0.06);">
           📄 Documento Fiscal #${f.numero} (${f.modelo})
         </div>
-        <button class="erp-context-item" onclick="alert('Exibindo DANFE da ${f.numero} com Chave: ${f.chave}'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">
-          📄 Visualizar DANFE (Impressão)
-        </button>
-        <button class="erp-context-item" onclick="alert('Download do XML assinado da ${f.numero}'); fecharContextMenu();" style="color: #34d399; font-weight: 600;">
-          📥 Baixar Arquivo XML
-        </button>
-        <button class="erp-context-item" onclick="if (navigator.clipboard) navigator.clipboard.writeText('${f.chave}'); mostrarToast('Chave de acesso copiada!'); fecharContextMenu();" style="color: #e2e8f0;">
-          📋 Copiar Chave de Acesso (44 dígitos)
-        </button>
+        ${f.status === 'AUTORIZADO' && f.chave ? `
+          <button class="erp-context-item" onclick="window.open('/api/nfe/danfe/${f.chave}', '_blank'); fecharContextMenu();" style="color: #38bdf8; font-weight: 700;">📄 Abrir DANFE oficial</button>
+          <button class="erp-context-item" onclick="window.open('/api/nfe/xml/${f.chave}', '_blank'); fecharContextMenu();" style="color: #34d399; font-weight: 600;">📥 Baixar XML oficial</button>
+          <button class="erp-context-item" onclick="navigator.clipboard?.writeText('${f.chave}'); mostrarToast('Chave oficial copiada.'); fecharContextMenu();" style="color: #e2e8f0;">📋 Copiar chave autorizada</button>
+        ` : '<div style="padding:8px 12px;color:#cbd5e1;font-size:11px;">Sem confirmação WLG verificável. Não há artefatos oficiais disponíveis.</div>'}
       `;
       if (typeof posicionarContextMenu === 'function') {
         posicionarContextMenu(e, itens);
@@ -20197,31 +20064,31 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <tpNF>0</tpNF>
       </ide>
       <emit>
-        <CNPJ>92834120000145</CNPJ>
-        <xNome>CURTUME MINUANO LTDA</xNome>
-        <xFant>MINUANO COUROS</xFant>
-        <IE>0820098765</IE>
+        <CNPJ>00000000000000</CNPJ>
+        <xNome>EMPRESA DEMONSTRACAO LTDA</xNome>
+        <xFant>EMPRESA DEMONSTRACAO</xFant>
+        <IE>ISENTO</IE>
         <enderEmit>
-          <xLgr>AVENIDA DOS COUROS</xLgr>
-          <nro>1250</nro>
-          <xBairro>CENTRO</xBairro>
-          <xMun>LINDOLFO COLLOR</xMun>
+          <xLgr>RUA DE EXEMPLO</xLgr>
+          <nro>100</nro>
+          <xBairro>BAIRRO EXEMPLO</xBairro>
+          <xMun>MUNICIPIO EXEMPLO</xMun>
           <UF>RS</UF>
           <CEP>93940000</CEP>
           <fone>5135821100</fone>
         </enderEmit>
       </emit>
-      <dest>
-        <CNPJ>12345678000199</CNPJ>
-        <xNome>MIS SUENOS MOVEIS PLANEJADOS</xNome>
-        <IE>123456789</IE>
+        <dest>
+        <CNPJ>00000000000000</CNPJ>
+        <xNome>CLIENTE EXEMPLO 01</xNome>
+        <IE>ISENTO</IE>
       </dest>
       <det nItem="1">
         <prod>
           <cProd>1048</cProd>
           <cEAN>7891000200010</cEAN>
-          <xProd>PELE DE CABRITO CRUA TRATADA 1A LINHA</xProd>
-          <NCM>41063110</NCM>
+          <xProd>PRODUTO EXEMPLO 01</xProd>
+          <NCM>00000000</NCM>
           <uCom>PC</uCom>
           <qCom>50.0000</qCom>
           <vUnCom>65.0000</vUnCom>
@@ -20232,8 +20099,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <prod>
           <cProd>2011</cProd>
           <cEAN></cEAN>
-          <xProd>VERNIZ ACRILICO FOSCO ESPECIAL PARA COUROS</xProd>
-          <NCM>32089010</NCM>
+          <xProd>PRODUTO EXEMPLO 02</xProd>
+          <NCM>00000000</NCM>
           <uCom>GL</uCom>
           <qCom>10.0000</qCom>
           <vUnCom>100.0000</vUnCom>
@@ -20257,7 +20124,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 </nfeProc>`;
 
       enviarArquivoXmlParaApi(xmlExemplo);
-      mostrarToast('🧪 Enviando NF-e de Exemplo (Curtume Minuano Ltda) para o parser...');
+      mostrarToast('Enviando XML sintético de demonstração para o parser.');
     }
 
     async function confirmarImportacaoXmlCompra() {
@@ -22976,7 +22843,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>📄</span> <span>Livro de Documentos Fiscais</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
-              <span>📄</span> <span>Exibir Todas as Notas Fiscais (199)</span>
+              <span>📄</span> <span>Exibir Todos os Registros Fiscais</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('AUTORIZADA', 'card-kpi-fisc-total')">
               <span>🟢</span> <span>Apenas Notas Autorizadas (SEFAZ)</span>
@@ -22995,10 +22862,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>🪵</span> <span>NF-e Modelo 55 (Produtos SEFAZ)</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('NFE_PRODUTO', 'card-kpi-fisc-nfe')">
-              <span>🪵</span> <span>Filtrar Apenas NF-e SEFAZ (162 Notas)</span>
+              <span>🪵</span> <span>Filtrar Operações NF-e WLG</span>
             </button>
-            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); mostrarToast('🟢 SEFAZ RS: Servidores em Operação Normal (100% On-line)')">
-              <span>🟢</span> <span>Verificar Status SEFAZ RS</span>
+            <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); mostrarToast('Integração WLG exercitada em homologação; produção não está ativa.')">
+              <span>🟡</span> <span>Integração WLG validada em homologação</span>
             </button>
             <div class="erp-context-divider"></div>
             <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
@@ -23011,10 +22878,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>🏢</span> <span>NFS-e Padrão Nacional (Serviços)</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('NFSE_SERVICO', 'card-kpi-fisc-nfse')">
-              <span>🧾</span> <span>Filtrar Apenas NFS-e Nacional (37 DPS)</span>
+              <span>🧾</span> <span>NFS-e não habilitada</span>
             </button>
             <button type="button" class="erp-context-item" style="color: #34d399;" onclick="fecharContextMenu(); mostrarToast('🟢 Portal Nacional NFS-e: Conectado e Homologado')">
-              <span>🏛️</span> <span>Consultar Ambiente Nacional NFS-e</span>
+              <span>🏛️</span> <span>Este adapter não emite NFS-e</span>
             </button>
             <div class="erp-context-divider"></div>
             <button type="button" class="erp-context-item" style="color: #94a3b8;" onclick="fecharContextMenu(); filtrarFiscalPorStatusCustom('TODAS', 'card-kpi-fisc-total')">
@@ -23092,7 +22959,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>🧾</span> <span>Atalhos Rápidos: Central Fiscal</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)')); setTimeout(() => acaoKpiFiscal('TODAS', document.getElementById('card-kpi-fisc-total')), 80)">
-              <span>📄</span> <span>Abrir Central Fiscal (199 Notas)</span>
+              <span>📄</span> <span>Abrir Central Fiscal</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('fiscal', document.querySelector('.sidebar-nav a:nth-child(8)')); setTimeout(() => filtrarFiscalPorStatusCustom('NFE_PRODUTO', 'card-kpi-fisc-nfe'), 80)">
               <span>🪵</span> <span>Ver NF-e Modelo 55 (Produtos SEFAZ)</span>
@@ -23953,8 +23820,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     </div>
   </div>
 
-    <!-- OVERLAY / TELA DE LOGIN OBRIGATÓRIA -->
-  <div id="modal-auth-login" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 999999; align-items: center; justify-content: center; padding: 20px;">
+    <!-- OVERLAY / TELA DE LOGIN OBRIGATÓRIA (100% OPACA - ZERO VAZAMENTO DO SISTEMA) -->
+  <div id="modal-auth-login" style="display: flex; position: fixed; inset: 0; background: #070d18; z-index: 9999999; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: #0b1120; border: 1px solid rgba(0, 212, 255, 0.35); box-shadow: 0 0 50px rgba(0, 212, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.6); border-radius: 16px; width: 100%; max-width: 440px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
       
       <!-- Cabeçalho do Login -->
@@ -23998,12 +23865,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           </button>
         </div>
 
-        <!-- SELETOR RÁPIDO DE MODO DE ENTRADA (SENHA OU PIN) -->
-        <div style="display: flex; gap: 8px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
-          <button type="button" id="tab-modo-senha" onclick="alternarModoEntrada('simples')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid rgba(56, 189, 248, 0.4); cursor: pointer; transition: 0.2s; background: rgba(2, 132, 199, 0.25); color: #38bdf8;">
+        <!-- SELETOR RÁPIDO DE MODO DE ENTRADA (OCULTO POR PADRÃO - EXIBIDO APENAS SE SENHA FOR RESETADA PELO ADMIN) -->
+        <div id="auth-seletor-modo-container" style="display: none !important; gap: 8px; margin-bottom: 16px; background: rgba(0, 0, 0, 0.4); padding: 4px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
+          <button type="button" id="tab-modo-senha" class="modo-oculto" onclick="alternarModoEntrada('simples')" style="display: none !important; flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid rgba(56, 189, 248, 0.4); cursor: pointer; transition: 0.2s; background: rgba(2, 132, 199, 0.25); color: #38bdf8;">
             🔤 Senha de Acesso
           </button>
-          <button type="button" id="tab-modo-pin" onclick="alternarModoEntrada('pin')" style="flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">
+          <button type="button" id="tab-modo-pin" class="modo-oculto" onclick="alternarModoEntrada('pin')" style="display: none !important; flex: 1; padding: 8px 12px; font-size: 12px; font-weight: 700; border-radius: 7px; border: 1px solid transparent; cursor: pointer; transition: 0.2s; background: transparent; color: #94a3b8;">
             🔢 PIN (4-6 Dígitos)
           </button>
         </div>
@@ -24068,10 +23935,86 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         <!-- Dica de Acessos Homologados -->
         <div id="auth-dica-homologados" style="margin-top: 16px; padding: 10px 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 8px; font-size: 11px; color: #94a3b8; line-height: 1.5;"><strong style="color: #cbd5e1; display: block; margin-bottom: 3px;">Primeiro acesso:</strong>Use as credenciais fornecidas pelo administrador do sistema.</div>
 
-        <!-- LINK PARA CONFIGURAR POLÍTICAS DESTE TERMINAL -->
-        <div style="text-align: center; margin-top: 14px;">
-          <button type="button" onclick="abrirWizardSeguranca()" style="background: none; border: none; color: #38bdf8; font-size: 11.5px; cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 5px;">
-            ⚙️ Configurar Políticas de Acesso deste Terminal
+        <!-- AÇÕES AUXILIARES DA TELA DE LOGIN: TROCA DE SENHA & POLÍTICAS DO TERMINAL -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 4px; gap: 8px; flex-wrap: wrap;">
+          <button type="button" onclick="abrirModalTrocarSenhaLogin()" style="background: none; border: none; color: #38bdf8; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; text-decoration: underline; padding: 4px 0;" title="Permite que qualquer operador altere sua senha pessoal antes de entrar no sistema">
+            🔑 Alterar Minha Senha
+          </button>
+          <button type="button" onclick="abrirWizardSeguranca()" style="background: none; border: none; color: #94a3b8; font-size: 11px; cursor: pointer; text-decoration: underline; display: inline-flex; align-items: center; gap: 4px;" title="Configurar políticas de autenticação deste computador">
+            ⚙️ Políticas deste Terminal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE ALTERAÇÃO VOLUNTÁRIA DE SENHA NA TELA DE LOGIN (ANTES DE ENTRAR) -->
+  <div id="modal-trocar-senha-login" style="display: none; position: fixed; inset: 0; background: #070d18; z-index: 10000000; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0b1120; border: 1px solid rgba(0, 212, 255, 0.4); box-shadow: 0 0 60px rgba(0, 212, 255, 0.2), 0 25px 50px rgba(0, 0, 0, 0.8); border-radius: 18px; width: 100%; max-width: 440px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
+      
+      <!-- Cabeçalho -->
+      <div style="padding: 26px 24px 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: radial-gradient(circle at top, rgba(0, 212, 255, 0.15) 0%, transparent 70%); position: relative;">
+        <button type="button" onclick="fecharModalTrocarSenhaLogin()" style="position: absolute; right: 16px; top: 16px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12); color: #cbd5e1; border-radius: 8px; width: 32px; height: 32px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.2)'; this.style.color='#fca5a5';" onmouseout="this.style.background='rgba(255, 255, 255, 0.06)'; this.style.color='#cbd5e1';">✕</button>
+        <div style="width: 58px; height: 58px; margin: 0 auto 12px; border-radius: 14px; background: rgba(0, 212, 255, 0.12); border: 1px solid rgba(0, 212, 255, 0.4); display: flex; align-items: center; justify-content: center; font-size: 28px;">
+          🔑
+        </div>
+        <h2 style="color: #fff; font-size: 18px; font-weight: 800; margin: 0 0 4px 0;">Alterar Minha Senha de Acesso</h2>
+        <p style="color: #94a3b8; font-size: 12px; margin: 0 0 6px 0;">Atualize suas credenciais antes de entrar no sistema</p>
+        <div style="display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #38bdf8;">
+          🛡️ Operadores comuns: 1 alteração por mês • Admins: irrestrito
+        </div>
+      </div>
+
+      <!-- Formulário -->
+      <form id="form-trocar-senha-login" onsubmit="submeterTrocaSenhaLogin(event)" style="padding: 24px;">
+        <div id="troca-login-msg" style="display: none; font-size: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 16px; text-align: center;"></div>
+
+        <!-- Campo Login / Operador -->
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Seu Usuário / Operador *</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.7;">👤</span>
+            <input type="text" id="troca-login-usuario" required placeholder="Digite seu usuário (ex: gustavo, marcos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 14px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
+          </div>
+        </div>
+
+        <!-- Campo Senha Atual -->
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Senha / PIN Atual *</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.7;">🔒</span>
+            <input type="password" id="troca-login-senha-atual" required placeholder="Sua senha atual" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
+            <span onclick="alternarVisibilidadeCampo('troca-login-senha-atual')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
+          </div>
+        </div>
+
+        <!-- Campo Nova Senha -->
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Nova Senha Pessoal *</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.7;">✨</span>
+            <input type="password" id="troca-login-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
+            <span onclick="alternarVisibilidadeCampo('troca-login-nova-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
+          </div>
+        </div>
+
+        <!-- Campo Confirmação de Senha -->
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Confirme a Nova Senha *</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.7;">✔️</span>
+            <input type="password" id="troca-login-confirma-senha" required placeholder="Repita a nova senha" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
+            <span onclick="alternarVisibilidadeCampo('troca-login-confirma-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-salvar-troca-login" style="width: 100%; background: linear-gradient(135deg, #0284c7, #0ea5e9); color: #fff; border: 1px solid rgba(0, 212, 255, 0.5); padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: 0 0 20px rgba(0, 212, 255, 0.35);">
+          💾 Salvar Nova Senha
+        </button>
+
+        <div style="margin-top: 14px; text-align: center;">
+          <button type="button" onclick="fecharModalTrocarSenhaLogin()" style="background: none; border: none; color: #94a3b8; font-size: 12px; cursor: pointer; text-decoration: underline;">
+            Voltar para a tela de login
           </button>
         </div>
       </form>
@@ -24079,7 +24022,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
   </div>
 
   <!-- MODAL DE TROCA OBRIGATÓRIA DE SENHA NO PRIMEIRO ACESSO / SENHA PADRÃO -->
-  <div id="modal-troca-senha-obrigatoria" style="display: none; position: fixed; inset: 0; background: rgba(5, 8, 15, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); z-index: 1000001; align-items: center; justify-content: center; padding: 20px;">
+  <div id="modal-troca-senha-obrigatoria" style="display: none; position: fixed; inset: 0; background: #070d18; z-index: 10000001; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: #0b1120; border: 1px solid rgba(245, 158, 11, 0.45); box-shadow: 0 0 60px rgba(245, 158, 11, 0.2), 0 25px 50px rgba(0, 0, 0, 0.8); border-radius: 18px; width: 100%; max-width: 440px; overflow: hidden; animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);">
       
       <!-- Cabeçalho -->
@@ -24265,11 +24208,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       const breadcrumb = document.getElementById('breadcrumb-modulo');
       const topIcon = document.getElementById('topbar-module-icon');
+      const ehAdmin = usuarioLogado && (usuarioLogado.login === 'gustavo' || usuarioLogado.papel === 'ADMIN');
+
+      if (secao === 'rbac' && !ehAdmin) {
+        secao = 'empresa';
+      }
 
       if (secao === 'rbac') {
-        // Exibe ESTRITAMENTE o escopo solicitado pelo usuário na imagem media_1793846169704_9975f458.png:
+        // Exibe ESTRITAMENTE o escopo restrito a Administradores:
         // 1. Operadores e Permissões (RBAC)
-        // 2. Minha Conta & Alteração de Senha
+        // 2. Minha Conta & Alteração de Senha (Administrador)
         // 3. Políticas de Acesso & Segurança deste Terminal
         if (cardEmpresa) cardEmpresa.style.display = 'none';
         if (cardWl) cardWl.style.display = 'none';
@@ -24306,12 +24254,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         if (breadcrumb) breadcrumb.textContent = 'Parametrização White-Label & Ramo';
         if (topIcon) topIcon.textContent = '🎨';
       } else {
-        // 'todos' - Mostra todas as seções
+        // 'todos' - Mostra todas as seções (RBAC visível somente para ADMIN)
         if (cardEmpresa) { cardEmpresa.style.display = 'block'; cardEmpresa.style.gridColumn = ''; }
         if (cardWl) { cardWl.style.display = 'block'; cardWl.style.gridColumn = ''; }
-        if (cardRbac) { cardRbac.style.display = 'block'; cardRbac.style.gridColumn = '1 / -1'; }
-        if (cardSenha) { cardSenha.style.display = 'block'; cardSenha.style.gridColumn = '1 / -1'; }
-        if (cardPoliticas) { cardPoliticas.style.display = 'block'; cardPoliticas.style.gridColumn = '1 / -1'; }
+        if (cardRbac) { cardRbac.style.display = ehAdmin ? 'block' : 'none'; cardRbac.style.gridColumn = '1 / -1'; }
+        if (cardSenha) { cardSenha.style.display = ehAdmin ? 'block' : 'none'; cardSenha.style.gridColumn = '1 / -1'; }
+        if (cardPoliticas) { cardPoliticas.style.display = ehAdmin ? 'block' : 'none'; cardPoliticas.style.gridColumn = '1 / -1'; }
 
         marcarAtivo(btnTodos);
         if (breadcrumb) breadcrumb.textContent = 'Configurações do Sistema';
@@ -25012,9 +24960,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     // SUPORTE WHATSAPP
     function abrirSuporteWhatsApp() {
-      const fone = '5551997199204';
-      const msg = encodeURIComponent('Olá Gustavo! Estou utilizando o Mis Sueños ERP v3.0 e gostaria de tirar uma dúvida/solicitar suporte.');
-      window.open(`https://wa.me/${fone}?text=${msg}`, '_blank');
+      mostrarToast('Canal de suporte ainda n?o configurado neste ambiente.');
     }
 
     // LOGOUT DO SISTEMA
@@ -25546,6 +25492,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function gravarTokenAtivo(token, user) {
+      sessionStorage.setItem('missuenos_janela_autenticada', '1');
       const cfg = obterConfigSeguranca();
       const userJson = JSON.stringify(user);
       sessaoCookieAtiva = true;
@@ -25557,7 +25504,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             nome: user.nome || user.login,
             papel: user.papel || '',
             papelNome: user.papelNome || user.papel || 'Operador',
-            papelCor: user.papelCor || '#38bdf8'
+            papelCor: user.papelCor || '#38bdf8',
+            tipoCredencial: user.tipoCredencial || (user.login === 'gustavo' ? 'pin' : 'simples'),
+            tamanhoPin: user.tamanhoPin || (user.login === 'gustavo' ? 4 : 6),
+            exigirTrocaSenha: !!user.exigirTrocaSenha
           }));
         } catch (e) { console.warn('Erro ao memorizar operador:', e); }
       }
@@ -25578,6 +25528,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     function limparSessaoAtiva() {
       sessaoCookieAtiva = false;
       csrfTokenSessao = null;
+      sessionStorage.removeItem('missuenos_janela_autenticada');
       sessionStorage.removeItem('missuenos_token');
       sessionStorage.removeItem('missuenos_user');
       localStorage.removeItem('missuenos_token');
@@ -25615,6 +25566,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // Monitora atividade do operador nos eventos de uso
     ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach(evt => {
       window.addEventListener(evt, () => renovarTimeoutInatividade(), { passive: true });
+    });
+
+    // Garantia absoluta: ao fechar a janela/aba (X, Alt+F4 ou sair), destrói a marcação da sessão desta janela
+    window.addEventListener('beforeunload', () => {
+      try { sessionStorage.removeItem('missuenos_janela_autenticada'); } catch {}
+    });
+    window.addEventListener('pagehide', () => {
+      try { sessionStorage.removeItem('missuenos_janela_autenticada'); } catch {}
     });
 
     // Verificação periódica em segundo plano a cada 15 segundos
@@ -25692,7 +25651,17 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     function wizardSalvarConfiguracoes() {
       salvarConfigSeguranca(wizardTempSessao, wizardTempSenha);
+      try {
+        let opSalvo = null;
+        const raw = localStorage.getItem('missuenos_terminal_operador');
+        if (raw) opSalvo = JSON.parse(raw);
+        if (opSalvo) {
+          opSalvo.tipoCredencial = wizardTempSenha;
+          localStorage.setItem('missuenos_terminal_operador', JSON.stringify(opSalvo));
+        }
+      } catch (e) {}
       fecharWizardSeguranca();
+      adaptarInterfaceLogin();
       if (typeof exibirToast === 'function') {
         exibirToast('Diretrizes de segurança aplicadas com sucesso neste terminal!', 'sucesso');
       }
@@ -25753,6 +25722,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const badge = document.getElementById('auth-badge-politica');
       const blocoPin = document.getElementById('auth-bloco-pin');
       const blocoSenha = document.getElementById('auth-bloco-senha');
+      const seletorModo = document.getElementById('auth-seletor-modo-container');
       const blocoLoginInput = document.getElementById('auth-bloco-login-input');
       const cardOperadorSalvo = document.getElementById('auth-card-operador-salvo');
       const blocoForca = document.getElementById('auth-bloco-forca-senha');
@@ -25761,15 +25731,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const tabPin = document.getElementById('tab-modo-pin');
       const loginInput = document.getElementById('auth-login-input');
 
-      // Atualiza badge no topo do modal
-      if (badge) {
-        const timeoutMin = obterTimeoutInatividadeMinutos();
-        let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : '⚡ Permanente';
-        let txtTimeout = timeoutMin === 0 ? '' : ` • ⏱️ Timeout ${timeoutMin}m`;
-        let txtSenha = cfg.tipoSenha === 'pin' ? '🔢 PIN 4-6 Dígitos' : (cfg.tipoSenha === 'simples' ? '🔤 Senha de Acesso' : '🔐 Senha Forte');
-        badge.textContent = `${txtSessao}${txtTimeout} • ${txtSenha}`;
-      }
-
       // Verifica se há operador memorizado neste terminal
       let opSalvo = null;
       try {
@@ -25777,6 +25738,31 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         if (raw) opSalvo = JSON.parse(raw);
       } catch (e) {
         opSalvo = null;
+      }
+
+      // REGRA MESTRA:
+      // O seletor de alternância e o botão "Senha de Acesso" NUNCA devem aparecer quando a senha é PIN.
+      // Cada operador opera exclusivamente na modalidade definida.
+      if (seletorModo) {
+        seletorModo.style.setProperty('display', 'none', 'important');
+      }
+      if (tabSenha) {
+        tabSenha.style.setProperty('display', 'none', 'important');
+      }
+      if (tabPin) {
+        tabPin.style.setProperty('display', 'none', 'important');
+      }
+
+      // Determina o formato de credencial ativo (Prioridade: operador memorizado > configuração do terminal)
+      const tipoAtivo = (opSalvo && opSalvo.tipoCredencial) ? opSalvo.tipoCredencial : (cfg.tipoSenha || 'pin');
+
+      // Atualiza badge no topo do modal
+      if (badge) {
+        const timeoutMin = obterTimeoutInatividadeMinutos();
+        let txtSessao = cfg.sessao === 'fechou' ? '🔒 Fecha = Exige Senha' : '⚡ Permanente';
+        let txtTimeout = timeoutMin === 0 ? '' : ` • ⏱️ Timeout ${timeoutMin}m`;
+        let txtSenha = tipoAtivo === 'pin' ? '🔢 PIN 4-6 Dígitos' : (tipoAtivo === 'simples' ? '🔤 Senha de Acesso' : '🔐 Senha Forte');
+        badge.textContent = `${txtSessao}${txtTimeout} • ${txtSenha}`;
       }
 
       if (opSalvo && opSalvo.login) {
@@ -25808,21 +25794,20 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         if (blocoLoginInput) blocoLoginInput.style.display = 'block';
       }
 
-      // Alternância entre PIN e Senha
-      if (cfg.tipoSenha === 'pin') {
-        if (tabPin) {
-          tabPin.style.background = 'rgba(2, 132, 199, 0.25)';
-          tabPin.style.color = '#38bdf8';
-          tabPin.style.borderColor = 'rgba(56, 189, 248, 0.4)';
-        }
-        if (tabSenha) {
-          tabSenha.style.background = 'transparent';
-          tabSenha.style.color = '#94a3b8';
-          tabSenha.style.borderColor = 'transparent';
-        }
+      // Renderização EXCLUSIVA da modalidade definida (Não exibe nenhuma outra forma)
+      if (tipoAtivo === 'pin') {
+        if (tabSenha) tabSenha.style.setProperty('display', 'none', 'important');
+        if (tabPin) tabPin.style.setProperty('display', 'none', 'important');
+        if (seletorModo) seletorModo.style.setProperty('display', 'none', 'important');
+
         if (blocoPin) blocoPin.style.display = 'block';
         if (blocoSenha) blocoSenha.style.display = 'none';
         limparPinInputs();
+
+        const tamPin = (opSalvo && opSalvo.tamanhoPin) ? opSalvo.tamanhoPin : ((opSalvo?.login === 'gustavo') ? 4 : 6);
+        if (tamanhoPinAtual !== tamPin) {
+          renderizarCaixasPin(tamPin);
+        }
 
         setTimeout(() => {
           if (opSalvo && opSalvo.login) {
@@ -25832,16 +25817,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           }
         }, 120);
       } else {
-        if (tabSenha) {
-          tabSenha.style.background = 'rgba(2, 132, 199, 0.25)';
-          tabSenha.style.color = '#38bdf8';
-          tabSenha.style.borderColor = 'rgba(56, 189, 248, 0.4)';
-        }
-        if (tabPin) {
-          tabPin.style.background = 'transparent';
-          tabPin.style.color = '#94a3b8';
-          tabPin.style.borderColor = 'transparent';
-        }
+        if (tabSenha) tabSenha.style.setProperty('display', 'none', 'important');
+        if (tabPin) tabPin.style.setProperty('display', 'none', 'important');
+        if (seletorModo) seletorModo.style.setProperty('display', 'none', 'important');
+
         if (blocoPin) blocoPin.style.display = 'none';
         if (blocoSenha) blocoSenha.style.display = 'block';
 
@@ -25850,7 +25829,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           senhaInp.placeholder = 'Digite sua senha de acesso';
         }
 
-        if (cfg.tipoSenha === 'forte') {
+        if (tipoAtivo === 'forte') {
           if (blocoForca) blocoForca.style.display = 'block';
           if (labelSenha) labelSenha.textContent = 'Senha Forte Corporativa (@#$%!)';
         } else {
@@ -25949,14 +25928,52 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       configurarEventosPin();
     }
 
-    function consultarTamanhoPinOperador() {
-      if (tamanhoPinAtual !== 6) renderizarCaixasPin(6);
+    async function consultarTamanhoPinOperador(loginDigitado) {
+      let login = String(loginDigitado || document.getElementById('auth-login-input')?.value || '').trim().toLowerCase();
+      if (!login) {
+        try {
+          const raw = localStorage.getItem('missuenos_terminal_operador');
+          if (raw) login = String(JSON.parse(raw)?.login || '').trim().toLowerCase();
+        } catch (e) {}
+      }
+      if (!login) return;
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ acao: 'consultar_operador', login })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          const opInfo = {
+            login: data.login,
+            nome: data.nome,
+            papel: data.papel,
+            papelNome: data.papelNome,
+            papelCor: data.papelCor,
+            tipoCredencial: data.tipoCredencial || (data.login === 'gustavo' ? 'pin' : 'simples'),
+            tamanhoPin: data.tamanhoPin || (data.login === 'gustavo' ? 4 : 6),
+            exigirTrocaSenha: !!data.exigirTrocaSenha
+          };
+          localStorage.setItem('missuenos_terminal_operador', JSON.stringify(opInfo));
+          adaptarInterfaceLogin();
+        }
+      } catch (e) {
+        const metaTamanho = (login === 'gustavo') ? 4 : 6;
+        if (tamanhoPinAtual !== metaTamanho) renderizarCaixasPin(metaTamanho);
+      }
     }
 
     let timerDebounceLoginOp = null;
-    function aoDigitarLoginOperadorDebounced() {}
+    function aoDigitarLoginOperadorDebounced(val) {
+      clearTimeout(timerDebounceLoginOp);
+      timerDebounceLoginOp = setTimeout(() => {
+        consultarTamanhoPinOperador(val);
+      }, 100);
+    }
 
-    function aoSairLoginOperador() { consultarTamanhoPinOperador(); }
+    function aoSairLoginOperador(val) { consultarTamanhoPinOperador(val); }
 
     function obterPinCompleto() {
       let pin = '';
@@ -26140,7 +26157,13 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     async function submeterLoginDiretoPin(pin) {
       const loginInp = document.getElementById('auth-login-input');
-      const login = (loginInp ? loginInp.value : '').trim();
+      let login = (loginInp ? loginInp.value : '').trim();
+      if (!login) {
+        try {
+          const raw = localStorage.getItem('missuenos_terminal_operador');
+          if (raw) login = String(JSON.parse(raw)?.login || '').trim();
+        } catch (e) {}
+      }
       if (!login) {
         const erroBox = document.getElementById('auth-erro-msg');
         if (erroBox) {
@@ -26732,7 +26755,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
-    // Atualização de Status da Minha Senha (Card 4 em Configurações)
+    // Atualização de Status da Minha Senha (Card 4 em Configurações - Administrador)
     function atualizarStatusMinhaSenhaConfig() {
       if (!usuarioLogado) return;
 
@@ -26741,14 +26764,18 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const btn = document.getElementById('btn-salvar-minha-senha');
       const infoRegra = document.getElementById('minha-senha-info-regra');
 
-      const ehGustavo = usuarioLogado.login === 'gustavo';
+      const ehAdmin = usuarioLogado && (usuarioLogado.login === 'gustavo' || usuarioLogado.papel === 'ADMIN');
       const dataUltima = usuarioLogado.data_atualizacao_senha;
 
       if (dataTxt) {
         dataTxt.textContent = dataUltima ? new Date(dataUltima).toLocaleDateString('pt-BR') : 'Nenhuma recente';
       }
 
-      if (ehGustavo) {
+      if (ehAdmin) {
+        const sub = document.getElementById('minha-senha-subtitulo');
+        if (sub) {
+          sub.textContent = 'Atualize sua senha de acesso a qualquer momento. Administradores possuem permissão irrestrita sem limite de dias ou meses.';
+        }
         if (badge) {
           badge.textContent = '👑 Super Administrador (Acesso Total)';
           badge.style.background = 'rgba(245, 158, 11, 0.15)';
@@ -26756,7 +26783,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
         }
         if (infoRegra) {
-          infoRegra.innerHTML = '👑 <strong>Privilégio Administrador:</strong> Você pode alterar sua senha a qualquer momento e redefinir a senha de qualquer operador.';
+          infoRegra.innerHTML = '👑 <strong>Privilégio Administrador:</strong> Você tem permissão total para alterar sua senha a qualquer hora, dia ou mês sem restrição.';
         }
         if (btn) btn.disabled = false;
         return;
@@ -26794,7 +26821,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (btn) btn.disabled = false;
     }
 
-    // Formulário de Alteração Voluntária de Senha pelo Próprio Operador
+    // Formulário de Alteração Voluntária de Senha pelo Próprio Administrador no Painel
     async function salvarMinhaSenhaConfig(e) {
       if (e) e.preventDefault();
       const msgBox = document.getElementById('minha-senha-msg');
@@ -26803,11 +26830,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const novaSenha = document.getElementById('minha-nova-senha').value.trim();
       const confirmaSenha = document.getElementById('minha-confirma-senha').value.trim();
       const token = obterTokenAtivo();
+      const ehAdmin = usuarioLogado && (usuarioLogado.login === 'gustavo' || usuarioLogado.papel === 'ADMIN');
 
       msgBox.style.display = 'none';
 
       if (!novaSenha || novaSenha.length < 4) {
-        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres.';
+        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 a 6 dígitos).';
         msgBox.style.display = 'block';
         msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
         msgBox.style.color = '#fca5a5';
@@ -26815,14 +26843,16 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return;
       }
 
-      const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
-      if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
-        msgBox.textContent = 'A nova senha não pode ser uma senha padrão do sistema.';
-        msgBox.style.display = 'block';
-        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
-        msgBox.style.color = '#fca5a5';
-        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
-        return;
+      if (!ehAdmin) {
+        const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
+        if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
+          msgBox.textContent = 'A nova senha não pode ser uma senha padrão do sistema.';
+          msgBox.style.display = 'block';
+          msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+          msgBox.style.color = '#fca5a5';
+          msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          return;
+        }
       }
 
       if (novaSenha !== confirmaSenha) {
@@ -26842,10 +26872,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfTokenSessao || '',
             'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify({
             acao: 'trocar_senha',
+            csrfToken: csrfTokenSessao,
             token: token,
             senhaAtual: senhaAtual,
             novaSenha: novaSenha
@@ -26893,6 +26925,154 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         msgBox.style.display = 'block';
         btn.disabled = false;
         btn.textContent = '💾 Atualizar Minha Senha';
+      }
+    }
+
+    // ========================================================
+    // TROCA DE SENHA ANTES DE ENTRAR NO SISTEMA (TELA DE LOGIN)
+    // ========================================================
+    function abrirModalTrocarSenhaLogin() {
+      const modal = document.getElementById('modal-trocar-senha-login');
+      const inpUser = document.getElementById('troca-login-usuario');
+      const inpAtual = document.getElementById('troca-login-senha-atual');
+      const inpNova = document.getElementById('troca-login-nova-senha');
+      const inpConf = document.getElementById('troca-login-confirma-senha');
+      const msgBox = document.getElementById('troca-login-msg');
+
+      if (msgBox) msgBox.style.display = 'none';
+      if (inpAtual) inpAtual.value = '';
+      if (inpNova) inpNova.value = '';
+      if (inpConf) inpConf.value = '';
+
+      const loginAtual = (document.getElementById('auth-login-input')?.value || localStorage.getItem('missuenos_last_operator_login') || '').trim();
+      if (inpUser) inpUser.value = loginAtual;
+
+      if (modal) {
+        modal.style.display = 'flex';
+        setTimeout(() => {
+          if (loginAtual && inpAtual) {
+            inpAtual.focus();
+          } else if (inpUser) {
+            inpUser.focus();
+          }
+        }, 120);
+      }
+    }
+
+    function fecharModalTrocarSenhaLogin() {
+      const modal = document.getElementById('modal-trocar-senha-login');
+      if (modal) modal.style.display = 'none';
+    }
+
+    async function submeterTrocaSenhaLogin(e) {
+      if (e) e.preventDefault();
+      const msgBox = document.getElementById('troca-login-msg');
+      const btn = document.getElementById('btn-salvar-troca-login');
+      const login = (document.getElementById('troca-login-usuario')?.value || '').trim();
+      const senhaAtual = document.getElementById('troca-login-senha-atual')?.value || '';
+      const novaSenha = (document.getElementById('troca-login-nova-senha')?.value || '').trim();
+      const confirma = (document.getElementById('troca-login-confirma-senha')?.value || '').trim();
+
+      if (!login) {
+        msgBox.textContent = 'Informe o usuário/operador.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      if (!senhaAtual) {
+        msgBox.textContent = 'Informe a senha / PIN atual.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      if (novaSenha.length < 4) {
+        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 a 6 dígitos).';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      if (novaSenha !== confirma) {
+        msgBox.textContent = 'A confirmação de senha não confere com a nova senha.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Validando e Alterando...';
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            acao: 'trocar_senha_login',
+            login,
+            senhaAtual,
+            novaSenha
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          msgBox.textContent = data.error || 'Falha ao alterar senha.';
+          msgBox.style.display = 'block';
+          msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+          msgBox.style.color = '#fca5a5';
+          msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          btn.disabled = false;
+          btn.textContent = '💾 Salvar Nova Senha';
+          return;
+        }
+
+        msgBox.textContent = '🎉 ' + (data.mensagem || 'Senha alterada com sucesso!');
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(16, 185, 129, 0.15)';
+        msgBox.style.color = '#34d399';
+        msgBox.style.border = '1px solid rgba(16, 185, 129, 0.4)';
+
+        // Atualiza a tela de login com o usuário e o tamanho do PIN
+        const authInp = document.getElementById('auth-login-input');
+        if (authInp) authInp.value = login;
+        if (typeof consultarTamanhoPinOperador === 'function') {
+          consultarTamanhoPinOperador(login);
+        }
+
+        setTimeout(() => {
+          fecharModalTrocarSenhaLogin();
+          btn.disabled = false;
+          btn.textContent = '💾 Salvar Nova Senha';
+          if (typeof exibirToast === 'function') {
+            exibirToast('Sua nova senha já está ativa! Faça login para entrar.', 'sucesso');
+          }
+          const senhaInp = document.getElementById('auth-senha-input');
+          const pin0 = document.getElementById('auth-pin-digit-0');
+          if (pin0 && pin0.offsetParent !== null) {
+            pin0.focus();
+          } else if (senhaInp) {
+            senhaInp.focus();
+          }
+        }, 1200);
+
+      } catch (err) {
+        msgBox.textContent = 'Erro ao conectar ao servidor de autenticação.';
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        msgBox.style.color = '#fca5a5';
+        msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        btn.disabled = false;
+        btn.textContent = '💾 Salvar Nova Senha';
       }
     }
 
@@ -26996,10 +27176,44 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       sessaoCookieAtiva = false;
       usuarioLogado = null;
+
+      // POLÍTICA UNIVERSAL: Fechou o ERP (no X, Alt+F4 ou fechar processo) = Exige Senha/PIN ao Abrir Novamente
+      // 1. Detecta se a navegação é estritamente um reload (F5) dentro da mesma janela já autenticada
+      let ehReloadF5 = false;
+      try {
+        const navEntries = window.performance?.getEntriesByType?.('navigation');
+        if (navEntries && navEntries.length > 0) {
+          ehReloadF5 = navEntries[0].type === 'reload';
+        } else if (window.performance?.navigation) {
+          ehReloadF5 = window.performance.navigation.type === 1; // TYPE_RELOAD
+        }
+      } catch {}
+
+      const janelaAutenticada = sessionStorage.getItem('missuenos_janela_autenticada');
+
+      // Se NÃO for um recarregamento (F5) em janela que já estava autenticada,
+      // qualquer abertura do sistema (inicial, nova janela ou após fechar no X) DEVE exigir senha/PIN!
+      if (!ehReloadF5 || janelaAutenticada !== '1') {
+        sessionStorage.clear();
+        limparSessaoAtiva();
+        try {
+          await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ acao: 'logout' })
+          });
+        } catch {}
+        exibirTelaLogin();
+        return;
+      }
+
+      sessaoCookieAtiva = false;
+      usuarioLogado = null;
       try {
         const res = await fetch('/api/auth', { cache: 'no-store' });
         const data = await res.json();
         if (!res.ok || !data.autenticado || !data.usuario) {
+          sessionStorage.clear();
           limparSessaoAtiva();
           exibirTelaLogin();
           return;
@@ -27016,6 +27230,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         aplicarPerfilUsuario(usuarioLogado);
         ocultarTelaLogin();
       } catch (erro) {
+        sessionStorage.clear();
         limparSessaoAtiva();
         usuarioLogado = null;
         exibirTelaLogin();
@@ -27023,6 +27238,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function exibirTelaLogin() {
+      document.body.classList.add('nao-autenticado');
       const modal = document.getElementById('modal-auth-login');
       if (modal) {
         modal.style.display = 'flex';
@@ -27038,6 +27254,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function ocultarTelaLogin() {
+      document.body.classList.remove('nao-autenticado');
       const modal = document.getElementById('modal-auth-login');
       if (modal) modal.style.display = 'none';
       limparPinInputs();
@@ -27140,11 +27357,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     // Configura os ouvintes das caixinhas de PIN ao inicializar
     document.addEventListener('DOMContentLoaded', () => {
-      renderizarCaixasPin(6);
+      consultarTamanhoPinOperador();
       atualizarCardsConfigSeguranca();
     });
     setTimeout(() => {
-      renderizarCaixasPin(6);
+      consultarTamanhoPinOperador();
       atualizarCardsConfigSeguranca();
     }, 500);
 
@@ -27203,6 +27420,21 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const menuConfig = document.getElementById('btn-top-configuracoes') || document.querySelector('.sidebar-nav a[onclick*="configuracoes"]');
       if (menuConfig) {
         menuConfig.style.display = perms.configuracoes === false ? 'none' : 'inline-flex';
+      }
+
+      // 4. Painel de Operadores & RBAC (Restrito estritamente a Administradores)
+      const btnTabRbac = document.getElementById('btn-tab-cfg-rbac');
+      const cardRbac = document.getElementById('card-config-rbac');
+      const cardSenha = document.getElementById('card-seguranca-minha-senha');
+      const cardPoliticas = document.getElementById('card-config-politicas');
+
+      if (btnTabRbac) {
+        btnTabRbac.style.display = ehAdminGustavo ? 'inline-block' : 'none';
+      }
+      if (!ehAdminGustavo) {
+        if (cardRbac) cardRbac.style.display = 'none';
+        if (cardSenha) cardSenha.style.display = 'none';
+        if (cardPoliticas) cardPoliticas.style.display = 'none';
       }
     }
 
@@ -28009,31 +28241,19 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
   function atualizarDadosModalPacoteContador() {
     const dados = typeof ESTADO_RELATORIOS !== 'undefined' ? ESTADO_RELATORIOS.dadosCarregados : null;
     const mes = document.getElementById('pacote-contador-mes')?.value || '10';
-    const kNotas = document.getElementById('pacote-kpi-notas');
+      const kNotas = document.getElementById('pacote-kpi-notas');
     const kFat = document.getElementById('pacote-kpi-faturamento');
     const kDas = document.getElementById('pacote-kpi-das');
     const kVol = document.getElementById('pacote-kpi-volume');
     const badgeXml = document.getElementById('pacote-badge-xml-count');
 
-    if (dados && dados.kpis && mes === '10') {
-      if (kNotas) kNotas.textContent = (dados.kpis.totalDocumentos || 199) + ' notas';
-      if (kFat) kFat.textContent = typeof formatarMoedaRel === 'function' ? formatarMoedaRel(dados.kpis.faturamentoFiscalTotal) : 'R$ 48.750,00';
-      if (kDas) kDas.textContent = typeof formatarMoedaRel === 'function' ? formatarMoedaRel(dados.kpis.icmsEstimado) : 'R$ 1.950,00';
-      if (kVol) kVol.textContent = '412 peças';
-      if (badgeXml) badgeXml.textContent = (dados.kpis.totalDocumentos || 199) + ' XMLs';
-    } else if (mes === '11') {
-      if (kNotas) kNotas.textContent = '84 notas';
-      if (kFat) kFat.textContent = 'R$ 21.320,00';
-      if (kDas) kDas.textContent = 'R$ 852,80';
-      if (kVol) kVol.textContent = '178 peças';
-      if (badgeXml) badgeXml.textContent = '84 XMLs';
-    } else {
-      if (kNotas) kNotas.textContent = '199 notas';
-      if (kFat) kFat.textContent = 'R$ 48.750,00';
-      if (kDas) kDas.textContent = 'R$ 1.950,00';
-      if (kVol) kVol.textContent = '412 peças';
-      if (badgeXml) badgeXml.textContent = '199 XMLs';
-    }
+    const totalDocumentos = Number(dados?.kpis?.totalDocumentos || 0);
+    const temDados = Boolean(dados?.kpis && mes === '10');
+    if (kNotas) kNotas.textContent = temDados ? `${totalDocumentos} registros` : '—';
+    if (kFat) kFat.textContent = temDados && typeof formatarMoedaRel === 'function' ? formatarMoedaRel(dados.kpis.faturamentoFiscalTotal) : '—';
+    if (kDas) kDas.textContent = temDados && typeof formatarMoedaRel === 'function' ? formatarMoedaRel(dados.kpis.icmsEstimado) : '—';
+    if (kVol) kVol.textContent = '—';
+    if (badgeXml) badgeXml.textContent = temDados ? `${totalDocumentos} registros` : 'Sem dados fiscais validados';
   }
 
   function baixarPlanilhaPacoteContador() {
@@ -28059,9 +28279,13 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
   function enviarWhatsAppContador() {
     const selMes = document.getElementById('pacote-contador-mes');
     const mesNome = selMes ? selMes.options[selMes.selectedIndex]?.text : 'Outubro';
-    const notas = document.getElementById('pacote-kpi-notas')?.textContent || '199 notas';
-    const fat = document.getElementById('pacote-kpi-faturamento')?.textContent || 'R$ 48.750,00';
-    const das = document.getElementById('pacote-kpi-das')?.textContent || 'R$ 1.950,00';
+    const notas = document.getElementById('pacote-kpi-notas')?.textContent || '—';
+    const fat = document.getElementById('pacote-kpi-faturamento')?.textContent || '—';
+    const das = document.getElementById('pacote-kpi-das')?.textContent || '—';
+    if ([notas, fat, das].some(valor => valor === '—' || valor.includes('Sem dados'))) {
+      mostrarToast('O resumo fiscal não foi compartilhado: ainda não há totais validados para esta competência.');
+      return;
+    }
     
     const msg = encodeURIComponent(`Olá! Segue o resumo do Fechamento Fiscal Mensal da Mis Sueños Couros:\n\n📅 Competência: ${mesNome}/2026\n📄 Notas Emitidas: ${notas}\n💰 Faturamento Fiscal: ${fat}\n⚖️ DAS Estimado: ${das}\n\nO arquivo consolidado de XMLs e planilha já foi emitido pelo sistema ERP.`);
     window.open(`https://wa.me/?text=${msg}`, '_blank');

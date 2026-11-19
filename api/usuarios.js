@@ -12,7 +12,7 @@ async function obterTodosPapeis() {
   const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
   let custom = {};
   if (row && row.valor) {
-    try { custom = JSON.parse(row.valor); } catch {}
+    try { custom = JSON.parse(row.valor); } catch { }
   }
   return { ...PAPEIS_SISTEMA, ...custom };
 }
@@ -102,12 +102,16 @@ export default async function handler(req, res) {
       const agora = new Date().toISOString();
       const forcarTroca = bodyRequisicao.forcarTroca !== false ? 1 : 0;
 
-      const tamanhoPin = (novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
+      const ehApenasDigitos = /^\d+$/.test(novaSenha);
+      const tamanhoPin = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
+      const tipoCredencial = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? 'pin' : 'simples';
       await run(`
         UPDATE usuarios 
-        SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?, tamanho_pin = ?
+        SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?, tamanho_pin = ?, tipo_credencial = ?
         WHERE id = ?
-      `, [novoHash, agora, forcarTroca, tamanhoPin, targetId]);
+      `, [novoHash, agora, forcarTroca, tamanhoPin, tipoCredencial, targetId]);
+
+      await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
 
       await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
 
@@ -116,7 +120,7 @@ export default async function handler(req, res) {
         tipoAcao: 'ADMIN_RESET_SENHA',
         detalhes: `Administrador @${operador.login} redefiniu a senha do operador @${targetUser.login} (Forçar troca: ${forcarTroca})`,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       return responder(res, 200, {
         success: true,
@@ -134,7 +138,7 @@ export default async function handler(req, res) {
       const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
       let custom = {};
       if (row && row.valor) {
-        try { custom = JSON.parse(row.valor); } catch {}
+        try { custom = JSON.parse(row.valor); } catch { }
       }
       custom[chaveFormatada] = {
         nome: nome.trim(),
@@ -153,7 +157,7 @@ export default async function handler(req, res) {
         tipoAcao: 'PERFIL_RBAC_SALVO',
         detalhes: `Perfil ${nome} (${chaveFormatada}) configurado pelo Administrador @${operador.login}`,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       const todosPapeis = { ...PAPEIS_SISTEMA, ...custom };
       return responder(res, 200, { success: true, papeisDisponiveis: todosPapeis, mensagem: `Perfil "${nome}" salvo com sucesso!` });
@@ -168,7 +172,7 @@ export default async function handler(req, res) {
       const row = await get("SELECT valor FROM configuracoes_sistema WHERE chave = 'papeis_customizados'");
       let custom = {};
       if (row && row.valor) {
-        try { custom = JSON.parse(row.valor); } catch {}
+        try { custom = JSON.parse(row.valor); } catch { }
       }
       delete custom[chave];
       const agora = new Date().toISOString();
@@ -194,7 +198,7 @@ export default async function handler(req, res) {
       const lista = rows.map(u => {
         const papelInfo = todosPapeis[u.papel] || { nome: u.papel, cor: '#38bdf8' };
         let perms = {};
-        try { perms = typeof u.permissoes === 'string' ? JSON.parse(u.permissoes || '{}') : u.permissoes; } catch {}
+        try { perms = typeof u.permissoes === 'string' ? JSON.parse(u.permissoes || '{}') : u.permissoes; } catch { }
         return {
           id: u.id,
           nome: u.nome,
@@ -248,7 +252,7 @@ export default async function handler(req, res) {
             tipoAcao: 'USUARIO_REATIVADO',
             detalhes: `Usuário reativado pelo administrador: ${nome} (@${login}) | Papel: ${papel}`,
             req
-          }).catch(() => {});
+          }).catch(() => { });
 
           return responder(res, 200, {
             success: true,
@@ -274,7 +278,7 @@ export default async function handler(req, res) {
         tipoAcao: 'USUARIO_CRIADO',
         detalhes: `Novo usuário criado: ${nome} (${login}) | Papel: ${papel}`,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       return responder(res, 201, {
         success: true,
@@ -303,7 +307,7 @@ export default async function handler(req, res) {
       const nome = body.nome !== undefined ? body.nome.trim() : usuarioAtual.nome;
       const papel = body.papel !== undefined ? body.papel.toUpperCase() : usuarioAtual.papel;
       const ativo = body.ativo !== undefined ? (body.ativo ? 1 : 0) : usuarioAtual.ativo;
-      
+
       let permissoes = usuarioAtual.permissoes;
       if (body.permissoes !== undefined) {
         permissoes = JSON.stringify(body.permissoes);
@@ -332,7 +336,7 @@ export default async function handler(req, res) {
         tipoAcao: 'USUARIO_ALTERADO',
         detalhes: `Usuário atualizado: ${nome} (@${usuarioAtual.login}) | Perfil: ${papelInfo.nome || papel}`,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       return responder(res, 200, {
         success: true,
@@ -362,7 +366,7 @@ export default async function handler(req, res) {
         tipoAcao: 'USUARIO_DESATIVADO',
         detalhes: `Usuário ID ${targetId} desativado pelo administrador ${operador.nome}`,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       return responder(res, 200, { success: true, message: 'Usuário desativado com sucesso' });
     }

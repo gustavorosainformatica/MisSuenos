@@ -45,8 +45,32 @@ function montarUsuarioPublico(user, permissoes) {
     papelCor: papelConfig.cor,
     permissoes,
     data_atualizacao_senha: user.data_atualizacao_senha || null,
-    tamanhoPin: user.tamanho_pin || 6
+    tamanhoPin: user.tamanho_pin || (user.login === 'gustavo' ? 4 : 6),
+    tipoCredencial: user.tipo_credencial || (user.login === 'gustavo' ? 'pin' : 'simples')
   };
+}
+
+async function autoInicializarOperadores() {
+  try {
+    const agora = new Date().toISOString();
+    const usuariosIniciais = [
+      { nome: 'Gustavo Rosa', login: 'gustavo', senha: '4321', papel: 'ADMIN', tamanho_pin: 4, tipo_credencial: 'pin', permissoes: PAPEIS_SISTEMA.ADMIN.permissoes },
+      { nome: 'Marcos Machado', login: 'marcos', senha: 'admin123', papel: 'ADMIN', tamanho_pin: 6, tipo_credencial: 'simples', permissoes: PAPEIS_SISTEMA.ADMIN.permissoes },
+      { nome: 'Rodrigo', login: 'rodrigo', senha: 'admin123', papel: 'ADMIN', tamanho_pin: 6, tipo_credencial: 'simples', permissoes: PAPEIS_SISTEMA.ADMIN.permissoes },
+      { nome: 'Equipe de Vendas', login: 'vendas', senha: 'vendas123', papel: 'VENDAS', tamanho_pin: 6, tipo_credencial: 'simples', permissoes: PAPEIS_SISTEMA.VENDAS.permissoes },
+      { nome: 'Equipe de Expedição', login: 'expedicao', senha: 'expedicao123', papel: 'EXPEDICAO', tamanho_pin: 6, tipo_credencial: 'simples', permissoes: PAPEIS_SISTEMA.EXPEDICAO.permissoes }
+    ];
+
+    for (const u of usuariosIniciais) {
+      const hash = gerarHashSenha(u.senha);
+      await run(`
+        INSERT INTO usuarios (nome, login, senha_hash, papel, permissoes, ativo, data_cadastro, tamanho_pin, tipo_credencial)
+        VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)
+      `, [u.nome, u.login, hash, u.papel, JSON.stringify(u.permissoes), agora, u.tamanho_pin, u.tipo_credencial]);
+    }
+  } catch (err) {
+    console.warn('[AUTH INIT USUARIOS]', err.message);
+  }
 }
 
 export default async function handler(req, res) {
@@ -70,22 +94,130 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST' && body.acao === 'logout') {
       const sessao = await validarSessaoRequisicao(req);
-      if (sessao && !validarTokenCsrf(sessao, req.headers?.['x-csrf-token'])) return erroCsrf(res);
       if (sessao) await revogarSessaoRequisicao(req);
       limparCookieSessao(res);
       return responder(res, 200, { success: true });
     }
 
+    if (req.method === 'POST' && body.acao === 'consultar_operador') {
+      const login = String(body.login || '').trim().toLowerCase();
+      if (!login) return responder(res, 400, { error: 'Informe o login do operador.' });
+      let user = await get('SELECT id, nome, login, papel, tamanho_pin, tipo_credencial, exigir_troca_senha FROM usuarios WHERE LOWER(login) = ?', [login]);
+      if (!user) {
+        const totalRow = await get('SELECT COUNT(*) as total FROM usuarios');
+        if (Number(totalRow?.total || 0) === 0) {
+          await autoInicializarOperadores();
+          user = await get('SELECT id, nome, login, papel, tamanho_pin, tipo_credencial, exigir_troca_senha FROM usuarios WHERE LOWER(login) = ?', [login]);
+        }
+      }
+      if (!user) return responder(res, 404, { error: 'Operador não encontrado.' });
+      const papelConfig = PAPEIS_SISTEMA[user.papel] || { nome: user.papel, cor: '#00d4ff' };
+      const tipoCredencial = user.tipo_credencial || (user.login === 'gustavo' ? 'pin' : 'simples');
+      const tamanhoPin = user.tamanho_pin || (user.login === 'gustavo' ? 4 : 6);
+      return responder(res, 200, {
+        success: true,
+        nome: user.nome,
+        login: user.login,
+        papel: user.papel,
+        papelNome: papelConfig.nome,
+        papelCor: papelConfig.cor,
+        tipoCredencial,
+        tamanhoPin,
+        exigirTrocaSenha: Number(user.exigir_troca_senha) === 1
+      });
+    }
+
+    if (req.method === 'POST' && (body.acao === 'trocar_senha_login' || body.acao === 'trocar_senha_inicial')) {
+      const login = String(body.login || '').trim().toLowerCase();
+      const senhaAtual = String(body.senhaAtual || '');
+      const novaSenha = String(body.novaSenha || '').trim();
+
+      if (!login || !senhaAtual || !novaSenha) {
+        return responder(res, 400, { error: 'Informe usuário, senha atual e nova senha.' });
+      }
+
+      if (novaSenha.length < 4) {
+        return responder(res, 400, { error: 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 a 6 dígitos).' });
+      }
+
+      let user = await get('SELECT id, login, nome, senha_hash, papel, ativo, data_atualizacao_senha, exigir_troca_senha FROM usuarios WHERE LOWER(login) = ?', [login]);
+      if (!user) {
+        const totalRow = await get('SELECT COUNT(*) as total FROM usuarios');
+        if (Number(totalRow?.total || 0) === 0) {
+          await autoInicializarOperadores();
+          user = await get('SELECT id, login, nome, senha_hash, papel, ativo, data_atualizacao_senha, exigir_troca_senha FROM usuarios WHERE LOWER(login) = ?', [login]);
+        }
+      }
+
+      if (!user || Number(user.ativo) !== 1) {
+        return responder(res, 401, { error: 'Operador não encontrado ou inativo.' });
+      }
+
+      if (!verificarSenha(senhaAtual, user.senha_hash)) {
+        return responder(res, 400, { error: 'A senha atual informada está incorreta.' });
+      }
+
+      const ehAdmin = user.login === 'gustavo' || user.papel === 'ADMIN';
+      const trintaDias = 30 * 24 * 60 * 60 * 1000;
+      if (!ehAdmin && user.exigir_troca_senha !== 1 && user.data_atualizacao_senha) {
+        const ultimaTroca = Date.parse(user.data_atualizacao_senha);
+        if (Number.isFinite(ultimaTroca) && Date.now() - ultimaTroca < trintaDias) {
+          const proximaData = new Date(ultimaTroca + trintaDias).toLocaleDateString('pt-BR');
+          return responder(res, 403, {
+            error: `Operadores podem alterar a senha 1 vez ao mês.Próxima alteração disponível em: ${ proximaData }.`
+          });
+        }
+      }
+
+      if (!ehAdmin) {
+        const senhasPadrao = ['admin123', '123456', 'vendas123', 'expedicao123'];
+        if (senhasPadrao.includes(novaSenha.toLowerCase())) {
+          return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
+        }
+      }
+      const novaSenha = String(body.novaSenha || '').trim();
+      const senhasPadrao = ['admin123', '123456', 'vendas123', 'expedicao123'];
+      if (novaSenha.length < 4) return responder(res, 400, { error: 'A nova senha deve ter no mínimo 4 caracteres.' });
+      if (senhasPadrao.includes(novaSenha.toLowerCase())) return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
+
+      const agora = new Date().toISOString();
+      const ehApenasDigitos = /^\d+$/.test(novaSenha);
+      const tamanhoPin = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
+      const tipoCredencial = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? 'pin' : 'simples';
+      await run(
+        'UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0, tamanho_pin = ?, tipo_credencial = ? WHERE id = ?',
+        [gerarHashSenha(novaSenha), agora, agora, tamanhoPin, tipoCredencial, user.id]
+      );
+      await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, user.id]);
+
+      registrarLog({
+        clienteId: user.id,
+        clienteNome: user.nome,
+        tipoAcao: 'SENHA_ALTERADA_LOGIN',
+        detalhes: `Senha alterada pelo operador @${user.login} na tela inicial de login (Formato: ${tipoCredencial.toUpperCase()}).`,
+        req
+      }).catch(() => { });
+
+      return responder(res, 200, {
+        success: true,
+        mensagem: 'Senha alterada com sucesso! Você já pode entrar com sua nova senha.',
+        tipoCredencial,
+        tamanhoPin,
+        data_atualizacao_senha: agora
+      });
+    }
+
     if (req.method === 'POST' && body.acao === 'trocar_senha') {
       const sessao = await validarSessaoRequisicao(req);
       if (!sessao) return responder(res, 401, { error: 'Sessão inválida ou expirada. Faça login novamente.' });
-      if (!validarTokenCsrf(sessao, req.headers?.['x-csrf-token'])) return erroCsrf(res);
+      if (!validarTokenCsrf(sessao, req.headers?.['x-csrf-token'] || body.csrfToken)) return erroCsrf(res);
 
       const user = await get('SELECT id, login, nome, senha_hash, papel, ativo, data_atualizacao_senha, exigir_troca_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
       if (!user || Number(user.ativo) !== 1) return responder(res, 401, { error: 'Operador inativo ou inexistente.' });
 
+      const ehAdminGustavo = user.login === 'gustavo' || user.papel === 'ADMIN';
       const trintaDias = 30 * 24 * 60 * 60 * 1000;
-      if (user.exigir_troca_senha !== 1 && user.data_atualizacao_senha) {
+      if (!ehAdminGustavo && user.exigir_troca_senha !== 1 && user.data_atualizacao_senha) {
         const ultimaTroca = Date.parse(user.data_atualizacao_senha);
         if (Number.isFinite(ultimaTroca) && Date.now() - ultimaTroca < trintaDias) {
           return responder(res, 403, { error: `Você poderá trocar a senha novamente em ${new Date(ultimaTroca + trintaDias).toLocaleDateString('pt-BR')}.` });
@@ -96,23 +228,28 @@ export default async function handler(req, res) {
         return responder(res, 400, { error: 'A senha atual informada está incorreta.' });
       }
       const novaSenha = String(body.novaSenha || '').trim();
-      const senhasPadrao = ['admin123', '123456', 'vendas123', 'expedicao123'];
       if (novaSenha.length < 4) return responder(res, 400, { error: 'A nova senha deve ter no mínimo 4 caracteres.' });
-      if (senhasPadrao.includes(novaSenha.toLowerCase())) return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
+      if (!ehAdminGustavo) {
+        const senhasPadrao = ['admin123', '123456', 'vendas123', 'expedicao123'];
+        if (senhasPadrao.includes(novaSenha.toLowerCase())) return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
+      }
 
       const agora = new Date().toISOString();
-      const tamanhoPin = novaSenha.length >= 4 && novaSenha.length <= 6 ? novaSenha.length : 6;
-      await run(`UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0, tamanho_pin = ? WHERE id = ?`, [gerarHashSenha(novaSenha), agora, agora, tamanhoPin, user.id]);
+      const ehApenasDigitos = /^\d+$/.test(novaSenha);
+      const tamanhoPin = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
+      const tipoCredencial = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? 'pin' : 'simples';
+      await run(`UPDATE usuarios SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = ?, exigir_troca_senha = 0, tamanho_pin = ?, tipo_credencial = ? WHERE id = ?`, [gerarHashSenha(novaSenha), agora, agora, tamanhoPin, tipoCredencial, user.id]);
       await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, user.id]);
       const novaSessao = await criarSessao(user.id);
       definirCookieSessao(res, req, novaSessao.token);
-      registrarLog({ clienteId: user.id, tipoAcao: 'SENHA_ALTERADA', detalhes: `Senha alterada pelo operador @${user.login}.`, req }).catch(() => {});
+      registrarLog({ clienteId: user.id, tipoAcao: 'SENHA_ALTERADA', detalhes: `Senha alterada pelo operador @${user.login} (Formato: ${tipoCredencial.toUpperCase()}).`, req }).catch(() => { });
 
       return responder(res, 200, {
         success: true,
         mensagem: 'Nova senha cadastrada com sucesso!',
         data_atualizacao_senha: agora,
         tamanhoPin,
+        tipoCredencial,
         csrfToken: novaSessao.csrfToken,
         expiraEm: novaSessao.expiraEm
       });
@@ -121,7 +258,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET' || (req.method === 'POST' && body.acao === 'me')) {
       const sessao = await validarSessaoRequisicao(req);
       if (!sessao) return responder(res, 401, { error: 'Sessão inválida ou expirada.' });
-      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login, data_atualizacao_senha, tamanho_pin, exigir_troca_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
+      const user = await get('SELECT id, nome, login, papel, permissoes, ativo, ultimo_login, data_atualizacao_senha, tamanho_pin, tipo_credencial, exigir_troca_senha FROM usuarios WHERE id = ?', [sessao.usuarioId]);
       if (!user || Number(user.ativo) !== 1) return responder(res, 401, { error: 'Operador inativo ou inexistente.' });
       const permissoes = await permissoesDoUsuario(user);
       return responder(res, 200, {
@@ -138,9 +275,16 @@ export default async function handler(req, res) {
       const senha = String(body.senha || '');
       if (!login || !senha) return responder(res, 400, { error: 'Informe usuário e senha para acessar.' });
 
-      const user = await get('SELECT * FROM usuarios WHERE LOWER(login) = ?', [login]);
+      let user = await get('SELECT * FROM usuarios WHERE LOWER(login) = ?', [login]);
+      if (!user) {
+        const totalRow = await get('SELECT COUNT(*) as total FROM usuarios');
+        if (Number(totalRow?.total || 0) === 0) {
+          await autoInicializarOperadores();
+          user = await get('SELECT * FROM usuarios WHERE LOWER(login) = ?', [login]);
+        }
+      }
       if (!user || Number(user.ativo) !== 1 || !verificarSenha(senha, user.senha_hash)) {
-        registrarLog({ tipoAcao: 'LOGIN_FALHA', detalhes: 'Tentativa de autenticação não validada.', req }).catch(() => {});
+        registrarLog({ tipoAcao: 'LOGIN_FALHA', detalhes: 'Tentativa de autenticação não validada.', req }).catch(() => { });
         return responder(res, 401, { error: 'Usuário ou senha incorretos.' });
       }
 
@@ -158,9 +302,9 @@ export default async function handler(req, res) {
         clienteId: user.id,
         clienteNome: user.nome,
         tipoAcao: 'LOGIN_SUCESSO',
-        detalhes: `Login efetuado com sucesso | Papel: ${user.papel}${exigirTrocaSenha ? ' (troca de senha obrigatória)' : ''}`,
+        detalhes: `Login efetuado com sucesso | Papel: ${ user.papel }${ exigirTrocaSenha ? ' (troca de senha obrigatória)' : '' } `,
         req
-      }).catch(() => {});
+      }).catch(() => { });
 
       return responder(res, 200, {
         success: true,

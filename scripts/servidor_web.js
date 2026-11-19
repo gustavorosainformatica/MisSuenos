@@ -315,7 +315,6 @@ async function tratarRequisicao(req, res) {
       return res.end(fs.readFileSync(openapiPath, 'utf8'));
     }
   }
-
   if (pathname === '/api-docs' || pathname === '/api/docs') {
     const docsPath = path.join(PUBLIC_DIR, 'api-docs.html');
     if (fs.existsSync(docsPath)) {
@@ -326,9 +325,7 @@ async function tratarRequisicao(req, res) {
       return res.end(fs.readFileSync(docsPath, 'utf8'));
     }
   }
-  if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) {
-    return;
-  }
+  if (pathname.startsWith('/api/') && !(await garantirAcessoApi(req, res, req.url || pathname))) return;
   if (pathname.match(/^\/api\/produtos\/\d+\/bom/)) {
     return handlerProducao(req, res);
   }
