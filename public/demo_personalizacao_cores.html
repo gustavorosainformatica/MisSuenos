@@ -681,11 +681,13 @@
 
         <!-- 3. COR PERSONALIZADA -->
         <div class="custom-color-control">
-          <div class="custom-box-btn" onclick="document.getElementById('picker-custom').click()">
-            <div class="custom-box-square">+</div>
+          <label for="picker-custom" class="custom-box-btn" onclick="abrirPickerPersonalizado(event)" style="cursor: pointer; position: relative;">
+            <div class="custom-box-square" id="demo-btn-custom-box" style="position: relative; overflow: hidden;">
+              +
+              <input type="color" id="picker-custom" value="#0078D7" oninput="selecionarCorCustomizada(this.value)" onchange="selecionarCorCustomizada(this.value)" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; border: none; padding: 0; margin: 0; z-index: 5;" aria-label="PICKER">
+            </div>
             <span class="custom-box-text">Cor personalizada</span>
-            <input type="color" id="picker-custom" value="#0078D7" oninput="selecionarCorCustomizada(this.value)" style="opacity: 0; width: 0; height: 0; position: absolute;" aria-label="PICKER">
-          </div>
+          </label>
           <div class="hex-input-wrap">
             <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">HEX:</span>
             <input type="text" id="hex-custom" class="hex-input-field" value="#0078D7" maxlength="7" oninput="digitarHex(this.value)" aria-label="HEX-CUSTOM">
@@ -1063,6 +1065,17 @@
 
       renderizarRecentes();
       renderizarPaleta();
+    }
+
+    function abrirPickerPersonalizado(e) {
+      const picker = document.getElementById('picker-custom');
+      if (!picker) return;
+      if (typeof picker.showPicker === 'function') {
+        try {
+          picker.showPicker();
+          if (e && e.target !== picker) e.preventDefault();
+        } catch(err) {}
+      }
     }
 
     function selecionarCorCustomizada(hex) {
