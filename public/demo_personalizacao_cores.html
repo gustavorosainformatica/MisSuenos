@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Demonstração: Personalização de Cores Estilo Windows 11 | Mis Sueños ERP</title>
+  <title>Cores & Personalização Estilo Windows 11 | Mis Sueños ERP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap"
+    rel="stylesheet">
   <style>
     :root {
-      --accent-color: #00d4ff;
-      --accent-hover: #38bdf8;
-      --accent-glow: rgba(0, 212, 255, 0.28);
-      --accent-subtle: rgba(0, 212, 255, 0.14);
-      --accent-border: rgba(0, 212, 255, 0.35);
-      --accent-contrast: #031422;
+      --accent-color: #0078D7;
+      --accent-hover: #1e8ae6;
+      --accent-glow: rgba(0, 120, 215, 0.28);
+      --accent-subtle: rgba(0, 120, 215, 0.14);
+      --accent-border: rgba(0, 120, 215, 0.35);
+      --accent-contrast: #ffffff;
 
-      --bg-page: #060911;
-      --bg-card: #0b1120;
-      --bg-card-subtle: #111a2f;
-      --border-color: rgba(255, 255, 255, 0.08);
+      --bg-page: rgb(16, 22, 40);
+      --bg-card: rgb(20, 27, 50);
+      --bg-card-subtle: rgb(26, 35, 64);
+      --bg-bars: rgb(20, 27, 50);
+      --border-color: rgba(0, 120, 215, 0.28);
+      --table-header-bg: rgb(20, 27, 50);
+      --table-header-color: #0078D7;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
 
@@ -30,7 +36,10 @@
       --bg-page: #f1f5f9;
       --bg-card: #ffffff;
       --bg-card-subtle: #f8fafc;
+      --bg-bars: #ffffff;
       --border-color: #cbd5e1;
+      --table-header-bg: #f1f5f9;
+      --table-header-color: #0078D7;
       --text-main: #0f172a;
       --text-muted: #64748b;
     }
@@ -45,7 +54,7 @@
     body {
       background-color: var(--bg-page);
       color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       padding: 24px 16px;
       min-height: 100vh;
       display: flex;
@@ -60,23 +69,35 @@
     }
 
     .container {
-      max-width: 1080px;
+      max-width: 1240px;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 20px;
     }
 
+    /* TOPO */
     .header-box {
-      text-align: center;
-      padding: 10px 0 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .badge-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 14px;
+      padding: 4px 12px;
       border-radius: 9999px;
       font-size: 11px;
       font-weight: 800;
@@ -85,191 +106,306 @@
       background: var(--accent-subtle);
       color: var(--accent-color);
       border: 1px solid var(--accent-border);
-      margin-bottom: 12px;
+    }
+
+    .btn-action-top {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.2s;
     }
 
-    .title {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 8px;
+    .btn-action-top:hover {
+      border-color: var(--accent-color);
+      color: var(--accent-color);
     }
 
-    .subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      max-width: 680px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-
-    /* GRID PRINCIPAL: PAINEL DE CONTROLE À ESQUERDA, SIMULADOR ERP À DIREITA */
+    /* GRID PRINCIPAL: PAINEL WINDOWS À ESQUERDA (ESTILO WINDOWS SETTINGS), SIMULADOR ERP À DIREITA */
     .showcase-grid {
       display: grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 460px 1fr;
       gap: 24px;
       align-items: start;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 1040px) {
       .showcase-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .card {
+    /* PAINEL ESTILO WINDOWS 11 SETTINGS */
+    .win-settings-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      user-select: none;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
     }
 
-    .section-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 12px;
+    .win-page-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    /* MODO DE EXIBIÇÃO CARDS */
-    .mode-selector {
+    .win-section-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* CORES RECENTES (5 SWATCHES) */
+    .recent-row {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 22px;
+    }
+
+    .recent-swatch {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      box-sizing: border-box;
+      transition: transform 0.12s ease;
+    }
+
+    .recent-swatch:hover {
+      transform: scale(1.05);
+      z-index: 2;
+    }
+
+    .recent-swatch.active {
+      outline: 2px solid #000000;
+      border: 2px solid #ffffff;
+      z-index: 3;
+    }
+
+    /* GRADE DE 48 CORES DO WINDOWS (8 COLUNAS X 6 LINHAS) */
+    .win-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .win-swatch {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      min-height: 42px;
+      border: 1px solid rgba(0, 0, 0, 0.18);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      box-sizing: border-box;
+      transition: transform 0.12s ease;
+    }
+
+    .win-swatch:hover {
+      transform: scale(1.06);
+      z-index: 2;
+    }
+
+    .win-swatch.active {
+      outline: 2px solid #000000;
+      border: 2px solid #ffffff;
+      z-index: 3;
+    }
+
+    /* CHECKMARK BADGE ESTILO WINDOWS 11 */
+    .win-check-badge {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 14px;
+      height: 14px;
+      background: #000000;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      line-height: 1;
+      pointer-events: none;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* BOTÃO + COR PERSONALIZADA */
+    .custom-color-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .custom-box-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .custom-box-square {
+      width: 44px;
+      height: 44px;
+      background: #c5c5c5;
+      color: #2b2b2b;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 300;
+      transition: background-color 0.2s;
+    }
+
+    .custom-box-square:hover {
+      background: #d8d8d8;
+    }
+
+    .custom-box-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .hex-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hex-input-field {
+      width: 90px;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      outline: none;
+    }
+
+    /* SELEÇÃO DE ESTILO DE SUPERFÍCIE (3 OPÇÕES) */
+    .style-selector-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
-    .mode-btn {
+    .style-option-btn {
       background: var(--bg-card-subtle);
       border: 2px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px 8px;
-      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px 6px;
       text-align: center;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .mode-btn:hover {
+    .style-option-btn:hover {
       border-color: var(--accent-color);
-      transform: translateY(-2px);
     }
 
-    .mode-btn.active {
+    .style-option-btn.active {
       border-color: var(--accent-color);
       background: var(--accent-subtle);
     }
 
-    .mode-btn.active strong {
+    .style-option-btn strong {
+      display: block;
+      font-size: 11.5px;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .style-option-btn.active strong {
       color: var(--accent-color);
     }
 
-    /* PALETA WINDOWS 11 */
-    .palette-grid {
+    .style-option-btn span {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      line-height: 1.2;
+      display: block;
+    }
+
+    /* SELEÇÃO DE MODO (ESCURO / CLARO / AUTO) */
+    .mode-selector-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       margin-bottom: 18px;
     }
 
-    .color-swatch {
-      height: 48px;
-      border-radius: 10px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 15px;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-      position: relative;
-    }
-
-    .color-swatch:hover {
-      transform: scale(1.08);
-      z-index: 2;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-    }
-
-    .color-swatch.active {
-      border-color: #ffffff;
-      box-shadow: 0 0 0 3px var(--accent-color), 0 4px 16px rgba(0, 0, 0, 0.5);
-      transform: scale(1.04);
-    }
-
-    .color-swatch .check-mark {
-      opacity: 0;
-      transform: scale(0.6);
-      transition: all 0.18s ease;
-    }
-
-    .color-swatch.active .check-mark {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* CONTROLE DE COR CUSTOMIZADA */
-    .custom-color-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .mode-card-btn {
       background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin-bottom: 18px;
-    }
-
-    .color-picker-input {
-      width: 38px;
-      height: 38px;
-      border: none;
+      border: 2px solid var(--border-color);
       border-radius: 8px;
-      cursor: pointer;
-      background: transparent;
-      padding: 0;
-    }
-
-    .hex-input {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      padding: 6px 10px;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-      background: rgba(0, 0, 0, 0.2);
-      color: var(--accent-color);
-      width: 100px;
+      padding: 8px;
       text-align: center;
-      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .hex-input:focus {
+    .mode-card-btn:hover {
       border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px var(--accent-glow);
     }
 
-    /* TOGGLE TRANSPARÊNCIA */
+    .mode-card-btn.active {
+      border-color: var(--accent-color);
+      background: var(--accent-subtle);
+    }
+
+    .mode-card-btn strong {
+      font-size: 11.5px;
+      color: var(--text-main);
+      display: block;
+    }
+
+    .mode-card-btn.active strong {
+      color: var(--accent-color);
+    }
+
+    /* TRANSPARÊNCIA */
     .toggle-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
     }
 
     .switch {
@@ -277,7 +413,6 @@
       display: inline-block;
       width: 44px;
       height: 24px;
-      cursor: pointer;
     }
 
     .switch input {
@@ -288,8 +423,12 @@
 
     .slider {
       position: absolute;
-      inset: 0;
-      background-color: #334155;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #475569;
       transition: .3s;
       border-radius: 24px;
     }
@@ -314,47 +453,76 @@
       transform: translateX(20px);
     }
 
-    /* SIMULADOR DO ERP MIS SUEÑOS */
+    /* SIMULADOR INTERATIVO DO ERP MIS SUEÑOS (À DIREITA) */
     .simulator-window {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
     }
 
     .sim-topbar {
-      padding: 12px 18px;
+      background: var(--bg-bars);
       border-bottom: 1px solid var(--border-color);
+      padding: 14px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-card-subtle);
+      transition: background-color 0.25s ease, border-color 0.25s ease;
     }
 
     .sim-body {
-      padding: 22px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 18px;
+      background: var(--bg-page);
+      transition: background-color 0.25s ease;
+    }
+
+    .sim-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .sim-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .sim-kpi-card .kpi-bar {
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 2px;
+      margin-top: 6px;
+      opacity: 0.95;
     }
 
     .sim-btn-primary {
       background: var(--accent-color);
       color: var(--accent-contrast);
-      font-weight: 800;
-      font-size: 13px;
-      padding: 9px 18px;
-      border-radius: 8px;
       border: none;
+      border-radius: 6px;
+      padding: 9px 18px;
+      font-weight: 700;
+      font-size: 13px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 4px 16px var(--accent-glow);
-      transition: all 0.2s;
+      box-shadow: 0 2px 10px var(--accent-glow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .sim-btn-primary:hover {
@@ -364,147 +532,206 @@
 
     .sim-input {
       width: 100%;
-      padding: 9px 12px;
-      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.25);
       border: 1.5px solid var(--accent-color);
-      background: var(--bg-card-subtle);
+      box-shadow: 0 0 0 2px var(--accent-glow);
       color: var(--text-main);
       font-size: 13px;
-      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
       outline: none;
-      box-shadow: 0 0 0 3px var(--accent-glow);
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    [data-theme="light"] .sim-input {
+      background: #ffffff;
+    }
+
+    .sim-layout-row {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 680px) {
+      .sim-layout-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sim-sidebar {
+      background: var(--bg-bars);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
     }
 
     .sim-nav-item {
-      padding: 9px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      background: var(--accent-subtle);
-      color: var(--accent-color);
-      border-left: 3px solid var(--accent-color);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
+      transition: all 0.15s;
+    }
+
+    .sim-nav-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+    }
+
+    .sim-nav-item.active {
+      background: var(--accent-subtle);
+      color: var(--accent-color);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .sim-table-wrap {
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transition: background-color 0.25s ease, border-color 0.25s ease;
     }
 
     .sim-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12px;
+      font-size: 12.5px;
     }
 
     .sim-table th {
-      text-align: left;
-      padding: 8px 10px;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-color);
-      font-size: 11px;
-      text-transform: uppercase;
+      background: var(--table-header-bg);
+      color: var(--table-header-color);
       font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      letter-spacing: 0.3px;
+      transition: background-color 0.25s ease, color 0.25s ease;
     }
 
     .sim-table td {
-      padding: 10px;
+      padding: 9px 14px;
       border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
     }
 
-    .sim-table tr.selected td {
+    .sim-table tr.selected {
       background: var(--accent-subtle);
-      font-weight: 700;
-    }
-
-    .sim-kpi-card {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sim-kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent-color);
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
+    <!-- BARRA SUPERIOR -->
     <div class="header-box">
-      <span class="badge-pill">
-        <span>🎨</span> Sistema de Cores Windows 11 no ERP Mis Sueños
-      </span>
-      <h1 class="title">Personalização de Cores & Aparência</h1>
-      <p class="subtitle">
-        Teste a qualquer momento as 16 cores calibradas oficiais do Windows, modo claro ou escuro e seletor de tom personalizado com cálculo automático de contraste WCAG.
-      </p>
+      <div class="header-left">
+        <span class="badge-pill">
+          <span>🎨</span> Personalização do Windows 11 no ERP
+        </span>
+        <span style="font-size: 12px; color: var(--text-muted);" id="current-accent-indicator">
+          Cor ativa: <strong style="color: var(--accent-color);">Azul Windows (#0078D7)</strong>
+        </span>
+      </div>
+      <div>
+        <button type="button" class="btn-action-top" onclick="restaurarPadrao()">
+          ↺ Restaurar Padrão Oficial (#00D4FF)
+        </button>
+      </div>
     </div>
 
     <div class="showcase-grid">
-      <!-- PAINEL DE CONTROLE (ESTILO WINDOWS SETTINGS) -->
-      <div class="card">
-        <!-- SEÇÃO 1: MODO DO SISTEMA -->
-        <div class="section-title">
-          <span>☀️ Modo de Exibição</span>
-          <span id="label-modo-atual" style="color: var(--accent-color); font-weight: 700;">ESCURO</span>
-        </div>
-        <div class="mode-selector">
-          <button type="button" class="mode-btn active" id="btn-mode-dark" onclick="definirTema('dark')">
-            <span style="font-size: 20px;">🌙</span>
-            <strong style="font-size: 12px;">Escuro</strong>
-            <span style="font-size: 10px; color: var(--text-muted);">Tech</span>
-          </button>
-          <button type="button" class="mode-btn" id="btn-mode-light" onclick="definirTema('light')">
-            <span style="font-size: 20px;">☀️</span>
-            <strong style="font-size: 12px;">Claro</strong>
-            <span style="font-size: 10px; color: var(--text-muted);">Bling</span>
-          </button>
-          <button type="button" class="mode-btn" id="btn-mode-system" onclick="definirTema('system')">
-            <span style="font-size: 20px;">💻</span>
-            <strong style="font-size: 12px;">Auto</strong>
-            <span style="font-size: 10px; color: var(--text-muted);">Windows</span>
-          </button>
+
+      <!-- PAINEL DE CONTROLE: IDENTICO À TELA 'CORES' DO WINDOWS 11 -->
+      <div class="win-settings-card">
+        
+        <div class="win-page-title">
+          <span>Cores</span>
+          <span style="font-size: 12px; font-weight: 700; color: var(--accent-color); font-family: 'JetBrains Mono', monospace;" id="label-cor-hex">#0078D7</span>
         </div>
 
-        <!-- SEÇÃO 2: PALETA DE CORES WINDOWS 11 -->
-        <div class="section-title">
-          <span>🎨 Cor de Destaque (*Accent*)</span>
-          <span id="label-cor-nome" style="color: var(--accent-color); font-weight: 700;">CIANO TECH</span>
+        <!-- 1. CORES RECENTES -->
+        <div class="win-section-label">
+          <span>Cores recentes</span>
         </div>
-        <div class="palette-grid" id="palette-grid">
-          <!-- Injetado via JS -->
+        <div class="recent-row" id="recent-row">
+          <!-- Injetado dinamicamente -->
         </div>
 
-        <!-- SEÇÃO 3: COR PERSONALIZADA -->
-        <div class="section-title">
-          <span>🎯 Cor Personalizada Livre</span>
+        <!-- 2. CORES DO WINDOWS (GRADE 8X6 = 48 CORES) -->
+        <div class="win-section-label">
+          <span>Cores do Windows</span>
+          <span style="font-size: 11.5px; color: var(--accent-color); font-weight: 700;" id="label-cor-nome">Azul Windows</span>
         </div>
-        <div class="custom-color-row">
-          <input type="color" id="picker-custom" class="color-picker-input" value="#00d4ff" oninput="selecionarCorCustomizada(this.value)" aria-label="COLOR-PICKER">
-          <div>
-            <strong style="font-size: 12px; color: var(--text-main); display: block;">Seletor Hexadecimal</strong>
-            <span style="font-size: 11px; color: var(--text-muted);">Defina qualquer tom corporativo</span>
+        <div class="win-palette-grid" id="palette-grid">
+          <!-- 48 swatches injetados via JS -->
+        </div>
+
+        <!-- 3. COR PERSONALIZADA -->
+        <div class="custom-color-control">
+          <div class="custom-box-btn" onclick="document.getElementById('picker-custom').click()">
+            <div class="custom-box-square">+</div>
+            <span class="custom-box-text">Cor personalizada</span>
+            <input type="color" id="picker-custom" value="#0078D7" oninput="selecionarCorCustomizada(this.value)" style="opacity: 0; width: 0; height: 0; position: absolute;" aria-label="PICKER">
           </div>
-          <div style="margin-left: auto;">
-            <input type="text" id="hex-custom" class="hex-input" value="#00D4FF" maxlength="7" oninput="digitarHex(this.value)" aria-label="HEX-CODE">
+          <div class="hex-input-wrap">
+            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">HEX:</span>
+            <input type="text" id="hex-custom" class="hex-input-field" value="#0078D7" maxlength="7" oninput="digitarHex(this.value)" aria-label="HEX-CUSTOM">
           </div>
         </div>
 
-        <!-- SEÇÃO 4: TRANSPARÊNCIA -->
+        <!-- 4. SELETOR DE ESTILO DE SUPERFÍCIE (3 OPÇÕES) -->
+        <div class="win-section-label" style="margin-top: 14px;">
+          <span>Estilo de Superfície Visual</span>
+        </div>
+        <div class="style-selector-grid">
+          <div class="style-option-btn active" id="btn-style-atmosfera" onclick="definirEstilo('atmosfera')">
+            <strong>🌟 Atmosfera</strong>
+            <span>Todo o ERP banhado no tom</span>
+          </div>
+          <div class="style-option-btn" id="btn-style-barras" onclick="definirEstilo('barras')">
+            <strong>🧭 Barras</strong>
+            <span>Sidebar e Topbar coloridas</span>
+          </div>
+          <div class="style-option-btn" id="btn-style-mica" onclick="definirEstilo('mica')">
+            <strong>💎 Mica</strong>
+            <span>Slate neutro com botões acesos</span>
+          </div>
+        </div>
+
+        <!-- 5. MODO DO SISTEMA -->
+        <div class="win-section-label">
+          <span>Modo de Exibição</span>
+        </div>
+        <div class="mode-selector-grid">
+          <div class="mode-card-btn active" id="btn-mode-dark" onclick="definirTema('dark')">
+            <strong>🌙 Escuro</strong>
+          </div>
+          <div class="mode-card-btn" id="btn-mode-light" onclick="definirTema('light')">
+            <strong>☀️ Claro</strong>
+          </div>
+          <div class="mode-card-btn" id="btn-mode-system" onclick="definirTema('system')">
+            <strong>💻 Auto</strong>
+          </div>
+        </div>
+
+        <!-- 6. EFEITOS DE TRANSPARÊNCIA -->
         <div class="toggle-row">
           <div>
-            <strong style="font-size: 12px; color: var(--text-main); display: block;">Efeitos de Transparência</strong>
-            <span style="font-size: 11px; color: var(--text-muted);">Acrílico com desfoque de fundo</span>
+            <strong style="font-size: 12.5px; color: var(--text-main); display: block;">Efeitos de transparência</strong>
+            <span style="font-size: 11px; color: var(--text-muted);">Acrílico translúcido com desfoque de fundo</span>
           </div>
           <label class="switch">
             <input type="checkbox" id="check-transparency" checked onchange="toggleTransparencia(this.checked)" aria-label="TRANSPARENCY">
@@ -512,26 +739,21 @@
           </label>
         </div>
 
-        <div style="margin-top: 18px; text-align: center;">
-          <button type="button" onclick="restaurarPadrao()" style="background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;">
-            ↺ Restaurar Padrão Oficial do Mis Sueños
-          </button>
-        </div>
       </div>
 
-      <!-- SIMULADOR INTERATIVO DO ERP MIS SUEÑOS -->
+      <!-- SIMULADOR INTERATIVO DO ERP (RESPONDE AO VIVO A CADA COR E ESTILO) -->
       <div class="simulator-window">
         <!-- TOPBAR SIMULADA -->
-        <div class="sim-topbar">
+        <div class="sim-topbar" id="sim-topbar">
           <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 18px;">🪵</span>
+            <span style="font-size: 20px;">🪵</span>
             <div>
-              <strong style="font-size: 13px; color: var(--text-main);">Mis Sueños ERP</strong>
+              <strong style="font-size: 13.5px; color: var(--text-main);">Mis Sueños ERP</strong>
               <span style="font-size: 11px; color: var(--text-muted); display: block;">Couros, Peles & Artigos de Selaria</span>
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 11px; font-weight: 800; background: var(--accent-subtle); color: var(--accent-color); border: 1px solid var(--accent-border); padding: 3px 10px; border-radius: 9999px;">
+            <span style="font-size: 10.5px; font-weight: 800; background: var(--accent-subtle); color: var(--accent-color); border: 1px solid var(--accent-border); padding: 3px 10px; border-radius: 9999px;">
               🟢 ONLINE
             </span>
             <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-color); color: var(--accent-contrast); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">
@@ -541,27 +763,30 @@
         </div>
 
         <!-- CORPO DO SIMULADOR -->
-        <div class="sim-body">
+        <div class="sim-body" id="sim-body">
           <!-- CARDS DE KPIS -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-            <div class="sim-kpi-card">
+          <div class="sim-kpi-grid">
+            <div class="sim-kpi-card" id="kpi-card-1">
               <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Faturamento Mensal</span>
               <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">R$ 48.750,00</strong>
+              <div class="kpi-bar"></div>
             </div>
-            <div class="sim-kpi-card">
+            <div class="sim-kpi-card" id="kpi-card-2">
               <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Pedidos do Mês</span>
               <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-color);">142 Pedidos</strong>
+              <div class="kpi-bar"></div>
             </div>
-            <div class="sim-kpi-card">
+            <div class="sim-kpi-card" id="kpi-card-3">
               <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Itens em Estoque</span>
               <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">1.840 UN</strong>
+              <div class="kpi-bar"></div>
             </div>
           </div>
 
           <!-- FORMULÁRIO COM DESTAQUE EM FOCO -->
           <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
             <div style="flex: 1; min-width: 200px;">
-              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">Campo com Anel de Foco:</label>
+              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">Campo Ativo com Foco Dinâmico:</label>
               <input type="text" class="sim-input" value="COURO SOLETA NATURAL 3.5MM" aria-label="SIM-INPUT">
             </div>
             <div style="display: flex; gap: 10px; align-items: flex-end;">
@@ -571,22 +796,25 @@
             </div>
           </div>
 
-          <!-- ELEMENTOS DE NAVEGAÇÃO E TABELA -->
-          <div style="display: grid; grid-template-columns: 180px 1fr; gap: 14px;">
-            <div style="display: flex; flex-direction: column; gap: 6px;">
+          <!-- NAVEGAÇÃO E TABELA -->
+          <div class="sim-layout-row">
+            <div class="sim-sidebar" id="sim-sidebar">
+              <div class="sim-nav-item active">
+                <span>📦</span> Estoque
+              </div>
               <div class="sim-nav-item">
-                <span>📦</span> Catálogo & Estoque
+                <span>🚚</span> Pedidos
               </div>
-              <div style="padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
-                <span>🚚</span> Pedidos & Vendas
+              <div class="sim-nav-item">
+                <span>👥</span> Clientes
               </div>
-              <div style="padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
-                <span>👥</span> Clientes & CRM
+              <div class="sim-nav-item">
+                <span>💰</span> Financeiro
               </div>
             </div>
 
-            <!-- MINI TABELA COM LINHA SELECIONADA -->
-            <div style="background: var(--bg-card-subtle); border-radius: 8px; border: 1px solid var(--border-color); padding: 10px; overflow-x: auto;">
+            <!-- MINI TABELA COM CABEÇALHO MODULADO NA COR -->
+            <div class="sim-table-wrap" id="sim-table-wrap">
               <table class="sim-table">
                 <thead>
                   <tr>
@@ -598,7 +826,7 @@
                 </thead>
                 <tbody>
                   <tr class="selected">
-                    <td style="font-family: 'JetBrains Mono', monospace; color: var(--accent-color);">#PED-1042</td>
+                    <td style="font-family: 'JetBrains Mono', monospace; color: var(--accent-color); font-weight: 700;">#PED-1042</td>
                     <td>PELE BOVINA COM PELO EXPORTAÇÃO</td>
                     <td>1 UN</td>
                     <td style="font-family: 'JetBrains Mono', monospace;">R$ 480,00</td>
@@ -630,37 +858,81 @@
               <input type="radio" checked name="sim-radio" style="accent-color: var(--accent-color); width: 16px; height: 16px;" aria-label="RADIO-1">
               <span>NF-e Modelo 55</span>
             </label>
-            <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
-              <input type="radio" name="sim-radio" style="accent-color: var(--accent-color); width: 16px; height: 16px;" aria-label="RADIO-2">
-              <span>NFS-e de Serviços</span>
-            </label>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
   <script>
+    // 48 CORES OFICIAIS EXTRAÍDAS DO WINDOWS 11 (8 COLUNAS X 6 LINHAS)
     const PALETA_WINDOWS = [
-      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078d4' },
-      { id: 'cyan-tech', nome: 'Ciano Tech (Mis Sueños)', hex: '#00d4ff' },
-      { id: 'mint', nome: 'Menta Fresca', hex: '#00b294' },
-      { id: 'emerald', nome: 'Esmeralda', hex: '#10b981' },
-      { id: 'jungle', nome: 'Verde Selva', hex: '#00a868' },
-      { id: 'lime', nome: 'Verde Cítrico', hex: '#84cc16' },
-      { id: 'amber', nome: 'Âmbar Solar', hex: '#f59e0b' },
-      { id: 'orange', nome: 'Laranja Pôr do Sol', hex: '#f97316' },
-      { id: 'leather', nome: 'Couro Nobre (Mis Sueños)', hex: '#b45309' },
-      { id: 'crimson', nome: 'Rubro Carmim', hex: '#ef4444' },
-      { id: 'orchid', nome: 'Rosa Orquídea', hex: '#ec4899' },
-      { id: 'purple', nome: 'Púrpura Real', hex: '#8b5cf6' },
-      { id: 'indigo', nome: 'Índigo Profundo', hex: '#6366f1' },
-      { id: 'cobalt', nome: 'Azul Cobalto', hex: '#0284c7' },
-      { id: 'titanium', nome: 'Cinza Titânio', hex: '#64748b' },
-      { id: 'gold', nome: 'Dourado Nobre', hex: '#eab308' }
+      // Linha 1: Amarelo, Ouro, Laranja, Terracota e Vermelhos Vivos
+      { id: 'win-yellow', nome: 'Amarelo', hex: '#FFB900' },
+      { id: 'win-gold', nome: 'Ouro', hex: '#FF8C00' },
+      { id: 'win-orange', nome: 'Laranja', hex: '#F7630C' },
+      { id: 'win-terracotta', nome: 'Terracota', hex: '#CA5010' },
+      { id: 'win-rust', nome: 'Ferrugem', hex: '#DA3B01' },
+      { id: 'win-light-coral', nome: 'Coral Claro', hex: '#EF6950' },
+      { id: 'win-brick', nome: 'Tijolo', hex: '#D13438' },
+      { id: 'win-tomato', nome: 'Vermelho Tomate', hex: '#FF4343' },
+
+      // Linha 2: Rosa Salmão, Vermelho, Carmim, Magenta e Púrpura
+      { id: 'win-rose', nome: 'Rosa Salmão', hex: '#E74856' },
+      { id: 'win-red', nome: 'Vermelho', hex: '#E81123' },
+      { id: 'win-crimson', nome: 'Carmim', hex: '#EA005E' },
+      { id: 'win-hot-pink', nome: 'Rosa Choque', hex: '#C30052' },
+      { id: 'win-magenta', nome: 'Magenta', hex: '#E3008C' },
+      { id: 'win-fuchsia', nome: 'Fúcsia', hex: '#BF0077' },
+      { id: 'win-orchid', nome: 'Orquídea', hex: '#C239B3' },
+      { id: 'win-plum', nome: 'Ameixa', hex: '#9A0089' },
+
+      // Linha 3: Azul Windows, Marinho, Lilás, Lavanda e Violeta
+      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078D7' },
+      { id: 'win-navy', nome: 'Azul Marinho', hex: '#0063B1' },
+      { id: 'win-lilac', nome: 'Lilás', hex: '#8E8CD8' },
+      { id: 'win-lavender', nome: 'Lavanda', hex: '#6B69D6' },
+      { id: 'win-soft-purple', nome: 'Púrpura Suave', hex: '#8764B8' },
+      { id: 'win-slate-violet', nome: 'Violeta Ardósia', hex: '#744DA9' },
+      { id: 'win-purple-light', nome: 'Roxo Claro', hex: '#B146C2' },
+      { id: 'win-purple-deep', nome: 'Roxo Profundo', hex: '#881798' },
+
+      // Linha 4: Ciano, Petróleo, Turquesa, Teal e Verde Primavera
+      { id: 'win-cyan-ocean', nome: 'Ciano Oceano', hex: '#0099BC' },
+      { id: 'win-petroleum', nome: 'Azul Petróleo', hex: '#2D7D9A' },
+      { id: 'win-turquoise', nome: 'Turquesa', hex: '#00B7C3' },
+      { id: 'win-dark-turquoise', nome: 'Turquesa Escuro', hex: '#038387' },
+      { id: 'win-teal', nome: 'Verde Água (Teal)', hex: '#00B294' },
+      { id: 'win-emerald', nome: 'Verde Esmeralda', hex: '#018574' },
+      { id: 'win-spring-green', nome: 'Verde Primavera', hex: '#00CC6A' },
+      { id: 'win-forest-green', nome: 'Verde Floresta', hex: '#10893E' },
+
+      // Linha 5: Taupe, Marrom-Acinzentado, Ardósia, Pinheiro e Oliva
+      { id: 'win-taupe-gray', nome: 'Cinza Taupe', hex: '#7A7574' },
+      { id: 'win-gray-brown', nome: 'Marrom-acinzentado', hex: '#5D5A58' },
+      { id: 'win-light-slate', nome: 'Ardósia Claro', hex: '#68768A' },
+      { id: 'win-dark-slate', nome: 'Ardósia Escuro', hex: '#515C6B' },
+      { id: 'win-sage', nome: 'Verde Sálvia', hex: '#567C73' },
+      { id: 'win-pine', nome: 'Verde Pinheiro', hex: '#486860' },
+      { id: 'win-olive', nome: 'Verde Oliva', hex: '#498205' },
+      { id: 'win-moss', nome: 'Verde Musgo', hex: '#107C10' },
+
+      // Linha 6: Grafite, Asfalto, Camuflagem, Bronze e Marrom Terra
+      { id: 'win-neutral-gray', nome: 'Cinza Neutro', hex: '#767676' },
+      { id: 'win-graphite', nome: 'Grafite', hex: '#4C4A48' },
+      { id: 'win-steel-gray', nome: 'Cinza Aço', hex: '#69797E' },
+      { id: 'win-asphalt', nome: 'Cinza Asfalto', hex: '#4A5459' },
+      { id: 'win-camo-light', nome: 'Verde Camuflagem', hex: '#647C64' },
+      { id: 'win-camo-dark', nome: 'Verde Militar', hex: '#525E54' },
+      { id: 'win-bronze', nome: 'Bronze', hex: '#847545' },
+      { id: 'win-earth-brown', nome: 'Marrom Terra', hex: '#7E735F' }
     ];
 
-    let corAtiva = '#00d4ff';
+    let coresRecentes = ['#0078D7', '#00B7C3', '#4C4A48', '#E81123', '#EA005E'];
+    let corAtiva = '#0078D7';
+    let estiloAtivo = 'atmosfera';
+    let modoAtivo = 'dark';
 
     function hexParaRgb(hex) {
       let c = hex.replace('#', '');
@@ -685,6 +957,78 @@
       return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
     }
 
+    // MODULAÇÃO CROMÁTICA PROFUNDA DE TODAS AS SUPERFÍCIES DO ERP
+    function aplicarSuperficies(hex, modo, estilo) {
+      const rgb = hexParaRgb(hex);
+      const isDark = modo === 'dark';
+      let bgPage, bgCard, bgCardSubtle, bgBars, borderColor, tableHeaderBg, tableHeaderColor;
+
+      if (isDark) {
+        if (estilo === 'atmosfera') {
+          bgPage = `rgb(${Math.round(rgb.r * 0.12 + 6)}, ${Math.round(rgb.g * 0.12 + 8)}, ${Math.round(rgb.b * 0.12 + 14)})`;
+          bgBars = `rgb(${Math.round(rgb.r * 0.18 + 8)}, ${Math.round(rgb.g * 0.18 + 12)}, ${Math.round(rgb.b * 0.18 + 22)})`;
+          bgCard = `rgb(${Math.round(rgb.r * 0.16 + 10)}, ${Math.round(rgb.g * 0.16 + 14)}, ${Math.round(rgb.b * 0.16 + 26)})`;
+          bgCardSubtle = `rgb(${Math.round(rgb.r * 0.22 + 14)}, ${Math.round(rgb.g * 0.22 + 18)}, ${Math.round(rgb.b * 0.22 + 34)})`;
+          borderColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`;
+          tableHeaderBg = bgBars;
+          tableHeaderColor = hex;
+        } else if (estilo === 'barras') {
+          bgPage = '#070b12';
+          bgBars = `rgb(${Math.round(rgb.r * 0.45 + 10)}, ${Math.round(rgb.g * 0.45 + 10)}, ${Math.round(rgb.g * 0.45 + 10)})`;
+          bgCard = '#0f1624';
+          bgCardSubtle = '#162033';
+          borderColor = 'rgba(255, 255, 255, 0.12)';
+          tableHeaderBg = '#131d2e';
+          tableHeaderColor = hex;
+        } else {
+          // mica
+          bgPage = '#070a10';
+          bgBars = '#0b1019';
+          bgCard = '#0f1624';
+          bgCardSubtle = '#162033';
+          borderColor = 'rgba(255, 255, 255, 0.08)';
+          tableHeaderBg = '#162033';
+          tableHeaderColor = hex;
+        }
+      } else {
+        if (estilo === 'atmosfera') {
+          bgPage = `rgb(${Math.round(242 - (255 - rgb.r) * 0.08)}, ${Math.round(244 - (255 - rgb.g) * 0.08)}, ${Math.round(248 - (255 - rgb.b) * 0.08)})`;
+          bgBars = '#ffffff';
+          bgCard = '#ffffff';
+          bgCardSubtle = '#f8fafc';
+          borderColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`;
+          tableHeaderBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.14)`;
+          tableHeaderColor = hex;
+        } else if (estilo === 'barras') {
+          bgPage = '#f4f6f8';
+          bgBars = `rgb(${Math.round(rgb.r * 0.75 + 40)}, ${Math.round(rgb.g * 0.75 + 40)}, ${Math.round(rgb.g * 0.75 + 40)})`;
+          bgCard = '#ffffff';
+          bgCardSubtle = '#f8fafc';
+          borderColor = '#e2e8f0';
+          tableHeaderBg = '#f1f5f9';
+          tableHeaderColor = hex;
+        } else {
+          // mica
+          bgPage = '#f4f6f8';
+          bgBars = '#ffffff';
+          bgCard = '#ffffff';
+          bgCardSubtle = '#f8fafc';
+          borderColor = '#e2e8f0';
+          tableHeaderBg = '#f8fafc';
+          tableHeaderColor = '#475569';
+        }
+      }
+
+      const root = document.documentElement;
+      root.style.setProperty('--bg-page', bgPage);
+      root.style.setProperty('--bg-card', bgCard);
+      root.style.setProperty('--bg-card-subtle', bgCardSubtle);
+      root.style.setProperty('--bg-bars', bgBars);
+      root.style.setProperty('--border-color', borderColor);
+      root.style.setProperty('--table-header-bg', tableHeaderBg);
+      root.style.setProperty('--table-header-color', tableHeaderColor);
+    }
+
     function aplicarCor(hex, nome = null) {
       corAtiva = hex.toLowerCase();
       const rgb = hexParaRgb(hex);
@@ -699,13 +1043,25 @@
       root.style.setProperty('--accent-border', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`);
       root.style.setProperty('--accent-contrast', contrast);
 
+      // Aplica modulação de superfícies
+      const modoEfetivo = root.getAttribute('data-theme') || 'dark';
+      aplicarSuperficies(hex, modoEfetivo, estiloAtivo);
+
+      // Adiciona às cores recentes
+      const upper = hex.toUpperCase();
+      coresRecentes = [upper, ...coresRecentes.filter(c => c.toUpperCase() !== upper)].slice(0, 5);
+
       // Atualiza inputs e labels
       document.getElementById('picker-custom').value = hex;
       document.getElementById('hex-custom').value = hex.toUpperCase();
+      document.getElementById('label-cor-hex').textContent = hex.toUpperCase();
 
       const item = PALETA_WINDOWS.find(p => p.hex.toLowerCase() === corAtiva);
-      document.getElementById('label-cor-nome').textContent = (item ? item.nome : 'PERSONALIZADA').toUpperCase();
+      const nomeFinal = nome || (item ? item.nome : 'Personalizada');
+      document.getElementById('label-cor-nome').textContent = nomeFinal;
+      document.getElementById('current-accent-indicator').innerHTML = `Cor ativa: <strong style="color: ${hex};">${nomeFinal} (${hex.toUpperCase()})</strong>`;
 
+      renderizarRecentes();
       renderizarPaleta();
     }
 
@@ -719,22 +1075,37 @@
       }
     }
 
+    function definirEstilo(estilo) {
+      estiloAtivo = estilo;
+      ['atmosfera', 'barras', 'mica'].forEach(s => {
+        const btn = document.getElementById(`btn-style-${s}`);
+        if (btn) {
+          if (s === estilo) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+      const modoEfetivo = document.documentElement.getAttribute('data-theme') || 'dark';
+      aplicarSuperficies(corAtiva, modoEfetivo, estiloAtivo);
+    }
+
     function definirTema(tema) {
       const root = document.documentElement;
       ['btn-mode-dark', 'btn-mode-light', 'btn-mode-system'].forEach(id => {
-        document.getElementById(id).classList.remove('active');
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
       });
 
+      let modoEfetivo = tema;
       if (tema === 'system') {
         document.getElementById('btn-mode-system').classList.add('active');
         const prefEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        root.setAttribute('data-theme', prefEscuro ? 'dark' : 'light');
-        document.getElementById('label-modo-atual').textContent = 'AUTO (' + (prefEscuro ? 'ESCURO' : 'CLARO') + ')';
+        modoEfetivo = prefEscuro ? 'dark' : 'light';
       } else {
         document.getElementById(`btn-mode-${tema}`).classList.add('active');
-        root.setAttribute('data-theme', tema);
-        document.getElementById('label-modo-atual').textContent = tema.toUpperCase();
       }
+
+      root.setAttribute('data-theme', modoEfetivo);
+      aplicarSuperficies(corAtiva, modoEfetivo, estiloAtivo);
     }
 
     function toggleTransparencia(ativo) {
@@ -743,34 +1114,59 @@
 
     function restaurarPadrao() {
       definirTema('dark');
+      definirEstilo('atmosfera');
       aplicarCor('#00d4ff', 'Ciano Tech (Mis Sueños)');
       document.getElementById('check-transparency').checked = true;
       toggleTransparencia(true);
     }
 
+    function renderizarRecentes() {
+      const container = document.getElementById('recent-row');
+      if (!container) return;
+      container.innerHTML = '';
+
+      coresRecentes.forEach(hex => {
+        const isActive = hex.toLowerCase() === corAtiva.toLowerCase();
+        const el = document.createElement('div');
+        el.className = `recent-swatch ${isActive ? 'active' : ''}`;
+        el.style.backgroundColor = hex;
+        el.title = `Cor recente: ${hex}`;
+        el.onclick = () => aplicarCor(hex);
+
+        if (isActive) {
+          el.innerHTML = '<span class="win-check-badge">✓</span>';
+        }
+        container.appendChild(el);
+      });
+    }
+
     function renderizarPaleta() {
       const container = document.getElementById('palette-grid');
+      if (!container) return;
       container.innerHTML = '';
 
       PALETA_WINDOWS.forEach(cor => {
-        const isActive = cor.hex.toLowerCase() === corAtiva;
-        const contrast = calcularContrasteTexto(cor.hex);
+        const isActive = cor.hex.toLowerCase() === corAtiva.toLowerCase();
 
         const el = document.createElement('div');
-        el.className = `color-swatch ${isActive ? 'active' : ''}`;
+        el.className = `win-swatch ${isActive ? 'active' : ''}`;
         el.style.backgroundColor = cor.hex;
-        el.style.color = contrast;
         el.title = `${cor.nome} (${cor.hex.toUpperCase()})`;
         el.onclick = () => aplicarCor(cor.hex, cor.nome);
 
-        el.innerHTML = `<span class="check-mark">✓</span>`;
+        if (isActive) {
+          el.innerHTML = '<span class="win-check-badge">✓</span>';
+        }
+
         container.appendChild(el);
       });
     }
 
     // Inicialização
+    renderizarRecentes();
     renderizarPaleta();
-    aplicarCor('#00d4ff');
+    aplicarCor('#0078D7', 'Azul Windows');
   </script>
 </body>
+
 </html>

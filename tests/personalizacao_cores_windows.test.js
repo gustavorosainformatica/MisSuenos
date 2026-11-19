@@ -35,7 +35,9 @@ test('PERSONALIZAÇÃO WINDOWS 11: 03 - Modal de Configurações e Live Preview'
   assert.ok(content.includes('id="win-mode-card-light"'), 'Deve conter o seletor de tema claro');
   assert.ok(content.includes('id="win-mode-card-system"'), 'Deve conter o seletor de tema automático (Windows)');
   assert.ok(content.includes('id="win-toggle-transparency"'), 'Deve conter o toggle de transparência acrílica');
+  assert.ok(content.includes('id="win-recent-colors-row"'), 'Deve conter a subseção de Cores recentes');
   assert.ok(content.includes('id="win-color-palette-grid"'), 'Deve conter a grade de paleta de cores');
+  assert.ok(content.includes('id="win-btn-custom-box"'), 'Deve conter o botão + Cor personalizada idêntico ao Windows');
   assert.ok(content.includes('id="win-custom-color-picker"'), 'Deve conter o seletor de cor livre');
 });
 
@@ -46,12 +48,16 @@ test('PERSONALIZAÇÃO WINDOWS 11: 04 - Pontos de Entrada (Engrenagem Topbar & M
   assert.ok(content.includes('id="btn-tab-cfg-cores"'), 'Deve ter aba no módulo de configurações');
 });
 
-test('PERSONALIZAÇÃO WINDOWS 11: 05 - Lógica JavaScript e Paleta com 16 Cores Oficiais', () => {
+test('PERSONALIZAÇÃO WINDOWS 11: 05 - Grade Completa de 48 Cores Oficiais do Windows + Cores Recentes', () => {
   const content = fs.readFileSync(indexPath, 'utf8');
   assert.ok(content.includes('const PALETA_CORES_WINDOWS = ['), 'Deve conter o array de cores');
-  assert.ok(content.includes('Azul Windows'), 'Deve incluir Azul Windows');
-  assert.ok(content.includes('Ciano Tech'), 'Deve incluir Ciano Tech');
-  assert.ok(content.includes('Couro Nobre'), 'Deve incluir Couro Nobre');
+  assert.ok(content.includes('Azul Windows'), 'Deve incluir Azul Windows (#0078D7)');
+  assert.ok(content.includes('#FFB900'), 'Deve incluir Amarelo #FFB900');
+  assert.ok(content.includes('Marrom-acinzentado'), 'Deve incluir Marrom-acinzentado (#5D5A58)');
+  assert.ok(content.includes('#10893E'), 'Deve incluir Verde Floresta #10893E');
+  assert.ok(content.includes('coresRecentesWindows'), 'Deve gerenciar Cores recentes');
+  assert.ok(content.includes('function adicionarCorRecenteWindows'), 'Deve ter função de histórico de cores');
+  assert.ok(content.includes('function renderizarCoresRecentesModalWindows'), 'Deve ter função de renderização de recentes');
   assert.ok(content.includes('function aplicarCorDestaqueWindows'), 'Deve conter função de aplicação');
   assert.ok(content.includes('function selecionarModoTemaWindows'), 'Deve conter função de seleção de tema');
   assert.ok(content.includes('function aoAlternarTransparenciaWindows'), 'Deve conter função de transparência');
@@ -86,4 +92,22 @@ test('PERSONALIZAÇÃO WINDOWS 11: 07 - Página de Demonstração Isolada (demo_
   assert.ok(demoContent.includes('PALETA_WINDOWS'), 'Demo deve conter a paleta interativa');
   assert.ok(demoContent.includes('sim-btn-primary'), 'Demo deve conter botão simulado');
   assert.ok(demoContent.includes('sim-table'), 'Demo deve conter tabela simulada');
+});
+
+test('PERSONALIZAÇÃO WINDOWS 11: 08 - Seletor de 3 Atmosferas Visuais no Modal (Atmosfera, Barras, Mica)', () => {
+  const content = fs.readFileSync(indexPath, 'utf8');
+  assert.ok(content.includes('id="win-style-card-atmosfera"'), 'Deve conter o card de Atmosfera Imersiva');
+  assert.ok(content.includes('id="win-style-card-barras"'), 'Deve conter o card de Barras em Destaque');
+  assert.ok(content.includes('id="win-style-card-mica"'), 'Deve conter o card de Vidro / Mica Sutil');
+  assert.ok(content.includes('selecionarEstiloTemaWindows'), 'Deve ter handler de seleção de estilo');
+});
+
+test('PERSONALIZAÇÃO WINDOWS 11: 09 - Modulação Dinâmica de Superfícies do ERP (Sidebar, Topbar, Cards, Tabelas)', () => {
+  const content = fs.readFileSync(indexPath, 'utf8');
+  assert.ok(content.includes('function aplicarSuperficiesTemaWindows'), 'Deve conter função de aplicação de superfícies');
+  assert.ok(content.includes('function selecionarEstiloTemaWindows'), 'Deve conter função de seleção de estilo');
+  assert.ok(content.includes('missuenos_theme_style'), 'Deve persistir estilo no localStorage');
+  assert.ok(content.includes('--table-header-bg'), 'Deve definir variável para fundo da tabela');
+  assert.ok(content.includes('--bg-topbar'), 'Deve definir variável para fundo da topbar');
+  assert.ok(content.includes('--kpi-bar-opacity'), 'Deve modular a opacidade da barra de KPI');
 });

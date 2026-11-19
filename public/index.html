@@ -24,18 +24,20 @@
   <script>
     (function() {
       try {
-        var t = localStorage.getItem('missuenos_theme') || 'dark';
+        var t = localStorage.getItem('missuenos_theme') || localStorage.getItem('erp_theme') || 'dark';
+        var efetivo = t;
         if (t === 'system') {
           var prefEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.setAttribute('data-theme', prefEscuro ? 'dark' : 'light');
-        } else {
-          document.documentElement.setAttribute('data-theme', t);
+          efetivo = prefEscuro ? 'dark' : 'light';
         }
-        var transp = localStorage.getItem('missuenos_transparency');
+        document.documentElement.setAttribute('data-theme', efetivo);
+
+        var transp = localStorage.getItem('missuenos_transparency') !== null ? localStorage.getItem('missuenos_transparency') : localStorage.getItem('erp_transparency');
         if (transp !== null) {
           document.documentElement.setAttribute('data-transparency', transp);
         }
-        var cor = localStorage.getItem('missuenos_accent_color');
+        var cor = localStorage.getItem('missuenos_accent_color') || localStorage.getItem('erp_accent_color');
+        var estilo = localStorage.getItem('missuenos_theme_style') || localStorage.getItem('erp_theme_style') || 'atmosfera';
         if (cor) {
           var c = cor.replace('#', '');
           if (c.length === 3) c = c.split('').map(function(x) { return x + x; }).join('');
@@ -57,6 +59,91 @@
           root.style.setProperty('--accent-border', 'rgba(' + r + ',' + g + ',' + b + ', 0.35)');
           root.style.setProperty('--border-active', 'rgba(' + r + ',' + g + ',' + b + ', 0.45)');
           root.style.setProperty('--accent-contrast', contrast);
+
+          // Cálculo e injeção síncrona das superfícies completas do ERP (Zero-Flicker)
+          var isDark = efetivo === 'dark';
+          var bgApp, bgSidebar, bgSidebarHover, bgTopbar, bgCard, bgCardElevated, borderColor, tableHeaderBg, tableHeaderColor, kpiBarOpacity;
+          if (isDark) {
+            if (estilo === 'atmosfera') {
+              bgApp = 'rgb(' + Math.round(r * 0.12 + 6) + ', ' + Math.round(g * 0.12 + 8) + ', ' + Math.round(b * 0.12 + 14) + ')';
+              bgSidebar = 'rgb(' + Math.round(r * 0.18 + 8) + ', ' + Math.round(g * 0.18 + 12) + ', ' + Math.round(b * 0.18 + 22) + ')';
+              bgSidebarHover = 'rgb(' + Math.round(r * 0.25 + 12) + ', ' + Math.round(g * 0.25 + 18) + ', ' + Math.round(b * 0.25 + 32) + ')';
+              bgTopbar = bgSidebar;
+              bgCard = 'rgb(' + Math.round(r * 0.16 + 10) + ', ' + Math.round(g * 0.16 + 14) + ', ' + Math.round(b * 0.16 + 26) + ')';
+              bgCardElevated = 'rgb(' + Math.round(r * 0.22 + 14) + ', ' + Math.round(g * 0.22 + 18) + ', ' + Math.round(b * 0.22 + 34) + ')';
+              borderColor = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.28)';
+              tableHeaderBg = bgSidebar;
+              tableHeaderColor = cor;
+              kpiBarOpacity = '0.95';
+            } else if (estilo === 'barras') {
+              bgApp = '#070b12';
+              bgSidebar = 'rgb(' + Math.round(r * 0.45 + 10) + ', ' + Math.round(g * 0.45 + 10) + ', ' + Math.round(b * 0.45 + 10) + ')';
+              bgSidebarHover = 'rgba(255, 255, 255, 0.15)';
+              bgTopbar = bgSidebar;
+              bgCard = '#0f1624';
+              bgCardElevated = '#162033';
+              borderColor = 'rgba(255, 255, 255, 0.12)';
+              tableHeaderBg = '#131d2e';
+              tableHeaderColor = cor;
+              kpiBarOpacity = '1';
+            } else {
+              bgApp = '#070a10';
+              bgSidebar = '#0b1019';
+              bgSidebarHover = '#131c2d';
+              bgTopbar = '#0b1019';
+              bgCard = '#0f1624';
+              bgCardElevated = '#162033';
+              borderColor = 'rgba(255, 255, 255, 0.08)';
+              tableHeaderBg = '#162033';
+              tableHeaderColor = cor;
+              kpiBarOpacity = '0.5';
+            }
+          } else {
+            if (estilo === 'atmosfera') {
+              bgApp = 'rgb(' + Math.round(242 - (255 - r) * 0.08) + ', ' + Math.round(244 - (255 - g) * 0.08) + ', ' + Math.round(248 - (255 - b) * 0.08) + ')';
+              bgSidebar = '#ffffff';
+              bgSidebarHover = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.12)';
+              bgTopbar = '#ffffff';
+              bgCard = '#ffffff';
+              bgCardElevated = '#f8fafc';
+              borderColor = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.28)';
+              tableHeaderBg = 'rgba(' + r + ', ' + g + ', ' + b + ', 0.14)';
+              tableHeaderColor = cor;
+              kpiBarOpacity = '0.9';
+            } else if (estilo === 'barras') {
+              bgApp = '#f4f6f8';
+              bgSidebar = 'rgb(' + Math.round(r * 0.75 + 40) + ', ' + Math.round(g * 0.75 + 40) + ', ' + Math.round(b * 0.75 + 40) + ')';
+              bgSidebarHover = 'rgba(0, 0, 0, 0.08)';
+              bgTopbar = '#ffffff';
+              bgCard = '#ffffff';
+              bgCardElevated = '#f8fafc';
+              borderColor = '#e2e8f0';
+              tableHeaderBg = '#f1f5f9';
+              tableHeaderColor = cor;
+              kpiBarOpacity = '1';
+            } else {
+              bgApp = '#f4f6f8';
+              bgSidebar = '#ffffff';
+              bgSidebarHover = '#f8fafc';
+              bgTopbar = '#ffffff';
+              bgCard = '#ffffff';
+              bgCardElevated = '#f8fafc';
+              borderColor = '#e2e8f0';
+              tableHeaderBg = '#f8fafc';
+              tableHeaderColor = '#475569';
+              kpiBarOpacity = '0.4';
+            }
+          }
+          root.style.setProperty('--bg-app', bgApp);
+          root.style.setProperty('--bg-sidebar', bgSidebar);
+          root.style.setProperty('--bg-sidebar-hover', bgSidebarHover);
+          root.style.setProperty('--bg-topbar', bgTopbar);
+          root.style.setProperty('--bg-card', bgCard);
+          root.style.setProperty('--bg-card-elevated', bgCardElevated);
+          root.style.setProperty('--border-color', borderColor);
+          root.style.setProperty('--table-header-bg', tableHeaderBg);
+          root.style.setProperty('--table-header-color', tableHeaderColor);
+          root.style.setProperty('--kpi-bar-opacity', kpiBarOpacity);
         }
       } catch(e) {}
     })();
@@ -136,6 +223,26 @@
     [data-transparency="false"] .erp-gear-dropdown {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
+    }
+
+    /* BADGE DE SELEÇÃO EXATO DO WINDOWS 11 */
+    .win-swatch-check-badge {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 14px;
+      height: 14px;
+      background: #000000;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      line-height: 1;
+      pointer-events: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     /* CALIBRAÇÃO EQUILIBRADA DOS CARDS DE KPIS */
@@ -371,8 +478,8 @@
     }
 
     .erp-sidebar {
-      background-color: #1e293b !important;
-      border-right: 1px solid #334155 !important;
+      background-color: var(--bg-sidebar) !important;
+      border-right: 1px solid var(--border-color) !important;
     }
 
     .nav-section-title {
@@ -1112,8 +1219,8 @@
     /* TOPBAR */
     .erp-topbar {
       height: var(--topbar-height);
-      background-color: var(--bg-sidebar);
-      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-topbar, var(--bg-sidebar)) !important;
+      border-bottom: 1px solid var(--border-color) !important;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1361,6 +1468,18 @@
       transition: var(--transition);
     }
 
+    .erp-kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-color, #00d4ff);
+      opacity: var(--kpi-bar-opacity, 0.7);
+      transition: opacity 0.25s ease;
+    }
+
     .erp-kpi-card:hover {
       border-color: rgba(255, 255, 255, 0.16);
       transform: translateY(-2px);
@@ -1505,8 +1624,8 @@
     }
 
     table.erp-table thead th {
-      background: rgba(11, 16, 25, 0.95);
-      color: var(--text-muted);
+      background: var(--table-header-bg, rgba(11, 16, 25, 0.95)) !important;
+      color: var(--table-header-color, var(--text-muted)) !important;
       padding: 11px 16px;
       font-weight: 700;
       border-bottom: 1px solid var(--border-color);
@@ -3955,10 +4074,10 @@
     /* BARRA LATERAL RECOLHIDA POR PADRÃO - DESLIZA NO HOVER */
     .erp-sidebar {
       width: 260px !important;
-      background: rgba(9, 14, 26, 0.97) !important;
+      background: var(--bg-sidebar, rgba(9, 14, 26, 0.97)) !important;
       backdrop-filter: blur(16px) !important;
       -webkit-backdrop-filter: blur(16px) !important;
-      border-right: 1px solid rgba(0, 212, 255, 0.3) !important;
+      border-right: 1px solid var(--border-color, rgba(0, 212, 255, 0.3)) !important;
       box-shadow: 12px 0 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 212, 255, 0.12) !important;
       display: flex !important;
       flex-direction: column !important;
@@ -11000,7 +11119,38 @@
           </div>
         </div>
 
-        <!-- SEÇÃO 2: EFEITOS DE TRANSPARÊNCIA (ACRÍLICO WINDOWS 11) -->
+        <!-- SEÇÃO 2: ESTILO DE ATMOSFERA VISUAL (SUPERFÍCIES) -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <label class="form-label" style="font-weight: 800; font-size: 12px; margin: 0; display: block;">
+              ✨ Estilo de Atmosfera Visual (Superfícies)
+            </label>
+            <span style="font-size: 10px; color: var(--accent-color, #00d4ff); font-weight: 700; text-transform: uppercase;">
+              Windows Modern UI
+            </span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <div class="win-style-card" id="win-style-card-atmosfera" onclick="selecionarEstiloTemaWindows('atmosfera')" style="background: rgba(30, 41, 59, 0.4); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">🌟</div>
+              <strong style="color: #fff; font-size: 12px; display: block;">Atmosfera Imersiva</strong>
+              <span style="font-size: 10px; color: var(--text-muted); line-height: 1.3; display: block; margin-top: 2px;">Fundo, sidebar, topbar e cards banhados no tom</span>
+            </div>
+
+            <div class="win-style-card" id="win-style-card-barras" onclick="selecionarEstiloTemaWindows('barras')" style="background: rgba(30, 41, 59, 0.4); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">🧭</div>
+              <strong style="color: #fff; font-size: 12px; display: block;">Barras em Destaque</strong>
+              <span style="font-size: 10px; color: var(--text-muted); line-height: 1.3; display: block; margin-top: 2px;">Sidebar e Topbar vibrantes; conteúdo neutro</span>
+            </div>
+
+            <div class="win-style-card" id="win-style-card-mica" onclick="selecionarEstiloTemaWindows('mica')" style="background: rgba(30, 41, 59, 0.4); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">💎</div>
+              <strong style="color: #fff; font-size: 12px; display: block;">Vidro / Mica Sutil</strong>
+              <span style="font-size: 10px; color: var(--text-muted); line-height: 1.3; display: block; margin-top: 2px;">Slate escuro com contornos, badges e botões</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO 3: EFEITOS DE TRANSPARÊNCIA (ACRÍLICO WINDOWS 11) -->
         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30, 41, 59, 0.35); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
           <div>
             <strong style="color: #fff; font-size: 12.5px; display: block;">Efeitos de Transparência (Acrílico)</strong>
@@ -11013,36 +11163,39 @@
           </label>
         </div>
 
-        <!-- SEÇÃO 3: GRADE DE CORES DE DESTAQUE DO WINDOWS 11 -->
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
-              <label class="form-label" style="font-weight: 800; font-size: 12px; margin: 0; display: block;">
-                🎨 Cores de Destaque do Windows (*Accent Colors*)
-              </label>
-              <span style="font-size: 11px; color: var(--text-muted);">Selecione uma das 16 cores calibradas oficiais ou crie a sua personalizada:</span>
-            </div>
-            <span id="win-accent-name-label" style="font-size: 11.5px; font-weight: 700; color: var(--accent-color, #00d4ff);">
-              Ciano Tech (Mis Sueños)
-            </span>
+        <!-- SEÇÃO 4: GRADE COMPLETA DE CORES DO WINDOWS (48 CORES OFICIAIS + CORES RECENTES) -->
+        <div style="background: rgba(30, 41, 59, 0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 14px 16px;">
+          
+          <!-- SUBSEÇÃO: CORES RECENTES -->
+          <div style="margin-bottom: 6px;">
+            <span style="font-size: 12.5px; font-weight: 700; color: #fff; display: block;">Cores recentes</span>
+          </div>
+          <div id="win-recent-colors-row" style="display: flex; gap: 4px; margin-bottom: 16px;">
+            <!-- Preenchido dinamicamente com as 5 cores recentes -->
           </div>
 
-          <!-- GRADE 8x2 / 4x4 DAS CORES -->
-          <div id="win-color-palette-grid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; margin-bottom: 14px;">
-            <!-- Preenchido via JavaScript -->
+          <!-- SUBSEÇÃO: CORES DO WINDOWS (48 CORES EM 8 COLUNAS X 6 LINHAS) -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12.5px; font-weight: 700; color: #fff;">Cores do Windows</span>
+            <span id="win-accent-name-label" style="font-size: 11.5px; font-weight: 700; color: var(--accent-color, #00d4ff); font-family: 'Plus Jakarta Sans', sans-serif;"></span>
           </div>
 
-          <!-- SELETOR DE COR LIVRE PERSONALIZADA -->
-          <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <input type="color" id="win-custom-color-picker" oninput="aoSelecionarCorCustomizadaWindows(this.value)" value="#00d4ff" style="width: 36px; height: 36px; border: none; border-radius: 6px; cursor: pointer; background: transparent; padding: 0;" aria-label="CUSTOM-COLOR-PICKER">
-              <div>
-                <strong style="color: #fff; font-size: 12px; display: block;">Cor Personalizada</strong>
-                <span style="font-size: 10.5px; color: var(--text-muted);">Escolha qualquer tom na roda de cores</span>
+          <!-- GRADE 8x6 EXATA DO WINDOWS -->
+          <div id="win-color-palette-grid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 14px;">
+            <!-- Preenchido via JavaScript com as 48 cores -->
+          </div>
+
+          <!-- BOTÃO '+ COR PERSONALIZADA' EXATO DO WINDOWS -->
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <div style="display: inline-flex; align-items: center; gap: 12px; cursor: pointer; user-select: none;" onclick="document.getElementById('win-custom-color-picker').click()">
+              <div id="win-btn-custom-box" style="width: 44px; height: 44px; background: #334155; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 300; color: #ffffff; transition: all 0.2s;">
+                +
               </div>
+              <span style="font-size: 13px; font-weight: 600; color: #fff;">Cor personalizada</span>
+              <input type="color" id="win-custom-color-picker" oninput="aoSelecionarCorCustomizadaWindows(this.value)" value="#00d4ff" style="opacity: 0; width: 0; height: 0; position: absolute; pointer-events: none;" aria-label="CUSTOM-COLOR-PICKER">
             </div>
 
-            <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+            <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">HEX:</span>
               <input type="text" id="win-custom-color-hex" maxlength="7" value="#00D4FF" oninput="aoDigitarHexCustomizadoWindows(this.value)" style="width: 90px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; text-align: center; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 6px; color: var(--accent-color, #00d4ff);" aria-label="CUSTOM-HEX">
               <button type="button" class="btn-top btn-row-action" onclick="restaurarPadraoAparenciaWindows()" style="font-size: 11.5px; padding: 6px 12px;" title="Voltar ao Ciano Tech oficial">
@@ -11050,6 +11203,7 @@
               </button>
             </div>
           </div>
+
         </div>
 
       </div>
@@ -18073,26 +18227,87 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     // =========================================================================
     // SISTEMA DE PERSONALIZAÇÃO DE CORES & APARÊNCIA ESTILO WINDOWS 11
     // =========================================================================
+    // GRADE COMPLETA DE 48 CORES OFICIAIS DO WINDOWS (8 COLUNAS X 6 LINHAS)
     const PALETA_CORES_WINDOWS = [
-      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078d4' },
-      { id: 'cyan-tech', nome: 'Ciano Tech (Mis Sueños)', hex: '#00d4ff' },
-      { id: 'mint', nome: 'Menta Fresca', hex: '#00b294' },
-      { id: 'emerald', nome: 'Esmeralda', hex: '#10b981' },
-      { id: 'jungle', nome: 'Verde Selva', hex: '#00a868' },
-      { id: 'lime', nome: 'Verde Cítrico', hex: '#84cc16' },
-      { id: 'amber', nome: 'Âmbar Solar', hex: '#f59e0b' },
-      { id: 'orange', nome: 'Laranja Pôr do Sol', hex: '#f97316' },
-      { id: 'leather', nome: 'Couro Nobre (Mis Sueños)', hex: '#b45309' },
-      { id: 'crimson', nome: 'Rubro Carmim', hex: '#ef4444' },
-      { id: 'orchid', nome: 'Rosa Orquídea', hex: '#ec4899' },
-      { id: 'purple', nome: 'Púrpura Real', hex: '#8b5cf6' },
-      { id: 'indigo', nome: 'Índigo Profundo', hex: '#6366f1' },
-      { id: 'cobalt', nome: 'Azul Cobalto', hex: '#0284c7' },
-      { id: 'titanium', nome: 'Cinza Titânio', hex: '#64748b' },
-      { id: 'gold', nome: 'Dourado Nobre', hex: '#eab308' }
+      // Linha 1: Tons Amarelo, Ouro, Laranja, Terracota e Vermelhos Vivos
+      { id: 'win-yellow', nome: 'Amarelo', hex: '#FFB900' },
+      { id: 'win-gold', nome: 'Ouro', hex: '#FF8C00' },
+      { id: 'win-orange', nome: 'Laranja', hex: '#F7630C' },
+      { id: 'win-terracotta', nome: 'Terracota', hex: '#CA5010' },
+      { id: 'win-rust', nome: 'Ferrugem', hex: '#DA3B01' },
+      { id: 'win-light-coral', nome: 'Coral Claro', hex: '#EF6950' },
+      { id: 'win-brick', nome: 'Tijolo', hex: '#D13438' },
+      { id: 'win-tomato', nome: 'Vermelho Tomate', hex: '#FF4343' },
+
+      // Linha 2: Tons Rosa Salmão, Vermelho, Carmim, Magenta e Púrpura
+      { id: 'win-rose', nome: 'Rosa Salmão', hex: '#E74856' },
+      { id: 'win-red', nome: 'Vermelho', hex: '#E81123' },
+      { id: 'win-crimson', nome: 'Carmim', hex: '#EA005E' },
+      { id: 'win-hot-pink', nome: 'Rosa Choque', hex: '#C30052' },
+      { id: 'win-magenta', nome: 'Magenta', hex: '#E3008C' },
+      { id: 'win-fuchsia', nome: 'Fúcsia', hex: '#BF0077' },
+      { id: 'win-orchid', nome: 'Orquídea', hex: '#C239B3' },
+      { id: 'win-plum', nome: 'Ameixa', hex: '#9A0089' },
+
+      // Linha 3: Tons Azul Windows, Marinho, Lilás, Lavanda e Violeta
+      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078D7' },
+      { id: 'win-navy', nome: 'Azul Marinho', hex: '#0063B1' },
+      { id: 'win-lilac', nome: 'Lilás', hex: '#8E8CD8' },
+      { id: 'win-lavender', nome: 'Lavanda', hex: '#6B69D6' },
+      { id: 'win-soft-purple', nome: 'Púrpura Suave', hex: '#8764B8' },
+      { id: 'win-slate-violet', nome: 'Violeta Ardósia', hex: '#744DA9' },
+      { id: 'win-purple-light', nome: 'Roxo Claro', hex: '#B146C2' },
+      { id: 'win-purple-deep', nome: 'Roxo Profundo', hex: '#881798' },
+
+      // Linha 4: Tons Ciano, Petróleo, Turquesa, Teal e Verde Primavera
+      { id: 'win-cyan-ocean', nome: 'Ciano Oceano', hex: '#0099BC' },
+      { id: 'win-petroleum', nome: 'Azul Petróleo', hex: '#2D7D9A' },
+      { id: 'win-turquoise', nome: 'Turquesa', hex: '#00B7C3' },
+      { id: 'win-dark-turquoise', nome: 'Turquesa Escuro', hex: '#038387' },
+      { id: 'win-teal', nome: 'Verde Água (Teal)', hex: '#00B294' },
+      { id: 'win-emerald', nome: 'Verde Esmeralda', hex: '#018574' },
+      { id: 'win-spring-green', nome: 'Verde Primavera', hex: '#00CC6A' },
+      { id: 'win-forest-green', nome: 'Verde Floresta', hex: '#10893E' },
+
+      // Linha 5: Tons Taupe, Marrom-Acinzentado, Ardósia, Pinheiro e Oliva
+      { id: 'win-taupe-gray', nome: 'Cinza Taupe', hex: '#7A7574' },
+      { id: 'win-gray-brown', nome: 'Marrom-acinzentado', hex: '#5D5A58' },
+      { id: 'win-light-slate', nome: 'Ardósia Claro', hex: '#68768A' },
+      { id: 'win-dark-slate', nome: 'Ardósia Escuro', hex: '#515C6B' },
+      { id: 'win-sage', nome: 'Verde Sálvia', hex: '#567C73' },
+      { id: 'win-pine', nome: 'Verde Pinheiro', hex: '#486860' },
+      { id: 'win-olive', nome: 'Verde Oliva', hex: '#498205' },
+      { id: 'win-moss', nome: 'Verde Musgo', hex: '#107C10' },
+
+      // Linha 6: Tons Grafite, Asfalto, Camuflagem, Bronze e Marrom Terra
+      { id: 'win-neutral-gray', nome: 'Cinza Neutro', hex: '#767676' },
+      { id: 'win-graphite', nome: 'Grafite', hex: '#4C4A48' },
+      { id: 'win-steel-gray', nome: 'Cinza Aço', hex: '#69797E' },
+      { id: 'win-asphalt', nome: 'Cinza Asfalto', hex: '#4A5459' },
+      { id: 'win-camo-light', nome: 'Verde Camuflagem', hex: '#647C64' },
+      { id: 'win-camo-dark', nome: 'Verde Militar', hex: '#525E54' },
+      { id: 'win-bronze', nome: 'Bronze', hex: '#847545' },
+      { id: 'win-earth-brown', nome: 'Marrom Terra', hex: '#7E735F' }
     ];
 
-    let corDestaqueAtiva = '#00d4ff';
+    let coresRecentesWindows = ['#0078D7', '#00B7C3', '#4C4A48', '#E81123', '#EA005E'];
+    try {
+      const recSalvo = localStorage.getItem('missuenos_recent_colors') || localStorage.getItem('erp_recent_colors');
+      if (recSalvo) coresRecentesWindows = JSON.parse(recSalvo);
+    } catch(e) {}
+
+    let corDestaqueAtiva = '#0078D7';
+    let estiloTemaAtivo = 'atmosfera';
+
+    function adicionarCorRecenteWindows(hex) {
+      if (!hex) return;
+      const upper = hex.toUpperCase();
+      coresRecentesWindows = [upper, ...coresRecentesWindows.filter(c => c.toUpperCase() !== upper)].slice(0, 5);
+      try {
+        localStorage.setItem('missuenos_recent_colors', JSON.stringify(coresRecentesWindows));
+      } catch(e) {}
+      renderizarCoresRecentesModalWindows();
+    }
 
     function hexParaRgbWindows(hex) {
       let c = (hex || '#00d4ff').replace('#', '');
@@ -18117,6 +18332,131 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
     }
 
+    function aplicarSuperficiesTemaWindows(hex, modo, estilo) {
+      if (!hex) hex = corDestaqueAtiva || '#00d4ff';
+      if (!modo) modo = document.documentElement.getAttribute('data-theme') || 'dark';
+      if (!estilo) estilo = estiloTemaAtivo || 'atmosfera';
+
+      const rgb = hexParaRgbWindows(hex);
+      const isDark = modo === 'dark';
+      let bgApp, bgSidebar, bgSidebarHover, bgTopbar, bgCard, bgCardElevated, borderColor, tableHeaderBg, tableHeaderColor, kpiBarOpacity;
+
+      if (isDark) {
+        if (estilo === 'atmosfera') {
+          bgApp = `rgb(${Math.round(rgb.r * 0.12 + 6)}, ${Math.round(rgb.g * 0.12 + 8)}, ${Math.round(rgb.b * 0.12 + 14)})`;
+          bgSidebar = `rgb(${Math.round(rgb.r * 0.18 + 8)}, ${Math.round(rgb.g * 0.18 + 12)}, ${Math.round(rgb.b * 0.18 + 22)})`;
+          bgSidebarHover = `rgb(${Math.round(rgb.r * 0.25 + 12)}, ${Math.round(rgb.g * 0.25 + 18)}, ${Math.round(rgb.b * 0.25 + 32)})`;
+          bgTopbar = bgSidebar;
+          bgCard = `rgb(${Math.round(rgb.r * 0.16 + 10)}, ${Math.round(rgb.g * 0.16 + 14)}, ${Math.round(rgb.b * 0.16 + 26)})`;
+          bgCardElevated = `rgb(${Math.round(rgb.r * 0.22 + 14)}, ${Math.round(rgb.g * 0.22 + 18)}, ${Math.round(rgb.b * 0.22 + 34)})`;
+          borderColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`;
+          tableHeaderBg = bgSidebar;
+          tableHeaderColor = hex;
+          kpiBarOpacity = '0.95';
+        } else if (estilo === 'barras') {
+          bgApp = '#070b12';
+          bgSidebar = `rgb(${Math.round(rgb.r * 0.45 + 10)}, ${Math.round(rgb.g * 0.45 + 10)}, ${Math.round(rgb.b * 0.45 + 10)})`;
+          bgSidebarHover = 'rgba(255, 255, 255, 0.15)';
+          bgTopbar = bgSidebar;
+          bgCard = '#0f1624';
+          bgCardElevated = '#162033';
+          borderColor = 'rgba(255, 255, 255, 0.12)';
+          tableHeaderBg = '#131d2e';
+          tableHeaderColor = hex;
+          kpiBarOpacity = '1';
+        } else {
+          // mica
+          bgApp = '#070a10';
+          bgSidebar = '#0b1019';
+          bgSidebarHover = '#131c2d';
+          bgTopbar = '#0b1019';
+          bgCard = '#0f1624';
+          bgCardElevated = '#162033';
+          borderColor = 'rgba(255, 255, 255, 0.08)';
+          tableHeaderBg = '#162033';
+          tableHeaderColor = hex;
+          kpiBarOpacity = '0.5';
+        }
+      } else {
+        if (estilo === 'atmosfera') {
+          bgApp = `rgb(${Math.round(242 - (255 - rgb.r) * 0.08)}, ${Math.round(244 - (255 - rgb.g) * 0.08)}, ${Math.round(248 - (255 - rgb.b) * 0.08)})`;
+          bgSidebar = '#ffffff';
+          bgSidebarHover = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.12)`;
+          bgTopbar = '#ffffff';
+          bgCard = '#ffffff';
+          bgCardElevated = '#f8fafc';
+          borderColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`;
+          tableHeaderBg = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.14)`;
+          tableHeaderColor = hex;
+          kpiBarOpacity = '0.9';
+        } else if (estilo === 'barras') {
+          bgApp = '#f4f6f8';
+          bgSidebar = `rgb(${Math.round(rgb.r * 0.75 + 40)}, ${Math.round(rgb.g * 0.75 + 40)}, ${Math.round(rgb.g * 0.75 + 40)})`;
+          bgSidebarHover = 'rgba(0, 0, 0, 0.08)';
+          bgTopbar = '#ffffff';
+          bgCard = '#ffffff';
+          bgCardElevated = '#f8fafc';
+          borderColor = '#e2e8f0';
+          tableHeaderBg = '#f1f5f9';
+          tableHeaderColor = hex;
+          kpiBarOpacity = '1';
+        } else {
+          // mica
+          bgApp = '#f4f6f8';
+          bgSidebar = '#ffffff';
+          bgSidebarHover = '#f8fafc';
+          bgTopbar = '#ffffff';
+          bgCard = '#ffffff';
+          bgCardElevated = '#f8fafc';
+          borderColor = '#e2e8f0';
+          tableHeaderBg = '#f8fafc';
+          tableHeaderColor = '#475569';
+          kpiBarOpacity = '0.4';
+        }
+      }
+
+      const root = document.documentElement;
+      root.style.setProperty('--bg-app', bgApp);
+      root.style.setProperty('--bg-sidebar', bgSidebar);
+      root.style.setProperty('--bg-sidebar-hover', bgSidebarHover);
+      root.style.setProperty('--bg-topbar', bgTopbar);
+      root.style.setProperty('--bg-card', bgCard);
+      root.style.setProperty('--bg-card-elevated', bgCardElevated);
+      root.style.setProperty('--border-color', borderColor);
+      root.style.setProperty('--table-header-bg', tableHeaderBg);
+      root.style.setProperty('--table-header-color', tableHeaderColor);
+      root.style.setProperty('--kpi-bar-opacity', kpiBarOpacity);
+    }
+
+    function selecionarEstiloTemaWindows(estilo, salvar = true) {
+      if (!['atmosfera', 'barras', 'mica'].includes(estilo)) estilo = 'atmosfera';
+      estiloTemaAtivo = estilo;
+      if (salvar) {
+        try { localStorage.setItem('missuenos_theme_style', estilo); } catch(e) {}
+      }
+      const modo = document.documentElement.getAttribute('data-theme') || 'dark';
+      aplicarSuperficiesTemaWindows(corDestaqueAtiva, modo, estilo);
+      atualizarControlesModalEstilosWindows(estilo);
+      atualizarLivePreviewCoresWindows(corDestaqueAtiva, calcularContrasteTextoWindows(corDestaqueAtiva));
+    }
+
+    function atualizarControlesModalEstilosWindows(estilo) {
+      ['atmosfera', 'barras', 'mica'].forEach(s => {
+        const card = document.getElementById(`win-style-card-${s}`);
+        if (card) {
+          if (s === estilo) {
+            card.style.borderColor = 'var(--accent-color, #00d4ff)';
+            card.style.background = 'rgba(0, 212, 255, 0.12)';
+            card.style.boxShadow = '0 0 0 2px var(--accent-color, #00d4ff), 0 4px 14px rgba(0,0,0,0.3)';
+          } else {
+            card.style.borderColor = 'rgba(255,255,255,0.1)';
+            card.style.background = 'rgba(30, 41, 59, 0.4)';
+            card.style.boxShadow = 'none';
+          }
+        }
+      });
+    }
+
     function aplicarCorDestaqueWindows(hex, salvar = true) {
       if (!hex) return;
       corDestaqueAtiva = hex.toLowerCase();
@@ -18136,8 +18476,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       root.style.setProperty('--primary-hover', hover);
       root.style.setProperty('--primary-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`);
 
+      const modo = root.getAttribute('data-theme') || 'dark';
+      aplicarSuperficiesTemaWindows(hex, modo, estiloTemaAtivo);
+
       if (salvar) {
         try { localStorage.setItem('missuenos_accent_color', hex); } catch(e) {}
+        adicionarCorRecenteWindows(hex);
       }
 
       atualizarLivePreviewCoresWindows(hex, contrast);
@@ -18153,6 +18497,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const checkEl = document.getElementById('win-prev-check');
       const navEl = document.getElementById('win-prev-nav');
       const nameLabel = document.getElementById('win-accent-name-label');
+      const miniPreview = document.getElementById('win-mini-preview');
 
       if (codeEl) codeEl.textContent = hex.toUpperCase();
       if (dotEl) dotEl.style.backgroundColor = hex;
@@ -18172,6 +18517,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         badgeEl.style.color = hex;
       }
 
+      if (miniPreview) {
+        miniPreview.style.backgroundColor = 'var(--bg-card)';
+        miniPreview.style.borderColor = 'var(--border-color)';
+      }
+
       if (nameLabel) {
         const item = PALETA_CORES_WINDOWS.find(p => p.hex.toLowerCase() === hex.toLowerCase());
         nameLabel.textContent = item ? item.nome : 'Cor Personalizada';
@@ -18185,24 +18535,81 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
+    function renderizarCoresRecentesModalWindows() {
+      const container = document.getElementById('win-recent-colors-row');
+      if (!container) return;
+      container.innerHTML = '';
+
+      coresRecentesWindows.forEach(hex => {
+        const item = PALETA_CORES_WINDOWS.find(p => p.hex.toUpperCase() === hex.toUpperCase());
+        const nome = item ? item.nome : 'Cor Recente';
+        const isActive = corDestaqueAtiva.toUpperCase() === hex.toUpperCase();
+
+        const swatch = document.createElement('div');
+        swatch.className = 'win-recent-swatch-item';
+        swatch.setAttribute('data-hex', hex);
+        swatch.title = `${nome} (${hex.toUpperCase()})`;
+        swatch.style.width = '44px';
+        swatch.style.height = '44px';
+        swatch.style.backgroundColor = hex;
+        swatch.style.cursor = 'pointer';
+        swatch.style.position = 'relative';
+        swatch.style.boxSizing = 'border-box';
+        swatch.style.transition = 'transform 0.12s ease';
+
+        if (isActive) {
+          swatch.style.outline = '2px solid #000000';
+          swatch.style.border = '2px solid #ffffff';
+          swatch.style.zIndex = '2';
+          swatch.innerHTML = '<span class="win-swatch-check-badge">✓</span>';
+        } else {
+          swatch.style.outline = 'none';
+          swatch.style.border = '1px solid rgba(0,0,0,0.2)';
+        }
+
+        swatch.onmouseenter = () => {
+          swatch.style.transform = 'scale(1.06)';
+          const nameLabel = document.getElementById('win-accent-name-label');
+          if (nameLabel) nameLabel.textContent = `${nome} (${hex.toUpperCase()})`;
+        };
+        swatch.onmouseleave = () => {
+          swatch.style.transform = 'scale(1)';
+          const nameLabel = document.getElementById('win-accent-name-label');
+          if (nameLabel) {
+            const at = PALETA_CORES_WINDOWS.find(p => p.hex.toUpperCase() === corDestaqueAtiva.toUpperCase());
+            nameLabel.textContent = at ? at.nome : corDestaqueAtiva.toUpperCase();
+          }
+        };
+        swatch.onclick = () => aplicarCorDestaqueWindows(hex, true);
+
+        container.appendChild(swatch);
+      });
+    }
+
     function atualizarControlesModalCoresWindows(hex) {
       const picker = document.getElementById('win-custom-color-picker');
       const hexInput = document.getElementById('win-custom-color-hex');
+      const customBox = document.getElementById('win-btn-custom-box');
       if (picker) picker.value = hex;
       if (hexInput) hexInput.value = hex.toUpperCase();
+      if (customBox) customBox.style.borderColor = hex;
 
       document.querySelectorAll('.win-swatch-item').forEach(swatch => {
         const swHex = swatch.getAttribute('data-hex');
-        if (swHex && swHex.toLowerCase() === hex.toLowerCase()) {
-          swatch.style.borderColor = '#ffffff';
-          swatch.style.boxShadow = `0 0 0 3px ${hex}, 0 4px 12px rgba(0,0,0,0.4)`;
-          swatch.innerHTML = '<span style="font-weight: 800; font-size: 14px;">✓</span>';
+        if (swHex && swHex.toUpperCase() === hex.toUpperCase()) {
+          swatch.style.outline = '2px solid #000000';
+          swatch.style.border = '2px solid #ffffff';
+          swatch.style.zIndex = '2';
+          swatch.innerHTML = '<span class="win-swatch-check-badge">✓</span>';
         } else {
-          swatch.style.borderColor = 'transparent';
-          swatch.style.boxShadow = 'none';
+          swatch.style.outline = 'none';
+          swatch.style.border = '1px solid rgba(0,0,0,0.18)';
+          swatch.style.zIndex = '1';
           swatch.innerHTML = '';
         }
       });
+
+      renderizarCoresRecentesModalWindows();
     }
 
     function selecionarModoTemaWindows(modo, salvar = true) {
@@ -18213,6 +18620,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         efetivo = prefEscuro ? 'dark' : 'light';
       }
       root.setAttribute('data-theme', efetivo);
+      aplicarSuperficiesTemaWindows(corDestaqueAtiva, efetivo, estiloTemaAtivo);
 
       if (salvar) {
         try { localStorage.setItem('missuenos_theme', modo); } catch(e) {}
@@ -18265,6 +18673,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     function restaurarPadraoAparenciaWindows() {
       selecionarModoTemaWindows('dark', true);
       aplicarCorDestaqueWindows('#00d4ff', true);
+      selecionarEstiloTemaWindows('atmosfera', true);
       aoAlternarTransparenciaWindows(true, true);
       const chk = document.getElementById('win-toggle-transparency');
       if (chk) chk.checked = true;
@@ -18277,34 +18686,59 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       container.innerHTML = '';
 
       PALETA_CORES_WINDOWS.forEach(cor => {
-        const contrast = calcularContrasteTextoWindows(cor.hex);
-        const isActive = cor.hex.toLowerCase() === corDestaqueAtiva.toLowerCase();
+        const isActive = cor.hex.toUpperCase() === corDestaqueAtiva.toUpperCase();
 
         const swatch = document.createElement('div');
         swatch.className = 'win-swatch-item';
         swatch.setAttribute('data-hex', cor.hex);
         swatch.title = `${cor.nome} (${cor.hex.toUpperCase()})`;
-        swatch.style.height = '42px';
-        swatch.style.borderRadius = '8px';
+        swatch.style.width = '100%';
+        swatch.style.aspectRatio = '1 / 1';
+        swatch.style.minHeight = '38px';
         swatch.style.backgroundColor = cor.hex;
-        swatch.style.color = contrast;
         swatch.style.cursor = 'pointer';
-        swatch.style.display = 'flex';
-        swatch.style.alignItems = 'center';
-        swatch.style.justifyContent = 'center';
-        swatch.style.border = isActive ? '2px solid #ffffff' : '2px solid transparent';
-        swatch.style.boxShadow = isActive ? `0 0 0 3px ${cor.hex}, 0 4px 12px rgba(0,0,0,0.4)` : 'none';
-        swatch.style.transition = 'transform 0.18s ease, box-shadow 0.18s ease';
+        swatch.style.position = 'relative';
+        swatch.style.boxSizing = 'border-box';
+        swatch.style.transition = 'transform 0.12s ease';
+
         if (isActive) {
-          swatch.innerHTML = '<span style="font-weight: 800; font-size: 14px;">✓</span>';
+          swatch.style.outline = '2px solid #000000';
+          swatch.style.border = '2px solid #ffffff';
+          swatch.style.zIndex = '2';
+          swatch.innerHTML = '<span class="win-swatch-check-badge">✓</span>';
+        } else {
+          swatch.style.outline = 'none';
+          swatch.style.border = '1px solid rgba(0,0,0,0.18)';
+          swatch.style.zIndex = '1';
         }
 
-        swatch.onmouseenter = () => swatch.style.transform = 'scale(1.1)';
-        swatch.onmouseleave = () => swatch.style.transform = 'scale(1)';
+        swatch.onmouseenter = () => {
+          swatch.style.transform = 'scale(1.08)';
+          swatch.style.zIndex = '4';
+          const nameLabel = document.getElementById('win-accent-name-label');
+          if (nameLabel) nameLabel.textContent = `${cor.nome} (${cor.hex.toUpperCase()})`;
+        };
+        swatch.onmouseleave = () => {
+          swatch.style.transform = 'scale(1)';
+          if (!isActive) swatch.style.zIndex = '1';
+          const nameLabel = document.getElementById('win-accent-name-label');
+          if (nameLabel) {
+            const at = PALETA_CORES_WINDOWS.find(p => p.hex.toUpperCase() === corDestaqueAtiva.toUpperCase());
+            nameLabel.textContent = at ? at.nome : corDestaqueAtiva.toUpperCase();
+          }
+        };
         swatch.onclick = () => aplicarCorDestaqueWindows(cor.hex, true);
 
         container.appendChild(swatch);
       });
+
+      renderizarCoresRecentesModalWindows();
+
+      const nameLabel = document.getElementById('win-accent-name-label');
+      if (nameLabel) {
+        const at = PALETA_CORES_WINDOWS.find(p => p.hex.toUpperCase() === corDestaqueAtiva.toUpperCase());
+        nameLabel.textContent = at ? at.nome : corDestaqueAtiva.toUpperCase();
+      }
     }
 
     function abrirModalPersonalizacaoCores() {
@@ -18315,6 +18749,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       const modoSalvo = localStorage.getItem('missuenos_theme') || 'dark';
       selecionarModoTemaWindows(modoSalvo, false);
+
+      const estiloSalvo = localStorage.getItem('missuenos_theme_style') || localStorage.getItem('erp_theme_style') || 'atmosfera';
+      selecionarEstiloTemaWindows(estiloSalvo, false);
 
       const corSalva = localStorage.getItem('missuenos_accent_color') || '#00d4ff';
       aplicarCorDestaqueWindows(corSalva, false);
@@ -18358,6 +18795,9 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     function inicializarTemaVisual() {
       const modo = localStorage.getItem('missuenos_theme') || 'dark';
       selecionarModoTemaWindows(modo, false);
+
+      const estilo = localStorage.getItem('missuenos_theme_style') || localStorage.getItem('erp_theme_style') || 'atmosfera';
+      selecionarEstiloTemaWindows(estilo, false);
 
       const cor = localStorage.getItem('missuenos_accent_color') || '#00d4ff';
       aplicarCorDestaqueWindows(cor, false);
