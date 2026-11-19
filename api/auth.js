@@ -175,10 +175,6 @@ export default async function handler(req, res) {
           return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
         }
       }
-      const novaSenha = String(body.novaSenha || '').trim();
-      const senhasPadrao = ['admin123', '123456', 'vendas123', 'expedicao123'];
-      if (novaSenha.length < 4) return responder(res, 400, { error: 'A nova senha deve ter no mínimo 4 caracteres.' });
-      if (senhasPadrao.includes(novaSenha.toLowerCase())) return responder(res, 400, { error: 'Escolha uma senha pessoal diferente das senhas padrão.' });
 
       const agora = new Date().toISOString();
       const ehApenasDigitos = /^\d+$/.test(novaSenha);

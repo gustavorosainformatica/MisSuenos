@@ -113,8 +113,6 @@ export default async function handler(req, res) {
 
       await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
 
-      await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
-
       registrarLog({
         clienteId: operador.id,
         tipoAcao: 'ADMIN_RESET_SENHA',

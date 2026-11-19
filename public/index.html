@@ -12504,12 +12504,6 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         adicionarLinhaItemFiscal();
       }
 
-      // Se a tabela estiver vazia, adiciona uma linha inicial
-      const tbody = document.getElementById('fiscal-itens-tbody');
-      if (tbody && tbody.children.length === 0) {
-        adicionarLinhaItemFiscal();
-      }
-
       document.getElementById('modal-fiscal').classList.add('active');
     }
 
@@ -27207,8 +27201,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return;
       }
 
-      sessaoCookieAtiva = false;
-      usuarioLogado = null;
       try {
         const res = await fetch('/api/auth', { cache: 'no-store' });
         const data = await res.json();
