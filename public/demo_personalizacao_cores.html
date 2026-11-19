@@ -182,8 +182,8 @@
     }
 
     .recent-swatch {
-      width: 44px;
-      height: 44px;
+      width: 34px;
+      height: 34px;
       border: 1px solid rgba(0, 0, 0, 0.2);
       border-radius: 2px;
       cursor: pointer;
@@ -206,15 +206,17 @@
     /* GRADE DE 48 CORES DO WINDOWS (8 COLUNAS X 6 LINHAS) */
     .win-palette-grid {
       display: grid;
-      grid-template-columns: repeat(8, 1fr);
+      grid-template-columns: repeat(8, 34px);
       gap: 4px;
       margin-bottom: 16px;
+      width: fit-content;
     }
 
     .win-swatch {
-      width: 100%;
+      width: 34px;
+      height: 34px;
       aspect-ratio: 1 / 1;
-      min-height: 42px;
+      min-height: unset;
       border: 1px solid rgba(0, 0, 0, 0.18);
       border-radius: 2px;
       cursor: pointer;
