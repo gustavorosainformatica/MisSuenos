@@ -21,11 +21,43 @@
   <meta name="apple-mobile-web-app-title" content="Mis Sueños">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="Mis Sueños ERP">
-    <script>
+  <script>
     (function() {
       try {
         var t = localStorage.getItem('missuenos_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', t);
+        if (t === 'system') {
+          var prefEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', prefEscuro ? 'dark' : 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+        var transp = localStorage.getItem('missuenos_transparency');
+        if (transp !== null) {
+          document.documentElement.setAttribute('data-transparency', transp);
+        }
+        var cor = localStorage.getItem('missuenos_accent_color');
+        if (cor) {
+          var c = cor.replace('#', '');
+          if (c.length === 3) c = c.split('').map(function(x) { return x + x; }).join('');
+          var num = parseInt(c, 16);
+          var r = (num >> 16) & 255;
+          var g = (num >> 8) & 255;
+          var b = num & 255;
+          var a = [r/255, g/255, b/255].map(function(v) {
+            return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+          });
+          var lum = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+          var contrast = lum > 0.45 ? '#031422' : '#ffffff';
+          var root = document.documentElement;
+          root.style.setProperty('--accent-color', cor);
+          root.style.setProperty('--primary', cor);
+          root.style.setProperty('--accent-glow', 'rgba(' + r + ',' + g + ',' + b + ', 0.28)');
+          root.style.setProperty('--primary-glow', 'rgba(' + r + ',' + g + ',' + b + ', 0.28)');
+          root.style.setProperty('--accent-subtle', 'rgba(' + r + ',' + g + ',' + b + ', 0.14)');
+          root.style.setProperty('--accent-border', 'rgba(' + r + ',' + g + ',' + b + ', 0.35)');
+          root.style.setProperty('--border-active', 'rgba(' + r + ',' + g + ',' + b + ', 0.45)');
+          root.style.setProperty('--accent-contrast', contrast);
+        }
       } catch(e) {}
     })();
   </script>
@@ -45,11 +77,19 @@
       --bg-card: #0f1624;
       --bg-card-elevated: #162033;
       --border-color: rgba(255, 255, 255, 0.08);
-      --border-active: rgba(0, 212, 255, 0.4);
+      --border-active: var(--accent-border, rgba(0, 212, 255, 0.4));
       
-      --primary: #00d4ff;
-      --primary-hover: #38bdf8;
-      --primary-glow: rgba(0, 212, 255, 0.2);
+      /* SISTEMA DE PERSONALIZAÇÃO DE CORES ESTILO WINDOWS 11 */
+      --accent-color: #00d4ff;
+      --accent-hover: #38bdf8;
+      --accent-glow: rgba(0, 212, 255, 0.28);
+      --accent-subtle: rgba(0, 212, 255, 0.14);
+      --accent-border: rgba(0, 212, 255, 0.35);
+      --accent-contrast: #031422;
+
+      --primary: var(--accent-color);
+      --primary-hover: var(--accent-hover);
+      --primary-glow: var(--accent-glow);
       
       --emerald: #10b981;
       --emerald-glow: rgba(16, 185, 129, 0.2);
@@ -75,9 +115,29 @@
       --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    
-    
-    
+    /* EFEITOS DE TRANSPARÊNCIA & SELEÇÃO WINDOWS 11 */
+    ::selection {
+      background-color: var(--accent-color, #00d4ff) !important;
+      color: var(--accent-contrast, #031422) !important;
+    }
+    input[type="checkbox"], input[type="radio"], input[type="range"] {
+      accent-color: var(--accent-color, #00d4ff) !important;
+    }
+    [data-transparency="true"] .erp-topbar {
+      backdrop-filter: blur(14px) saturate(180%) !important;
+      -webkit-backdrop-filter: blur(14px) saturate(180%) !important;
+      background-color: rgba(11, 16, 25, 0.82) !important;
+    }
+    [data-theme="light"][data-transparency="true"] .erp-topbar {
+      background-color: rgba(255, 255, 255, 0.85) !important;
+    }
+    [data-transparency="false"] .erp-topbar,
+    [data-transparency="false"] .modal-container,
+    [data-transparency="false"] .erp-gear-dropdown {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
     /* CALIBRAÇÃO EQUILIBRADA DOS CARDS DE KPIS */
     .kpis-com-mapa-wrapper {
       display: grid;
@@ -300,10 +360,10 @@
     }
 
     .nav-item.active {
-      background: rgba(0, 168, 104, 0.18) !important;
-      color: #34d399 !important;
+      background: var(--accent-subtle, rgba(0, 168, 104, 0.18)) !important;
+      color: var(--accent-color, #34d399) !important;
       font-weight: 700 !important;
-      border-left: 3px solid #00a868 !important;
+      border-left: 3px solid var(--accent-color, #00a868) !important;
     }
 
     .nav-badge {
@@ -341,10 +401,10 @@
     }
 
     .nav-item.active {
-      background: rgba(0, 168, 104, 0.18) !important;
-      color: #34d399 !important;
+      background: var(--accent-subtle, rgba(0, 168, 104, 0.18)) !important;
+      color: var(--accent-color, #34d399) !important;
       font-weight: 700 !important;
-      border-left: 3px solid #00a868 !important;
+      border-left: 3px solid var(--accent-color, #00a868) !important;
     }
 
     .nav-badge {
@@ -384,11 +444,11 @@
       --bg-card: #ffffff;
       --bg-card-elevated: #ffffff;
       --border-color: #e2e8f0;
-      --border-active: #00a868;
+      --border-active: var(--accent-border, #00a868);
       
-      --primary: #00a868;
-      --primary-hover: #008f58;
-      --primary-glow: rgba(0, 168, 104, 0.15);
+      --primary: var(--accent-color, #00a868);
+      --primary-hover: var(--accent-hover, #008f58);
+      --primary-glow: var(--accent-glow, rgba(0, 168, 104, 0.15));
       
       --emerald: #00a868;
       --emerald-glow: rgba(0, 168, 104, 0.15);
@@ -460,7 +520,7 @@
     }
 
     [data-theme="light"] table.erp-table tbody tr.row-selected td {
-      background-color: #e6f6f0 !important;
+      background-color: var(--accent-subtle, #e6f6f0) !important;
     }
 
     [data-theme="light"] .form-input,
@@ -472,8 +532,8 @@
 
     [data-theme="light"] .form-input:focus,
     [data-theme="light"] .erp-select:focus {
-      border-color: #00a868 !important;
-      box-shadow: 0 0 0 3px rgba(0, 168, 104, 0.15) !important;
+      border-color: var(--accent-color, #00a868) !important;
+      box-shadow: 0 0 0 3px var(--accent-glow, rgba(0, 168, 104, 0.15)) !important;
     }
 
     [data-theme="light"] .form-label {
@@ -715,12 +775,17 @@
       color: #0f172a !important;
     }
 
-    [data-theme="light"] .btn-emerald-glow,
-    [data-theme="light"] .btn-primary-glow {
+    [data-theme="light"] .btn-emerald-glow {
       background: #00a868 !important;
       color: #ffffff !important;
       border-color: #00a868 !important;
       box-shadow: 0 2px 8px rgba(0, 168, 104, 0.25) !important;
+    }
+    [data-theme="light"] .btn-primary-glow {
+      background: var(--accent-color, #00a868) !important;
+      color: var(--accent-contrast, #ffffff) !important;
+      border-color: var(--accent-color, #00a868) !important;
+      box-shadow: 0 2px 8px var(--accent-glow, rgba(0, 168, 104, 0.25)) !important;
     }
 
     /* BADGES DE STATUS EM TOM PASTEL SUAVE (PADRÃO BLING / SAAS) */
@@ -1235,13 +1300,13 @@
     }
 
     .btn-primary-glow {
-      background: #00d4ff;
-      color: #031422;
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+      background: var(--accent-color, #00d4ff) !important;
+      color: var(--accent-contrast, #031422) !important;
+      box-shadow: 0 0 15px var(--accent-glow, rgba(0, 212, 255, 0.3)) !important;
     }
 
     .btn-primary-glow:hover {
-      background: #38bdf8;
+      background: var(--accent-hover, #38bdf8) !important;
       transform: translateY(-1px);
     }
 
@@ -5339,6 +5404,11 @@
               <span class="gear-dd-subtext" id="gear-theme-text">Escuro</span>
             </button>
 
+            <button type="button" class="gear-dd-item" onclick="fecharMenuEngrenagem(); abrirModalPersonalizacaoCores();">
+              <span class="gear-dd-left"><span>🎨</span> <span>Cores & Personalização</span></span>
+              <span class="gear-dd-badge" id="gear-accent-badge" style="background: var(--primary); color: var(--accent-contrast, #000); font-weight: 800; font-size: 10px; padding: 2px 7px; border-radius: 5px;">Windows 11</span>
+            </button>
+
             <div class="gear-dd-divider"></div>
 
             <button type="button" class="gear-dd-item" id="btn-gear-configuracoes" onclick="fecharMenuEngrenagem(); trocarModulo('configuracoes', document.getElementById('btn-top-configuracoes'));">
@@ -6514,6 +6584,9 @@
           <button type="button" class="btn-top" id="btn-tab-cfg-whitelabel" onclick="filtrarSecaoConfiguracoes('whitelabel')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
             🎨 White-Label
           </button>
+          <button type="button" class="btn-top" id="btn-tab-cfg-cores" onclick="abrirModalPersonalizacaoCores()" style="padding: 7px 16px; font-size: 12px; font-weight: 700; background: var(--accent-subtle, rgba(0,212,255,0.12)); color: var(--accent-color, #38bdf8); border: 1px solid var(--accent-border, rgba(0,212,255,0.3));">
+            🎨 Cores (Windows 11)
+          </button>
           <button type="button" class="btn-top" id="btn-tab-cfg-rbac" onclick="filtrarSecaoConfiguracoes('rbac')" style="padding: 7px 16px; font-size: 12px; font-weight: 700;">
             👥 Operadores & RBAC
           </button>
@@ -6607,6 +6680,20 @@
             <span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
               Personalização Visual
             </span>
+          </div>
+
+          <!-- ATALHO ESTILO WINDOWS 11: PERSONALIZAÇÃO DE CORES -->
+          <div style="background: linear-gradient(135deg, rgba(0, 120, 212, 0.12), rgba(0, 212, 255, 0.08)); border: 1px solid var(--accent-border, rgba(0, 212, 255, 0.35)); border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 26px;">🎨</span>
+              <div>
+                <strong style="color: #fff; font-size: 13.5px; display: block;">Personalização de Cores (Estilo Windows 11)</strong>
+                <span style="color: var(--text-muted); font-size: 11.5px;">Defina temas (Claro/Escuro/Auto), paleta de 16 cores de destaque e efeitos de transparência.</span>
+              </div>
+            </div>
+            <button type="button" class="btn-top btn-primary-glow" onclick="abrirModalPersonalizacaoCores()" style="font-weight: 800; font-size: 12px; padding: 8px 16px;">
+              <span>🎛️</span> Abrir Painel de Cores
+            </button>
           </div>
 
           <!-- CAMADA 1: PRESET RÁPIDO POR RAMO -->
@@ -10814,6 +10901,174 @@
     </div>
   </div>
 
+  <!-- MODAL DE PERSONALIZAÇÃO DE CORES & APARÊNCIA (ESTILO WINDOWS 11) -->
+  <div class="modal-overlay" id="modal-personalizacao-cores" style="display: none;">
+    <div class="modal-container" style="max-width: 660px; width: 95%; max-height: 92vh; display: flex; flex-direction: column;">
+      <div class="modal-resize-handle" data-modal="modal-personalizacao-cores" title="Arraste para ajustar o tamanho da janela (salvo automaticamente)">◢</div>
+      
+      <!-- CABEÇALHO ESTILO WINDOWS SETTINGS -->
+      <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; background: #111e38;">
+        <div class="modal-title" style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 22px;">🎨</span>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px; font-weight: 800; color: #fff;">Personalização de Cores & Aparência</span>
+              <span style="font-size: 10px; background: var(--accent-subtle, rgba(0, 212, 255, 0.15)); color: var(--accent-color, #38bdf8); border: 1px solid var(--accent-border, rgba(0, 212, 255, 0.35)); padding: 2px 7px; border-radius: 4px; font-weight: 800; letter-spacing: 0.5px;">
+                WINDOWS 11
+              </span>
+            </div>
+            <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">
+              Escolha o tema, a cor de destaque e os efeitos visuais do sistema operacional no ERP
+            </div>
+          </div>
+        </div>
+        <button type="button" class="modal-close" onclick="fecharModalPersonalizacaoCores()" tabindex="-1" style="font-size: 18px; color: var(--text-muted); cursor: pointer; background: none; border: none; transition: color 0.2s;" title="Fechar (Esc)">✕</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;">
+        
+        <!-- PAINEL DE PRÉ-VISUALIZAÇÃO EM TEMPO REAL (LIVE PREVIEW) -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; position: relative; overflow: hidden;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <span style="font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px;">
+              👁️ Pré-visualização ao Vivo
+            </span>
+            <span id="win-preview-color-code" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent-color, #00d4ff); background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--accent-border, rgba(0,212,255,0.25));">
+              #00D4FF
+            </span>
+          </div>
+
+          <!-- MINI SIMULADOR DE UI -->
+          <div id="win-mini-preview" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 14px;">🪵</span>
+                <strong style="font-size: 12px; color: var(--text-main);">Mis Sueños ERP</strong>
+              </div>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <span id="win-prev-badge-id" style="background: var(--accent-subtle, rgba(0,212,255,0.15)); color: var(--accent-color, #00d4ff); border: 1px solid var(--accent-border, rgba(0,212,255,0.3)); font-size: 9.5px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">
+                  PEDIDO #1042
+                </span>
+                <span id="win-prev-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-color, #00d4ff); display: inline-block;"></span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <button type="button" id="win-prev-btn" style="background: var(--accent-color, #00d4ff); color: var(--accent-contrast, #031422); border: none; padding: 6px 14px; border-radius: 6px; font-weight: 800; font-size: 11.5px; cursor: default; box-shadow: 0 2px 10px var(--accent-glow, rgba(0,212,255,0.3)); display: inline-flex; align-items: center; gap: 6px;">
+                <span>💾</span> Salvar Pedido
+              </button>
+
+              <div style="position: relative; display: inline-flex; align-items: center;">
+                <input type="text" id="win-prev-input" readonly value="COURO SOLETA NATURAL" style="background: rgba(0,0,0,0.25); border: 1.5px solid var(--accent-color, #00d4ff); box-shadow: 0 0 0 2px var(--accent-glow, rgba(0,212,255,0.25)); color: var(--text-main); font-size: 11px; padding: 5px 10px; border-radius: 6px; outline: none; width: 170px; font-weight: 600;" aria-label="PREVIEW">
+              </div>
+
+              <label style="display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--text-main); cursor: pointer;">
+                <input type="checkbox" id="win-prev-check" checked style="accent-color: var(--accent-color, #00d4ff); width: 15px; height: 15px;" aria-label="PREVIEW-CHECK">
+                <span>Ativo</span>
+              </label>
+
+              <div id="win-prev-nav" style="background: var(--accent-subtle, rgba(0,212,255,0.14)); color: var(--accent-color, #00d4ff); border-left: 3px solid var(--accent-color, #00d4ff); padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">
+                📦 Estoque
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO 1: MODO DO SISTEMA (CLARO / ESCURO / SISTEMA) -->
+        <div>
+          <label class="form-label" style="font-weight: 800; font-size: 12px; margin-bottom: 8px; display: block;">
+            ☀️ Modo de Exibição do Sistema
+          </label>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <div class="win-mode-card" id="win-mode-card-dark" onclick="selecionarModoTemaWindows('dark')" style="background: #0b1120; border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">🌙</div>
+              <strong style="color: #fff; font-size: 12px; display: block;">Escuro</strong>
+              <span style="font-size: 10px; color: var(--text-muted);">Padrão Mis Sueños</span>
+            </div>
+
+            <div class="win-mode-card" id="win-mode-card-light" onclick="selecionarModoTemaWindows('light')" style="background: #f8fafc; border: 2px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">☀️</div>
+              <strong style="color: #0f172a; font-size: 12px; display: block;">Claro</strong>
+              <span style="font-size: 10px; color: #64748b;">Estilo Corporativo</span>
+            </div>
+
+            <div class="win-mode-card" id="win-mode-card-system" onclick="selecionarModoTemaWindows('system')" style="background: rgba(30, 41, 59, 0.4); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.2s;">
+              <div style="font-size: 20px; margin-bottom: 4px;">💻</div>
+              <strong style="color: #fff; font-size: 12px; display: block;">Automático</strong>
+              <span style="font-size: 10px; color: var(--text-muted);">Conforme o Windows</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO 2: EFEITOS DE TRANSPARÊNCIA (ACRÍLICO WINDOWS 11) -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30, 41, 59, 0.35); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 16px;">
+          <div>
+            <strong style="color: #fff; font-size: 12.5px; display: block;">Efeitos de Transparência (Acrílico)</strong>
+            <span style="font-size: 11px; color: var(--text-muted);">Torna barras de navegação e cabeçalhos translúcidos com desfoque de fundo (*acrylic blur*).</span>
+          </div>
+          <label style="position: relative; display: inline-block; width: 44px; height: 24px; cursor: pointer; margin: 0;">
+            <input type="checkbox" id="win-toggle-transparency" onchange="aoAlternarTransparenciaWindows(this.checked)" style="opacity: 0; width: 0; height: 0;" aria-label="TRANSPARENCY-TOGGLE">
+            <span style="position: absolute; cursor: pointer; inset: 0; background-color: #334155; transition: .3s; border-radius: 24px;" id="win-toggle-transparency-bg"></span>
+            <span style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.4);" id="win-toggle-transparency-knob"></span>
+          </label>
+        </div>
+
+        <!-- SEÇÃO 3: GRADE DE CORES DE DESTAQUE DO WINDOWS 11 -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <label class="form-label" style="font-weight: 800; font-size: 12px; margin: 0; display: block;">
+                🎨 Cores de Destaque do Windows (*Accent Colors*)
+              </label>
+              <span style="font-size: 11px; color: var(--text-muted);">Selecione uma das 16 cores calibradas oficiais ou crie a sua personalizada:</span>
+            </div>
+            <span id="win-accent-name-label" style="font-size: 11.5px; font-weight: 700; color: var(--accent-color, #00d4ff);">
+              Ciano Tech (Mis Sueños)
+            </span>
+          </div>
+
+          <!-- GRADE 8x2 / 4x4 DAS CORES -->
+          <div id="win-color-palette-grid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; margin-bottom: 14px;">
+            <!-- Preenchido via JavaScript -->
+          </div>
+
+          <!-- SELETOR DE COR LIVRE PERSONALIZADA -->
+          <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <input type="color" id="win-custom-color-picker" oninput="aoSelecionarCorCustomizadaWindows(this.value)" value="#00d4ff" style="width: 36px; height: 36px; border: none; border-radius: 6px; cursor: pointer; background: transparent; padding: 0;" aria-label="CUSTOM-COLOR-PICKER">
+              <div>
+                <strong style="color: #fff; font-size: 12px; display: block;">Cor Personalizada</strong>
+                <span style="font-size: 10.5px; color: var(--text-muted);">Escolha qualquer tom na roda de cores</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 6px; margin-left: auto;">
+              <span style="font-size: 11px; font-weight: 700; color: var(--text-muted);">HEX:</span>
+              <input type="text" id="win-custom-color-hex" maxlength="7" value="#00D4FF" oninput="aoDigitarHexCustomizadoWindows(this.value)" style="width: 90px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; padding: 6px 8px; text-align: center; background: rgba(15,23,42,0.8); border: 1px solid var(--border-color); border-radius: 6px; color: var(--accent-color, #00d4ff);" aria-label="CUSTOM-HEX">
+              <button type="button" class="btn-top btn-row-action" onclick="restaurarPadraoAparenciaWindows()" style="font-size: 11.5px; padding: 6px 12px;" title="Voltar ao Ciano Tech oficial">
+                ↺ Restaurar Padrão
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RODAPÉ DO MODAL -->
+      <div class="modal-footer" style="padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); background: #0b1324; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+        <div style="font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+          <span>💡</span> Preferências salvas automaticamente no navegador do operador.
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-top btn-row-action" onclick="fecharModalPersonalizacaoCores()">Fechar</button>
+          <button type="button" class="btn-top btn-primary-glow" onclick="salvarEFecharPersonalizacaoCores()" style="font-weight: 800; font-size: 12px; padding: 7px 18px;">
+            <span>💾</span> Salvar & Aplicar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MENU DE CONTEXTO FLUTUANTE (AÇÕES RÁPIDAS ⋮) -->
   <div id="erp-context-menu" class="erp-context-menu" style="display: none;"></div>
 
@@ -12574,6 +12829,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         if (typeof fecharModalBom === 'function') fecharModalBom();
         if (typeof fecharModalProducao === 'function') fecharModalProducao();
         if (typeof fecharModalLotes === 'function') fecharModalLotes();
+        if (typeof fecharModalPersonalizacaoCores === 'function') fecharModalPersonalizacaoCores();
       }
     });
 
@@ -17814,16 +18070,281 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     
+    // =========================================================================
+    // SISTEMA DE PERSONALIZAÇÃO DE CORES & APARÊNCIA ESTILO WINDOWS 11
+    // =========================================================================
+    const PALETA_CORES_WINDOWS = [
+      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078d4' },
+      { id: 'cyan-tech', nome: 'Ciano Tech (Mis Sueños)', hex: '#00d4ff' },
+      { id: 'mint', nome: 'Menta Fresca', hex: '#00b294' },
+      { id: 'emerald', nome: 'Esmeralda', hex: '#10b981' },
+      { id: 'jungle', nome: 'Verde Selva', hex: '#00a868' },
+      { id: 'lime', nome: 'Verde Cítrico', hex: '#84cc16' },
+      { id: 'amber', nome: 'Âmbar Solar', hex: '#f59e0b' },
+      { id: 'orange', nome: 'Laranja Pôr do Sol', hex: '#f97316' },
+      { id: 'leather', nome: 'Couro Nobre (Mis Sueños)', hex: '#b45309' },
+      { id: 'crimson', nome: 'Rubro Carmim', hex: '#ef4444' },
+      { id: 'orchid', nome: 'Rosa Orquídea', hex: '#ec4899' },
+      { id: 'purple', nome: 'Púrpura Real', hex: '#8b5cf6' },
+      { id: 'indigo', nome: 'Índigo Profundo', hex: '#6366f1' },
+      { id: 'cobalt', nome: 'Azul Cobalto', hex: '#0284c7' },
+      { id: 'titanium', nome: 'Cinza Titânio', hex: '#64748b' },
+      { id: 'gold', nome: 'Dourado Nobre', hex: '#eab308' }
+    ];
+
+    let corDestaqueAtiva = '#00d4ff';
+
+    function hexParaRgbWindows(hex) {
+      let c = (hex || '#00d4ff').replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const num = parseInt(c, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function calcularContrasteTextoWindows(hex) {
+      const { r, g, b } = hexParaRgbWindows(hex);
+      const a = [r / 255, g / 255, b / 255].map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+      const lum = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+      return lum > 0.45 ? '#031422' : '#ffffff';
+    }
+
+    function clarearOuEscurecerHexWindows(hex, percent) {
+      const rgb = hexParaRgbWindows(hex);
+      const factor = percent / 100;
+      const r = Math.min(255, Math.max(0, Math.round(rgb.r + (percent > 0 ? (255 - rgb.r) * factor : rgb.r * factor))));
+      const g = Math.min(255, Math.max(0, Math.round(rgb.g + (percent > 0 ? (255 - rgb.g) * factor : rgb.g * factor))));
+      const b = Math.min(255, Math.max(0, Math.round(rgb.b + (percent > 0 ? (255 - rgb.b) * factor : rgb.b * factor))));
+      return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+
+    function aplicarCorDestaqueWindows(hex, salvar = true) {
+      if (!hex) return;
+      corDestaqueAtiva = hex.toLowerCase();
+      const rgb = hexParaRgbWindows(hex);
+      const contrast = calcularContrasteTextoWindows(hex);
+      const hover = clarearOuEscurecerHexWindows(hex, 14);
+
+      const root = document.documentElement;
+      root.style.setProperty('--accent-color', hex);
+      root.style.setProperty('--accent-hover', hover);
+      root.style.setProperty('--accent-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`);
+      root.style.setProperty('--accent-subtle', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.14)`);
+      root.style.setProperty('--accent-border', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`);
+      root.style.setProperty('--border-active', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.45)`);
+      root.style.setProperty('--accent-contrast', contrast);
+      root.style.setProperty('--primary', hex);
+      root.style.setProperty('--primary-hover', hover);
+      root.style.setProperty('--primary-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`);
+
+      if (salvar) {
+        try { localStorage.setItem('missuenos_accent_color', hex); } catch(e) {}
+      }
+
+      atualizarLivePreviewCoresWindows(hex, contrast);
+      atualizarControlesModalCoresWindows(hex);
+    }
+
+    function atualizarLivePreviewCoresWindows(hex, contrast) {
+      const codeEl = document.getElementById('win-preview-color-code');
+      const badgeEl = document.getElementById('win-prev-badge-id');
+      const dotEl = document.getElementById('win-prev-dot');
+      const btnEl = document.getElementById('win-prev-btn');
+      const inputEl = document.getElementById('win-prev-input');
+      const checkEl = document.getElementById('win-prev-check');
+      const navEl = document.getElementById('win-prev-nav');
+      const nameLabel = document.getElementById('win-accent-name-label');
+
+      if (codeEl) codeEl.textContent = hex.toUpperCase();
+      if (dotEl) dotEl.style.backgroundColor = hex;
+      if (btnEl) {
+        btnEl.style.backgroundColor = hex;
+        btnEl.style.color = contrast;
+      }
+      if (inputEl) {
+        inputEl.style.borderColor = hex;
+      }
+      if (checkEl) checkEl.style.accentColor = hex;
+      if (navEl) {
+        navEl.style.borderLeftColor = hex;
+        navEl.style.color = hex;
+      }
+      if (badgeEl) {
+        badgeEl.style.color = hex;
+      }
+
+      if (nameLabel) {
+        const item = PALETA_CORES_WINDOWS.find(p => p.hex.toLowerCase() === hex.toLowerCase());
+        nameLabel.textContent = item ? item.nome : 'Cor Personalizada';
+        nameLabel.style.color = hex;
+      }
+
+      const gearBadge = document.getElementById('gear-accent-badge');
+      if (gearBadge) {
+        gearBadge.style.backgroundColor = hex;
+        gearBadge.style.color = contrast;
+      }
+    }
+
+    function atualizarControlesModalCoresWindows(hex) {
+      const picker = document.getElementById('win-custom-color-picker');
+      const hexInput = document.getElementById('win-custom-color-hex');
+      if (picker) picker.value = hex;
+      if (hexInput) hexInput.value = hex.toUpperCase();
+
+      document.querySelectorAll('.win-swatch-item').forEach(swatch => {
+        const swHex = swatch.getAttribute('data-hex');
+        if (swHex && swHex.toLowerCase() === hex.toLowerCase()) {
+          swatch.style.borderColor = '#ffffff';
+          swatch.style.boxShadow = `0 0 0 3px ${hex}, 0 4px 12px rgba(0,0,0,0.4)`;
+          swatch.innerHTML = '<span style="font-weight: 800; font-size: 14px;">✓</span>';
+        } else {
+          swatch.style.borderColor = 'transparent';
+          swatch.style.boxShadow = 'none';
+          swatch.innerHTML = '';
+        }
+      });
+    }
+
+    function selecionarModoTemaWindows(modo, salvar = true) {
+      const root = document.documentElement;
+      let efetivo = modo;
+      if (modo === 'system') {
+        const prefEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        efetivo = prefEscuro ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme', efetivo);
+
+      if (salvar) {
+        try { localStorage.setItem('missuenos_theme', modo); } catch(e) {}
+      }
+
+      atualizarBotoesTema(efetivo);
+
+      ['dark', 'light', 'system'].forEach(m => {
+        const card = document.getElementById(`win-mode-card-${m}`);
+        if (card) {
+          if (m === modo) {
+            card.style.borderColor = 'var(--accent-color, #00d4ff)';
+            card.style.background = m === 'dark' ? 'rgba(0, 212, 255, 0.12)' : (m === 'light' ? 'rgba(0, 168, 104, 0.12)' : 'rgba(168, 85, 247, 0.12)');
+          } else {
+            card.style.borderColor = 'rgba(255,255,255,0.1)';
+            card.style.background = m === 'dark' ? '#0b1120' : (m === 'light' ? '#f8fafc' : 'rgba(30, 41, 59, 0.4)');
+          }
+        }
+      });
+    }
+
+    function aoAlternarTransparenciaWindows(ativo, salvar = true) {
+      document.documentElement.setAttribute('data-transparency', ativo ? 'true' : 'false');
+      if (salvar) {
+        try { localStorage.setItem('missuenos_transparency', ativo ? 'true' : 'false'); } catch(e) {}
+      }
+      const knob = document.getElementById('win-toggle-transparency-knob');
+      const bg = document.getElementById('win-toggle-transparency-bg');
+      if (knob && bg) {
+        if (ativo) {
+          bg.style.backgroundColor = 'var(--accent-color, #00d4ff)';
+          knob.style.transform = 'translateX(20px)';
+        } else {
+          bg.style.backgroundColor = '#334155';
+          knob.style.transform = 'translateX(0)';
+        }
+      }
+    }
+
+    function aoSelecionarCorCustomizadaWindows(hex) {
+      aplicarCorDestaqueWindows(hex, true);
+    }
+
+    function aoDigitarHexCustomizadoWindows(val) {
+      if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+        aplicarCorDestaqueWindows(val, true);
+      }
+    }
+
+    function restaurarPadraoAparenciaWindows() {
+      selecionarModoTemaWindows('dark', true);
+      aplicarCorDestaqueWindows('#00d4ff', true);
+      aoAlternarTransparenciaWindows(true, true);
+      const chk = document.getElementById('win-toggle-transparency');
+      if (chk) chk.checked = true;
+      mostrarToast('↺ Padrão Oficial do Mis Sueños restaurado com sucesso!');
+    }
+
+    function renderizarPaletaCoresModalWindows() {
+      const container = document.getElementById('win-color-palette-grid');
+      if (!container) return;
+      container.innerHTML = '';
+
+      PALETA_CORES_WINDOWS.forEach(cor => {
+        const contrast = calcularContrasteTextoWindows(cor.hex);
+        const isActive = cor.hex.toLowerCase() === corDestaqueAtiva.toLowerCase();
+
+        const swatch = document.createElement('div');
+        swatch.className = 'win-swatch-item';
+        swatch.setAttribute('data-hex', cor.hex);
+        swatch.title = `${cor.nome} (${cor.hex.toUpperCase()})`;
+        swatch.style.height = '42px';
+        swatch.style.borderRadius = '8px';
+        swatch.style.backgroundColor = cor.hex;
+        swatch.style.color = contrast;
+        swatch.style.cursor = 'pointer';
+        swatch.style.display = 'flex';
+        swatch.style.alignItems = 'center';
+        swatch.style.justifyContent = 'center';
+        swatch.style.border = isActive ? '2px solid #ffffff' : '2px solid transparent';
+        swatch.style.boxShadow = isActive ? `0 0 0 3px ${cor.hex}, 0 4px 12px rgba(0,0,0,0.4)` : 'none';
+        swatch.style.transition = 'transform 0.18s ease, box-shadow 0.18s ease';
+        if (isActive) {
+          swatch.innerHTML = '<span style="font-weight: 800; font-size: 14px;">✓</span>';
+        }
+
+        swatch.onmouseenter = () => swatch.style.transform = 'scale(1.1)';
+        swatch.onmouseleave = () => swatch.style.transform = 'scale(1)';
+        swatch.onclick = () => aplicarCorDestaqueWindows(cor.hex, true);
+
+        container.appendChild(swatch);
+      });
+    }
+
+    function abrirModalPersonalizacaoCores() {
+      const modal = document.getElementById('modal-personalizacao-cores');
+      if (!modal) return;
+
+      renderizarPaletaCoresModalWindows();
+
+      const modoSalvo = localStorage.getItem('missuenos_theme') || 'dark';
+      selecionarModoTemaWindows(modoSalvo, false);
+
+      const corSalva = localStorage.getItem('missuenos_accent_color') || '#00d4ff';
+      aplicarCorDestaqueWindows(corSalva, false);
+
+      const transpSalva = localStorage.getItem('missuenos_transparency') !== 'false';
+      const chkTransp = document.getElementById('win-toggle-transparency');
+      if (chkTransp) chkTransp.checked = transpSalva;
+      aoAlternarTransparenciaWindows(transpSalva, false);
+
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('active'), 10);
+    }
+
+    function fecharModalPersonalizacaoCores() {
+      const modal = document.getElementById('modal-personalizacao-cores');
+      if (!modal) return;
+      modal.classList.remove('active');
+      setTimeout(() => modal.style.display = 'none', 200);
+    }
+
+    function salvarEFecharPersonalizacaoCores() {
+      mostrarToast('💾 Preferências de aparência salvas com sucesso!');
+      fecharModalPersonalizacaoCores();
+    }
+
     // GERENCIAMENTO DE TEMA VISUAL: CLARO CORPORATIVO (BLING) / ESCURO (MIS SUEÑOS)
     function alternarTemaVisual() {
       const atual = document.documentElement.getAttribute('data-theme') || 'dark';
       const novo = atual === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', novo);
-      try {
-        localStorage.setItem('missuenos_theme', novo);
-      } catch(e) {}
-
-      atualizarBotoesTema(novo);
+      selecionarModoTemaWindows(novo, true);
       mostrarToast(novo === 'light' ? '☀️ Modo Claro Corporativo ativado (Estilo Bling/SaaS)' : '🌙 Modo Escuro ativado (Mis Sueños Tech)');
     }
 
@@ -17835,9 +18356,22 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     }
 
     function inicializarTemaVisual() {
-      const salvo = localStorage.getItem('missuenos_theme') || 'dark';
-      document.documentElement.setAttribute('data-theme', salvo);
-      atualizarBotoesTema(salvo);
+      const modo = localStorage.getItem('missuenos_theme') || 'dark';
+      selecionarModoTemaWindows(modo, false);
+
+      const cor = localStorage.getItem('missuenos_accent_color') || '#00d4ff';
+      aplicarCorDestaqueWindows(cor, false);
+
+      const transp = localStorage.getItem('missuenos_transparency') !== 'false';
+      aoAlternarTransparenciaWindows(transp, false);
+
+      if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+          if (localStorage.getItem('missuenos_theme') === 'system') {
+            selecionarModoTemaWindows('system', false);
+          }
+        });
+      }
     }
 
     function aplicarConfiguracaoApp() {
@@ -27349,6 +27883,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
     // Configura os ouvintes das caixinhas de PIN ao inicializar
     document.addEventListener('DOMContentLoaded', () => {
+      inicializarTemaVisual();
       consultarTamanhoPinOperador();
       atualizarCardsConfigSeguranca();
     });

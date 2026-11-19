@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Demonstração: Personalização de Cores Estilo Windows 11 | Mis Sueños ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent-color: #00d4ff;
+      --accent-hover: #38bdf8;
+      --accent-glow: rgba(0, 212, 255, 0.28);
+      --accent-subtle: rgba(0, 212, 255, 0.14);
+      --accent-border: rgba(0, 212, 255, 0.35);
+      --accent-contrast: #031422;
+
+      --bg-page: #060911;
+      --bg-card: #0b1120;
+      --bg-card-subtle: #111a2f;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+
+      --transparency: 1;
+    }
+
+    [data-theme="light"] {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-subtle: #f8fafc;
+      --border-color: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 24px 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    ::selection {
+      background-color: var(--accent-color);
+      color: var(--accent-contrast);
+    }
+
+    .container {
+      max-width: 1080px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .header-box {
+      text-align: center;
+      padding: 10px 0 16px 0;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      background: var(--accent-subtle);
+      color: var(--accent-color);
+      border: 1px solid var(--accent-border);
+      margin-bottom: 12px;
+      transition: all 0.2s;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* GRID PRINCIPAL: PAINEL DE CONTROLE À ESQUERDA, SIMULADOR ERP À DIREITA */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .showcase-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* MODO DE EXIBIÇÃO CARDS */
+    .mode-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mode-btn {
+      background: var(--bg-card-subtle);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mode-btn:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    .mode-btn.active {
+      border-color: var(--accent-color);
+      background: var(--accent-subtle);
+    }
+
+    .mode-btn.active strong {
+      color: var(--accent-color);
+    }
+
+    /* PALETA WINDOWS 11 */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .color-swatch {
+      height: 48px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      position: relative;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.08);
+      z-index: 2;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .color-swatch.active {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 3px var(--accent-color), 0 4px 16px rgba(0, 0, 0, 0.5);
+      transform: scale(1.04);
+    }
+
+    .color-swatch .check-mark {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: all 0.18s ease;
+    }
+
+    .color-swatch.active .check-mark {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* CONTROLE DE COR CUSTOMIZADA */
+    .custom-color-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+    }
+
+    .color-picker-input {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+    }
+
+    .hex-input {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--accent-color);
+      width: 100px;
+      text-align: center;
+      outline: none;
+    }
+
+    .hex-input:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    /* TOGGLE TRANSPARÊNCIA */
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background-color: #334155;
+      transition: .3s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-color);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* SIMULADOR DO ERP MIS SUEÑOS */
+    .simulator-window {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-topbar {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-subtle);
+    }
+
+    .sim-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sim-btn-primary {
+      background: var(--accent-color);
+      color: var(--accent-contrast);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px var(--accent-glow);
+      transition: all 0.2s;
+    }
+
+    .sim-btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .sim-input {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--accent-color);
+      background: var(--bg-card-subtle);
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .sim-nav-item {
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--accent-subtle);
+      color: var(--accent-color);
+      border-left: 3px solid var(--accent-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sim-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .sim-table th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .sim-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sim-table tr.selected td {
+      background: var(--accent-subtle);
+      font-weight: 700;
+    }
+
+    .sim-kpi-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sim-kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-box">
+      <span class="badge-pill">
+        <span>🎨</span> Sistema de Cores Windows 11 no ERP Mis Sueños
+      </span>
+      <h1 class="title">Personalização de Cores & Aparência</h1>
+      <p class="subtitle">
+        Teste a qualquer momento as 16 cores calibradas oficiais do Windows, modo claro ou escuro e seletor de tom personalizado com cálculo automático de contraste WCAG.
+      </p>
+    </div>
+
+    <div class="showcase-grid">
+      <!-- PAINEL DE CONTROLE (ESTILO WINDOWS SETTINGS) -->
+      <div class="card">
+        <!-- SEÇÃO 1: MODO DO SISTEMA -->
+        <div class="section-title">
+          <span>☀️ Modo de Exibição</span>
+          <span id="label-modo-atual" style="color: var(--accent-color); font-weight: 700;">ESCURO</span>
+        </div>
+        <div class="mode-selector">
+          <button type="button" class="mode-btn active" id="btn-mode-dark" onclick="definirTema('dark')">
+            <span style="font-size: 20px;">🌙</span>
+            <strong style="font-size: 12px;">Escuro</strong>
+            <span style="font-size: 10px; color: var(--text-muted);">Tech</span>
+          </button>
+          <button type="button" class="mode-btn" id="btn-mode-light" onclick="definirTema('light')">
+            <span style="font-size: 20px;">☀️</span>
+            <strong style="font-size: 12px;">Claro</strong>
+            <span style="font-size: 10px; color: var(--text-muted);">Bling</span>
+          </button>
+          <button type="button" class="mode-btn" id="btn-mode-system" onclick="definirTema('system')">
+            <span style="font-size: 20px;">💻</span>
+            <strong style="font-size: 12px;">Auto</strong>
+            <span style="font-size: 10px; color: var(--text-muted);">Windows</span>
+          </button>
+        </div>
+
+        <!-- SEÇÃO 2: PALETA DE CORES WINDOWS 11 -->
+        <div class="section-title">
+          <span>🎨 Cor de Destaque (*Accent*)</span>
+          <span id="label-cor-nome" style="color: var(--accent-color); font-weight: 700;">CIANO TECH</span>
+        </div>
+        <div class="palette-grid" id="palette-grid">
+          <!-- Injetado via JS -->
+        </div>
+
+        <!-- SEÇÃO 3: COR PERSONALIZADA -->
+        <div class="section-title">
+          <span>🎯 Cor Personalizada Livre</span>
+        </div>
+        <div class="custom-color-row">
+          <input type="color" id="picker-custom" class="color-picker-input" value="#00d4ff" oninput="selecionarCorCustomizada(this.value)" aria-label="COLOR-PICKER">
+          <div>
+            <strong style="font-size: 12px; color: var(--text-main); display: block;">Seletor Hexadecimal</strong>
+            <span style="font-size: 11px; color: var(--text-muted);">Defina qualquer tom corporativo</span>
+          </div>
+          <div style="margin-left: auto;">
+            <input type="text" id="hex-custom" class="hex-input" value="#00D4FF" maxlength="7" oninput="digitarHex(this.value)" aria-label="HEX-CODE">
+          </div>
+        </div>
+
+        <!-- SEÇÃO 4: TRANSPARÊNCIA -->
+        <div class="toggle-row">
+          <div>
+            <strong style="font-size: 12px; color: var(--text-main); display: block;">Efeitos de Transparência</strong>
+            <span style="font-size: 11px; color: var(--text-muted);">Acrílico com desfoque de fundo</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="check-transparency" checked onchange="toggleTransparencia(this.checked)" aria-label="TRANSPARENCY">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div style="margin-top: 18px; text-align: center;">
+          <button type="button" onclick="restaurarPadrao()" style="background: none; border: none; color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: underline;">
+            ↺ Restaurar Padrão Oficial do Mis Sueños
+          </button>
+        </div>
+      </div>
+
+      <!-- SIMULADOR INTERATIVO DO ERP MIS SUEÑOS -->
+      <div class="simulator-window">
+        <!-- TOPBAR SIMULADA -->
+        <div class="sim-topbar">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 18px;">🪵</span>
+            <div>
+              <strong style="font-size: 13px; color: var(--text-main);">Mis Sueños ERP</strong>
+              <span style="font-size: 11px; color: var(--text-muted); display: block;">Couros, Peles & Artigos de Selaria</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 11px; font-weight: 800; background: var(--accent-subtle); color: var(--accent-color); border: 1px solid var(--accent-border); padding: 3px 10px; border-radius: 9999px;">
+              🟢 ONLINE
+            </span>
+            <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--accent-color); color: var(--accent-contrast); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">
+              MS
+            </div>
+          </div>
+        </div>
+
+        <!-- CORPO DO SIMULADOR -->
+        <div class="sim-body">
+          <!-- CARDS DE KPIS -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            <div class="sim-kpi-card">
+              <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Faturamento Mensal</span>
+              <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">R$ 48.750,00</strong>
+            </div>
+            <div class="sim-kpi-card">
+              <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Pedidos do Mês</span>
+              <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-color);">142 Pedidos</strong>
+            </div>
+            <div class="sim-kpi-card">
+              <span style="font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Itens em Estoque</span>
+              <strong style="font-size: 16px; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">1.840 UN</strong>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO COM DESTAQUE EM FOCO -->
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 200px;">
+              <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">Campo com Anel de Foco:</label>
+              <input type="text" class="sim-input" value="COURO SOLETA NATURAL 3.5MM" aria-label="SIM-INPUT">
+            </div>
+            <div style="display: flex; gap: 10px; align-items: flex-end;">
+              <button type="button" class="sim-btn-primary">
+                <span>💾</span> Salvar Pedido
+              </button>
+            </div>
+          </div>
+
+          <!-- ELEMENTOS DE NAVEGAÇÃO E TABELA -->
+          <div style="display: grid; grid-template-columns: 180px 1fr; gap: 14px;">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div class="sim-nav-item">
+                <span>📦</span> Catálogo & Estoque
+              </div>
+              <div style="padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
+                <span>🚚</span> Pedidos & Vendas
+              </div>
+              <div style="padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted); cursor: pointer;">
+                <span>👥</span> Clientes & CRM
+              </div>
+            </div>
+
+            <!-- MINI TABELA COM LINHA SELECIONADA -->
+            <div style="background: var(--bg-card-subtle); border-radius: 8px; border: 1px solid var(--border-color); padding: 10px; overflow-x: auto;">
+              <table class="sim-table">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Descrição do Item</th>
+                    <th>Qtd</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="selected">
+                    <td style="font-family: 'JetBrains Mono', monospace; color: var(--accent-color);">#PED-1042</td>
+                    <td>PELE BOVINA COM PELO EXPORTAÇÃO</td>
+                    <td>1 UN</td>
+                    <td style="font-family: 'JetBrains Mono', monospace;">R$ 480,00</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: 'JetBrains Mono', monospace;">#PED-1041</td>
+                    <td>TENTO DE COURO CRU TRANÇADO 10M</td>
+                    <td>3 RL</td>
+                    <td style="font-family: 'JetBrains Mono', monospace;">R$ 135,00</td>
+                  </tr>
+                  <tr>
+                    <td style="font-family: 'JetBrains Mono', monospace;">#PED-1040</td>
+                    <td>COURO VAQUETA MESTIÇO PRETO</td>
+                    <td>2 M²</td>
+                    <td style="font-family: 'JetBrains Mono', monospace;">R$ 290,00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- CONTROLES NATIVOS ACENTUADOS -->
+          <div style="display: flex; gap: 18px; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px; font-size: 12px;">
+            <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" checked style="accent-color: var(--accent-color); width: 16px; height: 16px;" aria-label="CHECK-1">
+              <span>Emissão Fiscal Automática</span>
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="radio" checked name="sim-radio" style="accent-color: var(--accent-color); width: 16px; height: 16px;" aria-label="RADIO-1">
+              <span>NF-e Modelo 55</span>
+            </label>
+            <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="radio" name="sim-radio" style="accent-color: var(--accent-color); width: 16px; height: 16px;" aria-label="RADIO-2">
+              <span>NFS-e de Serviços</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PALETA_WINDOWS = [
+      { id: 'win-blue', nome: 'Azul Windows', hex: '#0078d4' },
+      { id: 'cyan-tech', nome: 'Ciano Tech (Mis Sueños)', hex: '#00d4ff' },
+      { id: 'mint', nome: 'Menta Fresca', hex: '#00b294' },
+      { id: 'emerald', nome: 'Esmeralda', hex: '#10b981' },
+      { id: 'jungle', nome: 'Verde Selva', hex: '#00a868' },
+      { id: 'lime', nome: 'Verde Cítrico', hex: '#84cc16' },
+      { id: 'amber', nome: 'Âmbar Solar', hex: '#f59e0b' },
+      { id: 'orange', nome: 'Laranja Pôr do Sol', hex: '#f97316' },
+      { id: 'leather', nome: 'Couro Nobre (Mis Sueños)', hex: '#b45309' },
+      { id: 'crimson', nome: 'Rubro Carmim', hex: '#ef4444' },
+      { id: 'orchid', nome: 'Rosa Orquídea', hex: '#ec4899' },
+      { id: 'purple', nome: 'Púrpura Real', hex: '#8b5cf6' },
+      { id: 'indigo', nome: 'Índigo Profundo', hex: '#6366f1' },
+      { id: 'cobalt', nome: 'Azul Cobalto', hex: '#0284c7' },
+      { id: 'titanium', nome: 'Cinza Titânio', hex: '#64748b' },
+      { id: 'gold', nome: 'Dourado Nobre', hex: '#eab308' }
+    ];
+
+    let corAtiva = '#00d4ff';
+
+    function hexParaRgb(hex) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const num = parseInt(c, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function calcularContrasteTexto(hex) {
+      const { r, g, b } = hexParaRgb(hex);
+      const a = [r / 255, g / 255, b / 255].map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+      const lum = 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+      return lum > 0.45 ? '#031422' : '#ffffff';
+    }
+
+    function clarearOuEscurecerHex(hex, percent) {
+      const rgb = hexParaRgb(hex);
+      const factor = percent / 100;
+      const r = Math.min(255, Math.max(0, Math.round(rgb.r + (percent > 0 ? (255 - rgb.r) * factor : rgb.r * factor))));
+      const g = Math.min(255, Math.max(0, Math.round(rgb.g + (percent > 0 ? (255 - rgb.g) * factor : rgb.g * factor))));
+      const b = Math.min(255, Math.max(0, Math.round(rgb.b + (percent > 0 ? (255 - rgb.b) * factor : rgb.b * factor))));
+      return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    }
+
+    function aplicarCor(hex, nome = null) {
+      corAtiva = hex.toLowerCase();
+      const rgb = hexParaRgb(hex);
+      const contrast = calcularContrasteTexto(hex);
+      const hover = clarearOuEscurecerHex(hex, 14);
+
+      const root = document.documentElement;
+      root.style.setProperty('--accent-color', hex);
+      root.style.setProperty('--accent-hover', hover);
+      root.style.setProperty('--accent-glow', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.28)`);
+      root.style.setProperty('--accent-subtle', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.14)`);
+      root.style.setProperty('--accent-border', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.35)`);
+      root.style.setProperty('--accent-contrast', contrast);
+
+      // Atualiza inputs e labels
+      document.getElementById('picker-custom').value = hex;
+      document.getElementById('hex-custom').value = hex.toUpperCase();
+
+      const item = PALETA_WINDOWS.find(p => p.hex.toLowerCase() === corAtiva);
+      document.getElementById('label-cor-nome').textContent = (item ? item.nome : 'PERSONALIZADA').toUpperCase();
+
+      renderizarPaleta();
+    }
+
+    function selecionarCorCustomizada(hex) {
+      aplicarCor(hex, 'Personalizada');
+    }
+
+    function digitarHex(val) {
+      if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+        aplicarCor(val, 'Personalizada');
+      }
+    }
+
+    function definirTema(tema) {
+      const root = document.documentElement;
+      ['btn-mode-dark', 'btn-mode-light', 'btn-mode-system'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+
+      if (tema === 'system') {
+        document.getElementById('btn-mode-system').classList.add('active');
+        const prefEscuro = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        root.setAttribute('data-theme', prefEscuro ? 'dark' : 'light');
+        document.getElementById('label-modo-atual').textContent = 'AUTO (' + (prefEscuro ? 'ESCURO' : 'CLARO') + ')';
+      } else {
+        document.getElementById(`btn-mode-${tema}`).classList.add('active');
+        root.setAttribute('data-theme', tema);
+        document.getElementById('label-modo-atual').textContent = tema.toUpperCase();
+      }
+    }
+
+    function toggleTransparencia(ativo) {
+      document.documentElement.style.setProperty('--transparency', ativo ? '1' : '0');
+    }
+
+    function restaurarPadrao() {
+      definirTema('dark');
+      aplicarCor('#00d4ff', 'Ciano Tech (Mis Sueños)');
+      document.getElementById('check-transparency').checked = true;
+      toggleTransparencia(true);
+    }
+
+    function renderizarPaleta() {
+      const container = document.getElementById('palette-grid');
+      container.innerHTML = '';
+
+      PALETA_WINDOWS.forEach(cor => {
+        const isActive = cor.hex.toLowerCase() === corAtiva;
+        const contrast = calcularContrasteTexto(cor.hex);
+
+        const el = document.createElement('div');
+        el.className = `color-swatch ${isActive ? 'active' : ''}`;
+        el.style.backgroundColor = cor.hex;
+        el.style.color = contrast;
+        el.title = `${cor.nome} (${cor.hex.toUpperCase()})`;
+        el.onclick = () => aplicarCor(cor.hex, cor.nome);
+
+        el.innerHTML = `<span class="check-mark">✓</span>`;
+        container.appendChild(el);
+      });
+    }
+
+    // Inicialização
+    renderizarPaleta();
+    aplicarCor('#00d4ff');
+  </script>
+</body>
+</html>
