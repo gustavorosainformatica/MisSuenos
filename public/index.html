@@ -11046,6 +11046,35 @@
 
       <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px;">
         
+        <!-- BANNER EXCLUSIVO: TEMA OFICIAL DA MARCA MIS SUEÑOS (CORES DO LOGO) -->
+        <div style="background: radial-gradient(circle at 10% 20%, rgba(229,161,112,0.22), rgba(26,17,12,0.95)), #18110c; border: 1.5px solid rgba(229,161,112,0.45); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <img src="logo_missuenos.jpg" alt="Logo Mis Sueños" style="width: 46px; height: 46px; border-radius: 50%; border: 2px solid #E5A170; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,0.6); flex-shrink: 0;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <strong style="color: #ffffff; font-size: 14px; letter-spacing: 0.3px;">Tema Oficial Mis Sueños</strong>
+                <span style="background: rgba(229,161,112,0.25); color: #E5A170; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(229,161,112,0.5); letter-spacing: 0.5px;">
+                  CORES DO LOGO
+                </span>
+              </div>
+              <div style="font-size: 11.5px; color: #bdaea2; margin-top: 3px;">
+                Cobre Rústico, Âmbar Soleta e superfícies nobres em couro café legítimo.
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn-top" onclick="aplicarTemaOficialLogoMisSuenos('cobre')" style="background: #E5A170; color: #160F0A; font-weight: 800; font-size: 11.5px; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(229,161,112,0.35);">
+              <span>🪵</span> Cobre do Logo (#E5A170)
+            </button>
+            <button type="button" class="btn-top" onclick="aplicarTemaOficialLogoMisSuenos('ambar')" style="background: rgba(217,138,91,0.2); color: #D98A5B; border: 1px solid rgba(217,138,91,0.45); font-weight: 800; font-size: 11px; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              🐂 Soleta Âmbar
+            </button>
+            <button type="button" class="btn-top" onclick="aplicarTemaOficialLogoMisSuenos('camurca')" style="background: rgba(212,163,115,0.2); color: #D4A373; border: 1px solid rgba(212,163,115,0.45); font-weight: 800; font-size: 11px; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              ✨ Camurça Ouro
+            </button>
+          </div>
+        </div>
+
         <!-- PAINEL DE PRÉ-VISUALIZAÇÃO EM TEMPO REAL (LIVE PREVIEW) -->
         <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 18px; position: relative; overflow: hidden;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -18290,7 +18319,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       { id: 'win-earth-brown', nome: 'Marrom Terra', hex: '#7E735F' }
     ];
 
-    let coresRecentesWindows = ['#0078D7', '#00B7C3', '#4C4A48', '#E81123', '#EA005E'];
+    let coresRecentesWindows = ['#E5A170', '#D98A5B', '#0078D7', '#4C4A48', '#10893E'];
     try {
       const recSalvo = localStorage.getItem('missuenos_recent_colors') || localStorage.getItem('erp_recent_colors');
       if (recSalvo) coresRecentesWindows = JSON.parse(recSalvo);
@@ -18681,14 +18710,25 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
-    function restaurarPadraoAparenciaWindows() {
+    function aplicarTemaOficialLogoMisSuenos(variacao = 'cobre') {
+      const coresMarca = {
+        cobre: { hex: '#E5A170', nome: 'Cobre Rústico (Logo Mis Sueños)' },
+        ambar: { hex: '#D98A5B', nome: 'Âmbar Soleta (Mis Sueños)' },
+        camurca: { hex: '#D4A373', nome: 'Camurça Ouro (Mis Sueños)' }
+      };
+      const sel = coresMarca[variacao] || coresMarca.cobre;
       selecionarModoTemaWindows('dark', true);
-      aplicarCorDestaqueWindows('#00d4ff', true);
       selecionarEstiloTemaWindows('atmosfera', true);
+      aplicarCorDestaqueWindows(sel.hex, true);
+      mostrarToast(`🪵 Tema Oficial ${sel.nome} aplicado com sucesso!`);
+    }
+
+    function restaurarPadraoAparenciaWindows() {
+      aplicarTemaOficialLogoMisSuenos('cobre');
       aoAlternarTransparenciaWindows(true, true);
       const chk = document.getElementById('win-toggle-transparency');
       if (chk) chk.checked = true;
-      mostrarToast('↺ Padrão Oficial do Mis Sueños restaurado com sucesso!');
+      mostrarToast('↺ Tema Oficial Mis Sueños (Cores do Logo) restaurado com sucesso!');
     }
 
     function renderizarPaletaCoresModalWindows() {

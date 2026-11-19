@@ -111,3 +111,15 @@ test('PERSONALIZAÇÃO WINDOWS 11: 09 - Modulação Dinâmica de Superfícies do
   assert.ok(content.includes('--bg-topbar'), 'Deve definir variável para fundo da topbar');
   assert.ok(content.includes('--kpi-bar-opacity'), 'Deve modular a opacidade da barra de KPI');
 });
+
+test('PERSONALIZAÇÃO WINDOWS 11: 10 - Tema Oficial Exclusivo da Marca Mis Sueños (Cores do Logo)', () => {
+  const content = fs.readFileSync(indexPath, 'utf8');
+  const logoPath = path.resolve(__dirname, '../public/logo_missuenos.jpg');
+  assert.ok(fs.existsSync(logoPath), 'Arquivo logo_missuenos.jpg deve existir em public/');
+  assert.ok(content.includes('aplicarTemaOficialLogoMisSuenos'), 'Deve conter função aplicarTemaOficialLogoMisSuenos');
+  assert.ok(content.includes('#E5A170'), 'Deve conter cor Cobre do Logo (#E5A170)');
+  assert.ok(content.includes('#D98A5B'), 'Deve conter cor Âmbar Soleta (#D98A5B)');
+  assert.ok(content.includes('#D4A373'), 'Deve conter cor Camurça Ouro (#D4A373)');
+  assert.ok(content.includes('Tema Oficial Mis Sueños'), 'Deve exibir banner do tema oficial no modal');
+});
+
