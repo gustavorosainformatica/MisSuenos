@@ -162,9 +162,9 @@ test('REGRESSÃO PEDIDOS 09: Ciclo completo de serialização e recuperação (R
 });
 
 test('REGRESSÃO PEDIDOS 10: Geração do Próximo Número de Pedido sem colisão UNIQUE', () => {
-  // 1. Lista vazia ou sem pedidos: fallback para #PED-1043
-  assert.strictEqual(calcularProximoNumeroPedido([]), '#PED-1043');
-  assert.strictEqual(calcularProximoNumeroPedido(null), '#PED-1043');
+  // Lista vazia começa no primeiro número comercial disponível.
+  assert.strictEqual(calcularProximoNumeroPedido([]), '#PED-0001');
+  assert.strictEqual(calcularProximoNumeroPedido(null), '#PED-0001');
 
   // 2. Cenário Real do Bug Gustavo: Pedido no banco com id: 9 e numero: '#PED-1043'
   // Antes calculava em cima de id: 9 gerando #PED-1043 e colidindo no banco

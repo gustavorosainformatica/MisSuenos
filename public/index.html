@@ -5633,7 +5633,7 @@
           </div>
           <div class="kpi-number" id="kpi-docs">185</div>
           <div class="kpi-trend">
-            <span id="kpi-docs-detalhe">173 CPFs · 29 CNPJs (Botão Direito 🖱️)</span>
+            <span id="kpi-docs-detalhe">Carregando documentos...</span>
           </div>
         </div>
       </section>
@@ -6944,7 +6944,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Nova Senha Pessoal *</label>
-                <input type="password" class="form-input" id="minha-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)" aria-label="TOPBAR-SEARCH">
+                <input type="password" class="form-input" id="minha-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 dígitos)" aria-label="TOPBAR-SEARCH">
               </div>
               <div class="form-group">
                 <label class="form-label">Confirme a Nova Senha *</label>
@@ -6984,7 +6984,7 @@
             </div>
             <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px;">
               <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; margin-bottom: 4px;">Padrão de Credencial</div>
-              <div style="font-size: 14px; font-weight: 800; color: #10b981;" id="cfg-card-senha-txt">🔢 PIN (4 a 6 Dígitos)</div>
+              <div style="font-size: 14px; font-weight: 800; color: #10b981;" id="cfg-card-senha-txt">🔢 PIN (4 Dígitos)</div>
               <div style="font-size: 11px; color: #64748b; margin-top: 4px;" id="cfg-card-senha-sub">Entrada ágil estilo caixa/PDV</div>
             </div>
             <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 14px;">
@@ -11911,7 +11911,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       const elKpiDocs = document.getElementById('kpi-docs');
       if (elKpiDocs) elKpiDocs.textContent = comDoc.toLocaleString('pt-BR');
       const elKpiDocsDet = document.getElementById('kpi-docs-detalhe');
-      if (elKpiDocsDet) elKpiDocsDet.textContent = `${cpfs} CPFs · ${cnpjs} CNPJs`;
+      const ambosDocs = clientes.filter(c => c.cpf && c.cpf.trim() && c.cnpj && c.cnpj.trim()).length;
+      if (elKpiDocsDet) elKpiDocsDet.textContent = `${cpfs} CPFs · ${cnpjs} CNPJs (${ambosDocs} possuem ambos)`;
       const cardDocs = document.getElementById('card-kpi-docs');
       if (cardDocs) cardDocs.title = `💡 Botão Esquerdo: Filtrar com CPF/CNPJ (${comDoc.toLocaleString('pt-BR')}) · Botão Direito (🖱️): Menu de Documentação Fiscal`;
 
@@ -23414,13 +23415,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       if (!menu) return;
 
       const totalClientes = (typeof clientes !== 'undefined' && Array.isArray(clientes)) ? clientes.length : 0;
-      const totalCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim()).length : 173;
-      const totalCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cnpj && c.cnpj.trim()).length : 29;
-      const apenasCpfs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim() && (!c.cnpj || !c.cnpj.trim())).length : 156;
-      const apenasCnpjs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (!c.cpf || !c.cpf.trim()) && c.cnpj && c.cnpj.trim()).length : 12;
-      const ambosDocs = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => c.cpf && c.cpf.trim() && c.cnpj && c.cnpj.trim()).length : 17;
-      const comDoc = (typeof clientes !== 'undefined' && clientes) ? clientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length : 185;
-      const semDoc = totalClientes > 0 ? (totalClientes - comDoc) : 958;
+      const listaClientes = (typeof clientes !== 'undefined' && Array.isArray(clientes)) ? clientes : [];
+      const totalCpfs = listaClientes.filter(c => c.cpf && c.cpf.trim()).length;
+      const totalCnpjs = listaClientes.filter(c => c.cnpj && c.cnpj.trim()).length;
+      const apenasCpfs = listaClientes.filter(c => c.cpf && c.cpf.trim() && (!c.cnpj || !c.cnpj.trim())).length;
+      const apenasCnpjs = listaClientes.filter(c => (!c.cpf || !c.cpf.trim()) && c.cnpj && c.cnpj.trim()).length;
+      const ambosDocs = listaClientes.filter(c => c.cpf && c.cpf.trim() && c.cnpj && c.cnpj.trim()).length;
+      const comDoc = listaClientes.filter(c => (c.cpf && c.cpf.trim()) || (c.cnpj && c.cnpj.trim())).length;
+      const semDoc = Math.max(0, totalClientes - comDoc);
 
       let html = '';
 
@@ -23919,13 +23921,13 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <span>👥</span> <span>Atalhos Rápidos: Clientes</span>
             </div>
             <button type="button" class="erp-context-item" style="color: #38bdf8;" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => acaoKpiClientes('TODOS', document.getElementById('card-kpi-cli-total')), 80)">
-              <span>👥</span> <span>Abrir CRM (Todos os ${totalClientes > 0 ? totalClientes.toLocaleString('pt-BR') : '1.140'} Clientes)</span>
+              <span>👥</span> <span>Abrir CRM (Todos os ${totalClientes.toLocaleString('pt-BR')} Clientes)</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarClientesPorUfEToast('RS', 'card-kpi-cli-rs'), 80)">
               <span>📍</span> <span>Abrir Clientes do RS (693)</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('clientes', document.querySelector('.sidebar-nav a:nth-child(3)')); setTimeout(() => filtrarCompletudeEToast('COM_DOC', 'card-kpi-docs'), 80)">
-              <span>📄</span> <span>Abrir Clientes com CPF/CNPJ (${comDoc > 0 ? comDoc.toLocaleString('pt-BR') : '185'})</span>
+              <span>📄</span> <span>Abrir Clientes com CPF/CNPJ (${comDoc.toLocaleString('pt-BR')})</span>
             </button>
             <button type="button" class="erp-context-item" onclick="fecharContextMenu(); trocarModulo('mapa', document.getElementById('nav-item-mapa'))">
               <span>🗺️</span> <span>Abrir Mapa de Calor do Brasil</span>
@@ -24703,11 +24705,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
                 <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="radio" name="wizard-senha" checked style="margin-top: 3px; accent-color: #0284c7;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 <div>
                   <div style="font-size: 12.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
-                    <span>🔢 PIN de 4 a 6 Dígitos Numéricos</span>
+                    <span>🔢 PIN de 4 Dígitos Numéricos</span>
                     <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 800;">Super Ágil</span>
                   </div>
                   <p style="font-size: 11.5px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">
-                    Padrão tipo caixa / POS bancário. Permite digitação ultrarrápida de 4 a 6 números no teclado físico ou touch.
+                    Padrão tipo caixa / POS bancário. Permite digitação ultrarrápida de 4 números no teclado físico ou touch.
                   </p>
                 </div>
               </div>
@@ -24721,7 +24723,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
                     <span style="font-size: 9.5px; padding: 2px 6px; border-radius: 4px; background: rgba(148, 163, 184, 0.2); color: #cbd5e1; font-weight: 800;">Letras + Números</span>
                   </div>
                   <p style="font-size: 11.5px; color: #94a3b8; margin: 4px 0 0 0; line-height: 1.4;">
-                    Mínimo de 4 a 6 caracteres. Aceita letras e números sem exigir caracteres especiais.
+                    Mínimo de 4 caracteres. Aceita letras e números sem exigir caracteres especiais.
                   </p>
                 </div>
               </div>
@@ -24750,7 +24752,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               Simulação Visual em Tempo Real
             </div>
             <div style="font-size: 14px; font-weight: 700; color: #38bdf8; margin-bottom: 16px;" id="simulador-wizard-titulo">
-              Visual para o Operador: PIN de 4 a 6 Dígitos
+              Visual para o Operador: PIN de 4 Dígitos
             </div>
 
             <!-- MOCKUP DA CAIXA DE LOGIN -->
@@ -24765,27 +24767,25 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
               <!-- SIMULACAO PIN -->
               <div id="sim-box-pin" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                <label style="font-size: 11.5px; font-weight: 700; color: #cbd5e1;">Digite seu PIN (4 a 6 dígitos):</label>
+                <label style="font-size: 11.5px; font-weight: 700; color: #cbd5e1;">Digite seu PIN (4 dígitos):</label>
                 <div style="display: flex; gap: 6px;">
-                  <input type="password" maxlength="1" value="1" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 1">
-                  <input type="password" maxlength="1" value="2" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 2">
-                  <input type="password" maxlength="1" value="3" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 3">
-                  <input type="password" maxlength="1" value="4" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 4">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 5">
-                  <input type="password" maxlength="1" placeholder="•" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 6">
+                  <input type="password" maxlength="1" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 1">
+                  <input type="password" maxlength="1" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 2">
+                  <input type="password" maxlength="1" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 3">
+                  <input type="password" maxlength="1" readonly class="pin-digit-simulador" style="width: 38px; height: 44px; font-size: 18px;" aria-label="Dígito simulado 4">
                 </div>
-                <div style="font-size: 10.5px; color: #64748b; text-align: center;">Autenticação rápida estilo terminal (4 a 6 dígitos)</div>
+                <div style="font-size: 10.5px; color: #64748b; text-align: center;">Autenticação rápida estilo terminal (4 dígitos)</div>
               </div>
 
               <!-- SIMULACAO SIMPLES -->
               <div id="sim-box-simples" style="display: none; flex-direction: column; gap: 10px;">
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Usuário:</label>
-                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" value="marcos" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" placeholder="USUÁRIO" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Senha (Letras e números):</label>
-                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" value="mis2026" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" placeholder="SENHA DE DEMONSTRAÇÃO" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <button type="button" style="width: 100%; padding: 10px; border-radius: 8px; background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; border: none; margin-top: 4px;">Entrar no Sistema</button>
               </div>
@@ -24794,11 +24794,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
               <div id="sim-box-forte" style="display: none; flex-direction: column; gap: 10px;">
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Usuário Corporativo:</label>
-                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" value="gustavo.admin" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="text" placeholder="USUÁRIO CORPORATIVO" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <label style="font-size: 11px; color: #cbd5e1; font-weight: 600;">Senha Forte (@#$%!):</label>
-                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" value="Mis@2026#Patrulha" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
+                  <label for="TOPBAR-SEARCH" class="sr-only">TOPBAR-SEARCH</label><input type="password" placeholder="SENHA FORTE DE DEMONSTRAÇÃO" readonly style="width: 100%; box-sizing: border-box; background: #0b1120; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 12px;" id="TOPBAR-SEARCH" aria-label="TOPBAR-SEARCH">
                 </div>
                 <div>
                   <div style="display: flex; justify-content: space-between; font-size: 10px;">
@@ -25013,7 +25013,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           <label style="display: block; color: #cbd5e1; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">Nova Senha Pessoal *</label>
           <div style="position: relative;">
             <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.7;">✨</span>
-            <input type="password" id="troca-login-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 a 6 dígitos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
+            <input type="password" id="troca-login-nova-senha" required placeholder="Mínimo 4 caracteres (ou PIN 4 dígitos)" style="width: 100%; box-sizing: border-box; background: #070d18; border: 1px solid rgba(255, 255, 255, 0.12); color: #fff; border-radius: 10px; padding: 11px 40px 11px 40px; font-size: 13.5px; outline: none; transition: 0.2s;" onfocus="this.style.borderColor='#00d4ff'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'" aria-label="TOPBAR-SEARCH">
             <span onclick="alternarVisibilidadeCampo('troca-login-nova-senha')" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 14px; opacity: 0.7;" title="Ver/Ocultar Senha">👁️</span>
           </div>
         </div>
@@ -26526,7 +26526,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             papelNome: user.papelNome || user.papel || 'Operador',
             papelCor: user.papelCor || '#38bdf8',
             tipoCredencial: user.tipoCredencial || (user.login === 'gustavo' ? 'pin' : 'simples'),
-            tamanhoPin: user.tamanhoPin || (user.login === 'gustavo' ? 4 : 6),
+            tamanhoPin: user.tamanhoPin || 4,
             exigirTrocaSenha: !!user.exigirTrocaSenha
           }));
         } catch (e) { console.warn('Erro ao memorizar operador:', e); }
@@ -26659,7 +26659,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       if (tipo === 'pin') {
         if (simPin) simPin.style.display = 'flex';
-        if (titulo) titulo.textContent = "Visual para o Operador: PIN de 4 a 6 Dígitos";
+        if (titulo) titulo.textContent = "Visual para o Operador: PIN de 4 Dígitos";
       } else if (tipo === 'simples') {
         if (simSimples) simSimples.style.display = 'flex';
         if (titulo) titulo.textContent = "Visual para o Operador: Senha Simples (Alfanumérica)";
@@ -26725,8 +26725,8 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
 
       if (txtSenha) {
         if (cfg.tipoSenha === 'pin') {
-          txtSenha.textContent = '🔢 PIN (4 a 6 Dígitos)';
-          if (subSenha) subSenha.textContent = 'Entrada instantânea estilo terminal bancário (4 a 6 números)';
+          txtSenha.textContent = '🔢 PIN (4 Dígitos)';
+          if (subSenha) subSenha.textContent = 'Entrada instantânea estilo terminal bancário (4 números)';
         } else if (cfg.tipoSenha === 'simples') {
           txtSenha.textContent = '🔤 Senha Simples';
           if (subSenha) subSenha.textContent = 'Alfanumérica sem símbolos obrigatórios';
@@ -26919,10 +26919,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
     }
 
-    let tamanhoPinAtual = 6;
+    let tamanhoPinAtual = 4;
 
     function renderizarCaixasPin(tamanho) {
-      const qtd = (tamanho === 4 || tamanho === 5 || tamanho === 6) ? tamanho : 4;
+      const qtd = 4;
       tamanhoPinAtual = qtd;
 
       const container = document.getElementById('auth-pin-boxes-container') || document.querySelector('#auth-bloco-pin div[style*="display: flex"]');
@@ -26973,14 +26973,14 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
             papelNome: data.papelNome,
             papelCor: data.papelCor,
             tipoCredencial: data.tipoCredencial || (data.login === 'gustavo' ? 'pin' : 'simples'),
-            tamanhoPin: data.tamanhoPin || (data.login === 'gustavo' ? 4 : 6),
+            tamanhoPin: data.tamanhoPin || 4,
             exigirTrocaSenha: !!data.exigirTrocaSenha
           };
           localStorage.setItem('missuenos_terminal_operador', JSON.stringify(opInfo));
           adaptarInterfaceLogin();
         }
       } catch (e) {
-        const metaTamanho = (login === 'gustavo') ? 4 : 6;
+        const metaTamanho = 4;
         if (tamanhoPinAtual !== metaTamanho) renderizarCaixasPin(metaTamanho);
       }
     }
@@ -27100,7 +27100,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
           }
         });
 
-        // Colar PIN completo (4 a 6 dígitos)
+        // Colar PIN completo (4 dígitos)
         inp.addEventListener('paste', (e) => {
           e.preventDefault();
           const colado = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, totalDigitos);
@@ -27720,7 +27720,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const novaSenha = document.getElementById('admin-reset-nova-senha').value.trim();
       const forcarTroca = document.getElementById('admin-reset-forcar-troca').checked;
 
-      if (!novaSenha || novaSenha.length < 4) {
+      if (!novaSenha || novaSenha.length < 4 || (/^\d+$/.test(novaSenha) && novaSenha.length !== 4)) {
         const msg = document.getElementById('admin-reset-msg');
         msg.textContent = 'Informe uma senha com no mínimo 4 caracteres.';
         msg.style.display = 'block';
@@ -27855,24 +27855,12 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       msgBox.style.display = 'none';
 
       if (!novaSenha || novaSenha.length < 4) {
-        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 a 6 dígitos).';
+        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 dígitos).';
         msgBox.style.display = 'block';
         msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
         msgBox.style.color = '#fca5a5';
         msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
         return;
-      }
-
-      if (!ehAdmin) {
-        const SENHAS_PADRAO = ['admin123', '123456', 'vendas123', 'expedicao123'];
-        if (SENHAS_PADRAO.includes(novaSenha.toLowerCase())) {
-          msgBox.textContent = 'A nova senha não pode ser uma senha padrão do sistema.';
-          msgBox.style.display = 'block';
-          msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
-          msgBox.style.color = '#fca5a5';
-          msgBox.style.border = '1px solid rgba(239, 68, 68, 0.4)';
-          return;
-        }
       }
 
       if (novaSenha !== confirmaSenha) {
@@ -28012,7 +28000,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
 
       if (novaSenha.length < 4) {
-        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 a 6 dígitos).';
+        msgBox.textContent = 'A nova senha deve ter no mínimo 4 caracteres (ou PIN 4 dígitos).';
         msgBox.style.display = 'block';
         msgBox.style.background = 'rgba(239, 68, 68, 0.15)';
         msgBox.style.color = '#fca5a5';
@@ -28190,7 +28178,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     async function checarAutenticacao() {
       atualizarCardsConfigSeguranca();
       adaptarInterfaceLogin();
-      renderizarCaixasPin(6);
+      renderizarCaixasPin(4);
 
       if (localStorage.getItem('missuenos_security_configured') !== 'true') abrirWizardSeguranca();
 

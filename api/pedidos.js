@@ -281,7 +281,7 @@ export default async function handler(req, res) {
         ? (typeof payload.itens_detalhados === 'string' ? payload.itens_detalhados : JSON.stringify(payload.itens_detalhados))
         : null;
 
-      const info = await run(`
+      const inserirPedido = () => run(`
         INSERT INTO pedidos (
           numero, cliente_id, cliente_nome, cidade, uf, telefone,
           itens, valor_total, valor_frete, status, status_texto, codigo_rastreio,
@@ -306,6 +306,18 @@ export default async function handler(req, res) {
         payload.data_pedido || dataFormatada,
         agora.toISOString()
       ]);
+      let info;
+      for (let tentativa = 0; tentativa < 5; tentativa++) {
+        try {
+          info = await inserirPedido();
+          break;
+        } catch (erroInsert) {
+          const conflitoNumero = /UNIQUE constraint failed:\s*pedidos\.numero/i.test(String(erroInsert?.message || erroInsert));
+          if (!conflitoNumero || tentativa === 4) throw erroInsert;
+          const numerosAtualizados = await query('SELECT numero FROM pedidos');
+          numero = calcularProximoNumeroPedido(numerosAtualizados);
+        }
+      }
 
       const novoId = info.lastInsertRowid;
       // Auto-atualiza telefone no cadastro do cliente se informado no pedido

@@ -94,7 +94,7 @@ export default async function handler(req, res) {
       }
 
       const novaSenha = String(bodyRequisicao.novaSenha || '').trim();
-      if (!novaSenha || novaSenha.length < 4) {
+      if (!novaSenha || novaSenha.length < 4 || (/^\d+$/.test(novaSenha) && novaSenha.length !== 4)) {
         return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres.' });
       }
 
@@ -103,8 +103,8 @@ export default async function handler(req, res) {
       const forcarTroca = bodyRequisicao.forcarTroca !== false ? 1 : 0;
 
       const ehApenasDigitos = /^\d+$/.test(novaSenha);
-      const tamanhoPin = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? novaSenha.length : 6;
-      const tipoCredencial = (ehApenasDigitos && novaSenha.length >= 4 && novaSenha.length <= 6) ? 'pin' : 'simples';
+      const tamanhoPin = ehApenasDigitos && novaSenha.length === 4 ? 4 : 0;
+      const tipoCredencial = ehApenasDigitos && novaSenha.length === 4 ? 'pin' : 'simples';
       await run(`
         UPDATE usuarios 
         SET senha_hash = ?, data_atualizacao = ?, data_atualizacao_senha = NULL, exigir_troca_senha = ?, tamanho_pin = ?, tipo_credencial = ?
@@ -230,7 +230,7 @@ export default async function handler(req, res) {
         return responder(res, 400, { error: 'Nome, login e senha são obrigatórios' });
       }
 
-      if (senha.length < 4) {
+      if (senha.length < 4 || (/^\d+$/.test(senha) && senha.length !== 4)) {
         return responder(res, 400, { error: 'A senha deve conter no mínimo 4 caracteres' });
       }
 
@@ -242,9 +242,9 @@ export default async function handler(req, res) {
           const agora = new Date().toISOString();
           await run(`
             UPDATE usuarios
-            SET nome = ?, senha_hash = ?, papel = ?, permissoes = ?, ativo = 1, data_atualizacao = ?, exigir_troca_senha = 0
+            SET nome = ?, senha_hash = ?, papel = ?, permissoes = ?, ativo = 1, data_atualizacao = ?, exigir_troca_senha = 0, tamanho_pin = ?, tipo_credencial = ?
             WHERE id = ?
-          `, [nome, hash, papel, permissoes, agora, existe.id]);
+          `, [nome, hash, papel, permissoes, agora, (/^\d{4}$/.test(senha) ? 4 : 0), (/^\d{4}$/.test(senha) ? 'pin' : 'simples'), existe.id]);
 
           registrarLog({
             tipoAcao: 'USUARIO_REATIVADO',
@@ -268,9 +268,9 @@ export default async function handler(req, res) {
       const agora = new Date().toISOString();
 
       const resInsert = await run(`
-        INSERT INTO usuarios (nome, login, senha_hash, papel, permissoes, ativo, data_cadastro, tamanho_pin)
-        VALUES (?, ?, ?, ?, ?, 1, ?, ?)
-      `, [nome, login, hash, papel, permissoes, agora, (senha.length >= 4 && senha.length <= 6 ? senha.length : 6)]);
+        INSERT INTO usuarios (nome, login, senha_hash, papel, permissoes, ativo, data_cadastro, tamanho_pin, tipo_credencial)
+        VALUES (?, ?, ?, ?, ?, 1, ?, ?, ?)
+      `, [nome, login, hash, papel, permissoes, agora, (/^\d{4}$/.test(senha) ? 4 : 0), (/^\d{4}$/.test(senha) ? 'pin' : 'simples')]);
 
       registrarLog({
         tipoAcao: 'USUARIO_CRIADO',
@@ -316,16 +316,23 @@ export default async function handler(req, res) {
       const agora = new Date().toISOString();
 
       let novoHash = usuarioAtual.senha_hash;
-      if (body.senha && body.senha.trim().length >= 4) {
-        novoHash = gerarHashSenha(body.senha.trim());
+      const senhaNovaUsuario = String(body.senha || '').trim();
+      if (senhaNovaUsuario && (senhaNovaUsuario.length < 4 || (/^\d+$/.test(senhaNovaUsuario) && senhaNovaUsuario.length !== 4))) {
+        return responder(res, 400, { error: 'Use uma senha com pelo menos 4 caracteres ou um PIN numérico de exatamente 4 dígitos.' });
       }
+      if (senhaNovaUsuario) {
+        novoHash = gerarHashSenha(senhaNovaUsuario);
+      }
+
+      const tamanhoPinNovo = senhaNovaUsuario ? (/^\d{4}$/.test(senhaNovaUsuario) ? 4 : 0) : usuarioAtual.tamanho_pin;
+      const tipoCredencialNova = senhaNovaUsuario ? (/^\d{4}$/.test(senhaNovaUsuario) ? 'pin' : 'simples') : usuarioAtual.tipo_credencial;
 
       await run(`
         UPDATE usuarios
-        SET nome = ?, papel = ?, ativo = ?, permissoes = ?, senha_hash = ?, data_atualizacao = ?
+        SET nome = ?, papel = ?, ativo = ?, permissoes = ?, senha_hash = ?, data_atualizacao = ?, tamanho_pin = ?, tipo_credencial = ?
         WHERE id = ?
-      `, [nome, papel, ativo, permissoes, novoHash, agora, targetId]);
-      if (!ativo || (body.senha && body.senha.trim().length >= 4)) {
+      `, [nome, papel, ativo, permissoes, novoHash, agora, tamanhoPinNovo, tipoCredencialNova, targetId]);
+      if (!ativo || senhaNovaUsuario) {
         await run('UPDATE sessoes_operadores SET revogada_em = ? WHERE usuario_id = ? AND revogada_em IS NULL', [agora, targetId]);
       }
 

@@ -24,6 +24,7 @@ yarn-debug.log*
 public/dados_clientes.js
 database/*.csv
 database/*.json
+database/supabase_schema_dados.sql
 !database/schema.sql
 ENDEREÇOS DE ENVIO/
 
