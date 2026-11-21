@@ -1,0 +1,407 @@
+/* Camada visual moderna do Mis Sueños ERP. Respeita as preferências de tema salvas pelo operador. */
+:root {
+  --accent-color: #d58b63;
+  --accent-hover: #e2a17c;
+  --accent-glow: rgba(213, 139, 99, 0.2);
+  --accent-subtle: rgba(213, 139, 99, 0.12);
+  --accent-border: rgba(213, 139, 99, 0.3);
+  --primary: var(--accent-color);
+  --primary-hover: var(--accent-hover);
+  --primary-glow: var(--accent-glow);
+  --ui-radius-card: 14px;
+  --ui-shadow-card: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] {
+  --bg-app: #101112;
+  --bg-sidebar: #151718;
+  --bg-sidebar-hover: #222526;
+  --bg-topbar: #151718;
+  --bg-card: #181b1c;
+  --bg-card-elevated: #202425;
+  --border-color: rgba(255, 255, 255, 0.075);
+  --text-main: #f5f3ef;
+  --text-muted: #aaa69f;
+  --text-faint: #79766f;
+}
+
+[data-theme="light"] {
+  --bg-app: #f5f4f1;
+  --bg-sidebar: #fff;
+  --bg-sidebar-hover: #f2eeea;
+  --bg-topbar: #fff;
+  --bg-card: #fff;
+  --bg-card-elevated: #faf9f7;
+  --border-color: #e7e2dd;
+  --text-main: #252321;
+  --text-muted: #706b65;
+  --text-faint: #938d86;
+  --ui-shadow-card: 0 8px 24px rgba(49, 37, 29, 0.055);
+}
+
+html { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+
+body {
+  font-family: "Plus Jakarta Sans", Inter, system-ui, sans-serif !important;
+  background: var(--bg-app) !important;
+  color: var(--text-main) !important;
+  font-feature-settings: "ss01" on;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], input[type="search"],
+input[type="url"], input[type="number"], textarea, select {
+  text-transform: uppercase;
+}
+
+input::placeholder, textarea::placeholder { text-transform: uppercase; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none !important; margin: 0 !important; }
+input[type="number"] { -moz-appearance: textfield !important; }
+
+/* Navegação expansível no desktop e menu lateral em gaveta nas telas menores. */
+@media (min-width: 1180px) {
+  .erp-sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    width: 254px !important;
+    height: 100vh !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+    box-shadow: 8px 0 28px rgba(0, 0, 0, 0.08) !important;
+    backdrop-filter: none !important;
+    z-index: 120 !important;
+    transition: width 180ms ease, transform 180ms ease !important;
+  }
+
+  .erp-sidebar .sidebar-flyout-header {
+    min-height: 68px;
+    padding: 0 20px !important;
+    color: var(--text-muted) !important;
+    border-bottom-color: var(--border-color) !important;
+  }
+
+  .erp-sidebar .sidebar-flyout-header button { display: flex !important; }
+  .erp-sidebar-backdrop { display: none !important; }
+  .erp-main-wrapper { margin-left: 254px !important; width: calc(100% - 254px) !important; transition: margin-left 180ms ease, width 180ms ease !important; }
+  .erp-topbar { min-height: 68px !important; height: 68px !important; padding-inline: 28px !important; }
+  .sidebar-nav { padding: 14px 12px 22px !important; gap: 5px !important; }
+
+  html.sidebar-collapsed .erp-sidebar { width: 72px !important; }
+  html.sidebar-collapsed .erp-main-wrapper { margin-left: 72px !important; width: calc(100% - 72px) !important; }
+  html.sidebar-collapsed .sidebar-flyout-header { height: 48px !important; min-height: 48px !important; justify-content: center !important; padding-inline: 8px !important; }
+  html.sidebar-collapsed .sidebar-flyout-header > span,
+  html.sidebar-collapsed .sidebar-nav .nav-section-title,
+  html.sidebar-collapsed .sidebar-nav .nav-item > span:not(.nav-icon),
+  html.sidebar-collapsed .sidebar-footer .user-info { display: none !important; }
+  html.sidebar-collapsed .sidebar-nav { padding-inline: 10px !important; }
+  html.sidebar-collapsed .sidebar-nav .nav-item { justify-content: center !important; padding-inline: 8px !important; }
+  html.sidebar-collapsed .sidebar-nav .nav-icon { width: 24px !important; margin: 0 !important; }
+  html.sidebar-collapsed .sidebar-footer { justify-content: center !important; gap: 0 !important; padding: 10px 4px !important; }
+  html.sidebar-collapsed .sidebar-footer > div { gap: 0 !important; flex: 0 0 32px !important; }
+  html.sidebar-collapsed .sidebar-footer > button { width: 28px !important; height: 30px !important; padding: 0 !important; }
+}
+
+.erp-sidebar {
+  background: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-color) !important;
+  box-shadow: 8px 0 28px rgba(0, 0, 0, 0.08) !important;
+}
+
+.sidebar-flyout-header {
+  color: var(--text-muted) !important;
+  letter-spacing: 0.08em !important;
+  font-size: 10px !important;
+  background: transparent !important;
+}
+
+.nav-section-title {
+  padding: 16px 12px 7px !important;
+  color: var(--text-faint) !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+}
+
+.nav-item {
+  min-height: 40px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  padding: 9px 12px !important;
+  margin: 0 0 2px !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  color: var(--text-muted) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease !important;
+}
+
+.nav-item:hover {
+  background: var(--bg-sidebar-hover) !important;
+  color: var(--text-main) !important;
+}
+
+.nav-item.active {
+  background: var(--accent-subtle) !important;
+  color: var(--accent-color) !important;
+  border-color: var(--accent-border) !important;
+  border-left: 1px solid var(--accent-border) !important;
+  font-weight: 700 !important;
+}
+
+.nav-icon { width: 20px; text-align: center; font-size: 15px !important; }
+.nav-badge { display: inline-flex !important; margin-left: auto; }
+
+.erp-topbar {
+  background: var(--bg-topbar, var(--bg-sidebar)) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+.topbar-module-badge {
+  background: var(--accent-subtle) !important;
+  border-color: var(--accent-border) !important;
+  color: var(--accent-color) !important;
+  box-shadow: none !important;
+}
+
+.topbar-search-box {
+  max-width: 480px;
+  height: 40px !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 11px !important;
+  box-shadow: none !important;
+}
+
+.topbar-search-box:focus-within {
+  border-color: var(--accent-border) !important;
+  box-shadow: 0 0 0 3px var(--accent-subtle) !important;
+}
+
+.topbar-search-input { color: var(--text-main) !important; }
+.kbd-shortcut { border-color: var(--border-color) !important; }
+
+.erp-scrollable-area {
+  padding: 22px clamp(18px, 2.5vw, 36px) 30px !important;
+  gap: 20px !important;
+}
+
+.dashboard-page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 4px 2px 0;
+}
+
+.dashboard-eyebrow {
+  color: var(--accent-color);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.dashboard-page-heading h1 {
+  margin: 5px 0 3px;
+  color: var(--text-main);
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.dashboard-page-heading p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.dashboard-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dashboard-environment-badge {
+  align-items: center;
+  padding: 7px 10px;
+  border: 1px solid rgba(234, 179, 8, 0.28);
+  border-radius: 999px;
+  background: rgba(234, 179, 8, 0.08);
+  color: #facc15;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.dashboard-current-date {
+  color: var(--text-muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.dashboard-primary-action {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--accent-border);
+  border-radius: 10px;
+  background: var(--accent-color);
+  color: var(--accent-contrast, #071018);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dashboard-primary-action:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+.erp-kpi-card, .painel-card-moeda, .painel-secao-acoes,
+.painel-secao-metas, .painel-secao-cambio, .erp-panel, .erp-card {
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--ui-radius-card) !important;
+  box-shadow: var(--ui-shadow-card) !important;
+}
+
+.erp-kpi-card {
+  padding: 18px 20px !important;
+  background: var(--bg-card) !important;
+}
+
+.erp-kpi-card::before { height: 2px !important; opacity: 0.62 !important; }
+.erp-kpi-card:hover { transform: translateY(-2px); border-color: var(--accent-border) !important; }
+.kpi-label { color: var(--text-muted) !important; font-size: 10px !important; letter-spacing: 0.08em !important; }
+.kpi-number { font-family: "JetBrains Mono", monospace !important; font-size: clamp(21px, 2vw, 27px) !important; }
+
+.erp-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: var(--bg-card) !important;
+}
+
+.erp-table thead th {
+  background: var(--bg-card-elevated) !important;
+  color: var(--text-muted) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.erp-table tbody td { border-bottom-color: var(--border-color) !important; }
+.erp-table tbody tr:hover { background: var(--accent-subtle) !important; }
+
+input, select, textarea, .form-control, .form-select {
+  border-radius: 9px !important;
+  border-color: var(--border-color) !important;
+}
+
+input:focus, select:focus, textarea:focus, .form-control:focus, .form-select:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 3px var(--accent-subtle) !important;
+}
+
+button, .btn, .btn-top { transition-duration: 160ms !important; }
+.btn-primary-glow { box-shadow: none !important; border-radius: 9px !important; }
+.status-pill { box-shadow: none !important; }
+
+.topbar-menu-indicator {
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1;
+}
+
+/* Tema Carbon: neutros em camadas inspirados no IBM Carbon Design System. */
+[data-theme="light"][data-theme-style="carbon"] {
+  --bg-app: #f4f4f4;
+  --bg-sidebar: #ffffff;
+  --bg-sidebar-hover: #e8e8e8;
+  --bg-topbar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-elevated: #f4f4f4;
+  --border-color: #e0e0e0;
+  --text-main: #161616;
+  --text-muted: #525252;
+  --text-faint: #6f6f6f;
+}
+
+[data-theme="light"][data-theme-style="carbon"] body,
+[data-theme="light"][data-theme-style="carbon"] .erp-main-wrapper,
+[data-theme="light"][data-theme-style="carbon"] .erp-scrollable-area {
+  background: var(--bg-app) !important;
+  color: var(--text-main) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-sidebar,
+[data-theme="light"][data-theme-style="carbon"] .erp-topbar {
+  background: var(--bg-topbar) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-kpi-card,
+[data-theme="light"][data-theme-style="carbon"] .erp-panel,
+[data-theme="light"][data-theme-style="carbon"] .erp-card,
+[data-theme="light"][data-theme-style="carbon"] .erp-table-container,
+[data-theme="light"][data-theme-style="carbon"] .erp-table-card,
+[data-theme="light"][data-theme-style="carbon"] .card-dashboard {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-table {
+  background: #ffffff !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-table thead th {
+  background: var(--bg-card-elevated) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-table tbody td {
+  background: #ffffff !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-table tbody tr:nth-child(even) td {
+  background: #f4f4f4 !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .erp-table tbody tr:hover td {
+  background: #edf5ff !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .nav-item {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"][data-theme-style="carbon"] .nav-item:hover {
+  background: var(--bg-sidebar-hover) !important;
+  color: var(--text-main) !important;
+}
+
+@media (max-width: 1179px) {
+  .erp-topbar { padding-inline: 16px !important; }
+  .erp-scrollable-area { padding: 18px 16px 26px !important; }
+  .erp-kpi-card { padding: 15px !important; }
+}
+
+@media (max-width: 760px) {
+  .dashboard-page-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .dashboard-heading-actions { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  .dashboard-current-date { display: none; }
+  .dashboard-primary-action { margin-left: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
