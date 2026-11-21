@@ -62,6 +62,12 @@ export default async function handler(req, res) {
   // 1. GET /api/clientes
   if (req.method === 'GET') {
     try {
+      // O painel precisa somente da contagem, sem baixar toda a carteira de clientes.
+      if (url.searchParams.get('resumo') === 'contagem') {
+        const resultado = await get('SELECT COUNT(*) AS total FROM clientes');
+        return responder(res, 200, { total: Number(resultado?.total || 0) });
+      }
+
       // Se tiver ID, retorna cliente único
       if (idParam) {
         const id = parseInt(idParam, 10);

@@ -11585,6 +11585,9 @@
 
     let clientes = window.CLIENTES_DATA || [];
     let filtrados = [...clientes];
+    let clientesCarregadosApi = false;
+    let totalClientesPainel = null;
+    let requisicaoClientesEmAndamento = null;
     let paginaAtual = 1;
     const itensPorPagina = 25;
     let ufFiltro = 'TODOS';
@@ -11593,20 +11596,48 @@
 
     // Inicialização assíncrona tentando carregar do servidor/banco Turso Cloud
     async function carregarDadosApi() {
-      try {
-        const resp = await fetch('/api/clientes');
-        if (resp.ok) {
-          const dados = await resp.json();
-          if (Array.isArray(dados) && dados.length > 0) {
-            clientes = dados;
-            filtrados = [...clientes];
-            document.getElementById('label-conexao').textContent = 'Nuvem Conectada';
-            atualizarKpis();
-            renderTabela();
+      if (requisicaoClientesEmAndamento) return requisicaoClientesEmAndamento;
+
+      requisicaoClientesEmAndamento = (async () => {
+        try {
+          const resp = await fetch('/api/clientes');
+          if (resp.ok) {
+            const dados = await resp.json();
+            if (Array.isArray(dados)) {
+              clientes = dados;
+              filtrados = [...clientes];
+              clientesCarregadosApi = true;
+              totalClientesPainel = clientes.length;
+              document.getElementById('label-conexao').textContent = 'Nuvem Conectada';
+              atualizarKpis();
+              renderTabela();
+            }
           }
+        } catch (e) {
+          console.log('Operando com base em cache local offline:', e.message);
+        } finally {
+          requisicaoClientesEmAndamento = null;
         }
+      })();
+
+      return requisicaoClientesEmAndamento;
+    }
+
+    async function carregarResumoClientesPainel() {
+      // A homologação mantém os indicadores sintéticos definidos para a prévia.
+      if (window.APP_CONFIG?.isDevEnvironment) return;
+
+      try {
+        const resp = await fetch('/api/clientes?resumo=contagem', { cache: 'no-store' });
+        if (!resp.ok) return;
+        const resumo = await resp.json();
+        const total = Number(resumo?.total);
+        if (!Number.isFinite(total) || total < 0) return;
+
+        totalClientesPainel = total;
+        atualizarKpis();
       } catch (e) {
-        console.log('Operando com base em cache local offline:', e.message);
+        console.log('Não foi possível atualizar a contagem de clientes do painel:', e.message);
       }
     }
 
@@ -12072,9 +12103,11 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     // Atualização de métricas e KPIs
     function atualizarKpis() {
       const total = clientes.length;
-      document.getElementById('kpi-total-clientes').textContent = total.toLocaleString('pt-BR');
+      const totalExibicao = clientesCarregadosApi ? total : totalClientesPainel;
+      const textoTotal = totalExibicao === null ? '…' : totalExibicao.toLocaleString('pt-BR');
+      document.getElementById('kpi-total-clientes').textContent = textoTotal;
       const elPainelCli = document.getElementById('kpi-painel-total-clientes');
-      if (elPainelCli) elPainelCli.textContent = total.toLocaleString('pt-BR');
+      if (elPainelCli) elPainelCli.textContent = textoTotal;
 
       const elPainelProd = document.getElementById('kpi-painel-total-produtos');
       if (elPainelProd && window.produtos) elPainelProd.textContent = `${produtos.length} Itens`;
@@ -12083,6 +12116,17 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         const totalCats = obterCategoriasComContagem().length;
         elPainelCat.textContent = `${totalCats} Categorias`;
       }
+
+      if (!clientesCarregadosApi) {
+        ['kpi-envios-rs', 'kpi-perc-rs', 'kpi-ufs', 'kpi-docs', 'nav-total-clientes'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = '…';
+        });
+        const docsDetalhe = document.getElementById('kpi-docs-detalhe');
+        if (docsDetalhe) docsDetalhe.textContent = 'Aguardando sincronização';
+        return;
+      }
+
       const cardTotalCli = document.getElementById('card-kpi-cli-total');
       if (cardTotalCli) cardTotalCli.title = `💡 Botão Esquerdo: Listar Todos (${total.toLocaleString('pt-BR')}) · Botão Direito (🖱️): Menu de Opções & Cadastro`;
       const elTot = document.getElementById('nav-total-clientes'); if (elTot) elTot.textContent = total.toLocaleString('pt-BR');
@@ -24355,7 +24399,6 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     inicializarEventosHoverLogo();
     atualizarKpis();
     renderTabela();
-    carregarDadosApi();
     carregarProdutosApi();
     carregarPedidosApi();
     if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
@@ -28483,6 +28526,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const modal = document.getElementById('modal-auth-login');
       if (modal) modal.style.display = 'none';
       limparPinInputs();
+      if (usuarioLogado) carregarResumoClientesPainel();
     }
 
     async function submeterLogin(e) {
