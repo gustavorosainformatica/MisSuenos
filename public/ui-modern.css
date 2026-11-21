@@ -84,7 +84,7 @@ input[type="number"] { -moz-appearance: textfield !important; }
     border-bottom-color: var(--border-color) !important;
   }
 
-  .erp-sidebar .sidebar-flyout-header button { display: flex !important; }
+  .erp-sidebar .sidebar-flyout-header .sidebar-brand-toggle { display: flex !important; }
   .erp-sidebar-backdrop { display: none !important; }
   .erp-main-wrapper { margin-left: 254px !important; width: calc(100% - 254px) !important; transition: margin-left 180ms ease, width 180ms ease !important; }
   .erp-topbar { min-height: 68px !important; height: 68px !important; padding-inline: 28px !important; }
@@ -92,7 +92,7 @@ input[type="number"] { -moz-appearance: textfield !important; }
 
   html.sidebar-collapsed .erp-sidebar { width: 72px !important; }
   html.sidebar-collapsed .erp-main-wrapper { margin-left: 72px !important; width: calc(100% - 72px) !important; }
-  html.sidebar-collapsed .sidebar-flyout-header { height: 48px !important; min-height: 48px !important; justify-content: center !important; padding-inline: 8px !important; }
+  html.sidebar-collapsed .sidebar-flyout-header { height: 56px !important; min-height: 56px !important; justify-content: center !important; padding-inline: 2px !important; }
   html.sidebar-collapsed .sidebar-flyout-header > span,
   html.sidebar-collapsed .sidebar-nav .nav-section-title,
   html.sidebar-collapsed .sidebar-nav .nav-item > span:not(.nav-icon),
@@ -117,6 +117,42 @@ input[type="number"] { -moz-appearance: textfield !important; }
   font-size: 10px !important;
   background: transparent !important;
 }
+
+.sidebar-brand-toggle {
+  position: relative;
+  flex: 0 0 64px;
+  width: 64px !important;
+  height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 2px;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: #22d3ee !important;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.sidebar-brand-toggle:hover { background: rgba(34, 211, 238, 0.07) !important; }
+.sidebar-brand-toggle:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+.sidebar-brand-toggle .sidebar-brand-icon {
+  flex: 0 0 48px;
+  width: 48px !important;
+  height: 48px !important;
+  margin: 0 !important;
+  border: 1.5px solid rgba(217, 119, 6, 0.8) !important;
+  box-shadow: 0 0 13px rgba(245, 158, 11, 0.32) !important;
+}
+
+.sidebar-brand-toggle .sidebar-collapse-arrow { flex: 0 0 14px; width: 14px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+html.sidebar-collapsed .sidebar-brand-toggle .sidebar-collapse-arrow { transform: scaleX(-1); }
 
 .nav-section-title {
   padding: 16px 12px 7px !important;
@@ -316,6 +352,10 @@ button, .btn, .btn-top { transition-duration: 160ms !important; }
   cursor: pointer;
   font-family: inherit;
   line-height: 1;
+}
+
+@media (min-width: 1180px) {
+  .topbar-menu-indicator { display: none !important; }
 }
 
 /* Tema Carbon: neutros em camadas inspirados no IBM Carbon Design System. */

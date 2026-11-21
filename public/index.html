@@ -5042,10 +5042,10 @@
       display: block !important;
     }
 
-    /* QUANDO EM MODO DE TESTES: LOGO COMPACTO (42px) */
+    /* Logo do ambiente de testes um pouco maior, sem duplicar a marca na navegação. */
     .topbar-brand-wrapper.is-testes .brand-icon {
-      width: 42px !important;
-      height: 42px !important;
+      width: 48px !important;
+      height: 48px !important;
       border-color: #d97706 !important;
     }
 
@@ -5474,7 +5474,7 @@
     }
 
 </style>
-  <link rel="stylesheet" href="/ui-modern.css?v=1.2">
+  <link rel="stylesheet" href="/ui-modern.css?v=1.6">
 </head>
 <body class="nao-autenticado">
 
@@ -5482,7 +5482,12 @@
   <aside class="erp-sidebar" id="erp-sidebar">
     <div class="sidebar-flyout-header" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
       <span style="font-size: 11px; font-weight: 800; color: #38bdf8; letter-spacing: 0.5px; text-transform: uppercase;">Navegação do ERP</span>
-      <button type="button" id="btn-sidebar-collapse" aria-controls="erp-sidebar" aria-expanded="true" style="background: var(--accent-subtle); border: 1px solid var(--border-color); color: var(--text-muted); width: 30px; height: 30px; border-radius: 7px; font-size: 16px; font-weight: 700; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;" title="Recolher navegação" aria-label="Recolher navegação">‹</button>
+      <button type="button" id="btn-sidebar-collapse" class="sidebar-brand-toggle" aria-controls="erp-sidebar" aria-expanded="true" title="Recolher navegação" aria-label="Recolher navegação">
+        <svg class="sidebar-collapse-arrow" viewBox="0 0 16 20" aria-hidden="true" focusable="false"><path d="M11.5 4.5 5.5 10l6 5.5"></path></svg>
+        <span class="brand-icon sidebar-brand-icon" id="app-brand-icon">
+          <img src="logo.png?v=3.2" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
+        </span>
+      </button>
     </div>
 
     <nav class="sidebar-nav">
@@ -5556,19 +5561,11 @@
   <div class="erp-main-wrapper">
     <!-- TOPBAR FIXA -->
     <header class="erp-topbar">
-      <!-- LADO ESQUERDO: LOGO FIXO E GATILHO DO MENU POR HOVER -->
+      <!-- Identificação do ambiente; o logo fica no controle da navegação lateral. -->
       <div class="topbar-left" style="display: flex; align-items: center; gap: 12px;">
-        <div class="topbar-brand-wrapper" id="topbar-brand-trigger" onclick="trocarModulo('painel')" title="Mis Sueños ERP (Clique para Início / Passe o mouse para o menu)">
-          <div class="brand-icon" id="app-brand-icon">
-            <img src="logo.png?v=3.2" alt="Mis Sueños" class="brand-logo-img" id="app-brand-img">
-          </div>
-          <span class="badge-env-testes" id="app-badge-testes">TESTES</span>
-          <div class="brand-texts" style="display: none;">
-            <h2 id="app-short-name"></h2>
-            <span id="app-tagline"></span>
-          </div>
-          <button type="button" class="topbar-menu-indicator" id="btn-toggle-sidebar" aria-controls="erp-sidebar" aria-expanded="true" title="Recolher navegação" aria-label="Recolher navegação">☰</button>
-        </div>
+        <span class="badge-env-testes" id="app-badge-testes">TESTES</span>
+        <div class="brand-texts" style="display: none;"><h2 id="app-short-name"></h2><span id="app-tagline"></span></div>
+        <button type="button" class="topbar-menu-indicator" id="btn-toggle-sidebar" aria-controls="erp-sidebar" aria-expanded="true" title="Abrir navegação" aria-label="Abrir navegação">☰</button>
         <!-- SUÍTE DE NAVEGAÇÃO HISTÓRICA & BREADCRUMB ESTILO WINDOWS 11 -->
         <div class="nav-windows-suite" id="topbar-windows-nav">
           <!-- BOTÕES DE HISTÓRICO: VOLTAR [←], AVANÇAR [→], SUBIR [↑] -->
@@ -11636,7 +11633,8 @@
         controle.title = rotulo;
       });
       if (botaoCabecalho) {
-        botaoCabecalho.textContent = largura < 1180 ? (expandido ? '×' : '‹') : (expandido ? '‹' : '›');
+        const seta = botaoCabecalho.querySelector('.sidebar-collapse-arrow path');
+        if (seta) seta.setAttribute('d', expandido ? 'M11.5 4.5 5.5 10l6 5.5' : 'M4.5 4.5 10.5 10l-6 5.5');
       }
     }
 
@@ -19120,17 +19118,15 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const tagline = document.getElementById('app-tagline');
       if (tagline && cfg.tagline) tagline.textContent = cfg.tagline;
 
-      // Controle dinâmico: Testes (Logo + TESTES) vs Produção (Somente Logo ampliado 48px)
-      const brandWrapper = document.getElementById('topbar-brand-trigger');
+      // Identifica o ambiente no topo; o único logo fica junto ao controle da navegação.
+      const brandWrapper = document.getElementById('app-brand-icon');
       const badgeTestes = document.getElementById('app-badge-testes');
       const isTestes = cfg.isDevEnvironment || cfg.shortName === 'TESTES' || window.location.port === '3002' || window.location.search.includes('env=dev');
       
       if (badgeTestes) {
         badgeTestes.style.display = isTestes ? 'inline-flex' : 'none';
       }
-      if (brandWrapper) {
-        brandWrapper.classList.toggle('is-testes', isTestes);
-      }
+      if (brandWrapper) brandWrapper.classList.toggle('is-testes', isTestes);
       const stockMenu = document.getElementById('app-stock-menu');
       if (stockMenu && cfg.stockModuleName) stockMenu.textContent = cfg.stockModuleName;
       const userInitials = document.getElementById('app-user-initials');
