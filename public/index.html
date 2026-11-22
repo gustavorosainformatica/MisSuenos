@@ -6589,7 +6589,6 @@
         <div class="dashboard-heading-actions">
           <span id="dashboard-environment-badge" class="dashboard-environment-badge" style="display: none;">🧪 HOMOLOGAÇÃO · BASE ISOLADA</span>
           <span id="dashboard-current-date" class="dashboard-current-date"></span>
-          <button type="button" class="dashboard-primary-action" onclick="abrirModalNovoPedido()">＋ Novo pedido</button>
         </div>
       </header>
 
@@ -6754,7 +6753,7 @@
 
         <div class="painel-acoes-grid">
           <!-- 1. GESTÃO DE CATEGORIAS -->
-          <button type="button" class="btn-painel-acao btn-acao-cat" onclick="abrirModalGestaoCategorias()" title="Cadastrar ou Gerenciar Categorias de Produtos">
+          <button type="button" class="btn-painel-acao btn-acao-cat" data-ui-action="categorias.gerenciar" onclick="abrirModalGestaoCategorias()" title="Cadastrar ou Gerenciar Categorias de Produtos">
             <span class="acao-icon">🏷️</span>
             <div class="acao-textos">
               <strong>Categorias</strong>
@@ -6763,7 +6762,7 @@
           </button>
 
           <!-- 2. NOVO PRODUTO -->
-          <button type="button" class="btn-painel-acao btn-acao-prod" onclick="abrirModalNovoProduto()" title="Cadastrar Novo Produto no Estoque">
+          <button type="button" class="btn-painel-acao btn-acao-prod" data-ui-action="produto.novo" onclick="abrirModalNovoProduto()" title="Cadastrar Novo Produto no Estoque">
             <span class="acao-icon">📦</span>
             <div class="acao-textos">
               <strong>Novo Produto</strong>
@@ -6772,7 +6771,7 @@
           </button>
 
           <!-- 3. NOVO PEDIDO -->
-          <button type="button" class="btn-painel-acao btn-acao-ped" onclick="abrirModalNovoPedido()" title="Cadastrar Novo Pedido de Venda">
+          <button type="button" class="btn-painel-acao btn-acao-ped" data-ui-action="pedido.novo" onclick="abrirModalNovoPedido()" title="Cadastrar Novo Pedido de Venda">
             <span class="acao-icon">➕</span>
             <div class="acao-textos">
               <strong>Novo Pedido</strong>
@@ -6781,7 +6780,7 @@
           </button>
 
           <!-- 4. NOVO CLIENTE -->
-          <button type="button" class="btn-painel-acao btn-acao-cli" onclick="abrirModalNovoCliente()" title="Cadastrar Novo Cliente no CRM">
+          <button type="button" class="btn-painel-acao btn-acao-cli" data-ui-action="cliente.novo" onclick="abrirModalNovoCliente()" title="Cadastrar Novo Cliente no CRM">
             <span class="acao-icon">👥</span>
             <div class="acao-textos">
               <strong>Novo Cliente</strong>
@@ -6790,7 +6789,7 @@
           </button>
 
           <!-- 5. LANÇAMENTO FINANCEIRO -->
-          <button type="button" class="btn-painel-acao btn-acao-fin" onclick="abrirModalLancamentoFinanceiro()" title="Lançar Conta a Pagar ou Receber">
+          <button type="button" class="btn-painel-acao btn-acao-fin" data-ui-action="financeiro.lancamento" onclick="abrirModalLancamentoFinanceiro()" title="Lançar Conta a Pagar ou Receber">
             <span class="acao-icon">💰</span>
             <div class="acao-textos">
               <strong>Financeiro</strong>
@@ -6799,7 +6798,7 @@
           </button>
 
           <!-- 6. EMITIR NOTA FISCAL -->
-          <button type="button" class="btn-painel-acao btn-acao-nfe" onclick="abrirModalFiscal()" title="Emitir Nota Fiscal (NF-e Modelo 55)">
+          <button type="button" class="btn-painel-acao btn-acao-nfe" data-ui-action="fiscal.emitir_nfe" onclick="abrirModalFiscal()" title="Emitir Nota Fiscal (NF-e Modelo 55)">
             <span class="acao-icon">🧾</span>
             <div class="acao-textos">
               <strong>Emitir NF-e</strong>
@@ -6808,7 +6807,7 @@
           </button>
 
           <!-- 7. CONCILIAÇÃO BANCÁRIA -->
-          <button type="button" class="btn-painel-acao btn-acao-ofx" onclick="abrirModalConciliacaoBancaria()" title="Conciliação Bancária OFX / CSV">
+          <button type="button" class="btn-painel-acao btn-acao-ofx" data-ui-action="financeiro.conciliacao" onclick="abrirModalConciliacaoBancaria()" title="Conciliação Bancária OFX / CSV">
             <span class="acao-icon">🏦</span>
             <div class="acao-textos">
               <strong>Conciliação</strong>
@@ -6817,7 +6816,7 @@
           </button>
 
           <!-- 8. AJUSTE DE ESTOQUE -->
-          <button type="button" class="btn-painel-acao btn-acao-ajuste" onclick="abrirModalAjusteEstoque()" title="Ajuste Rápido de Estoque (Kardex)">
+          <button type="button" class="btn-painel-acao btn-acao-ajuste" data-ui-action="estoque.ajuste" onclick="abrirModalAjusteEstoque()" title="Ajuste Rápido de Estoque (Kardex)">
             <span class="acao-icon">⚡</span>
             <div class="acao-textos">
               <strong>Ajuste Estoque</strong>
@@ -6826,7 +6825,7 @@
           </button>
 
           <!-- 9. CENTRAL DE PRODUÇÃO / PCP -->
-          <button type="button" class="btn-painel-acao btn-acao-pcp" onclick="abrirModalProducao()" title="Central de Produção e Montagem Rápida em 1 Clique">
+          <button type="button" class="btn-painel-acao btn-acao-pcp" data-ui-action="producao.abrir" onclick="abrirModalProducao()" title="Central de Produção e Montagem Rápida em 1 Clique">
             <span class="acao-icon">🛠️</span>
             <div class="acao-textos">
               <strong>Produzir / PCP</strong>

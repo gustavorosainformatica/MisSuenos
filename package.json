@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test --test-concurrency=1 tests/*.test.js",
+    "ui:auditar-acoes": "node scripts/auditar_acoes_ui.js",
     "web": "node scripts/servidor_web.js",
     "web:infisical": "infisical run --silent -- node scripts/servidor_web.js",
     "promover:prod": "node scripts/promover_producao.js",
