@@ -126,13 +126,23 @@ window.cadastroEmpresa = (() => {
 
   function aplicarConsulta() {
     if (!empresaAtiva() || !dadosPendentes) return;
+    const entregaVazio = camposEndereco.every(chave => !campo('form-' + chave)?.value?.trim());
     for (const [id, valor] of Object.entries(dadosPendentes)) {
-      campo(id).value = valor;
-      sugeridos.set(id, valor);
+      if (campo(id)) {
+        campo(id).value = valor;
+        sugeridos.set(id, valor);
+      }
+      if (entregaVazio && id.startsWith('fiscal-cli-')) {
+        const idEntrega = id.replace('fiscal-cli-', 'form-');
+        if (campo(idEntrega)) {
+          campo(idEntrega).value = valor;
+          sugeridos.set(idEntrega, valor);
+        }
+      }
     }
     dadosPendentes = null;
     campo('form-aplicar-consulta').hidden = true;
-    aviso('Dados cadastrais aplicados. Confira antes de salvar.');
+    aviso('Dados cadastrais e de entrega aplicados. Confira antes de salvar.', 'sucesso');
   }
 
   async function consultar() {
@@ -169,15 +179,19 @@ window.cadastroEmpresa = (() => {
       if (dados.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dados.email)) sugerir('form-email', dados.email);
       const comparacao = { 'form-nome': dados.razao_social };
       if (dados.nome_fantasia) comparacao['form-apelido'] = dados.nome_fantasia;
-      // O endereço cadastral deve ser aplicado inteiro para não misturar dois locais.
-      const enderecoVazio = camposEndereco.every(chave => !campo('fiscal-cli-' + chave).value);
+      // Preenche tanto o endereço cadastral quanto o de entrega (se vazios)
+      const cadastralVazio = camposEndereco.every(chave => !campo('fiscal-cli-' + chave)?.value?.trim());
+      const entregaVazio = camposEndereco.every(chave => !campo('form-' + chave)?.value?.trim());
+
       if (camposEndereco.some(chave => dados.endereco?.[chave])) {
         for (const chave of camposEndereco) {
-          const id = 'fiscal-cli-' + chave;
+          const idCadastral = 'fiscal-cli-' + chave;
+          const idEntrega = 'form-' + chave;
           const bruto = dados.endereco[chave] || '';
           const valor = chave === 'cep' ? aplicarMascaraCepValor(bruto) : bruto;
-          comparacao[id] = valor;
-          if (enderecoVazio) sugerir(id, valor);
+          comparacao[idCadastral] = valor;
+          if (cadastralVazio) sugerir(idCadastral, valor);
+          if (entregaVazio) sugerir(idEntrega, valor);
         }
       }
       if (Object.entries(comparacao).some(([id, valor]) => campo(id).value !== valor)) {
