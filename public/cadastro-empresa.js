@@ -276,6 +276,17 @@ window.cadastroEmpresa = (() => {
     if (typeof mostrarToast === 'function') mostrarToast('Inscrição Estadual marcada como ISENTO.');
   }
 
+  function abrirReceita() {
+    const cnpj = documento();
+    const cnpjFormatado = campo('form-cnpj')?.value.trim();
+    if (cnpj && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cnpjFormatado || cnpj).catch(() => {});
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('📋 CNPJ copiado! Cole na página da Receita Federal.');
+      }
+    }
+  }
+
   async function consultarIe() {
     const cnpj = documento();
     if (!empresaAtiva()) return;
@@ -362,7 +373,7 @@ window.cadastroEmpresa = (() => {
     };
   }
 
-  return { iniciar, trocarTipo, teclarCnpj, digitarCnpj, consultar, consultarIe, marcarIsento, aplicarConsulta, usarNaEntrega, dadosParaSalvar, cancelar,
+  return { iniciar, trocarTipo, teclarCnpj, digitarCnpj, consultar, consultarIe, marcarIsento, abrirReceita, aplicarConsulta, usarNaEntrega, dadosParaSalvar, cancelar,
     get versaoEndereco() { return versaoEndereco; }
   };
 })();

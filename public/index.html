@@ -7505,7 +7505,7 @@
             </label>
             <button type="button" class="btn-top" data-cliente-pj hidden tabindex="-1" onclick="cadastroEmpresa.consultar()">Consultar CNPJ</button>
             <button type="button" id="form-aplicar-consulta" class="btn-top" hidden tabindex="-1" onclick="cadastroEmpresa.aplicarConsulta()">Usar dados consultados</button>
-            <a class="btn-top" data-cliente-pj hidden tabindex="-1" href="https://www.gov.br/pt-br/servicos/consultar-cadastro-nacional-de-pessoas-juridicas" target="_blank" rel="noopener noreferrer">Conferir na Receita ↗</a>
+            <a class="btn-top" id="btn-conferir-receita" data-cliente-pj hidden tabindex="-1" href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/" target="_blank" rel="noopener noreferrer" onclick="cadastroEmpresa.abrirReceita(event)">Conferir na Receita ↗</a>
             <button type="button" class="btn-top" data-cliente-pj hidden tabindex="-1" onclick="cadastroEmpresa.consultarIe()" title="Consulta Inscrição Estadual (SEFAZ / CCC)">Consultar IE ↗</button>
             <span id="form-consulta-status" data-cliente-pj hidden role="status" aria-live="polite"></span>
           </div>
