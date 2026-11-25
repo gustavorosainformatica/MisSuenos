@@ -6,6 +6,8 @@
  */
 
 import { query, get, run, registrarLog } from '../lib/db.js';
+import { consultarEmpresa } from '../lib/consulta_cnpj.js';
+import { normalizarCnpj, validarCnpj } from '../lib/validacoes_erp.js';
 
 function responder(res, status, data) {
   if (typeof res.status === 'function' && typeof res.json === 'function') {
@@ -57,10 +59,14 @@ export default async function handler(req, res) {
   }
 
   const url = parseUrl(req);
-  const idParam = url.searchParams.get('id') || req.query?.id;
+  const idParam = url.searchParams.get('id') || req.query?.id || url.pathname.match(/^\/api\/clientes\/(\d+)\/?$/)?.[1];
 
   // 1. GET /api/clientes
   if (req.method === 'GET') {
+    if (url.searchParams.get('acao') === 'consultar_cnpj') {
+      const consulta = await consultarEmpresa(url.searchParams.get('cnpj'));
+      return responder(res, consulta.status, consulta.dados);
+    }
     try {
       // O painel precisa somente da contagem, sem baixar toda a carteira de clientes.
       if (url.searchParams.get('resumo') === 'contagem') {
@@ -119,7 +125,7 @@ export default async function handler(req, res) {
 
       // Atualização PARCIAL: campos ausentes no payload mantêm o valor atual do banco.
       const monitorados = [
-        'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
+        'nome', 'apelido_referencia', 'razao_social', 'tipo_pessoa', 'nome_contato', 'endereco_cadastral', 'cpf', 'cnpj', 'ie',
         'telefone', 'email', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes', 'preferencias', 'tabela_preco'
       ];
       const dados = {};
@@ -129,6 +135,9 @@ export default async function handler(req, res) {
           : String(clienteAntigo[c] ?? '').trim();
       });
       dados.uf = dados.uf.toUpperCase();
+      if (dados.cnpj && dados.cnpj !== clienteAntigo.cnpj && !validarCnpj(dados.cnpj)) {
+        return responder(res, 400, { error: 'CNPJ inválido.' });
+      }
 
       if (!dados.nome) {
         return responder(res, 400, { error: 'O nome do cliente é obrigatório.' });
@@ -155,6 +164,7 @@ export default async function handler(req, res) {
           nome = ?,
           apelido_referencia = ?,
           razao_social = ?,
+          tipo_pessoa = ?, nome_contato = ?, endereco_cadastral = ?,
           cpf = ?,
           cpf_limpo = ?,
           cnpj = ?,
@@ -182,10 +192,11 @@ export default async function handler(req, res) {
         dados.nome,
         dados.apelido_referencia,
         dados.razao_social,
+        dados.tipo_pessoa, dados.nome_contato, dados.endereco_cadastral,
         dados.cpf,
         dados.cpf.replace(/\D/g, ''),
         dados.cnpj,
-        dados.cnpj.replace(/\D/g, ''),
+        normalizarCnpj(dados.cnpj),
         dados.ie,
         dados.telefone,
         dados.telefone.replace(/\D/g, ''),
@@ -250,7 +261,10 @@ export default async function handler(req, res) {
       }
 
       const cpfLimpo = (payload.cpf || '').replace(/\D/g, '');
-      const cnpjLimpo = (payload.cnpj || '').replace(/\D/g, '');
+      const cnpjLimpo = normalizarCnpj(payload.cnpj);
+      if (cnpjLimpo && !validarCnpj(cnpjLimpo)) {
+        return responder(res, 400, { error: 'CNPJ inválido.' });
+      }
       const telefoneLimpo = (payload.telefone || '').replace(/\D/g, '');
       const cepLimpo = (payload.cep || '').replace(/\D/g, '');
 
@@ -268,20 +282,21 @@ export default async function handler(req, res) {
 
       const sqlInsert = `
         INSERT INTO clientes (
-          nome, apelido_referencia, razao_social,
+          nome, apelido_referencia, razao_social, tipo_pessoa, nome_contato, endereco_cadastral,
           cpf, cpf_limpo, cnpj, cnpj_limpo, ie,
           telefone, telefone_limpo, email,
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
           endereco_completo, observacoes, arquivo_origem, data_cadastro, preferencias,
           tabela_preco
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
       const resultado = await run(sqlInsert, [
         payload.nome.trim(),
         payload.apelido_referencia || '',
         payload.razao_social || '',
+        payload.tipo_pessoa || (cnpjLimpo ? 'PJ' : 'PF'), payload.nome_contato || '', payload.endereco_cadastral || '',
         payload.cpf || '',
         cpfLimpo,
         payload.cnpj || '',

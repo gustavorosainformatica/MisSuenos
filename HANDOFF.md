@@ -1,3 +1,15 @@
+# Ponto de Retomada — 24 de Novembro de 2026
+
+## ERP MisSuenos
+
+- **Último assunto tratado:** Correção definitiva da busca/autocomplete de clientes no modal de Pedidos (bug intermitente de não carregar clientes para o operador Marcos) e integração da funcionalidade de Cadastro de Clientes PJ com consulta automática de CNPJ via BrasilAPI.
+- **Causa Raiz Sanada:** A chamada `carregarDadosApi()` havia sido desatrelada da carga geral, fazendo com que o modal de pedidos abrisse com a base de clientes vazia (`[]`) se o operador não visitasse a aba Clientes antes.
+- **Blindagem Aplicada:** Provedor memoizado universal `window.garantirBaseClientes()`, pré-aquecimento pós-login, garantia em `abrirModalNovoPedido` e `abrirModalEditarPedido`, auto-recuperação reativa com indicador visual e re-filtro automático na digitação, além de sincronização de Datalist.
+- **Governança Global:** Criada a diretriz `config/rules/padrao-gerenciamento-dados-e-autocomplete.md` e referenciada no `GEMINI.md` para evitar acoplamento temporal em todos os ERPs.
+- **Suíte de Testes:** Nova suíte `tests/pedidos_autocomplete_clientes.test.js` com 5 testes automatizados aprovados (31 testes no total da bateria).
+
+---
+
 # Registro de Transição de Contexto (Handoff)
 
 **Data / Hora:** 15 de Novembro de 2026 — 20:25 (BRT)  

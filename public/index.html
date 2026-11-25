@@ -179,6 +179,7 @@
   <script src="app-config.js?v=2.6"></script>
   <script src="dados_clientes.js"></script>
   <script src="mapa_interativo.js"></script>
+  <script src="cadastro-empresa.js" defer></script>
   <link rel="stylesheet" href="mobile.css?v=1.0">
   <style>
     :root {
@@ -3129,6 +3130,19 @@
       padding: 16px 24px 12px 24px !important;
       gap: 10px !important;
     }
+    #form-cliente [hidden] { display: none !important; }
+    #form-cliente .cliente-linha { display: flex; align-items: end; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 10px; }
+    #form-cliente .cliente-linha label { display: grid; gap: 4px; }
+    #form-cliente .endereco-cadastral { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; margin: 12px 0; }
+    #form-cliente .endereco-cadastral legend { padding: 0 4px; }
+    #form-cliente .grade-endereco { display: grid; grid-template-columns: 1fr 2.5fr .8fr 1.5fr; gap: 8px 12px; }
+    #form-cliente .grade-endereco label { display: grid; gap: 3px; min-width: 0; }
+    #form-cliente .grade-endereco input { width: 100%; min-width: 0; box-sizing: border-box; }
+    @media (max-width: 680px) {
+      #form-cliente .grade-endereco { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    #form-cliente .btn-top { cursor: pointer; }
+    #form-consulta-status { color: var(--text-muted); font-size: 12px; }
     #modal-cliente .form-group {
       gap: 3px !important;
     }
@@ -7480,20 +7494,29 @@
           <input type="hidden" id="form-id" aria-label="TOPBAR-SEARCH">
           <input type="hidden" id="form-pref" aria-label="TOPBAR-SEARCH">
 
+          <div class="cliente-linha">
+            <label class="form-label">Tipo de cliente
+              <select id="form-tipo-pessoa" class="form-input" onchange="cadastroEmpresa.trocarTipo()">
+                <option value="PF">PESSOA FÍSICA</option><option value="PJ">EMPRESA</option>
+              </select>
+            </label>
+            <label class="form-label" data-cliente-pj hidden>CNPJ
+              <input class="form-input" id="form-cnpj" type="text" maxlength="18" placeholder="DIGITE OU COLE O CNPJ" autocapitalize="characters" spellcheck="false" onkeydown="cadastroEmpresa.teclarCnpj(event)" oninput="cadastroEmpresa.digitarCnpj()">
+            </label>
+            <button type="button" class="btn-top" data-cliente-pj hidden tabindex="-1" onclick="cadastroEmpresa.consultar()">Consultar CNPJ</button>
+            <button type="button" id="form-aplicar-consulta" class="btn-top" hidden tabindex="-1" onclick="cadastroEmpresa.aplicarConsulta()">Usar dados consultados</button>
+            <a class="btn-top" data-cliente-pj hidden tabindex="-1" href="https://www.gov.br/pt-br/servicos/consultar-cadastro-nacional-de-pessoas-juridicas" target="_blank" rel="noopener noreferrer">Conferir na Receita ↗</a>
+            <span id="form-consulta-status" data-cliente-pj hidden role="status" aria-live="polite"></span>
+          </div>
           <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) + TABELA DE PREÇO (165px) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;">
             <div class="form-group" style="flex: 2; min-width: 280px;">
-              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-                <span style="color: #38bdf8; display: flex; align-items: center; gap: 6px;">
-                  <span>👤</span> NOME / RAZÃO SOCIAL *
-                </span>
-                <span style="font-size: 10px; color: var(--text-muted); font-weight: normal; text-transform: uppercase;">EMPRESA OU PESSOA</span>
-              </label>
-              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
+              <label class="form-label" for="form-nome" id="form-nome-rotulo">NOME COMPLETO *</label>
+              <input type="text" class="form-input" id="form-nome" required placeholder="NOME COMPLETO OU RAZÃO SOCIAL DA EMPRESA" oninput="this.value = this.value.toUpperCase()" autocomplete="off">
             </div>
             <div class="form-group" style="flex: 1.2; min-width: 200px;">
-              <label class="form-label" style="margin-bottom: 3px;">APELIDO / FANTASIA / REFERÊNCIA</label>
-              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off" aria-label="TOPBAR-SEARCH">
+              <label class="form-label" style="margin-bottom: 3px;" for="form-apelido" id="form-apelido-rotulo">APELIDO / REFERÊNCIA</label>
+              <input type="text" class="form-input" id="form-apelido" placeholder="EX: CHICO SELARIA, AGROPECUÁRIA..." oninput="this.value = this.value.toUpperCase()" autocomplete="off">
             </div>
             <div class="form-group" style="width: 165px; flex-shrink: 0;">
               <label class="form-label" style="color: #fbbf24; margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">
@@ -7508,9 +7531,13 @@
 
           <!-- LINHA 2: CPF/CNPJ (175px) + IE (135px) + TELEFONE/WHATS (175px) + EMAIL/XML (flex: 1) -->
           <div style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-top: 10px;">
-            <div class="form-group" style="width: 175px; flex-shrink: 0;">
-              <label class="form-label" style="margin-bottom: 3px;">CPF OU CNPJ</label>
-              <input type="text" class="form-input" id="form-doc" inputmode="numeric" maxlength="18" placeholder="000.000.000-00" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onpaste="aoColarCpfCnpj(event, this)" onblur="formatarEValidarDoc(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
+            <div class="form-group" data-cliente-pf style="width: 175px; flex-shrink: 0;">
+              <label class="form-label" for="form-doc">CPF</label>
+              <input type="text" class="form-input" id="form-doc" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="aoDigitarCpfCnpj(this)" onblur="formatarEValidarDoc(this)" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;">
+            </div>
+            <div class="form-group" data-cliente-pj hidden style="flex: 1; min-width: 150px;">
+              <label class="form-label" for="form-nome-contato">PESSOA DE CONTATO</label>
+              <input type="text" id="form-nome-contato" class="form-input" placeholder="NOME DO CONTATO">
             </div>
             <div class="form-group" style="width: 135px; flex-shrink: 0;">
               <label class="form-label" style="margin-bottom: 3px;">INSCRIÇÃO EST. (IE)</label>
@@ -7530,7 +7557,21 @@
             </div>
           </div>
 
-          <!-- SEÇÃO ENDEREÇO DE ENTREGA (2 LINHAS COESAS!) -->
+          <fieldset class="endereco-cadastral" data-cliente-pj hidden>
+            <legend class="form-label">ENDEREÇO CADASTRAL DA EMPRESA</legend>
+            <div class="grade-endereco">
+              <label class="form-label">CEP<input type="text" class="form-input" id="fiscal-cli-cep" inputmode="numeric" maxlength="9" onkeydown="aoTeclarApenasDigitosDoc(event)" oninput="this.value = aplicarMascaraCepValor(this.value); buscarCep(this.value, 'fiscal-cli-')"></label>
+              <label class="form-label">Logradouro<input type="text" class="form-input" id="fiscal-cli-logradouro"></label>
+              <label class="form-label">Número<input type="text" class="form-input" id="fiscal-cli-numero"></label>
+              <label class="form-label">Complemento<input type="text" class="form-input" id="fiscal-cli-complemento"></label>
+              <label class="form-label">Bairro<input type="text" class="form-input" id="fiscal-cli-bairro"></label>
+              <label class="form-label">Cidade<input type="text" class="form-input" id="fiscal-cli-cidade"></label>
+              <label class="form-label">UF<input type="text" class="form-input" id="fiscal-cli-uf" maxlength="2"></label>
+            </div>
+            <button type="button" tabindex="-1" class="btn-top" style="margin-top: 8px;" onclick="cadastroEmpresa.usarNaEntrega()">Usar este endereço na entrega</button>
+          </fieldset>
+
+          <!-- Endereço de entrega usado no despacho -->
           <div style="border-top: 1px solid var(--border-color); margin: 12px 0 6px 0; padding-top: 10px;">
             <div style="font-size: 11px; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
               <span>📍</span> <span>ENDEREÇO DE ENTREGA & DESPACHO DE ENCOMENDAS</span>
@@ -11610,6 +11651,7 @@
               document.getElementById('label-conexao').textContent = 'Nuvem Conectada';
               atualizarKpis();
               renderTabela();
+              if (typeof popularDatalistClientes === 'function') popularDatalistClientes();
             }
           }
         } catch (e) {
@@ -11621,6 +11663,14 @@
 
       return requisicaoClientesEmAndamento;
     }
+
+    // Provedor universal memoizado para evitar acoplamento temporal em qualquer tela
+    window.garantirBaseClientes = function() {
+      if (clientesCarregadosApi && Array.isArray(clientes) && clientes.length > 0) {
+        return Promise.resolve(clientes);
+      }
+      return carregarDadosApi().then(() => clientes);
+    };
 
     async function carregarResumoClientesPainel() {
       // A homologação mantém os indicadores sintéticos definidos para a prévia.
@@ -12372,19 +12422,19 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
 
     // Validação matemática do algoritmo do CNPJ (Módulo 11 da Receita Federal)
     function validarCnpjAlgoritmo(cnpj) {
-      const limpo = String(cnpj || '').replace(/\D/g, '').slice(0, 14);
-      if (limpo.length !== 14) return false;
+      const limpo = String(cnpj || '').trim().toUpperCase().replace(/[.\/-]/g, '');
+      if (!/^[A-Z0-9]{12}\d{2}$/.test(limpo)) return false;
       if (/^(\d)\1{13}$/.test(limpo)) return false;
       const pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
       let soma = 0;
-      for (let i = 0; i < 12; i++) soma += parseInt(limpo.charAt(i), 10) * pesos1[i];
+      for (let i = 0; i < 12; i++) soma += (limpo.charCodeAt(i) - 48) * pesos1[i];
       let resto = soma % 11;
       let digito1 = resto < 2 ? 0 : 11 - resto;
       if (digito1 !== parseInt(limpo.charAt(12), 10)) return false;
 
       const pesos2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
       soma = 0;
-      for (let i = 0; i < 13; i++) soma += parseInt(limpo.charAt(i), 10) * pesos2[i];
+      for (let i = 0; i < 13; i++) soma += (limpo.charCodeAt(i) - 48) * pesos2[i];
       resto = soma % 11;
       let digito2 = resto < 2 ? 0 : 11 - resto;
       if (digito2 !== parseInt(limpo.charAt(13), 10)) return false;
@@ -12606,6 +12656,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-doc').style.borderColor = '';
       if (document.getElementById('form-telefone')) document.getElementById('form-telefone').style.borderColor = '';
       if (document.getElementById('form-cep')) document.getElementById('form-cep').style.borderColor = '';
+      cadastroEmpresa.iniciar();
       atualizarBadgesFichaCliente();
       document.getElementById('modal-cliente').classList.add('active');
       focarPrimeiroCampoModal(document.getElementById('modal-cliente'));
@@ -12624,7 +12675,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       document.getElementById('form-nome').value = (cliente.nome || '').toUpperCase();
       document.getElementById('form-apelido').value = (cliente.apelido_referencia || '').toUpperCase();
       if (document.getElementById('form-tabela-preco')) document.getElementById('form-tabela-preco').value = (cliente.tabela_preco || 'VAREJO').toUpperCase();
-      document.getElementById('form-doc').value = cliente.cpf || cliente.cnpj || '';
+      document.getElementById('form-doc').value = cliente.cpf || '';
       formatarEValidarDoc(document.getElementById('form-doc'));
       document.getElementById('form-ie').value = (cliente.ie || '').toUpperCase();
       document.getElementById('form-telefone').value = aplicarMascaraTelefoneValor(cliente.telefone || '');
@@ -12640,6 +12691,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
       if (document.getElementById('form-email')) document.getElementById('form-email').value = (cliente.email || '').toUpperCase();
       if (document.getElementById('form-pref')) document.getElementById('form-pref').value = cliente.preferencias || '';
       const bId = document.getElementById('modal-cli-badge-id');
+      cadastroEmpresa.iniciar(cliente);
       if (bId) {
         bId.textContent = `CLI #${cliente.id} · ATIVO`;
         bId.style.display = 'inline-block';
@@ -12651,6 +12703,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     function fecharModalCliente() {
+      cadastroEmpresa.cancelar();
       document.getElementById('modal-cliente').classList.remove('active');
       clienteAtualEditando = null;
     }
@@ -12659,24 +12712,8 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     async function salvarCliente(e) {
       e.preventDefault();
       const id = document.getElementById('form-id').value;
-      const doc = document.getElementById('form-doc').value.trim();
-      const docLimpo = doc.replace(/\D/g, '');
-      const isCnpj = docLimpo.length > 11;
-
-      // Validação estrita de integridade de CPF / CNPJ
-      if (docLimpo.length > 0) {
-        const docCheck = checarDocumentoFiscalValido(docLimpo);
-        if (!docCheck.valido) {
-          const docEl = document.getElementById('form-doc');
-          if (docEl) {
-            docEl.style.borderColor = 'rgba(239, 68, 68, 0.9)';
-            docEl.focus();
-          }
-          const tipoEsperado = docLimpo.length <= 11 ? 'CPF (11 dígitos)' : 'CNPJ (14 dígitos)';
-          mostrarToast(`❌ Documento fiscal inválido! Digite um ${tipoEsperado} válido.`);
-          return;
-        }
-      }
+      const dadosIdentificacao = cadastroEmpresa.dadosParaSalvar(clienteAtualEditando);
+      if (!dadosIdentificacao) return;
 
       // Validação estrita de Telefone / WhatsApp
       const telLimpo = (document.getElementById('form-telefone')?.value || '').replace(/\D/g, '');
@@ -12708,24 +12745,9 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         }
       }
 
-      // Preserva razão social e outros documentos se estiver editando
-      let cpfFinal = !isCnpj ? doc : '';
-      let cnpjFinal = isCnpj ? doc : '';
-      let razaoSocialFinal = '';
-
-      if (id && clienteAtualEditando) {
-        razaoSocialFinal = (clienteAtualEditando.razao_social || '').toUpperCase();
-        // Se o cliente já tinha CNPJ e o usuário informou um CPF (ou vice-versa), preserva o complementar
-        if (!isCnpj && clienteAtualEditando.cnpj) cnpjFinal = clienteAtualEditando.cnpj;
-        if (isCnpj && clienteAtualEditando.cpf) cpfFinal = clienteAtualEditando.cpf;
-      }
-
       const payload = {
-        nome: (document.getElementById('form-nome')?.value || '').trim().toUpperCase(),
-        apelido_referencia: (document.getElementById('form-apelido')?.value || '').trim().toUpperCase(),
-        razao_social: razaoSocialFinal,
-        cpf: cpfFinal,
-        cnpj: cnpjFinal,
+        ...dadosIdentificacao,
+        apelido_referencia: document.getElementById('form-apelido').value.trim().toUpperCase(),
         ie: (document.getElementById('form-ie')?.value || '').trim().toUpperCase(),
         telefone: aplicarMascaraTelefoneValor(document.getElementById('form-telefone')?.value || ''),
         cep: aplicarMascaraCepValor(document.getElementById('form-cep')?.value || ''),
@@ -12776,7 +12798,10 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
           }
         }
       } catch (err) {
-        console.warn('Aviso de persistência:', err.message);
+        if (location.protocol !== 'file:') {
+          mostrarToast('Não foi possível salvar o cadastro. ' + err.message);
+          return;
+        }
         // Fallback local se estiver offline
         if (id) {
           const idx = clientes.findIndex(c => c.id === parseInt(id));
@@ -12784,7 +12809,7 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
         } else {
           clientes.unshift({ id: Date.now(), ...payload });
         }
-        mostrarToast('Alteração salva localmente!');
+        mostrarToast('Cadastro disponível apenas nesta sessão offline.');
       }
 
       fecharModalCliente();
@@ -12793,34 +12818,39 @@ function trocarModulo(modulo, el, registrarHistorico = true) {
     }
 
     // Busca automática de CEP via ViaCEP
-    async function buscarCep(cep) {
+    async function buscarCep(cep, prefixo = 'form-') {
       const cepLimpo = (cep || '').replace(/\D/g, '');
       if (cepLimpo.length !== 8) return;
+      const versao = cadastroEmpresa.versaoEndereco;
+      const aindaAtual = () => cadastroEmpresa.versaoEndereco === versao &&
+        document.getElementById(prefixo + 'cep').value.replace(/\D/g, '') === cepLimpo;
       try {
         const resp = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         const data = await resp.json();
+        if (!aindaAtual()) return;
         if (!data.erro) {
           const temRua = data.logradouro && data.logradouro.trim().length > 0;
           if (temRua) {
-            document.getElementById('form-logradouro').value = String(data.logradouro).toUpperCase();
+            document.getElementById(prefixo + 'logradouro').value = String(data.logradouro).toUpperCase();
           }
-          if (data.bairro) document.getElementById('form-bairro').value = String(data.bairro).toUpperCase();
-          if (data.localidade) document.getElementById('form-cidade').value = String(data.localidade).toUpperCase();
-          if (data.uf) document.getElementById('form-uf').value = String(data.uf).toUpperCase();
+          if (data.bairro) document.getElementById(prefixo + 'bairro').value = String(data.bairro).toUpperCase();
+          if (data.localidade) document.getElementById(prefixo + 'cidade').value = String(data.localidade).toUpperCase();
+          if (data.uf) document.getElementById(prefixo + 'uf').value = String(data.uf).toUpperCase();
 
           if (temRua) {
             mostrarToast(`Endereço localizado: ${String(data.logradouro).toUpperCase()}`);
-            document.getElementById('form-numero').focus();
+            document.getElementById(prefixo + 'numero').focus();
           } else {
             mostrarToast(`Município ${String(data.localidade).toUpperCase()}/${String(data.uf).toUpperCase()} localizado. Digite a rua.`);
-            document.getElementById('form-logradouro').focus();
+            document.getElementById(prefixo + 'logradouro').focus();
           }
         } else {
-          document.getElementById('form-logradouro').focus();
+          document.getElementById(prefixo + 'logradouro').focus();
         }
       } catch (e) {
+        if (!aindaAtual()) return;
         console.log('Falha ao consultar CEP online');
-        document.getElementById('form-logradouro').focus();
+        document.getElementById(prefixo + 'logradouro').focus();
       }
     }
 
@@ -17060,6 +17090,26 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
         return;
       }
 
+      // Se a base de clientes ainda não foi carregada na memória, exibe aviso e carrega imediatamente
+      if (!clientesCarregadosApi && (!Array.isArray(clientes) || clientes.length === 0)) {
+        wrap.innerHTML = `
+          <div style="padding: 10px 14px; font-size: 12px; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 14px;">⏳</span>
+            <span>Carregando clientes da base oficial...</span>
+          </div>
+        `;
+        wrap.style.display = 'block';
+        if (typeof carregarDadosApi === 'function') {
+          carregarDadosApi().then(() => {
+            const inputAtual = document.getElementById('form-ped-cliente-nome');
+            if (inputAtual && inputAtual.value) {
+              filtrarSugestoesClientesPedido(inputAtual.value);
+            }
+          });
+        }
+        return;
+      }
+
       const lista = (Array.isArray(clientes) ? clientes : []);
       sugestoesClientesAtuais = lista.filter(c => {
         if (!c || !c.nome) return false;
@@ -17851,6 +17901,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
       popularDatalistClientes();
       popularSelectProdutosPedido();
+      if (!clientesCarregadosApi && typeof carregarDadosApi === 'function') {
+        carregarDadosApi().then(() => {
+          if (typeof popularDatalistClientes === 'function') popularDatalistClientes();
+        });
+      }
       itensPedidoAtual = [];
       const form = document.getElementById('form-pedido');
       if (form) form.reset();
@@ -17915,6 +17970,11 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       }
       popularDatalistClientes();
       popularSelectProdutosPedido();
+      if (!clientesCarregadosApi && typeof carregarDadosApi === 'function') {
+        carregarDadosApi().then(() => {
+          if (typeof popularDatalistClientes === 'function') popularDatalistClientes();
+        });
+      }
       const ped = listaPedidos.find(p => String(p.id) === String(id));
       if (!ped) return;
 
@@ -24400,6 +24460,7 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
     renderTabela();
     carregarProdutosApi();
     carregarPedidosApi();
+    if (typeof carregarDadosApi === 'function') carregarDadosApi();
     if (typeof carregarFinanceiroApi === 'function') carregarFinanceiroApi();
     if (typeof carregarFiscalApi === 'function') carregarFiscalApi();
     if (typeof inicializarSplitResizerEtiqueta === 'function') inicializarSplitResizerEtiqueta();
@@ -28525,7 +28586,10 @@ function projetarFluxoCaixa(pedidos = [], financeiro = [], opcoes = {}) {
       const modal = document.getElementById('modal-auth-login');
       if (modal) modal.style.display = 'none';
       limparPinInputs();
-      if (usuarioLogado) carregarResumoClientesPainel();
+      if (usuarioLogado) {
+        carregarResumoClientesPainel();
+        if (typeof carregarDadosApi === 'function') carregarDadosApi();
+      }
     }
 
     async function submeterLogin(e) {

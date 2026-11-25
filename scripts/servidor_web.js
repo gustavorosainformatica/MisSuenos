@@ -7,6 +7,8 @@
  */
 
 import http from 'node:http';
+import { consultarEmpresa } from '../lib/consulta_cnpj.js';
+import { normalizarCnpj, validarCnpj } from '../lib/validacoes_erp.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -52,7 +54,7 @@ const { default: handlerLotes } = await import('../api/lotes.js');
 
 // Campos editáveis do cadastro de clientes
 const CAMPOS_CLIENTE = [
-  'nome', 'apelido_referencia', 'razao_social', 'cpf', 'cnpj', 'ie',
+  'nome', 'apelido_referencia', 'razao_social', 'tipo_pessoa', 'nome_contato', 'endereco_cadastral', 'cpf', 'cnpj', 'ie', 'email',
   'telefone', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf', 'cep', 'observacoes'
 ];
 
@@ -409,6 +411,10 @@ async function tratarRequisicao(req, res) {
 
   // ROTA 1: Listar Todos os Clientes
   if (pathname === '/api/clientes' && method === 'GET') {
+    if (url.searchParams.get('acao') === 'consultar_cnpj') {
+      const consulta = await consultarEmpresa(url.searchParams.get('cnpj'));
+      return responderJson(res, consulta.status, consulta.dados);
+    }
     if (db) {
       try {
         const clientes = db.prepare('SELECT * FROM clientes ORDER BY nome ASC').all();
@@ -667,6 +673,9 @@ async function tratarRequisicao(req, res) {
           : String(clienteAntigo[c] ?? '').trim();
       });
       dados.uf = dados.uf.toUpperCase();
+      if (dados.cnpj && dados.cnpj !== clienteAntigo.cnpj && !validarCnpj(dados.cnpj)) {
+        return responderJson(res, 400, { error: 'CNPJ inválido.' });
+      }
 
       if (!dados.nome) {
         return responderJson(res, 400, { error: 'O nome do cliente é obrigatório.' });
@@ -684,6 +693,7 @@ async function tratarRequisicao(req, res) {
           nome = ?,
           apelido_referencia = ?,
           razao_social = ?,
+          tipo_pessoa = ?, nome_contato = ?, endereco_cadastral = ?, email = ?,
           cpf = ?,
           cpf_limpo = ?,
           cnpj = ?,
@@ -708,10 +718,11 @@ async function tratarRequisicao(req, res) {
         dados.nome,
         dados.apelido_referencia,
         dados.razao_social,
+        dados.tipo_pessoa, dados.nome_contato, dados.endereco_cadastral, dados.email,
         dados.cpf,
         dados.cpf.replace(/\D/g, ''),
         dados.cnpj,
-        dados.cnpj.replace(/\D/g, ''),
+        normalizarCnpj(dados.cnpj),
         dados.ie,
         dados.telefone,
         dados.telefone.replace(/\D/g, ''),
@@ -777,7 +788,10 @@ async function tratarRequisicao(req, res) {
       }
 
       const cpfLimpo = (payload.cpf || '').replace(/\D/g, '');
-      const cnpjLimpo = (payload.cnpj || '').replace(/\D/g, '');
+      const cnpjLimpo = normalizarCnpj(payload.cnpj);
+      if (cnpjLimpo && !validarCnpj(cnpjLimpo)) {
+        return responderJson(res, 400, { error: 'CNPJ inválido.' });
+      }
       const telefoneLimpo = (payload.telefone || '').replace(/\D/g, '');
       const cepLimpo = (payload.cep || '').replace(/\D/g, '');
 
@@ -794,14 +808,14 @@ async function tratarRequisicao(req, res) {
 
       const stmt = db.prepare(`
         INSERT INTO clientes (
-          nome, apelido_referencia, razao_social,
+          nome, apelido_referencia, razao_social, tipo_pessoa, nome_contato, endereco_cadastral, email,
           cpf, cpf_limpo, cnpj, cnpj_limpo, ie,
           telefone, telefone_limpo,
           logradouro, numero, complemento, bairro,
           cidade, uf, cep, cep_limpo,
           endereco_completo, observacoes, arquivo_origem, data_cadastro
         ) VALUES (
-          ?, ?, ?,
+          ?, ?, ?, ?, ?, ?, ?,
           ?, ?, ?, ?, ?,
           ?, ?,
           ?, ?, ?, ?,
@@ -814,6 +828,7 @@ async function tratarRequisicao(req, res) {
         payload.nome.trim(),
         payload.apelido_referencia || '',
         payload.razao_social || '',
+        payload.tipo_pessoa || (cnpjLimpo ? 'PJ' : 'PF'), payload.nome_contato || '', payload.endereco_cadastral || '', payload.email || '',
         payload.cpf || '',
         cpfLimpo,
         payload.cnpj || '',
