@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { normalizarCnpj, validarCnpj } from '../lib/validacoes_erp.js';
 import { consultarEmpresa } from '../lib/consulta_cnpj.js';
+import { consultarInscricaoEstadual } from '../lib/consulta_ie.js';
 import handlerClientes from '../api/clientes.js';
 
 function criarMockRes() {
@@ -108,4 +109,27 @@ test('CONSULTA CNPJ 06: API GET /api/clientes?acao=consultar_cnpj com CNPJ invá
   assert.equal(res.getStatusCode(), 400);
   const dados = res.getData();
   assert.ok(dados.error);
+});
+
+test('CONSULTA CNPJ 07: consultarInscricaoEstadual retorna 412 com link CCC quando sem A1', async () => {
+  const resultado = await consultarInscricaoEstadual('00000000000191', 'RS');
+  assert.equal(resultado.status, 412);
+  assert.equal(resultado.dados.requer_a1, true);
+  assert.ok(resultado.dados.link_ccc);
+});
+
+test('CONSULTA CNPJ 08: API GET /api/clientes?acao=consultar_ie despacha consulta de IE', async () => {
+  const req = {
+    method: 'GET',
+    url: '/api/clientes?acao=consultar_ie&cnpj=00000000000191&uf=RS',
+    headers: { host: 'localhost:3000' }
+  };
+  const res = criarMockRes();
+
+  await handlerClientes(req, res);
+
+  assert.equal(res.getStatusCode(), 412);
+  const dados = res.getData();
+  assert.equal(dados.requer_a1, true);
+  assert.ok(dados.link_ccc);
 });

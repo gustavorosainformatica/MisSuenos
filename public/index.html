@@ -7506,6 +7506,7 @@
             <button type="button" class="btn-top" data-cliente-pj hidden tabindex="-1" onclick="cadastroEmpresa.consultar()">Consultar CNPJ</button>
             <button type="button" id="form-aplicar-consulta" class="btn-top" hidden tabindex="-1" onclick="cadastroEmpresa.aplicarConsulta()">Usar dados consultados</button>
             <a class="btn-top" data-cliente-pj hidden tabindex="-1" href="https://www.gov.br/pt-br/servicos/consultar-cadastro-nacional-de-pessoas-juridicas" target="_blank" rel="noopener noreferrer">Conferir na Receita ↗</a>
+            <button type="button" class="btn-top" data-cliente-pj hidden tabindex="-1" onclick="cadastroEmpresa.consultarIe()" title="Consulta Inscrição Estadual (SEFAZ / CCC)">Consultar IE ↗</button>
             <span id="form-consulta-status" data-cliente-pj hidden role="status" aria-live="polite"></span>
           </div>
           <!-- LINHA 1: NOME / RAZÃO SOCIAL (flex: 2) + APELIDO / FANTASIA (flex: 1.2) + TABELA DE PREÇO (165px) -->
@@ -7539,9 +7540,12 @@
               <label class="form-label" for="form-nome-contato">PESSOA DE CONTATO</label>
               <input type="text" id="form-nome-contato" class="form-input" placeholder="NOME DO CONTATO">
             </div>
-            <div class="form-group" style="width: 135px; flex-shrink: 0;">
-              <label class="form-label" style="margin-bottom: 3px;">INSCRIÇÃO EST. (IE)</label>
-              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL" oninput="this.value = this.value.toUpperCase()" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
+            <div class="form-group" style="width: 145px; flex-shrink: 0;">
+              <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+                <span>INSCRIÇÃO EST. (IE)</span>
+                <button type="button" tabindex="-1" onclick="cadastroEmpresa.marcarIsento()" style="background: none; border: none; color: #38bdf8; cursor: pointer; font-size: 10px; font-weight: 700; padding: 0;" title="Marcar como ISENTO (Não Contribuinte)">[ ISENTO ]</button>
+              </label>
+              <input type="text" class="form-input" id="form-ie" placeholder="OPCIONAL OU ISENTO" oninput="this.value = this.value.toUpperCase()" autocomplete="off" style="font-family: 'JetBrains Mono', monospace;" aria-label="TOPBAR-SEARCH">
             </div>
             <div class="form-group" style="width: 175px; flex-shrink: 0;">
               <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">

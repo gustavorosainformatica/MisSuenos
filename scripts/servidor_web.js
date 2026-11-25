@@ -8,6 +8,7 @@
 
 import http from 'node:http';
 import { consultarEmpresa } from '../lib/consulta_cnpj.js';
+import { consultarInscricaoEstadual } from '../lib/consulta_ie.js';
 import { normalizarCnpj, validarCnpj } from '../lib/validacoes_erp.js';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -413,6 +414,10 @@ async function tratarRequisicao(req, res) {
   if (pathname === '/api/clientes' && method === 'GET') {
     if (url.searchParams.get('acao') === 'consultar_cnpj') {
       const consulta = await consultarEmpresa(url.searchParams.get('cnpj'));
+      return responderJson(res, consulta.status, consulta.dados);
+    }
+    if (url.searchParams.get('acao') === 'consultar_ie') {
+      const consulta = await consultarInscricaoEstadual(url.searchParams.get('cnpj'), url.searchParams.get('uf'));
       return responderJson(res, consulta.status, consulta.dados);
     }
     if (db) {

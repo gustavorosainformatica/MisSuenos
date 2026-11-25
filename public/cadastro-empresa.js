@@ -194,6 +194,69 @@ window.cadastroEmpresa = (() => {
     }
   }
 
+  async function consultarIe() {
+    const cnpj = documento();
+    if (!empresaAtiva()) return;
+    if (!cnpj || cnpj.length < 14 || !validarCnpjAlgoritmo(cnpj)) {
+      aviso('Informe um CNPJ válido para consultar a Inscrição Estadual.', 'aviso');
+      campo('form-cnpj').focus();
+      return;
+    }
+
+    const uf = campo('fiscal-cli-uf')?.value || campo('form-uf')?.value || 'RS';
+    aviso('🔍 Consultando Inscrição Estadual na SEFAZ...', 'info');
+
+    try {
+      const parametros = new URLSearchParams({ acao: 'consultar_ie', cnpj, uf });
+      const resposta = await fetch('/api/clientes?' + parametros);
+      const dados = await resposta.json();
+
+      // Opção 1: Backend com Certificado A1 ativo retornou a IE com sucesso
+      if (resposta.ok && dados.sucesso && dados.ie) {
+        campo('form-ie').value = dados.ie;
+        aviso('✅ Inscrição Estadual encontrada na SEFAZ: ' + dados.ie, 'sucesso');
+        if (typeof mostrarToast === 'function') mostrarToast('IE ' + dados.ie + ' aplicada com sucesso!');
+        campo('form-ie').focus();
+        return;
+      }
+
+      // Opção 2: Certificado A1 ainda não configurado (status 412) ou transição para CCC
+      // Copia o CNPJ para a área de transferência e abre o portal oficial do CCC
+      const cnpjFormatado = campo('form-cnpj').value || cnpj;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(cnpjFormatado);
+        }
+      } catch {
+        // Fallback se permissão de clipboard estiver bloqueada pelo navegador
+      }
+
+      const linkCcc = dados.link_ccc || 'https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc';
+      window.open(linkCcc, '_blank', 'noopener,noreferrer');
+
+      aviso('📋 CNPJ copiado! Cole na página do CCC aberta para consultar a IE (ou use [ISENTO]).', 'aviso');
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('CNPJ copiado! Cole no CCC para conferir a Inscrição Estadual.');
+      }
+    } catch {
+      // Fallback de conexão: abre o CCC diretamente
+      const cnpjFormatado = campo('form-cnpj').value || cnpj;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(cnpjFormatado);
+        }
+      } catch {}
+      window.open('https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc', '_blank', 'noopener,noreferrer');
+      aviso('📋 CNPJ copiado! Abrindo CCC da SEFAZ...', 'aviso');
+    }
+  }
+
+  function marcarIsento() {
+    campo('form-ie').value = 'ISENTO';
+    aviso('Inscrição Estadual definida como ISENTO.', 'sucesso');
+    if (typeof mostrarToast === 'function') mostrarToast('Inscrição Estadual marcada como ISENTO');
+  }
+
   function usarNaEntrega() {
     if (!empresaAtiva() || !camposEndereco.some(chave => campo('fiscal-cli-' + chave).value.trim())) {
       aviso('Informe o endereço cadastral para usá-lo na entrega.');
@@ -203,6 +266,65 @@ window.cadastroEmpresa = (() => {
     for (const chave of camposEndereco) campo('form-' + chave).value = campo('fiscal-cli-' + chave).value;
     aviso('Endereço copiado. Confira os campos de entrega.');
     campo('form-numero').focus();
+  }
+
+  function marcarIsento() {
+    const el = campo('form-ie');
+    if (!el) return;
+    el.value = 'ISENTO';
+    aviso('Inscrição Estadual definida como ISENTO (Não Contribuinte).', 'sucesso');
+    if (typeof mostrarToast === 'function') mostrarToast('Inscrição Estadual marcada como ISENTO.');
+  }
+
+  async function consultarIe() {
+    const cnpj = documento();
+    if (!empresaAtiva()) return;
+    if (!validarCnpjAlgoritmo(cnpj)) {
+      aviso('Informe um CNPJ válido para consultar a Inscrição Estadual.', 'erro');
+      campo('form-cnpj').focus();
+      return;
+    }
+
+    const uf = (campo('fiscal-cli-uf')?.value || campo('form-uf')?.value || 'RS').trim().toUpperCase();
+    const cnpjFormatado = campo('form-cnpj').value.trim();
+
+    aviso('🔍 Consultando Inscrição Estadual na SEFAZ...', 'info');
+
+    try {
+      const parametros = new URLSearchParams({ acao: 'consultar_ie', cnpj, uf });
+      const resposta = await fetch('/api/clientes?' + parametros);
+      const dados = await resposta.json().catch(() => ({}));
+
+      // Caso o backend com Certificado A1 retorne a IE com sucesso (Opção 1)
+      if (resposta.ok && dados.sucesso && dados.ie) {
+        campo('form-ie').value = dados.ie;
+        aviso(`✅ Inscrição Estadual encontrada na SEFAZ: ${dados.ie} (${dados.situacao || 'HABILITADO'})`, 'sucesso');
+        if (typeof mostrarToast === 'function') mostrarToast(`IE ${dados.ie} preenchida via SEFAZ!`);
+        campo('form-ie').focus();
+        return;
+      }
+
+      // Caso o Certificado A1 ainda não esteja ativo no banco (Opção 2 - Transição fluida para CCC / Sintegra)
+      let copiado = false;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(cnpjFormatado || cnpj);
+          copiado = true;
+        }
+      } catch {}
+
+      const linkCcc = dados.link_ccc || 'https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc';
+      window.open(linkCcc, '_blank', 'noopener,noreferrer');
+
+      const msgCopiado = copiado ? '📋 CNPJ copiado! ' : '';
+      aviso(`${msgCopiado}Portal CCC aberto em nova aba. Cole o CNPJ para conferir a IE ou clique em [ISENTO].`, 'aviso');
+      if (typeof mostrarToast === 'function') {
+        mostrarToast(`${msgCopiado}Abrindo Cadastro Centralizado (CCC/SEFAZ)...`);
+      }
+    } catch {
+      window.open('https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc', '_blank', 'noopener,noreferrer');
+      aviso('Portal CCC aberto em nova aba. Cole o CNPJ para conferir a IE ou marque [ISENTO].', 'aviso');
+    }
   }
 
   function dadosParaSalvar(cliente) {
@@ -240,7 +362,7 @@ window.cadastroEmpresa = (() => {
     };
   }
 
-  return { iniciar, trocarTipo, teclarCnpj, digitarCnpj, consultar, aplicarConsulta, usarNaEntrega, dadosParaSalvar, cancelar,
+  return { iniciar, trocarTipo, teclarCnpj, digitarCnpj, consultar, consultarIe, marcarIsento, aplicarConsulta, usarNaEntrega, dadosParaSalvar, cancelar,
     get versaoEndereco() { return versaoEndereco; }
   };
 })();

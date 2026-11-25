@@ -7,6 +7,7 @@
 
 import { query, get, run, registrarLog } from '../lib/db.js';
 import { consultarEmpresa } from '../lib/consulta_cnpj.js';
+import { consultarInscricaoEstadual } from '../lib/consulta_ie.js';
 import { normalizarCnpj, validarCnpj } from '../lib/validacoes_erp.js';
 
 function responder(res, status, data) {
@@ -67,6 +68,12 @@ export default async function handler(req, res) {
     if (acao === 'consultar_cnpj') {
       const cnpjParam = url.searchParams.get('cnpj') || req.query?.cnpj;
       const consulta = await consultarEmpresa(cnpjParam);
+      return responder(res, consulta.status, consulta.dados);
+    }
+    if (acao === 'consultar_ie') {
+      const cnpjParam = url.searchParams.get('cnpj') || req.query?.cnpj;
+      const ufParam = url.searchParams.get('uf') || req.query?.uf || 'RS';
+      const consulta = await consultarInscricaoEstadual(cnpjParam, ufParam);
       return responder(res, consulta.status, consulta.dados);
     }
     try {
