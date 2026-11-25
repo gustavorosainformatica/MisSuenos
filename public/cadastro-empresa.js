@@ -190,8 +190,8 @@ window.cadastroEmpresa = (() => {
           const bruto = dados.endereco[chave] || '';
           const valor = chave === 'cep' ? aplicarMascaraCepValor(bruto) : bruto;
           comparacao[idCadastral] = valor;
-          if (cadastralVazio) sugerir(idCadastral, valor);
-          if (entregaVazio) sugerir(idEntrega, valor);
+          if (cadastralVazio || !campo(idCadastral)?.value?.trim()) sugerir(idCadastral, valor);
+          if (entregaVazio || !campo(idEntrega)?.value?.trim()) sugerir(idEntrega, valor);
         }
       }
       if (Object.entries(comparacao).some(([id, valor]) => campo(id).value !== valor)) {
