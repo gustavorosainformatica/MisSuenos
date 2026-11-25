@@ -4,8 +4,21 @@ window.cadastroEmpresa = (() => {
   const camposEndereco = ['cep', 'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'uf'];
   const sugeridos = new Map();
   const empresaAtiva = () => campo('form-tipo-pessoa').value === 'PJ';
-  const aviso = mensagem => { campo('form-consulta-status').textContent = mensagem; };
-  const documento = () => campo('form-cnpj').value.replace(/[.\/-]/g, '');
+  const aviso = (mensagem, tipo = 'info') => {
+    const el = campo('form-consulta-status');
+    if (!el) return;
+    el.textContent = mensagem;
+    if (tipo === 'erro') {
+      el.style.color = '#f87171';
+    } else if (tipo === 'sucesso') {
+      el.style.color = '#4ade80';
+    } else if (tipo === 'aviso') {
+      el.style.color = '#fbbf24';
+    } else {
+      el.style.color = '#94a3b8';
+    }
+  };
+  const documento = () => campo('form-cnpj').value.replace(/[^0-9A-Za-z]/g, '');
   let pedidoAtual;
   let ultimoDocumento = '';
   let versaoEndereco = 0;
@@ -124,9 +137,13 @@ window.cadastroEmpresa = (() => {
 
   async function consultar() {
     const cnpj = documento();
-    if (!empresaAtiva() || pedidoAtual) return;
+    if (!empresaAtiva()) return;
+    if (pedidoAtual) {
+      pedidoAtual.abort();
+      pedidoAtual = null;
+    }
     if (!validarCnpjAlgoritmo(cnpj)) {
-      aviso('Confira o CNPJ informado.');
+      aviso('Confira o CNPJ informado. Dígitos verificadores incorretos.', 'erro');
       campo('form-cnpj').focus();
       return;
     }
@@ -134,14 +151,14 @@ window.cadastroEmpresa = (() => {
     pedidoAtual = pedido;
     dadosPendentes = null;
     campo('form-aplicar-consulta').hidden = true;
-    aviso('Consultando CNPJ…');
+    aviso('🔍 Consultando CNPJ nos servidores da Receita...', 'info');
     try {
       const parametros = new URLSearchParams({ acao: 'consultar_cnpj', cnpj });
       const resposta = await fetch('/api/clientes?' + parametros, { signal: pedido.signal });
       const dados = await resposta.json();
       if (pedido.signal.aborted) return;
       if (!resposta.ok || !dados.razao_social) {
-        aviso(dados.error || 'Consulta indisponível. Preencha os campos manualmente.');
+        aviso(dados.error || 'Consulta indisponível. Preencha os campos manualmente.', 'erro');
         return;
       }
       sugerir('form-nome', dados.razao_social);
@@ -166,12 +183,12 @@ window.cadastroEmpresa = (() => {
       if (Object.entries(comparacao).some(([id, valor]) => campo(id).value !== valor)) {
         dadosPendentes = comparacao;
         campo('form-aplicar-consulta').hidden = false;
-        aviso('Os dados da consulta diferem da ficha. Você pode manter a ficha ou usar os dados consultados.');
+        aviso('Os dados da consulta diferem da ficha. Você pode manter a ficha ou usar os dados consultados.', 'aviso');
         return;
       }
-      aviso('Consulta concluída. Confira os dados antes de salvar.');
+      aviso('✅ Consulta concluída. Dados preenchidos com sucesso.', 'sucesso');
     } catch {
-      if (!pedido.signal.aborted) aviso('Consulta indisponível. Tente novamente ou preencha manualmente.');
+      if (!pedido.signal.aborted) aviso('Consulta indisponível. Tente novamente ou preencha manualmente.', 'erro');
     } finally {
       if (pedidoAtual === pedido) pedidoAtual = null;
     }

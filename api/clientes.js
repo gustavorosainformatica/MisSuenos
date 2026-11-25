@@ -63,8 +63,10 @@ export default async function handler(req, res) {
 
   // 1. GET /api/clientes
   if (req.method === 'GET') {
-    if (url.searchParams.get('acao') === 'consultar_cnpj') {
-      const consulta = await consultarEmpresa(url.searchParams.get('cnpj'));
+    const acao = url.searchParams.get('acao') || req.query?.acao;
+    if (acao === 'consultar_cnpj') {
+      const cnpjParam = url.searchParams.get('cnpj') || req.query?.cnpj;
+      const consulta = await consultarEmpresa(cnpjParam);
       return responder(res, consulta.status, consulta.dados);
     }
     try {
